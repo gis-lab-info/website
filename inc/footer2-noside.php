@@ -91,20 +91,5 @@
 </div>
 <script src="/scripts/send_error.js" type="text/javascript"></script>
 <script language='JavaScript' type='text/javascript' src='/forum/recent.php'></script>
-
-<!--SAPE start-->
-<div class="advert">
-<p><font size=-2>
-<?php
-	define('_SAPE_USER', '914f7b3557d9df7c666583f9e565a271'); 
-	require_once($_SERVER['DOCUMENT_ROOT'].'/'._SAPE_USER.'/sape.php'); 
-	$o['charset'] = 'windows-1251';
-	$sape = new SAPE_client($o);
-	unset($o);
-	$sapeLinks = mb_convert_encoding($sape->return_links(), "UTF-8", "CP1251");
-	echo $sapeLinks;
-?></font></p></div>
-<!--SAPE end-->
-
 </body>
 </html>

@@ -1,13 +1,3 @@
-<div align="right" class="addthis_toolbox addthis_default_style">
-    <a class="addthis_button_facebook"></a>
-    <a class="addthis_button_twitter"></a>
-	<a class="addthis_button_vk"></a> 
-    <a class="addthis_button_email"></a>
-    <a class="addthis_button_facebook_like"></a>
-	<a class="addthis_button_google_plusone"></a>
-	<span class="addthis_separator"> </span>
-	<a href="http://addthis.com/bookmark.php?v=250" class="addthis_button_compact">Поделиться</a>
-</div>
 <div align="right">
 <p class="up"><a href="#top">Наверх</a></p></div>
             </div>
@@ -128,18 +118,5 @@
 <script src="/scripts/send_error.js" type="text/javascript"></script>
 <script language='JavaScript' type='text/javascript' src='/forum/recent.php'></script>
 <script src="http://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-<!--SAPE start-->
-<div class="advert">
-<p><font size=-2>
-<?php
-	define('_SAPE_USER', '914f7b3557d9df7c666583f9e565a271'); 
-	require_once($_SERVER['DOCUMENT_ROOT'].'/'._SAPE_USER.'/sape.php'); 
-	$o['charset'] = 'windows-1251';
-	$sape = new SAPE_client($o);
-	unset($o);
-	$sapeLinks = mb_convert_encoding($sape->return_links(), "UTF-8", "CP1251");
-	echo $sapeLinks;
-?></font></p></div>
-<!--SAPE end-->
 </body>
 </html>

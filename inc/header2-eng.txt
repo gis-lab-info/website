@@ -12,8 +12,6 @@
     <link rel="alternate" href="http://gis-lab.info/news.xml" type="application/rss+xml" title="Новости GIS-Lab.info">
     <link rel="alternate" href="http://gis-lab.info/forum/rss.php" type="application/rss+xml" title="Форум GIS-Lab.info">
     <link rel="alternate" href="http://gis-lab.info/blog/feed/" type="application/rss+xml" title="Блог GIS-Lab.info">
-    <link rel="openid.server" href="http://www.livejournal.com/openid/server.bml">
-    <link rel="openid.delegate" href="http://gis-lab.livejournal.com">
 </head>
 
 <body>
@@ -26,8 +24,6 @@
             <ul>
 				<li class="tweet"><a href="http://twitter.com/gislab">Twitter</a></li>
 				<li class="facebook"><a href="http://www.facebook.com/gislab.info">Facebook</a></li>
-				<li class="gplus"><a 
-href="https://plus.google.com/116147435784552557005" rel="publisher">Google+</a></li>
 				<li><a href="/index.html">Русский</a></li>>
 			</ul>
             <h1><a href="/"><span class="ox"><span>GIS-LAB</span></span></a></h1>
