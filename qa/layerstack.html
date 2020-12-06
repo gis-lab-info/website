@@ -1,0 +1,74 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Объединение многоканальных данных в единый файл</title>
+<!--#include virtual="/inc/header2.txt" -->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+	<li class="first"><a href="/">Главная</a></li>
+	<li><a href="/qa.html">Вопросы и ответы</a></li>
+</ul>
+<!--Contents start-->
+<h1>Объединение многоканальных данных в единый файл</h1>
+<p class="ann"> Описание процесса &quot;стыковки&quot; или &quot;склеивания&quot; нескольких слоев в единый файл с помощью разного программного обеспечения.</p>
+<p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=810"--></span></p>
+<p><strong>Задача:</strong> Склеить некоторое количество растровых слоев (каждый из которых представлен файлом в одном из растровых форматов) в единый, многоканальный файл.</p>
+            <p>Склейка нескольких одноканальных растров в один многоканальный - типичная задача, с которой сталкивается любой специалист, начинающий работать с многоканальными данными, например данными дистанционного зондирования <a href="/projects/ss/sensor/etmplus.html">Landsat</a>, <a href="/projects/ss/sensor/aster.html">ASTER</a>, <a href="/projects/ss/sensor/modis.html">MODIS</a>. Эти данные обычно распространяются в виде нескольких файлов, каждый из которых представляет определенную часть спектра, в которой производится сканирование (съемка), количество диапазонов обычно равно количеству файлов предоставляемых дистрибьютерами данных (не считая дополнительной информации). </p>
+            <p>Файл, представляющий съемку в одном из спектральных диапазонов, обычно называют <strong>каналом</strong> (channel, band), в терминах ГИС он представляет собой растровый слой.</p>
+            <p>Склеивание нескольких слоев в один дает несколько преимуществ:</p>
+            <ul>
+              <li> Данными более удобно управлять (копировать, перемещать и т.д.)</li>
+              <li> Данные можно визуализировать в полноцветном режиме (RGB), выбирая необходимое сочетание -комбинацию каналов (<a href="landsat-bandcomb.html">подробнее о комбинациях каналов Landsat</a>)</li>
+              <li>Анализ данных также можно производить сразу по нескольким каналам, а не по каждому отдельно (например классификацию, расчеты индексов и т.д.) </li>
+            </ul>
+            <p>В данной статье приводится описание выполнения данной операции для:</p>
+            <ul>
+              <li><a href="#erdas">Erdas Imagine</a></li>
+              <li><a href="#arcview">Arcview GIS с модулем Image Analysis</a></li>
+            </ul>
+            <p><img src="../images/1.gif" width="33" height="41" /><strong><a name="erdas" id="erdas"></a>ERDAS IMAGINE</strong> </p>
+            <p>В этом программном обеспечении, склеивание каналов производится с помощью инструмента Layer Stack.</p>
+            <p>Для запуска данного инструмента необходимо выбрать из главного меню ERDAS: </p>
+            <p><strong>Main\Image Interpreter </strong>
+              <!--#include virtual="/scripts/forum-comments-num.php?i=290"-->
+            </p>
+            <p>Или на панели инструментов: <img src="/images/layerstack-01.gif" width="76" height="60" /></p>
+            <p>А затем последовательно из выпадающих списков: <strong>Utilities ...\Layer Stack ...</strong></p>
+            <p>В появившемся диалоговом окне необходимо последовательно выбрать в пункте Input File первый слой, то тот слой, который будет самым последним (нижним) в результирующем файле, допустим это слой <strong>p124r031_7t19991028_z50_nn10.tif </strong> и нажать кнопку Add. Если после нажатия Input File в открывающемся окне и выбора папки с файлами не видны ваши файлы, попробуйте выбрать соответствующий им тип (<strong>Files of Type</strong>). После добавления первого слоя, также необходимо последовательно добавить остальные, в необходимой вам последовательности (обычно от первого к последнему). После открытия каждого файла нужно наживать Add. Информация о файлах добавляется в текстовую область окна.</p>
+            <p>Остальные настройки менять не обязательно.</p>
+            <p>После добавления всех файлов, нужно выбрать путь, имя и формат результирующего файла и нажать OK. </p>
+            <p align="center"><img src="/images/layerstack-02.gif" width="423" height="440" /> </p>
+            <p>&nbsp;</p>
+            <p><img src="/images/2.gif" width="33" height="41" /><strong><a name="arcview" id="arcview"></a>Arcview GIS </strong> </p>
+            <p>В этом программном обеспечении, для осуществления операции склейки слоев, понадобится сначала подключить модуль Arcview Image Analysis.</p>
+            <p><strong>File\Extensions\Image Analysis </strong></p>
+            <p align="center"><img src="/images/layerstack-03.gif" width="376" height="305" /></p>
+            <p>Далее в Arcview нужно будет создать новый вид (View), в содержание которого с помощью View\Add Theme... добавить слои, которые нам необходимо склеить в один. Если это данные Landsat, то каналы 1, 2, 3, 4, 5, 7.</p>
+            <p>При этом, данные должны загружаться как Image Analysis Data Source (см. пункт <strong>Data Source Types</strong> окна <strong>Add Theme</strong>).</p>
+            <p align="center"><img src="/images/layerstack-04.gif" width="511" height="235" /> </p>
+            <p>На предложение рассчитать пирамидные слои (<strong>Calculate Pyramid Layers for:</strong>) следует ответить No для всех файлов.</p>
+            <p align="center"><img src="/images/layerstack-05.gif" width="386" height="145" /> </p>
+            <p>Загруженные слои нужно выделить с удерживаю клавишу SHIFT и щелкая по любому их месту в содержании (Table of Contents, <strong>TOC</strong>), кроме квадрата включения видимости. В результате раздел содержания вида должен выглядеть примерно вот так:</p>
+            <p align="center"><img src="/images/layerstack-06.gif" width="262" height="359" /> </p>
+            <p>Далее нужно выбрать из меню вида <strong>Image Analysis\Stack</strong>. После чего ждать окончания операции. </p>
+            <p align="center"><img src="/images/layerstack-07.gif" width="279" height="191" /></p>
+            <p>В результате операции, в <strong>TOC </strong>появится новый слой, с названием <strong>Stack of Images</strong>. Этот слой является многоканальным, о чем свидетельствуют цвета в названии слоев, три цвета соотвествуют цветам в системе RGB отображаемым в данный момент на экране, реально слоев в файле может быть больше. </p>
+            <p>Этот файл - виртуальный и хранится в специальном каталоге на диске, для того, чтобы сохранить его в нужное вам место и с нужным именем, необходимо выполнить операцию сохранения: <strong>Theme\Save Image As...</strong> после чего указать директорию и имя файла результирующего изображения.</p>
+            <p align="center"><img src="/images/layerstack-08.gif" width="595" height="285" /> </p>
+            <p>Для того, чтобы просматривать полученный склеенный файл в полноцветном режиме (RGB), необходимо в режиме многоканального просмотра (Legend: Multi-Band в свойствах темы) установить разные каналы соответственно для R, G и B компонента. </p>
+            <p align="center"><img src="/images/layerstack-09.gif" width="669" height="547" /></p>
+			<p class="discuss">
+			   <span><!--#include virtual="/scripts/forum-comments-num.php?i=810"--></span>
+			</p>
+			<div class="links">
+				<h2>Ссылки по теме</h2>
+					<ul>
+						<li><a href="layerstack-envi.html">Объединение многоканальных данных в единый файл в ENVI</a></li>
+					    <li><a href="/qa/layerstack-tool.html">Пакетная обработка данных ETM+ в Layerstack/ERDAS</a></li>
+					</ul>
+			</div>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<p class="status"><span>Дата создания: 11.02.2006
+<br>Автор(ы): <a href="/forum/memberlist.php?mode=viewprofile&u=2" target="_blank">Максим Дубинин</a></span></p>
+<!--#include virtual="/inc/footer2.php" -->

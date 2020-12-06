@@ -1,0 +1,135 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Атмосферная коррекция данных Landsat/ETM+ (COST метод)</title>
+<!--#include virtual="/inc/header2.txt" -->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Вопросы и ответы</a></li>
+</ul>
+<!--Contents start-->
+<h1>Атмосферная коррекция данных Landsat/ETM+ (COST метод)</h1>
+<p class="ann">Практика. Модифицированная методика атмосферной коррекции снимков</p>
+<p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=3728"--></span></p>
+<p>Одним из наиболее важных этапов предварительной обработки космических снимков является атмосферная коррекция. В настоящее время, большая  часть данных попадающих в руки конечного пользователя уже атмосферно скорректирована. Однако, в связи с тем, что процесс коррекции больших объемов данных полностью автоматизирован, то используемые для коррекции алгоритмы рассчитываются исходя из усредненных показателей и не учитывают особенностией получения каждого конкретного снимка. </p>
+            <p>Часто встречающаяся проблема при использование космических снимков - облачность. Ряд программных пакетов для обработки ДЗЗ относительно успешно справляется с уменьшением влияния облачности на изображение, но стоит отдельных денег, применим далеко не во всех случаях, иногда требует дополнительных данных о состоянии атмосферы на момент проведения съемки (см. например модуль ATCOR для ERDAS Imagine).</p>
+            <p>В данной статье описывается методика атмосферной коррекции данных Landsat/ETM+ с использованием алгоритма разработанного Chavez, P. S. в 1988 году и в дальнейшем усовершенстованная (Chavez, 1996) (<a href="/docs/chavez_1988.zip">скачать статью</a>). Изначально методика была описана для атмосферной коррекции данных со спутника Landsat/TM. Модель для ERDAS Imagine позволяющую откорректировать данные Landsat/TM можно <a href="http://gis.leica-geosystems.com/LGISub2x236x22.aspx">скачать здесь</a> (потребуется регистрация на сайте). В данной статье  рассматривается модель и алгоритм для обработки данных <strong>Landsat ETM+</strong> и <strong>не приводится</strong> теоретическое обоснование метода.</p>
+            <p>Для модифицирования модели под конретный снимок и выполнения коррекции необходимо выполнить следующие шаги: Основные этапы методики:</p>
+            <ul>
+              <li><a href="#meta">Получить метаданные</a> </li>
+              <li><a href="#analysis">Анализ данных</a></li>
+              <li><a href="#mod">Модификация модели</a></li>
+              <li><a href="#run">Запуск модели</a></li>
+            </ul>
+            <h2><strong><a name="meta" id="meta"></a></strong>1. Получение метаданных</h2>
+            <p>В первую очередь нужно проверить наличие файла с метаданными (чаще всего находится в той же папке, что и снимок и имеет расширение .met). Если его нет, то можно попробовать загрузить файл с <a href="ftp://ftp.glcf.umiacs.umd.edu/glcf/Landsat/" target="_blank">ftp-сервера GLCF</a>.</p>
+            <h2><strong><a name="analysis" id="analysis"></a></strong>2. Анализ данных </h2>
+            <p>На данном этапе потребуется &quot;получить&quot; значения необходимые для модели. </p>
+            <p>a) В метафайле нужно найти следующие параметры:</p>
+            <ul>
+              <li>ACQUISITION_DATE (значение 1) </li>
+              <li>SUN_ELEVATION (значение 2) </li>
+              <li>SUN_AZIMUTH (значение 3) <br />
+                (Для значений SUN_ELEVATION меньше, чем 40, необходимо провести тестирование, этому будет посвящена готовящаяся статья &quot;Тестирование данных для атмосферной коррекции&quot;)<a href="http://gislab.info/qa/atcortest.htnl"></a></li>
+            </ul>
+            <p>б) Определить расстояния от солнца до земли в момент съемки (Sun-Earth Distance) (значение 4) <a href="http://gis-lab.info/qa/earthsundist.html"> &gt;&gt;&gt; </a></p>
+            <p>в) Выбрать минимальное значение DN (digital number) для каждого канала. Для этого необходимо поочередно загрузить каждый канал в режиме pseudo-color во Viewer ERDAS Imagine, открыть атрибутивную таблицу канала (Raster -&gt; Attributes), выделить все строки, в которых значение в столбце Histogram равно  или близко к нулю и перекрасить эти строки в другой цвет (выделить столбец Color, нажать правой кнопкой мыши по заголовку столбца и из списка выбрать Сolor). </p>
+            <p>Далее необходимо постепенно менять цвет расположенных ниже строк до тех пор, пока окрашенные пиксели не станут видны в пределах снимка. Обычно, в такой строке количество пикселей с определенным значением возрастает в несколько раз по сравнению с количеством пикселей в предыдущей строке.</p>
+            <p>В приведенном ниже примере, резкий скачок в количестве пикселей наблюдается между строками 43 и 44 (с 939 до 3013). Поэтому необходимо выделить все строки до 44 - это позволяет определить наиболее темные объекты в данном канале (<a href="/docs/chavez_1988.zip">теоретическое объяснение процесса </a>). Номер строки необходимо запомнить (<strong>43 строка</strong> в нашем случае). Тоже самое повторить для остальных каналов (значение 5.1 - для первого канала, 5.2 - для второго канала, и т.д.). </p>
+            <table width="90%" align="center" cellspacing="5">
+              <tr>
+                <td><p align="center"><img src="/images/atcor-01.gif" width="300" height="317" /></p></td>
+                <td><p align="center"><img src="/images/atcor-02.gif" width="300" height="317" /></p></td>
+              </tr>
+            </table>
+            <p>г) Рассчитать значение зенитного расстояния (Solar Zenith Angle) (значение 6) зная высоту светила по формуле:</p>
+            <p align="center"><img src="/images/atcor-03.gif" width="289" height="21" /></p>
+            <p>где Sun Elevation Angle берется из файла с метаданными (Значение 2 - SUN_ELEVATION)</p>
+            <p>д) Сконвертировать каждое минимальное значение DN (значения 5.1, 5.2, и т.д) в значения at sattelite-radiance (значения 7.1, 7.2, и т.д.)</p>
+            <p align="center"><img src="../images/dn2radiance1.gif" width="362" height="59" align="center" /> </p>
+            <p>Подробнее об этом этапе процесса коррекции в статье <a href="/qa/dn2radiance.html">Конвертация данных TM/ETM+ в показатели излучения на сенсоре</a>.</p>
+            <p>е) Рассчитать теоретическое значение излучения на сенсоре &quot;темного объекта&quot; для каждого канала (значения 8.1, 8.2, и т.д.) </p>
+            <p align="center"><img src="/images/atcor-04.gif" width="172" height="45" /></p>
+            <p>где</br>
+              d - расстояние от Земли до Солнца в точке получения снимка на момент съемки (см. значение 4-  Sun-Earth Distance)</br>
+              Q - зенитное расстояние (см. значение 6 - SolarZehithElevation)</br>
+              ESUN -  Mean Solar Exoatmospheric Spectral Irradiance (см. таблицу ниже)</p>
+            <table width="30%" align="center">
+              <tr>
+                <th>Канал</th>
+                <th>ESUN</th>
+              </tr>
+              <tr>
+                <td><p>1</p></td>
+                <td><p>1969.000 </p></td>
+              </tr>
+              <tr>
+                <td><p>2</p></td>
+                <td><p>1840.000 </p></td>
+              </tr>
+              <tr>
+                <td><p>3</p></td>
+                <td><p>1551.000</p></td>
+              </tr>
+              <tr>
+                <td><p>4</p></td>
+                <td><p>1044.000 </p></td>
+              </tr>
+              <tr>
+                <td><p>5</p></td>
+                <td><p>225.700</p></td>
+              </tr>
+              <tr>
+                <td><p>7</p></td>
+                <td><p>82.07 </p></td>
+              </tr>
+              <tr>
+                <td><p>8</p></td>
+                <td><p>1368.000 </p></td>
+              </tr>
+            </table>
+            <p>ж) Рассчитать константу газовой коррекции для каждого канала по формуле (значения 9.1, 9.2, и т.д.) </p>
+            <p align="center"><img src="/images/atcor-05.gif" width="93" height="24" /></p>
+            <p>где,<br />
+              L&lambda; - значения DN для каждого канала сконвертированные в at sattelite-radiance (7.1, 7.2, и т.д.) <br />
+              L - значения теоретическое значение излучения на сенсоре &quot;темного объекта&quot; для каждого канала (8.1, 8.2, и т.д.) </p>
+            <p>з) Последний шаг - рассчет атмоферно-скорректированных значений  по формуле</p>
+            <p align="center"><img src="/images/atcor-06.gif" width="296" height="25" /></p>
+            <p>где,<br />
+              d - расстояние от Земли до Солнца в точке получения снимка на момент съемки (см. значение 4 -  Sun-Earth Distance)</br>
+              <br />
+              Q - зенитное расстояние (см. значение 6 - SolarZehithElevation)</br>
+              <br />
+              DN - digital numbers - значение яркости каждого  пикселя снимка</br>
+              <br />
+              Lhaze - константа газовой коррекции для каждого канала (см. значение 9.1, 9.2, и т.д.)</br>
+              <br />
+              ESUN -  Mean Solar Exoatmospheric Spectral Irradiance (см. Таблицу выше)</p>
+            <h2><strong><a name="mod" id="mod"></a></strong>3. Модификация модели</h2>
+            <p>В связи с тем, что описанный выше алгоритм может представляться достаточно сложными и требующими больших вычислительных затрат, нами была модифицирова модель и дополнительный файл в формате Excel, разработанные для ERDAS Imagine в <a href="http://arsc.arid.arizona.edu/" target="_blank" class="external">Arizona Remote Sensing Center</a>, позволяющие максимально автоматизировать процесс пересчета исходных значений DN в атмосферно-откорректированные. Получение трех входных значений для модели (расстояние от Земли до Солнца, минимальные значения DN и SUN_ELEVATION) описано выше. <a href="/other/atcor.zip">Скачать модель ATCOR.gmd и файл  COST-ETM7.xls</a>.</p>
+            <h2><strong><a name="run" id="run"></a></strong>4. Запуск модели </h2>
+            <p>Для запуска модели откройте ERDAS Imagine, выберите в главном меню Modeler - Model Maker и откройте файл <a href="/other/atcor.zip">ATCOR.gmd</a>. Введите новые формулы в соответсвии с описанием в файле COST-ETM7.xls и запустите модель - Run. Входной снимок в модели должен из себя представлять единый, многоканальный файл (каналы 1, 2, 3, 4, 5, 7, объединенные с помощью команды Layer Stack). Результатом работы программы является атмосферно-откорректированный снимок, формат файлов - float (числа с дробной частью) поэтому размер занимаемый ими на диске значительно больше исходных.</p>
+            <p>Список литературы:</p>
+<ol>
+  <li> Chavez, P. S. Jr, 1988. An Improved Dark-Object Subtraction Technique for Atmospheric Scattering Correction of Multispectral Data. Remote Sensing of
+	the Environment, 24, 459-479 <a href="/docs/chavez_1988.zip">&gt;&gt;&gt;</a></li>
+  <li> Chavez, P. S. Jr, 1989. Radiometric Calibration of Landsat Thematic Mapper Multispectral Images. Photogrammetric Engineering and Remote Sensing 55(9), 1285-1294 <a href="/docs/chavez_1989.zip">&gt;&gt;&gt;</a></li>
+  <li>Chavez, P.S. Jr., 1996. Image-based atmospheric corrections—revisited and revised. Photogrammetric Engineering and Remote Sensing 62(9):1025-1036 <a href="/docs/chavez_1996.zip">&gt;&gt;&gt;</a></li>
+</ol>
+
+<p class="discuss"><span><!--#include virtual="/scripts/forum-comments-num.php?i=954"--></span></p>
+<div class="links">
+<h2>Ссылки по теме</h2>
+<ul>
+   <li><a href="/qa/dn2radiance.html">Конвертация данных TM/ETM+ в показатели излучения на сенсоре</a></li>
+   <li><a href="http://gis.leica-geosystems.com/LGISub2x217x0.aspx" target="_blank" class="external">Дополнительные модели для ERDAS Imagine на сайте Leica Geosystems LLC</a></li>
+   <li><a href="http://arsc.arid.arizona.edu/resources/image_processing/landsat/ls5-atmo.html" target="_blank" class="external">Landsat 5 Atmospheric and Radiometric Correction</a></li>
+   <li><a href="http://arsc.arid.arizona.edu/resources/image_processing/landsat/minimum-dn.html" target="_blank" class="external">New and Improved Procedure for Minimum DN Selection for input to the COST Model for Atmospheric Correction</a></li>
+</ul>
+</div>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<p class="status"><span>Дата создания: 07.03.2006
+<br>Автор(ы): <a href="/forum/memberlist.php?mode=viewprofile&u=31" target="_blank">Анна</a></span></p>
+<!--#include virtual="/inc/footer2.php" -->

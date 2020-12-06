@@ -1,0 +1,206 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Онлайн-сервис по конвертации систем координат данных</title>
+<!--#include virtual="/inc/header2.txt" -->
+
+<script language="javascript">
+<!--
+function changeintype()
+{
+	document.convert.cmbinname.length = 0;
+	if (document.convert.cmbintype.value=="prj")
+	{
+		document.convert.cmbinname.options[0] = new Option("Albers Equal Area", "aea");
+		document.convert.cmbinname.options[1] = new Option("UTM", "utm");
+		document.convert.cmbinname.options[2] = new Option("GK", "gk");
+	}
+	else
+	{
+		document.convert.cmbinname.options[0] = new Option("WGS84", "wgs84");
+		document.convert.cmbinname.options[1] = new Option("Pulkovo-1942", "pulkovo");
+	}
+}
+function changeinname()
+{
+	if (document.convert.cmbinname.value=="prj")
+	{
+		document.convert.cmbinopt.options[0] = new Option("UTM30", "utm30");
+		document.convert.cmbinopt.options[1] = new Option("UTM31", "utm31");
+		document.convert.cmbinopt.options[2] = new Option("UTM32", "utm32");
+		document.convert.cmbinopt.options[3] = new Option("UTM33", "utm33");
+		document.convert.cmbinopt.options[4] = new Option("UTM34", "utm34");
+		document.convert.cmbinopt.options[5] = new Option("UTM35", "utm35");
+		document.convert.cmbinopt.options[6] = new Option("UTM36", "utm36");
+		document.convert.cmbinopt.options[7] = new Option("UTM37", "utm37");
+		document.convert.cmbinopt.options[8] = new Option("UTM38", "utm38");
+		document.convert.cmbinopt.options[9] = new Option("UTM39", "utm39");
+		document.convert.cmbinopt.options[10] = new Option("UTM40", "utm40");
+		document.convert.cmbinopt.options[11] = new Option("UTM41", "utm41");
+		document.convert.cmbinopt.options[12] = new Option("UTM42", "utm42");
+		document.convert.cmbinopt.options[13] = new Option("UTM43", "utm43");
+		document.convert.cmbinopt.options[14] = new Option("UTM44", "utm44");
+		document.convert.cmbinopt.options[15] = new Option("UTM31", "utm31");
+		document.convert.cmbinopt.options[16] = new Option("UTM31", "utm31");
+		document.convert.cmbinopt.options[17] = new Option("UTM31", "utm31");
+		document.convert.cmbinopt.options[18] = new Option("UTM31", "utm31");
+		document.convert.cmbinopt.options[19] = new Option("UTM31", "utm31");
+		document.convert.cmbinopt.options[20] = new Option("UTM31", "utm31");
+		document.convert.cmbinopt.options[21] = new Option("UTM31", "utm31");
+		document.convert.cmbinopt.options[22] = new Option("UTM31", "utm31");
+		document.convert.cmbinopt.options[23] = new Option("UTM31", "utm31");
+		document.convert.cmbinopt.options[24] = new Option("UTM31", "utm31");
+		document.convert.cmbinopt.options[25] = new Option("UTM31", "utm31");
+		document.convert.cmbinopt.options[26] = new Option("UTM31", "utm31");
+		document.convert.cmbinopt.options[27] = new Option("UTM31", "utm31");
+		document.convert.cmbinopt.options[28] = new Option("UTM31", "utm31");
+	}
+}
+function blockinprj()
+{
+	document.convert.cmbinprj.disabled = true;
+	document.convert.cmbingeo.disabled = false;
+}
+function blockingeo()
+{
+	document.convert.cmbingeo.disabled = true;
+	document.convert.cmbinprj.disabled = false;
+}
+function blockoutprj()
+{
+	document.convert.cmboutprj.disabled = true;
+	document.convert.cmboutgeo.disabled = false;
+}
+function blockoutgeo()
+{
+	document.convert.cmboutgeo.disabled = true;
+	document.convert.cmboutprj.disabled = false;
+}
+//-->
+</SCRIPT>
+	  <!--Main table start-->
+      <table class="tab-main">
+        <tr>
+          <td><h1>Онлайн-сервис по конвертации систем координат данных</h1>
+			<p class="ann">Онлайн-сервис по конвертации систем координат данных</p>
+            <p>Данный сервис предназначен для пересчета данных находящихся в одной системе координат, в другую. На данный момент присутствуют только широко распространенные системы координат, с которыми чаще всего приходится сталкиваться. Пересчет осуществляется с помощью <a href="/qa/proj.html">библиотеки Proj</a>, одной из самых развитых и свободно распространяемых систем для пересчета координат. </p>
+            <p>Для того, чтобы перевести ваши значения из одной системы координат в другую, выберите исходную и конечную систему координат, введите ваши данные и нажмите на кнопку <strong>Пересчитать</strong>.</p>
+            <p>Если вы знаете строку конвертации то можно сразу воспользоваться <a href="#form2">формой 2</a>, если нет - <a href="#form1">формой 1</a>. </p>
+            <p>Если в списках отсутствует нужная вам система координат, напишите и мы ее добавим.  </p>
+            <h2>Форма 1<a name="form1" id="form1"></a> </h2>
+            <table align="center" border="0" width="70%">
+ <form action="/scripts/convert.php" method="post" name="convert" id="convert">
+              <tr>
+                <td colspan="4" class="tr1"><p align="center"><strong>1. Выберите исходную систему координат</strong></p></td>
+              </tr>
+              <tr>
+                <td colspan="2" valign="middle" class="tr2"><p>
+                  <select name="cmbintype" size="1" id="cmbintype" onchange="changeintype()" onclick="changeintype()">
+                    <option value="geo">Географическая</option>
+                    <option value="prj">Прямоугольная</option>
+                  </select>
+                </p></td>
+                <td colspan="2" class="tr2" ><p>
+                  <select name="cmbinname" size="1" id="cmbinname" onchange="changeinname()" onclick="changeinname()">
+                  </select>
+                  <select name="cmbinopt" size="1" id="cmbinopt">
+                  </select>
+                </p></td>
+              </tr>
+      <tr><td colspan="4" class="tr1"><p align="center"><strong>2. Выберите конечную систему координат</strong></p>
+          </td>
+      <tr>
+        <td colspan="2" valign="middle" class="tr1"><p>
+          <input name="radiobutton" type="radio" value="radiobutton" checked="checked" onclick="blockoutprj()"/>
+          Географическая</p></td>
+        <td colspan="2" class="tr1" ><p>
+          <select name="cmboutgeo" size="1" id="cmboutgeo">
+            <option value="null" selected="selected">    </option>
+            <option value="wgs84">WGS84</option>
+            <option value="pulkovo-1942">Pulkovo-1942</option>
+          </select>
+        </p></td>
+      </tr>
+      <tr>
+        <td colspan="2" valign="middle" class="tr2"><p>
+          <input name="radiobutton" type="radio" value="radiobutton" onclick="blockoutgeo()"/>
+          Прямоугольная</p></td>
+        <td colspan="2" class="tr2" ><p>
+          <select name="cmboutprj" size="1" id="cmboutprj">
+            <option value="null" selected="selected">     </option>
+            <option value="aea">Albers Equal Area</option>
+            <option value="mecator">Mercator</option>
+            <option value="utm">UTM</option>
+            <option value="gk">GK</option>
+          </select>
+        </p></td>
+      </tr>
+      <tr>
+        <td class="tr1"><p>Широта</p></td>
+        <td class="tr1"><p>
+            <input name="inlat" type="text" id="inlat" size="12" />
+        </p></td>
+        <td class="tr1"><p>Координата X</p></td>
+        <td class="tr1"><p>
+            <input name="authors2" type="text" id="authors2" size="12" />
+        </p></td>
+      </tr>
+      <tr>
+        <td class="tr2"><p>Долгота</p></td>
+        <td class="tr2"><p>
+            <input name="inlong" type="text" id="inlong" size="12" />
+        </p></td>
+        <td class="tr2"><p>Координата Y </p></td>
+        <td class="tr2"><p>
+            <input name="datestart2" type="text" id="datestart2" size="12" />
+        </p></td>
+      </tr>
+      <tr><td colspan="4" class="tr1b" ><p align="center">
+        <input name="calc" type="submit" id="calc" value="Пересчитать" />
+      </p>        </td>
+      <p></tr>
+	  <input type="hidden" name="val" value="set1" />
+    </form>
+	<p>
+	</table>
+            <p>Если известна строка параметров, можно использовать следующую форму:</p>
+            <h2>Форма 2<a name="form2" id="form2"></a></h2>
+            <table align="center" border="0" width="70%">
+ <form action="/scripts/convert.php" method="get">
+      <tr>
+        <td valign="middle" class="tr2"><p>Параметры</p></td>
+        <td class="tr2" ><p>
+          <input name="paramstr" type="text" id="paramstr" value="+proj=utm +ellps=WGS84 +lon_0=112w" size="60" />
+        </p></td>
+      </tr>
+      <tr>
+        <td width="50%" class="tr1"><p>Широта</p></td>
+        <td colspan="3" class="tr1"><p>
+            <input name="inlat" type="text" id="inlat" value="50" size="12" />
+        </p></td>
+        </tr>
+      <tr>
+        <td class="tr2"><p>Долгота</p></td>
+        <td colspan="3" class="tr2"><p>
+            <input name="inlong" type="text" id="inlong" value="50" size="12" />
+        </p></td>
+        </tr>
+      <tr><td colspan="4" class="tr1b" ><p align="center">
+        <input name="calc" type="submit" id="calc" value="Пересчитать" />
+      </p>        </td>
+      <p></tr>
+	  <input type="hidden" name="val" value="set2" />
+    </form>
+	<p>
+	</table>
+            <p class="discuss">
+				<span><!--#include virtual="/scripts/forum-comments-num.php?i=852"--></span>
+			</p>
+			<div class="links">
+			<h2>Ссылки по теме</h2>
+			<ul>
+               <li><a href="modislandprod.html">Ссылка на дополнительный источник информации внутренняя</a></li>
+               <li><a href="http://lpdaac.usgs.gov/landdaac/tools/modis/about.asp" target="_blank" class="external">Ссылка на дополнительный источник информации внешняя</a></li>
+			</ul>
+			</div>
+   			<!--#include virtual="/scripts/date.php" -->
+<!--Contents end-->
+<!--#include virtual="/inc/footer2.php" -->

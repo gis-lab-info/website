@@ -1,0 +1,77 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Установка и настройка GeoJazzy WMSTileCache</title>
+<!--#include virtual="/inc/header2.txt" -->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Вопросы и ответы</a></li>
+</ul>
+<h1>Установка и настройка GeoJazzy WMSTileCache</h1>
+<!--Contents start-->
+<p class="ann">Рассмотрена установка и настройка GeoJazzy WMSTileCache</p>
+<p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=3525"--></span></p>
+            <p><strong>Оглавление</strong></p>
+            <ol>
+                  <li><a href="#01">Пролог</a></li>
+                  <li><a href="#02">Установка</a></li>
+                  <li><a href="#03">Настройка</a></li>
+                  <li><a href="#04">Эпилог</a></li>
+                  </ol>
+
+
+<!-- Первый раздел -->
+<h2><strong><a name="01" id="01"></a>1. Пролог</strong></h2>
+<p>Продолжим тему <a href="geowebcache.html">серверов WMS-C</a>. Сегодня мы поговорим о  <a href="http://sourceforge.net/projects/geojazzy/" class="external">GeoJazzy WMSTileCache</a>, созданном Бертрандом Леграндом (Bertrand Legrand). Этот сервер примечателен очень простой настройкой и может быть рекомендован в качестве кэширующего сервера для начинающих.</p>
+<!-- Второй раздел -->
+<h2><strong><a name="02" id="02"></a>2. Установка</strong></h2>
+<p>В качестве контейнера сервлетов на этот раз будем использовать <a href="http://tomcat.apache.org/" class="external">Apache Tomcat</a> [его альтернативное название - Catalina - часто встречается в файлах настроек]. Дистрибутив для Windows называется <a href="http://tomcat.apache.org/download-60.cgi" target="_blank" class="external">Windows Service Installer</a>. Устанавливаем, запускаем службу. Стандартно, Tomcat приписан к порту 8080.</p>
+		<p><a href="http://sourceforge.net/project/showfiles.php?group_id=239356" target="_blank" class="external">Загружаем</a> Geojazzy в виде пакета WAR.</p>
+		<p>Открываем страницу управления сервлетами http://localhost:8080/manager/html. В разделе "WAR file to deploy" указываем пакет Geojazzy и нажимаем "Deploy". По окончании установки, в списке "Applications" появится новый пункт "Geojazzy WMSTileCache Server". По ссылке отправляемся на страницу http://localhost:8080/WMSTileCache. Если все правильно, то ее можно сразу закрыть. Она вам никогда не пригодится.</p>
+        <!-- Третий раздел -->
+        <h2><strong><a name="03" id="03"></a></strong>3. Настройка</h2>
+        <p>Открываем файл WMSTileCache.cfg [в папке c:\Program Files\Apache Software Foundation\Tomcat 6.0\conf]. По аналогии с существующими добавляем свой сервер:</p>
+		<pre>#WMSTile
+#Tue Jun 23 12:54:46 MSD 2009
+BufferSize=50000
+<b>RemoteWSMServerURL_2=http://localhost/cgi-bin/mapserv.exe?map=d:/work/wms/web.map</b><br>
+RemoteWSMServerURL_1=http\://labs.metacarta.com/wms/vmap0
+RemoteWSMServerURL_0=http\://demo.cubewerx.com/demo/cubeserv/cubeserv.cgi?CONFIG\=main
+TileDirectoryPath=C\:\\Program Files\\Apache Software Foundation\\Tomcat 6.0\\temp\\tiles
+ActiveWeakAcces=true
+<b>RemoteWSMServerName_2=my_topo_wms</b>
+RemoteWSMServerName_1=metacarta
+RemoteWSMServerName_0=cubewerx
+<b>RemoteWSMServerUseProxy_2=false</b>
+RemoteWSMServerUseProxy_1=false
+RemoteWSMServerUseProxy_0=false
+<b>NbRemoteWSMServer=3</b></pre>
+		<p>Заметьте, необходимо изменить всего четыре строчки. Вот и вся настройка.</p>
+		<p>Перезагружаем Geojazzy через страницу управления сервлетов http://localhost:8080/manager/html (Reload).</p>
+		<p>Подключаем слой в OpenLayers. Было:</p>
+<pre>var geol_hole = new OpenLayers.Layer.WFS('layer',
+	   'http://localhost/cgi-bin/mapserv.exe?map=d:/work/wms/web.map&',
+	   {layers: "real_wms_layer_name", format: 'image/png'});</pre>
+		<p>Стало:</p>
+<pre>var topo_yandex = new OpenLayers.Layer.WMS('layer',
+	   'http://localhost:8080/WMSTileCache/WMS/my_topo_wms',
+	   {layers: 'real_wms_layer_name', format: 'image/png'});</pre>
+<p>Тайлы сохраняются в папку "c:\Program Files\Apache Software Foundation\Tomcat 6.0\temp\tiles\".</p>
+<!-- Четвертый раздел -->
+<h2><strong><a name="04" id="04"></a>4. Эпилог</strong></h2>
+<p>В Geojazzy не предусмотрена автоматическая подготовка тайлов, нет контроля TTL, метатайлов и много прочего. Но он настолько прост и надежен, что хочется выразить крайнее восхищение автору и еще раз порекомендовать Geojazzy новичкам.</p>
+        <span>
+    <!--#include virtual="/scripts/forum-comments-num.php?i=3525"-->
+  </span>		</p>
+<div class="links">
+				<h2>Ссылки по теме</h2>
+					<ul>
+						<li><a href="geowebcache.html">GeoWebCache, установка и настройка</a></li>
+					  </ul>
+			</div>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<p class="status"><span>Дата создания: 28.07.2009
+<br>Автор(ы): <a href="/forum/memberlist.php?mode=viewprofile&u=6850" target="_blank">Mavka</a></span></p>
+<!--#include virtual="/inc/footer2.php" -->

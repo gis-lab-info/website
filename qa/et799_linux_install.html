@@ -1,0 +1,196 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Установка Easy Trace&nbsp;7.99&nbsp;PRO FREE в&nbsp;Linux</title>
+<!--#include virtual="/inc/header2.txt" -->
+                <div class="cont">
+                  <div class="col1">
+                    <ul class="path">
+                      <li class="first"><a href="/">Главная</a></li>
+                      <li><a href="/qa.html">Статьи</a></li>
+                    </ul>
+                    <!--Contents start-->
+                    <h1>Установка Easy Trace&nbsp;7.99&nbsp;PRO FREE в&nbsp;Linux</h1>
+                    <p class="ann">Краткое описание установки бесплатной версии
+                      векторизатора Easy Trace&nbsp;7.99&nbsp;PRO FREE в&nbsp;операционной
+                      системе GNU/Linux.</p>
+                    <p class="discuss discuss_top"><span>
+                      <!--#include virtual="/scripts/forum-comments-num.php?i=6321"-->
+                    </span></p>
+                    <p><strong>Оглавление</strong></p>
+                    <ol>
+                      <li><a href="#01">Введение</a></li>
+                      <li><a href="#02">Установка и&nbsp;настройка Wine</a></li>
+                      <li><a href="#03">Установка дополнительных компонентов с&nbsp;помощью
+                        winetricks</a></li>
+                      <li><a href="#04">Получение и&nbsp;установка Easy Trace</a></li>
+                    </ol>
+                    <!-- Введение -->
+                    <h2><strong><a name="01" id="01"></a></strong>1. Введение</h2>
+                    <p>Как известно, в&nbsp;настоящее время для операционной системы
+                      GNU/Linux доступны многие приложения для работы с&nbsp;геоданными (ГИС,
+                      СУБД, серверы и&nbsp;т.д.) Сложнее дело обстоит с&nbsp;таким
+                      специфическим программным обеспечением, как <b>векторизаторы</b>. Программы для
+                      векторизации растровых изображений есть (autotrace, portace
+                      и&nbsp;др.), но&nbsp;предназначены они, в&nbsp;первую очередь, для
+                      решения «художественных» задач. Однако, с&nbsp;недавнего времени,
+                      ГИС-общественности стала доступна бесплатная версия векторизатора Easy
+                      Trace, уже зарекомендовавшего себя в&nbsp;профессиональной среде, но
+                      работающего только в&nbsp;Windows. Ниже описан способ установки Easy
+                      Trace
+                      в&nbsp;GNU/Linux (подойдет любой современный дистрибутив). </p>
+                    <!-- Установка и настройка Wine -->
+                    <h2><strong><a name="02" id="02"></a></strong>2. Установка
+                      и&nbsp;настройка
+                      Wine</h2>
+                    <p>Для работы с&nbsp;Windows-программами необходимо установить пакет <a
+ href="http://ru.wikipedia.org/wiki/Wine">Wine</a>. Это можно сделать с
+                      помощью пакетного менеджера вашего дистрибутива (например, <i>Synaptic</i> в&nbsp;Ubuntu) или с&nbsp;помощью нескольких команд в&nbsp;консоли
+                      (понадобятся права
+                      суперпользователя). Пример для Ubuntu/Debian: </p>
+                    <pre>$ sudo aptitude install wine cabextract wine-gecko</pre>
+                    <p>Кроме собственно Wine, необходимы также <i>cabextract</i> для
+                      извлечения файлов *.CAB и&nbsp;<i>wine-gecko</i> для отображения
+                      интернет-страниц.</p>
+                    <p> Если по&nbsp;каким-либо причинам вы&nbsp;не&nbsp;можете воспользоваться
+                      пакетными
+                      менеджерами, можно загрузить бинарные пакеты для различных
+                      дистрибутивов с&nbsp;<a href="http://www.winehq.org/download/">официального сайта
+                      проекта</a> или установить Wine из&nbsp;<a
+ href="http://prdownloads.sourceforge.net/wine/wine-1.3.5.tar.bz2">исходного
+                      кода</a>.</p>
+                    <p>После установки наберите в&nbsp;командной строке </p>
+                    <pre>$ winecfg </pre>
+                    <p>(или поищите в&nbsp;системном меню <b>Configure Wine</b> ) для запуска
+                      утилиты конфигурирования. Утилита создает каталог ~/.wine
+                      в&nbsp;домашнем
+                      каталоге, позволяет выбрать «эмулируемую» версию Windows для каждого
+                      приложения, настроить графику, использование библиотек и&nbsp;т.д.</p>
+                    <p style="text-align: left;"><img style="width: 418px; height: 472px;"
+ src="../images/et799_linux_install-01.png" alt=""></p>
+                    <h2>3. Установка дополнительных компонентов с&nbsp;помощью winetricks</h2>
+                    <p><span style="text-decoration: underline;"><a
+ href="http://wiki.winehq.org/winetricks_ru">Winetricks</a></span> —
+                      это скрипт
+                      для
+                      быстрой
+                      загрузки
+                      и
+                      установки
+                      распространённых
+                      исполняемых
+                      библиотек,
+                      иногда
+                    необходимых для запуска программ в&nbsp;Wine.</p>
+                    <p> Получить его проще всего командой: </p>
+                    <pre>$ wget http://www.kegel.com/wine/winetricks</pre>
+                    <p>Затем следует сделать скрипт исполняемым:
+                    </p>
+                    <pre>$ chmod +x winetricks</pre>
+                    <p>В&nbsp;некоторых дистрибутивах Linux (Suse, ALT Linux) пакет <span
+ style="font-style: italic;">winetricks</span> уже включен
+                      в&nbsp;состав
+                      Wine, в&nbsp;других его можно установить отдельно через пакетный
+                      менеджер.
+                      Например, в&nbsp;Ubuntu воспользуйтесь <i>Synaptic </i>или введите в
+                      командной строке:</p>
+                    <pre>$ sudo aptitude install winetricks</pre>
+                    <p>После того, как <span style="font-style: italic;">winetricks</span> установлен, можно просто выполнить команду <strong>winetricks</strong> в&nbsp;консоли. Если winetricks запущен без дополнительных параметров,
+                      открывается
+                      графический интерфейс со&nbsp;списком доступных пакетов. В&nbsp;нашем
+                      случае необходимо выбрать gdiplus, ole2, vb6run, vcrun6, allfonts и&nbsp;нажать ОК.</p>
+                    <p><img src="../images/et799_linux_install-02.png" alt=""
+ style="width: 523px; height: 396px;"><br>
+                        <br>
+                      Также можно установить пакеты, указав их&nbsp;имена в&nbsp;качестве
+                      параметров
+                      для команды winetricks, и&nbsp;программа
+                      немедленно начнёт их&nbsp;установку.                      </p>
+                    <pre>$ sh winetricks gdiplus ole2 vb6run vcrun6 allfonts</pre>
+                    <br>
+                    В&nbsp;процессе установки иногда могут появляться стандартные
+                    Windows-установщики.<br>
+                    <h2>4. Получение и&nbsp;установка Easy Trace</h2>
+                    Бесплатная версия <a
+ href="http://www.easytrace.com/site/russian/easytracepro/et799.html">Easy
+                    Trace
+                    7.99
+                    PRO
+                    FREE</a> доступна <a
+ href="http://www.easytrace.com/getfile.php?file=et799">по&nbsp;ссылке</a> на&nbsp;официальном сайте. После загрузки щелкните по&nbsp;файлу et799rus.exe</span> или наберите
+                    в&nbsp;консоли<span style="font-family: monospace;"> </span><span
+ style="font-style: italic;">wine et799rus.exe</span> для запуска
+                    программы установки.<br>
+                    <br>
+                    <img style="width: 386px; height: 154px;" alt=""
+ src="../images/et799_linux_install-03.png"><br>
+                    <br>
+                    Выберите язык (русский/английский), подготовка к&nbsp;установке может
+                    занять
+                    некоторое время.<br>
+                    <br>
+                    Далее стандартный диалог проведет установку по&nbsp;пунктам:<br>
+                    <br>
+                    <table
+ style="text-align: left; width: 100%; margin-left: auto; margin-right: auto;"
+ border="0" cellpadding="2" cellspacing="2">
+                      <tbody>
+                        <tr>
+                          <td><img src="/images/et799_linux_install-04.png" alt=""><br>
+                          </td>
+                          <td><img alt="" src="/images/et799_linux_install-05.png"></td>
+                        </tr>
+                        <tr>
+                          <td><img alt="" src="/images/et799_linux_install-06.png"></td>
+                          <td><img alt="" src="/images/et799_linux_install-07.png"></td>
+                        </tr>
+                        <tr>
+                          <td><img alt="" src="/images/et799_linux_install-08.png"></td>
+                          <td><img alt="" src="/images/et799_linux_install-09.png"></td>
+                        </tr>
+                        <tr>
+                          <td><img alt="" src="/images/et799_linux_install-10.png"></td>
+                          <td>&nbsp;</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <p><br>
+                      После установки появится каталог <span style="font-weight: bold;">~/.wine/drive_c/Program
+                      Files/Easy
+                      Trace
+                      Group/Easy
+                      Trace&nbsp;7.99 Pro (FREE)</span>, в&nbsp;системном меню
+                      появится соответствующий пункт (в&nbsp;разных окружениях рабочего стола
+                      или
+                      оконных менеджерах пункты меню могут быть разными),
+                      а&nbsp;на&nbsp;рабочем столе
+                      появится «ярлык»<span style="font-weight: bold;"></span>. Доступна
+                      также обширная справка и&nbsp;примеры проектов.<br>
+                      <br>
+                      Как известно, в&nbsp;Linux это не&nbsp;единственный способ
+                      настроить запуск
+                      программы. Любители командной строки могут сделать так называемый
+                      «псевдоним» (<span style="font-weight: bold;">alias</span>). Для
+                      «одноразового» его применения надо в&nbsp;консоли набрать
+                      (с&nbsp;указанием
+                      полного пути к&nbsp;исполняемому файлу <span
+ style="font-style: italic;">et.exe</span>):<br>
+                    </p>
+                    <pre>$ alias easytrace='wine /home/user/.wine/drive_c/Program\ Files/Easy\ Trace\ Group/Easy\ Trace\ 7.99\ Pro\ \(FREE\)/et.exe'</pre>
+                    <p>После этого можно запускать Easy Trace из&nbsp;консоли, набрав easytrace</span>. Для постоянного
+                      использования следует прописать эту&nbsp;же строку в&nbsp;файл ~/.bashrc</span> (в&nbsp;котором хранятся
+                      настройки командной оболочки bash).<br>
+                      <br>
+                      Всё, Easy Trace готов к&nbsp;векторизации в&nbsp;связке
+                      со&nbsp;свободными ГИС!<br>
+                      <br>
+                      <img src="/images/et799_linux_install-11.png" alt="" width="700" height="525" style="width: 700px; height: 525px;"><br>
+                    </p>
+                    <p class="discuss"><span>
+                      <!--#include virtual="/scripts/forum-comments-num.php?i=6321"-->
+                    </span></p>
+                    <!-- ссылки -->
+                    <!--Contents end-->
+<p class="status"><span>Дата создания: 20.10.2010<br>
+	Автор(ы): <a href="/forum/memberlist.php?mode=viewprofile&u=8430" target="_blank">Александр Мурый</a></span></p>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<!--#include virtual="/inc/footer2.php" -->

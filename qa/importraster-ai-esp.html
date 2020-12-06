@@ -1,0 +1,80 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Importacion automatica por lotes de archivos (batch scripts) de imagenes raster a GRIDs y su procesamiento usando ArcInfo</title>
+<!--#include virtual="/inc/header2-eng.txt" -->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Home</a></li>
+   <li><a href="/qa.html">Articles</a></li>
+</ul>
+<!--Contents start-->
+<h1>Importacion automatica por lotes de archivos (batch scripts) de imagenes raster a GRIDs y su procesamiento usando ArcInfo</h1>
+<p class="ann">Descripcion de herramientas disenadas para conversion rapida y procesamiento de datos raster en ArcInfo</p>
+<p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=1311"--></span></p>
+<p><strong>Introduccion</strong></p>
+<p>Es posible utilizar ArcInfo Workstation para importar rapida y confiablemente datos raster que estan originalmente en formatos TIF, BSQ/BIL/BIP a un formato  GRID, usado para el analisis y calculos en ArcInfo, ArcView y ArcGIS. La generacion de archivos por lotes (Batch scripts o simplemente scripts) para realizar esta tarea puede ser util tambien para ejecutar series de operaciones en GRIDs de manera automatica. Los archivos por lotes son la creacion de una lista de instrucciones para conversion o procesamiento que son interpretadas y ejecutadas automaticamente por un programa especifico, en este caso el ArcInfo.</p>
+            <p>A continuacion se ofrecen una serie de archivos por lotes que ejemplifican la capacidad de ArcInfo para realizar tareas automaticas (en Arc info a este tipo  de archivos se les conoce como aml). Para ejecutar estos archivos todos los archivos raster (cualquier numero de ellos) en formato BIL o TIF deben colocarse  en el mismo directorio.</p>
+            <p>Para utilizar los scripts mencionados aqui, debe cambiarse en el archivo de entrada la direccion del folder en donde todos los archivos deben ser procesados asi como el folder donde los archivos de salida se almacenaran. Si el nombre del folder de salida no se agrega, el aml usara el nombre del folder de entrada para almacenar los archivos de salida. Es tambien posible utilizar rutas relativas (Path) para el folder de salida. Por ejemplo: Si el folder de entrada esta configurado para ser <strong>c:\work\</strong>, entonces escribir <strong>result\</strong> en el archivo por lotes significa que la ruta completa del archivo de  salida seria <strong>c:\work\result\</strong>. Ambos folders, de entrada y salida, deben tener diagonal invertida al final (&quot;\&quot;)</p>
+            <p><strong>Ejecutando arc y configurando el ambiente de trabajo</strong></p>
+            <p>Para comenzar ArcInfo es necesario escribir <strong>arc </strong>en una ventana de comandos o bien seleccionar Start\Programs\ArcGIS\ArcInfo Workstation\Arc o algo similar.  Despues de esto se abre la consola de arc, en esta consola es necesario escribir todos los comandos manualmente, todos los comandos se escriben despues del  prompt <strong>arc:</strong> . En todos los ejemplos que a continuacion mostramos se omite este prompt. Para comenzar a trabajar es mejor especificar la direccion completa  del folder, donde todos los aml se localizan, al hacer esto tu debes especificar la direccion completa a estas herramientas cada vez que desees ejecutarlas. Esto puede hacerse con el comando <strong>&amp;workspace</strong>.</p>
+            <tcode><b>&amp;workspace c:\work\myscripts\ </b></tcode>
+            <p>Para asegurarse de que la instruccion que le dimos a arc se ejecuto correctamente se puede usar la letra w como comando en el prompt, el resultado seria similar a este: Current location: c:\work\myscripts.</p>
+            <tcode><b>w</b></tcode>
+            <p>Es recomendable almacenar todos los scripts en un folder, esto hace mas facil correrlos, uno des pues del otro o por separado.</p>
+            <p><strong>Scripts</strong></p>
+            <p>Para comenzar a trabajar con datos en formato GRID, es frecuentemente necesario convertir datos originalmente almacenados en otros formatos raster a formatos GRID, Es sencillo hacerlo con el script <a href="/programs/aml/image2grid.aml">image2grid.aml</a>. Para hacerlo solo hay que escribir este comando en la consola de ArcInfo Workstation:</p>
+            <tcode><b>&amp;run image2grid.aml input output<br />
+                </b>o<b><br />
+                &amp;run image2grid.aml c:\work\ d:\result\ </b></tcode>
+            <p>Si las imagenes raster de entrada tienen fomato 16-bit signed, entonces tendra que hacerse mas de un paso para corregirlas despues de importarlas usando <a href="/programs/aml/con2.aml">con2.aml</a>:</p>
+            <tcode><b>&amp;run con2.aml input output<br />
+                </b>o<br />
+                  <b>&amp;run con2.aml c:\work\ d:\result\ </b></tcode>
+            <p>El resultado de este script sera un nuevo grupo de GRIDs con la letra &quot;c&quot; como prefijo en el nombre, aquellos archivos temporales producidos por el script antes de este paso de importacion (usando image2grid) seran borrados del disco.</p>
+            <p>La operaciomn contraria podria ser exportar de GRID a BIL nuestros mapas. Esto tambien puede ser automatizado usando el script <a href="/programs/aml/grid2bil.aml">grid2bil.aml</a>. Los archivos en formato BIL pueden utilizarse, por ejemplo, para <a href="modis-timesat-eng.html">cargar datos en TIMESAT</a>.</p>
+            <tcode><b>&amp;run grid2bil.aml input output<br />
+                </b>o<b><br />
+                      <b>&amp;run grid2bil.aml c:\work\ ..\result\</b></b></tcode>
+            <p>Algunas veces es necesario enmascarar algunos valores de nuestras imagenes raster haciendolos nulos (NODATA), esta operacion es muy frecuente al manejar imagenes provenientes de sensores remotos, donde ciertos valores negativos son utilizados para los bordes de las imagenes y no tienen por tanto ninguna iformacion util. Los formatos raster mas comunes (TIF, BIL entre otros) no tienen la habilidad de almacenar datos nulos, mientras que GRID si puede. Para convertir cierto valor o intervalo a NODATA, se puede utilizar el script <a href="/programs/aml/setnull.aml">setnull.aml</a>.</p>
+            <tcode><b>&amp;run setnull.aml input output<br />
+                </b>o<b><b><br />
+                        <b>&amp;run setnull.aml c:\work\ d:\result\</b></b></b></tcode>
+            <p>Por default este script hace nulos todos los valores menores a -3,000. Se puede cambiar esta condicion en el script usando un editor de texto y modificando la linea que contiene la condicion <strong>%current% &lt;= - 3000</strong>, por ejemplo, si modificamos esta linea y ponemos en su lugar  %current% == -3000, el resultado tendra valores nulos para los valores que originalmente eran exactamente -3000: <strong>%current% == -3000</strong></p>
+            <p>El resultado de este script sera un nuevo grupo de GRIDs con la letra &quot;z&quot; como prefijo en el nombre, aquellos archivos temporales producidos por el script antes de este paso de importacion (usando <a href="/programs/aml/image2grid.aml">image2grid.aml</a>) seran borrados del disco.</p>
+            <tcode>%output% = setnull(%current% &lt;= -3000, %current%)<br />
+                o<br />
+                 %output% = setnull(%current% == -3000, %current%)<br />
+                o<br />
+                %output% = setnull(%current% &lt;= -3000 and %current% &gt;= -5000, %current%)</tcode>
+            <p>Para recortar todos los GRIDs usando una cobertura vectorial se puede utilizar el script <a href="/programs/aml/clip-all.aml">clip-all.aml</a>. Para hacerlo funcionar, la cobertura vectorial que cortara los datos  necesita estar disponible y contener al menos un poligono que pueda ser usado para cortar los datos. Para mayor facilidad, esta cobertura puede colocarse en el mismo folder que los GRIDs a recortar, en este caso seria suficiente escribir en la consola directamente el nombre de la cobertura vectorial sin la ruta al archivo.</p>
+            <tcode><b>&amp;run clip-all.aml clipcover input output<br />
+                </b>o<b><br />
+                  &amp;run clip-all.aml clipper c:\work\data\ ..\result\ </b></tcode>
+            <p>Si la cobertura vectorial esta localizada en un directorio diferente al de los GRIDs, entonces es necesario agregar la ruta completa del archivo, por ejemplo:</p>
+            <tcode><b>&amp;run clip-all.aml c:\temp\clipcover input output</b><br />
+                o<br />
+                  <b>&amp;run clip-all.aml c:\temp\clipcover c:\work\data\ ..\result\</b></tcode>
+            <p>Despues de realizar varias operaciones automaticas sobre nuestros archivos, sus nombres pueden lucir complejos y/o carecer de significado. Para cambiar todos los nombres de un grupo de GRIDs de una vez suando cierta substitucion para los nombres de los archivos se puede usar el script <a href="/programs/aml/rename.aml">rename.aml</a>. </p>
+            <tcode><b>&amp;run rename.aml sourcedir findstr replacestr<br />
+                </b>o<b><br />
+                &amp;run rename.aml c:\work\data\ znc</b></tcode>
+            <p>Para ejecutar este script es necesario especificar tres cosas: 1) el folder de origen, donde estan localizados los GRIDs a renombrar 2) el patron de busqueda de archivos, fragmento de texto que utilizara el sistema para encontrar GRIDs por su nombre 3) el patron de substitucion, texto que se utilizara para substituir el patron de busqueda de archivos, este ultimo parametro puede omitirse, el resultado sera borrar el patron de busqueda del nombre del (los) GRID(s).</p>
+            <p>Estos scripts son relativamente faciles de modificar, cambiandolos es posible hacer cualquier otra operacion sobre cualquier numero de GRIDs o archivos. </p>
+            <p>Scripts disponibles: <a href="/programs/aml/image2grid.aml">image2grid.aml</a>, <a href="/programs/aml/con2.aml">con2.aml</a>, <a href="/programs/aml/grid2bil.aml">grid2bil.aml</a>, <a href="/programs/aml/setnull.aml">setnull.aml</a>, <a href="/programs/aml/grid2bil.aml">grid2bil.aml</a>, <a href="/programs/aml/clip-all.aml">clip-all.aml</a>.</p>
+            <p class="discuss">
+				<span><!--#include virtual="/scripts/forum-comments-num.php?i=1311&lang=e"--></span>
+			</p>
+			<div class="links">
+			<h2>Ссылки по теме</h2>
+			<ul>
+               <li><a href="/qa/gimms.html">GIMMS AVHRR data (rus)</a></li>
+			   <li><a href="/qa/extract-values-grids-eng.html">Extracting data from multiple rasters using point profiles</a></li>
+			   <li><a href="/qa/zonalstats-eng.html">Calculation of zonal statistics in Arcview GIS</a></li>
+			</ul>
+			</div>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<p class="status"><span>Дата создания: 08.08.2006
+<br>Автор(ы): <a href="/forum/memberlist.php?mode=viewprofile&u=2" target="_blank">Максим Дубинин</a></span></p>
+<!--#include virtual="/inc/footer2.php" -->

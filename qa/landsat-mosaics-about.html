@@ -1,0 +1,48 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Получение данных Landsat/ETM+ 2000 года в виде мозаик</title>
+<!--#include virtual="/inc/header2.txt" -->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Вопросы и ответы</a></li>
+</ul>
+<!--Contents start-->
+<h1>Описание данных мозаик Landsat/ETM+/TM</h1>
+<p class="ann">Подробности о данных </p>
+<p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=5044"--></span></p>
+
+<p>Данные представляют собой трехканальные (используется комбинация каналов 7-4-2) мозаики из сцен <a href="/projects/ss/sat/landsat-7.html">Landsat 7</a>/<a href="/projects/ss/sensor/etmplus.html">ETM+</a>. Актуальность данных 1999 - 2002 гг., в мозаике могут использоваться сцены за разные годы. </p>
+<p>Данные GeoTIFF заархивированы RAR 3.71 и разбиты  на 4 фрагмента (верхний-левый, верхний-правый, нижний-левый, нижний-правый), данные MrSID представлены мозаиками целиком и упакованы  7z. </p>
+<p>Определить необходимую мозаику можно используя покрытие-разграфку для данных в формате shape (<a href="../data/landsat-mosaic-etm-geotiff/landsat-mosaics-etm.7z">скачать</a>).</p>
+<p>Источники данных:</p>
+<ul>
+  <li class="external"><a href="ftp://ftp.glcf.umiacs.umd.edu/glcf/Mosaic_Landsat/" target="_blank">Global Land Cover Facility</a></li>
+  <li class="external"><a href="http://glovis.usgs.gov" target="_blank">Glovis</a></li>
+</ul>
+<p>Все данные - Public Domain. </p>
+<p>Колонка MrSID дает доступ к единым мозаикам (не разбитым на четыре фрагмента), но сжатым с помощью MrSID, с определенными потерями качества. </p>
+<p> Сравнительное качество MrSID и TIFF (для просмотра полного изображения - щелкните по картинке для получения изображения в масштабе 1:15 000):</p>
+<table width="600" border="0">
+  <tr>
+    <td>GeoTIFF</td>
+    <td>MrSID</td>
+  </tr>
+  <tr>
+    <td><a href="/images/landsat-mosaics-02b.jpg" target="_blank"><img src="/images/landsat-mosaics-02.jpg" alt="MrSID" width="300" height="220" border="0"></a><a href="../images/landsat-mosaics-01b.jpg" target="_blank"></a></td>
+    <td><a href="/images/landsat-mosaics-01b.jpg" target="_blank"><img src="/images/landsat-mosaics-01.jpg" alt="GeoTIFF" width="300" height="220" border="0"></a><a href="../images/etm-sid.jpg" target="_blank"></a></td>
+  </tr>
+</table>
+<!-- обсуждение на форуме, цифра изменяется при публикации статьи -->
+<p class="discuss"><span><!--#include virtual="/scripts/forum-comments-num.php?i=5044"--></span></p>
+<!-- ссылки -->
+<div class="links">
+	<h2>Ссылки по теме</h2>
+		<ul>
+			<li></li>
+			</ul>
+</div>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<!--#include virtual="/inc/footer2.php" -->

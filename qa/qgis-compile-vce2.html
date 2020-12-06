@@ -1,0 +1,172 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Сборка QGIS используя Visual C++ Express Edition 2008 и компоненты OSGeo4W</title>
+<!--#include virtual="/inc/header2.txt" -->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Вопросы и ответы</a></li>
+</ul>
+<!--Contents start-->
+<h1>Сборка QGIS используя Visual C++ Express Edition 2008 и компоненты OSGeo4W</h1>
+<p class="ann">Как самому собрать QGIS в Windows.</p>
+<p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=3908"--></span></p>
+<p>Это руководство объясняет как собрать текущую версию QGIS (т.н. QGIS-trunk или QGIS-dev) под Windows XP Professional с помощью Microsoft Visual C 2008 Express Edition имея готовые библиотеки OSGeo4w. Статья основана на руководстве <a href="http://www.florianhillen.de/qgis-tutorial-en.html" target="_blank" class="external">Florian Hillen</a>.</p>
+            <h2>1. Microsoft Visual C++ 2008 Express Edition and Microsoft Platform SDK for  Windows Server 2003 R2</h2>
+            <p>1. Установка Microsoft  Visual C++ 2008 Express</p>
+            <p>Скачиваем веб-установщик Microsoft  Visual C++ 2008 Express: <br>
+              <a href="http://www.microsoft.com/express/download" target="_blank" class="external">http://www.microsoft.com/express/download</a></p>
+            <p>Устанавливаем все кроме MSDN и SQL Server, их устанаваливать не обязательно.</p>
+            <p>2. Установка Microsoft Platform SDK для Windows Server 2003 R2</p>
+            <p>Скачиваем веб-установщик Microsoft Platform SDK для Windows Server 2003 R2: <a href="http://www.microsoft.com/downloads/details.aspx?FamilyId=0BAF2B35-C656-4969-ACE8-" target="_blank" class="external">http://www.microsoft.com/downloads/details.aspx?FamilyId=0BAF2B35-C656-4969-ACE8-<br>
+              E4C0C0716ADB&amp;displaylang=en#filelist</a></p>
+            <p>Выберите нужный файл из:</p>
+            <ul>
+              <li>PSDK-amd64.exe</li>
+              <li> PSDK-ia64.exe</li>
+              <li> PSDK-x86.exe</li>
+            </ul>
+            <p>Установите в папку по умолчанию и выберите следующие опции:</p>
+            <pre>Configuration Options
+	+ Register Environmental Variables (Yes)
+Microsoft Windows Core SDK
+	+ Tools (Yes)
+		+ Tools (AMD 64 Bit) (No unless this applies)
+		+ Tools (Intel 64 Bit) (No unless this applies)
+	+ Build Environment
+		+ Build Environment (AMD 64 Bit) (No unless this applies)
+		+ Build Environment (Intel 64 Bit) (No unless this applies)
+		+ Build Environment (x86 32 Bit) (Yes)
+	+ Documentation (No)
+	+ Redistributable Components (Yes)
+	+ Sample Code (No)
+	+ Source Code (No)
+		+ AMD 64 Source (No)
+		+ Intel 64 Source (No)
+Microsoft Web Workshop (Yes)
+	+ Build Environment (Yes)
+	+ Documentation (No)
+	+ Sample Code (No)
+	+ Tools (No)
+Microsoft Internet Information Server (IIS) SDK (No)
+Microsoft Data Access Services (MDAC) SDK (Yes)
+	+ Tools
+		+ Tools (AMD 64 Bit) (No)
+		+ Tools (AMD 64 Bit) (No)
+		+ Tools (x86 32 Bit) (Yes)
+	+ Build Environment
+		+ Tools (AMD 64 Bit) (No)
+		+ Tools (AMD 64 Bit) (No)
+		+ Tools (x86 32 Bit) (Yes)
+	+ Documentation (No)
+	+ Sample Code (No)
+Microsodt Installer SDK (No)
+Microsoft Table PC SDK (No)
+Microsoft Windows Management Instrumentation (No)
+Microsoft DirectShow SDK (No)
+Microsoft Media Services SDK (No)
+Debuggin Tools for Windows (Yes)
+</pre>
+            <p>Более новую версию SDK - Windows SDK for Windows Server 2008 and .NET Framework 3.5, устанавливать не рекомендуется. Дальнейшее описание касается только Windows Server® 2003 R2 Platform SDK.</p>
+            <p>3. Добавим пути в настройки VCE. </p>
+            <p>Запустите Microsoft  Visual C++ Express<br>
+Установите следующие пути в Tools-&gt; Options-&gt; Projects and Solutions-&gt; VC++ Directories:</p>
+            <p align="center"><img src="/images/gdal-compile-01.gif"></p>
+            <p>&nbsp;              </p>
+            <pre><strong>Executable files</strong>
+c:\Program Files\Microsoft Platform SDK for Windows Server 2003 R2\Bin
+<strong>
+Include files</strong>
+C:\Program Files\Microsoft Platform SDK for Windows Server 2003 R2\Include
+C:\Program Files\Microsoft Platform SDK for Windows Server 2003 R2\Include\atl
+C:\Program Files\Microsoft Platform SDK for Windows Server 2003 R2\Include\mfc
+<strong>INCLUDE</strong>
+C:\Program Files\Microsoft Platform SDK for Windows Server 2003 R2\Include\.
+
+<strong>LIB</strong>
+C:\Program Files\Microsoft Platform SDK for Windows Server 2003 R2\Lib\.
+
+<strong>LIB_DIR</strong>
+C:\OSGeo4W
+
+<strong>Path</strong>
+C:\Program Files\Microsoft Platform SDK for Windows Server 2003 R2\Bin\.;C:\Program Files\Microsoft Platform SDK for Windows Server 2003 R2\Bin\WinNT\.;C:\Program Files\Microsoft Visual Studio 9.0\VC\bin;C:\Program Files\Microsoft Visual Studio 9.0\Common7\IDE;C:\Program Files\Microsoft Visual Studio 9.0\Common7\Tools;C:\OSGeo4W\bin<strong>
+Library files</strong> 
+c:\Program Files\Microsoft Platform SDK for Windows Server 2003 R2\Lib\
+
+</pre>
+            <p>Закройте Microsoft Visual C++ Express и перейдите в папку: C:\Program Files\Microsoft  Visual Studio 9.0\Common7\Tools</p>
+            <p>Отредактируйте  файл vsvars32.bar и добавьте следующие пути к строкам начинающихся с &quot;set&quot;:</p>
+            <pre>@set PATH=C:\Program Files\Microsoft Platform SDK for Windows Server 2003 R2\Bin;%PATH%
+@set INCLUDE=C:\Program Files\Microsoft Platform SDK for Windows Server 2003 R2\Include;%INCLUDE%
+@set INCLUDE=C:\Program Files\Microsoft Platform SDK for Windows Server 2003 R2\Include\mfc;%INCLUDE%
+@set LIB=C:\Program Files\Microsoft Platform SDK for Windows Server 2003 R2\Lib;%LIB%
+@set LIB=%LIB%;C:\OSGeo4W\lib </pre>
+            <h2>2. Ключевые зависимости </h2>
+            <p>Теперь нужно позаботиться обо всех зависимостях QGIS. К счастью, облегчить их установку может пакет OSGeo4W. Его необходимо установить. <a href="/qa/qgis-osgeo4w.html">Подробное описание установки</a>. </p>
+            <p>Проще всего получить необходимы пакеты так:</p>
+<ol>
+	<li>В группе Desktop отмечаем пакет qgis-dev</li>
+	<li>Дополнительно, в группе Libs выбираем пакеты:<br>
+	  <br>
+	  <pre>
+fftw-devel, gdal16-python, grass-devel-vc, gsl-devel, libjpeg-devel, libpng-devel, libpng-devel-vc, llibtiff-devel, qt4-devel, zlib-devel
+      </pre>
+</li>
+    </ol>
+	    <p>Это минимальный набор. При необходимости можно добавить и другие пакеты. Установка всех пакетов займет некоторое время.</p>
+            <p>Далее, необходимо загрузить Flex и Bison:</p>
+            <p>Flex: <a href="http://gnuwin32.sourceforge.net/downlinks/flex.php" target="_blank" class="external">http://gnuwin32.sourceforge.net/downlinks/flex.php</a><br>
+              Bison: <a href="http://gnuwin32.sourceforge.net/downlinks/bison.php" target="_blank" class="external">http://gnuwin32.sourceforge.net/downlinks/bison.php</a></p>
+            <p>Их следует установить в папку  C:\OSGeo4W.</p>
+            <p>Теперь нужно добавить путь к Python в переменные среды. Для этого нажмите правой кнопкой мыши на <em>My Computer</em>. Выберите <em>Advanced</em> и <em>Environment  variables</em>. Создайте новую переменную PYTHONHOME и присвойте ей значение С:\OSGeo4W\apps\Python25.</p>
+             <h2>3. Настройка Microsoft Visual C++  Express</h2>
+            <p>Откройте Microsoft  Visual C++ Express, выберите <em>Tools-&gt; Options-&gt; Projects and Solutions-&gt;  VC Directories </em>и добавьте следующие настройки:            </p>
+            <pre><strong>Executables</strong>:
+C:\OSGeo4W\bin
+
+<strong>Includes</strong>:
+C:\OSGeo4W\include
+C:\OSGeo4W\include\qt4
+C:\OSGeo4W\include\qt4\Qt
+C:\OSGeo4W\include\qt4\QtCore
+C:\OSGeo4W\include\qt4\QtGui
+C:\OSGeo4W\include\qt4\QtNetwork
+C:\OSGeo4W\include\qt4\QtSvg
+C:\OSGeo4W\include\qt4\QtXml
+C:\OSGeo4W\include\qt4\QtWebKit
+C:\OSGeo4W\include\qt4\Qt3Support
+
+<strong>Libraries</strong>:
+C:\OSGeo4W\lib</pre>
+            <h2>4. CMake &amp; SVN</h2>
+            <p>Загрузите и установите CMake  2.6.4:</p>
+            <p><a href="http://www.cmake.org/files/v2.6/cmake-2.6.4-win32-x86.exe" target="_blank" class="external">http://www.cmake.org/files/v2.6/cmake-2.6.4-win32-x86.exe</a></p>
+            <p>Загрузите и установите клиент для Subversion :</p>
+            <p><a href="http://subversion.tigris.org/downloads/1.4.5-win32/apache-2.2/svn-win32-1.4.5.zip" target="_blank" class="external">http://subversion.tigris.org/downloads/1.4.5-win32/apache-2.2/svn-win32-1.4.5.zip</a></p>
+            <p>Добавьте обе папки к переменной PATH.</p>
+            <h2>5. Получение кода Quantum GIS</h2>
+            <p>Создайте папку, в которой будет собираться QGIS. </p>
+            <p>Выполните <em>Start-&gt;  Run</em> и введите <em>cmd</em>, после чего, перейдите в созданную папку и получите исходный код QGIS с помощью следующей команды: </p>
+            <pre>svn co https://svn.osgeo.org/qgis/trunk/qgis</pre>
+            <h2>6. Сборка и установка </h2>
+	    <p>Для сборки используем <a href="/other/build-qgis.7z">командный файл</a>.
+	    <p>Сохраняем его под каким-нибудь именем, например build-qgis.bat, в папку, где лежат
+исходные коды QGIS. Запускаем этот файл на выполнение.
+	    
+	    <p>После того, как bat-файл завершит работу, откройте MSVC и выберите <em>File-&gt; Open-&gt; Project/solution</em>, найдите в папке build созданный файл &quot;qgisX.X.X.sln&quot; (имя зависит от текущей версии).</p>
+            <p>На панели MSVC, измените &quot;debug&quot; на &quot;release&quot;. В списке слева, щелкните правой кнопкой на &quot;ALL_BUILD&quot; и выберите <em>Build</em>. </p>
+            <p>Если компиляция завершена без ошибок, щелкните правой кнопкой на &quot;Install” и выберите “Build” (по умолчанию QGIS будет установлен в C:\OSGeo4W\apps\gis-svn).</p>
+	    <p>Если убрать комментарии с двух последних строк в файле - компиляция и установка будут проходить автоматически, запускать VisualStudio не надо.</p>
+            <p>Можно начинать работу.</p>
+            <p class="discuss"><span><!--#include virtual="/scripts/forum-comments-num.php?i=3908"--></span></p>
+            <div class="links">
+				<h2>Ссылки по теме</h2>
+					<ul>
+						<li><a href="/qa/gdal-compile.html">Сборка GDAL используя Visual C++ Express Edition 2008</a></li>
+					  </ul>
+			</div>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<!--#include virtual="/inc/footer2.php" -->

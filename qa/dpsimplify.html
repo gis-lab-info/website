@@ -1,0 +1,57 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Упрощение линейных объектов с помощью DPSimplify для QGIS</title>
+<!--#include virtual="/inc/header2.txt" -->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Вопросы и ответы</a></li>
+</ul>
+<!--Contents start-->
+<h1>Упрощение линейных объектов с помощью DPSimplify для QGIS</h1>
+<p class="ann">Уменьшение количества узлов линий</p>
+<p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=4974"--></span></p>
+
+<p>Инструмент для уменьшения количества точек в линейных слоях по <a href="http://en.wikipedia.org/wiki/Ramer-Douglas-Peucker_algorithm" target="_blank" class="external">алгоритму Дугласа-Пойкера</a> (Douglas-Peuker), с настраиваемым уровнем детализации.</p>
+<p><strong>Оглавление</strong></p>
+<ol>
+	  <li><a href="#01">Замечания по установке</a></li>
+	  <li><a href="#02">Работа с расширением</a></li>
+	  <li><a href="#03">Контакты</a></li>
+</ol>
+
+<!-- Первый раздел -->
+<h2><strong><a name="01" id="01"></a></strong>1. Замечания по установке</h2>
+<p>Расширение доступно из <a href="/programs/qgis/qgis-repo.xml">репозитория ГИС-Лаб</a>.</p>
+<p>DPSimplify разработан для QGIS версии 1.0.0 и старше, для работы не требует наличия дополнительных модулей.</p>
+
+<!-- Второй раздел -->
+<h2><strong><a name="02" id="02"></a></strong>2. Работа с расширением</h2>
+<p>После подключения и запуска расширения с помощью кнопки <img src="/images/dpsimplify-01.png" alt="Кнопка расширения" width="32" height="32"></img> появится окно:
+
+<p><img src="/images/dpsimplify-02.png" alt="Окно плагина" width="412" height="258"></img></p>
+<p>Исходный слой выбирается из выпадающего списка. Можно обрабатывать весь слой или только выделенные объекты. Если установлен флаг
+"Save to shapefile"&nbsp;&mdash; результат упрощения будет записан в указанный файл, в противном случае будут изменены объекты исходного слоя.
+При работе со слоем есть возможность отменить операцию упрощения, но следует иметь в виду, что отмена производится для всех объектов.
+Порог упрощения задается в единицах карты (метры или градусы).</p>
+<p>По окончанию процесса появляется окно с информацией о количестве узлов в рабочем наборе до и после упрощения. Если результат не
+устраивает, то можно, не закрывая окно расширения, выполнить откат, задать другое значение порога и запустить обработку заново.</p>
+<p>Пример упрощения с помощью DPSimplify (зеленая линия с красными узлами - исходная, синяя - конечная, порог 500 м)</p>
+<p><img src="/images/dpsimplify-03.gif" alt="Окно плагина" width="301" height="206"> </p>
+<h2><strong><a name="contacts" id="contacts"></a></strong>3. Контакты</h2>
+<p>Если вы нашли ошибку, у вас есть предложения по улучшению плагина или просто вопросы по использованию - напишите <a href="mailto:alexander.bruy@gmail.com">разработчикам</a> (еще <a href="/contacts.html">контакты</a>).</p>
+<!-- обсуждение на форуме, цифра изменяется при публикации статьи -->   
+<p class="discuss"><span><!--#include virtual="/scripts/forum-comments-num.php?i=4974"--></span></p>
+<!-- ссылки -->
+<div class="links">
+	<h2>Ссылки по теме</h2>
+		<ul>
+			<li></li>
+		</ul>
+</div>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<p class="status"><span>Дата создания: 27.03.2010
+<br>Автор(ы): <a href="/forum/memberlist.php?mode=viewprofile&u=5325" target="_blank">Александр Бруй</a></span></p>
+<!--#include virtual="/inc/footer2.php" -->

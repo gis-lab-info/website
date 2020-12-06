@@ -1,0 +1,116 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Сборка GDAL используя Visual C++ Express Edition 2008</title>
+<!--#include virtual="/inc/header2.txt" -->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Вопросы и ответы</a></li>
+</ul>
+<!--Contents start-->
+<h1>Сборка GDAL используя Visual C++ Express Edition 2008</h1>
+<p class="ann">Как собрать GDAL самому в Windows.</p>
+<p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=3768"--></span></p>
+            <p>При написании этой статьи были использованы рекомендации со страницы <a href="http://trac.osgeo.org/gdal/wiki/FAQInstallationAndBuilding#CanIbuildGDALwithMSVisualC2008ExpressEdition" target="_blank" class="external">компиляции GDAL</a> (с официального <a href="http://trac.osgeo.org/gdal">сайта GDAL</a>). </p>
+            <p>1. Скачиваем <a href="http://www.microsoft.com/express/download/" target="_blank" class="external">Visual C++ 9.0 Express Edition</a></p>
+            <p>Устанавливаем в папку: C:\Program Files\Microsoft Visual Studio 9.0\VC\</p>
+            <p>2. Скачиваем и устанавливаем Windows SDK </p>
+            <p>Установка в папку: c:\Program Files\Microsoft Platform SDK for Windows Server 2003 R2\</p>
+            <p>              Веб-инсталлятор <a href="http://www.microsoft.com/downloads/details.aspx?FamilyId=0BAF2B35-C656-4969-ACE8-E4C0C0716ADB&displaylang=en" target="_blank" class="external">SDK</a> <br>
+              Полная версия (ISO, <a href="http://www.microsoft.com/downloads/details.aspx?FamilyId=E15438AC-60BE-41BD-AA14-7F1E0F19CA0D&displaylang=en" target="_blank" class="external">409 Mb</a>)</p>
+            <p>Более новую версию SDK - Windows SDK for Windows Server 2008 and .NET Framework 3.5, устанавливать не рекомендуется. Дальнейшее описание касается только Windows Server® 2003 R2 Platform SDK</p>
+            <p>3. Добавим пути в настройки VCE. </p>
+            <p>Tools\Options\Projects and Solutions\VC++ Directories</p>
+            <p>Executable files:<br>
+              c:\Program Files\Microsoft Platform SDK for Windows Server 2003 R2\Bin</p>
+            <p align="center"><img src="/images/gdal-compile-01.gif"></p>
+            <p>              Include files: <br>
+              c:\Program Files\Microsoft Platform SDK for Windows Server 2003 R2\Include <br>
+              c:\Program Files\Microsoft Platform SDK for Windows Server 2003 R2\Include\atl<br>
+            c:\Program Files\Microsoft Platform SDK for Windows Server 2003 R2\Include\mfc</p>
+            <p>Library files: <br>
+              c:\Program Files\Microsoft Platform SDK for Windows Server 2003 R2\Lib\</p>
+            <p>4. Скачайте исходный код GDAL версии 1.6.1<br>
+              <a href="http://download.osgeo.org/gdal/gdal161.zip" target="_blank" class="external">http://download.osgeo.org/gdal/gdal161.zip</a></p>
+            <p>или более свежий выпуск<br>
+              <a href="http://trac.osgeo.org/gdal/wiki/DownloadSource" target="_blank" class="external">http://trac.osgeo.org/gdal/wiki/DownloadSource</a></p>
+            <p>распакуйте его. </p>
+            <p>5. Найдите файл <strong>makegdal80.vcproj</strong> в каталоге куда был скачан и распакован исходный код.            </p>
+            <p>6. Откройте этот файл в среде VCE (<em>File\Open\Project/Solution</em>), появится сообщение о том, что файл создан в предыдущей версии VC, нужно импортировать его в текущую. </p>
+            <p>7. После импорта проекта, попробуйте щелкнуть правой кнопкой мыши на название проекта makegdal и выберите: <em>Build</em></p>
+            <p> Если появится следующая ошибка, перейдите к пункту 8.  </p>
+            <pre>1&gt;------ Build started: Project: makegdal, Configuration: Debug Win32 ------
+1&gt;Performing Makefile project actions
+1&gt;Project : error PRJ0003 : Error spawning 'cmd.exe'.
+1&gt;Build log was saved at &quot;file://c:\temp\gdal-compile\gdal-1.5.1\Debug\BuildLog.htm&quot;
+1&gt;makegdal - 1 error(s), 0 warning(s)
+========== Build: 0 succeeded, 1 failed, 0 up-to-date, 0 skipped ==========</pre>
+            </p>
+            <p>Если ошибка такая, к пункту 9:</p>
+            <pre>1&gt;LINK : fatal error LNK1104: cannot open file 'atlthunk.lib'
+1&gt;NMAKE : fatal error U1077: 'link' : return code '0x450'
+1&gt;Stop.
+1&gt;Project : error PRJ0019: A tool returned an error code from &quot;Performing Makefile project actions&quot;
+1&gt;Build log was saved at &quot;file://c:\temp\gdal-compile\gdal-1.5.3\Debug\BuildLog.htm&quot;
+1&gt;makegdal - 3 error(s), 1 warning(s)
+========== Build: 0 succeeded, 1 failed, 0 up-to-date, 0 skipped ========== </pre>
+            <p>8. Откройте VCE, <em>Tools\Options\Projects and Solutions\VC++ Directories</em></p>
+            <p> Убедитесь, что одно из значений для Executable Files указывает на папку Windows\System32, если оно не указывается, необходимо его добавить.</p>
+            <p align="center"><img src="/images/gdal-compile-02.gif" width="644" height="375"></p>
+            <p>9. Отредактируйте <strong>atlwin.h</strong> (c:\Program Files\Microsoft Platform SDK for Windows Server 2003 R2\Include\atl\atlwin.h)</p>
+            <p> Строка 1725<br>
+              добавить int i; после<br>
+              </p>
+<pre>BOOL SetChainEntry(DWORD dwChainID, CMessageMap* pObject, DWORD dwMsgMapID = 0)
+{
+// first search for an existing entry</pre>
+            <p>Должно получиться:
+            <pre>BOOL SetChainEntry(DWORD dwChainID, CMessageMap* pObject, DWORD dwMsgMapID = 0)
+{
+int i;
+// first search for an existing entry
+</pre>
+            <p>10. Отредактируйте atlbase.h (c:\Program Files\Microsoft Platform SDK for Windows Server 2003 R2\Include\atl\atlbase.h)</p>
+            <p> Закомментируйте строки 287-293
+            <pre>//PVOID __stdcall __AllocStdCallThunk(VOID);
+//VOID __stdcall __FreeStdCallThunk(PVOID);
+
+
+//#define AllocStdCallThunk() __AllocStdCallThunk()
+//#define FreeStdCallThunk(p) __FreeStdCallThunk(p)
+
+//#pragma comment(lib, &quot;atlthunk.lib&quot;)</pre>
+            <p>Добавьте новый макрос сразу после закоментированных строк:</p>
+            <pre>/* NEW MACROS */<br>
+#define AllocStdCallThunk() HeapAlloc(GetProcessHeap(),0,sizeof(_stdcallthunk))<br>
+#define FreeStdCallThunk(p) HeapFree(GetProcessHeap(), 0, p)</pre>
+            <p>11. Снова запустите процесс компиляции (<em>Build</em>)<br>
+              Операция должна выполниться успешно, с примерно следующим выводом:</p>
+            <pre>c:\DevTools\gdal\gdal-1.6.1\ogr\ogrsf_frmts>copy pgeo\drv_*.html "C:\warmerda\bld"\html
+pgeo\drv_pgeo.html
+Скопировано файлов:         1.
+ cd ..\..
+Build log was saved at "file://c:\DevTools\gdal\gdal-1.6.1\Debug\BuildLog.htm"
+makegdal - 0 error(s), 3125 warning(s)
+========== Build: 1 succeeded, 0 failed, 0 up-to-date, 0 skipped ==========</pre>
+            <p>12. Для выполнения, необходимо переместить gdal16.dll из корневой папки проекта с исходным кодом GDAL в папку apps, в которой после компиляции должны были появиться исполняемые файлы.</p>
+            <p>13. Проверить инструменты можно запустив и папки apps один из них, например так:</p>
+            <pre>gdalinfo --version</pre>
+            <p class="discuss">
+		   <span><!--#include virtual="/scripts/forum-comments-num.php?i=3768"--></span>
+		</p>
+            <div class="links">
+				<h2>Ссылки по теме</h2>
+					<ul>
+						<li><a href="http://trac.osgeo.org/gdal/wiki/FAQInstallationAndBuilding#CanIbuildGDALwithMSVisualC2008ExpressEdition" target="_blank" class="external">Can I build GDAL with MS Visual C++ 2008 Express Edition?</a></li>
+						<li><a href="/qa/qgis-compile-vce.html">Сборка QGIS используя Visual C++ Express Edition 2008 и компоненты OSGeo4W</a></li>
+						<li><a href="gdal-sphere.html">Использование GDAL для перепроектировки данных на базе эллипсоида на сферу</a></li>
+						<li><a href="georef-gdal.html">Использование GDAL для привязки растровых материалов</a></li>
+					</ul>
+			</div>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<p class="status"><span>Дата создания: 23.08.2009
+<br>Автор(ы): <a href="/forum/memberlist.php?mode=viewprofile&u=2" target="_blank">Максим Дубинин</a></span></p>
+<!--#include virtual="/inc/footer2.php" -->

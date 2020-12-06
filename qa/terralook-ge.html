@@ -1,0 +1,97 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Импорт данных дистанционного зондирования в Google Earth на примере ASTER (Terralook)</title>
+<!--#include virtual="/inc/header2.txt" -->
+<!--Contents start-->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Вопросы и ответы</a></li>
+</ul>
+<h1>Импорт данных дистанционного зондирования в Google Earth на примере ASTER (Terralook)</h1>
+<p class="ann">Еще одна утилита, позволяющая удобно загружать данные ASTER (Terralook) и другие растровые данные в Google Earth</p>
+<p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=1748"--></span></p>
+<p>Система Google Earth дает возможность пользователю загружать  дополнительные космические снимки для сравнения их с архивными данными (базовое покрытие Google Earth) и отмечать на снимках объекты или измененные территории.</p>
+            <p>Проиллюстрируем операцию загрузки растрового изображения в Google Earth на примере сцены <a href="terralook.html">ASTER из коллекции Terralook</a>. Необходимо отметить, что данный подход можно использовать для загрузки практически любых растровых материалов. Для визуализации снимка в Google Earth для него необходимо создать файл *.kml с указанием имени растрового файла и координатами углов. Пример файла *.kml для визуализации снимка ASTER в Google Earth:</p>
+            <tcode>&lt;?xml version=&quot;1.0&quot;  encoding=&quot;UTF-8&quot;?&gt;<br />
+  &lt;kml  xmlns=&quot;http://earth.google.com/kml/2.1&quot;&gt;<br />
+  &lt;GroundOverlay&gt;<br />
+  &lt;name&gt;20070716_075356&lt;/name&gt;<br />
+  &lt;Icon&gt;<br />
+  &lt;href&gt;images/AST_L1B_00310142005075842_20071023213053_12088.jpg&lt;/href&gt;<br />
+  &lt;/Icon&gt;<br />
+  &lt;LatLonBox&gt;<br />
+  &lt;north&gt;47.056636&lt;/north&gt;<br />
+  &lt;south&gt;46.356526&lt;/south&gt;<br />
+  &lt;east&gt;47.798156&lt;/east&gt;<br />
+  &lt;west&gt;46.664583&lt;/west&gt;<br />
+  &lt;/LatLonBox&gt;<br />
+  &lt;/GroundOverlay&gt;<br />
+  &lt;/kml&gt;</tcode>
+            <p>Координаты углов Вы можете найти в файле *.txt в папке images. Имя у снимка и соотвествующего текстового файла одинаковые. Вам необходимо использовать набор координат Full Image. Координаты приведены в формате Y X.</p>
+            <p><strong>Пакетное создание файлов kml</strong></p>
+            <p>Для создания файлов *.kml для набора снимков ASTER можно использовать прилагаемый скрипт на языке PERL (<a href="/programs/perl/generate_kml.txt">generate_kml.pl</a>). Для создания файлов  достаточно скопировать скрипт в папку распакованной коллекции и запустить. О создании и запуске скриптов perl можно прочитать в <a href="perl.html">специальной статье</a>. При формировании имени выходного файла скрипт использует дату и время исходного снимка. Имя выходного файла будет иметь формат: ГГГГММЧЧ_ЧЧММСС.</p>
+            <tcode>#!/usr/local/bin/perl<br />
+                  @dir=readpipe(&quot;dir images\\*.jpg /O:N /B&quot;); <br />
+                  $files=@dir;<br />
+                  for($inc=0;$inc&lt;$files;++$inc) <br />
+                    { <br />
+                    $line = @dir[$inc]; <br />
+                    chomp($line);<br />
+                  ($name,$ext)=split('\.',$line); <br />
+                  if ($ext eq &quot;jpg&quot;)<br />
+                  { <br />
+                  $line =~ s/.jpg//; <br />
+                  (@temp)=split('\_',$line); <br />
+                  $year=substr @temp[2],7,4; <br />
+                  $date=substr @temp[2],3,4; <br />
+                  $time=substr @temp[2],11,6; <br />
+                  $newname=$year.$date.&quot;\_&quot;.$time;<br />
+                  open (TEXT, &quot;images\\$line.txt&quot;); <br />
+                  @text=&lt;TEXT&gt;; <br />
+                  $linet=@text[5]; <br />
+                  chomp($linet); <br />
+                  (@linet)=split('\ ',$linet);<br />
+                  $north=@linet[3];<br />
+                  $west=@linet[4];<br />
+                  $east=@linet[8];<br />
+                  $linet=@text[6]; <br />
+                  chomp($linet); <br />
+                  (@linet)=split('\ ',$linet); <br />
+                  $south=@linet[3];<br />
+                  close (TEXT);<br />
+                  open (OUT, &quot;&gt;$newname.kml&quot;); <br />
+                  print OUT&quot;&lt;?xml version=\&quot;1.0\&quot; encoding=\&quot;UTF-8\&quot;?&gt; <br />
+                  &lt;kml xmlns=\&quot;http://earth.google.com/kml/2.1\&quot;&gt;<br />
+                  &lt;GroundOverlay&gt;<br />
+                  &lt;name&gt;$newname&lt;/name&gt; <br />
+                  &lt;Icon&gt;<br />
+                   &lt;href&gt;images/$line.jpg&lt;/href&gt; <br />
+                  &lt;/Icon&gt; <br />
+                  &lt;LatLonBox&gt; <br />
+                  &lt;north&gt;$north&lt;/north&gt;<br />
+                   &lt;south&gt;$south&lt;/south&gt;<br />
+                   &lt;east&gt;$east&lt;/east&gt;<br />
+                   &lt;west&gt;$west&lt;/west&gt; <br />
+                  &lt;/LatLonBox&gt;<br />
+                   &lt;/GroundOverlay&gt;<br />
+                   &lt;/kml&gt;\n&quot;;<br />
+                  close (OUT);<br />
+                  } <br />
+                  }</tcode>
+			<p class="discuss">
+				<span><!--#include virtual="/scripts/forum-comments-num.php?i=1748"--></span>
+			</p>
+			<div class="links">
+			<h2>Ссылки по теме</h2>
+			<ul>
+               <li><a href="gdal-sphere.html">Использование GDAL для перепроектировки данных на базе эллипсоида на сферу</a></li>
+			   <li><a href="terralook.html">TerraLook: бесплатные космические снимки ASTER,TM,ETM+</a></li>
+			</ul>
+			</div>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<p class="status"><span>Дата создания: 06.11.2007
+<br>Автор(ы): Пётр Потапов</span></p>
+<!--#include virtual="/inc/footer2.php" -->

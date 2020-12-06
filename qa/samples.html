@@ -1,0 +1,148 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Примеры данных</title>
+<!--#include virtual="/inc/header2.txt" -->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Вопросы и ответы</a></li>
+</ul>
+<!--Contents start-->
+<h1>Примеры данных</h1>
+<p class="ann">Коллекция данных </p>
+            <p>Примеры данных в различных форматах, формах, для тестов и экспериментов.</p>
+            <p>Эта страница - результат коллективного сбора информации, над сбором ссылок работало много людей, которых можно найти в форуме. Если вам известны ссылки, отсутствующие в этом списке или вы можете что-то обновить, пожалуйста, сообщайте по почте или в форум.</p>
+            <h3>Привязанные фотографии </h3>
+            <p><a href="/data/samples/photos-georef-exif-jpg.7z">Пример 1</a> - несколько привязанных фотографий с координатами в EXIF + shape-файл с соответствующими точками. </p>
+            <h3>CellPlaner</h3>
+            <ul>
+              <li><a href="/data/samples/cellplaner_mrr_mrv_ni.zip">Пример 1</a> - elevation1.mrr (слой рельефа), landuse1.mrr (кластерный слой), obstacle1.mrr (слой зданий с высотами), vector1.mrv (векторный слой). Казахстан + скриншоты.</li>
+            </ul>
+            <h3>OSM XML</h3>
+            <ul>
+              <li><a href="/data/samples/kirov-osmosis-2vars.7z">Пример 1</a> - Кировская область, обрезка Osmosis, fullcut - полная обрезка, completeways - обрезка с продолжением линий, пересекаемых границей обрезки. </li>
+            </ul>
+            <h3><strong>SQLite/SpatiaLite</strong></h3>
+            <ul>
+              <li><a href="/data/samples/sqlite-spatialite.zip">Пример 1</a> - города Украины (источник: Voltron)</li>
+            </ul>
+            <h3><strong>Shape-файлы</strong></h3>
+            <p>Скачать:</p>
+            <ul>
+              <li><a href="/data/samples/shapefile-z.7z">Пример 1</a> - POINTZ, LINEZ, POLYGONZ</li>
+              <li><a href="/data/samples/points-100-elev.zip">Пример 2</a> - Точки (100 шт.), поле ELEV - высота, сгенерированы случайно,  можно использовать для тестирования алгоритмов интерполяции (источник: SRMT30). </li>
+              <li><a href="../data/samples/adjacent-unclean-polygons.7z">Пример 3</a> - Пример полигонов с неправильной топологией</li>
+              <li><a href="../data/samples/adjacent-unclean-polygons-dissolve-arcview.7z">Пример 4 </a> - Пример полигонов с неправильной топологией после DISSOLVE в Arcview</li>
+              <li><a href="../data/samples/adjacent-unclean-polygons-dissolve-qgis.7z">Пример 5 </a> - Пример полигонов с неправильной топологией после DISSOLVE в QGIS </li>
+            </ul>
+            <h3><strong>Метаданные Glovis</strong></h3>
+            <p>Источник: http://glovis.usgs.gov </p>
+            <p>Скачать:</p>
+            <ul>
+              <li><a href="/data/samples/glovis-tocs-l7-download-links.7z">Пример 1</a> - список ссылок для загрузки файлов содержания - TOC для L7 </li>
+              <li><a href="/data/samples/glovis-tocs.7z">Пример 2 </a> - файлы содержания - TOC (1000 файлов) для L7 </li>
+              <li><a href="/data/samples/glovis-tocs-l7.7z">Пример 3 </a> - список ссылок для загрузки метаданных Glovis</li>
+              <li><a href="/data/samples/glovis-meta-l7.7z">Пример 4</a> - метаданные Landsat 7 SLC-OFF (1000 файлов)</li>
+              <li><a href="/data/samples/glovis-meta-l5-old.7z">Пример 5 </a> - метаданные Landsat 5, старые (5 файлов)</li>
+              <li><a href="/data/samples/glovis-meta-l5.7z">Пример 6 </a> - метаданные Landsat 5, текущие (1000 файлов) </li>
+            </ul>
+            <h3><strong>Сырой поток данных HRPT/AVHRR принятый любительским радио</strong></h3>
+            <ul>
+              <li><a href="/data/samples/hrpt01.7z">Пример 1</a> - Источник: meteosputnik.ru</li>
+            </ul>
+            <h3>Границы субъекта РФ, Росреестр </h3>
+            <ul>
+              <li><a href="/data/samples/hrpt01.7z">Пример 1</a> - Лист О93-1 (M-38-127), формат JPG. Источник: <a href="http://www.rosreestr.ru/cadastre/ground_cadastre/border/" target="_blank" class="external">сайт Росреестра</a> . Может использоваться для тестирования привязки, в том числе привязки к номенклатурной сетке. </li>
+            </ul>
+            <h3>DXF/DWG</h3>
+            <ul>
+              <li><a href="/data/samples/dxf-dwg-bad-brazil.7z">Пример 1</a> - город в Бразилии</li>
+            </ul>
+            <h3>TIF</h3>
+            <ul>
+              <li><a href="/data/samples/georef-test-topomap.tif">Пример 1</a> - Лист карты. Может использоваться для тестирования привязки, в том числе привязки к номенклатурной сетке или привязке по углам. Используется для примера в <a href="/qa/georef-qgis.html">этой статье</a>. </li>
+            </ul>
+            <h3>ASCII RASTER </h3>
+            <ul>
+              <li><a href="/data/samples/ascii-raster-ndvi-a2005129.7z">Пример 1</a> - MODIS NDVI 2005129</li>
+            </ul>
+            <h3>GBIF</h3>
+            <ul>
+              <li><a href="/data/samples/gbif-ovibos-kml.7z">Пример 1</a> - Овцебык, KML </li>
+            </ul>
+            <h3>ESRI GRID</h3>
+            <ul>
+              <li><a href="/data/samples/classification-170028-4class-grid.zip">Пример 1</a> - Классификация Landsat WRS2: 170028, 4 класса, Integer </li>
+              <li><a href="/data/samples/float-grid.7z">Пример 2</a> - Вероятности расчитанные Maxent, floating, значения от 0 до 1</li>
+            </ul>
+            <h3>Рубки</h3>
+            <ul>
+              <li><a href="/data/samples/clearcuts_174016_20101018_clip.7z">Пример 1</a> - Рубки, снимок после, 174016_20101018</li>
+              <li><a href="/data/samples/clearcuts_174016_20101018_clip_train.7z">Пример 2 </a> - Рубки, снимок после, 174016_20101018, треннировочные данные</li>
+              <li><a href="/data/samples/clearcuts_changedetection_dvina.7z">Пример 3 </a> - Рубки, снимки до и после, Двинско-Пинежский массив</li>
+            </ul>
+            <h3><strong>MOD14</strong></h3>
+            <p>Точечные данные о пожарах, продукт MODIS.</p>
+            <p>Скачать: </p>
+            <ul>
+              <li><a href="/data/samples/mod14-1scene.7z">Пример 1</a> - одна сцена 20.07.2007 на Каспийский регион, 0.5 Mb. Таблицы lat/long не пустые, есть примеры пожаров.</li>
+              <li><a href="/data/samples/mod14-global-1day.7z">Пример 2</a> - глобальное покрытие за 1 день, 19.07.2007, 48 Mb</li>
+            </ul>
+            <h3>AVHRR</h3>
+            <p>Данные AVHRR в GeoTIFF</p>
+            <ul>
+              <li><a href="/data/samples/avhrr-15bands-georef.7z">Пример 1</a> - Калмыкия, 2000г, сцена до, сцена после, разности, итого 15 каналов.</li>
+              <li><a href="../data/samples/avhrr-l1b-class-NSS.LHRR.NL.D02142.S1033.E1044.B0857676.7z">Пример 2</a> - AVHRR L1B оригинал из архива CLASS (NSS.LHRR.NL.D02142.S1033.E1044.B0857676) </li>
+            </ul>
+            <h3>ASTER</h3>
+            <p>Данные ASTER L1A/TERRA</p>
+            <ul>
+              <li><a href="/data/samples/aster-l1a-moscow-hdf.zip">Пример 1</a> - Московская область, HDF, источник: USGS</li>
+            </ul>
+            <h3>ALI/EO-1</h3>
+            <p>Данные ALI </p>
+            <ul>
+              <li><a href="/data/samples/ali-source-glcf.7z">Пример 1</a> - атолл, GeoTIFF, поканально, источник: GLCF</li>
+            </ul>
+            <h3>CORONA</h3>
+            <ul>
+              <li><a href="/data/samples/corona-sample-aft.7z">Пример 1</a> - оригинал купленный в USGS, aft-камера</li>
+              <li><a href="/data/samples/corona-sample-cartographic.7z">Пример 2 </a> - оригинал купленный в USGS, cartographic-камера</li>
+            </ul>
+            <h3>Landsat 7</h3>
+            <ul>
+              <li><a href="/data/samples/landsat-layer-stack-test.7z">Пример 1</a> - фрагмент сцены 170/28, поканально, для тестирование layer stack</li>
+              <li><a href="/data/samples/landsat-mosaic-test.7z">Пример 2 </a> - фрагмент сцены 170/28, 4 канал, два соседних перекрывающихся участка, для тестирования мозаицирования</li>
+              <li><a href="/data/samples/landsat-mosaic-test-overlap.7z">Пример 3 </a> - фрагмент сцены 170/28, 4 и 5 канал, два соседних перекрывающихся участка с разными охватами, для тестирования мозаицирования и layer stack.</li>
+              <li><a href="/data/samples/landsat-noprj-test.7z">Пример 4 </a> - фрагмент сцены, 4 канал, 1 участок, очищена информация о проекции в тэгах GeoTIFF.</li>
+              <li><a href="/data/samples/landsat-6bands-subset.7z">Пример 5</a> - фрагмент сцены 170/28, 6 канальный композит, IMG+RRD.</li>
+              <li><a href="/data/samples/l7_142-021_1999-187.7z">Пример 6</a> - полная сцена 142/21, 6 канальный композит, IMG, странные блоки (GDAL): Block=8841x1.</li>
+              <li><a href="/data/samples/170028-2007-05-21.7z">Пример 7</a> - полная сцена 170/28, 6 канальный композит, TIF, Albers, Калмыкия.</li>
+              <li><a href="/data/samples/lt51700282007141mor00.7z">Пример 8 </a> - полная сцена 170/28, 7 каналов поотдельности, TIF, UTM zone 38, Калмыкия, оригинал с Glovis </li>
+            </ul>
+            <h3>SRTM30</h3>
+            <ul>
+              <li><a href="/data/samples/srtm30-relief.7z">Пример 1 </a>- фрагмент данных (Республика Алтай), для тестирования создания изолиний</li>
+            </ul>
+            <h3>Монитор-Э</h3>
+            <ul>
+              <li><a href="/data/samples/monitor-e_krasnodar-nevin.7z">Пример 1</a> - Данные PSA и RDSA в GeoTIFF, Краснодар, Невинномыск</li>
+              <li><a href="/data/samples/monitor-e_1a_iran_rdsa_k1.7z">Пример 2 </a> - Данные PSA и RDSA в GeoTIFF, Иран</li>
+              <li><a href="/data/samples/monitor-e_1a_iran_rdsa_k2.7z">Пример 3 </a> - Данные PSA и RDSA в GeoTIFF, Иран</li>
+            </ul>
+            <!--Contents end-->
+        <p class="discuss">
+		   <span><!--#include virtual="/scripts/forum-comments-num.php?i=852"--></span>
+		</p>
+            <div class="links">
+				<h2>Ссылки по теме</h2>
+					<ul>
+						<li><a href="/qa/geosample.html">Geosample: Открытый набор геоданных для различного ПО ГИС</a></li>
+					  </ul>
+			</div>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<p class="status"><span>Дата создания: 30.07.2010
+<br>Автор(ы): <a href="/forum/memberlist.php?mode=viewprofile&u=2" target="_blank">Максим Дубинин</a></span></p>
+<!--#include virtual="/inc/footer2.php" -->

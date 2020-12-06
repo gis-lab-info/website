@@ -1,0 +1,71 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Whole-Canada TFW-files for Toporama maps</title>
+<!--#include virtual="/inc/header2.txt" -->
+<!--Contents start-->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Вопросы и ответы</a></li>
+</ul>
+<h1>Georeferencing Canada's Toporama maps</h1>
+<p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=4064"--></span></p>
+            <p> Canadians may be proud with their <b>Toporama</b> (<a href="http://toporama.cits.nrcan.gc.ca">http://toporama.cits.nrcan.gc.ca</a>)
+              maps. Whole country is covered with rather high quality maps. Maps
+              are available at scales 1:250'000 and 1:50'000. And they are completely
+              free. One thing that is confusing why nobody has made them usable
+              with GIS?</p>
+            <p>Here are ESRI World files that can be used with any map downloaded
+              from <b>Toporama</b>ю</p>
+            <p>Download the map, convert it to something
+              acceptable by Arcview\Arcinfo software like TIF, JPG (default
+              GIF files are not supported) with any graphics software and put
+              corresponding TFW file in the same directory. After loading it as
+              a theme to Arcview you know get fully georeferenced map. </p>
+            <p><b>Download
+              World files, Coordinate sytem: NAD83 </b> </p>
+            <table border="1" width="152" align="center">
+              <tr bgcolor="#CCCCCC">
+                <td><p align="center"><b>1:250'000</b></p></td>
+                <td><p align="center"><b>1:50'000</b></p></td>
+              </tr>
+              <tr>
+                <td><p align="center"><a href="/other/tfws-2500m.zip">150 Kb</a></p></td>
+                <td><p align="center"><a href="/other/tfws-500m.zip">2 Mb</a></p></td>
+              </tr>
+            </table>
+            <p><b>NB: </b></p>
+            <ol>
+              <li> Extension of the world file should be made of raster file
+                type. <br />
+                For example: if it is TIF than the extension of world file should be TFW, if
+                JPG than JGW.</li>
+              <li>Try to compress rasters with something like packbits or LZW (if you've
+                license) algorithm, this will save some space. </li>
+              <li>Try to maintain uniform legend (colormap) for all maps, this will
+                shrink filesize and bring you functionality of this Arcview extension
+                (<a href="/programs/avenue/trlegend_toporama.zip">Transparent legend
+                - Canada</a>)</li>
+            </ol>
+            <p>Colormap:<br />
+              (<a href="/other/exact.act">Photoshop palette file for custom indexing</a>) </p>
+            <p><img src="/images/toporama-legend.gif" width="283" height="331" align="left" /> As you can see:</p>
+            <p>0 - symbols, marks etc.<br />
+              1 - highways<br />
+              2 - local roads<br />
+              3 - settlements<br />
+              4 - hydro (borders)<br />
+              5 - hydro (fill)<br />
+              6 - veg (fill)<br />
+              7 - veg (border)<br />
+              8 - relief (hypsography)<br />
+              9 - snow, ice (permafrost) areas<br />
+              10 - white areas, not taken with any special feature<br />
+            </p>
+<p class="discuss"><span><!--#include virtual="/scripts/forum-comments-num.php?i=4064"--></span></p>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<p class="status"><span>Дата создания: 11.12.2002
+<br>Автор(ы): <a href="/forum/memberlist.php?mode=viewprofile&u=2" target="_blank">Максим Дубинин</a></span></p>
+<!--#include virtual="/inc/footer2.php" -->

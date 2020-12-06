@@ -1,0 +1,127 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Building TinyOWS with Visual C++ Express Edition 2008 using dependecies from OSGeo4W</title>
+<!--#include virtual="/inc/header2.txt" -->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Home</a></li>
+   <li><a href="/qa.html">Articles</a></li>
+</ul>
+<!--Contents start-->
+<h1>Building TinyOWS with Visual C++ Express Edition 2008 using dependencies from OSGeo4W</h1>
+<p class="ann">How to build TinyOWS on Windows</p>
+<p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=7765"--></span></p>
+
+<p>This tutotial shows how to build latest TinyOWS code (trunk) on Windows
+XP Professional with Microsoft Visual C++ 2008 Express Edition using
+dependencies from OSGeo4W.</p>
+
+<p><strong>Contents</strong></p>
+<ol>
+  <li><a href="#01">Preparation</a></li>
+  <li><a href="#02">Important dependencies</a></li>
+  <li><a href="#03">Getting TinyOWS source code</a></li>
+  <li><a href="#04">Building and installation</a></li>
+</ol>
+
+<!-- Первый раздел -->
+<h2><strong><a name="01" id="01"></a></strong>1. Preparation</h2>
+<p>First of all we need to do initial setup of the build environment. 
+This described in appropriate <a href="/qa/build-env-eng.html">article</a>.</p>
+
+<h2><strong><a name="01" id="01"></a></strong>2. Important dependencies</h2>
+<p>Now we have to attend to the dependencies of TinyOWS. We need:
+<ol>
+  <li>libxml2 (>=2.6.20)</li>
+  <li>iconv</li>
+  <li>regex</li>
+  <li>fastcgi</li>
+  <li>Flex</li>
+  <li>PostgreSQL (with libpq include files)</li>
+  <li>PostGIS (1.5.x or higher)</li>
+</ol>
+<p>Fortunately all dependecies, except last three items, can be installed
+with OSGeo4W installer. Choose "Advanced install" and standard directory
+(C:\OSGeo4W). If you install it in another directory be careful and correct
+all path below.</p>
+<p>Download <a href="http://gnuwin32.sourceforge.net/downlinks/flex.php" target="_blank" class="external">Flex</a>
+and install it in C:\OSGeo4W.</p>
+<p>Unfortunately PostgreSQL and PostGIS are not available in OSGeo4W so
+download and install <a href="http://www.postgresql.org/download/windows" target="_blank" class="external">PostgreSQL</a>.
+Then using StackBuilder install PostGIS 1.5.0 or higher. If you can't use
+StackBuilder there is a standalone PostGIS <a href="http://postgis.refractions.net/download/windows/" target="_blank" class="external">installer</a>.</p>
+
+<h2><strong><a name="03" id="03"></a></strong>3. Get TinyOWS sources</h2>
+<p>Download and install <a href="http://subversion.apache.org/packages.html#windows" target="_blank" class="external">Subversion</a>.
+Add subversion directory to the PATH environment variable.</p>
+<p>Create directory for TinyOWS sources. Go to <em>Start&nbsp;&rarr;
+Run</em> and enter <em>cmd</em>, then go to directory created on previous
+step and checkout TinyOWS sources:</p>
+<pre>svn co http://www.tinyows.org/svn/tinyows/trunk</pre>
+
+<h2><strong><a name="04" id="04"></a></strong>4. Building and installation</h2>
+<p>Assuming that PostgreSQL installed in default directory
+C:\Program Files\PostgreSQL\9.0 and TinyOWS sources are in D:\devel\cpp\tinyows
+directory.</p>
+<p>Go to TinyOWS sources directory and edit nmake.opt file:</p>
+<ol>
+  <li>find variable TINY_BASE (string 36) and point it to sources directory<br>
+  <pre>TINY_BASE = D:\devel\cpp\tinyows</pre></li>
+  <li>find POSTGIS_DIR variable (string 102) and point it to the PostgreSQL
+  installation directory (quotes are important!)<br>
+  <pre>POSTGIS_DIR ="c:\Program Files\PostgreSQL\9.0"</pre></li>
+  <li>enter path to libxml and iconv files (strings 112 and 125)<br>
+  <pre>LIBXML_DIR=c:\OSGeo4W
+ICONV_DIR=c:\OSGeo4W</pre></li>
+  <li>setup regex location in string 143<br>
+  <pre>REGEX_DIR=c:\OSGeo4W\include\regex-0.12</pre></li>
+  <li>strings 183 and 185 should looks like<br>
+  <pre>POSTGIS_INC=-I"c:\Program Files\PostgreSQL\9.0\lib\libpq" -I"c:\Program Files\PostgreSQL\9.0\include"
+POSTGIS_LIB="c:\Program Files\PostgreSQL\9.0\lib\libpq.lib"</pre></li>
+</ol>
+<p>Save edits and close editor.</p>
+<p>Edit file D:\devel\cpp\tinyows\Makefile.vc. At the end of the string 19
+add c:\OSGeo4W\lib\libfcgi.lib, so string should look like this</p>
+<pre>CFLAGS=$(BASE_CFLAGS) $(TINY_CFLAGS) c:\OSGeo4W\lib\libfcgi.lib</pre>
+<p>Edit D:\devel\cpp\tinyows\src\ows_define.h.in. String 27 should be</p>
+<pre>#if TINYOWS_DEBUG</pre>
+<p>And string 32</p>
+<pre>#define TINYOWS_FCGI                1</pre>
+<p>If you don't want FastCGI support replace 1 with 0. <strong>IMPORTANT!</strong>
+Without FastCGI you get low performance.</p>
+<p>Now edit file c:\OSGeo4W\include\regex-0.12\regex.c. Replace strings 4876-4880</p>
+<pre>
+regerror (errcode, preg, errbuf, errbuf_size)
+    int errcode;
+    const regex_t *preg;
+    char *errbuf;
+    size_t errbuf_size;
+</pre>
+<p>with the single string:</p>
+<pre>regerror (int errcode, const regex_t *preg, char *errbuf, size_t errbuf_size)</pre>
+<p>That's all, now we are ready to compile. Open Visual Studio command prompt
+from <em>Start&nbsp;&rarr; Programs&nbsp;&rarr; Microsoft Visual C++ 2008
+Express Edition&nbsp;&rarr; Visual Studio Tools&nbsp;&rarr; Visual Studio
+2008 Command Prompt</em>. Go to the TinyOWS source dir and run</p>
+<pre>nmake /f Makefile.vc</pre>
+<p>Process take a while, when it's done tinyows.exe (server application) and
+tiny.lib (library file) should appear in the sources directory.</p>
+
+<!-- обсуждение на форуме, цифра изменяется при публикации статьи -->
+<p class="discuss"><span><!--#include virtual="/scripts/forum-comments-num.php?i=7765"--></span></p>
+
+<div class="links">
+<h2>Ссылки по теме</h2>
+<ul>
+   <li><a href="http://tinyows.org/trac" target="_blank" class="external">TinyOWS Project</a></li>
+   <li><a href="http://trac.osgeo.org/osgeo4w/" target="_blank" class="external">OSGeo4W</a></li>
+   <li><a href="/qa/qgis-compile-vce.html">Сборка QGIS используя Visual C++ Express Edition 2008 и компоненты OSGeo4W</a></li>
+</ul>
+</div>
+
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<p class="status"><span>Дата создания: 02.05.2011
+<br>Автор(ы): <a href="forum/memberlist.php?mode=viewprofile&u=5325" target="_blank">Александр Бруй</a></span></p>
+<!--#include virtual="/inc/footer2.php" -->

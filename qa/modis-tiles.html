@@ -1,0 +1,36 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Схема фрагментов для продуктов MODIS 2G, 3, и 4</title>
+<!--#include virtual="/inc/header2.txt" -->
+<!--Contents start-->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Вопросы и ответы</a></li>
+</ul>
+<h1>Схема фрагментов для продуктов MODIS 2G, 3, и 4</h1>
+<p class="ann">Описание системы &quot;нарезки&quot; данных и сама схема для загрузки.</p>
+<p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=2679"--></span></p>
+            <p>Камера MODIS одновременно захватывает очень большую полосу съемки, примерно 2340 x 2330 км (размер гранулы). Для удобства распространения данные разбиваются на фрагменты, примерно 1120 x 1120 км (10 x 10 градусов на экваторе). После разбивки получается 460 фрагментов, 326 из которых захватывают земную поверхность.</p>
+            <p>Нумерация фрагментов начинается с 0,0 (номер фрагмента по горизонтали, номер фрагмента по вертикали) в верхнем левом углу и увеличивается слева направо (по горизонтали) и сверху вниз (по вертикали). Последний фрагмент имеет номер 35, 17 и располагается в нижнем правом углу.</p>
+            <p align="center"><img src="/images/modisprod-01.gif" alt="modisprod" width="600" height="330" /></p>
+            <p align="center"><img src="/images/modisprod-02.gif" alt="modisprod" width="610" height="339" /> </p>
+            <p><strong>Границы фрагментов в формате shape-файла</strong></p>
+            <p>Данную схему можно получить в формате shape-файла, пригодного для работы в QGIS, ArcGIS и практически любом другом ПО ГИС. Атрибутивная таблица содержит уникальный идентификатор фрагмента. Система координат набора данных - географическая, эллипсоид - сфера. Для получения равноугольной сетки необходимо спроектировать набор данных в синусоидальную проекцию.</p>
+            <p><a href="/data/modis-tiles/tiling-scheme.7z">Скачать схему </a></p>
+            <p class="discuss">
+		   <span><!--#include virtual="/scripts/forum-comments-num.php?i=2679"--></span>
+		</p>
+            <div class="links">
+				<h2>Ссылки по теме</h2>
+					<ul>
+						<li><a href="/qa/modislandprod.html">Продукты MODIS - Land</a></li>
+						<li><a href="/qa/l7pathrowmap.html" target="_blank">Ссылка на дополнительный источник информации внешняя</a></li>
+					</ul>
+			</div>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<p class="status"><span>Дата создания: 11.01.2009
+<br>Автор(ы): <a href="/forum/memberlist.php?mode=viewprofile&u=2" target="_blank">Максим Дубинин</a></span></p>
+<!--#include virtual="/inc/footer2.php" -->

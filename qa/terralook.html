@@ -1,0 +1,107 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: TerraLook: бесплатные космические снимки ASTER,TM,ETM+</title>
+<!--#include virtual="/inc/header2.txt" -->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Вопросы и ответы</a></li>
+</ul>
+<!--Contents start-->
+<h1>TerraLook: бесплатные космические снимки ASTER,TM,ETM+</h1>
+<p class="ann">Описание нового источника данных ASTER, TM, ETM+</p>
+<p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=6151"--></span></p>
+<p>В начале года (13.01.2007) появилась информация о том, что Исследовательский центр EROS Геологической службы США (USGS) в сотрудничестве с агентством NASA готовит к размещению в Интернете ресурса TerraLook.  Несмотря на то, что больше никакой информации о данном ресурсе не появлялось, как оказалось, проект активно работает уже несколько месяцев. С данным сервисом, стала доступна абсолютно бесплатно  коллекция архивных снимков Landsat/MSS (1972-1983), Landsat/TM (1987-1997), Landsat/ETM+ (1999-2003) и ASTER (2000-&gt;).</p>
+            <p>Если с получением бесплатных данных Landsat особой проблемы нет, то данные ASTER, некогда бесплатно доступные, уже давно не являются такими, хотя многие к ним уже успели привыкнуть за то время, пока ресурс был открытым. </p>
+            <p>Все  снимки имеют:</p>
+            <ul type="disc">
+              <li>географическую привязку (географическая система координат, WGS 1984, проекции нет);</li>
+              <li>близкую к натуральным       цветам раскраску (синтез RED-GREEN-BLUE, в том числе и для ASTER);</li>
+              <li>снабжены       стандартизированными метаданными (координаты углов);</li>
+              <li>небольшой размер файла (коэффициент компрессии 12:1);</li>
+              <li>низкий коэффициент jpeg сжатия (0.85);</li>
+              <li>интерполяцию nearest neiqborhood;</li>
+              <li>средний размер файла 5-6 Мб.</li>
+            </ul>
+            <p>Снимки представляют собой синтез в натуральных цветах с синтезированном синим каналом. Красная составляющая – красный канал исходного изображения,  зеленая составляющая – (2/3 зеленого + 1/3 ближнего ИК), синяя составляющая –  (2/3 зеленого - 1/3 ближнего ИК).</p>
+            <p>В комплект также входят: шейп файлы с покрытием сцен(ы), описание продукта в формате XML,  метаданные  исходного снимка, файл координат углов сцены, пиксельных и географических, файл описания обработки данных.</p>
+            <p>              Пример данных в масштабе 1:1 (<a href="/other/terralook_0800710230193.zip">скачать пример данных ASTER/Terralook</a>):</p>
+            <p align="center"><img src="/images/terralook-10.jpg" alt="пример" width="400" height="373" /></p>
+            <p>Подобные данные можно напрямую использовать в Arcview GIS или ArcGIS и пакетах обработки данных дистанционного зондирования, таких как ENVI и ERDAS. </p>
+            <p>Тому, как же можно получить данные на интересующую нас территорию с ресурса TerraLook, и посвящена эта статья. </p>
+            <p><img src="/images/1.gif" alt="1" width="33" height="41" align="left" /><strong>Заходим на сайт </strong><a href="http://glovis.usgs.gov" target="_blank" class="external">glovis.usgs.gov</a>. </p>
+            <p>Выбираем в списке TerraLook, из списка снимков выбираем нужный сенсор – ASTER (2000), нажимаем View Images.</p>
+            <p align="center"><img src="/images/terralook-01.gif" alt="terralook-01" width="699" height="321" /></p>
+            <p>Должно появиться 2 окна – в одном будет находиться текст-описание сервиса, второе – с окном программы-просмотрщика, с помощью которой и осуществляется выбор и заказ съемки. </p>
+            <p><strong>Если окно просмотрщика не открылось </strong></p>
+            <p>Если окна не открываются и появляется сообщение об ошибке подобное этому: &quot;GloVis uses popup windows to implement some features. It appears that your browser has popup windows blocked for the GloVis web site.&quot; следует проверить:</p>
+            <ol>
+              <li>Разрешены ли всплывающие окна с сайта glovis.usgs.gov. Если они запрещены, то нужно их разрешить (в Firefox - Tools\Options\Content\Block pop-up windows\Exceptions...) </li>
+              <li>Установлена   Java, появляется ли в процессе запуска иконка Java в трее, если нет - следует проверить <a href="http://www.java.com/en/download/installed.jsp" target="_blank" class="external">установлена ли она и установить</a>, если это не так.</li>
+              <li>При использовании браузера Firefox версии 2.x, если Java не установлена, появится специальное сообщение, где следует нажать на зеленый символ, это приведет к загрузке Java Runtime Environment:<br />
+                <img src="/images/terralook-12.gif" alt="terralook-02" width="607" height="364" /><br />
+                <br />
+                После установки Java Runtime Environment
+                нужно разрешить Java запускать свои скрипты и перегрузить браузер. <br />
+                <br />
+                <img src="/images/terralook-11.gif" alt="terralook-02" width="516" height="315" /><br />
+</li>
+            </ol>
+            <p><strong>Если окно просмотрщика открылось</strong></p>
+            <p>В случае успешного открытия окна просмотрщика, должна появиться примерно такое изображение.  </p>
+            <p align="center"><img src="/images/terralook-02.gif" alt="terralook-02" width="400" height="332" /></p>
+            <p><img src="/images/2.gif" alt="2" width="33" height="41" align="left" /><strong>Находим нужную территорию и допустимую облачность. </strong></p>
+            <p>Для       того чтобы перейти в нужное нам место можно:</p>
+              <ul type="disc">
+                <li>передвинуть        карту с помощью стрелок и мыши;</li>
+                <li>ввести координаты нужного        места или path/row по        разграфке WRS2 и нажать Go;</li>
+                <li>щелкнуть по карте-локатору в верхнем-левом углу.</li>
+              </ul>
+                <p>После перемещения, выбираем допустимое значение облачности.</p>
+                <p align="center"><img src="/images/terralook-03.gif" alt="terralook-03" width="400" height="332" /></p>
+                <p><img src="/images/3.gif" alt="3" width="33" height="41" align="left" /><strong>Включаем дополнительные географические слои</strong></p>
+                <p>	Для удобства поиска и выбора снимков можно включить слои  карты – закладка Map Layers. Кроме этого, можно также загрузить свой слой в формате shape из внешнего файла, это пригодится, если у вас есть контур рабочей территории.</p>
+                <p align="center"><img src="/images/terralook-04.gif" alt="terralook-04" width="584" height="463" /></p>
+            <p><img src="/images/4.gif" alt="4" width="33" height="41" align="left" /><strong>Если это необходимо,</strong> <strong>переключиться на другой тип данных и изменить разрешение просмотра </strong></p>
+            <p>В процессе выбора снимков на территорию 	можно переключиться с данных одного сенсора на любые другие из предложенных - закладка Collection - TerraLook. На данный момент доступны данные MSS, TM, ETM+, ASTER. Можно также менять разрешение просмотра – разрешение на котором показываются снимки (для данных ASTER доступно 3 варианта – 155, 400, 1000 метров) – закладка  Resolution.</p>
+            <p align="center"><img src="/images/terralook-05.gif" alt="terralook-05" width="649" height="394" /></p>
+            <p><img src="/images/5.gif" alt="5" width="33" height="41" align="left" /><strong>Просмотр снимков </strong></p>
+            <p>	Чтобы посмотреть снимки, которые есть на данный участок, нажимаем в окне на правую кнопку мыши, в контекстном меню выбираем Select Scene и указываем на нужный снимок.</p>
+            <p align="center"><img src="/images/terralook-06.gif" alt="terralook-06" width="500" height="365" /></p>
+            <p><img src="/images/6.gif" alt="6" width="33" height="41" align="left" /><strong>Отбор подходящих снимков </strong></p>
+            <p>	Если снимок подходит, то нужно его выбрать и в контекстном меню нажать Add To Scene List. Снимок добавится в список и кнопка Order станет активной. Если нужно выбрать снимки всего пролета, включаем режим Swath Mode (закладка Tools). Теперь, выбирая 1 снимок, будут отмечаться все снимки с данного пролета.  Нажимаем в контекстном меню Add Swath To scene List.</p>
+            <p align="center"><img src="/images/terralook-07.gif" alt="terralook-07" width="500" height="407" /></p>
+            <p><strong>Отбор всех снимков по нужной территории</strong></p>
+            <p>С помощью glovis, можно отобрать сразу все снимки на нужную территорию. Это делается следующим образом: </p>
+            <ol>
+              <li>Находим нужную примерную территорию, выбираем Tools\User defined area...</li>
+              <li> Рисуем нужную область (если она есть в виде shape-файла - подгружаем ее через Map Layers\Read Shapefile</li>
+              <li> Выбираем на всплывающем окне Close Area Polygon &amp; Apply User Defined Area, нажимаем Show и закрываем всплывающее окно.</li>
+              <li> Щелкаем правой кнопкой мыши внутри созданного полигона и выбираем Add User Area Scenes</li>
+            </ol>
+            <p>Выбираются сразу все доступные сцену на нужную территорию, они добавляются в список сцен и их разом можно заказать.</p>
+            <p align="center"><img src="/images/terralook-13.gif" alt="terralook-07" width="500" height="423" /></p>
+            <p><img src="/images/7.gif" alt="7" width="33" height="41" align="left" /><strong>Оформление заказа  </strong></p>
+            <p>Выбираемые снимки добавляются в список заказа. Для его оформления нужно нажать на Order. 	Появится окно, в котором попросят авторизоваться. Регистрируемся, чтобы каждый раз при заказе не вводить информацию о заказчике, если вы уже зарегистрированы, то вводим имя и пароль. Заказ также можно получить и не регистрируясь вообще. </p>
+            <p align="center"><img src="/images/terralook-08.gif" alt="terralook-08" width="635" height="409" /></p>
+            <p>	После регистрации или входа под именем появляются следующие окна. Смотрим на  значения $ = .00 в колонке Product Price и нажимаем на Checkout.</p>
+            <p align="center"><img src="/images/terralook-09.gif" alt="terralook-09" width="700" height="412" /></p>
+            <p>После еще одного подтверждения и ввода личной информации, через некоторое время от USGS/EROS должно поступить 2 e-mail сообщения, одно, с подтверждением заказа, другое - со ссылкой по которой можно будет скачать данные. В зависимости от загруженности сервером USGS и количества заказываемых сцен, период ожидания может занять от нескольких часов до нескольких дней. </p>
+            <p>&nbsp;</p>
+            <p class="discuss">
+				<span><!--#include virtual="/scripts/forum-comments-num.php?i=1715"--></span>
+			</p>
+			<div class="links">
+			   <h2>Ссылки по теме</h2>
+			   <ul>
+			               <li><a href="getaster.html">Получение космической съемки Terra\ASTER</a></li>
+						   <li><a href="gdal-sphere.html">Использование GDAL для перепроектировки данных на базе эллипсоида на сферу</a></li>
+			               <li><a href="terralook-ge.html" target="_blank" class="external">Импорт данных дистанционного зондирования в Google Earth на примере ASTER (Terralook)</a></li>
+			   </ul>
+			</div>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<p class="status"><span>Дата создания: 13.10.2007
+<br>Автор(ы): <a href="/forum/memberlist.php?mode=viewprofile&u=2611" target="_blank">Александр Черепанов</a></span></p>
+<!--#include virtual="/inc/footer2.php" -->

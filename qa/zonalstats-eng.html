@@ -1,0 +1,68 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Calculation of zonal statistics in Arcview GIS</title>
+<!--#include virtual="/inc/header2-eng.txt" -->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Вопросы и ответы</a></li>
+</ul>
+<!--Contents start-->
+<h1>Calculation of zonal statistics in Arcview GIS</h1>
+<p class="ann">How to work with zonal statistics in Arcview GIS using special script.</p>
+<p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=1314"--></span></p>
+<p>Zonal statistics is the calculation of one or many common statistics for data (pixels) inside the certain zone(s).</p>
+<p>Zones boundaries are usually defined by polygonal shape file. It can contain any number of polygons. Value of selected parameter will be calculated for each polygon from zone-theme. </p>
+            <p>Following parameters can be calculated (per operation, only one parameter can be calculated, to get several parameters it is nessessary to save obtained table in a separate file):</p>
+            <ul>
+              <li>sum - sum of all values </li>
+              <li>min - minimum value of all values </li>
+              <li>max - maximum value of all values</li>
+              <li>count - number of value (number of pixels inside zone, excluding pixels with NODATA value) </li>
+              <li>area - area covered by pixels with value different than NODATA </li>
+              <li>range - values range </li>
+              <li>std - standart deviation </li>
+              <li>mean - average value (NODATA pixels, they are not used in calculation) </li>
+              <li>median - median value (NODATA pixels, they are not used in calculation) </li>
+              <li>majority</li>
+              <li>minority</li>
+              <li>variety </li>
+            </ul>
+            <p>Statistics are calculated for raster files in GRID format loaded in table of contents of the view (TOC). Number of GRIDs is not limited, while loading hundred of them in TOC can make Arcview hang. If more than 50 rasters are needed to be loaded in TOC - split them in portions by 10-20 files. </p>
+            <p>In process of calculation, selected parameter will be derived for each polygon in the shapefile (each zone), for each raster theme in TOC, for example sum of all cell values inside polygon. During calculation, NODATA pixels are ignored.  </p>
+            <p align="center"><img src="/images/zonalstats-01.gif" alt="Zones and rasters" width="212" height="198" /> <img src="/images/zonalstats-03.gif" alt="Example of data obtained" width="300" height="198" /></p>
+            <p>If all pixels in the zone have NODATA value - extension will produce an error and stop working. If this happened, it is possible to select remaining records after the one, which lie in NODATA zone and produce an error in the table and repeat calculation. The calculation will be repeated for all selected records/polygons.  </p>
+            <p>If the polygon doesn't fall into extent of the current GRID, parameter is not calculated and no error produced. </p>
+            <p>For each raster theme in the attributive table of the zones shape file new field will be created automatically, the name of the field will be equal to the name of the raster theme. If you have 6 polygons and 100 raster themes in the view, there will be 600 calculation carried out by the extension and 100 new fields created and populated with the values of the selected parameter. The ability to get values for multiple rasters is the unique feature of this extension. This ability is especially useful for extracting data from any kind of time-series <a href="/qa/gimms.html">(for example - NDVI (rus))</a>. </p>
+            <p><strong>Notes:</strong></p>
+            <ul>
+              <li>Extension works with both with projected and unprojected view;</li>
+              <li>Extensions works with both GRIDs and images loaded as Image data source, if images are selected as inputs, they are converted to temporary grids, which are deleted on exiting current Arcview session;</li>
+              <li>themes in TOC are optionally sorted, to make output table with values easier to read. </li>
+            </ul>
+            <p>To start using it, you need:</p>
+            <ol>
+              <li>Switch on Spatial Analyst (File\Extensions\Spatial Analyst) </li>
+              <li>Download, copy to extensions folder and switch on the extension <a href="/programs/avenue/zonalstats.zip">zonalstats.avx</a> (File\Extensions\Zonalstats) </li>
+              <li>Add polygonal theme and raster layers, for which you want to get statistics, for example <a href="/qa/gimms.html">NDVI matrices (rus)</a>.</li>
+              <li>Make polygonal theme active and press  <img src="/images/zonalstats-02.gif" width="25" height="23" alt="z" />.</li>
+              <li>Select type of statistics to calculate. </li>
+              <li>It is also possible to perform calculations for subset of a theme, to do this select records/object which you'd like to use as zones and press  <img src="/images/zonalstats-02.gif" width="25" height="23" alt="z" />.</li>
+            </ol>
+            <p class="discuss">
+				<span><!--#include virtual="/scripts/forum-comments-num.php?i=1314&lang=e"--></span>
+			</p>
+			<div class="links">
+				<h2>Ссылки по теме</h2>
+					<ul>
+					<li><a href="/qa/gimms.html">GIMMS AVHRR data (rus)</a></li>
+					<li><a href="/qa/extract-values-grids-eng.html">Extracting data from multiple rasters using point profiles</a></li>
+					<li><a href="/qa/importraster-ai-eng.html">Batch import of raster data into GRIDs and postprocessing using Arcinfo Workstation</a></li>
+					</ul>
+			</div>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<p class="status"><span>Дата создания: 08.08.2006
+<br>Автор(ы): <a href="/forum/memberlist.php?mode=viewprofile&u=2" target="_blank">Максим Дубинин</a></span></p>
+<!--#include virtual="/inc/footer2.php" -->

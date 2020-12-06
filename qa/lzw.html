@@ -1,0 +1,166 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Компрессия индексированных растров</title>
+<!--#include virtual="/inc/header2.txt" -->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Вопросы и ответы</a></li>
+</ul>
+<!--Contents start-->
+<h1>Компрессия индексированных растров (сравнение)</h1>
+<p class="ann">Сравнение нескольких алгоритмов сжатия</p>
+<p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=4082"--></span></p>
+            <p>Индексированные растры по определению должны хорошо компрессироваться
+              поскольку содержат однородные цветовые поля. Конечно, речь идет о правильно
+              индексированных растрах (растрах с определенным, небольшим количеством
+              цветов). Обычно такими растрами представляются топографические карты,
+              тематические карты.</p>
+            <p>В данном обзоре речь пойдет о форматах которые можно, так или иначе,
+              использовать в Arcview 3.2 в качестве тем (формат GIF, например, не рассматривается,
+              поскольку, хотя его можно подключать через hotlink, в качестве темы подгрузить
+              его невозможно).</p>
+            <p>Сразу оговорим, что одним из самых эффективных алгоритмов сжатия является
+              алгоритм Lempel-Zip-Welch (<b>LZW</b>) применяемый в формате GIF, LZW
+              компрессия также поддерживается в форматах TIFF и IMG. К сожалению использовать
+              его в ГИС можно ограниченно из-за странной политики ESRI по поддержке
+              растров компрессированных с помощью этого алгоритма. Дело в том, что патент
+              на этот алгоритм принадлежит фирме Unisys и чтобы включить поддержку LZW
+              компрессированных данных в Arcview нужно сначала заключить лицензионное
+              соглашение с этой фирмой. Подробнее об этом соглашении можно прочитать
+              в статье <a href="/qa/unisys.html">&quot;Unisys и использование LZW-TIFF
+
+              в Arcview&quot;</a>.</p>
+            <p>Для тестов использовались топографические карты размером 3200х1600 пикселов,
+
+              количество уникальных цветов 11, унифицированная цветовая палитра. Количество
+
+              карт 20 шт., насыщенность информацией от 10 до 95%. Сжатие производилось
+
+              в следующие форматы (алгоритмы):</p>
+            <ul>
+              <li><b>Img-RLE</b> ERDAS Imagine, RLE - Run-Length Encoding (ESRI) формат
+
+                сжатия наиболее эффективный для гомогенных растров, поддерживается Arcview
+
+                при наличии установленного модуля <b>Image Analysis </b>или расширения <b>ERDAS Imagine support</b>;<br />
+              </li>
+              <li><b>TIF-Packbits</b> ERDAS Imagine, IrfanView, etc. формат сжатия индексированных
+
+                растров Macintosh, поддерживается всеми уважающими себя растровыми редакторами,
+
+                совершенно бесплатен, в отличие от LZW, поддерживается Arcview без специальных
+
+                модулей\расширений;</li>
+              <li><b>TIF-LZW</b> ERDAS Imagine, IrfanView, etc. формат сжатия растровых
+
+                данных основанный на алгоритме Lempel Ziff &amp; Welsh, поддерживается
+
+                Arcview при наличие специальной библиотеки. См. <a href="/qa/unisys.html">&quot;Unisys
+
+                и использование LZW-TIFF в Arcview&quot;</a>;</li>
+              <li><b>SunRaster</b> ERDAS Imagine, EPPL7, компрессия осуществляется,
+
+                видимо, по алгоритму <b>run-length encoding</b>, однако, в отличие от
+
+                Img, этот формат поддерживается Arcview по умолчанию, без специальных
+
+                модулей\расширейни\библиотек;</li>
+              <li><b>EPP</b> EPPL7 компрессия осуществляется, видимо, по алгоритму <b>run-length
+
+                encoding</b>, Arcview поддерживает этот формат с помощью специального
+                расширения (<a href="/programs/avenue/eppl7.zip">загрузить</a>)</li>
+              <li><b>ESRI GRID</b> Arcview, Arcinfo, поддержка в Arcview с помощью модуля
+                Spatial Analyst, 3D Analyst, не очень удобен для хранения данных, зато
+                очень удобен для дальнейшей их обработки, например выделения однородных
+                цветовых полей в пакетной режиме, какая компрессия используется здесь,
+                непонятно.</li>
+            </ul>
+            <p>Размер несжатых растров - <b>48800 Кб</b></p>
+            <table width="75%" border="1" align="center" bordercolor="#000000">
+              <tr bgcolor="#CCCCCC">
+                <td><p align="center"><b>Формат</b></p></td>
+                <td><p align="center"><b>Размер после сжатия, Кб</b></p></td>
+                <td><p align="center"><b>Коэффициент сжатия, %</b></p></td>
+              </tr>
+              <tr>
+                <td><p><b>TIFF</b><br />
+                    uncompressed</p></td>
+                <td><p align="center">48800</p></td>
+                <td><p align="center">1:1</p></td>
+              </tr>
+              <tr>
+                <td><p><b>IMG</b><br />
+                    run-length encoding</p></td>
+                <td><p align="center">17900</p></td>
+                <td><p align="center">1:2.72</p></td>
+              </tr>
+              <tr>
+                <td><p><b>TIFF</b><br />
+                    packbits </p></td>
+                <td valign="middle"><p align="center">14200</p></td>
+                <td><p align="center">1:3.44</p></td>
+              </tr>
+              <tr>
+                <td><p><b>TIFF</b><br />
+                    LZW </p></td>
+                <td bgcolor="#CCCCCC"><p align="center"><b>6330</b></p></td>
+                <td bgcolor="#CCCCCC"><p align="center"><b>1:7.70</b></p></td>
+              </tr>
+              <tr>
+                <td><p><b>SunRaster</b><br />
+                    run-length encoding</p></td>
+                <td><p align="center">16500 </p></td>
+                <td><p align="center">1:2.95 </p></td>
+              </tr>
+              <tr>
+                <td><p><b>EPP</b></p></td>
+                <td><p align="center">15300 </p></td>
+                <td><p align="center">1:3.12 </p></td>
+              </tr>
+              <tr>
+                <td><p><b>ESRI GRID</b></p></td>
+                <td><p align="center">16500</p></td>
+                <td><p align="center">1:3.0</p></td>
+              </tr>
+            </table>
+            <p>Скорость перерисовки: проводился только для TIF-LZW для проверки скорости
+
+              отрисовки всего растрового поля в Arcview 3.2. Количество карт - 950 листов.
+
+              Цель: проверка замедления отрисовки на декомпрессию. Проверка для остальных
+
+              форматов не производилась.</p>
+            <table width="75%" border="1" align="center" bordercolor="#000000">
+              <tr bgcolor="#CCCCCC">
+                <td><p align="center"><b>Формат</b></p></td>
+                <td><p align="center"><b>Скорость перерисовки, сек</b></p></td>
+                <td><p align="center"><b>Замедление, %</b></p></td>
+              </tr>
+              <tr>
+                <td><p>TIFF<br />
+                    uncompressed</p></td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td><p>TIFF<br />
+                    LZW-compressed </p></td>
+                <td></td>
+                <td></td>
+              </tr>
+            </table>
+            <p>Небольшие выводы:</p>
+            <p>Как видно из таблицы результатов на первом месте по сжатию алгоритм LZW
+              - если вам удалось достать\получить библиотеку обеспечивающую его поддержку
+              в Arcview GIS, то рекомендуется пользоваться для сжатия карт именно этим алгоритмом,
+              он далеко оставляет позади конкурентов в области  компрессии без потери качества (lossles-компрессия). Если
+              же с лицензией ничего не получается, то неплохим вариантом является packbits
+              компрессия, к тому же абсолютно бесплатная и не требующая никакой лицензии.</p>
+<p class="discuss"><span><!--#include virtual="/scripts/forum-comments-num.php?i=4082"--></span></p>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<p class="status"><span>Дата создания: 28.07.2002
+<br>Автор(ы): <a href="/forum/memberlist.php?mode=viewprofile&u=2" target="_blank">Максим Дубинин</a></span></p>
+<!--#include virtual="/inc/footer2.php" -->

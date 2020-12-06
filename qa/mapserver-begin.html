@@ -1,0 +1,994 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Начало работы с MapServer</title>
+<!--#include virtual="/inc/header2.txt" -->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Вопросы и ответы</a></li>
+</ul>
+<!--Contents start-->
+<h1>Начало работы с MapServer</h1>
+<p class="ann">Статья написана по результатам первого знакомства с MapServer. В ней коротко описаны основные моменты, с которыми  должен столкнуться человек, заинтересовавщийся этим пакетом.</p>
+<p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=1716"--></span></p>
+            <p><strong>Введение</strong></p>
+            <p>Описание основных принципов работы
+              MapServer, создания карт и шаблонов приводится в учебнике
+              <a href="http://biometry.gis.umn.edu/tutorial/" target="_blank"
+              class="external">http://biometry.gis.umn.edu/tutorial/</a>, доступного только на английском языке. Приведенные ниже примеры базируются на этом учебнике, поэтому, при возникновении каких-либо
+              вопросов, первым делом следует найти соответствующий раздел учебника.            </p>
+            <p>Все упоминаемые в тексте статьи файлы (html-шаблоны, map-файлы, shp-файлы и т.д.) <a href="/other/mapserver-begin-example.zip">доступны для скачивания</a>. Для того, чтобы работали примеры,
+              разобранные в этой статье, нужно распаковать папку example в каталог /ms4w/apps/example.            </p>
+
+                <p>Основу MapServer составляет
+                   CGI-программа <strong>mapserv.exe</strong> (в случае MS4W хранящаяся в каталоге \ms4w\Apache\cgi-bin\), которая
+                  принимает от пользователя параметры (файл описания карты, слои карты,
+                  размеры текущей карты и т.п.), указанные в адресной строке браузера, после чего отображает требуемую карту
+                  пользователю. Обычно это происходит так: получив от
+                  пользователя запрос, MapServer генерирует растровый файл
+                  и встраивает его в html-документ, отсылаемый
+                  пользователю. Какие слои будут учавствовать при
+                  генерации файла, как именно они будут отображаться,
+                  будут ли подписаны объекты на карте, а также многое другое указывается в
+                  специальном файле с расширением .map, который передается
+                  программе mapserv.exe в качестве одного из параметров,
+                  заданных пользователем в строке адреса.                </p>
+                <p>Большая часть работы над созданием
+                  web-ресурса как раз и состоит из написания map-файла. Подразумевается, что MapServer уже установлен и работает (<a href="mapserver-install.html">подробнее про установку MapServer для Windows </a>).          </p>
+                <p>Дальнейшая инструкция по шагам демонстрирует как, используя готовые векторные данные, от простого к сложному создать свою интерактивную карту и разместить ее с помощью MapServer в интернет. </p>
+                <p><strong>Оглавление</strong></p>
+                <ol>
+                  <li><a href="#01">Карта из одного слоя</a></li>
+                  <li><a href="#02">Использование нескольких классов</a></li>
+                  <li><a href="#03">Создание собственных условных обозначений</a></li>
+                  <li><a href="#04">Создание подписей к объектам</a></li>
+		  <li><a href="#05">Использование растровых слоев</a></li>
+                  <li><a href="#06">Проекции</a></li>
+                  <li><a href="#07">Создание интерактивной карты</a></li>
+                  <li><a href="#08">Инструменты масштабирования карты</a></li>
+                  <li><a href="#09">Масштабная линейка</a></li>
+                  <li><a href="#10">Управление слоями карты</a></li>
+                  <li><a href="#11">Добавление обзорной карты</a></li>
+                  <li><a href="#12">Создание легенды</a></li>
+                  <li><a href="#13">Запросы</a></li>
+                </ol>
+
+<!-- Первый раздел -->
+
+                <h2><strong><a name="01" id="01"></a></strong>1. Карта из одного слоя</h2>
+                <p>Для создания карты нам понадобится по
+                    крайней мере один слой. MapServer поддерживает множество
+                    форматов для
+                    растровых и векторных слоев (<a href="http://mapserver.org/input/index.html" target="_blank"
+                   class="external">список векторных форматов</a>). Интересно, что
+                    среди поддерживаемых форматов есть, к примеру, файлы Mapinfo, а также, что
+                    MapServer позволяет использовать информацию, хранящуюся в базах данных
+                    (например, MS SQL Server, PostgreSQL, Oracle и др.). Однако, доступ  к данным в
+                    этих форматах обеспечивается специальным пакетом (OGR),
+                    "родной формат" для MapServer - shp. Для MS4W пакет OGR (заранее скомпилированный и настроенный ) уже включен в поставку, тем не менее, в этой статье рассматривается работа только с shp-файлами. Таким образом, для дальнейшей работы нам потребуется несколько shp-файлов (любых), которые скопируем в каталог
+                    "\ms4w\apps\example\shp\". Можно воспользоваться <a href="/other/mapserver-begin-example.zip">уже упоминаемыми  shp-файлами</a>.</p>
+                  <p>Теперь начнем разбираться с форматом map-файла.
+                    Создадим в каталоге "\ms4w\apps\example" файл polt.map.
+                    Заносим туда что-то вроде следующего:</p>
+                  <pre>
+# Аннотированный map-файл (за основу взят файл из учебника
+# http://biometry.gis.umn.edu/tutorial/)
+#
+# Все, что идет за символом решетки - комментарий и программой не обрабатывается
+#
+# Map-файлы начинаются с ключевого слова MAP, обозначающего начало
+# "map"-объекта. Закрывает map-объект ключевое слово END в конце файла. Вся
+# карта, которая будет отображаться пользователю описывается внутри.
+
+MAP
+  IMAGETYPE      GIF
+  EXTENT         34.59 49.58 34.63 49.6
+  SIZE           400 300
+  SHAPEPATH      "/ms4w/apps/example/shp/"
+  IMAGECOLOR     255 255 255
+
+#   Внутри MAP-объекта определяются новые объекты - слои (LAYER).
+#   Обязательно нужно определить по крайней мере один слой.
+#   Количество слоев ограничено сверху (по умолчанию - не больше 100 слоев),
+#   если нужно большее количество слоев, придется перекомпилировать
+#   MapServer (см. заголовочный файл map.h)
+
+
+  LAYER # Определяем полигональный слой
+    NAME         veget
+    DATA         Poltava10_Vegetation_region
+    STATUS       ON
+    TYPE         POLYGON
+
+#     Внутри слоя нужно определить как минимум один класс. Классов может быть
+#     несколько, но не больше 10 (иначе опять придется перекомпилировать MapServer)
+
+    CLASS
+      NAME       "Растительность"
+
+#       Внутри класса определяются стили: как именно данный класс отобразить
+#       на карте.
+      STYLE
+        COLOR        232 232 232
+        OUTLINECOLOR 32 32 32
+      END
+    END
+  END # Конец определения слоя
+END # Конец определения карты
+</pre>
+            <p>Чтобы посмотреть результат, наберите в
+                    окне браузера:                    </p>
+                  <pre>http://localhost/cgi-bin/mapserv.exe?map=/ms4w/apps/example/polt.map&amp;layer=veget&amp;mode=map </pre>
+                  <p>Если вы работаете не на локальной машине, то вместо
+                    localhost нужно указать имя вашего сервера. Должно
+                  появиться  следующее изображение:</p>
+                  <p align="center"><img
+                src="/images/mapserver-begin-01.gif" width="367"
+                height="161" /></p>
+                  <p>Разберемся, что же написано в map-файле (<a href="http://mapserver.org/mapfile/map.html" target="_blank" class="external">описание этих и
+                  других параметрах map-объекта</a>):</p>
+                  <p> <strong>IMAGETYPE</strong> <strong>GIF</strong> - тип растра, который сгенерирует MapServer для
+                    отсылки пользователю. <br />
+                    <strong>EXTENT x1 y1 x2 y2</strong>- координаты нижнего левого и
+                    верхнего правого углов карты (географический охват), отображаемый на
+                    экране. В нашем случае слои карты представлены в
+                    географических координатах (десятичные градусы,
+                    широта/долгота, WGS84) и все они укладываются в
+                    прямоугольник с координатами углов: (34.59 49.58, 34.63 49.6).
+                    <br />
+                    <strong>SIZE a b</strong> - размеры карты в пикселах. <br />
+                    <strong>SHAPEPATH
+                    "адрес"</strong> - местоположение shp-файлов. <br />
+                    <strong>IMAGECOLOR r g
+            b</strong> - цвет фона карты в формате rgb.</p>
+                  <p>Параметры объекта
+                    "LAYER": </p>
+                  <p><strong>NAME &quot;имя&quot;</strong> - название слоя.</p>
+                  <p> <strong>DATA &quot;имя файла &quot;</strong> - название shp-файла,
+                    соответствущего данному слою.</p>
+                  <p><strong>STATUS ON|OFF|DEFAULT </strong>-
+                    переключатель, означающий должен ли отображаться слой
+                    на карте. Похоже что MapServer самостоятельно
+                    переключает этот параметр. При попытке вручную изменить его значения на
+                    ON и на OFF ничего не происходило. Будет показываться слой или не будет, зависело
+                    от параметров в адресной строке или шаблоне (об этом сказано ниже)).                </p>
+                  <p><strong>TYPE
+                    [point|line|polygon|circle|annotation|raster|query|chart]</strong> -
+                    Тип слоя. Тут все более-менее понятно, хотя и есть свои
+                    особенности. Значение выражений point|line|polygon очевидно - слой
+                    будет точечный, линейный или полигональный. Однако, если у вас есть shp-файл с полигонами, вы можете присвоить ему тип line.
+                    При этом слой будет отображаться как линейная тема. Мало
+                    того, можно один и тот же shp-файл разбить на два слоя. результат будет тот же, что и выше, только
+                    достигнут он другим способом.            </p>
+                  <pre>LAYER # Определяем полигональный слой
+    NAME         veget_p
+    DATA         Poltava10_Vegetation_region
+    STATUS       ON
+    TYPE         POLYGON
+    CLASS
+      NAME       &quot;Растительность&quot;
+      STYLE
+        COLOR        232 232 232
+      END
+    END
+  END
+LAYER # Определяем линейный слой
+    NAME         veget_l
+    DATA         Poltava10_Vegetation_region
+    STATUS       ON
+    TYPE         LINE
+    CLASS
+      NAME       &quot;Растительность&quot;
+      STYLE
+        COLOR        0 0 0
+      END
+    END
+  END</pre>
+                  <p>Разбирая этот пример, осталось выяснить, как осуществляется передача параметров в MapServer для последующей обработки.
+                    Вспомним, что мы набрали в адресной строке браузера адрес:</p>
+                  <pre>http://localhost/cgi-bin/mapserv.exe?map=/ms4w/apps/example/polt.map&amp;layer=veget&amp;mode=map </pre>
+                  <p>Этот адрес состоит из нескольких частей: первая часть
+                    (<strong>http://localhost/cgi-bin/mapserv.exe</strong>) - вызов CGI
+                    программы mapserv.exe. Остальное - это параметры,
+                    передаваемые программе mapserv.exe. Вызов программы отделяется от параметров знаком <strong>&quot;?&quot;</strong>. Параметры передаются парами "параметр=значение", и отделяются друг от друга знаком "&" например,
+                    параметр "map=/ms4w/apps/example/polt.map" указывает
+                    MapServer где находится map-файл, на основе которого
+                    будет строиться карта. Параметр "layer=veget" указывает
+                    MapServer, что в карту должен быть включен слой veget.
+                    И, наконец, параметр "mode=map" означает, что MapServer должен
+                    послать полученную карту пользователю сразу, без создания временного изображения на диске. Использование некоторых других параметров описано в следующих разделах. <a href="http://mapserver.org/cgi/controls.html" target="_blank" class="external">(более
+                    подробная информацию об этих и других параметрах)</a>. </p>
+                  <p>Map-файл, использованный в этом разделе: polt.map.</p>
+
+
+<!-- Второй раздел -->
+
+                  <h2><strong><a name="02" id="02"></a></strong>2. Использование нескольких классов</strong></h2>
+                  <p>С файлом Poltava10_Vegetation_region.shp
+                    связана атрибутивная таблица в виде dbf-файла. Среди полей dbf-файла
+                    есть поле "CodeTopo" в котором хранится код объекта.
+                    Например, код 71100000 соответствует древесной
+                    растительности, код  71314000 - травяной, код  72310000
+                    - болотистой местности. Поскольку объекты с разными
+                    кодами должны выглядеть на карте различным образом, то
+                    нам нужен инструмент, позволяющий определить разные условные обозначения для одного и того же слоя в зависимости от
+                    значений атрибутов объектов (то есть классификацию). С этой целью в map-файле
+                    разрешено вводить несколько классов, соответствующих
+                    одному слою. Создадим файл polt1.map следущего
+                    содержания: </p>
+                  <pre>
+MAP
+  IMAGETYPE      GIF
+  EXTENT         34.59 49.58 34.63 49.6
+  SIZE           400 300
+  SHAPEPATH      &quot;/ms4w/apps/example/shp/&quot;
+  IMAGECOLOR     255 255 255
+
+  LAYER
+    NAME         veget
+    DATA         Poltava10_Vegetation_region
+    STATUS       ON
+    TYPE         POLYGON
+    CLASSITEM    &quot;CodeTopo&quot; # Название поля, которое будет использоваться
+                            # для определения класса
+
+    CLASS
+      NAME       &quot;Деревья&quot;
+      EXPRESSION '71100000' # Выражение, определяющее класс
+      STYLE
+        COLOR        12 200 12
+      END
+    END
+    CLASS
+      NAME       &quot;Трава&quot;
+      EXPRESSION '71314000'
+      STYLE
+        COLOR        12 255 12
+      END
+    END
+    CLASS
+      NAME       &quot;Болота&quot;
+      EXPRESSION '72310000'
+      STYLE
+        COLOR        120 120 255
+      END
+    END
+  END
+END</pre>
+                  <p>Введите адрес и убедитесь в том, что результат соответствует следующему изображению:</p>
+                  <pre>http://localhost/cgi-bin/mapserv.exe?map=/ms4w/apps/example/polt1.map&amp;layer=veget&amp;mode=map</pre>
+                  <p align="center"><img
+                src="/images/mapserver-begin-02.gif" width="364"
+                height="157" /></p>
+                  <p>Объект LAYER содержит
+                    параметр CLASSITEM, в котором указывается поле,
+                    используемое для классификации объектов (в нашем случае CodeTopo). В объекте CLASS
+                    появляется дополнительный параметр EXPRESSION. В самом
+                    простом случае после слова EXPRESSION указывается строка, и, если атрибут
+                    shp-объекта совпадает с указанной строкой, то shp-объект относят
+                    к данному классу. Вместо строки можно использовать
+                    различные логические выражения, например:
+                    EXPRESSION ([CODETOPO] eq '72310000' OR '[TYPE_RU]' eq
+                    'заболоченый луг') (<a href="http://mapserver.org/mapfile/class.html" target="_blank" class="external">подробнее о классификации</a>).                </p>
+                  <p>Map-файл, использованный в этом разделе:
+                    polt1.map.</p>
+
+
+<!-- Третий раздел -->
+
+                <h2><strong><a name="03" id="03"></a></strong>3. Создание собственных условных обозначений </h2>
+                <p>Вероятно, не каждому понравится, что болото обозначается на карте заливкой, поэтому займемся оформлением: <a href="http://mapserver.org/mapfile/symbology/examples.html" target="_blank" class="external">согласно документации</a>                    для каждого класса можно использовать собственный стиль
+                    условных обозначений, для этого в предложении STYLE нужно
+                    указать параметр SYMBOL.
+                    Кроме встроенного набора символов, задаваемых по умолчанию, MapServer поддерживает также подключение отдельных файлов, в которых
+                    собраны описания условных знаков (<a href="http://www.vcrlter.virginia.edu/mapserver/symbols/symbols35.sym" target="_blank" class="external">пример файла с набором дополнительных символов</a>).                </p>
+                  <p>Теперь несколько примеров того, как создавать
+                    свои знаки. Мы создадим четыре новых стиля - два будут использоваться для точечных объектов, один для штриховки полигональной темы и еще один - для создания пунктирной линии. Примеры знаков представлены в следующей таблице.                </p>
+            <table align="center">
+                  <tr>
+                    <td><p>triangle</p></td>
+                    <td><p>cross</p></td>
+                    <td><p>downwarddiagonalfill</p></td>
+                    <td><p>dashed1</p></td>
+                  </tr>
+                  <tr>
+                    <td align="center"><img
+                          src="/images/mapserver-begin-03.gif" width="45"
+                          height="47" /></td>
+                    <td align="center"><img
+                          src="/images/mapserver-begin-04.gif" width="44"
+                          height="43" /></td>
+                    <td align="center"><img
+                          src="/images/mapserver-begin-05.gif" width="59"
+                          height="60" />                    </td>
+                    <td align="center"> <img
+                          src="/images/mapserver-begin-06.gif" width="27"
+                          height="63" />                    </td>
+                  </tr>
+            </table>
+                <p>Далее приводятся описания соответствующие каждому из этих знаков: </p>
+                <p>В команде POINTS указываются
+                  координаты узлов (x y). Несколько неожиданным может оказаться то,
+                  что ось Y направлена вниз, а не вверх
+                  как обычно. Координаты точек приводятся в условной
+                системе координат. Символ &quot;Треугольник&quot;: </p>
+                <pre>SYMBOL
+  NAME &quot;triangle&quot;
+  TYPE vector
+  POINTS   # ниже идут координаты точек - узлы объекта
+    0 4    # первая точка  - начало движения: из точки с координатами (x=0,y=4)
+    2 0    # проводится линия в точку (x=2,y=0), далее линия пойдет
+    4 4    # в точку (x=4,y=4)
+    0 4    # последняя точка совпадает с первой
+  END
+END</pre>
+                <p>Символ &quot;Крест&quot;. Особенность состоит в том, что крест, в отличие от треугольника невозможно нарисовать одним росчерком пера, не отрывая его от бумаги. Отрицательные координаты обозначают место, в котором &quot;перо поднимается&quot;.</p>
+                <pre>SYMBOL
+  NAME &quot;cross&quot;
+  TYPE vector
+  POINTS
+    0 0
+    1 1
+    -99 -99
+    0 1
+    1 0
+  END
+END</pre>
+                <p>&quot;Диагональная заливка&quot; для полигональных объектов. Можно использовать параметр TRANSPARENT: 0 - не прозрачный объект, 100 - полностью прозрачный.</p>
+                <pre>SYMBOL
+  NAME &quot;downwarddiagonalfill&quot;
+  TYPE vector
+  TRANSPARENT 0   # прозрачность
+  POINTS
+    0 10
+    10 0
+  END
+END</pre>
+                <p>&quot;Пунктирная линия&quot;. Предолжение &quot;STYLE 10 5 5 10 END&quot; означает, что линия тянется 10 пикселей, потом 5 пикселей разрыв, потом линия появляется снова (5 пикселей) и опять разрыв в 10 пикселей. </p>
+                <pre>
+SYMBOL
+  NAME 'dashed1'
+  TYPE ELLIPSE
+  POINTS 1 1 END
+  FILLED true
+  STYLE 10 5 5 10 END
+END</pre>
+                <p>Как сказано выше, описания вновь созданных условных знаков удобно хранить в отдельном файле и ссылаться на него по мере необходимости.
+                  Чтобы подключить файл, в котором содержатся
+                  описания условных знаков, нужно к объекту MAP добавить
+                  параметр SYMBOLSET   "путь_к_файлу/имя_файла". А в
+                  предложении CLASS нужно сделать ссылку на нужный символ
+                предложением SYMBOL "имя_символа". </p>
+<pre>MAP
+  ...
+  SYMBOLSET      &quot;./symbols/symbols35.sym&quot;
+
+  LAYER
+    ...
+    CLASS
+      NAME       &quot;Болота&quot;
+      EXPRESSION '72310000'
+      STYLE
+        SYMBOL 'Line1'  # ссылка на название стиля из стилевого файла &quot;symbols35.sym&quot;
+        COLOR  120 120 255
+      END
+    END
+  END
+END</pre>
+                <p>Результат использования только созданного символа для отображения класса &quot;Болота&quot; показан на следующем изображении:</p>
+                <p align="center"><img
+                src="/images/mapserver-begin-08.gif" width="366" height="159" /></p>
+                <p>С помощью MapServer возможно создавать и <a href="http://mapserver.org/mapfile/symbology/construction.html" target="_blank" class="external">более сложные знаки</a>.</p>
+                <p>Map-файл, использованный в этом разделе:
+                  polt2.map.</p>
+
+<!-- Четвертый раздел -->
+
+
+              <h2><strong><a name="04" id="04"></a>4. Создание подписей к объектам</strong></h2>
+              <p>Добавим к карте слой улиц. Он отличается от ранее рассмотренного предложения LAYER тем, что в
+                  нем использовано вложенное предложение LABEL, которое отвечает за
+                подписи. (<a href="http://mapserver.org/mapfile/label.html" target="_blank" class="external">подробнее о LABEL</a>). </p>
+                <pre>LAYER
+    NAME         street
+    DATA         Poltava10_Street_polyline
+    STATUS       ON
+    TYPE         LINE
+    LABELITEM    &quot;RusName&quot;   # подписи хранятся в поле &quot;RusName&quot;
+    CLASS
+      NAME       &quot;Улицы&quot;
+      STYLE
+        COLOR        12 12 12
+      END
+      LABEL
+        COLOR 132 31 31
+        SHADOWCOLOR 218 218 218
+        SHADOWSIZE 2 2
+        TYPE TRUETYPE
+        FONT arial-italic
+        SIZE 7
+        ANTIALIAS TRUE
+        POSITION CL
+        PARTIALS FALSE
+        MINDISTANCE 100
+        BUFFER 3
+        ENCODING CP1251
+      END
+    END
+  END</pre>
+                <p>Для того, чтобы указать, как подписывать объекты,
+                  используется параметр LABELITEM "имя_поля", в котором
+                  указывается название поля, хранящего подписи.
+                  В предложение LABEL указывается множество параметров, но
+                назначение наиболее важных параметров (COLOR, SHADOWCOLOR, SIZE, TYPE) очевидно. </p>
+                <p>
+                  Для русских пользователей возникает вечная проблема с
+                  кодировкой, решить ее можно добавив параметр ENCODING.
+                  Для shp-файлов значение кодировки равно CP1251 (кодировка Windows-1251).
+                  На тему кодировок в MapServer существует <a href="http://geomapx.blogspot.com/2007/07/mapserver-fonts-howto.html" target="_blank" class="external">подробное описание</a>, поэтому всем, у кого появились проблемы в этой области, рекомендуем для начала ознакомиться с ним.                </p>
+                <p>К map-объекту, до начала описаний слоев, нужно
+                  добавить параметр FONTSET  "./fonts/fonts.list". Файл
+                  fonts.list (можно назвать файл
+                  и по-другому) хранит информацию о шрифтах, доступных
+                  MapServer. Пример содержимого файла fonts.list:
+                <pre># Это список шрифтов
+arial                           arial.ttf
+arial-italic                    ariali.ttf</pre>
+                <p>
+                Таким образом, параметр "FONT arial-italic", из
+                  предложения LABEL ссылается на шрифт ariali.ttf. Для определенности  приведем содержимое каталога fonts:
+                <pre>
+fonts.list
+arial.ttf
+ariali.ttf </pre>
+                <p>
+                Файлы шрифтов arial.ttf и ariali.ttf можно взять из стандартного       каталога Windows.                </p>
+                <p>Результат запроса по адресу:</p>
+                <pre>http://localhost/cgi-bin/mapserv.exe?map=/ms4w/apps/example/polt2.map&amp;layer=veget&amp;layer=street&amp;mode=map</pre>
+                <p align="center"><span><img
+                src="/images/mapserver-begin-09.gif" alt="подписи" width="397"
+                height="162" /></span></p>
+                <p>Map-файл, использованный в этом разделе:
+                  polt2.map.</p>
+                </li>
+
+
+<!-- Пятый раздел -->
+
+              <h2><strong><a name="05" id="05"></a>5. Использование растровых слоев</strong></h2>
+              <p>Кроме векторных наборов данных, MapServer также поддерживает использование растровых слоев. Подробное описание работы с растрами достуно
+	           <a href="http://mapserver.org/input/raster.html" target="_blank" class="external">здесь</a>, а в этом разделе будет дана  краткая сводка основных моментов.</p>
+	            <p>Обычно MapServer использует библиотеку GDAL для работы с растровыми изображениями (конечно, при условии, что MapServer был скомпилирован с поддержкой GDAL). К примеру, такая операция, как  перепроектирование растра &quot;на лету&quot;, возможна только при использовании этой библиотеки.	        </p>
+	   	<p>Среди поддерживаемых растровых форматов есть все основные типы графических файлов: TIFF/GeoTIFF (для привязки используется или <a href="tfw.html">world-файл</a>, или внедренные в GeoTIFF координаты), GIF, PNG, JPEG , Erdas .LAN/.GIS (для привязки этих форматов используется world-файл).	        </p>
+	   	<p>В самом простом случае подключение растрового слоя состоит в добавлении предложения LAYER к map-файлу:
+	        </p>
+	   	<pre>
+LAYER
+  NAME "JacksonvilleNC_CIB"  # название слоя
+  DATA "Jacksonville.tif"    # имя файла с расширением (пути прописываются относительно SHAPEPATH)
+  TYPE RASTER
+  STATUS ON
+END</pre>
+	   	<p>Также, как и у обычного слоя, у растрового слоя могут быть определены параметры  PROJECTION, METADATA, PROCESSING, MINSCALE, и MAXSCALE. Но растровый слой не может иметь меток (LABEL) и параметров CONNECTION, CONNECTIONTYPE, или FEATURE.
+	        </p>
+	   	<p>Подобно векторному слою, при работе с растрами можно разбить один слой (один растр) на несколько классов, отображающихся по разному в зависимости от значений цветов:
+	        </p>
+	   	<pre>
+LAYER
+  NAME "JacksonvilleNC_CIB"
+  DATA "Jacksonville.tif"
+  TYPE RASTER
+  STATUS ON
+  CLASSITEM "[pixel]"
+  # класс использует простое сравнение строк, эквивалентно ([pixel] = 0)
+  CLASS
+    EXPRESSION "0"
+    STYLE
+      COLOR 0 0 0
+    END
+  END
+  # использование значений [pixel].
+  CLASS
+    EXPRESSION ([pixel] >= 64 AND [pixel] < 128)
+    STYLE
+      COLOR 255 0 0
+    END
+  END
+  # использование значений RGB (red/green/blue)
+  CLASS
+    NAME "near white"
+    EXPRESSION ([red] > 200 AND [green] > 200 AND [blue] > 200)
+    STYLE
+      COLOR 0 255 0
+    END
+  END
+  # Использование регулярных выражений для выделения пикселов, чье значение заканчивается на "1"
+  CLASS
+    EXPRESSION /*1/
+    STYLE
+      COLOR 0 0 255
+    END
+  END
+END</pre>
+	   	<p>При работе с растрами больших размеров могут возникнуть проблемы, связанные с медленным отображением карт. Для увеличения быстродействия можно разрезать исходный растр на несколько небольших кусочков и получить таким образом "мозаичный" растр. Тогда для отображения части карты уже не придется манипулировать одним большим растром, а нужно будет собрать нужную часть карты из отдельных кусочков. Тем не менее, для MapServer такая мозаика по-прежнему будет выглядеть одним-единственным слоем.
+	        </p>
+	   	<p>Делается это следующим образом: создается shp-файл, хранящий полигоны - границы, по которым растр был разрезан на части. При этом в атрибутах каждого полигона хранится название файла, в котором содержится соответствующий кусочек растра.
+	        </p>
+	   	<p>Простейший пример:
+	        </p>
+	   	<pre>
+LAYER
+  NAME "hpool"
+  STATUS ON
+  TILEINDEX "hp2.shp"  # название shp-файла, содержащего границы кусочков
+	               # (путь прописываетс относительно SHAPEPATH)
+  TILEITEM "Location"  # название поля, в котором хранятся имена файлов с кусочками растра
+  TYPE RASTER
+END </pre>
+	   	<p>Вообще, операцию создания индексного shp-файла можно проделать автоматически при помощи программы gdaltindex (часть пакета GDAL). Параметры использования:
+	        </p>
+	   	<pre>
+gdaltindex [-tileindex имя_поля] имя_индексного_файла [имя_растров]*</pre>
+	   	<p>Например:
+	        </p>
+	   	<pre>
+gdaltindex wm_index.shp WorldMap/*.tif</pre>
+	   	<p>При этом, если файл wm_index.shp не существовал, то он будет создан. Если не был указан параметр -tileindex, то будет использоваться название поля по умолчанию - Location (<a href="http://geomapx.blogspot.com/2007/06/mapserver_385.html" target="_blank" class="external">полный перевод </a>главы про работу с растрами из описания Mapserver).	        </p>
+        <!-- Шестой раздел -->
+
+              <h2><strong><a name="06" id="06"></a>6. Проекции </strong></h2>
+              <p>Для работы с проекциями MapServer использует библиотеку PROJ.4. Описания проекций состоят из набора специальных ключевых слов которые понимает PROJ.4, также вместо описания проекции может указываться ссылка на соответствующее готовое описание в файле epsg. Этот файл является частью дистрибутива PROJ и соответственно, Mapserver.</p>
+                <p>Для работы с проекциями в map-файле                     предусмотрен <a href="http://mapserver.org/mapfile/projection.html" target="_blank" class="external">целый раздел</a>, который так и называется                     PROJECTION.                     Для работы с проекциями необходимо создать описание проекции для карты в целом (объект MAP), также следует задать описания проекции слоям, которые изначально находятся в проекции отличной от выходной проекции карты. PROJECTION содержит параметры проекций  и должен располагаться вне                     описаний слоев. Если предложение PROJECTION встречается                     внутри предложения LAYER, то это означает, что данный                     слой хранится на диске в этой проекции. </p>
+                <p>Для того, чтобы отобразить карту в географической системе координат (WGS84):</p>
+                <pre>
+MAP
+    ...
+    PROJECTION
+      "proj=latlong" # проекция широта/долгота
+      "datum=WGS84"  # WGS84
+    END
+
+    LAYER
+      ...
+    END
+END</pre>
+                <p align="center"><span><img
+                  src="/images/mapserver-begin-14.gif" alt="проекции" width="399"
+                  height="194"/></span></p>
+                <p>Для того, чтобы отобразить карту в спроектированной системе координат (UTM, зона 36, WGS84):</p>
+                <pre>PROJECTION
+    "proj=utm"
+    "ellps=WGS84"
+    "datum=WGS84"
+    "zone=36"
+    "units=m"
+    "north"
+    "no_defs"
+END </pre>
+                <p>Два важных момента: добавление предложения                     PROJECTION к MAP-объекту еще не означает, что вся карта                     тут же изменит проекцию - по умолчанию считается, что слои                     карты хранятся в той же проекции, которая указана в                     PROJECTION. Поэтому нужно добавить предложение                     PROJECTION и в слои карты (в предложение LAYER). Второе: после добавления                     предложения PROJECTION в map-файл нужно будет изменить                     параметр                    EXTENT так, чтобы угловые точки карты были представлены                     в новых координатах. Для определения новых координат                     можно воспользоваться программой proj для пересчета                   координат из географической в спроектированную систему координат (\ms4w\proj\bin\), или получить координаты в любой ГИС: Arcview, MapInfo и т.д. </p>
+                <pre>
+MAP
+  # EXTENT         34.59 49.58 34.63 49.6        # старые координаты
+  EXTENT         615120 5493650 617760 5495760   # новые координаты
+  ...
+  PROJECTION
+    "proj=utm"
+    "ellps=WGS84"
+    "datum=WGS84"
+    "zone=36"
+    "units=m"
+    "north"
+    "no_defs"
+  END
+
+  LAYER
+    ...
+    PROJECTION
+      "proj=latlong"
+      "datum=WGS84"
+    END
+    CLASS
+      ...
+    END
+  END
+  ...
+END
+</pre>
+                <p>То получим следующий результат:</p>
+                <p align="center"><span><img
+                  src="/images/mapserver-begin-13.gif" alt="проекции" width="399"
+                  height="254"/></span> </p>
+                <p>Map-файл, использованный в этом разделе: polt3.map.</p>
+
+
+<!-- Седьмой раздел: -->
+
+                <h2><strong><a name="07" id="07"></a>7. Создание интерактивной карты</strong></h2>
+                <p>Сведений, приведенных в предыдущих
+                  разделах достаточно, чтобы нарисовать приличную на вид
+                  карту. Однако, у ней будет большой недостаток - ее
+                  не может изменить пользователь. Добавить
+                  интерактивности созданной карте достаточно просто, для
+                  этого нужно, во-первых, изменить
+                  один параметр в адресной строке: вместо "mode=map" нужно
+                  написать "mode=browse", и, во-вторых, написать небольшой
+                  html-шаблон, который будет содержать карту и элементы оформления\навигации.</p>
+                <p>Создадим папку templates и положим туда
+                  файл template.html следущего содержания:</p>
+                <pre>
+
+&lt;html&gt;
+&lt;head&gt;
+&lt;title&gt;Пример карты&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;!-- Начало формы MapServer --&gt;
+&lt;form name=&quot;mapserv&quot; method=&quot;GET&quot; action=&quot;/cgi-bin/mapserv.exe&quot;&gt;
+  &lt;!-- Скрытые CGI переменные --&gt;
+  &lt;input type=&quot;hidden&quot; name=&quot;map&quot; value=&quot;[map]&quot;&gt;
+  &lt;input type=&quot;hidden&quot; name=&quot;imgext&quot; value=&quot;[mapext]&quot;&gt;
+  &lt;input type=&quot;hidden&quot; name=&quot;imgxy&quot; value=&quot;[center]&quot;&gt;
+  &lt;input type=&quot;hidden&quot; name=&quot;layer&quot; value=&quot;veget&quot;&gt;
+  &lt;input type=&quot;hidden&quot; name=&quot;layer&quot; value=&quot;street&quot;&gt;
+  &lt;input type=&quot;hidden&quot; name=&quot;layer&quot; value=&quot;grid&quot;&gt;
+  &lt;input type=&quot;hidden&quot; name=&quot;mode&quot; value=&quot;browse&quot;&gt;
+  &lt;table align=&quot;center&quot; width=&quot;410&quot; border=&quot;1&quot;&gt;
+  &lt;tr&gt;
+    &lt;td colspan=&quot;3&quot; align=&quot;center&quot; valign=&quot;top&quot;&gt;
+      &lt;input type=&quot;image&quot; name=&quot;img&quot; src=&quot;[img]&quot; width=&quot;400&quot; height=&quot;300&quot; border=&quot;0&quot;&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;
+&lt;/form&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</pre>
+                <p>После этого создадим в map-файле еще один
+                  раздел:
+               <pre>
+MAP
+  ...
+  WEB
+    TEMPLATE  './templates/template.html'
+    IMAGEPATH '/ms4w/tmp/ms_tmp/'
+    IMAGEURL  '/ms_tmp/'
+  END
+  LAYER
+  ...
+  END
+  ...
+END</pre>
+                <p>
+            набираем в строке адреса:</p>
+                <pre>http://localhost/cgi-bin/mapserv.exe?map=/ms4w/apps/example/polt4.map&amp;layer=veget&amp;layer=street&amp;layer=grid&amp;mode=browse</pre>
+                <p>Итак, о том, что же произошло: строка TEMPLATE
+                  './templates/template.html' указывает, в каком каталоге находится
+                  шаблон и как он называется. После того, как пользователь
+                  ввел адрес (или кликнул по карте), MapServer
+                  обрабатывает этот шаблон: находит CGI переменные (заключенные
+                  в квадратные скобки) и заменяет их на значения этих
+                  переменных. Например, <strong>[map]</strong> будет заменено на
+                "/ms4w/apps/example/polt4.map", а <strong>[mapext]</strong> на "615120
+                  5493650 617760 5495760". Тэг <strong>[img]</strong> будет заменен на имя
+                  созданного временного файла, в котором хранится
+                  графическое изображение карты (к примеру,
+                "\ms4w\tmp\ms_tmp\MS11877753442492.gif"). После этого
+                вновь полученный html-файл отсылается пользователю. </p>
+                <p>Map-файл, использованный в этом разделе:
+                  polt4.map. Html-шаблон: template.html</p>
+
+
+<!-- Восьмой раздел: -->
+
+                <h2><strong><a name="08" id="08"></a>8. Инструменты масштабирования карты</strong></h2>
+                <p>В предыдущем примере при щелчке мышкой на
+                  карте, MapServer сдвигал изображение так, что точка в
+                  которую пришелся щелчек, оказывалась в центре карты.
+                  Кроме сдвигов, MapServer может производить и другие
+                  операции, например,
+                  масштабировать карту. Для этого необходимо изменить
+                шаблон.                </p>
+                <p>Вот содержимое файла template1.html:</p>
+                <pre>&lt;html&gt;
+  &lt;head&gt;
+  &lt;title&gt;Пример карты&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+  &lt;!-- Начало формы MapServer --&gt;
+  &lt;form name=&quot;mapserv&quot; method=&quot;GET&quot; action=&quot;/cgi-bin/mapserv.exe&quot;&gt;
+  	&lt;input type=&quot;hidden&quot; name=&quot;map&quot; value=&quot;[map]&quot;&gt;
+  	&lt;input type=&quot;hidden&quot; name=&quot;imgext&quot; value=&quot;[mapext]&quot;&gt;
+  	&lt;input type=&quot;hidden&quot; name=&quot;imgxy&quot; value=&quot;[center]&quot;&gt;
+  	&lt;input type=&quot;hidden&quot; name=&quot;layer&quot; value=&quot;veget&quot;&gt;
+  	&lt;input type=&quot;hidden&quot; name=&quot;layer&quot; value=&quot;street&quot;&gt;
+  	&lt;input type=&quot;hidden&quot; name=&quot;layer&quot; value=&quot;grid&quot;&gt;
+  	&lt;input type=&quot;hidden&quot; name=&quot;mode&quot; value=&quot;browse&quot;&gt;
+  	&lt;table align=&quot;center&quot; width=&quot;680&quot; border=&quot;0&quot;&gt;
+  	&lt;tr&gt;
+  		&lt;td&gt;
+  			&lt;table width=&quot;400&quot; border=&quot;1&quot;&gt;
+  			&lt;tr&gt;
+  				&lt;td&gt;
+  				&lt;!-- SPECIFY MAP MODE --&gt;
+  				&lt;div align=&quot;center&quot;&gt;Map Mode:&lt;br&gt;
+  					&lt;select name=&quot;mode&quot;&gt;
+  					&lt;option value=&quot;browse&quot;&gt;Browse&lt;/option&gt;
+  					&lt;option value=&quot;map&quot;&gt;Map&lt;/option&gt;
+ 					&lt;/select&gt;
+  				&lt;/div&gt;
+  				&lt;/td&gt;
+  				&lt;td&gt;
+  				&lt;!-- FORM SUBMIT BUTTON --&gt;
+  				&lt;div align=&quot;center&quot;&gt;
+  					&lt;input type=&quot;submit&quot; name=&quot;submit&quot; value=&quot;Refresh&quot;&gt;
+  					&lt;/div&gt;
+  				&lt;/td&gt;
+  				&lt;td&gt;
+  				&lt;!-- ZOOM/PAN CONTROLS --&gt;
+				&lt;div align=&quot;center&quot;&gt;Map Control: &lt;br&gt;
+  					&lt;select name=&quot;zoom&quot;&gt;
+  						&lt;option value=&quot;4&quot; [zoom_4_select]&gt;Zoom In 4x&lt;/option&gt;
+  						&lt;option value=&quot;3&quot; [zoom_3_select]&gt;Zoom In 3x&lt;/option&gt;
+  						&lt;option value=&quot;2&quot; [zoom_2_select]&gt;Zoom In 2x&lt;/option&gt;
+ 						&lt;option value=&quot;1&quot; [zoom_1_select]&gt;Recenter&lt;/option&gt;
+ 						&lt;option value=&quot;-2&quot; [zoom_-2_select]&gt;Zoom Out 2x&lt;/option&gt;
+  						&lt;option value=&quot;-3&quot; [zoom_-3_select]&gt;Zoom Out 3x&lt;/option&gt;
+  						&lt;option value=&quot;-4&quot; [zoom_-4_select]&gt;Zoom Out 4x&lt;/option&gt;
+  					&lt;/select&gt;
+  				&lt;/div&gt;
+  				&lt;/td&gt;
+  			&lt;/tr&gt;
+  			&lt;tr&gt;
+  			&lt;!-- DISPLAY THE MAPSERVER-CREATED MAP IMAGE --&gt;
+  				&lt;td colspan=&quot;3&quot; align=&quot;center&quot; valign=&quot;top&quot;&gt;
+  					&lt;input type=&quot;image&quot; name=&quot;img&quot; src=&quot;[img]&quot; width=&quot;400&quot; height=&quot;300&quot; border=&quot;0&quot;&gt;
+  				&lt;/td&gt;
+  			&lt;/tr&gt;
+  		&lt;/table&gt;
+  	&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;/table&gt;
+  &lt;/form&gt;
+  &lt;/body&gt;
+  &lt;/html&gt;
+  </p>  </pre>
+<p>Самое интересное происходит в разделе
+              "ZOOM/PAN CONTROLS": там приводится пример того, как
+                  используется переменная "zoom". Если ее значение равно
+                  1, то масштаб карты при нажатии кнопки "Refresh" не меняется, если значение
+                  переменной zoom положительное, то масштаб
+                  увеличивается в zoom раз. Если zoom<0 то масштаб карты
+            уменьшается в zoom раз. </p>
+                <p>Map-файл, использованный в этом разделе:
+                  polt5.map. Html-шаблон: template1.html</p>
+
+
+<!-- Девятый раздел: -->
+
+
+              <h2><strong><a name="09" id="09"></a>9. Масштабная линейка </strong></h2>
+              <p>Масштабную линейку легко добавить, создав
+                  соответствующий раздел map-файла:</p>
+              <pre>MAP
+...
+  SCALEBAR
+    IMAGECOLOR 255 255 255
+    LABEL
+      COLOR 0 0 0
+      SIZE TINY
+    END
+    STYLE 1
+    SIZE 100 2
+    COLOR 0 0 0
+    UNITS METERS
+    INTERVALS 2
+    TRANSPARENT FALSE
+    STATUS ON
+  END
+
+  LAYER
+  ...
+  END
+...
+END</pre>
+              <p>После этого нужно добавить в html-шаблон еще одну ячейку таблицы:</p>
+              <pre>
+  &lt;td align=&quot;right&quot;&gt;&lt;img src=&quot;[scalebar]&quot;&gt;&lt;/td&gt;</pre>
+              <p>Назначение параметров LABEL, COLOR и др. - очевидно. Также очевидно назначение тега <strong>[scalebar]</strong> в html-шаблоне. Поэтому, единственная сложность, которая может возникнуть, - скорее
+                  эстетического характера, - хочется, чтобы шкала содержала
+                  "круглые" числа (1000м, 500м и т.п.). И для того, чтобы шкала получалась
+                  именно такая, приходится сначала подобрать соответствующий EXTENT, добиваясь появления подходящей шкалы, а
+                  потом разрешить пользователь выполнять только "подходящий" zoom (увеличение
+                  масштаба или в 2, или в 4 раза).</p>
+                <p>Map-файл, использованный в этом разделе:
+                  polt6.map. Html-шаблон: template2.html</p>
+
+
+<!-- Десятый раздел: -->
+
+
+              <h2><strong><a name="10" id="10"></a></strong>10. Управление слоями карты</h2>
+              <p>MapServer позволяет включать и выключать слои делая их видимыми и невидимыми, т.е. можно указывать, какие слои
+                  будут показаны на карте, а какие нет. Об этом подробно написано
+                <a href="http://biometry.gis.umn.edu/cgi-bin/mapserv.exe?map=/ms4w/apps/tutorial/htdocs/example2.map&amp;layer=states&amp;zoom=0&amp;mode=browse&amp;root=/tutorial&amp;program=/cgi-bin/mapserv.exe&amp;map_web=template+example2-2.html" target="_blank"
+                  class="external">вот здесь</a>.                </p>
+              <p>Если коротко, то суть в следующем: в html-шаблон вместо строчек вида:</p>
+              <pre>
+&lt;input type=&quot;hidden&quot; name=&quot;layer&quot; value=&quot;veget&quot;&gt;
+</pre>
+              <p> нужно вставить строки вида:</p>
+              <pre>
+  &lt;input type=&quot;checkbox&quot; name=&quot;layer&quot; value=&quot;veget&quot; [veget_check]&gt; Растительность
+</pre>
+              <p> вместо <strong>[veget_check]</strong> в общем случае используется тег <strong>[layername_check]</strong>, где layername - имя слоя, описанного в map-файле. Этот тег, в зависимости от того, поставлена ли галочка в соответствующем checkbox, при обработке будет заменен или строкой "checked", или пустой строкой (""). И, соответственно, слой на карте будет сделан или видимым, или прозрачным. </p>
+              <p align="center"><img
+                  src="/images/mapserver-begin-10.gif" width="425"
+                  height="237"/></p>
+              <p>Есть еще один важный момент: если в map-файле, при описании слоя в предложении LAYER установить параметру STATUS значение DEFAULT, то этот слой будет показываться в любом случае, независимо от того, отмечен ли соответствующий слой флажком в форме запроса.                </p>
+
+              <p>Map-файл, использованный в этом разделе:
+                polt5_1.map. Html-шаблон: template1_2.html</p>
+
+<!-- Одинадцатый раздел: -->
+
+              <h2><strong><a name="11" id="11"></a>11. Добавление обзорной карты</strong></h2>
+              <p>MapServer позволяет создать обзорную
+                  карту - уменьшенную копию исходной карты, на которой
+                  будет показываться текущий EXTENT.                </p>
+                <p align="center"><img
+                  src="/images/mapserver-begin-11.gif" width="573"
+                  height="312"/></p>
+                <p>
+                  Чтобы получить такую карту, нужно
+                  создать еще один раздел в map-файле:
+                <pre>MAP
+...
+  REFERENCE
+    IMAGE './images/ref.gif' # файл, в котором хранится изображение обзорной карты
+    SIZE 155 105 # размер обзорной карты в пикселях
+    EXTENT 615120 5493650 617760 5495760
+    # координаты углов обзорной карты
+    STATUS ON
+    MINBOXSIZE 10 # Наименьший возможный размер (в пикселях) прямоугольника,
+                  # отражающего текущий EXTENT н обзорной карте.
+                  # Если размеры прямоугольника будут меньше, то вместо
+                  # него будет показана точка (см. MARKER)
+    MAXBOXSIZE 150 # Максимальный возможный размера прямоугольника
+    COLOR -1 -1 -1 # Цвет заливки прямоугольника
+                   # отрицательные значения - заливки нет.
+    OUTLINECOLOR 128 0 0 # Цвет границы прямоугольника
+    MARKERSIZE 8 # Размеры маркера
+    MARKER 'star' # Символ для маркера
+  END
+  LAYER
+  ...
+  END
+...
+END</pre>
+                <p>
+                  А для того, чтобы показать обзорную карту, в html-шаблон
+                  нужно вставить еще одну ячейку таблицы:
+			<pre>&lt;td&gt;
+  &lt;p&gt;Обзорная карта:&lt;br&gt;
+  &lt;input type="image" name="ref" src="[ref]" border="0"&gt;&lt;/p&gt;
+&lt;/td&gt;</pre>
+		<p>
+                  Однако, для того, чтобы обзорную карту можно было
+                  показать, нужно сначала самостоятельно создать
+                  графический файл с этой картой ('./images/ref.gif').                </p>
+                <p>Map-файл, использованный в этом разделе:
+                  polt7.map. Html-шаблон: template3.html</p>
+
+
+<!-- Двенадцатый раздел: -->
+
+              <h2><strong><a name="12" id="12"></a>12. Создание легенды</strong></h2>
+              <p>MapServer может автоматически создавать
+                  легенды к картам.                </p>
+                <p align="center"><img
+                  src="/images/mapserver-begin-12.gif" width="565"
+                  height="313"/></p>
+                <p>Для этого нужно добавить еще один раздел в
+                  map-файл и обновить html-шаблон:                </p>
+<pre>MAP
+...
+  LEGEND
+    KEYSIZE 12 12
+    LABEL
+      TYPE TRUETYPE
+      COLOR 0 0 89
+      SIZE 9
+      FONT arial
+      ENCODING 'Windows-1251'
+    END
+    STATUS ON
+  END
+
+  LAYER
+  ...
+  END
+...
+END
+</pre>
+                <p>&nbsp;</p>
+                <pre>&lt;td&gt;
+  &lt;p&gt;Обзорная карта:&lt;br&gt;
+  &lt;img name=&quot;ref&quot; src=&quot;[ref]&quot;&gt;&lt;/p&gt;
+  &lt;p&gt;Легенда:&lt;br&gt;
+  &lt;img name=&quot;legend&quot; src=&quot;[legend]&quot;&gt;&lt;/p&gt;
+&lt;/td&gt;</pre>
+                <p>Map-файл, использованный в этом разделе:
+                polt8.map. Html-шаблон: template4.html</p>
+
+
+<!-- Транадцатый раздел: -->
+
+               <h2><strong><a name="13" id="13"></a></strong>13. Запросы</h2>
+               <p>Пришло время рассмотреть еще одну
+                  возможность, которую предоставляет MapServer - пространственные запросы.
+                  Простейший запрос можно выполнить, щелкнув мышкой на
+                  каком-либо объекте. В результате, используя html-шаблоны, MapServer сгенерирует
+                  страничку, на которой будет дана информация об этом объекте.                </p>
+                <p>Допустим, нас интересует информация о
+                  названии улицы. Тогда к соответствующему описанию LAYER
+                  нужно добавить четыре параметра:                </p>
+                <pre>
+  LAYER
+    NAME         street
+    DATA         Poltava10_Street_polyline
+    ...
+    TOLERANCE 5  # точность &quot;попадания&quot; - 5 пикселей
+    HEADER './templates/templ_head.html'    # местонахождение
+    FOOTER './templates/templ_footer.html'  # шаблонов для генерации
+    TEMPLATE './templates/templ_query.html' # ответов на запрос
+    ... </pre>
+                <p>TEMPLATE - местоположение и название файла,
+                  содержащего основной текст шаблона запроса. HEADER и
+                  FOOTER - соответственно шапка и завершение шаблона.                </p>
+                <p>Содержание файла templ_head.html:</p>
+                <pre>&lt;b&gt;Результаты запроса: названия улиц&lt;/b&gt;
+&lt;p&gt;
+&lt;table cellpadding=5 cellspacing=2 border=0&gt;
+&lt;tr bgcolor=#CCCCCC&gt;
+&lt;td bgcolor=#ffffff&gt; &lt;/td&gt;
+&lt;th&gt;Тип&lt;/th&gt;
+&lt;th&gt;Название&lt;/th&gt;
+&lt;/tr&gt;
+</pre>
+                <p>Содержание файла templ_footer:</p>
+                <pre>&lt;/table&gt;
+&lt;p&gt;Нажмите &quot;НАЗАД&quot;, чтобы вернуться к карте&lt;/p&gt;
+&lt;p&gt;
+</pre>
+                <p>Содержание файла templ_query.html:</p>
+                <pre>
+&lt;tr&gt;
+&lt;td&gt;[lrn]&lt;/td&gt;
+&lt;td&gt;[CLASSNAMER]&lt;/td&gt;
+&lt;td&gt;[RUSNAME]&lt;/td&gt;
+&lt;/tr&gt;
+</pre>
+                <p>CLASSNAMER и RUSNAME - названия полей в
+                  Poltava10_Street_polyline.dbf, а lrn - название
+                  переменной, которая содержит порядковый номер объекта.                </p>
+                <p>Важное замечание: хотя названия полей в
+                  dbf-файле могут быть записаны строчными буквами, в
+                  шаблоне обязательно нужно использовать заглавные.                </p>
+                <p>Map-файл, использованный в этом разделе:
+                  polt9.map. Html-шаблоны: template5.html, templ_footer.html, templ_head.html, templ_query.html.</p>
+                <p><strong>Заключение</strong></p>
+                <p>Данная статья демонстрирует лишь некоторые из возможностей MapServer по оформлению картографической информации и публикации ее в интернет. Мы планируем более подробно рассказать об этих и других возможностях MapServer в следующих статьях. Если у Вас есть свой опыт, которым Вы хотели бы поделиться с пользователями, мы с удовольствием поможем его опубликовать на нашем сайте.            </p>
+<p class="discuss"><span><!--#include virtual="/scripts/forum-comments-num.php?i=1716"--></span></p>
+			<div class="links">
+			<h2>Ссылки по теме</h2>
+			<ul>
+               <li><a href="mapserver.html">Создание картографических сервисов с использованием MapServer. Введение</a></li>
+			   <li><a href="mapserver-install.html">Установка MapServer для Windows</a></li>
+			</ul>
+			</div>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<p class="status"><span>Дата создания: 10.10.2007
+<br>Автор(ы): <a href="/forum/memberlist.php?mode=viewprofile&u=6597" target="_blank">Дмитрий Колесов</a></span></p>
+<!--#include virtual="/inc/footer2.php" -->

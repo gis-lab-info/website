@@ -1,0 +1,101 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Удаление геометрических дубликатов объектов в ArcView 3.x</title>
+<!--#include virtual="/inc/header2.txt" -->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Вопросы и ответы</a></li>
+</ul>
+<!--Contents start-->
+<h1>Удаление геометрических дубликатов объектов в ArcView 3.x</h1>
+<p class="ann">Типичная ошибка возникающая при оцифровке
+                    карт - возникновение дубликатов объектов. Скрипт может также
+                  использоваться как небольшое введение в Avenue</p>
+<p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=1636"--></span></p>
+            <p>Скрипт поиска элементов темы, пространственно дублирующих
+              друг-друга, запускается нажатием на кнопку в графическом интерфейса
+              Вида, на событие Click этой кнопки необходимо <a href="/programs/scripts/duplicate-wedmc.ave">назначить
+              этот скрипт</a> (<a href="/qa/addscript.html">о подключении скриптов</a>).</p>
+            <p>Чтобы обработать результаты работы
+            скрипта, создайте поле идентификаторов:</p>
+            <ul>
+              <li> создайте поле типа Number(16,0), сделайте его активным и снимите
+              выделение с таблицы</li>
+              <li> в калькуляторе поля наберите строку &quot;rec+1&quot; (<b>Field/Calculate</b>)<br />
+              </li>
+            </ul>
+            <p>Итогом работы скрипта является поле &quot;SAME_AS&quot;
+              (&quot;такой-же как&quot;), содержащее в себе идентификатор дублирующего
+              элемента если значение этого поля не равно 0, то данный элемент
+              таблицы имеет дубликат с идентификатором, равным значению поля.</p>
+            <table class="code" align="center">
+              <tr>
+                <td height="111"><p>'////////////////////////////////////////////<br />
+                    'Name: DetectDuplicateItems <br />
+                    '&copy;WedMC <br />
+                    </span>'////////////////////////////////////////////</p>
+                  <p><b>'НАЧАЛО ПРОГРАММЫ<br />
+                    'работаем с первой активной темой вида</b><br />
+                    theTheme = av.GetActiveDoc.GetActiveThemes.Get(0) <br />
+                    theFtab = theTheme.GetFtab<br />
+                    <b>'начало редактирования таблицы</b><br />
+                    theFtab.SetEditable(true)<br />
+                    <strong>'ищем поле</strong><br />
+                    err_fld = theFtab.FindField(&quot;SAME_AS&quot;)<br />
+                    <b>'если его нет - создаем и добавляем в таблицу</b><br />
+                    if (err_fld = nil) then<br />
+                    err_fld = Field.Make(&quot;SAME_AS&quot;,#FIELD_DECIMAL,16,0)<br />
+                    theFtab.AddFields({err_fld}) <br />
+                    end <br />
+                    <b>'определяем поле &quot;Shape&quot;</b><br />
+                    sField = theFtab.FindField(&quot;Shape&quot;)<br />
+                    <b>'определяем число строк в таблице</b><br />
+                    recCou= theFtab.GetNumRecords.AsString<br />
+                    <b>'инициализируем счетчик ошибок</b><br />
+                    errCou = 0<br />
+                    <b>'для всех записей в таблице</b><br />
+                    for each rec in 0..(theFtab.GetNumRecords-1)<br />
+                    <b>'рапорт о процессе работы</b><br />
+                    System.BasicEcho(&quot;record #&quot;++rec.Asstring++&quot;of&quot;++recCou,TRUE)<br />
+                    <b>'текущий шейп</b><br />
+                    sh = theFtab.ReturnValue(sField,rec)<br />
+                    <b>'выборка в таблице по текущему шейпу</b><br />
+                    theFTab.SelectByShapes ({sh}, #VTAB_SELTYPE_NEW)<br />
+                    <b>'для всех выбранных элементов</b><br />
+                    for each r in theFtab.GetSelection<br />
+                    <b>'если это не он сам</b><br />
+                    if (r&lt;&gt;rec) then<br />
+                    <b>'и если такой-же как и текущий</b><br />
+                    if (theFtab.ReturnValue(sField,r) = sh) then<br />
+                    <b>'увеличиваем счетчик ошибок</b><br />
+                    errCou = errCou+1<br />
+                    <b>'заносим значение id дубликата в поле &quot;SAME_AS&quot;</b><br />
+                    theFtab.SetValue(err_fld,r,rec+1)<br />
+                    end <br />
+                    end<br />
+                    end<br />
+                    end<br />
+                    <b>'конец редактирования таблицы</b><br />
+                    theFtab.SetEditable(false)<br />
+                    <b>'рапорт о конце работы</b><br />
+                    MsgBox.Info(errCou.AsString++&quot;duplicated ithems found&quot;,&quot;&quot;)<br />
+                    <b>'КОНЕЦ ПРОГРАММЫ</b></p></td>
+              </tr>
+            </table>
+			<p class="discuss">
+				<span><!--#include virtual="/scripts/forum-comments-num.php?i=1636"--></span>
+			</p>
+			<div class="links">
+			<h2>Ссылки по теме</h2>
+			<ul>
+               <li><a href="remove-duplicates-attr.html">Удаление  дубликатов объектов по атрибутивной информации в ArcView 3.x</a></li>
+			</ul>
+			</div>
+			<p align="center">&nbsp;</p>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<p class="status"><span>Дата создания: 05.03.2003
+<br>Автор(ы): <a href="/forum/memberlist.php?mode=viewprofile&u=11" target="_blank">WedMC</a></span></p>
+<!--#include virtual="/inc/footer2.php" -->

@@ -1,0 +1,176 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Привязка векторных данных находящихся в неизвестной или файловой системе координат в Arcview GIS</title>
+<!--#include virtual="/inc/header2.txt" -->
+<!--Contents start-->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Вопросы и ответы</a></li>
+</ul>
+<h1>Привязка векторных данных находящихся в неизвестной или файловой системе координат в Arcview GIS </h1>
+            <p class="ann">Решение задачи с которой часто приходится сталкиваться при работе с непривязанными векторными данными в Arcview GIS.</p>
+            <p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=2337"--></span></p>
+            <p>На заре ГИС, пользователями, создающими данные (особенно начинающими) относительно мало внимания внимания уделялось их системе координат. Зачастую, отсканированные материалы, минуя процесс географической привязки сразу отправлялись на оцифровку, такое явление нередко и в наши дни и является типичной ошибкой начинающих пользователей. Результатом такого подхода обычно являются данные, не имеющие географической системы координат, которые, соответственно, невозможно наложить на другие - привязанные данные, трансформировать в другую систему координат, производить по ним вычисления длин, углов, координат объектов и т.д.</p>
+            <p>Эта статья иллюстрирует процесс привязки векторных данных с помощью расширения ShapeWarp для Arcview GIS. Это расширение, как и его близкий родственник предназначенный для привязки растровых материалов ImageWarp, создано Kenneth R. McVay. Для получения общей информации о процессе привязки в ArcGIS рекомендуем ознакомиться с <a href="shapewarp.html">другой статьей</a>. </p>
+            <p>Опишем по шагам процесс привязки с помощью ShapeWarp: </p>
+            <p><img src="/images/1.gif" alt="1" width="33" height="41" align="left" /><strong>Установка</strong></p>
+            <p>Приложение ShapeWarp было создано средствами Dialog Designer и для работы требует  наличия файлов avdlog.dll и avdlog.dat. Если у Вас их нет, скопируйте файл avdlog.dll в папку Bin32, файл avdlog.dat в папку Lib32 и файл ShapeWarp.avx в папку Ext32. После того, как необходимые файлы  были скопированы, запустите ArcView GIS  и выберите меню File -  &gt; Extensions. В  открывшемся окне отметьте расширение ShapeWarp 2.2.</p>
+            <p align="center"><img src="/images/shapewarp-02.gif" alt="shapewarp" width="377" height="305" /></p>
+            <p><img src="/images/2.gif" alt="1" width="33" height="41" align="left" /> <strong>Начало работы</strong></p>
+            <p>Прежде  чем начать работать с ShapeWarp  сохраните все свои рабочие данные. ShapeWarp удаляет существующие документы из проекта, поэтому,  если вы начнёте работу с ShapeWarp  не сохранив свои данные, то утеряете их безвозвратно. Для запуска ShapeWarp нажмите кнопку, на  которой изображен красный ромб.</p>
+            <p align="center"><img src="/images/shapewarp-03.gif" alt="shapewarp" width="302" height="68" /></p>
+            <p><strong>2.1 Параметры проекта</strong></p>
+            <p> После  запуска программы вы увидите следующее окно:</p>
+            <p align="center"><span><img src="/images/shapewarp-04.gif" alt="shapewarp" width="382" height="136" /></span></p>
+            <p>TO View – это темы, к которым  осуществляется привязка, FROM View&nbsp;–  темы, которые необходимо привязать. Если данные в ваших TO View темах  представлены в десятичных градусах, а вы хотите представить данные FROM View тем  в других единицах измерения, то нажав кнопку Yes данного диалогового окна, откроется окно в котором следует  установить необходимые параметры:</p>
+            <p align="center"><span><img src="/images/shapewarp-06.gif" alt="shapewarp" width="412" height="316" /></span></p>
+            <p>Если  данные ваших TO View тем представлены не в десятичных градусах, то вам не следует  задавать эти параметры (нажмите кнопку No в окне Set Projection).</p>
+            <p>Если  вы ввели ошибочные данные в окне Projection Properties, то для исправления этого  нажмите кнопку Cancel в  этом же окне. Вам будет предложено подтвердить или отклонить внесенные  изменения.</p>
+            <p><strong>2.2 Выбор тем для привязки</strong></p>
+            <p>Как  только параметры проецирования установлены (если это   было необходимо), переходим к выбору тем привязки. Выбираем тему,  которую нужно привязать (FROM View):</p>
+            <p align="center"><img src="/images/shapewarp-07.gif" alt="shapewarp" width="515" height="239" /></p>
+            <p>Стоит отметить, что в качестве FROM View может выступать только shape-файл, с помощью ShapeWarp 2.2 мы не можем осуществить <a href="imagewarp.html">привязку растра</a>. Затем выбираем TO View тему. В качестве TO View данных  могут выступать shape-файлы,  растровые изображения и GRIDы.</p>
+            <p><strong>2.3 Выбор GCP (Ground Control Point table)</strong></p>
+            <p> После выбора тем вам будет предложено выбрать таблицу точек привязки (GCP):</p>
+            <p align="center"><span><img src="/images/shapewarp-08.gif" alt="shapewarp" width="223" height="113" /></span></p>
+            <p>Если у вас имеется GCP таблица и вы желаете воспользоваться ей, то нажмите кнопку Yes и выберите нужную  таблицу. Если у вас ее нет, то нажмите кнопку No и укажите путь, куда будет сохранена  новая таблица.</p>
+            <p><img src="/images/3.gif" alt="3" width="33" height="41" align="left" /> <strong>Инструменты ShapeWarp 2.2</strong></p>
+            <p>Окно программы после выбора исходных данных:</p>
+            <p align="center"><span><img src="/images/shapewarp-09.gif" alt="shapewarp" width="550" height="403" /></span></p>
+            <p>В качестве FROM View  темы была выбрана карта Алтайского края с неизвестной системой координат, а в  качестве TO View  – карта Российской Федерации в системе координат WGS84.</p>
+            <p>Как видно из рисунка, стандартные кнопки, пункты меню и  инструменты исчезли. Вместо них появилось окно инструментов:</p>
+            <p align="center"><span><img src="/images/shapewarp-10.gif" alt="shapewarp" width="216" height="133" /></span></p>
+            <p>Рассмотрим инструменты этого окна:</p>
+            <table border="1" align="center" cellpadding="0" cellspacing="0">
+              <tr>
+                <td width="103" valign="top"><p align="center">Обозначение</p></td>
+                <td width="281" valign="top"><p align="center">Название</p></td>
+                <td width="281" valign="top"><p align="center">Описание</p></td>
+              </tr>
+              <tr>
+                <td width="103" valign="top"><div align="center"><img src="/images/shapewarp-11.gif" alt="shapewarp" width="24" height="23" /></div></td>
+                <td width="281"><p>Select Tool</p></td>
+                <td width="281"><p>Позволяет выделять GCP-точки</p></td>
+              </tr>
+              <tr>
+                <td width="103" valign="top"><div align="center"><img src="/images/shapewarp-12.gif" alt="shapewarp" width="24" height="23" /></div></td>
+                <td width="281"><p>Move GCP</p></td>
+                <td width="281"><p>Позволяет перемещать GCP-точки</p></td>
+              </tr>
+              <tr>
+                <td width="103" valign="top"><div align="center"><img src="/images/shapewarp-13.gif" alt="shapewarp" width="25" height="23" /></div></td>
+                <td width="281"><p>GCP Pick Tool</p></td>
+                <td width="281"><p>Инструмент расстановки GCP-точек</p></td>
+              </tr>
+              <tr>
+                <td width="103" valign="top"><div align="center"><img src="/images/shapewarp-14.gif" alt="shapewarp" width="24" height="23" /></div></td>
+                <td width="281"><p>Zoom In Tool</p></td>
+                <td width="281"><p>Увеличение</p></td>
+              </tr>
+              <tr>
+                <td width="103" valign="top"><div align="center"><img src="/images/shapewarp-15.gif" alt="shapewarp" width="23" height="22" /></div></td>
+                <td width="281"><p>Zoom Out Tool</p></td>
+                <td width="281"><p>Уменьшение</p></td>
+              </tr>
+              <tr>
+                <td width="103" valign="top"><div align="center"><img src="/images/shapewarp-16.gif" alt="shapewarp" width="23" height="23" /></div></td>
+                <td width="281"><p>Pan</p></td>
+                <td width="281"><p>Сдвиг</p></td>
+              </tr>
+              <tr>
+                <td width="103" valign="top"><div align="center"><img src="/images/shapewarp-17.gif" alt="shapewarp" width="24" height="23" /></div></td>
+                <td width="281"><p>Select Feature</p></td>
+                <td width="281"><p>Выделение области</p></td>
+              </tr>
+              <tr>
+                <td width="103" valign="top"><div align="center"><img src="/images/shapewarp-18.gif" alt="shapewarp" width="24" height="23" /></div></td>
+                <td width="281"><p>Toggle Table of Contents</p></td>
+                <td width="281"><p>Легенда</p></td>
+              </tr>
+              <tr>
+                <td width="103" valign="top"><div align="center"><img src="/images/shapewarp-19.gif" alt="shapewarp" width="25" height="23" /></div></td>
+                <td width="281"><p>Toggle between Table and Views</p></td>
+                <td width="281"><p>Переключение на GCP-таблицу и обратно</p></td>
+              </tr>
+              <tr>
+                <td width="103" valign="top"><div align="center"><img src="/images/shapewarp-20.gif" alt="shapewarp" width="25" height="22" /></div></td>
+                <td width="281"><p>Calculate RMS</p></td>
+                <td width="281"><p>Расчет RMS</p></td>
+              </tr>
+              <tr>
+                <td width="103" valign="top"><div align="center"><img src="/images/shapewarp-21.gif" alt="shapewarp" width="24" height="23" /></div></td>
+                <td width="281"><p>Delete GCP’s</p></td>
+                <td width="281"><p>Удаление GCP-точек</p></td>
+              </tr>
+              <tr>
+                <td width="103" valign="top"><div align="center"><img src="/images/shapewarp-22.gif" alt="shapewarp" width="24" height="23" /></div></td>
+                <td width="281"><p>GCPS OFF</p></td>
+                <td width="281"><p>Включение/отключение GCP-точек</p></td>
+              </tr>
+              <tr>
+                <td width="103" valign="top"><div align="center"><img src="/images/shapewarp-23.gif" alt="shapewarp" width="24" height="23" /></div></td>
+                <td width="281"><p>Delete Selected GCP</p></td>
+                <td width="281"><p>Удаление выделенных GCP-точек</p></td>
+              </tr>
+              <tr>
+                <td width="103" valign="top"><div align="center"><img src="/images/shapewarp-24.gif" alt="shapewarp" width="71" height="67" /></div></td>
+                <td width="281"><p>Zoom to Selected, Zoom to Theme, Zoom to Extents, Select None, Zoom    Out, Zoom In, Add Themes, and Zoom to Previous</p></td>
+                <td width="281"><p>Стандартные ArcView GIS кнопки</p></td>
+              </tr>
+              <tr>
+                <td width="103" valign="top"></td>
+                <td width="281" valign="top"><p>From</p></td>
+                <td width="281"><p>Расчет GCP</p></td>
+              </tr>
+              <tr>
+                <td width="103" valign="top"></td>
+                <td width="281" valign="top"><p>Go</p></td>
+                <td width="281"><p>Запуск процесса привязки</p></td>
+              </tr>
+              <tr>
+                <td width="103" valign="top"></td>
+                <td width="281" valign="top"><p>Quit</p></td>
+                <td width="281"><p>Выход</p></td>
+              </tr>
+              <tr>
+                <td width="103" valign="top"></td>
+                <td width="281" valign="top"><p>Snap</p></td>
+                <td width="281"><p>Параметры привязки</p></td>
+              </tr>
+            </table>
+            <p>При нажатии на кнопку Snap открывается диалоговое  окно, в котором устанавливаются параметры прищелкивания. </p>
+            <p align="center"><img src="/images/shapewarp-25.gif" alt="shapewarp" width="170" height="131" /></p>
+            <p>В данном диалоговом окне кнопки распределены по двум  категориям – From View  и To View для соответствующих тем.  В каждую категорию входят идентичные по своему назначению кнопки. Назначение  кнопок понятно из их названия.</p>
+            <p><img src="/images/4.gif" alt="3" width="33" height="41" align="left" /> <strong>Пример</strong></p>
+            <p>Итак, на начальном этапе имеем следующую картину: </p>
+            <p align="center"><img src="/images/shapewarp-26.gif" alt="shapewarp" width="550" height="403" /></p>
+            <p>В качестве привязываемой темы выбрана карта Алтайского края с  неизвестной системой координат, а в качестве привязанной – карта Российской  Федерации в системе координат WGS84.</p>
+            <p>1. Нажимаем кнопку  Snap на панели  инструментов. Поскольку в TO View  и FROM  View открыто по  одной теме, то кнопка выбора темы Pick Theme нам не нужна. Нажимаем кнопку Snap Type и  для обоих тем выбираем тип прищелкивания. В нашем случае удобнее всего  воспользоваться типом To Closest Boundary  (к ближайшей границе). После того, как  был выбран тип прищелкивания, необходимо указать области, в пределах которых он  будет функционировать. Для этого необходимо воспользоваться инструментом Tolerance.</p>
+            <p>2. Нажимаем кнопку  <img src="/images/shapewarp-13.gif" alt="shapewarp" width="25" height="23" /> и расставляем точки  привязки. Отметим, что точки привязки расставляются в следующем порядке: от TO View к  FROM View. После расстановки точек  имеем:</p>
+            <p align="center"><img src="/images/shapewarp-27.gif" alt="shapewarp" width="550" height="256" /></p>
+            <p>Стоит отметить сквозную нумерация точек привязки, то есть при  удалении какой либо точки, номер следующей будет увеличен на единицу.</p>
+            <p>3. После того, как точки привязки расставлены, вы можете  рассчитать среднеквадратичную ошибку (RMS), нажав кнопку Calculate RMS. Затем следует  переключиться к таблице точек привязки:</p>
+            <p align="center"><img src="/images/shapewarp-28.gif" alt="shapewarp" width="550" height="124" /></p>
+            <p>Как видно из приведенной таблицы, последнее поле представляет  собой значение <a href="rmse.html">среднеквадратичной ошибки</a>. В случае, если значение этой ошибки  вас не удовлетворяет, вы можете либо отключить соответствующую точку привязки,  либо изменить её расположение.</p>
+            <p>4. На данном этапе всё готово к осуществлению привязки. Для её  запуска нажимаем кнопку Go,  указываем имя выходного shape-файла,  соглашаемся с необходимостью создания отчёта, указываем имя отчёта и ждём  завершения процесса привязки. При успешном завершении этой процедуры появляется  окно, свидетельствующее об этом:</p>
+            <p align="center"><img src="/images/shapewarp-29.gif" alt="shapewarp" width="385" height="139" /></p>
+            <p>Процесс привязки окончен! </p>
+            <p>Отметим, что в результате ее выполнения помимо привязанного shape-файла была создана  таблица точек привязки. Если вдруг вы захотите осуществить привязку повторно,  добавив или отключив те или иные точки привязки, то подключив данную таблицу,  вам не придётся повторно вручную расставлять эти точки, они будут добавлены  автоматически.</p>
+            <p>После привязки необходимо проверить качество совпадения привязанного материала и набора данных к которому осуществлялась привязка. </p>
+            <p class="discuss">
+				<span><!--#include virtual="/scripts/forum-comments-num.php?i=2337"--></span>
+			</p>
+			<div class="links">
+			<h2>Ссылки по теме</h2>
+			<ul>
+               <li><a href="imagewarp.html">Географическая привязка растровых данных в ImageWarp</a></li>
+               <li><a href="/qa/georef-ag.html">Возможности работы с пространственными данными статистического пакета R</a></li>
+			</ul>
+			</div>
+            <!--#include virtual="/scripts/date.php" -->
+<!--Contents end-->
+<p class="status"><span>Дата создания: 19.07.2008
+<br>Автор(ы): <a href="/forum/memberlist.php?mode=viewprofile&u=6901" target="_blank">Денис Рыков</a></span></p>
+<!--#include virtual="/inc/footer2.php" -->

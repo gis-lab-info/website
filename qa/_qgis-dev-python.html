@@ -1,0 +1,176 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Разработка простого расширения для QGIS на Python</title>
+<!--#include virtual="/inc/header2.txt" -->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Вопросы и ответы</a></li>
+</ul>
+<!--Contents start-->
+<h1>Разработка основы для расширения  QGIS на Python </h1>
+<p class="ann">Описание процесса создания элементарного расширения для QGIS </p>
+            <p>QGIS - свободная пользовательская ГИС обладающая развитым API и продвинутой системой расширений (модулей), которые могут быть использованы для расширения функциональности программы. Разработка для QGIS может вестись на двух языках, Python и C++. Помимо расширений, эти языки и библиотеки QGIS могут быть также использованы для разработки отдельных приложений, что подробно описано в <a href="qgis-standalone.html">статье</a> &quot;Создание приложения на базе набора библиотек QGIS на Python&quot;. </p>
+            <p>Данная статья описывает процесс создания каркаса расширения на языке Python. Разработанный каркас можно в дальнейшем использовать как основу для других расширений, выполняющих нужные функции.</p>
+            <p>Создание расширения состоит из нескольких этапов:</p>
+            <ul>
+              <li>Идея</li>
+              <li>Создание файлов </li>
+              <li>Разработка</li>
+              <li>Тестирование</li>
+              <li>Публикация</li>
+            </ul>
+            <p>В данной статье идея расширения достаточно проста, создать расширение, которое добавит новую кнопку на панель инструментов и подменю в меню расширений и будет выполнять какое-либо простое действие. Это расширение можно будет использовать как каркас для других будущих, более функциональных расширений. Далее мы более подробно разберем остальные шаги. </p>
+            <p><strong>Оглавление</strong></p>
+            <ol>
+                  <li><a href="#01">Получение исходного кода </a></li>
+                  <li><a href="#02">Подготовка</a></li>
+                  <li><a href="#03">Разработка</a></li>
+                  <li><a href="#4">Какие функции из API доступны через Python</a></li>
+                  <li><a href="#05">Ресурсы</a></li>
+            </ol>
+
+
+<!-- Первый раздел -->
+            <p><strong><img src="/images/1.gif" alt="1" width="33" height="41" align="left" /><a name="01" id="01"></a>Получение исходного кода</strong></p>
+	    <p>Код расширения, проверенно работающий под QGIS 1.0 можно получить несколькими способами.</p>
+	    <p>Его можно скачать в виде <a href="/programs/qgis/testplugin.zip">архива</a>.  </p>
+	    <p>Его можно получить через SVN </p>
+	    <pre>svn co http://svn.gis-lab.info/testplugin testplugin</pre>
+
+        <p>
+          <!-- Второй раздел -->
+          Рабочий вариант расширения можно загрузить через репозиторий расширений GIS-Lab, открыв Установщик расширений QGIS (Plugins\Fetch python plugins) и добавив 3rd party репозиторий:</p>
+        <pre>Name: GIS-Lab<br>URL: http://gis-lab.info/programs/qgis/qgis-repo.xml</pre>
+        <p>&nbsp;</p>
+        <p><strong><img src="/images/2.gif" alt="2" width="33" height="41" align="left" /><a name="02" id="02"></a>Подготовка</strong></p>
+        <p>Для разработки расширения понадобится</p>
+        <ul>
+          <li>Любой текстовый редактор</li>
+          <li>Python, лучше версии 2.5</li>
+          <li>PyQT</li>
+          <li>QT Opensource  </li>
+          <li>собственно QGIS соответствующей версии, для проверки работоспособности расширения. </li>
+        </ul>
+        <p>Разработку можно вести прямо в папке, где хранятся расширения или переместить его в нее после разработки, в QGIS эта папка либо: </p>
+        <p>QGIS\python\plugins</p>
+        <p>либо</p>
+        <p>C:\Documents and Settings\username\.qgis\python\plugins\</p>
+        <p>В папке с плагинами необходимо создать новую, назвав ее так, чтобы бы по ее названию было бы легко определить, что именно расширение делает. Назовем нашу папку <strong>testplugin</strong>. Это название следует запомнить, так как оно будет фигурировать в различных компонентах кода. </p>
+        <p>Перед собственно разработкой, нам понадобится создать в этой папке несколько новых, пока пустых текстовых файлов, называемых следующим образом:</p>
+        <ul>
+          <li><strong>__init__.py</strong> - начальная точка, содержит информацию о расширении, версию, имя разработчика и основной класс </li>
+          <li><strong>plugin.py</strong> - основной код расширения. Содержит всю информацию о всех действиях расширения и их код.</li>
+          <li><strong>resources.qrc</strong> -  .xml файл, создаваемый QT-Designer или вручную и содержащий относительные пути к ресурсам расширения, формам, иконкам и т.п.</li>
+          </ul>
+        <p>Помимо этих файлов, если расширение использует формы, могут также присутствовать файлы:</p>
+        <ul>
+          <li><strong>form.ui</strong> - форма созданная с помощью QT-Designer </li>
+          <li><strong>form.py</strong> - она же, сохраненная в виде программы на языке Python</li>
+          </ul>
+        <p>Для примера из данной статьи эти файлы не понадобятся. </p>
+        <p>Итак, пустые файлы созданы и лежат в нужной папке. </p>
+        <p><strong><img src="/images/3.gif" alt="3" width="33" height="41" align="left" /><a name="03" id="03"></a>Разработка</strong></p>
+        <p>Разработка начинается с файла __init__.py, содержащего некоторые основные параметры расширения, такие как его название <strong>name</strong> т.е. то, как он будет показываться в Менеджере Расширения, его описание <strong>description</strong>, показывается там же. Если мы хотим использовать в коде кириллицу, необходимо в самом его начале объявить кодировку utf-8. Нужно также указать минимальную версию QGIS, для которой разработано это расширение (при попытке загрузки в QGIS меньшей версии плагин будет отключен и другие параметры:</p>
+        <pre># -*- coding: utf-8 -*-
+def name():
+  return "My testing plugin"
+def description():
+  return "This plugin has no real use."
+def qgisMinimumVersion(): 
+  return "1.0" 
+def version():
+  return "Version " + "0.1.21"
+def authorName():
+  return "John Developer"
+...</pre>
+        <p>Важным фрагментом кода __init__.py является импорт исполняемой части расширения, содержащейся в файле plugin.py (поэтому <strong>from plugin</strong> ) и содержащей всю содержательную часть кода.  </p>
+        <pre>...
+def classFactory(iface):
+  # загрузка класса TestPlugin из файла plugin.py
+  from plugin import TestPlugin
+  return TestPlugin(iface)</pre>
+        <p>Название главного импортируемого класса TestPlugin должно быть равно названию класса в коде plugin.py, причем название - регистрозависимое, если вызывается TestPlugin, а класс носит название testplugin, будет выдано сообщение об ошибке.</p>
+        <p>Рассмотрим plugin.py.</p>
+        <p>Как и во всех программах на языке python, все начинается с импорта необходимых для работы классов, в нашем случае это будут классы PyQT - обертки для QT на языке Python: PyQt4.QtCore и PyQt4.QtGui, активно используемые QGIS и сами классы QGIS: qgis.core </p>
+        <pre># -*- coding: utf-8 -*-
+from PyQt4.QtCore import *
+from PyQt4.QtGui import *
+from qgis.core import *
+</pre>
+        <p>Помимо этого нужно также импортировать ресурсы самого расширения, в нашем случае они будут задаваться через resources.py, как его создать мы разберем чуть позже.</p>
+        <pre>import resources</pre>
+        <p>После импорта идет раздел главного класса, импортируемого в __init__.py и содержащего все нужные функции. Необходимо обратить внимание, что название класса должно быть равно названию используемому для его вызова в __init__.py. Определение функции начинается с ключевого слова def, за которым следует имя функции и ее аргументы. </p>
+        <p>Объявим наш основной класс и функцию инициализации: </p>
+        <pre>class TestPlugin:
+
+  def __init__(self, iface):
+    # сохраним ссылку на интерфейс QGIS
+    self.iface = iface
+</pre>
+        <p>Одна из важнейших функций - создание элементов интерфейса расширения initGui. При загрузке расширения к пользовательскому интерфейсу iface.self могут добавляться кнопки addToolBarIcon или строки в меню Plugins, addPluginToMenu. </p>
+        <pre>  def initGui(self):
+    # создадим действие, которое будет запускать конфигурацию расширения
+    self.action = QAction(QIcon(":/plugins/testplugin/icon.png"), "Test plugin", self.iface.mainWindow())
+    self.action.setWhatsThis("Configuration for test plugin")
+    
+    # connect the action to the run method
+    QObject.connect(self.action, SIGNAL("activated()"), self.run)
+    
+    # добавим кнопку на панель инструментов
+    self.iface.addToolBarIcon(self.action)
+    
+    # добавим строку вызова в новое подменю
+    self.iface.addPluginToMenu("&Test plugin", self.action)</pre>
+        <p>Следующая важная функция расширения описывает то, что происходит при его выгрузке, выключении через Plugin Manager - unload(self)</p>
+        <pre>  def unload(self):
+    # удалить меню расширения и иконку
+    self.iface.removePluginMenu("&Test plugin",self.action)
+    self.iface.removeToolBarIcon(self.action)
+    # отключить сигнал обновления вида
+    QObject.disconnect(self.iface.mapCanvas(), SIGNAL("renderComplete(QPainter *)"), self.renderTest)</pre>
+        <p>И наконец функция выполняющая единственное действие в нашем расширении - <strong>run()</strong>. Функция использует функцию QString для создания строки сообщения и QMessageBox для показа этого сообщения в главном окне программы. </p>
+        <pre>  def run(self):
+    # создать и показать сообщение
+    infoString = QString("This is a test")
+    QMessageBox.information(self.iface.mainWindow(),"About",infoString)</pre>
+        <p><strong><img src="/images/4.gif" alt="4" width="33" height="41" align="left" /><a name="04" id="04"></a>Какие функции из API доступны через Python</strong><br>
+          К сожалению не все функции API QGIS доступны через Python (через C++ доступны все). Чтобы определить, доступны ли конкретные классы и функции, необходимо сначала найти их в документации к API GIS <a href="http://doc.qgis.org" target="_blank" class="external">http://doc.qgis.org</a>. А затем в консоли Python попытаться с помощью команды dir определить видны ли эти классы и функции из Python. </p>
+        <p>Например, определим доступные классы:  </p>
+        <pre>import qgis.core<br>dir(qgis.core)</pre>
+        <p>Результат:</p>
+        <pre>['DEFAULT_LINE_WIDTH', 'DEFAULT_POINT_SIZE', 'ELLPS_PREFIX_LEN', 'GEOCRS_ID', 'GEOPROJ4', 'GEOSRID', 'GEOWkt',
+'GEO_EPSG_CRS_ID', 'LAT_PREFIX_LEN', 'MINIMUM_POINT_SIZE', 'PROJ_PREFIX_LEN', 'QGis', 'QgsApplication', 'QgsContextHelp',
+'QgsContinuousColorRenderer', 'QgsContrastEnhancement', 'QgsContrastEnhancementFunction', 'QgsCoordinateReferenceSystem', 
+'QgsCoordinateTransform', 'QgsDataProvider', 'QgsDataSourceURI', 'QgsDistanceArea', 'QgsFeature', 'QgsField', 'QgsGeometry',
+'QgsGraduatedSymbolRenderer', 'QgsLabel', 'QgsLabelAttributes', 'QgsLogger', 'QgsMapLayer', 'QgsMapLayerRegistry',
+'QgsMapRenderer', 'QgsMapToPixel', 'QgsMarkerCatalogue', 'QgsMessageOutput', 'QgsMessageOutputConsole', 'QgsPoint',
+'QgsProject', 'QgsProviderMetadata', 'QgsProviderRegistry', 'QgsRasterBandStats', 'QgsRasterDataProvider', 'QgsRasterLayer',
+'QgsRasterPyramid', 'QgsRasterShader', 'QgsRasterShaderFunction', 'QgsRasterTransparency', 'QgsRasterViewPort', 'QgsRectangle',
+'QgsRenderContext', 'QgsRenderer', 'QgsScaleCalculator', 'QgsSingleSymbolRenderer', 'QgsSnapper', 'QgsSnappingResult',
+'QgsSpatialIndex', 'QgsSymbol', 'QgsSymbologyUtils', 'QgsUniqueValueRenderer', 'QgsVectorDataProvider',
+'QgsVectorFileWriter', 'QgsVectorLayer', 'USER_CRS_START_ID', '__doc__', '__file__', '__name_</pre>
+        <p>Далее, после выбора нужного класса, например QgsFeature, посмотрим его функции: </p>
+        <pre>dir(qgis.core.QgsFeature)</pre>
+        <p>Результат:</p>
+        <pre>['__class__', '__delattr__', '__doc__', '__getattribute__', '__hash__', '__init__', '__module__',
+'__new__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__str__', '__weakref__', 'addAttribute',
+'attributeMap', 'changeAttribute', 'clean', 'deleteAttribute', 'geometry', 'geometryAndOwnership', 'id',
+'isDirty', 'isValid', 'setAttributeMap', 'setFeatureId', 'setGeometry', 'setGeometryAndOwnership', 'setTypeName',
+'setValid', 'typeName']</pre>
+        <p><strong><img src="/images/5.gif" alt="5" width="33" height="41" align="left" /><a name="05" id="05"></a>Ресурсы</strong></p>
+        <p>Для разработки расширения понадобится</p>
+        <p class="discuss">
+		   <span><!--#include virtual="/scripts/forum-comments-num.php?i=852"--></span>
+		</p>
+            <div class="links">
+				<h2>Ссылки по теме</h2>
+					<ul>
+						<li><a href="modislandprod.html">Ссылка на дополнительный источник информации внутренняя</a></li>
+						<li><a href="http://lpdaac.usgs.gov/landdaac/tools/modis/about.asp" target="_blank" class="external">Ссылка на дополнительный источник информации внешняя</a></li>
+					</ul>
+			</div>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<!--#include virtual="/inc/footer2.php" -->

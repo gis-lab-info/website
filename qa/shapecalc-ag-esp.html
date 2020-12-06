@@ -1,0 +1,162 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Getting main spatial characteristics  of objects in ArcGIS</title>
+<!--#include virtual="/inc/header2-eng.txt" -->
+<!--Contents start-->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Вопросы и ответы</a></li>
+</ul>
+<h1>Obteniendo informacion espacial de objetos en ArcGIS </h1>
+            <p>Este articulo describe como obtener las principales caracteristicas geometricas de   objetos espaciales. Para calcularlas no es necesario utilizar software o extensiones adicionales. Aqui se explican los siguientes tipos geometricos y sus caracteristicas espaciales relativas:</p>
+            <table align="center" border="0" width="50%">
+              <tbody>
+                <tr>
+                  <td><p>Tipo de objeto</p></td>
+                  <td><p>Caracter&iacute;stica espacial</p></td>
+                  <td><p align="center">Liga</p></td>
+                </tr>
+                <tr>
+                  <td><p>Punto</p></td>
+                  <td><p> Coordenada en X<br />
+                      Coordenada en Y</p></td>
+                  <td><p align="center"><a href="#point">ir</a></p></td>
+                </tr>
+                <tr>
+                  <td><p>Linea</p></td>
+                  <td><p>Longitud</p></td>
+                  <td><p align="center"><a href="#line">ir</a></p></td>
+                </tr>
+                <tr>
+                  <td><p>Poligono</p></td>
+                  <td><p>Longitud (perimetro)<br />
+                      Area</p></td>
+                  <td><p align="center"><a href="#polygon">ir</a></p></td>
+                </tr>
+              </tbody>
+            </table>
+            <p>Para aquellos que han usado software como Mapinfo, probablemente notaran que no existe una forma sencilla de ver las caracteristicas espaciales de un objeto con un solo click, ya sea un punto una linea o un pol&iacute;gono. En ArcGIS es imposible entontrar dichas caracter&iacute;sticas con solo seleccionar el objeto. Sin embargo, y aunque parezca inconveniente, hay cierta logica en ello.</p>
+            <p>La razon es que la sola inspeccion visual de los objetos espaciales no tiene mucho sentido. Es mucho mas &uacute;til tener datos de la geometria de los datos dentro de la tabla de atributos y trabajar con los datos desde ahi. Tambien es posible, si es necesario, organizar monitoreos constantes y actualizar los valores de atributos relacionados con la geometria de un objeto que cambia. Esta filosofia es utilizada en las estaciones de trabajo con ArcInfo, ya que ahi se trabaja con los datos en el propio formato de la cobertura. Esto puede tener sentido si es necesario realizar una serie de operaciones espaciales y debemos hacer un seguimiento de los cambios en las caracteristicas espaciales, ya que estas ultimas son el reflejo de la geometria de los objetos. </p>
+            <p>Es necesario remarcar que las caracteristicas espaciales son propiedades de la geometria de los objetos. En ArcView GIS y ArcGIS el formato shape permite obtener estos datos a traves del campo &quot;Shape&quot;. Esto permite relacionar la geometria a partir de la tabla y puede ser utilizada para extraer algunos datos de la cobertura.</p>
+            <p>Al calcular caracteristicas espaciales es importante recordar que las unidades de salida seran las mismas que las unidades internas de la fuente de datos. Por lo tanto:</p>
+            <ul>
+              <li> Si los datos estan en un sistema de coordenadas geograficas, entonces despues de extraer las caracteristicas espaciales los datos resultantes estaran en grados decimales, sin importar si la cobertura tiene o no la proyeccion definida )esto es aceptable para puntos, pero no para longitudes o areas)</li>
+              <li>Si los datos estan en un sistema de coordenadas desconocido, entonces los calculos seguiran realizandose, pero las unidades resultantes permaneceran desconocidas tambien.</li>
+            </ul>
+            <p>Inclusive seria posible obtener datos metricos acerca de caracteristicas espaciales, aun si los datos carecen de proyeccion (estando en un sistema de coordenadas geograficas), si existen datos de proyeccion de la ventana de datos (dataframe). Para estos calculos es importante recordar que sistema de coordenadas se utilizo para los calculos ya que los resultados pueden variad de acuerdo a la proyeccion utilizada. </p>
+            <p>Bueno, para actualizar la tabla de atributos de todos los objetos de una sola vez, es necesario&Ntilde;</p>
+            <p>1. Abrir la tabla de atributos con el boton derecho del raton sobre la cobertura, para objetos de los cuales sea necesario calcular las caracteristicas espaciales. Escoge <strong>Open Attribute Table</strong>. </p>
+            <p>2. Crear el campo o campos con formato entero o flotante, dependiendo del tipo de dato que se desee calcular. <strong>Options\Add Field...</strong></p>
+            <p>3. Escoger la via de entrada de datos con el boton derecho del raton en el encabezado del campo y escogiendo <strong>Calculate Values...</strong></p>
+            <p align="center"><img src="/images/shapecalc-04.gif" height="203" width="440" /></p>
+            <p>4. En la calculadora de campos (Field Calculator) hay que cambiarse a modo avanzado (Advanced
+              mode)</p>
+            <p>5.
+              En la caja de texto de codigo Pre-logico de VBA (Pre-logic VBA Script Code) es necesario escribir una de las siguientes expresiones, que nos daran las caracteristicas espaciales de los datos desde el campo <b>Shape, </b>este campo es el que contiene la geometria del objeto. </p>
+            <p align="center"><span><img src="/images/shapecalc-05.gif" height="431" width="468" /></span> </p>
+            <p><b>1. <a name="polygon" id="polygon"></a>Caracteristicas de los pol&iacute;gonos : </b></p>
+            <p><b>Area</b></p>
+            <p>Expresion para obtener caracteristicas espaciales de las datos en las mismas unidades internas y sistema de coordenadas de la cobertura. La cobertura y la ventana de datos (dataframe) pueden estar tanto en coordenadas geograficas como cualquier sistema de coordenadas, el resultado sera el mismo ya que no es dependiente del sistema de coordenadas de la ventana de datos (dataframe):</p>
+            <p><strong>Dim Output as double<br />
+              Dim pArea as IArea<br />
+              Set pArea = [shape]<br />
+              Output = pArea.area</strong></p>
+            <p>Remarcando, este comando no dara los resultados esperados si los datos estan inicialmente en proyeccion geografica y no importa si la ventana de datos esta proyectada o no. Sin embargo, si se esta trabajando con datos vectoriales que estan proyectados, usar esta expresion puede ser mas sencillo y ahorrar tiempo. </p>
+            <p>Para obtener caracteristicas espaciales en sistemas metricos utilizando datos almacenados en un sistema de coodenadas geografico y proyectado al vuelo (on the fly) en ArcGIS, es necesario modificar la expresion como sigue:</p>
+            <p><strong>Dim pMxDoc As IMxDocument<br />
+              Set pMxDoc = ThisDocument<br />
+              Dim pMap As IMap<br />
+              Set pMap = pMxDoc.FocusMap<br />
+              Dim pSR As ISpatialReference<br />
+              Set pSR = pMap.SpatialReference<br />
+              Dim pPolygon As IPolygon<br />
+              Dim pArea as IArea<br />
+              Set pPolygon = [Shape]<br />
+              pPolygon.Project pSR<br />
+              Set pArea = pPolygon<br />
+              Output = pArea.area</strong></p>
+            <p>En la ultima caja de texto, justo debajo de donde dice &quot;<b>area =&quot; </b>es necesario poner <b>Output. </b><strong>Output</strong> es el nombre de la variable que contiene el resultado de los calculos para cada registro (=feature).</p>
+            <p><strong>Area</strong> es el nombre del campo en el de los resultados del calculo seran almancenados. En caso necesario es posible utilizar otro nombre de campo en vez de <strong>Area</strong>. </p>
+            <p><b>Perimetro</b></p>
+            <p>Expresi&oacute;n para una ventana de datos sin proyectar, los datos pueden estar en sistemas de coordenadas geograficas o proyectadas:</p>
+            <p><strong>Dim Output as double<br />
+              Dim pCurve as ICurve<br />
+              Set pCurve = [shape]<br />
+              Output = pCurve.Length</strong></p>
+            <p>Expresi&oacute;n
+              para una ventana de datos los datos pueden estar en sistemas de coordenadas geograficas o proyectadas. El valor de las caracteristicas espaciales reportadas ser&aacute; calculado en las unidades proyectadas y utilizando la proyeccion de la ventana de datos(dataframe): </p>
+            <p><b>Dim pMxDoc As IMxDocument<br />
+              Set pMxDoc = ThisDocument<br />
+              Dim pMap As IMap<br />
+              Set pMap = pMxDoc.FocusMap<br />
+              Dim pSR As ISpatialReference<br />
+              Set pSR = pMap.SpatialReference<br />
+              Dim pCurve As ICurve<br />
+              Set pCurve = [Shape]<br />
+              pCurve.Project pSR<br />
+              Output = pCurve.Length</b></p>
+            <p>En la ultima caja de texto, justo debajo de donde dice &quot;<b>perimeter =&quot; </b>es necesario poner <b>Output. </b><strong>Output</strong> es el nombre de la variable que contiene el resultado de los calculos para cada registro (=feature).</p>
+            <p><strong>Perimeter</strong> es el nombre del campo en el que los resultados seran alamcenados, tambien es posible utilizar otro nombre de campo.</p>
+            <p><b>2. <a name="line" id="line"></a>Caracteristicas lineales:</b></p>
+            <p><b>Longitud</b></p>
+            <p>Expresi&oacute;n para una ventana de datos sin proyectar, los datos pueden estar en sistemas de coordenadas geograficas o proyectadas:</p>
+            <p><strong>Dim Output as double<br />
+              Dim pCurve as ICurve<br />
+              Set pCurve = [shape]<br />
+              Output = pCurve.Length</strong></p>
+            <p>Expresi&oacute;n para una ventana de datos los datos pueden estar en sistemas de coordenadas geograficas o proyectadas. El valor de las caracteristicas espaciales reportadas ser&aacute; calculado en las unidades proyectadas y utilizando la proyeccion de la ventana de datos(dataframe): </p>
+            <p><b>Dim pMxDoc As IMxDocument<br />
+              Set pMxDoc = ThisDocument<br />
+              Dim pMap As IMap<br />
+              Set pMap = pMxDoc.FocusMap<br />
+              Dim pSR As ISpatialReference<br />
+              Set pSR = pMap.SpatialReference<br />
+              Dim pCurve As ICurve<br />
+              Set pCurve = [Shape]<br />
+              pCurve.Project pSR<br />
+              Output = pCurve.Length</b></p>
+            <p>En la ultima caja de texto, justo debajo de donde dice &quot;<b>length =&quot; </b>es necesario poner <b>Output. </b><strong>Output</strong> es el nombre de la variable que contiene el resultado de los calculos para cada registro (=feature).</p>
+            <p><strong>Length</strong> es el nombre del campo en el que los resultados seran almacenados, tambien es posible utilizar otro nombre de campo.</p>
+            <p><b>3. <a name="point" id="point"></a>Caracteristicas para puntos:</b></p>
+            <p><strong>Coordenadas</strong></p>
+            <p>Para obtener coordenadas es necesario crear dos campos y dos expresiones diferentes, una para la latitud y la otra para la longitud. </p>
+            <p>Expresi&oacute;n para una ventana de datos sin proyectar, los datos pueden estar en sistemas de coordenadas geograficas o proyectadas:</p>
+            <p>Para la longitud:<b><img src="/images/shapecalc3.gif" align="right" height="323" width="351" /></b> </p>
+            <p><br />
+              <b>Dim pPoint As IPoint</b><br />
+              <b>Set pPoint = [Shape]<br />
+              output = <b>pPoint.x</b></b></p>
+            <p>En la ultima caja de texto, justo debajo de donde dice &quot;<b>long =&quot; </b>es necesario poner <b>Output. </b><strong>Output</strong> es el nombre de la variable que contiene el resultado de los calculos para cada registro (=feature).</p>
+            <p>Para la  latitud:</p>
+            <p> <b>Dim pPoint As IPoint</b><br />
+              <b>Set pPoint = [Shape]<br />
+              output = <b>pPoint.y</b></b></p>
+            <p>En la ultima caja de texto, justo debajo de donde dice &quot;<b>lat =&quot; </b>es necesario poner <b>Output. </b><strong>Output</strong> es el nombre de la variable que contiene el resultado de los calculos para cada registro (=feature).</p>
+            <p></p>
+            <p>Expresi&oacute;n para una ventana de datos los datos pueden estar en sistemas de coordenadas geograficas o proyectadas. El valor de las caracteristicas espaciales reportadas ser&aacute; calculado en las unidades proyectadas y utilizando la proyeccion de la ventana de datos(dataframe): </p>
+            <p><b>Dim pMxDoc As IMxDocument<br />
+              Set pMxDoc = ThisDocument<br />
+              Dim pMap As IMap<br />
+              Set pMap = pMxDoc.FocusMap<br />
+              Dim pSR As ISpatialReference<br />
+              Set pSR = pMap.SpatialReference<br />
+              Dim pPoint As IPoint<br />
+              Set pPoint = [Shape]<br />
+              pPoint.Project pSR<br />
+              <br />
+              </b>En la ultima caja de texto, justo debajo de donde dice &quot;<b>long =</b>&quot; o &quot;<b>lat =</b>&quot; es necesario poner <b>pPoint.x </b>y<b> pPoint.y</b> respectivamente.<b> </b></p>
+            <p><strong>lat</strong> y<strong>long</strong> son los nombres de los campos cuyos resultados del calculo ser&aacute;n almancenados. se pueden usar nombres distintos. </p>
+            <p>Estas expresiones muestran como los datos espaciales pueden ser solicitados al sistema para obtener y modificar ciertas caracteristicas acerca de ellas, tando espaciales como de atributo. Estas ediciones se utilizan con la opcion Calculate con VBA dentro de ArcGIS. </p>
+            <p class="discuss">
+				<span><!--#include virtual="/scripts/forum-comments-num.php?i=902&lang=e"--></span>
+			</p>
+            <p class="status">
+			   <span><!--#include virtual="/scripts/date.php?lang=e" --></span>
+			</p>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<p class="status"><span>Дата создания: 20.02.2006
+<br>Автор(ы): <a href="/forum/memberlist.php?mode=viewprofile&u=2" target="_blank">Максим Дубинин</a></span></p>
+<!--#include virtual="/inc/footer2.php" -->

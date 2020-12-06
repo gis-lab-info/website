@@ -1,0 +1,64 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Использование Process-srtm для импорта данных SRTM</title>
+<!--#include virtual="/inc/header2.txt" -->
+<!--Contents start-->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Вопросы и ответы</a></li>
+</ul>
+<h1>Использование Process-srtm для импорта данных SRTM</h1>
+            <p class="ann">Описание работы с программой Process-srtm</p>
+            <p align="left"><b>Process-</b><strong>srtm</strong> - специальная утилита, предназначенная для автоматической подготовки данных SRTM для импорта. <a href="/programs/vb/process-srtm.zip">Загрузить программу</a>.</p>
+            <p align="center"><img src="/images/process-srtm-01.gif" width="215" height="169" /></p>
+            <p align="left">Если Вы запускаете программу в первый раз, возможно, вам понадобится сначала <a href="/programs.html#libraries">установить специальные библиотеки</a>.</p>
+            <p align="left">При работе с Process-srtm необходимо учесть следующие важные моменты:</p>
+            <ol>
+              <li> Process-srtm - НЕ обрабатывает данные и НЕ создает на их основе новых данных, кроме специального файла-макроса</li>
+              <li> Process-srtm - генератор пакетных файлов, результатом работы данной программы является пакетный файл в формате sml, который затем необходимо запустить в Arcinfo Workstation, которая в свою очередь выполнит работу по обработке самих данных</li>
+              <li>Если у вас нет Arcinfo Workstation, использование process-srtm бессмысленно.</li>
+            </ol>
+            <p>Для начала работы, необходимо получить матрицы SRTM и распаковать их в некоторую директорию, после запуска process-srtm необходимо указать эту директорию и нажать <strong>Create sml</strong>. </p>
+            <p>В процессе работы программа осуществляет следующие шаги:</p>
+            <ol>
+              <li> Переименовывает матрицы HGT в BIL</li>
+              <li>Расчитывает координаты углов и создает для каждой матрицы файл заголовка HDR</li>
+              <li>Создает файл пакетной обработки для Arcinfo</li>
+            </ol>
+            <p>Далее при выполнении пакетного файла Arcinfo Workstation осуществляются следующие шаги:</p>
+            <ol>
+              <li> Импорт матрицы в формате BIL в формат GRID</li>
+              <li>Корректировка 16-битных  значений</li>
+              <li>Установка значения NODATA</li>
+              <li>Склеивание всех матриц в единый растр</li>
+              <li>Удаление промежуточный файлов</li>
+              <li>Опционально: проектировка полученного растра в нужную проекцию. </li>
+            </ol>
+            <p>Подробнее описание каждого шага можно <a href="/qa/srtm.html">прочитать здесь</a>.</p>
+            <p>Чтобы выполнить пакет в Arcinfo Workstation, нужно
+              после запуска Arcinfo:</p>
+            <p>1. Задать рабочую директорию, полное имя директории в которой лежат
+              HGT файлы (например c:\work\srtm)</p>
+            <tcode><b>&amp;workspace полное_имя_директории </b></tcode>
+            <p>2. Запустить пакетный файл, этот файл должен лежать там
+              же где и HGT файлы.</p>
+            <tcode><b>&amp;run !process-srtm.sml</b> </tcode>
+            <p>Результатом работы данного пакета является одно покрытие
+              в формате GRID, содержащее исправленные и склеенные в одно покрытие
+              матрицы рельефа. </p>
+			<p class="discuss">
+				<span><!--#include virtual="/scripts/forum-comments-num.php?i=997"--></span>
+			</p>
+			<div class="links">
+			<h2>Ссылки по теме</h2>
+			<ul>
+               <li><a href="/qa/srtm.html">О данных SRTM и их импорте с помощью Arcinfo Workstation</a></li>
+			</ul>
+			</div>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<p class="status"><span>Дата создания: 13.11.2008
+<br>Автор(ы): <a href="/forum/memberlist.php?mode=viewprofile&u=2" target="_blank">Максим Дубинин</a></span></p>
+<!--#include virtual="/inc/footer2.php" -->

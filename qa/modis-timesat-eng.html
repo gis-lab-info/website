@@ -1,0 +1,189 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Time-series MODIS data analysis using TIMESAT</title>
+<!--#include virtual="/inc/header2-eng.txt" -->
+<!--Contents start-->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Вопросы и ответы</a></li>
+</ul>
+<h1>Time-series MODIS data analysis using TIMESAT</h1>
+<p class="ann">Timesat software provides means for efficient estimation of vegetation parameters, this article is about how to use it with MODIS time series data. </p>
+            <ul>
+              <li><a href="#timesat">About TIMESAT</a></li>
+              <li><a href="#data">MODIS Data</a></li>
+              <li><a href="#phen">Generating output phenologies and fits</a></li>
+              <li><a href="#output">Generating output rasters</a> </li>
+            </ul>
+            <h2><strong>About TIMESAT<a name="timesat" id="timesat"></a></strong></h2>
+            <p>TIMESAT is the program designed to extract seasonal information from any kind of time-series. It allows to obtain information on phenological parameters (e.g. beginning of season, end of season, amplitude, etc.), with outputs in the form of:</p>
+            <ul>
+              <li>	ASCII text file – for single pixels processing or data series;</li>
+              <li>	raster layers – for spatial dataset input. Working with MODIS data, we will mostly have to deal with this type of data.</li>
+            </ul>
+            <p>The TIMESAT program can be downloaded from (authors consent required):  <a href="http://www.nateko.lu.se/personal/Lars.Eklundh/TIMESAT/timesat.html" target="_blank" class="external">http://www.nateko.lu.se/personal/Lars.Eklundh/TIMESAT/timesat.html</a></p>
+            <p>All software and data are stored in pkzip  compressed format and need to be unzipped into an empty folder. No changes need  to be made to the registry or other system files, no additional installation  steps should be performed. The TIMESAT folder (currently timesat_2_3) contains  six subdirectories:</p>
+            <table width="70%" border="0">
+              <tr>
+                <td><p>data</p></td>
+                <td><p>Example databases</p></td>
+              </tr>
+              <tr>
+                <td><p>documentation</p></td>
+                <td><p>User manuals and technical papers</p></td>
+              </tr>
+              <tr>
+                <td><p>run</p></td>
+                <td><p>Working folder</p></td>
+              </tr>
+              <tr>
+                <td><p>timesat_fortran</p></td>
+                <td><p>Binaries (MSDOS-Win32) and source code (in Compaq Fortran 90) for  time-series seasonal data extraction</p></td>
+              </tr>
+              <tr>
+                <td><p>timesat_matlab</p></td>
+                <td><p>Graphical Interface</p></td>
+              </tr>
+              <tr>
+                <td><p>tools</p></td>
+                <td><p>Binaries (MSDOS-Win32) and source code (in fortran 90) for getting raw output  images with the seasonal parameters/actual calculation</p></td>
+              </tr>
+            </table>
+            <p>TIMESAT is able to read and write raw or  flat binary files, one file per image. Currently 8-bit unsigned integer, 16-bit  signed integer or 32-bit signed real data are supported.</p>
+            <p>TIMESAT software is composed by three groups of programs:<br />
+              a)  Timesat Graphical User Interface (TimesatGUI)<br />
+              b)  MS-DOS TIMESAT software<br />
+            c)  tools for managing and converting output data to proper raw  images (BIL). This output is supposed to be processed in any image processing  software.</p>
+            <p><strong>TimesatGUI</strong></p>
+            <p>TimesatGUI acts as a visual interface, which helps to carry out exploratory analysis of the data, it processes data series for single pixels to select proper parameters which will be further used to generate output matrices.</p>
+            <p> Current version of TimesatGUI is 2.3, it was developed under Matlab v. 7.1, but also runs under Matlab v. 6.5. </p>
+            <p>TIMESAT is able to read and write raw binary files in BIL format, one file per image, no layer stacks are necessary as input. Currently 8-bit unsigned integer, 16-bit signed integer or 32-bit signed real data are supported. </p>
+            <p>More information about TimesatGUI with examples can be found in the manual, which can be found in “timesat2_3/documentation” folder.</p>
+            <p align="center"><img src="/images/modis-timesat-02.gif" alt="timesat" width="575" height="357" /></p>
+            <h2>MODIS Data <a name="data" id="data"></a></h2>
+            <p><strong>Downloading and preparation </strong></p>
+            <p>To get started the user needs to get MODIS time-series data from <a href="http://edcimswww.cr.usgs.gov/pub/imswelcome/" target="_blank" class="external">http://edcimswww.cr.usgs.gov/pub/imswelcome/</a> and convert them to BIL format (<a href="/qa/importraster-ai-eng.html">more about conversion</a>). </p>
+            <p>It is also necessary to add in the images folder a text file with the number of files to process in the first row and their path and names in the next rows. TimesatGUI manual suggest using the folder “data” for this purpose. The structure of the text file is: </p>
+            <tcode><b>108 <br />
+                  ..\data\wa\wa_nd98011.img <br />
+                  ..\data\wa\wa_nd98012.img <br />
+                  ..\data\wa\wa_nd98013.img <br />
+                  ..\data\wa\wa_nd98021.img <br />
+                  ... <br />
+                  ..\data\wa\wa_nd98119.img </b></tcode>
+            <p>A specific format for the name or extension is not required, so images can have “.bil” extensions or don't have extension at all. Neither is necessary to have a header, TimesatGUI is asking you information about number of rows and columns every time you are running it independently of existing header. </p>
+            <p>TIMESAT supports both relative and absolute paths, but using relative paths you should run TIMESAT software from the proper working folder to the “data” folder (using TimesatGUI you need to configure the working folder prior to start the TimesatGUI routine). TimesatGUI manual suggest using the folder “run” for this purpose.</p>
+            <p><strong>Loading and fitting</strong></p>
+            <p>Loading and processing large files is troublesome, so it is recommended that you clip your data to a common extent before using it, this can be easily done using <a href="/qa/importraster-ai-eng.html">clip-all.aml in Arcinfo Workstation</a> or any other software. You can also set an analysis window for your data using TimesatGUI itself.</p>
+            <p>The function fitting is done in several steps, on each of them, you'll need to specify certain values: </p>
+            <ol>
+              <li>Number of seasons and their approximate timing is defined. </li>
+              <li>Filters for the data applied or fits smooth functions to the data (Savitzky-Golay filter, or least-squares fitted Gaussian or logistic smooth functions). </li>
+              <li>After the fitting has been achieved, the seasonality parameters are computed and written to output files. </li>
+            </ol>
+            <p><a name="param" id="param"></a>TIMESAT allows to use ancillary data for assigning weights to the values in the time-series, it is useful if we have a quality assessment data associated with every image in the time-series (each MODIS product has one or several QA band). The quality values for every single pixel are up to the user, but the authors suggest to use values from 1 for clear conditions to 0 for cloudy/contaminated conditions. The quality files are to be read by TimesatGUI in the same way as the time-series image, in BIL format with a separate lsit file which should contain the number of images in the first row and the path and name of the files in the subsequent rows.</p>
+            <p align="center"><span><img src="/images/modis-timesat-03.gif" alt="Fitting for two years of data" width="500" height="278" /></span></p>
+            <p>Select <strong>Write to parameter.txt</strong> option from the menu to write the values to the file parameter.txt in your current working Matlab directory. This file contains all the parameters you've provided on the previous steps: </p>
+            <p align="center"><img src="/images/modis-timesat-01.gif" alt="timesat" width="598" height="375" /></p>
+            <h2>Generating output phenologies and fits <a name="phen" id="phen"></a></h2>
+            <p>Additional utilities  are used for getting information, fitting parameters and phenologies calculations from your time-series data. These tools are located under the “timesat_fortran” folder. The two binaries to be used are: <strong>timesatseries</strong> and <strong>timesatimage</strong>.</p>
+            <p>The first program reads formatted list of time-series parameters generated on the previous step (<strong>parameters.txt</strong>) and the second program reads data files itself (BILs). These tools work in exactly the same way as the TimesatGUI, but they need to be run from MS-DOS console.  You can also modify   parameters directly once you know the meaning of them by changing the values in the “parameter.txt” file using any text editor.</p>
+            <p>To run these tools, you need to start MS-DOS session: select Start\Run...\ and type in cmd. After it run timesatimage program specifying full path to the executable, for example:</p>
+            <tcode>c:\timesat23\timesat_fortran\timesatimage.exe&lt; parameter.txt</tcode>
+            <p>In this example <strong>parameter.txt </strong>is located in the same directory as <b>timesatimage.exe</b>. It can also be stored in any other folder, in this case you'll need to specify the path it completely, for example:</p>
+            <tcode>c:\timesat23\timesat_fortran\timesatimage.exe &lt;c:\myanalysis\parameter.txt</tcode>
+            <p>As an output we'll have seven files divided in 3 groups, 8 files total, N - job name specified in <strong>parameters.txt</strong>:</p>
+            <ol>
+              <li> Sensor data and fitted functions (sensordata_N, fitSG_N, fitAG_N, fitDL_N). Three fits files are associated with three possible methods: SG - Savitsky-Golay, AG - Asymmetric Gaussian, DL - Logistic </li>
+              <li>Phenological parameters (phenologySG_N, phenologyAG_N, phenologyDL_N). Three files are associated with three possible methods: SG - Savitsky-Golay, AG - Asymmetric Gaussian, DL - Logistic </li>
+              <li> Parameter file copy (input_N.txt) </li>
+            </ol>
+            <p>These files contain all the information per pixel for all our time-series, but they are not in raw image (BIL) format yet. To do so we need to use the third group of programs (tools)</p>
+            <h2>Generating output rasters<a name="output" id="output"></a></h2>
+            <p>Using the utility <strong>phen2img</strong> from tools folder, phenology data created on the previous step can be converted to images. To do this, in DOS session window:</p>
+            <tcode>phen2img</tcode>
+            <p>After this, tolls will ask you for the name of the phenology file, created on the previous step, enter it, for example: </p>
+            <tcode>phenologySG_20060506</tcode>
+            <p>You'll be asked to select any of 11 parameters of vegetation which can be calculated:</p>
+            <ul>
+              <li>Start of season</li>
+              <li>End of season </li>
+              <li>Length of season </li>
+              <li>Base value </li>
+              <li>Position of middle of season </li>
+              <li>Maximum of fitted data </li>
+              <li>Amplitude </li>
+              <li>Left derivative </li>
+              <li>Right derivative </li>
+              <li>Large integral </li>
+              <li>Small integral </li>
+            </ul>
+            <p>For any parameters selected, some additional information will be requested by the tool:</p>
+            <ul>
+              <li> Min and max dates for season to process</li>
+              <li>Code for missing season within min and max dates - if no complete season is found within the time span the code for missing season will be written to the corresponding pixel in the image. </li>
+              <li>Code for missing phenology data for pixel - if no phenology information is found for the pixel (e.g. over oceans or where there are too many missing values) the code for missing phenology data will be written to the pixel in the image.</li>
+              <li>Name of output files, file type for the output image files (signed 16-bit or real 32-bit).</li>
+            </ul>
+            <p><strong>Organization of output files</strong></p>
+            <p>You would need to run this tool as many times as many seasonal parameters you want to calculate. There can be one or more seasons in your data (this should be same as the number you specified <a href="#param">in you parameter.txt</a>).  If you have 2 seasons, then two files for each seasonal parameter is being created with <strong>_s1</strong> and <strong>_s2</strong> ending. And the name of the file equals to the value, you've specified already as a output.</p>
+            <p>Each seasonal parameter will be represented as a raster, one for each season. In terms of time period used, you can specify the time range for which you want to derive seasonal information. So, for example, you can do it for 3 years of data, or just one, by specifying <strong>Image scaling interval</strong> option of <strong>phen2img</strong>.</p>
+            <p>Total potential number  of files that can be generated depends of:</p>
+            <ul>
+              <li>how many seasons do you have in your data (1-2)</li>
+              <li>how many seasonal parameters do you need (1-11)</li>
+              <li>which fitting algorithm did you use (1-3)</li>
+              <li>what time period you want (each month, each year, average for all years, etc.)</li>
+            </ul>
+            <p>The results are stored in the place as seasonal parameters files and fits are stored. </p>
+            <p>The resulting image files can be displayed using any imaging processing software capable of handling flat binary files. The output images are given without header and georeferencing, a simple procedure to restore it and be able to display the images is to copy a header and georeferencing file from any of the input images and rename it with the name of the desired output image.</p>
+            <p>For example: if you have as input these files: </p>
+            <p>input.bil<br />
+            input.blw<br />
+            input.hdr<br />
+            input.stx</p>
+            <p>You'll need to copy BLW and HDR file to match the name of the output file generated by <strong>timesatimage</strong>. After this you will have these files:</p>
+            <p>output.bil <br />
+            output.blw<br />
+            output.hdr</p>
+            <p>Source MODIS data is 16-bit, but timesatimage outputs can be also 32-bit, if, while generating vegetation parameters file you've chosen 32-bit images as output, it is also necessary to edit the HDR file to reflect the changes in the number of bits, for this:</p>
+            <ol>
+              <li>Open HDR file with any text editor</li>
+              <li>Find the string saying <strong>NBITS 16</strong></li>
+              <li>Change it to <strong>NBITS 32</strong></li>
+              <li>Find the strings <strong>BANDROWBYTES</strong> and <strong>TOTALROWBYTES</strong></li>
+              <li>The number after this string should twice the initial value. So it for the source data it says: <br />
+                <strong>BANDROWBYTES 8640</strong> for output it should be <strong>BANDROWBYTES 17280</strong>.</li>
+            </ol>
+            <p>After loading data and setting up a classified legend, your results can look like this: </p>
+            <table width="99%" border="0" align="center">
+              <tr>
+                <td><img src="/images/modis-timesat-07.gif" alt="timesat" width="150" height="241" /></td>
+                <td><img src="/images/modis-timesat-04.gif" alt="timesat" width="91" height="241" /></td>
+                <td><img src="/images/modis-timesat-08.gif" alt="timesat" width="150" height="241" /></td>
+                <td><img src="/images/modis-timesat-05.gif" alt="timesat" width="83" height="241" /></td>
+                <td><img src="/images/modis-timesat-09.gif" alt="timesat" width="150" height="241" /></td>
+                <td><img src="/images/modis-timesat-06.gif" alt="timesat" width="52" height="62" /></td>
+              </tr>
+              <tr>
+                <td colspan="2"><p>Seasonal amplitude - difference between the peak value and the base level.</p></td>
+                <td colspan="2"><p>Peak  - largest data value during the season.</p></td>
+                <td colspan="2"><p>Start of season - time for which the left edge has increased to a user defined level (often 20% of the seasonal amplitude) measured from the left minimum level.</p></td>
+              </tr>
+            </table>
+            <p class="discuss">
+				<span><!--#include virtual="/scripts/forum-comments-num.php?i=852&lang=e"--></span>
+			</p>
+			<div class="links">
+			<h2>Ссылки по теме</h2>
+			<ul>
+               <li><a href="http://www.nateko.lu.se/personal/Lars.Eklundh/TIMESAT/timesat.html">TIMESAT - A program to analyse time-series of satellite sensor data</a></li>
+			</ul>
+			</div>
+            <p class="status">
+			   <span><!--#include virtual="/scripts/date.php?lang=e" --></span>
+			</p>
+<!--Contents end-->
+<!--#include virtual="/inc/footer2.php" -->

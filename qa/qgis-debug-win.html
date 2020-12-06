@@ -1,0 +1,310 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Сборка QGIS с возможностью отладки в Visual C++ Express Edition 2008 или Qt Creator</title>
+<!--#include virtual="/inc/header2.txt" -->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Вопросы и ответы</a></li>
+</ul>
+<!--Contents start-->
+<h1>Сборка QGIS с возможностью отладки в Visual C++ Express Edition 2008 или Qt Creator</h1>
+<p class="ann">Как скомпилировать QGIS под Windows и обеспечить возможность отладки</p>
+<p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=7543"--></span></p>
+
+<p>Одним из условий нормальной разработки программного обеспечения или
+модулей расширения является простота отладки. Ведь под отладчиком намного
+проще понять поведение программы и отловить возможные ошибки, т.&nbsp;к.
+аномальное поведение или логирование не всегда дает адекватное представление
+о поведении программы с теми или иными данными. Очень часто, когда возникает
+неправильное поведение программы, я прошу данные на которых это происходит
+и смотрю в отладчике на поведение программы.
+<p>В данной статье пойдет речь об отладке ГИС с открытым исходным кодом
+Quantum GIS (QGIS) в операционной системе Windows.</p>
+
+<p><strong>Оглавление</strong></p>
+<ol>
+  <li><a href="#01">Введение</a></li>
+  <li><a href="#02">Подготовка</a></li>
+  <li><a href="#03">Сборка библиотек</a></li>
+  <li><a href="#04">Подготовка к сборке QGIS</a></li>
+  <li><a href="#05">MS Visual Studio Express</a></li>
+  <li><a href="#06">Qt Creator</a></li>
+</ol>
+
+<!-- Первый раздел -->
+<h2><strong><a name="01" id="01"></a></strong>1. Введение</h2>
+<p>Quantum GIS&nbsp;&mdash; <a href="http://ru.wikipedia.org/wiki/%D0%A1%D0%B2%D0%BE%D0%B1%D0%BE%D0%B4%D0%BD%D0%BE%D0%B5_%D0%BF%D1%80%D0%BE%D0%B3%D1%80%D0%B0%D0%BC%D0%BC%D0%BD%D0%BE%D0%B5_%D0%BE%D0%B1%D0%B5%D1%81%D0%BF%D0%B5%D1%87%D0%B5%D0%BD%D0%B8%D0%B5">свободная</a>
+кроссплатформенная <a href="http://ru.wikipedia.org/wiki/%D0%93%D0%B5%D0%BE%D0%B8%D0%BD%D1%84%D0%BE%D1%80%D0%BC%D0%B0%D1%86%D0%B8%D0%BE%D0%BD%D0%BD%D0%B0%D1%8F_%D1%81%D0%B8%D1%81%D1%82%D0%B5%D0%BC%D0%B0">геоинформационная
+система</a>, созданная с помощью инструментария Qt. Qt&nbsp;&mdash; кросс-платформенный
+инструментарий разработки ПО на языке программирования С++, отличительная
+особенность которого&nbsp;&mdash; использование <a href="http://ru.wikipedia.org/wiki/%D0%9C%D0%B5%D1%82%D0%B0%D0%BE%D0%B1%D1%8A%D0%B5%D0%BA%D1%82%D0%BD%D1%8B%D0%B9_%D0%BA%D0%BE%D0%BC%D0%BF%D0%B8%D0%BB%D1%8F%D1%82%D0%BE%D1%80">Meta Object Compiler (MOC)</a>&nbsp;&mdash;
+предварительной системы обработки исходного кода (в общем-то, Qt&nbsp;&mdash; это
+библиотека не для чистого C++, а для его особого диалекта, с которого и
+MOC и &laquo;переводит&raquo; код для последующей компиляции любым стандартным
+C++ компилятором). Утилита MOC ищет в заголовочных файлах на C++ описания
+классов, содержащие макрос Q_OBJECT, и создаёт дополнительный исходный файл
+на C++, содержащий мета-объектный код.</p>
+<p>Для компиляции и отладки будем использовать только <strong>свободные инструменты</strong>:
+Microsoft Visual Studio Express 2008 и Qt Creator 2.1.</p>
+<p>После изучения вопроса выяснилось практически полное отсутствие нормальной
+методики по компиляции и отладке под Windows (как я понял основная разработка
+ведется в ОС Linux). Хотя на официальном сайте в Wiki есть раздел <a href="http://qgis.osgeo.org/wiki/Building_QGIS_from_Source#Building_on_Windows">Building on Windows</a>,
+и описанная там методика (кстати рабочая) позволяет скомпилировать QGIS и
+даже запустить в режиме отладки. Но если вы внесете изменения в исходные коды,
+то вам придется заново через систему сборки CMake сгенерировать проекты под
+Visual Studio (из-за MOC). В случае полноценной Microsoft Visual Studio и
+специального дополнения QT Visual Studio Add-in такой проблемы нет, но это
+уже платный софт.</p>
+
+<h2><strong><a name="02" id="02"></a></strong>2. Подготовка</h2>
+<p>Первым делом скачаем и установим <a href="http://download.microsoft.com/download/d/c/3/dc3439e7-5533-4f4c-9ba0-8577685b6e7e/vcsetup.exe">Visual Studio Express</a>.</p>
+<p>Для компиляции QGIS я решил использовать предварительно скомпилированные
+библиотеки от Qt под Windows для Visual Studio 2008 (забираем <a href="http://qt.nokia.com/downloads/windows-cpp-vs2008">здесь</a>).
+Это сэкономит время на компиляцию Qt (говорят эта процедура может продлиться
+более 5 часов). Не покидая сайт закачаем и <a href="http://qt.nokia.com/downloads/qt-creator-binary-for-windows">Qt Creator</a>.</p>
+<p>Далее скачиваем и ставим <a href="http://download.microsoft.com/download/f/a/d/fad9efde-8627-4e7a-8812-c351ba099151/PSDK-x86.exe">Microsoft Windows Server 2003 R2 Platform SDK</a>
+(для setupapi).</p>
+<p>Кроме того, для сборки необходимы:</p>
+<ol>
+  <li><a href="http://www.cmake.org/cmake/resources/software.html">CMake</a></li>
+  <li><a href="http://gnuwin32.sourceforge.net/downlinks/flex.php">Flex</a> (ставить только по путям без пробелов!)</li>
+  <li><a href="http://gnuwin32.sourceforge.net/downlinks/bison.php">Bison</a> (ставить только по путям без пробелов!)</li>
+</ol>
+<p>Скачиваем и устанавливаем.</p>
+<p>Кроме того, для отладки в Qt Creator необходим CDB (из пакета MS Debugging
+Tools). Берем <a href="http://www.microsoft.com/whdc/devtools/debugging/installx86.Mspx">здесь</a>.</p>
+<p><strong>Важно!</strong> После настройки отладчика в Qt Creator (Инструменты&nbsp;&rarr;
+Параметры&nbsp;&rarr; Отладчик&nbsp;&rarr; CDB) в какой-то момент он пропишет
+в поле &laquo;Пути к символам&raquo; путь к on-line БД символов Microsoft
+(начинается на http://). Рекомендуем удалить его, т.&nbsp;к. его присутствие
+вызывает неимоверные задержки при отладке.</p>
+<p>На этом этапе у нас будет все необходимое программное обеспечение для
+сборки и отладки QGIS.</p>
+<p>Следующим шагом идет загрузка и сборка библиотек от которых зависит QGIS.</p>
+
+<h2><strong><a name="03" id="03"></a></strong>3. Сборка библиотек</h2>
+<p>Мы будем компилировать и отлаживать QGIS в минимально возможной
+конфигурации. Для этого необходимы следующие библиотеки.</p>
+<ol>
+  <li><a href="http://sourceforge.net/projects/expat/files/expat/2.0.1/expat-2.0.1.tar.gz/download">expat</a>&nbsp;&mdash; библиотека нужна для работы с xml. В корне лежит
+  expat.dsw который нормально открывается студией и компилируется. Я компилировал
+  проект expatw (статически библиотека тоже скомпилировалась, но отказалась
+  подключаться). Рекомендую установить переменную среды EXPAT на папку,
+  куда вы распаковали expat.</li>
+  <li><a href="http://zlib.net/zlib125.zip">zlib</a>&nbsp;&mdash; библиотека
+  нужна для упаковки/распаковки. В папке zlib-1.2.5\contrib\vstudio\vc9
+  найдется проект под студию. Рекомендую установить переменную среды ZLIB
+  на папку, куда вы распаковали zlib.</li>
+  <li><a href="http://www.gnu.org/software/libiconv/">iconv</a>&nbsp;&mdash;
+  библиотека нужна для преобразования кодировок строк. Для компиляции в
+  Visual Studio пришлось действовать по инструкции <a href="http://netimperia.livejournal.com/25553.html">отсюда</a>.
+  Рекомендую установить переменную среды ICONV на папку, куда вы распаковали iconv.</li>
+  <li><a href="http://curl.haxx.se/download.html">curl</a>&nbsp;&mdash;
+  библиотека для по протоколам Интернета (http, ftp и др.). Компилировал
+  только поддержку HTTP без SSL. Рекомендую установить переменную среды
+  CURL на папку, куда вы распаковали curl.</li>
+  <li><a href="http://trac.osgeo.org/geos/">geos</a>&nbsp;&mdash; библиотека
+  для операций с геометрией. Рекомендую установить переменную среды GEOS
+  на папку, куда вы распаковали geos.</li>
+  <li><a href="http://trac.osgeo.org/proj/">proj4</a>&nbsp;&mdash; библиотека
+  для операций с проекциями и преобразований систем координат. Рекомендую
+  установить переменную среды PROJ на папку, куда вы распаковали proj4.</li>
+  <li><a href="http://sourceforge.net/projects/boost/files/boost/1.46.1/">boost</a>&nbsp;&mdash;
+  библиотека расширяет стандартную библиотеку С++. Нужна если необходимо
+  использовать поддержку KML в GDAL/OGR. Компиляция не требуется. Следует
+  установить переменную среды BOOST_ROOT на папку, куда вы распаковали boost.</li>
+  <li><a href="http://trac.osgeo.org/gdal/wiki/DownloadSource">gdal</a>&nbsp;&mdash;
+  библиотека для работы с большим количеством растровых и векторных
+  геопространственных форматов. Я закачал через <a href="http://tortoisesvn.net/downloads.html">TortoiseSVN</a>
+  альтернативный (свой) вариант <a href="http://wxgisgdal.googlecode.com/svn/trunk/">отсюда</a>.
+  Единственное, там есть завязки на wxWidgets (wxzlib и wxexpat), которые
+  надо поменять на cоответствующие библиотеки zlib и expat.</li>
+  <li><a href="http://sourceforge.net/projects/qwt/files/qwt/5.2.1/">qwt5</a>&nbsp;&mdash;
+  библиотека виджетов для программирования приложений, имеющих техническую
+  направленность. Собирал как написано в install.txt в секции под Windows&nbsp;&mdash;
+  проблем не возникло.</li>
+</ol>
+<p>Все библиотеки я компилировал в Visual Studio Express 2008.</p>
+
+<h2><strong><a name="04" id="04"></a></strong>4. Подготовка к сборке QGIS</h2>
+<p>После компиляции всех вышеперечисленных библиотек у вас должны быть как
+минимум файлы *.lib, а еще (в основной массе) и *.dll. Кроме того, нужно
+знать где лежат еще и заголовочные файлы. Это понадобиться на этапе
+подготовки к сборке в CMake.</p>
+<p>На данном этапе, настал момент для скачивания исходников QGIS. Я сделал
+это при помощи <a href="http://tortoisesvn.net/downloads.html">TortoiseSVN</a>
+взяв их <a href="https://svn.osgeo.org/qgis/trunk/qgis">отсюда</a>
+(https://svn.osgeo.org/qgis/trunk/qgis).</p>
+<p>Для подготовки к сборке необходимо запустить CMake и указать путь к
+папке, где находятся исходники QGIS, а также путь в к папке, в которою
+запишется конфигурация (лучше указывать новую папку чтобы не смешивать
+исходные данные и сгенерированные).</p>
+
+<p align="center"><img src="/images/qgis-debug-win-01.png" alt="Конфигурирование при помощи CMake" width="543" height="597"/></p>
+
+<p>При этом Cmake проверит конфигурацию и будет задавать вопросы о наличии
+тех или иных необходимых компонент (отмечено красным). Чтобы это произошло
+нажимаем &laquo;Configure&raquo; и указываем компилятор &laquo;NMake Makefiles&raquo;
+и оставляем отметку &laquo;Use default native compilers&raquo;. Опишу свою
+конфигурацию.</p>
+<pre>
+BINDINGS_GLOBAL_INSTALL - нет
+BISON_EXECUTABLE - D:/GnuWin32/bin/bison.exe
+CMAKE_BUILD_TYPE - Debug
+CMAKE_CODEBLOCKS_EXECUTABLE - CMAKE_CODEBLOCKS_EXECUTABLE-NOTFOUND
+CMAKE_INSTALL_PREFIX - C:/Program Files/qgis1.6.0
+ENABLE_TESTS - нет
+EXPAT_INCLUDE_DIR - D:\work\projects\expat-2.0.1/lib
+EXPAT_LIBRARY - D:\work\projects\expat-2.0.1\win32\bin\release\libexpat.lib
+FLEX_EXECUTABLE - D:/GnuWin32/bin/flex.exe
+GDAL_INCLUDE_DIR - D:\work\projects\wxgisgdal\port;D:\work\projects\wxgisgdal\alg;D:\work\projects\wxgisgdal\gcore;D:\work\projects\wxgisgdal\ogr</pre>
+<p><strong>Важно!</strong> Если у вас несколько параметров (как у меня
+вместо одной библиотеки GDAL имеются 3 из wxGISGDAL), то параметры
+разделяются точкой с запятой.</p>
+<pre>
+GDAL_LIBRARY - D:\work\projects\wxgisgdal\lib\wxgiscpl.lib;D:\work\projects\wxgisgdal\lib\wxgisogr.lib;D:\work\projects\wxgisgdal\lib\wxgisgdal.lib
+GEOS_INCLUDE_DIR - D:\work\projects\geos-3.2.2\capi;D:\work\projects\geos-3.2.2\source\headers
+GEOS_LIBRARY - D:\work\projects\geos-3.2.2\lib\geos_c_i.lib;D:\work\projects\geos-3.2.2\lib\geos.lib
+GRASS_PREFIX -
+GSLCBLAS_LIB - GSLCBLAS_LIB-NOTFOUND
+GSL_INCLUDE_DIR - GSL_INCLUDE_DIR-NOTFOUND
+GSL_LIB - GSL_LIB-NOTFOUND
+ICONV_INCLUDE_DIR - D:\work\projects\libiconv-1.13.1\include
+ICONV_LIBRARY - D:\work\projects\libiconv-1.13.1\lib\iconv.lib
+PEDANTIC - нет
+POSTGRESQL_PREFIX -
+PROJ_INCLUDE_DIR - D:\work\projects\proj-4.7.0\src
+PROJ_LIBRARY - D:\work\projects\proj-4.7.0\wxGIS\lib\proj4.lib
+QT_QMAKE_EXECUTABLE - D:/Qt/4.7.2/bin/qmake.exe
+QWT_INCLUDE_DIR - D:/work/projects/qwt-5.2.1/src
+QWT_LIBRARY - D:/work/projects/qwt-5.2.1/lib/qwt5.lib
+SETUPAPI_LIBRARY - C:/Program Files/Microsoft Platform SDK for Windows Server 2003 R2/Lib/SetupAPI.Lib
+SVN_MARKER - SVN_MARKER-NOTFOUND
+WITH_BINDINGS - нет
+WITH_GRASS - нет
+WITH_INTERNAL_SPATIALITE - да
+WITH_MAPSERVER - нет
+WITH_POSTGRESQL - нет
+WITH_SPATIALITE - нет</pre>
+<p>Чтобы не сбрасывать файл unistd.h из состава GnuWin32 я в файле
+CMakeLists.txt внес такую строчку:</p>
+<pre>SET(UNISTD_INCLUDE_DIR "D:\GnuWin32\include")</pre>
+<p>Кроме того в файлы D:\work\projects\qgis\src\analysis\CMakeLists.txt и
+D:\work\projects\qgis\src\core\CMakeLists.txt добавил в конец раздела</p>
+<pre>
+INCLUDE_DIRECTORIES(
+  ${CMAKE_CURRENT_SOURCE_DIR}
+  ...
+  ${UNISTD_INCLUDE_DIR}
+)</pre>
+<p>Configure должно проходить без ошибок. Далее шаги для Visual Studio
+Express и Qt Creator различаются.</p>
+
+<h2><strong><a name="05" id="05"></a></strong>5. MS Visual Studio Express</h2>
+<p>В Visual Studio Express создаем новый проект типа Makefile и ничего не
+настраивая жмем Finish.</p>
+<p>Далее заходим в свойства созданного проекта и в разделе NMake пишем
+(учитывая ваши пути естественно):</p>
+<p>В подразделе <strong>Build Command Line</strong></p>
+<pre>
+set BUILD_DIR=D:\work\projects\qgis_vc\build
+set PROJECT_DIR=D:\work\projects\qgis_vc\build\debug
+cmake -E make_directory %BUILD_DIR%
+cd %BUILD_DIR%
+cmake -G «NMake Makefiles» %PROJECT_DIR%
+nmake all
+
+set BUILD_DIR=D:\work\projects\qgis_vc\buildset PROJECT_DIR=D:\work\projects\qgis_vc\build\debug
+cmake -E make_directory %BUILD_DIR%cd %BUILD_DIR%cmake -G «NMake Makefiles» %PROJECT_DIR%nmake all
+</pre>
+<p>В подразделе <strong>Rebuild All Command Line</strong></p>
+<pre>
+set BUILD_DIR=D:\work\projects\qgis_vc\build
+set PROJECT_DIR=D:\work\projects\qgis_vc\build\debug
+cmake -E make_directory %BUILD_DIR%
+cd %BUILD_DIR%
+cmake -G «NMake Makefiles» %PROJECT_DIR%
+nmake clean all
+</pre>
+<p>В подразделе <strong>Clean Command Line</strong></p>
+<pre>
+set BUILD_DIR=D:\work\projects\qgis_vc\build
+set PROJECT_DIR=D:\work\projects\qgis_vc\build\debug
+cmake -E make_directory %BUILD_DIR%
+cd %BUILD_DIR%
+cmake -G «NMake Makefiles» %PROJECT_DIR%
+nmake clean
+</pre>
+<p>В подразделе <strong>Output</strong></p>
+<pre>qgis.exe</pre>
+<p>Далее в проект добавляем исходные тексты для установок точек останова
+(в принципе, проект и без исходников скомпилируется, но отлаживать его
+не получится). Жмем F7 и смотрим ошибки компиляции. Если ошибок нет,
+необходимо сбросить в созданную папку %BUILD_DIR%, куда  скомилировались
+наши файлы QGIS, связанные библиотеки. У меня их состав такой:</p>
+<ul>
+  <li>geos_c.dll</li>
+  <li>iconv.dll</li>
+  <li>libcurl.dll</li>
+  <li><strong>libeay32.dll</strong></li>
+  <li>libexpat.dll</li>
+  <li><strong>libiconv-2.dll</strong></li>
+  <li><strong>libintl-8.dll</strong></li>
+  <li><strong>libpq.dll</strong></li>
+  <li>msvcm90d.dll</li>
+  <li>msvcp90d.dll</li>
+  <li>msvcr90.dll</li>
+  <li>msvcr90d.dll</li>
+  <li>proj4.dll</li>
+  <li>qwt5.dll</li>
+  <li>ssleay32.dll</li>
+  <li>wxgiscpl.dll</li>
+  <li>wxgisgdal.dll</li>
+  <li>wxgisogr.dll</li>
+  <li>zlibwapi.dll</li>
+</ul>
+<p>Жирным выделены библиотеки, которые необходимы в случае если GDAL
+скомпилирован с поддержкой PostGIS.</p>
+<p>На этом этапе QGIS должен запускаться, для этого жмем F5. Если
+запустится, то можно отлаживать. Кроме того, при запуске будет некоторая
+ругань на отсутствующие директории, которые можно взять из установки QGIS.
+Также я создал папку %BUILD_DIR%/plugins куда перенес скомпилированные
+плагины QGIS.</p>
+<p>Для отладки ставим точку останова и жмем опять же F5. У меня получилось
+следующее</p>
+
+<p align="center"><img src="/images/qgis-debug-win-02.png" alt="Отладка QGIS в MS VSE" width="870" height="675"/></p>
+
+<h2><strong><a name="06" id="06"></a></strong>6. Qt Creator</h2>
+<p>Для отладки в Qt Creator делаем следующее.</p>
+<p>Выбираем &laquo;Открыть файл или проект&raquo; и выбираем файл
+CMakeListst.txt, а в качестве выходной директории указываем туже, что и
+в CMake. Далее компилируем и исправляем ошибки компиляции, если они есть.</p>
+<p>Если ошибок нет, необходимо сбросить в созданную папку, куда скомилировались
+наши файлы QGIS, связанные библиотеки (состав библиотек см. выше). Также
+создаем папку plugins и переносим скомпилированные плагины QGIS. Если QGIS
+запускается можно отлаживать. Ставим точку останова и жмем F5. Должно
+получиться следующее</p>
+
+<p align="center"><img src="/images/qgis-debug-win-03.png" alt="Отладка QGIS в Qt Creator" width="837" height="592"/><br></p>
+
+<p class="discuss"><span><!--#include virtual="/scripts/forum-comments-num.php?i=7543"--></span></p>
+
+<div class="links">
+<h2>Ссылки по теме</h2>
+<ul>
+   <li><a href="http://ru.wikipedia.org/wiki/Quantum_GIS" target="_blank" class="external">QGIS в Википедии</a></li>
+   <li><a href="http://ru.wikipedia.org/wiki/Qt" target="_blank" class="external">Qt в Википедии</a></li>
+   <li><a href="http://qgis.osgeo.org/wiki/Building_QGIS_from_Source#Building_on_Windows" target="_blank" class="external">Building QGIS from Source</a></li>
+   <li><a href="http://qt.nokia.com/" target="_blank" class="external">Qt&nbsp;&mdash; Cross-platform application and UI framework</a></li>
+   <li><a href="http://www.cmake.org/cmake/help/cmake-2-8-docs.html" target="_blank" class="external">CMake&nbsp;&mdash; Cross Platform Make</a></li>
+	 <li><a href="qgis-compile-vce.html">Сборка QGIS используя Visual C++ Express Edition 2008 и компоненты OSGeo4W</a></li>
+</ul>
+</div>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<p class="status"><span>Дата создания: 02.04.2011
+<br>Автор(ы): <a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=8649" target="_blank">Bishop</a></span></p>
+<!--#include virtual="/inc/footer2.php" -->

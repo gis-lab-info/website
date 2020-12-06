@@ -1,0 +1,97 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Организация репозитория расширений QGIS</title>
+<!--#include virtual="/inc/header2.txt" -->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+	<li class="first"><a href="/">Главная</a></li>
+	<li><a href="/qa.html">Вопросы и ответы</a></li>
+</ul>
+<!--Contents start-->
+<h1>Организация репозитория расширений QGIS</h1>
+<p class="ann">Как создать и использовать хранилище расширений QGIS </p>
+<p> В QGIS есть очень удобная вещь для разработчика - репозитории расширений (пока только для Python). Так, в отличие от ArcScripts, где все хранится в едином хранилище, в QGIS такое хранилище может устроить каждый. Подключиться к нему может пользователь знающий адрес этого репозитория. Помимо этого, так как каждому плагину идет параметр "Version" менеджер расширений QGIS умеет проверять обновления плагинов. Т.е. разработчику расширения остается только изменять версию и периодически выкладывать новый архив с расширением в репозиторий.
+
+Все прекрасно, но допустим у вас есть еще и SVN, который хранит исходный код и следит за версиями. В этом случае обновление превращается в не очень ловкий процесс, надо закоммитить код в свн, заархивировать его же, положить в репозиторий расширений, обновить xml репозитория согласно новой версии, чтобы QGIS увидел, что расширение обновилось. Неловко. Хочется, чтобы лишних шагов не было.
+
+Примечание: здесь и далее под "репозиторием" имеется в виде не SVN, а специализированное хранилище плагинов QGIS.
+<!--more-->
+</p>
+<p><strong>Оглавление</strong></p>
+<ol>
+  <li><a href="#01">Подключение post-commit хука </a></li>
+  <li><a href="#02">Обновление XML-описания репозитория</a>
+    <pre lang="bash">cd /usr/local/www/gis-lab/data/programs/qgis #зайдем в папку репозитория плагинов
+/usr/local/bin/wget -rnH http://svn.gis-lab.info/multiqml #скачаем сам плагин (другого
+#простого способа вытащить из svn только код не придумал, но наверняка он есть,
+# пока код маленький, проблем быть не должно)
+cd multiqml
+rm index.html
+cd ..
+/usr/local/bin/zip -mq9 multiqml.zip multiqml/* #запакуем в новый zip, удалив файлы с кодом
+rm -rf multiqml
+/usr/local/bin/python getsetversion.py arg1 arg2 #запустим код установки версии в XML-описании репозитория
+ls -la | mail -s "$REV" sim@gis-lab.info  #оповестим самого себя радостно по e-mail о новом коммите</pre>
+  </li>
+  </ol>
+<!-- Первый раздел -->
+<p><strong><img src="/images/1.gif" alt="1" width="33" height="41" align="left" /><a name="01" id="01"></a>Подключение post-commit хука</strong></p>
+<p>Допустим расширение разработано, проверенно и работает локально. Создание репозитория заключается в пакетировке расширения и создания специального файла XML описания репозитория. </p>
+Чтобы решить проблему избыточности, обратимся к тому, что называется SVN hook, а именно действие, вызываемое в отмет на некоторое событие. Нам нужен хук post-commit, срабатывающий после успешного комита в svn. Рассекретим хук:
+<pre lang="bash">cd PATH_TO_REPOS/hooks        # Путь к папке hook
+cp post-commit.tmpl post-commit # Включим хук скопировав его из шаблона
+chmod u+x post-commit          # Разрешим исполнять</pre>
+Теперь, отредактируем наш хук post-commit заставив его выполнить все нужные нам действия. Для начала, сохранять закоммиченный код в архив с расширением:
+
+<p><strong><img src="/images/2.gif" alt="2" width="33" height="41" align="left" /><a name="01" id="01"></a>Обновление XML-описания репозитория</strong></p>
+<p>Так, теперь разберем код установки версии в файл repo.xml, где в подобном формате хранится и должна обновляться информация о расширениях, находящихся в репозитории:</p>
+<pre lang="xml">  #вот тут вот наша версия
+	Applying a one qml style to many rasters. For additional info see http://gis-lab.info/qa/multiqml.html"
+	http://gis-lab.info/qa/multiqml.html
+    1.0
+	multiqml.zip
+	GIS-Lab
+	http://gis-lab.info/programs/qgis/multiqml.zip</pre>
+В коде расширения, версия хранится в файле __init__.py, будем извлекать ее оттуда, парсить XML описания репозитория и заменять в нем версию расширения на извлеченную. Это мой первый скрипт на python, поэтому явно все можно сделать красивее, так иначе - все работает.
+<pre lang="python">import xml.dom.minidom,sys,urllib
+from xml.dom.minidom import parse, parseString
+
+xmlfile = "/usr/local/www/gis-lab/data/programs/qgis/qgis-repo.xml"
+initfile = urllib.urlopen(sys.argv[1])
+pluginname = sys.argv[2]
+
+#in_file = open(initfile, 'rU')
+text = initfile.readlines()
+for line in text:
+   if "Version" in line:
+     if "return" in line:
+       theline = line
+
+pos = theline.find("Version") + 8
+version = theline[pos:]
+pos2 = version.find('"')
+version = version[:pos2]
+parsedoc = parse(xmlfile)
+elems = parsedoc.getElementsByTagName("pyqgis_plugin")
+for elem in elems:
+   valname = elem.attributes["name"].value
+   if valname == pluginname:
+     elem.attributes["version"].value = version
+
+final = open(xmlfile,"w")
+final.writelines(parsedoc.toxml())</pre>
+Таким же способом можно делать резервные копии и много чего другого. Очень удобно. Теперь только svn commit и никаких лишних действий вручную по сборке расширения для распространения.
+<div class="links">
+  <h2>Ссылки по теме</h2>
+  <ul>
+    <li><a href="qgis-dev-python.html">Разработка простого расширения для QGIS на Python</a></li>
+    <li><a href="qgis-standalone.html">Создание приложения на базе набора библиотек QGIS на Python</a></li>
+    </ul>
+</div>
+<p class="discuss">
+   <span><!--#include virtual="/scripts/forum-comments-num.php?i=852"--></span>
+</p>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<!--#include virtual="/inc/footer2.php" -->

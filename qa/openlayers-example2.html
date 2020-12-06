@@ -1,0 +1,21 @@
+<html>
+<head>
+  <title>OpenLayers Example</title>
+    <script src="/scripts/openlayers/OpenLayers.js"></script>
+    </head>
+    <body>
+      <div style="width:100%; height:100%" id="map"></div>
+      <script defer="defer" type="text/javascript">
+        var map = new OpenLayers.Map('map');
+        var wms = new OpenLayers.Layer.WMS( "OpenLayers WMS", "http://labs.metacarta.com/wms/vmap0", {
+		  layers: 'basic'} );
+		var twms = new OpenLayers.Layer.WMS( "GIS-Lab Test WMS", "http://gis-lab.info/cgi-bin/wmsworld?", { 
+          transparent: 'true',
+		  layers: 'world',
+          format: 'png'} 
+		);
+        map.addLayers([twms,wms]);
+        map.zoomToMaxExtent();
+      </script>
+</body>
+</html>

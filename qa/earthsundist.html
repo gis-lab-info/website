@@ -1,0 +1,46 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Определение расстояния от поверхности Земли до Солнца в момент получения снимка</title>
+<!--#include virtual="/inc/header2.txt" -->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Вопросы и ответы</a></li>
+</ul>
+<!--Contents start-->
+<h1>Определение расстояния от  Земли до Солнца в момент получения снимка </h1>
+<p class="ann">Расчет расстояния от поверхности Земли до Солнца в момент получения снимка для проведения атмосферной коррекции</p>
+<p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=953"--></span></p>
+<p>В процессе предварительной обработки данных дистанционного зондирования Земли очень часто   возникает необходимость  проведения дополнительной атмосферной коррекции. Для расчета ряда параметров используемых в формулах атмосферной коррекции необходимо точно знать расстояние от Земли до Солнца на момент проведения съемки.</p>
+            <p>Для первичной атмосферной коррекции, проводимой в автоматическом режиме для больших объемов данных используются усредненные показатели и расстояния (пункт 11.3.2) <a href="http://landsathandbook.gsfc.nasa.gov/handbook/handbook_htmls/chapter11/chapter11.html">&gt;&gt;&gt;</a></p>
+            <p>В случае работы с конкретным снимком такой &quot;усредненной&quot; коррекции может оказаться не достаточно (например, использование <a href="http://gis-lab.info/qa/atcor.html">модели COST</a> или <a href="http://ltpwww.gsfc.nasa.gov/IAS/handbook/handbook_htmls/chapter11/chapter11.html">перевод данных в показатели reflectance</a>). Поэтому для получения точного расстояния от Земли до Солнца в момент проведения съемки можно воспользоваться системой <a href="http://ssd.jpl.nasa.gov/horizons.cgi" target="_blank">Horizons</a>, разработанной лабораторией JPL NASA.</p>
+            <p>На <a href="http://ssd.jpl.nasa.gov/horizons.cgi" target="_blank">главной странице</a> сайта заполните следующие параметры:</p>
+            <ol>
+              <li>Current Settings - Ephemeris Type без изменений</li>
+              <li>Target Body - нажмите на ссылку change и в секции Target Body нажмите кнопку Display List. В появившемся списке укажите [10]Sun[Sol] и нажмите кнопку Select Indicated Body</li>
+              <li>Observer Location - нажмите на ссылку change и в секции Specify Observer Coordinates укажите координаты (Longitude и Latitude) центральной части снимка, а также, если известно примерную высоту над уровнем моря (
+                <label for="3">Altitude</label>
+                ). Нажмите кнопку Use Specified Coordinates.
+                В поле Time Span укажите  дату для Start Time  - дату и время получения снимка и и Stop Time следующий день относительно Start Time. Нажмите кнопку Use Specified Times. </li>
+              <li>Table Settings - можно указать ряд параметров, которые будут включены в результирующую таблицы. Оставьте эту строку без изменений.</li>
+              <li>Нажмите кнопку Generate Emphemeris.<br />
+                <img src="/images/earthsundist-02.gif" width="472" height="115" /> </li>
+              <li>В разделе Result найдите таблицу Table cut-offs 2: Solar Elongation и  столбец delta - в нем будет представлено 2 значения, вам нужно первое - это и будет искомое расстояние от Земли до Солнца в астрономических единицах. Оно может варьироваться от 0.9 до 1.1 с миллионными долями.<br />
+                <img src="/images/earthsundist-01.gif" width="546" height="80" /></li>
+            </ol>
+            <p class="discuss">
+				<span><!--#include virtual="/scripts/forum-comments-num.php?i=953"--></span>
+			</p>
+			<div class="links">
+			<h2>Ссылки по теме</h2>
+			<ul>
+               <li><a href="atcor.html">Атмосферная коррекция данных Landsat/ETM+</a></li>
+               <li><a href="http://ssd.jpl.nasa.gov/horizons.cgi" target="_blank" class="external">Horizons web interface</a></li>
+			</ul>
+			</div>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<p class="status"><span>Дата создания: 04.07.2006
+<br>Автор(ы): <a href="/forum/memberlist.php?mode=viewprofile&u=31" target="_blank">Анна</a></span></p>
+<!--#include virtual="/inc/footer2.php" -->

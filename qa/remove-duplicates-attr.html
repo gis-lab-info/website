@@ -1,0 +1,156 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Удаление дубликатов объектов по атрибутивной информации в ArcView 3.x</title>
+<!--#include virtual="/inc/header2.txt" -->
+<!--Contents start-->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Вопросы и ответы</a></li>
+</ul>
+<h1>Удаление  дубликатов объектов по атрибутивной информации в ArcView 3.x</h1>
+<p class="ann">Удаление объектов с одинаковой атрибутивной информацией в одной из полей таблицы.</p>
+<p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=1637"--></span></p>
+<p>Скрипт поиска объектов темы, атрибутивно дублирующих
+              друг-друга, запускается нажатием на кнопку в графическом интерфейса
+              Вида, на событие Click этой кнопки необходимо назначить
+              <a href="/programs/scripts/md.table.finddups2.ave">специальный скрипт</a> (<a href="/qa/addscript.html">о подключении скриптов</a>).</p>
+            <p>Перед началом работы:</p>
+            <ul>
+              <li> создайте поле индикатора дубликата с названием &quot;Duplicate&quot; типа String</li>
+              <li>сделайте активным поле содержащее атрибуты которые будут использоваться для поиска дубликатов</li>
+              <li>снимите
+              выделение с таблицы если оно присутствует</li>
+              <li>режим редактирования темы или таблицы должен быть включен <br />
+              </li>
+            </ul>
+            <p>В результате работы скрипта поле &quot;Duplicates&quot; заполняется значением &quot;yes&quot;, если это значение дубликат, из всех найденных дубликатов одна запись не получает значения &quot;yes&quot;, таким образом, выделив все записи где поле Duplicates=&quot;yes&quot; их можно удалить, избавившись таким образом от всех дубликатов по атрибутивной информации.</p>
+<pre>
+'Original script: M.R. Binkley mr_binkley@yahoo.com 03/05/99
+'Modified: GIS-Lab.info
+
+
+theTable = av.getActiveDoc
+theVtab = av.getActiveDoc.getVtab
+theField = thetable.GetActiveField
+theValueField = theVTab.FindField("Duplicate")
+theFieldName = theField.Getname
+mylist = list.make
+theFldPrec = theField.getprecision
+
+av.showmsg("Searching the field "+theFieldName.AsString.quote+"...")
+theSelCount = thevtab.GetSelection.Count
+recCount = 1
+If (theSelCount >1) then
+  For each rec in theVtab.GetSelection
+     theValue = theVtab.ReturnValue(theField,rec)
+     If (theField.istypenumber) then
+       theValue.setformatprecision(theFldPrec)
+     end
+     myList.Add(theValue)
+     progress = (recCount/theselCount) * 100
+     av.SetStatus( progress )
+     recCount = recCount + 1
+  End
+Else
+  For each rec in theVtab
+     theValue = theVtab.ReturnValue(theField,rec)
+     If (theField.istypenumber) then
+       theValue.setformatprecision(theFldPrec)
+     end
+     myList.Add(theValue)
+       progress = (recCount/theVtab.GetNumRecords) * 100
+     doMore = av.SetStatus( progress )
+     if (not doMore) then
+        break
+     end
+     recCount = recCount + 1
+  End
+End
+av.clearstatus
+
+theCount = 0
+theduplicatelist = List.make
+av.Showstopbutton
+av.showmsg("Identifying duplicate values in "+theFieldName.AsString.quote+"...")
+for each elem in mylist
+   thenewlist = mylist.clone
+   theNewList.Remove(theCount)
+   theListNumber = theNewList.FindByValue (elem)
+   if (theListNumber <> -1) Then
+       theObj = elem.AsString
+       theduplicatelist.add(theObj)
+   end
+   progress = (theCount/myList.Count) * 100
+   doMore = av.SetStatus( progress )
+   if (not doMore) then
+     break
+   end
+   theCount = theCount + 1
+end
+theduplicatelist.removeduplicates
+theduplicatelist.sort(true)
+av.Clearstatus
+av.clearmsg
+
+If (theDuplicateList.Count < 1) then
+    msgbox.Info("No duplicate values found.","Duplicate Values")
+    return nil
+End
+
+theIndexFlag = false
+If (theVtab.IsFieldIndexed(theField).Not) then
+   theIndexFlag = true
+   thevtab.CreateIndex(theField)
+   av.Clearmsg
+End
+
+queryCount = 1
+theVtab.GetSelection.ClearAll
+theVtab.UpdateSelection
+theTempBitmap = theVtab.GetSelection
+theTempBitmap2 = theVtab.GetSelection
+If (theField.IsTypeString) Then
+  For each fieldVal in theduplicatelist
+     theQuery = "(["+theFieldName+"] = "+fieldVal.quote+")"
+     bret = theVtab.Query(theQuery,thetempBitmap2,#VTAB_SELTYPE_new)
+     if (thetempBitmap2.count > 0) then
+       bitOffset = theTempBitmap2.GetNextSet(0)
+       theTempBitmap2.clear(bitOffset)
+     end
+     for each rec in theTempBitmap2
+       theVTab.SetValue (theValueField, rec, "yes")
+     end
+
+     progress = (queryCount/theDuplicateList.Count) * 100
+     av.SetStatus( progress )
+     queryCount = queryCount + 1
+   End
+Else
+  For each fieldVal in theduplicatelist
+     theQuery = "(["+theFieldName+"] = "+fieldVal+")"
+     theVtab.Query(theQuery,thetempBitmap2,#VTAB_SELTYPE_and)
+     thetempbitmap2 = theTempBitmap.clear(theTempBitmap.GetNextSet(0))
+     theTempBitmap = theTempBitmap.or(thetempBitmap2)
+     progress = (queryCount/theDuplicateList.Count) * 100
+     av.SetStatus( progress )
+     queryCount = queryCount + 1
+   End
+   theVtab.clearselection(theTempBitmap)
+End
+</pre>
+			<p class="discuss">
+				<span><!--#include virtual="/scripts/forum-comments-num.php?i=1637"--></span>
+			</p>
+			<div class="links">
+			<h2>Ссылки по теме</h2>
+			<ul>
+               <li><a href="remove-duplicates-attr.html">Удаление  дубликатов объектов по атрибутивной информации в ArcView 3.x</a></li>
+			</ul>
+			</div>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<p class="status"><span>Дата создания: 27.07.2007
+<br>Автор(ы): <a href="/forum/memberlist.php?mode=viewprofile&u=2" target="_blank">Максим Дубинин</a></span></p>
+<!--#include virtual="/inc/footer2.php" -->

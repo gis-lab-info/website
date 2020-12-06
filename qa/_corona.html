@@ -1,0 +1,101 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Название статьи</title>
+<!--#include virtual="/inc/header2.txt" -->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Вопросы и ответы</a></li>
+</ul>
+<!--Contents start-->
+<h1>Данные Corona </h1>
+<p class="ann">Описание данных </p>
+            <p>Данные дистанционного зондирования типа Corona - источник исторической спутниковой информации высокого разрешения в свое время рассекреченной Министерством Обороны США. </p>
+            <p><strong>Оглавление</strong></p>
+            <ol>
+                  <li><a href="#01">Описание</a></li>
+                  <li><a href="#02">Получение</a></li>
+            </ol>
+
+
+<!-- Первый раздел -->
+            <h2><strong><a name="01" id="01"></a>1. Описание</strong></h2>
+            <p>Текст статьи </p>
+            <p>Разрешение</p>
+            <p>Носители</p>
+            <p>Типы камер </p>
+            <pre>description.txt
+DS1111-2180DA027_27_a.tif
+DS1111-2180DA027_27_b.tif 
+DS1111-2180DA027_27_c.tif 
+DS1111-2180DA027_27_d.tif
+README.txt</pre>
+	    <p>&nbsp;</p>
+	    <pre>description.txt
+DS09058A024MC028_28_a.tif 
+DS09058A024MC028_28_Newton_rings.txt 
+README.txt</pre>
+	    <p>&nbsp;</p>
+        <p>
+          <!-- Второй раздел --></p>
+        <h2><strong><a name="02" id="02"></a>2. Получение </strong></h2>
+            <h3>Поиск</h3>
+            <p>Поиск и отбор данных CORONA осуществляется используя интерфейс <a href="http://edcsns17.cr.usgs.gov/EarthExplorer/" target="_blank" class="external">EarthExplorer</a>. Чтобы найти данные нужно:</p>
+            <ol>
+              <li>Выбрать тип данных</li>
+              <li>Ввести дополнительные критерии поиска и географическую область с помощью карты или посредством ввода координат. </li>
+              <li>Нажать кнопку поиск. </li>
+            </ol>
+            <p>Для поиска, можно выбрать две коллекции данных в группе Declassified data:</p>
+		        <p align="center"><img src="/images/corona-02.gif" width="306" height="252"></p>
+		        <ul>
+		          <li><a href="http://eros.usgs.gov/#/Find_Data/Products_and_Data_Available/Declassified_Satellite_Imagery_-_1" target="_blank" class="external">Declass 1</a> (1996)</li>
+		          <li><a href="http://eros.usgs.gov/#/Find_Data/Products_and_Data_Available/Declassified_Satellite_Imagery_-_2" target="_blank" class="external">Declass 2</a> (2002) </li>
+		          </ul>
+		        <p>Год в названии коллекции соответствует дате, когда данные стали доступными а не году съемки. </p>
+		        <p>Примечание: по умолчанию поиском возвращается 10 сцен, для увеличения количества результатов, нужно выбрать большее значение на первой странице настройки поиска.</p>
+		        <p align="center"><img src="/images/corona-01.gif" width="520" height="71"> </p>
+		        <p>После некоторого времени, будет получен результат. Отметьте, что количество найденных сцен сразу не показывается, для того, чтобы его получить, нужна нажать на знак вопроса и оно будет расчитано.</p>
+		        <p align="center"><img src="/images/corona-03.gif" width="642" height="168"> </p>
+		        <p>Для перехода к просмотру данных необходимо выделить нужные наборы и нажать кнопку Results.</p>
+		        <h3>Отбор</h3>
+		        <ul>
+		          <li>N - порядковый номер в таблице результатов;	</li>
+		          <li>Download	 - N/A если данные нельзя скачать, если можно - ссылка; </li>
+		          <li>Entity ID - внутренний идентификационный номер сцены; </li>
+		          <li>Acquisition Date - дата съемки;	</li>
+		          <li>Mission Nbr - номер миссии;	</li>
+		          <li>Revolution - виток орбиты;	</li>
+		          <li>Frame Nbr - номер кадра;	</li>
+		          <li>Camera Resolution - камера и разрешение;	</li>
+		          <li>Camera Type - тип камеры;	</li>
+		          <li>Image Type - тип изображения (BW - черно-белое);	</li>
+		          <li>NW Corner - северо-западный угол (формат: DD°MM'SS.SS&quot;N, DD°MM'SS.SS&quot;E , например: 45°03'28.80&quot;N, 43°50'20.40&quot;E);	</li>
+		          <li>NE Corner - северо-восточный угол;</li>
+		          <li>SW Corner - юго-западный угол;	</li>
+		          <li>SE Corner - юго-восточный угол; </li>
+		          <li>Film Type - тип пленки;	</li>
+		          <li>Polarity - поляризация;	</li>
+		          <li>Generation - поколение;	</li>
+		          <li>Data Source - источник данных;	</li>
+		          <li>Footprint Annotation -	подпись; </li>
+		          <li>Prod Media Type - тип носителя. </li>
+		          </ul>
+		        <h3>Заказ</h3>
+		        <p>Стоимость одной сцены: 30 USD, независимо от ее типа. </p>
+		        <p>Иногда попадаются сцены, которые можно скачать сразу (видимо это сцены, которые кто-то уже купил).</p>
+		        <p><img src="/images/corona-04.gif" width="739" height="98"></p>
+		        <p class="discuss">
+		   <span><!--#include virtual="/scripts/forum-comments-num.php?i=852"--></span>
+		</p>
+            <div class="links">
+				<h2>Ссылки по теме</h2>
+					<ul>
+						<li><a href="modislandprod.html">Ссылка на дополнительный источник информации внутренняя</a></li>
+						<li><a href="http://lpdaac.usgs.gov/landdaac/tools/modis/about.asp" target="_blank" class="external">Ссылка на дополнительный источник информации внешняя</a></li>
+					</ul>
+			</div>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<!--#include virtual="/inc/footer2.php" -->

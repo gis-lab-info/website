@@ -1,0 +1,82 @@
+﻿<!--#include virtual="/inc/header02.txt" -->
+<link rel="stylesheet" href="geosample-ol.css" type="text/css" />
+<script src="http://openlayers.org/api/OpenLayers.js"></script>
+<script src="./geosample-ol.js"></script>
+<script type="text/javascript">
+	var map, thematicLayers, wms_info;
+</script>
+<title>Gis-lab: Geosample для OpenLayers</title>
+<!--#include virtual="/inc/header2.txt" -->
+
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Вопросы и ответы</a></li>
+</ul>
+
+<h1 id="title">Geosample для OpenLayers</h1>
+<p class="ann">Демонстрация Geosample для OpenLayers</p>
+<p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=3838"--></span></p>
+<p>Вы можете:</p>
+<ul>
+  <li> перемещаться по карте используя мышь и панель изменения масштаба;</li>
+  <li>выбирать дополнительные слои используя переключатель под картой;</li>
+  <li>устанаваливать прозрачность для дополнительных слоёв;</li>
+  <li>щелкать по дополнительным слоям для получения некоторых атрибутивных данных. </li>
+</ul>
+<h2>Карта:</h2>
+
+<div id="map" class="map"></div>
+<script type="text/javascript">
+	init_map();
+</script>
+<div id="layerchanger">
+	<h2>Тематические слои:</h2>
+	<ul class="thematicToggle" >
+		<li>
+			<input type="radio" name="type" value="none" id="noneToggle"
+			onclick="selectThematicLayers(this);" checked="checked" />
+			<label for="noneToggle">нет</label>
+		</li>
+		<li>
+			<input type="radio" name="type" value="ecoregions" id="noneToggle"
+			onclick="selectThematicLayers(this);" />
+			<label for="noneToggle">экорегионы</label>
+		</li>
+		<li>
+			<input type="radio" name="type" value="soils" id="noneToggle"
+			onclick="selectThematicLayers(this);" />
+			<label for="noneToggle">почвы</label>
+		</li>
+		<li>
+			<input type="radio" name="type" value="veg" id="noneToggle"
+			onclick="selectThematicLayers(this);" />
+			<label for="noneToggle">растительность</label>
+		</li>
+		<li>
+			<input type="checkbox" name="type" value="oopt" id="noneToggle"
+			onclick="checkOopt(this);" />
+			<label for="noneToggle">охраняемые территории</label>
+		</li>
+	</ul>
+	<p>Прозрачность:
+		<a title="менее прозрачный" href="javascript: changeOpacity(-0.1);">&lt;&lt;</a>
+		<input id="opacity" type="text" value="0.7" size="3" disabled="true" />
+		<a title="более прозрачный" href="javascript: changeOpacity(0.1);">&gt;&gt;</a>
+	</p>
+</div>
+<!-- ссылки -->
+<div class="links">
+	<h2>Ссылки по теме</h2>
+		<ul>
+			<li><a href="geosample.html">Geosample: Открытый набор геоданных для различного  ПО ГИС</a></li>
+			</ul>
+</div>
+<p class="discuss">
+   <span><!--#include virtual="/scripts/forum-comments-num.php?i=3838"--></span>
+</p>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<!--#include virtual="/inc/footer2.php" -->

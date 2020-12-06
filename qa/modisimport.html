@@ -1,0 +1,87 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Импорт продуктов MODIS уровней 2G, 3, 4 с помощью MRT</title>
+<!--#include virtual="/inc/header2.txt" -->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Вопросы и ответы</a></li>
+</ul>
+<!--Contents start-->
+<h1>Импорт продуктов MODIS уровней 2G, 3, 4 с помощью MRT</h1>
+<p class="ann"> Описание процесса импорта данных MODIS c помощью MODIS Reprojection Tool </p>
+<p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=852"--></span></p>
+<p><strong>Задача:</strong> Перевести имеющиеся данные MODIS продуктов уровней 2G, 3, 4 в нужную проекцию и формат TIF с одновременным созданием мозаик из граничащих фрагментов.</p>
+            <h2>1. Трансформация без создания мозаики</h2>
+            <p>Исходно, данные MODIS, продукты серии 2G, 3, 4 распространяются в формате HDF, и специфической синусоидальной проекции (<a href="modislandprod.html">подробнее о продуктах, номенклатуре, типах данных MODIS данного уровня обработки) </a>.</p>
+            <p>Для  решения нашей задачи (перевод в TIF и нужную проекцию) можно воспользоваться пакетом <a href="https://lpdaac.usgs.gov/tools/modis_reprojection_tool" target="_blank">MRT</a> (MODIS Reprojection Tool). Кроме графического интерфейса, оперировать пакетом можно с помощью командной строки. Если необходимо обработать данные первого уровня обработки, нужно воспользоваться похожей программой - <a href="modis-l1-import.html">MRT Swath</a>. С помощью создания командного файла можно автоматизировать процесс обработки данных. Командная строка для запуска процесса трансформации (перепроектировки и сохранения в формате TIF) выглядит следующим образом. </p>
+            <tcode>resample -p paramfile.prm -i inputfile.hdf -o outputfile.tif</tcode>
+            <p>где:</p>
+            <p><strong>-p paramfile.prm</strong> - имя файла параметров трансформации, обязательный параметр (см. далее) </p>
+            <p><strong>-i inputfile.hdf</strong> - имя конвертируемого файла в формате hdf (например: MOD09Q1.A2003001.h18v02.004.2003352020715.hdf)</p>
+            <p><strong>-o outputfile.tif</strong> - имя  выходного файла в формате tif</p>
+            <p>Дополнительные настройки могут быть заданы либо через командную строку, добавлением других параметров, либо путем ввода их в файл параметров трансформации, в нашем примере - paramfile.prm. Который представляет из себя обычный текстовый файл следующего содержания:</p>
+            <p>Для проекции Albers Equal Area: </p>
+            <tcode>INPUT_FILENAME = Z:\MOD09Q1.A2000057.h20v04.004.2002357141257.hdf<br />
+                    SPECTRAL_SUBSET = (1 0 0)<br />
+                    OUTPUT_FILENAME = Z:\MOD09Q1.A2000057.h20v04.004.2002357141257.tif<br />
+                    RESAMPLING_TYPE = NEAREST_NEIGHBOR<br />
+                    OUTPUT_PROJECTION_TYPE = AEA<br />
+                    OUTPUT_PROJECTION_PARAMETERS = ( <br />
+                    0.0 0.0 52.0 64.0 45.0 0.0 8500000.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 )<br />
+                    DATUM = WGS84<br />
+                    OUTPUT_PIXEL_SIZE = 250</tcode>
+            <p>Для географической проекции:</p>
+            <tcode>INPUT_FILENAME = Z:\MOD09Q1.A2000057.h20v04.004.2002357141257.hdf<br />
+                    SPECTRAL_SUBSET = (1 0 0)<br />
+                    OUTPUT_FILENAME = Z:\MOD09Q1.A2000057.h20v04.004.2002357141257.tif<br />
+                    RESAMPLING_TYPE = NEAREST_NEIGHBOR<br />
+                    OUTPUT_PROJECTION_TYPE = GEO <br />
+                    OUTPUT_PROJECTION_PARAMETERS = ( <br />
+                    0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 )<br />
+                    DATUM = WGS84<br />
+                    OUTPUT_PIXEL_SIZE = 0.02 </tcode>
+            <p>где:</p>
+            <p><strong>INPUT_FILENAME</strong> - имя обрабатываемого файла в формате hdf.</p>
+            <p><strong>SPECTRAL_SUBSET</strong> - конвертируемые каналы. Например для продукта MOD09Q1 (отражающая способность 250 м разрешения) общее количество каналов 3, соответственно, чтобы импортировать первый, второй, но не импортировать третий SPECTRAL_SUBSET = (1 1 0).</p>
+            <p><strong>OUTPUT_FILENAME</strong> - имя  выходного файла в формате tif.</p>
+            <p><strong>RESAMPLING_TYPE</strong> - тип интерполяции используемой при пересчете растра.</p>
+            <p><strong>OUTPUT_PROJECTION_TYPE</strong> - тип проекции выходного файла. В данном случае - AEA - Albers Equal Area, так же может понадобится GEO - географическая.</p>
+            <p><strong>OUTPUT_PROJECTION_PARAMETERS</strong> - перечень дополнительно параметров проекции, если OUTPUT_PROJECTION_TYPE = GEO, то дополнительные параметры - нули.</p>
+            <p><strong>DATUM</strong> - датум, обычно WGS84, NAD83, другие датумы например - Pulkovo 1942 не поддерживаются.</p>
+            <p><strong>OUTPUT_PIXEL_SIZE</strong> - разрешение выходного растра, параметр может быть пропущен, тогда размер будет рассчитан MRT самостоятельно.</p>
+            <h2>2. Трансформация с созданием мозаики</h2>
+            <p>Если территория исследования захватывает несколько фрагментов, то перед перепроектированием рекомендуется их объединить в мозаику, но не наоборот. Это следует делать исходя из следующих соображений:</p>
+            <p>1. MRT не может сшивать в мозаику файлы в формате TIF<br />
+              2. Если сначала сделать resample каждому фрагменту, а потом сшить их в мозаику в другом ПО, то есть большая вероятность получить &quot;щели&quot; шириной в 1 пиксел на стыках фрагментов.</p>
+            <p align="center"><img src="../images/modisimport-01.gif" width="383" height="203" /> </p>
+            <p>Для получения более корректной мозаики, можно воспользоваться второй программой, входящей в пакет MRT - mrtmosaic. </p>
+            <tcode>mrtmosaic -i files.prm -s &quot;1 0 0&quot; -o A2000057_mos_b1.hdf</tcode>
+            <p>где:</p>
+            <p><strong>-i files.prm</strong> - имя файла содержащего перечень (полный путь и название файла) фрагментов для создания мозаики </p>
+            <p><strong>-s &quot;1 0 0&quot; </strong> - конвертируемые каналы. Например для продукта MOD09Q1 (отражающая способность 250 м разрешения) общее количество каналов 3, соответственно, чтобы импортировать первый, второй, но не импортировать третий SPECTRAL_SUBSET = (1 1 0)</p>
+            <p><strong>-o outputfile.tif</strong> - имя выходного файла в формате TIFF.</p>
+            <p>Таким образом, обычно, командный файл (bat-файл) имеет вид:</p>
+            <tcode>mrtmosaic -i files.prm -s &quot;1 0 0&quot; -o A2000057_mos_b1.hdf<br />
+                    resample -p mosaic_b1.prm -g Z:\resample.log</tcode>
+            <p>То есть сначала фрагменты мозаицируются, а затем трансформируются в необходимую проекцию и формат TIF.</p>
+            <p>Кроме командной строки MRT также имеет графический интерфейс. </p>
+            <p>Дополнительные настройки командной строки и дополнительные настройки файла параметров смотрите в документации к MRT.</p>
+            <p>Для большого количества файлов удобно воспользоваться <a href="/qa/modisimport-tool.html">утилитой генератором пакетных файлов MODIS-Import-tool</a>, которая выполнит работу по созданию файлов параметров и т.д. автоматически. </p>
+            <p class="discuss">
+				<span><!--#include virtual="/scripts/forum-comments-num.php?i=852"--></span>
+			</p>
+			<div class="links">
+			<h2>Ссылки по теме</h2>
+			<ul>
+               <li><a href="modislandprod.html">Продукты MODIS - Land</a></li>
+               <li><a href="/qa/modisimport-tool.html">Импорт продуктов MODIS с помощью MODIS-Import-tool</a></li>
+			   <li><a href="http://lpdaac.usgs.gov/landdaac/tools/modis/about.asp" target="_blank">MODIS Reprojection Tool Overview</a></li>
+			</ul>
+			</div>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<p class="status"><span>Дата создания: 11.02.2006
+<br>Автор(ы): <a href="/forum/memberlist.php?mode=viewprofile&u=2" target="_blank">Максим Дубинин</a></span></p>
+<!--#include virtual="/inc/footer2.php" -->

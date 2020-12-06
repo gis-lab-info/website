@@ -1,0 +1,34 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Установка поддержки .NET для ArcGIS</title>
+<!--#include virtual="/inc/header2.txt" -->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Вопросы и ответы</a></li>
+</ul>
+<!--Contents start-->
+<h1>Установка поддержки .NET для ArcGIS</h1>
+<p class="ann">Необходимые библиотеки для работы в ArcGIS некоторых приложений</p>
+<p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=313"--></span></p>
+<p>Ошибка <strong>&quot;Unable to get installer types in the c:\program files\gis-lab\...\*.dll assembly.---&gt; One or more of the types in the assembly unable to load&quot;</strong> возникающая при установке некоторого программного обеспечения, в том числе расширений для ArcGIS означает, что у вас не установлена поддержка .NET. </p>
+            <p align="center"><img src="/images/dotnet02.gif" width="445" height="159" /></p>
+            <p>Для ее установки и включения проделайте следующие действия:</p>
+            <p>1. <a name="1" id="1"></a>Загрузите и установите пакет платформы .NET версии 1.1 (23 Mb)<br />
+              <a href="http://www.microsoft.com/downloads/details.aspx?FamilyID=262d25e3-f589-4842-8157-034d1e7cf3a3&amp;displaylang=ru" target="_blank">http://www.microsoft.com/downloads/...</a></p>
+            <p>2. Вставьте диск с дистрибутивом ArcGIS Desktop в CD-привод.</p>
+            <p>3. Если окно ArcGIS не появилось, найдите и запустите файл <strong>startup.exe</strong> с этого диска.</p>
+            <p>4. Выберите из списка &quot;Install ArcGIS Desktop&quot;. </p>
+            <p>5. На следующей странице выберите &quot;Modify&quot;.</p>
+            <p>6. Включите опцию &quot;.NET Support&quot;. Нажмите Next для установки поддержки .NET. <strong>Внимание! Если платформа NET (<a href="#1">п.1</a>) на вашем компьютере не установлена, этот пункт отсутствует, перейдите к пункту 1.</strong></p>
+            <p align="center"><img src="/images/dotnet01.gif" width="506" height="385" /></p>
+            <p>7. Для корректной работы расширений рекомендуем установить (переустановить после установки поддержки NET) <a href="http://support.esri.com/index.cfm?fa=downloads.patchesServicePacks.listPatches&amp;PID=43" target="_blank">Service Pack 3 или более новую версию</a>.</p>
+            <p class="discuss">
+							<span><!--#include virtual="/scripts/forum-comments-num.php?i=313"--></span>
+			</p>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<p class="status"><span>Дата создания: 26.03.2005
+<br>Автор(ы): <a href="/forum/memberlist.php?mode=viewprofile&u=2" target="_blank">Максим Дубинин</a></span></p>
+<!--#include virtual="/inc/footer2.php" -->

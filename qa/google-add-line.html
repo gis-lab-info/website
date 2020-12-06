@@ -1,0 +1,61 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml">
+<head>
+<title>GIS-Lab: Размещение Google Maps на своей интернет странице - пример</title>
+<!--#include virtual="/inc/header2.txt" -->
+      <!--Main table start-->
+      <table class="tab-main">
+        <!-- GOOGLE Part1 START -->
+        <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAAcxaLeNvSZAM8_X6SDd1_fhQGhS5yCmtMNZMUBKgpbJFW2uH_cRTXeqK2vtaYYO0RO5wSqEbfPoLmDw"
+      type="text/javascript"></script>
+        <!-- GOOGLE Part1 END -->
+		<!-- GOOGLE Part2 START -->
+		<script type="text/javascript">
+    //<![CDATA[
+
+    function load() {
+      if (GBrowserIsCompatible()) {
+        var map = new GMap2(document.getElementById("maptest"));
+        map.addControl(new GSmallMapControl());
+        map.addControl(new GMapTypeControl());
+
+        GDownloadUrl("/other/data.xml", function(data) {
+          var xml = GXml.parse(data);
+          var markers = xml.documentElement.getElementsByTagName("marker");
+          var points = [];
+		  for (var i = 0; i < markers.length; i++) {
+            var point = new GLatLng(parseFloat(markers[i].getAttribute("lat")),
+                                    parseFloat(markers[i].getAttribute("lng")));
+            map.addOverlay(new GMarker(point));
+			points.push(point);
+          }
+		  map.addOverlay(new GPolyline(points));
+        });
+		map.setCenter(new GLatLng(37.4419, -122.1419), 13);
+      }
+    }
+
+    //]]>
+    </script>
+	<!-- GOOGLE Part2 END -->
+        <tr>
+          <td>
+		  <table width="90%" align="center">
+            <tr>
+				<td>
+				<!-- GOOGLE Part2 START -->
+				<img src="/images/simg.gif" onload="load()" onunload="GUnload()" />
+				<div id="maptest" style="width: 100%; height: 500px"></div>
+				<!-- GOOGLE Part2 END -->
+				</td>
+			</tr>
+		  </table>
+		  </td>
+        </tr>
+        <br />
+      </table>
+      <p align="center">&nbsp;</p>
+      <!--#include virtual="/scripts/date.php" -->
+<!--Contents end-->
+<!--#include virtual="/inc/footer2.php" -->

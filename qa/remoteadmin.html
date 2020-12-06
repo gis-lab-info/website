@@ -1,0 +1,69 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Удаленное администрирование</title>
+<!--#include virtual="/inc/header2.txt" -->
+<!--Contents start-->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Вопросы и ответы</a></li>
+</ul>
+<h1>Удаленное администрирование </h1>
+            <p class="ann">Описание настройки системы по удаленному доступу и администрированию.</p>
+            <p>Описание того, что надо установить, чтобы можно было посмотреть, что происходит на компьютере другого человека.
+              <!-- Первый раздел -->
+            В отличие от Remote Desktop, вы оставляете за собой возможность наблюдать, что происходит на вашем компьютере и имеете таким образом возможность прервать связь когда это необходимо. </p>
+            <p><strong><img src="/images/1.gif" alt="1" width="33" height="41" align="left" /><a name="01" id="01"></a>Брандмауэр Windows </strong></p>
+            <p>Брандмауэр Windows на время администрирования должен быть выключен: </p>
+            <p>Start\Settings\Control panel\Windows Firewall <br />
+            или если Windows русифицирован<br />
+            Старт\Настройки\Панель управления\Брандмауэр Windows.</p>
+            <p><strong><img src="/images/2.gif" alt="2" width="33" height="41" align="left" /><a name="01" id="01"></a>Hamachi</strong></p>
+            <p>Загрузить Hamachi, регистрироваться при загрузке не обязательно <a href="https://secure.logmein.com/products/hamachi/download.asp" target="_blank">&gt;&gt;&gt;</a></p>
+	        <p>На странице необходимо принять соглашение об использовании и нажать на кнопку Go to Download. </p>
+	        <p align="center"><img src="/images/remoteadmin-01.gif" alt="hamachi" width="549" height="173" /></p>
+	        <p>После появления страницы с выбором операционной системы, необходимо выбрать язык - English и Windows или другую операционную систему, если вы ее используете. </p>
+	        <p align="center"><img src="/images/remoteadmin-02.gif" alt="hamachi" width="530" height="198" /></p>
+	        <p>Установить программу.</p>
+	        <p>После установки - нажать на крайнюю левую кнопку Power On <img src="/images/remoteadmin-10.gif" alt="hamachi" width="29" height="28" />. Hamachi соединится с защищенным сервером и вы получите уникальный ip туннеля вида 5.X.X.X (этот адрес должен появиться в заголовке окна Hamachi).</p>
+	        <p align="center"><img src="/images/remoteadmin-08.gif" alt="hamachi" width="209" height="346" /></p>
+	        <p>Подключиться к сети - нажать на кнопку Create or Join Network, Join an existing network <img src="/images/remoteadmin-11.gif" alt="hamachi" width="27" height="28" />(присоединиться к существующей сети). Имя сети: gis-lab, пароль: terra.</p>
+	        <p align="center"><img src="/images/remoteadmin-04.gif" alt="hamachi" width="407" height="244" /></p>
+	        <p>После успешного соединения, в Hamachi появится список участников сети с их адресами и названиями. </p>
+	        <p align="center"><img src="/images/remoteadmin-03.gif" alt="hamachi" width="215" height="250" /></p>
+	        <p>Далее необходимо убедиться, что и вы и человек, подключающийся к вашему компьютеру видны в списке сети Hamachi и вы можете пинговать друг друга (правой кнопкой мыши на имя - ping).
+            <!-- Второй раздел -->
+             Ping должен &quot;проходить&quot;, то есть в открывшемся окне не должно быть сообщений Connection failed, а должны быть результаты включающие ip, время за которое был отправлен пакет и т.д.  </p>
+	        <p align="center"><img src="/images/remoteadmin-09.gif" alt="hamachi" width="420" height="91" /></p>
+	        <p>Если Ping не &quot;проходит&quot;, то скорее всего не был выключен брандмауэр Windows у одной из сторон (см. пункт 1).</p>
+	        <p><strong><img src="/images/3.gif" alt="3" width="33" height="41" align="left" /><a name="02" id="02"></a>UltraVNC</strong></p>
+	    <p>Загрузить UltraVNC <a href="http://sourceforge.net/projects/ultravnc/" target="_blank" class="external">&gt;&gt;&gt;</a> </p>
+	    <p>Установить UltraVNC.</p>
+	    <p>В пункте Additional Tasks все галочки должны быть сняты (дополнительные службы не нужны). </p>
+	    <p align="center"><img src="/images/remoteadmin-05.gif" alt="UltraVnc" width="503" height="385" /></p>
+	    <p>Запустить UltraVNC сервер (Пуск\Программы\UltraVnc\UltraVnc server), в трее (область Windows справа внизу, там же где находятся часы) должна появится иконка UltraVNC (черный глаз на синем фоне).</p>
+	    <p align="center"><img src="/images/remoteadmin-06.gif" alt="UltraVnc" width="227" height="29" /></p>
+	    <p>В процессе установки </p>
+	    <p>Щелкнуть правой кнопкой мыши по этой иконке и выбрать Admin Properties. В области Authentification задать пароль. Сообщить это пароль человеку, который подключается к вашему компьютеру.</p>
+	    <p align="center"><img src="/images/remoteadmin-07.gif" alt="UltraVnc" width="591" height="457" /></p>
+	    <p><strong><img src="/images/3.gif" alt="3" width="33" height="41" align="left" /><a name="02" id="02"></a>Завершение работы </strong></p>
+	    <p>После завершения работы необходимо:</p>
+	    <ol>
+	      <li>Закрыть UltraVNC  </li>
+	      <li>Закрыть Hamachi</li>
+	      <li>Переключить брандмауэр (Windows Firewall) в режим &quot;Включено&quot; (On).  </li>
+	    </ol>
+	    <p class="discuss">
+			<span><!--#include virtual="/scripts/forum-comments-num.php?i=852"--></span>
+			</p>
+			<div class="links">
+			<h2>Ссылки по теме</h2>
+			<ul>
+               <li><a href="modislandprod.html">Ссылка на дополнительный источник информации внутренняя</a></li>
+               <li><a href="http://lpdaac.usgs.gov/landdaac/tools/modis/about.asp" target="_blank" class="external">Ссылка на дополнительный источник информации внешняя</a></li>
+			</ul>
+			</div>
+            <!--#include virtual="/scripts/date.php" -->
+<!--Contents end-->
+<!--#include virtual="/inc/footer2.php" -->

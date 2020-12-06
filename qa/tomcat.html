@@ -1,0 +1,64 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Сервлеты и Tomcat</title>
+<!--#include virtual="/inc/header2.txt" -->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Вопросы и ответы</a></li>
+</ul>
+<h1>Сервлеты и Tomcat</h1>
+<!--Contents start-->
+<p class="ann">Краткое описание сервлетов и их использование в Tomcat</p>
+<p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=4108"--></span></p>
+
+<p><strong>Оглавление</strong></p>
+<ol>
+	<li><a href="#01">Введение</a></li>
+	<li><a href="#02">Установка Tomcat</a></li>
+	<li><a href="#03">Установка приложений</a></li>
+	<li><a href="#04">Заключение</a></li>
+</ol>
+
+<!-- Первый раздел -->
+<h2><strong><a name="01" id="01"></a></strong>1. Введение</h2>
+<p><a href="http://ru.wikipedia.org/wiki/%D0%A1%D0%B5%D1%80%D0%B2%D0%BB%D0%B5%D1%82" target="_blank" class="external">Сервлеты</a> - это приложения, написанные на java (такие как <a href="/qa/geoserver-begin.html">GeoServer</a>, <a href="/qa/geowebcache.html">GeoWebCache</a>, <a href="/qa/geojazzy.html">GeoJazzy</a>), и предназначенные для работы на сервере. Для их работы нужен так называемый "контейнер сервлетов". В дистрибутив GeoServer входит небольшой встраиваемый сервер Jetty, который совмещает в себе HTTP-сервер и контейнер сервлетов. Для первого знакомства его вполне достаточно. Но при промышленной эксплуатации сказываются отсутствие у него средств удаленного мониторинга и управления, установки и удаления приложений. В этой статье описывается работа с сервером Tomcat.</p>
+
+<!-- Второй раздел -->
+<h2><strong><a name="02" id="02"></a></strong>2. Установка Tomcat</h2>
+<p><a href="http://tomcat.apache.org/" title="http://tomcat.apache.org/" target="_blank" class="external">Apache Tomcat</a> это HTTP сервер с поддержкой технологий Java Servlet и JavaServer Pages (JSP). Дистрибутив для Windows называется <a href="http://tomcat.apache.org/download-60.cgi" title="http://tomcat.apache.org/download-60.cgi" target="_blank" class="external" rel="nofollow">Windows Service Installer</a>. Установка проходит максимально просто и не требует задания особых параметров.</p>
+
+<p>После завершения установки нужно запустить новую службу. Щелкаем правой кнопкой мыши по значку "Мой компьютер" и выбираем "Управление". Переходим в раздел "Службы и приложения &gt; Службы" и находим "Apache Tomcat 6". Щелкаем правой кнопкой и выбираем "Пуск". После перезагрузки компьютера в системном трэе появится значек службы и вы сможете управлять приложением через него.</p>
+<p align="center"><IMG height=133 alt="Щелкните для получения увеличенного изображения" src="/images/tomcat-01.png" width=237 border=0></p>
+<p>Стандартно, сервер приписан к порту 8080. Страница управления: http://localhost:8080/.</p>
+<!-- Третий раздел -->
+<h2><strong><a name="03" id="03"></a></strong>3. Установка приложений</h2>
+<p>Установка приложений в контейнер сервлетов ничем не отличается в Windows, Linux, FreeBSD. Сервлет должен быть упакован в "Web Application aRchive" (файл с расширением "war"). Один и тот же файл работает на любой платформе.</p>
+
+<p>Переходим на страницу "Application Manager" (http://localhost:8080/manager/html). В списке приведены все установленные приложения. Чтобы добавить новое, в разделе "WAR file to deploy" нажимаем "<em>Обзор</em>", выбираем WAR-файл. Нажимаем "<em>Deploy</em>". Приложение должно появиться в списке (учтите, что потребуется некоторое время для загрузки и распаковки, но Tomcat все это сделает самостоятельно).</p>
+<p align="center"><img height=643 alt="Щелкните для получения увеличенного изображения" src="/images/tomcat-02.png" width=500 border=0></a></p>
+<p>Теперь, с помощью кнопок "<em>Start/Stop/Reload</em>" можно останавливать и перезагружать отдельное приложение, а не весь сервер. Кнопка "<em>Undeploy</em>" служит для удаления приложений.</p>
+<p>После установки приложения может потребоваться внести изменения в файлы конфигурации. В документации к программам указывается путь относительно каталога webapps и имени приложения. Для Windows путь выглядит так:</p>
+
+<pre>c:\Program Files\Apache Software Foundation\Tomcat 6.0\webapps\</pre>
+
+<p>Для FreeBSD:</p>
+
+<pre>/usr/local/apache-tomcat-6.0/webapps</pre>
+
+<p>Например, для задания параметра DATA_DIR в GeoServer нужно <a href="http://docs.geoserver.org/1.7.x/en/user/data-directory/data-dir-setting.html#servlet-context-parameter" class="external text" title="http://docs.geoserver.org/1.7.x/en/user/data-directory/data-dir-setting.html#servlet-context-parameter" rel="nofollow">изменить</a> файл WEB-INF/web.xml. Этот файл расположен:</p>
+
+<pre>...\webapps\geoserver\WEB-INF\web.xml</pre>
+
+<!-- Четвертый раздел -->
+<h2><strong><a name="04" id="04"></a>4. Заключение</strong></h2>
+<p>Tomcat не единственный контейнер сервлетов. Есть еще и <a href="http://www.jboss.org/" title="http://gis-lab.info/qa/JBoss" target="_blank" class="external" rel="nofollow">JBoss</a>, <a href="https://glassfish.dev.java.net/" title="https://glassfish.dev.java.net/" target="_blank" class="external" rel="nofollow">GlassFish</a> и многие другие. Принципы работы у всех схожие и для приложений нет разницы в каком контейнере они исполняются. Но на практике, бывают случаи несовместимости или нестабильности в работе. Поэтому обращайте внимание на рекомендации по выбору контейнера для конкретного приложения.</p>
+
+<p>Для работы контейнера сервлетов, в свою очередь, требуется виртуальная машина Java. Она входит в набор Java Development Kit (JDK). Из-за лицензионных ограничений, наложенных разработчиком (Sun Microsystems, Inc.), появилось несколько различных реализаций JDK: Sun, IBM, Blackdown, OpenJDK и др. В случае с GeoServer подходят JDK только от Sun (предпочтительнее) и IBM. Начиная с версии 2.0 возможна работа с OpenJDK, но производительность сервера в этом случае существенно ниже.</p>
+<p class="discuss"><span><!--#include virtual="/scripts/forum-comments-num.php?i=4108"--></span></p>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<p class="status"><span>Дата создания: 22.11.2009
+<br>Автор(ы): <a href="/forum/memberlist.php?mode=viewprofile&u=6850" target="_blank">Mavka</a></span></p>
+<!--#include virtual="/inc/footer2.php" -->

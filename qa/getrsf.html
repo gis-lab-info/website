@@ -1,0 +1,57 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Получение файлов RSF и их формат</title>
+<!--#include virtual="/inc/header2.txt" -->
+<!--Contents start-->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Вопросы и ответы</a></li>
+</ul>
+<h1>Получение файлов RSF и их формат</h1>
+<p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=4089"--></span></p>
+<p class="ann">Описание формата файлов привязки Geographic Transformer</p>
+<p><b>RSF</b> - reference settings file - файл содержащий информацию об
+              опорных точках и используемый программами <a href="http://www.bluemarblegeo.com/products/transformer.php" target="_blank" class="external">Geographic Transformer</a> и <a href="gt.html">GT</a>              для привязки растров.</p>
+            <p><b>Формат файла
+              </b>(<a href="/other/sample.rsf">скачать пример файла</a>)</p>
+<pre>2 4
+&quot;Point 1&quot; 0.000 0.000 0.0 50.9999972222222 -94.0002277777778
+0.00 1
+&quot;Point 2&quot; 0.000 3199.000 0.0 50.9999972222222 -92.0008527777778
+
+0.00 1
+&quot;Point 3&quot; 1599.000 3199.000 0.0 50.0006222222222 -92.0008527777778
+
+0.00 1
+&quot;Point 4&quot; 1599.000 0.000 0.0 50.0006222222222 -94.0002277777778
+
+0.00 1</pre>
+            <p>В первой строке задается версия файла привязки (<b>2</b>) и количество              опорных точек (<b>4</b>).</p>
+            <p>Далее идет описание опорной точки, например:</p>
+            <p><font color="#FF0000">&quot;Point 4&quot;</font> <b><font color="#00FF00">1599.000</font> <font color="#0000FF">0.000</font> <font color="#FF00FF">0.0</font> <font color="#9900FF">50.0006222222222 </font><font color="#666666">-94.0002277777778</font> 0.00 <font color="#333399">1</font></b></p>
+            <p><font color="#FF0000">название точки</font> - любое название точки, не нулевое <br />
+            <font color="#00FF00">исходная координата Y</font> - десятичные градусы, метры, пиксельные координаты<br />
+            <font color="#0000FF">исходная координата X </font>- десятичные градусы, метры, пиксельные координаты<br />
+            <font color="#FF00FF">ошибка XY</font> - обычно всегда 0.0<br />
+            <font color="#9900FF">конечная координата Y</font> - десятичные градусы, метры, пиксельные координаты<br />
+            <font color="#666666">конечная координата X</font> - десятичные градусы, метры, пиксельные координаты<br />
+            ? - неизвестный параметр, обычно всегда 0.00<br />
+            <font color="#333399">переключатель</font> - (1 - точка используется, 0 - не используется)</p>
+            <p><b>Как получить файлы RSF</b></p>
+            <p> Файл RSF в пакетном режиме можно получить с помощью программы <a href="/programs/vb/tic2tic.zip"><b>Tic2Tic</b></a> из файлов:</p>
+            <ul>
+              <li>GGT (матрица трансформирования ScanView)</li>
+              <li>Tic (простой файл опорных точек вида X Y X Y, получить такой можно с
+              помощью Arcview и <a href="/programs/avenue/onetic.zip">OneTic</a>)</li>
+              <li><a href="/qa/spaceload.html#lnd"><b>LND</b></a> - список с набором координат, который вы можете получить <a href="edcgate.html">работая с EDC</a> (ссылка text
+                  only version). Получив листинг в виде текстового файла его легко затем
+                превратить в серию RSF файлов, что очень удобно для массовой привязки превью полученных через EDC. </li>
+            </ul>
+<p class="discuss"><span><!--#include virtual="/scripts/forum-comments-num.php?i=4089"--></span></p>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<p class="status"><span>Дата создания: 14.07.2002
+<br>Автор(ы): <a href="/forum/memberlist.php?mode=viewprofile&u=2" target="_blank">Максим Дубинин</a></span></p>
+<!--#include virtual="/inc/footer2.php" -->

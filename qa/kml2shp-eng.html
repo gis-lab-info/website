@@ -1,0 +1,41 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Batch conversion from KML to ESRI shapefile using Arcview</title>
+<!--#include virtual="/inc/header2-eng.txt" -->
+<!--Contents start-->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Вопросы и ответы</a></li>
+</ul>
+<h1>Batch conversion from KML to ESRI shapefile using Arcview</h1>
+<p class="ann">Short description of the instrument to convert data from KML to Shape-file format</p>
+<p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=1758"--></span></p>
+<p>One the ways to convert data from kml to shape-file format is to use special extension for Arcview GIS 3.x. This extension switches on additional menu which contains 3 instruments: import for polygons, lines and points.  Import can be done in batches, for this, several KMLs should be selected pressing SHIFT while selecting in Arcview &quot;Open Google KML file&quot; box.</p>
+            <p align="center"><img src="../images/kml2shape-01.gif" alt="kml2shape menu" width="143" height="136" /></p>
+            <p>Though other converters already exist, they were not always able to do what we wanted them to do or they require installation of other additional software. Because of this and partly for fun, we wrote this piece of software to convert data not going anywhere but Arcview. You can find links on the other converters of this kind in the end of the article, may you will find them more convinient.</p>
+            <p>KML files can contain simultaneously points, lines and polyons, so, to import everything from such files, run each menu item one after the other on the same KML file.</p>
+            <p>To start using this extension - download, install and switch it on -  <a href="/programs/avenue/kml2shp.zip">kml2shp.avx</a> (File\Extensions...) </p>
+            <p align="center"><img src="../images/kml2shape-02.gif" alt="kml2shape menu" width="376" height="305" /></p>
+            <p>Some notes:</p>
+            <ol start="1" type="1">
+              <li>Name of the object is imported in the Name field, if its length exceeds 250 characters, it will be truncated.</li>
+              <li>Resulting files have the same name as the KMLs which are being imported. </li>
+              <li>If KML is UTF-8 encoded, names in cyrillic and probably other languages won't be imported correctly. To correct this, change the encoding of the KML file to something, which Arcview GIS understands (Windows-1251 in case of cyrillic). There are various instruments which can do this - EMeditor, Notepad++ and many others.</li>
+              <li>Even if elevation attribute for the object is present 3D shape-file won't be created automatically. If you want to create 3D-shapefiles, use 3D versions of the importers. </li>
+            </ol>
+            <p>KML format is changing slightly depending on properties of the object and how it was obtained, so in some cases out extension can fail. If this happened, you can send us an example of such KML and we'll be happy to fix our extension to correctly import it.</p>
+            <p>To import KML in shape you can also use:</p>
+            <ul>
+              <li>KML2SHP Conversion <a href="http://arcscripts.esri.com/details.asp?dbid=14980" target="_blank" class="external">&gt;&gt;&gt;</a>- doesn't batch convert, fails on mixed KMLs</li>
+              <li>Kml2shp file conversion <a href="http://www.zonums.com/kml2shp.html" target="_blank" class="external">&gt;&gt;&gt;</a>- doesn't batch convert, no 3D shape-files import </li>
+            </ul>
+            <p class="discuss">
+				<span><!--#include virtual="/scripts/forum-comments-num.php?i=1758&lang=e"--></span>
+			</p>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php?lang=e" -->
+<p class="status"><span>Дата создания: 27.07.2007
+<br>Автор(ы): <a href="/forum/memberlist.php?mode=viewprofile&u=2" target="_blank">Максим Дубинин</a></span></p>
+<!--#include virtual="/inc/footer2.php" -->

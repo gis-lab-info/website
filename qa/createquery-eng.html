@@ -1,0 +1,51 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Creation of query-file for using in EDC-gateways</title>
+<!--#include virtual="/inc/header2-eng.txt" -->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Вопросы и ответы</a></li>
+</ul>
+<!--Contents start-->
+<h1>Creation of query-file for using in EDC-gateways</h1>
+<p class="ann">Description of query-file, and its rapid creation using special Arcview extension</p>
+<p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=813"--></span></p>
+            <p><strong>Objective: </strong>If you're working a lot with EDC gateway system for selection, previewing and ordering imagery (<a href="edcgate.html">some details about system (rus)</a>) you probably had to generate a query lots of times, it is also possible to load/save query file using web interface. This query-file is a plan text file which can be edited using any text editor. File syntax is very simple. </p>
+            <p>Sample query-file contents. </p>
+            <pre>GROUP = INVENTORY_SEARCH
+MESSAGE_ID = &quot;0&quot;
+DATASET_ID = &quot;MODIS/TERRA SURFACE REFLECTANCE 8-DAY L3 GLOBAL 250M SIN GRID V004&quot;
+GROUP = RANGE_LOC
+NORTH_LATITUDE = 58.9
+SOUTH_LATITUDE = 58.1
+WEST_LONGITUDE = 122.3
+EAST_LONGITUDE = 123.0
+END_GROUP = RANGE_LOC
+START_DATE = 1980-01-01T00:00:00Z
+STOP_DATE = 2005-12-29T23:59:59Z
+GRANULE_LIMIT = 1000
+GUIDE_LIMIT = 40
+TIME_LIMIT = 45
+SEARCH_NAME = &quot;modis&quot;
+END_GROUP = INVENTORY_SEARCH
+END</pre>
+            <p>To make life easier and use geographic capabilities of Arcview it is possible to make the process of creation of query-file even more convinient using Create-query extension for Arcview GIS, that will help to create such file from the region on your map.</p>
+            <p>To use this extension, follow this instruction:</p>
+            <ol>
+              <li><a href="/programs/avenue/create-query.zip">Download</a> and unpack the extension to your Arcview Extensions directory. Switch it on using File\Extensions...<br />
+                <br />
+                <img src="/images/createquery-03.gif" width="376" height="305" /> </li>
+              <li>Draw the rectangle using <img src="/images/createquery-04.gif" width="23" height="20" /> instrument right in the Arcview map (View document). </li>
+              <li>Press this button, which appear on Arcview button bar after you switch the extension <img src="/images/createquery1.gif" width="25" height="22" /> and select dataset name and cloud amount.  It is possible to load the created file into any gateway of EDC system without additional tweaks. </li>
+            </ol>
+            <p align="center"><img src="/images/createquery-02.gif" width="382" height="392" /></p>
+            <p class="discuss">
+				<span><!--#include virtual="/scripts/forum-comments-num.php?i=984&lang=e"--></span>
+			</p>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php?lang=e" -->
+<p class="status"><span>Дата создания: 07.04.2002
+<br>Автор(ы): <a href="/forum/memberlist.php?mode=viewprofile&u=2" target="_blank">Максим Дубинин</a></span></p>
+<!--#include virtual="/inc/footer2.php" -->

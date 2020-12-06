@@ -1,0 +1,97 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Получение бесплатных космических снимков Landsat TM,ETM+ через Glovis</title>
+<!--#include virtual="/inc/header2.txt" -->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Вопросы и ответы</a></li>
+</ul>
+<!--Contents start-->
+<h1>Получение бесплатных космических снимков Landsat TM,ETM+ через Glovis</h1>
+<p class="ann">Описание нового источника данных ASTER, TM, ETM+</p>
+<p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=8008"--></span></p>
+<p>Через сервис Glovis, помимо других спутниковых данных, доступны и данные со спутников серии Landsat с камерами <a href="/projects/ss/sensor/mss.html">MSS</a>, <a href="/projects/ss/sensor/tm.html">TM</a> и <a href="/projects/ss/sensor/etmplus.html">ETM+</a>. </p>
+<p>Эта статья расчитана на абсолютных новичков. Она знакомит с системой Glovis и рассказывает как получить данные в полном спектральном и пространственном разрешении на примере данных Landsat. </p>
+<p>На сегодняшний момент, через Glovis доступны бесплатно  следующие коллекции данных Landsat (группа Landsat Archive):</p>
+<ul>
+  <li>L7 SLC-off (2003-&gt;)  </li>
+  <li>L7 SLC-on (1999-2003) </li>
+  <li>Landsat 4-5 TM</li>
+  <li>Landsat 4-5 MSS</li>
+  <li>Landsat 1-3 MSS</li>
+  <li>Landsat 4-7 combined  </li>
+</ul>
+<p>Если вам нужны актуальные снимки, попробуйте сначала коллекцию  L7 SLC-off (2003-&gt;), если вас не устраивают артефакты (в виде полос на большей части изображения связанных с неисправимым сбоем в работе камеры с 2003 года), попробуйте сначала коллекцию Landsat 4-5 TM, а потом L7 SLC-on (1999-2003). Имейте в виду, что в последних несколько меньше данных. </p>
+            <h2>0. Регистрируемся на EarthExplorer</h2>
+            <p>EarthExplorer это сервис USGS, через который осуществляется получение самих данных. Регистрация бесплатная и производится по адресу: <a href="https://edcsns17.cr.usgs.gov/NewEarthExplorer/register/index" target="_blank" class="external">https://edcsns17.cr.usgs.gov/NewEarthExplorer/register/index</a></p>
+            <p>Без регистрации получить отобранные данные будет невозможно, поэтому обязательно это сделайте заранее. </p>
+            <h2>1. Заходим на Glovis</h2>
+            <p>Существует несколько интерфейсов через которые можно отбирать данные Landsat. В этой статье речь идет о Glovis: <a href="http://glovis.usgs.gov" target="_blank" class="external">glovis.usgs.gov</a></p>
+            <p><strong>Если окно просмотрщика не открылось </strong></p>
+            <p>Если окна не открываются и появляется сообщение об ошибке подобное этому: &quot;GloVis uses popup windows to implement some features. It appears that your browser has popup windows blocked for the GloVis web site.&quot; следует проверить:</p>
+            <ol>
+              <li>Разрешены ли всплывающие окна с сайта glovis.usgs.gov. Если они запрещены, то нужно их разрешить (в Firefox - Tools\Options\Content\Block pop-up windows\Exceptions...) </li>
+              <li>Установлена   Java, появляется ли в процессе запуска иконка Java в трее, если нет - следует проверить <a href="http://www.java.com/en/download/installed.jsp" target="_blank" class="external">установлена ли она и установить</a>, если это не так.</li>
+              <li>При использовании браузера Firefox версии 2.x, если Java не установлена, появится специальное сообщение, где следует нажать на зеленый символ, это приведет к загрузке Java Runtime Environment:<br />
+                  <img src="/images/terralook-12.gif" alt="terralook-02" width="607" height="364" /><br />
+                  <br />
+                После установки Java Runtime Environment
+                нужно разрешить Java запускать свои скрипты и перегрузить браузер. <br />
+                    <br />
+                    <img src="/images/terralook-11.gif" alt="terralook-02" width="516" height="315" /></li>
+            </ol>
+            <p><strong>Если окно просмотрщика открылось</strong></p>
+            <p>По умолчанию от открывается на территории США и коллекции данных L7 SLC-off (2003-&gt;).</p>
+            <p align="center"><img src="/images/landsat-glovis-01.gif" alt="terralook-01" width="700" height="576" /></p>
+            <p>&nbsp;</p>
+            <h2>2. Территория и облачность </h2>
+            <p>Находим нужную территорию и допустимую облачность. </p>
+            <p>Для       того чтобы перейти в нужное нам место можно:</p>
+              <ul type="disc">
+                <li>щелкнуть по карте-локатору в верхнем-левом углу.</li>
+                <li>передвинуть        карту с помощью стрелок и мыши;</li>
+                <li>ввести координаты нужного        места или path/row по        разграфке WRS2 и нажать Go;</li>
+                </ul>
+                <p>Предварительные изображения по умолчанию могут показаться слишком мелкими, поэтому выбираем из меню Resolution значение 240м. </p>
+                <p align="center"><img src="/images/landsat-glovis-02.gif" alt="terralook-01" width="750" height="575" /></p>
+                <h2>3. Дополнительные слои </h2>
+                <p>Для удобства поиска и выбора снимков можно включить слои  карты – закладка Map Layers. Включим Admin Boundaries и Cities. </p>
+                <p><img src="/images/landsat-glovis-03.gif" alt="terralook-01" width="750" height="607" />Кроме этого, можно также загрузить свой слой в формате shape из внешнего файла, это пригодится, если у вас есть контур рабочей территории.</p>
+                <h2>4. Отбор подходящих снимков</h2>
+                <p>После того как нужная территория найдена, можно полистать снимки кнопками Prev Scene, Next Scene (Предыдущая сцена, Следующая сцена) или кнопками выбора месяца и года съемки. Порядок поиска может быть таким, выставите последний возможный год и месяц и нажимайте Prev Scene для просмотра всех доступных сцен в этой коллекции. </p>
+                <p align="center"><img src="/images/landsat-glovis-05.gif" alt="terralook-01" width="239" height="55" /></p>
+                <p>Если в одной коллекции ничего подходящего не нашлось, попробуйте сменить ее на другую. </p>
+                <p>Если снимок подходит, то нужно его выбрать и в контекстном меню нажать Add. Снимок добавится в список и кнопка Send to Cart станет активной. </p>
+                <p align="center"><img src="/images/landsat-glovis-04.gif" alt="terralook-01" width="239" height="108" /></p>
+                <p>В корзину можно добавить несколько снимков. </p>
+                <h2>5. Заказ</h2>
+                <p>После того как снимки набраны, нажимаем Send to Cart (Отправить в корзину) и вводим имя и пароль полученные на шаге 0 при регистрации в EarthExplorer.</p>
+                <p>Далее возможны два варианта:</p>
+                <p>1. Сцена уже готова к закачке. Если это так, то ее можно скачать сразу после входа в EarthExplorer:</p>
+                <p align="center"><img src="/images/landsat-glovis-06.gif" alt="terralook-01" width="503" height="183" /> </p>
+                <p>Нажимаем кнопку загрузить (слева от красного креста - удалить из заказа) и выбираем формат скачивания Level 1 Product:</p>
+                <p align="center"><img src="/images/landsat-glovis-07.gif" alt="terralook-01" width="606" height="198" /> </p>
+                <p>2. Если сцены в архиве в скачиваемом виде пока нет ее нужно заказать.</p>
+                <p align="center"><img src="/images/landsat-glovis-08.gif" alt="terralook-01" width="809" height="224" /></p>
+                <p>Выбор сцены в этом случае будет выглядить так как показано выше.  Нужно нажать Submit Order. </p>
+                <p>Через некоторое время от USGS/EROS должно поступить 2 e-mail сообщения, одно, с подтверждением заказа, другое - со ссылкой по которой можно будет скачать данные. В зависимости от загруженности сервером USGS и количества заказываемых сцен, период ожидания может занять от нескольких часов до нескольких дней. </p>
+                <p>Загруженная сцена представляет собой сжатый файл и имеет расширение tar.gz. Для распаковки можно использовать бесплатные утилиты 7z или WinRAR. </p>
+                <p>После загрузки данных, нужно сделать из них многоканальные композиты, о том как это делается рассказывает статья &quot;<a href="qgis-landsat-merge.html">Как собрать и показать снимок Landsat из отдельных каналов в QGIS</a>&quot;.</p>
+                <h2>6. Самостоятельная работа </h2>
+                <p>В качестве домашнего задания - попробуйте найти сцену Landsat 5 Path: 170, Row: 28, Дата: 21 мая 2007 г. </p>
+                <p class="discuss">
+				<span><!--#include virtual="/scripts/forum-comments-num.php?i=8008"--></span>
+			</p>
+			<div class="links">
+			   <h2>Ссылки по теме</h2>
+			   <ul>
+			               <li><a href="terralook.html">TerraLook: бесплатные космические снимки ASTER,TM,ETM+</a></li>
+				      </ul>
+			</div>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<p class="status"><span>Дата создания: 05.06.2011<br>
+    Автор(ы): <a href="/forum/memberlist.php?mode=viewprofile&u=2" target="_blank">Максим Дубинин</a><a href="/forum/memberlist.php?mode=viewprofile&u=2611" target="_blank"></a></span></p>
+<!--#include virtual="/inc/footer2.php" -->

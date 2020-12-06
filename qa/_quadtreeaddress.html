@@ -1,0 +1,69 @@
+<html>
+<head>
+<title>GIS-Lab: Название статьи</title>
+
+<script language="JavaScript" type="text/javascript"> <!--
+function Url2Tile()
+{
+var url = theForm2.url.value;
+var nodeObj = document.getElementById("t00");
+nodeObj.style.backgroundImage = "url(" + url + ")";
+}
+
+function GetQuadtreeAddress()
+{
+long = theForm.longitude.value;
+lat = theForm.latitude.value;
+
+var PI = 3.1415926535897;
+var digits = theForm.zoom.value; // how many digits precision
+// now convert to normalized square coordinates
+// use standard equations to map into mercator projection
+var x = (180.0 + parseFloat(long)) / 360.0;
+var y = -parseFloat(lat) * PI / 180; // convert to radians
+y = 0.5 * Math.log((1+Math.sin(y)) / (1 - Math.sin(y)));
+y *= 1.0/(2 * PI); // scale factor from radians to normalized
+y += 0.5; // and make y range from 0 - 1
+var quad = "t"; // google addresses start with t
+var lookup = "qrts"; // tl tr bl br
+while (digits--) // (post-decrement)
+{
+// make sure we only look at fractional part
+x -= Math.floor(x);
+y -= Math.floor(y);
+quad = quad + lookup.substr((x >= 0.5 ? 1 : 0) + (y >= 0.5 ? 2 : 0), 1);
+// now descend into that square
+x *= 2;
+y *= 2;
+}
+//alert("http://kh.google.com/kh?v=3&t=" + quad); return quad;
+
+var nodeObj = document.getElementById("t00");
+nodeObj.style.backgroundImage = "url(" + "http://kh.google.com/kh?v=3&t=" + quad + ")";
+var nodeObj = document.getElementById("url");
+nodeObj.value = "http://kh.google.com/kh?v=3&t=" + quad;
+}
+//-->
+</script>
+</head>
+<body>
+          <h1>Название статьи</h1>
+            <form name="theForm" onSubmit="GetQuadtreeAddress(); return false;">
+				<em>Fetch Google Maps tiles via latitude/longitude</em>
+				<input style="WIDTH: 6em;" name="latitude" value="-33.86842">
+				<input style="WIDTH: 6em;" name="longitude" value="151.209984">
+				<input style="WIDTH: 6em;" name="zoom" value="15">
+				<button style="margin: 0;" type="submit">Получить адрес</button>
+				<p><br>
+			    </p>
+            </form>
+			и/или
+			<form name="theForm2" onSubmit="Url2Tile(); return false;">
+				<input id="url" value="URL" size="100" />
+				<button style="margin: 0;" type="submit">Получить фрагмент</button>
+			</form>
+			<table>
+				<tr><td id="t00" width=256 height=256>&nbsp;</td></tr>
+			</table>
+</body>
+</html>

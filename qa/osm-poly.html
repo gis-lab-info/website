@@ -1,0 +1,67 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Файлы регионов обрезки POLY и их создание в QGIS</title>
+<!--#include virtual="/inc/header2.txt" -->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Вопросы и ответы</a></li>
+</ul>
+<!--Contents start-->
+<h1>Файлы регионов обрезки POLY и их создание в QGIS</h1>
+<p class="ann">Описание расширения и загрузка готового набора </p>
+<p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=4231"--></span></p>
+
+<p>Poly-файлы используются для получения фрагмента данных заданной области с помощью <a href="http://wiki.openstreetmap.org/index.php/Osmosis" target="_blank" class="external">Osmosis</a>. Формат файлов poly подробно описан в <a href="http://wiki.openstreetmap.org/wiki/Osmosis/Polygon_Filter_File_Format" target="_blank" class="external">вики OpenStreetMap</a>. </p>
+<h2>Получить poly-файлы для субъектов РФ</h2>
+<p>Здесь можно <a href="/data/osm/osm-rus-poly.7z">скачать три варианта границ</a> обрезки для регионов РФ. Данные файлы получены на базе слоя административного деления <a href="/qa/vmap0.html">из VMap0</a>. Исходный слой был отредактирован таким образом, чтобы каждому региону соответствовал один несоставной полигон (исключение - Чукотский АО), таким образом все морские границы были проведены таким образом, чтобы включить островные территории. </p>
+<ol>
+  <li>Настоящие границы субъектов РФ и стран (poly) </li>
+  <li>Настоящие границы субъектов РФ + 20 км зона (poly-buf20) </li>
+  <li>Прямоугольные охваты границ субъектов РФ (poly-mbr) </li>
+  </ol>
+<p>Shape-файлы на основе которых были созданы эти наборы можно скачать <a href="/data/osm/bnd-a-osm.7z">отдельно</a>. Они включают:</p>
+<ol>
+  <li>countries - границы стран </li>
+  <li>bnd-a-osm - границы субъектов РФ</li>
+  <li>bnd-a-osm-full - граница РФ (совокупность субъектов)</li>
+  <li>bnd-a-osm-full-gen - генерализованная граница общей границы обрезки </li>
+  <li>bnd-a-osm-mbr -  MBR-границы субъектов РФ</li>
+  <li>bnd-a-osm-full-mbr - MBR-граница РФ (совокупность субъектов) </li>
+</ol>
+<p>Эти файлы в варианте 2 используются для нарезки субъектов РФ в формате OSM XML, а в формате 1 для экспорта данных по субъектам в формате shape (<a href="/projects/osm-export.html">подробнее</a>).</p>
+<h2>Создание poly-файлов с помощью QGIS </h2>
+<p>Создать много poly-файлов из полигонального слоя в формате shape можно с помощью специального расширения QGIS. Для этого:</p>
+<ol>
+  <li><a href="/qa/qgis-osgeo4w.html">Устанавливаем</a> QGIS</li>
+  <li>Открываем установщик плагинов (<em>Модули\Загрузить модули</em>) и добавляем сторонние репозитории.</li>
+  <li>Включаем показ экспериментальных модулей на закладке Параметры.</li>
+  <li>Находим модуль OSMPOLY_export</li>
+  <li>Устанавливаем</li>
+  <li>Открываем менеджер модулей (<em>Модули\Управление модулями</em>)</li>
+  <li>Включаем OSMPOLY_export</li>
+  <li>Добавляем нужный полигональный слой, он должен быть активен. </li>
+  <li>Если необходимо - редактируем его, убирая ненужное и добавляя необходимое.</li>
+  <li>Открываем таблицу слоя и изучаем таблицу атрибутов, имея в виду, что каждая строка таблицы будет соответствовать файлу poly, а его название будет взято из таблицы атрибутов. </li>
+  <li>Выполняем <em>Модули\OSM Poly export</em></li>
+  <li>Выбираем поле, содержащее имена для результирующих файлов и папку, куда они будут сложены. </li>
+</ol>
+<p>&nbsp; </p>
+<!-- обсуждение на форуме, цифра изменяется при публикации статьи -->   
+<p class="discuss">
+   <span><!--#include virtual="/scripts/forum-comments-num.php?i=4231"--></span>
+</p>
+<!-- ссылки -->
+<div class="links">
+	<h2>Ссылки по теме</h2>
+		<ul>
+			<li><a href="/projects/osm-export.html">Данные OpenStreetMap по регионам РФ в форматах shape и OSM XML</a></li>
+			<li><a href="/qa/osmosis-bm.html">Производительность Osmosis в операциях обрезки по регионам РФ</a></li>
+		</ul>
+</div>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<p class="status"><span>Дата создания: 22.11.2009
+<br>Автор(ы): <a href="/forum/memberlist.php?mode=viewprofile&u=2" target="_blank">Максим Дубинин</a></span></p>
+<!--#include virtual="/inc/footer2.php" -->

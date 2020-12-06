@@ -1,0 +1,52 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: VMap1 - получение данных</title>
+<!--#include virtual="/inc/header2.txt" -->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Вопросы и ответы</a></li>
+</ul>
+<!--Contents start-->
+<h1>Импорт данных VMap1 с помощью Mapinfo</h1>
+<p class="ann">Ссылки для скачивания данных VMap1</p>
+<p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=4846"--></span></p>
+            <p>Исходные данные VMap1 (формат VPF) не могут  быть прочитаны  непосредственно MapInfo, но универсальный транслятор, поставляемый с программой, позволяет выполнить  конвертацию  данных в формат MapInfo.</p>
+            <p align="center"><img src="/images/vmap1-import-mi-01.gif" width="484" height="184"></p>
+            <p>Если в списке программ у вас нет « Универсального  транслятора”  необходимо в режиме Каталог  программ найти  его в списке. </p>
+            <p align="center"><img src="/images/vmap1-import-mi-02.gif" width="342" height="177"></p>
+            <p>И указать для загрузку и/или автозагрузки поставив соответствующие переключатели.</p>
+            <p align="center"><img src="/images/vmap1-import-mi-03.gif" width="486" height="319"> </p>
+            <p>В “Универсальном трансляторе” необходимо указать формат  исходных данных и файлов, а также формат результирующих файлов.</p>
+            <p> Файлы с точечными данными имеют расширение .pft, например: buildp.pft <br>
+              Файлы с линейными данными имеют расширение .lft, например: landmrkl.lft <br>
+              Файлы с полигональными данными имеют расширение  .aft, например: builtupa.aft <br>
+              Файлы с данными подписей имеют расширение   .tft расширения, например: poptxt.tft</p>
+            <p align="center"><img src="/images/vmap1-import-mi-04.gif" width="369" height="399"></p>
+            <p>Данные VMAP1 находятся в системе координат Geographic (Lat/Lon), поэтому необходимо обязательно указать  проекцию  Долгота/Широта   (WGS:  84)  (EPSG:4326) иначе,  по умолчанию “Универсальный транслятор”  выполнит преобразование в non-earth (т.е. без   географических координат).</p>
+            <p align="center"><img src="/images/vmap1-import-mi-05.gif" width="437" height="352"></p>
+            <p>Следующая задача это объединение нескольких  таблиц с одинаковой структурой в одну.<br>
+Для этого, поочередно выполняем открытие каждой  с  указанием “Представление: В активной  карте”.</p>
+            <p align="center"><img src="/images/vmap1-import-mi-06.gif" width="563" height="454"></p>
+            <p>Затем используя режим <em>Таблица </em>-&gt; <em>Добавить записи в таблицу</em>, добавляем по  очереди  каждую из таблиц  в общую, предварительно созданную, таблицу vmap1.</p>
+            <p align="center"><img src="/images/vmap1-import-mi-07.gif" width="335" height="132"></p>
+            <p>Для  объединения большого  количества таблиц одинаковой структуры можно воспользоваться утилитой <a href="http://www.directionsmag.com/files/index.php/view/174" target="_blank" class="external">Append2.mbx</a>. Для этого в  меню <em>Программы\Запустить программу MapBasic</em> в MapInfo необходимо запустить файл Append2.MBX. </p>
+            <p align="center"><img src="/images/vmap1-import-mi-08.gif" width="361" height="176"></p>
+            <p>После  чего появится новый элемент меню MapInfo <em>Append</em>. В левом верхнем окне диалога выбираем директорию,  содержащую таблицы, которые появятся в правом верхнем окне. Кнопками <em>Add</em> и <em>Add  All </em>выбираем таблицы, которые будем объединять.</p>
+            <p align="center"><img src="/images/vmap1-import-mi-09.gif" width="403" height="503"></p>
+            <p>Кнопки Remove и Remove All  предназначены для удаления из нижнего окна диалога ошибочно выбранных таблиц.  Если в окошке <em>To new file</em> стоит отметка, то результат объединения будет  сохранен в новой таблице с указанным Вами именем в следующем диалоге. Если же  отметка отсутствует, то таблицы будут присоединены к первой в списке таблице.  Утилита не работает, если имена таблиц и папок, в которых они находятся,  содержат русские буквы или пробелы.</p>
+<p class="discuss"><span><!--#include virtual="/scripts/forum-comments-num.php?i=4846"--></span></p>
+            <div class="links">
+			   <h2>Ссылки по теме</h2>
+			   <ul>
+			               <li><a href="/qa/vmap1.html">Vmap1 - получение данных</a></li>
+			               <li><a href="/qa/vmap1-code.html">Vmap1 - кодификатор</a></li>
+						   <li><a href="http://www.nga.mil/portal/site/nga01/index.jsp?epi-content=GENERIC&amp;itemID=a2986591e1b3af00VgnVCMServer23727a95RCRD&amp;beanID=1629630080&amp;viewID=Article" target="_blank" class="external">Vector Product Format (VPF) Overview</a></li>
+			   </ul>
+			</div>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<p class="status"><span>Дата создания: 27.03.2010
+<br>Автор(ы): <a href="/forum/memberlist.php?mode=viewprofile&u=7534" target="_blank">Игорь Бавшин</a></span></p>
+<!--#include virtual="/inc/footer2.php" -->

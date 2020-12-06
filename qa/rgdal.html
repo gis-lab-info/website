@@ -1,0 +1,162 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Работа с растровыми данными в R: rgdal</title>
+<!--#include virtual="/inc/header2.txt" -->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+    <li class="first"><a href="/">Главная</a></li>
+    <li><a href="/qa.html">Вопросы и ответы</a></li>
+</ul>
+<!--Contents start-->
+<h1>Работа с растровыми данными в R: rgdal</h1>
+<p class="ann">Краткое описание возможностей R по работе с пространственными растровыми данными без конвертации</p>
+<p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=1749"--></span></p>
+<p>R — статистический пакет с открытым кодом, обладающий огромным набором функций, которые несомненно могли бы пригодится любым специалистам имеющим дело с анализом данных, <a href="rspatial.html">в том числе и пространственных</a>.</p>
+<p>Целью данной статьи является демонстрация того, как можно осуществлять статистические операции с многоканальными растровыми данными, с которыми мы повседневно работаем в GIS, не переводя их для этого в табличный формат. Работа напрямую с растром экономит время, способствует более чистой логике процесса и значительно облегчает программирование. В качестве примера для тестов можно использовать <a href="/data/samples/avhrr-15bands-georef.7z">композитный снимок AVHRR</a> использованный для иллюстраций в статье.</p>
+<p>Работу с растрами напрямую делает возможной пакет RGDAL. Перед использованием примера необходимо убедиться что библиотека rgdal установлена, для этого из меню необходимо выбрать Packages\Set CRAN Mirror..., Packages\Install package и загружена Packages\Load package....</p>
+<p>Примечание: если выбор этих пунктов из меню приводит к ошибке Error: unexpected input in &quot;packages\&quot;, следует, значит вы выбираете не из меню программы, а пытаетесь ввести эти операции как команды в командную строку.</p>
+<p>Другим способом загрузки и установки пакета является работа из командной строки:</p>
+
+<pre>#выбор зеркала загрузки
+chooseCRANmirror()
+#выбор пакета и его инсталляция
+utils:::menuInstallPkgs()
+#загрузка пакета для работы
+library(rgdal)</pre>
+
+<h2>Чтение растровых данных</h2>
+
+<p>Введем в командной строке R следующие команды и выберем файл для анализа, например <a href="/other/rgdal-test.rar">вот этот</a>. </p>
+
+<pre>test = file.choose()[1]
+x = new(&quot;GDALReadOnlyDataset&quot;, test)</pre>
+
+<p>Сразу получим размеры изборажения, они понадобятся в дальнейшем для формирования матрицы:</p>
+<pre>height = dim(x)[1]
+width = dim(x)[2]</pre>
+<h2>Работа с растровыми данными</h2>
+<p>Для начала, посмотрим на распределение данных: </p>
+
+<pre>plot(density(getRasterTable(x)$band1))</pre>
+
+<p class="ill">
+    <img src="/images/rgdal-02.gif" width="583" height="350" alt="Рис. 1. График распределения">
+    <span>Пример графика распределения яркостей в первом канале тестового изображения </span></p>
+
+<p>Построим регрессию и изучим ее результаты:</p>
+
+<pre>lm1 = lm(getRasterTable(x)$band2~getRasterTable(x)$band1)
+summary(lm1)</pre>
+
+<p>Для того, чтобы получить из изображения фрейм данных (dataframe в терминологии R) необходимый для некоторых статистический операций можно указать все каналы изображения (в данном случае их 15) следующим образом: </p>
+
+<pre>imagedata = data.frame(getRasterTable(x)[1:15])</pre>
+
+<p>Как видно из примеров, все операции работают с растром напрямую, без обычного преобразования в другие форматы, что удобно. </p>
+
+<h2>Сохранение данных</h2>
+
+<p>Самый простой вариант - сохранение данных в текстовый файл с разделителями </p>
+
+<pre>outputfile=&quot;c:\\temp\\1\\test.csv&quot;
+write.table(imagedata,file=outputfile,sep=&quot;,&quot;,row.names=F,col.names=T)</pre>
+
+<p>Если в результате некоторой операции у вас получилась матрица значений, ее можно сохранить как растр. Такая матрица часто является результатом обработки исходных растровых данных. Если результатом некой операции (над импортированным растром или новыми данными) является вектор (как например при применении деревьев классификации), то его легко сконвертировать в матрицу с нужными размерами, вот так:</p>
+
+<pre>#для простоты представим в качестве результирующего вектора просто копию первого канала растра
+resultvector = getRasterTable(x)$band1
+resmtx = matrix(resultvector,width,height)</pre>
+
+<p>Где resultvector - результирующий вектор, height - высота (количество рядов) матрицы, width - ширина (количество колонок). </p>
+
+<p>rgdal позволяет читать и сохранять растры со следующей разрядностью согласно <a href="http://www.gdal.org/frmt_gtiff.html" target="_blank" class="external">спецификации GeoTIFF</a>:</p>
+
+<ul>
+  <li>Byte 	- Eight bit unsigned integer </li>
+  <li>UInt16 	- Sixteen bit unsigned integer </li>
+  <li>Int16 	- Sixteen bit signed integer </li>
+  <li>UInt32 	- Thirty two bit unsigned integer </li>
+  <li>Int32 	- Thirty two bit signed integer </li>
+
+  <li>Float32 	- Thirty two bit floating point </li>
+  <li>Float64 	- Sixty four bit floating point </li>
+  <li>CInt16 	- Complex Int16 </li>
+  <li>CInt32 	- Complex Int32 </li>
+  <li>CFloat32 	- Complex Float32 </li>
+  <li>CFloat64 	- Complex Float64</li>
+</ul>
+
+<p>rgdal позволяет читать и сохранять данные в следующих растровых форматах:</p>
+
+<ul>
+  <li>GeoTIFF (GTiff)</li>
+    <li> Geosoft GXF (GXF) </li>
+    <li> Erdas Imagine (HFA) </li>
+
+    <li> CEOS (CEOS) </li>
+    <li> ELAS (ELAS) </li>
+    <li> Arc/Info Binary Grid (AIGrid) - только чтение </li>
+    <li> SDTS Raster DEM (SDTS) </li>
+    <li> OGDI (OGDI) </li>
+
+    <li> ESRI Labelled BIL (EHdr) </li>
+    <li> PCI .aux Labelled Raw Raster (PAux) </li>
+    <li> HDF4 Hierachal Data Format Release 4 </li>
+    <li> HDF5 Hierachal Data Format Release 5 </li>
+    <li> GSAG Golden Software ASCII Grid </li>
+
+    <li> GSBG Golden Software Binary Grid</li>
+</ul>
+
+<p>Для сохранения данных необходимо инициализировать драйвер соответствующего формата и создать растр с разрядностью данных соответствующей данным в матрице:</p>
+
+<pre>tif_driver = new(&quot;GDALDriver&quot;, &quot;GTiff&quot;)
+tif2 = new(&quot;GDALTransientDataset&quot;, tif_driver, height, width, 1, 'Byte')</pre>
+
+<p>Если матрица одна  то и канал у результирующего растра будет только один:</p>
+
+<pre>bnd1 = putRasterData(tif2, resmtx)</pre>
+
+<p>Для многоканальных данных, необходимо задать их количество и несколько видоизменить команду помещения данных в канал, например для 3-х канального растра (b1-b3 векторы с данными):</p>
+<pre>tifraster <- new("GDALTransientDataset", tif_driver, 77, 101, 3, 'Byte')
+bnd1 <- putRasterData(tifraster, b1, band=1)
+bnd2 <- putRasterData(tifraster, b2, band=2)
+bnd3 <- putRasterData(tifraster, b3, band=3)</pre>
+<p>В приведенном выше выражении, переменные bnd1-3 имеют чисто утилитарное значение, в них передается объект результата, который также помещается в канал изображения. Подобное выражение может быть записано и без перенаправления:</p>
+<pre>putRasterData(tifraster, b1, band=1)</pre>
+<p>В этом случае результат будет записан в канал, а имя объекта выведено в консоль, а не в переменную.</p>
+<p>После этого  остается только назвать результирующий файл и сохранить его:</p>
+<pre>tif_file = &quot;D:\\Programming\\R\\gdal\\test.tif&quot;
+saveDataset(tif2, tif_file)</pre>
+
+<p>После окончания работы стоит также удалить использованные объекты: файл с данными и драйвер формата:</p>
+
+<pre>GDAL.close(tif2)
+GDAL.close(tif_driver)</pre>
+
+<h2>Сохранение файла привязки</h2>
+<p>Самый простой вариант сохранения привязки - перенести привязку из импортированного файла в новый с помощью создания <a href="tfw.html">world-файла</a>. Для этого сначала, считаем данные о привязки, размер пикселя и координаты верхнего угла с помощью GDALinfo: </p>
+<pre>pixsize = as.numeric(GDALinfo(test)[6])<br>originx = as.numeric(GDALinfo(test)[4])<br>originy = as.numeric(GDALinfo(test)[5])<br>tfwinfo = rbind(pixsize,0,0,-1*pixsize,originx,originy)</pre>
+<p>А потом сохраним в текстовый файл с таким же названием, как растр и расширением tfw:</p>
+<pre>tif_file = "D:\\Programming\\R\\raster-open-save-georef\\output.tif"<br>tfw_file = tif_file<br>substr(tfw_file, nchar(tfw_file)-2, nchar(tfw_file)) &lt;- "tfw"<br>write(tfwinfo,tfw_file,sep="\n")</pre>
+<h2>Заключение</h2>
+<p>Таким образом, данный пример иллюстрирует, как применить всю математическую мощность популярного бесплатного пакета для работы с данными для обработки данных в растровых форматах. Язык R легко позволяет работать со скриптами, что позволяет еще больше увеличить производительность. </p>
+<p>Если у вас есть свои интересные примеры использования R в анализе пространственных данных, пожалуйста, пишите, мы с удовольствием их опубликуем у нас на сайте.</p>
+
+<p class="discuss">
+    <span><!--#include virtual="/scripts/forum-comments-num.php?i=1749"--></span>
+</p>
+
+<div class="links">
+    <h2>Ссылки по теме</h2>
+    <ul>
+		<li><a href="rspatial.html">Возможности работы с пространственными данными статистического пакета R</a></li>
+		<li><a href="http://cran.r-project.org/web/packages/rgdal/index.html" target="_blank" class="external">Подробнее о пакете rgdal</a></li>
+    </ul>
+</div>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<p class="status"><span>Дата создания: 06.11.2007
+<br>Автор(ы): <a href="/forum/memberlist.php?mode=viewprofile&u=2" target="_blank">Максим Дубинин</a></span></p>
+<!--#include virtual="/inc/footer2.php" -->

@@ -1,0 +1,49 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Конвертация пользовательской карты из сервиса Яндекс.Мои Карты в shape-формат</title>
+<!--#include virtual="/inc/header2.txt" -->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Статьи</a></li>
+</ul>
+<!--Contents start-->
+<h1>Конвертация пользовательской карты из сервиса Яндекс.Мои Карты  в shape-формат</h1>
+<p class="ann">Как получить и сконвертировать данные из яндекс.мои карты</p>
+<p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=6775"--></span></p>
+
+<p>Проекты Яндекса используют для обмена географическими данными формат YMapsML. YMapsML представляет собой открытый XML-формат, прикладная схема GML. Для редактирования данных в формате YMapsML можно использовать любой
+  текстовый редактор.</p>
+<p>Допустим есть карта с точечными объектами созданная в сервисе Яндекс.Мои Карты. У нас есть ссылка на веб-страницу, но мы хотим получить использованные в ней точки оффлайн в виде shape-файла или в любом другом формате.</p>
+<p>Пример карты: <a href="http://maps.yandex.ru/-/CVf-ixq">http://maps.yandex.ru/-/CVf-ixq</a></p>
+<p align="center"><img src="/images/yandex-shape-02.jpg" alt="yandex-shape" width="750" height="351"></p>
+<h2> 1. Определяем уникальный идентификатор карты</h2>
+<p>Для этого, нажимаем на &quot;Ссылка на эту карту&quot;. В появившемся окне копируем первую ссылку:  </p>
+<pre>http://maps.yandex.ru/?um=KHThAyccokjTKiOCfmQLkGcj0s1FGXk3&amp;l=map</pre>
+<p>Из нее нам нужно значение параметра um, между um= и следующим &amp;1, в нашем случае KHThAyccokjTKiOCfmQLkGcj0s1FGXk3.</p>
+<p align="center"><img src="/images/yandex-shape-01.jpg" alt="yandex-shape"></p>
+<h2> 2. Получаем исходные данные в формате GML</h2>
+<p>Для получения данных в формате GML для этого карты, используем сервис экспорта Яндекс (<a href="http://api.yandex.ru/maps/ymapsml/doc/guide/yandex-maps-ymapsml-guide.pdf">источник</a>, глава &quot;Использование YMapsML), для этого формируем строку, состоящую из &quot;http://maps.yandex.ru/export/usermaps/&quot; к которой добавляем полученный идентификатор: </p>
+<pre>http://maps.yandex.ru/export/usermaps/KHThAyccokjTKiOCfmQLkGcj0s1FGXk3/</pre>
+<p><a href="http://maps.yandex.ru/export/usermaps/KHThAyccokjTKiOCfmQLkGcj0s1FGXk3/" target="_blank" class="external">Открываем</a> получившийся адрес в браузере и сохраняем результат в файл с расширением GML (File\Save page as...). </p>
+<h2> 3. Конвертируем в ESRI Shape</h2>
+<p>Данные формате YMapsML могут быть обработаны программными средствами, работающими с GML третьей версии. Здесь мы используем инструмент ogr2ogr входящий в пакет GDAL/OGR, установить этот пакет можно с <a href="/qa/qgis-osgeo4w.html">помощью OSGeo4W</a>. </p>
+<pre>ogr2ogr views.shp views.gml</pre>
+<p>Полученный shape-файл готов к использованию в ГИС. </p>
+<p>Обратите внимание, что кодировка атрибутивных данных - UTF8, система координат WGS84.  </p>
+<p>Следует помнить про ограничения формата DBF, в котором хранится атрибутика shape-файлов. Названия полей - не более 10 символов, содержание - не более 255. Таким образом имя поля description будет обрезано до descriptio.</p>
+<!-- обсуждение на форуме, цифра изменяется при публикации статьи -->   
+<p class="discuss"><span><!--#include virtual="/scripts/forum-comments-num.php?i=6775"--></span></p>
+<!-- ссылки -->
+<div class="links">
+	<h2>Ссылки по теме</h2>
+		<ul>
+			<li><a href="http://api.yandex.ru/maps/ymapsml/doc/guide/yandex-maps-ymapsml-guide.pdf" target="_blank" class="external">API Яндекс.Карт Руководство по языку YMapsML</a></li>
+		</ul>
+</div>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<p class="status"><span>Дата создания: 20.11.2010<br>
+Автор(ы): <a href="/forum/memberlist.php?mode=viewprofile&u=2" target="_blank">Максим Дубинин</a></span></p>
+<!--#include virtual="/inc/footer2.php" -->

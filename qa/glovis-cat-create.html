@@ -1,0 +1,138 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Создание каталога данных Landsat из архива Glovis</title>
+<!--#include virtual="/inc/header2.txt" -->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Вопросы и ответы</a></li>
+</ul>
+<!--Contents start-->
+<h1>Создание каталога данных Landsat из архива Glovis</h1>
+<p class="ann">Последовательность действий для создания каталога данных </p>
+<p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=5356"--></span></p>
+<p>Покрытия-каталоги данных Landsat удобны для быстрого определения наличия сцен на территорию исследования. Использовать для этого графический пользовательский интерфейс Glovis особенно для больших территорий - затруднительно. Подобную процедуру может понадобится периодически повторять поскольку в архивах Glovis постоянно появляются новые сцены. Готовые покрытия до 2009 года можно скачать со <a href="/qa/landsat-glovis-catalog.html">специальной страницы</a>.</p>
+<h2><strong><a name="01" id="01"></a></strong>1. Создать список загрузки файлов содержания </h2>
+            <p>Данные о наличие сцен для конкретного Path и Row хранятся в специальном файле TOC, лежащем по адресу следующего вида для <a href="/projects/ss/sat/landsat-7.html">Landsat 7</a>/<a href="/projects/ss/sensor/etmplus.html">ETM+</a> (данные до 2003):</p>
+            <pre>http://glovis.usgs.gov/ImgViewer/l7/p001/r001/TOC</pre>
+            <p>или, для Landsat 7/ETM+ SLC-OFF:</p>
+            <pre>http://glovis.usgs.gov/ImgViewer/l7slc_off/p010/r001/TOC</pre>
+            <p>или, для <a href="/projects/ss/sat/landsat-4.html">Landsat 4</a>,<a href="/projects/ss/sat/landsat-5.html">5</a>/<a href="/projects/ss/sensor/tm.html">TM</a>: </p>
+            <pre>http://glovis.usgs.gov/ImgViewer/l5/p010/r001/TOC </pre>
+            <p>Если соответствующей комбинации Path и Row нет, сервер возвращает ошибку 404 Not Found. </p>
+            <p>Соответственно, для того, чтобы получить список доступных сцен, необходимо сгенерировать список подобных адресов, содержащий все Path и Row. Для этого можно использовать следующий скрипт на Perl (<a href="/programs/perl/pathrowlist.txt">скачать</a>) (для L5 и L7 соответственно необходимо изменить переменную $cur): </p>
+            <pre>#!/usr/local/bin/perl
+$glovis = "http://glovis.usgs.gov/ImgViewer/";
+$l7 = "l7";
+$l7slcoff = "l7slc_off";
+$l5 = "http://glovis.usgs.gov/ImgViewer/l5";
+$cur = $glovis.$l7;
+
+open (F, ">filelist.ion");
+for ($path=1; $path<=233; $path++) {
+	for ($row=1; $row<=248; $row++) {
+		if ($path<=9 & $row<=9) {print F "path00${path}row00${row}.toc $cur/p00$path/r00$row/TOC\n";}
+		if ($path<=9 & $row>=10 & $row<=99) {print F "path00${path}row0${row}.toc $cur/p00$path/r0$row/TOC\n";}
+		if ($path<=9 & $row>=100) {print F "path00${path}row${row}.toc $cur/$path/r$row/TOC\n";}
+		if ($path>=10 & $path<=99 & $row<=9) {print F "path0${path}row00${row}.toc $cur/p0$path/r00$row/TOC\n";}
+		if ($path>=10 & $path<=99 & $row>=10 & $row<=99) {print F "path0${path}row0${row}.toc $cur/p0$path/r0$row/TOC\n";}
+		if ($path>=10 & $path<=99 & $row>=100) {print F "path0${path}row${row}.toc $cur/p0$path/r$row/TOC\n";}
+		if ($path>=100 & $row<=9) {print F "path${path}row00${row}.toc $cur/p$path/r00$row/TOC\n";}
+		if ($path>=100 & $row>=10 & $row<=99) {print F "path${path}row0${row}.toc $cur/p$path/r0$row/TOC\n";}
+		if ($path>=100 & $row>=100) {print F "path${path}row${row}.toc $cur/p$path/r$row/TOC\n";}
+	}
+}
+close (F);</pre>
+            <h2><strong><a name="02" id="02"></a></strong>2. Загрузить файлы содержания </h2>
+            <p>Предыдущий скрипт создает текстовый файл ION, пригодный для использования как список загрузки с помощью ReGet. Результатом скачивания является набор файлов с названиями типа: path001row001.toc и содержанием следующего характера (<a href="http://glovis.usgs.gov/ImgViewer/l7/p001/r001/TOC" target="_blank" class="external">пример</a>): </p>
+	        <pre>1,1,1002,0,0,3
+20010715,196,927278,4653135,67,LE70010012001196SGS00,9,9,9,105,156,7,275,143,127,240,0
+20010731,212,927328,4652959,4,LE70010012001212SGS00,9,9,9,105,156,7,275,143,127,240,276790084
+20010917,260,927184,4652880,97,LE70010012001260SGS00,9,9,9,105,156,7,275,143,127,240,0</pre>
+		        <p>Часть комбинаций попадает в море и, видимо поэтому, их нет в архиве вообще, например <a href="http://glovis.usgs.gov/ImgViewer/l7/p001/r044/TOC" target="_blank" class="external">p001|r044</a>, попытка обратиться к ним будет вызывать ошибку 404 (Not Found). В зависимости от типа данных L7, L5, L7 SLC-OFF, одни и теже комбинации Path/Row могут присутствовать или отсутствовать. Например для p001|r001: L7 - <a href="http://glovis.usgs.gov/ImgViewer/l7slc_off/p001/r001/TOC" target="_blank" class="external">есть</a>, L5 - <a href="http://glovis.usgs.gov/ImgViewer/l7slc_off/p001/r001/TOC" target="_blank" class="external">нет</a>, L7 SLC-OFF - <a href="http://glovis.usgs.gov/ImgViewer/l7slc_off/p001/r001/TOC" target="_blank" class="external">нет</a>.</p>
+		        <p>Первая строка в этом списке несет служебную информацию:</p>
+		        <ol>
+		          <li>Колонка (Path)</li>
+		          <li>Ряд (Row)   </li>
+		          <li>неизвестно</li>
+		          <li>неизвестно</li>
+		          <li>неизвестно</li>
+		          <li>Количество сцен в архиве для этого ряда/колонки. </li>
+		        </ol>
+		        <h2><strong><a name="02" id="02"></a></strong>3. Создать список метафайлов</h2>
+		        <p>В полученных файлах toc нас интересует ID сцены вида: LT50010052006170KIS00. Подставив это ID в URL к Glovis, можно добиться того, что он выдаст нам файл метаданных. Полная ссылка таким образом выглядит так:</p>
+                <pre>http://glovis.usgs.gov/ImgViewer/showmetadata.cgi?scene_id=LT50010052006170KIS00</pre>
+                <p>Таким образом, наша задача получить список таких ссылок, для загрузки самих файлов метаданных из полученных файлов toc. Создать новый список загрузки можно сделать с помощью следующего скрипта (<a href="/programs/perl/select.txt">скачать</a>): </p>
+                <pre>#!/usr/local/bin/perl
+
+@list=glob("*\.toc");
+
+foreach $list (@list) {
+	open (TMP, "$list");
+	@tmp = <TMP>;
+	foreach $tmp (@tmp) {
+		if ($tmp =~  /[A-Z]{2}[0-9]{14}[A-Z]{3}[0-9]{2}/) {
+			push @url, ("$&");
+			}
+		}
+	}
+
+open (OUT,  ">l7_slc_off_ids.ion");
+
+%tmp = ();
+foreach $item (@url) {
+	#print OUT "$item\.meta http\:\/\/glovis\.usgs\.gov\/ImgViewer\/showmetadata\.cgi\?scene_id\=$item\n" unless $tmp{$item}++;
+	print OUT "http\:\/\/glovis\.usgs\.gov\/ImgViewer\/showmetadata\.cgi\?scene_id\=$item\n" unless $tmp{$item}++;
+	}</pre>
+                <p>Запускать скрипт необходимо из папки, содержащей файлы toc. Результатом работы будет файл *ids.ion примерно следующего содержания:</p>
+                <pre>http://glovis.usgs.gov/ImgViewer/showmetadata.cgi?scene_id=LT50010052006170KIS00
+http://glovis.usgs.gov/ImgViewer/showmetadata.cgi?scene_id=LT50010052006186KIS00
+http://glovis.usgs.gov/ImgViewer/showmetadata.cgi?scene_id=LT50010052006202KIS00
+http://glovis.usgs.gov/ImgViewer/showmetadata.cgi?scene_id=LT50010052006218KIS01
+http://glovis.usgs.gov/ImgViewer/showmetadata.cgi?scene_id=LT50010062006170KIS00
+http://glovis.usgs.gov/ImgViewer/showmetadata.cgi?scene_id=LT50010062006186KIS00
+http://glovis.usgs.gov/ImgViewer/showmetadata.cgi?scene_id=LT50010062006202KIS00
+http://glovis.usgs.gov/ImgViewer/showmetadata.cgi?scene_id=LT50010062006218KIS01
+....</pre>
+                <h2><strong><a name="02" id="02"></a>4. Загрузить метафайлы</strong></h2>
+                <p>Предыдущий скрипт создает текстовый файл ION, пригодный для использования как список загрузки с помощью ReGet. Результатом скачивания является набор файлов HTML с названиями типа: showmetadata.cgi@scene_id=LT52310732005210CUB00 и содержанием следующего характера:</p>
+                <pre>Dataset Attribute   Attribute Value
+{Landsat Scene Identifier}  LT52310732000213XXX02 
+{Spacecraft Identifier}  5 
+{Sensor Mode}   
+{Station Identifier}  XXX 
+{Day Night}  DAY 
+{WRS Path}  231 
+{WRS Row}  073 
+{WRS Type}  2 
+{Date Acquired}  2000/07/31 
+{Start Time}  2000:213:13:54:17.47069 
+{Stop Time}  2000:213:13:54:44.58300 
+{Sensor Anomalies}  N 
+{Acquisition Quality}   </pre>
+                <h2><strong><a name="02" id="02"></a></strong>5. Получить метаданные</h2>
+                <p>Из файлов с метаданными (которых может быть очень много) нужно создать единую таблицу. Для этого можно использовать скрипт импортирующий все метаданные в единую таблицу CSV из файлов meta (<a href="/programs/perl/parser_glovis_tm.txt">скачать</a>). Нюанс данной операции заключается в том, что набор и последовательность полей меняются в зависимости от типа данных, так для Landsat 5 они будут отличны от Landsat 7. </p>
+                <p>Для Landsat 5 список полей выглядит следующим образом: </p>
+                <pre>scene_id,spacecraft_identifier,sensor_mode,station_identifier,day_night,wrs_path,wrs_row,wrs_type,date_acquired,start_time,stop_time,sensor_anomalies,acquisition_quality,quality_band_1,quality_band_2,quality_band_3,quality_band_4,quality_band_5,quality_band_6,quality_band_7,cloud_cover,cloud_cover_quadrant_upper_left,cloud_cover_quadrant_upper_right,cloud_cover_quadrant_lower_left,cloud_cover_quadrant_lower_right,sun_elevation,sun_azimuth,scene_center_latitude,scene_center_longitude,corner_upper_left_latitude,corner_upper_left_longitude,corner_upper_right_latitude,corner_upper_right_longitude,corner_lower_left_latitude,corner_lower_left_longitude,corner_lower_right_latitude,corner_lower_right_longitude,browse_exists,scene_source,cct_source_available,dct_source_available,film_source_available</pre>
+                <p>для Landsat 7</p>
+                <pre>entityid,app_id,sensor_mode,recstation,daynight,path,row,wrs_type,acqdate,scenestart,scenestop,sen_anomal,acq_qlty,qltyb1,qltyb2,qltyb3,qltyb4,qltyb5,qltyb6,qltyb7,scenecc,cloud_ul,cloud_ur,cloud_ll,cloud_lr,sunelev,sunazi,sclat,sclong,ullat,ullong,urlat,urlong,lllat,lllong,lrlat,lrlong,browseavai,scene_src,cct_avail,dct_avail,film_avail,filename</pre>
+                <p>В зависимости от того, для каких данных создается каталог необходимо поменять заголовок таблицы прописанный в скрипте.</p>
+                <h2><strong><a name="02" id="02"></a></strong>6. Создать покрытие </h2>
+                <p>Полученную таблицу можно использовать совместно с <a href="/qa/l7pathrowmap.html">покрытием-разграфкой Landsat</a>, для получения нового каталога. </p>
+                <p>Результат работы в виде готового каталога на 2009 год доступен для скачивания на <a href="/qa/landsat-glovis-catalog.html">специальной странице</a>.</p>
+                <p class="discuss">
+		   <span><!--#include virtual="/scripts/forum-comments-num.php?i=5356"--></span>
+		</p>
+            <div class="links">
+				<h2>Ссылки по теме</h2>
+					<ul>
+						<li><a href="/qa/landsat-glovis-catalog.html">Каталог существующих данных Landsat из архива USGS</a></li>
+						<li><a href="/qa/landsat-mosaics.html">Получение данных Landsat/ETM+ 2000 года в виде мозаик</a></li>
+					</ul>
+			</div>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<p class="status"><span>Дата создания: 09.05.2010
+<br>Автор(ы): <a href="/forum/memberlist.php?mode=viewprofile&u=2" target="_blank">Максим Дубинин</a></span></p>
+<!--#include virtual="/inc/footer2.php" -->

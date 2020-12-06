@@ -1,0 +1,33 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Открытие  файла ассоциированным приложением с помощью Avenue</title>
+<!--#include virtual="/inc/header2.txt" -->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Вопросы и ответы</a></li>
+</ul>
+<!--Contents start-->
+<h1>Открытие  файла ассоциированным приложением с помощью Avenue</h1>
+<p class="ann">Скрипт на Avenue использующий системные ассоциации типов файлов</p>
+<p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=288"--></span></p>
+<p><strong>Задача:</strong> Открыть с помощью скрипта Avenue с помощью инструмента горячей связи (hotlink) документы MS Word, Excel и любые другие, для которых в операционной системе настроена ассоциированная программа (txt - Notepad, dbf - Excel и т.д.). Наличие ассоциации означает, что операционная система &quot;знает&quot;, какой программой открывать файл данного типа.</p>
+            <p>Для использования связи такого типа, необходимо создать следующий скрипт и подключить его как User Script к теме и полю, в котором будет прописан полный путь к нужному файлу.</p>
+            <p>Содержание скрипта:</p>
+            <pre>'fname - полный путь к файлу типа Filename
+fname = SELF
+shellDLL = DLL.Make(FileName.FindInSystemSearchPath(&quot;SHELL32.dll&quot;))
+execProc = DLLProc.Make(shellDLL, &quot;ShellExecuteA&quot;, #DLLPROC_TYPE_INT32, {#DLLPROC_TYPE_INT32, #DLLPROC_TYPE_STR, #DLLPROC_TYPE_STR, #DLLPROC_TYPE_STR, #DLLPROC_TYPE_STR, #DLLPROC_TYPE_INT32})
+execProc.Call({0,&quot;OPEN&quot;,fname,&quot;&quot;,&quot;&quot;,4})</pre>
+            <p>Данный способ достаточно универсален, но для некоторых типов файлов, точнее программ с ними ассоциированных, не работает. Примером является Google Earth 4 и ассоциируемые с ними файлы kml и kmz. Чтобы решить эту проблему, необходимо в свойствах файла googleearth.exe (Properties\Compatibility\Run this program in compatibility mode) в параметрах совместимости выбрать систему Windows NT. Иначе, возможно появление следующего сообщения об ошибке:</p>
+            <p align="center"><img src="/images/hotlink-anytype-01.gif" width="497" height="119" alt="error" /> </p>
+            <p>Еще одним способом борьбы с ошибками открытия ассоциированных программ является предварительное открытие их, перед использованием расширения. </p>
+            <p class="discuss">
+				<span><!--#include virtual="/scripts/forum-comments-num.php?i=288"--></span>
+			</p>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<p class="status"><span>Дата создания: 04.03.2005
+<br>Автор(ы): <a href="/forum/memberlist.php?mode=viewprofile&u=2" target="_blank">Максим Дубинин</a></span></p>
+<!--#include virtual="/inc/footer2.php" -->

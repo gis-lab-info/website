@@ -1,0 +1,79 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Описание проекций используемых GIS-Lab</title>
+<!--#include virtual="/inc/header2.txt" -->
+<!--Contents start-->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Вопросы и ответы</a></li>
+</ul>
+<h1>Описание проекций используемых GIS-Lab</h1>
+            <p class="ann">Настройки и описание проекций используемых для некоторых данных распространяемых через GIS-Lab.</p>
+            <p>Для использования как строки Proj или Mapinfo, используйте соответствующую строку описания. </p>
+            <table width="95%"  border="0" align="center">
+              <tr>
+                <th>Проекция</th>
+                <th>Пример</th>
+              </tr>
+              <tr>
+                <td><p><strong>Albers-Europe</strong><br />
+                    Projection: Albers Equal-Area Conic<br />
+                    Units: Meters<br />
+                    Spheroid: Krasovsky<br />
+                    Central meridian: 45<br />
+                    Standart Parallel 1: 52<br />
+                    Standart Parallel 2: 64<br />
+                    Reference Latitude: 0<br />
+                    False Easting: 8500000<br />
+                    False Northing: 0</p>
+                  <p>PROJ.4: +proj=aea +lat_1=52 +lat_2=64 +lat_0=0 +lon_0=45 +x_0=8500000 +y_0=0 +ellps=krass  +units=m +towgs84=28,-130,-95,0,0,0,0 +no_defs</p>
+                  <p>MapInfo: &quot;Albers-Europe&quot;,  9, 1001, 7,  45, 0, 64, 52,  8500000, 0</p></td>
+                <td>&nbsp;</td>
+              </tr>
+              <tr>
+                <td colspan="2" class="tr1"><p>Проекция используется для отображения Европейской части России.</p></td>
+              </tr>
+              <tr>
+                <td><p><strong>Albers-Siberia</strong><br />
+                    Projection: Albers Equal-Area Conic<br />
+                    Units: Meters<br />
+                    Spheroid: Krasovsky<br />
+                    Central meridian: 105<br />
+                    Standart Parallel 1: 52<br />
+                    Standart Parallel 2: 64<br />
+                    Reference Latitude: 0<br />
+                    False Easting: 18500000<br />
+                    False Northing: 0</p>
+                  <p>PROJ.4: +proj=aea +lat_1=52 +lat_2=64 +lat_0=0 +lon_0=105 +x_0=18500000 +y_0=0 +ellps=krass  +units=m +towgs84=28,-130,-95,0,0,0,0 +no_defs</p>
+                  <p>MapInfo: &quot;Albers-Siberia&quot;, 9, 1001, 7, 105, 0, 64, 52, 18500000, 0</p></td>
+                <td><div align="center"><img src="/images/oopt_v14-s.jpg" width="200" height="141" /></div></td>
+              </tr>
+              <tr>
+                <td colspan="2" class="tr1"><p>Проекция используется для отображения Сибирской части России и для  отображения  России целиком.</p></td>
+              </tr>
+              <tr>
+                <td><p><strong>Albers-FarEast</strong><br />
+                    Projection: Albers Equal-Area Conic<br />
+                    Units: Meters<br />
+                    Spheroid: Krasovsky<br />
+                    Central meridian: 135<br />
+                    Standart Parallel 1: 52<br />
+                    Standart Parallel 2: 64<br />
+                    Reference Latitude: 0<br />
+                    False Easting: 23500000<br />
+                    False Northing: 0</p>
+                  <p>PROJ.4: +proj=aea +lat_1=52 +lat_2=64 +lat_0=0 +lon_0=135 +x_0=23500000 +y_0=0 +ellps=krass  +units=m +towgs84=28,-130,-95,0,0,0,0 +no_defs</p>
+                  <p>MapInfo: &quot;Albers-FarEast&quot;, 9, 1001, 7, 135, 0, 64, 52, 23500000, 0</p></td>
+                <td><img src="/images/gis-lab-projections-fareast.gif" width="290" height="422" /></td>
+              </tr>
+              <tr>
+                <td colspan="2" class="tr1"><p>Проекция используется для отображения Дальневосточной части России.</p></td>
+              </tr>
+            </table>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<p class="status"><span>Дата создания: 09.12.2003
+<br>Автор(ы): <a href="/forum/memberlist.php?mode=viewprofile&u=2" target="_blank">Максим Дубинин</a></span></p>
+<!--#include virtual="/inc/footer2.php" -->

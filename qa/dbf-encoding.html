@@ -1,0 +1,76 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Изменение кодировки DBF файла</title>
+<!--#include virtual="/inc/header2.txt" -->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Вопросы и ответы</a></li>
+</ul>
+<!--Contents start-->
+<h1>Изменение кодировки DBF файла</h1>
+<p class="ann">Описание использования библиотеки dbfpy для изменения кодировки данных и скрипт </p>
+<p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=5425"--></span></p>
+
+<p>Неотъемлимой частью данных в формате  shape является атрибутивная таблица в формате DBF. Атрибутивные данные могут храниться в разных кодировках, часто встречаются такие кодировки как Windows-1251 (CP1251) и UTF8, KOI8-R. Некоторое, особенно  относительно давно появившиеся ГИС, такие как Arcview GIS 3.x, некоторые версии Mapinfo, не умеют работать с более новой кодировкой UTF8. Соответственно, часто встречается задача перевода DBF из одной кодировки в другую. </p>
+<p>Для преобразования dbf из одной кодировки в другую можно использовать скрипт на языке Python (<a href="/programs/python/dbf-encode.zip">скачать</a> скрипт). Эта статья описывает подготовку к работе, идею скрипта и как с ним работать. </p>
+<h2>Подготовка к работе </h2>
+<p>Для работы скрипта необходимо иметь Python 2.5/2.6 и один раз скачать и установить библиотеку <a href="http://dbfpy.sourceforge.net/" target="_blank" class="external">dbf2py</a>. После загрузки библиотеки нужно выполнить: </p>
+<pre>python setup.py install</pre>
+<p>Правильность установки библиотеки можно проверить запустив Python и выполнив:</p>
+<pre>from dbfpy import dbf</pre>
+<p>Если все установлено нормально, ошибок эта команда выдать не должна.</p>
+<h2>Идея скрипта</h2>
+<p>В процессе работы, скрипт должен построчно проверять тип поля в исходном файле DBF и, если он строковый, т.е. есть вероятность того, что данные не в той кодировке, осуществлять преобразование. Упрощенная версия скрипта на языке Python для перевода данных из кодировки в кодироввку выглядит следующим образом:</p>
+<pre>#!/usr/bin/python
+#--*-- encoding: utf-8 --*--
+
+import sys
+from dbfpy import dbf
+from types import *
+
+db = dbf.Dbf(sys.argv[1])
+newDB=dbf.Dbf(sys.argv[2], new=True)
+
+for f in db.header.fields:
+   newDB.addField(f)
+
+for rec in db:
+   r=newDB.newRecord()
+   newData=[]
+   for f in rec.fieldData:
+      if type(f)==StringType:
+         f=unicode(f,'utf-8')
+         f=f.encode('windows-1251')
+      newData.append(f)
+   r.fieldData=newData
+   r.store()
+
+db.close()
+newDB.close()</pre>
+<h2>Использование</h2>
+<p>Утилита вызывается из командной строки и принимает несколько обязательных параметров:</p>
+<pre>Usage: dbf-encode.py --in=inDBF --out=outDBF --encin=UTF8 --encout=CP1251</pre>
+<p>&nbsp;</p>
+<ul>
+  <li>DBFin - имя исходного файла dbf, который требуется преобразовать. </li>
+  <li>DBFout - имя конечного файла dbf, куда будет записан результат. </li>
+  <li>encin - кодировка исходного DBF файла. </li>
+  <li>encout - кодировка выходного DBF файла.</li>
+</ul>
+<p>Пример использования:</p>
+<p>Конвертировать  adygeya-admin-a.dbf в adygeya-admin-a2.dbf из кодировки UTF8 в кодировку CP1251. </p>
+<pre>python dbf-encode.py --in=adygeya-admin-a.dbf --out=adygeya-admin-a2.dbf --encin=UTF8 --encout=CP1251</pre>
+<p><a href="/programs/python/dbf-encode.zip">Скачать</a> полную версию dbf-encode.py</p>
+<p class="discuss"><span><!--#include virtual="/scripts/forum-comments-num.php?i=5425"--></span></p>
+<!-- ссылки -->
+<div class="links">
+	<h2>Ссылки по теме</h2>
+		<ul>
+			<li><a href="/qa/dbf2csv.html">Конвертация DBF в CSV </a></li>
+			</ul>
+</div>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<!--#include virtual="/inc/footer2.php" -->

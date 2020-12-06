@@ -1,0 +1,172 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Getting main spatial characteristics  of objects in ArcGIS</title>
+<!--#include virtual="/inc/header2-eng.txt" -->
+<!--Contents start-->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Вопросы и ответы</a></li>
+</ul>
+<h1>Getting main spatial characteristics  of objects in ArcGIS </h1>
+            <p>The article is answering the question how to get main spatial characteristics of the features which are associated with their geometry. No additional extensions or software in needed. </p>
+            <p>Following geometry types and relative spatial characteristics are covered:</p>
+            <table align="center" class="tabanno">
+              <tr>
+                <td><p>Object type </p></td>
+                <td><p>Spatial characteristics</p></td>
+                <td><p align="center">Link</p></td>
+              </tr>
+              <tr>
+                <td><p>Point</p></td>
+                <td><p> X coordinate <br />
+                    Y coordinate </p></td>
+                <td><p align="center"><a href="#point">go</a></p></td>
+              </tr>
+              <tr>
+                <td><p>Line</p></td>
+                <td><p>Length</p></td>
+                <td><p align="center"><a href="#line">go</a></p></td>
+              </tr>
+              <tr>
+                <td><p>Polygon</p></td>
+                <td><p>Length (perimeter)<br />
+                    Area</p></td>
+                <td><p align="center"><a href="#polygon">go</a></p></td>
+              </tr>
+            </table>
+            <p>Those who used software like Mapinfo, probably noticed, that there are no easy way to click and see spatial characteristics of the feature, area of the polygon or coordinates of the point. In ArcGIS it is impossible to find out feature's spatial characteristics simply by selecting it. However, while it seems to be inconvenient, there is certain logics in this.</p>
+            <p>The reason is that visual inspection of the feature spatial characteristics doesn't make any sense. More useful is getting feature geometry data into the attribute table and work with the numbers there. It is also possible if needed to organize continuous monitoring and update of attributive values related to the changing feature geometry. This approach is used in Arcinfo Workstation which is working with the data in its own - coverage format. This can make sense if you are caring out a series of spatial operations and need to track changes in spatial characteristics. </p>
+            <p>Again, spatial characteristics are properties of features geometry. In Arcview GIS and ArcGIS shapefile format it is possible to get it via special Shape field, which provide link for geometry from the table and can be used for extracting some data from it.</p>
+            <p>While calculating spatial characteristics it is important to remember, that units of result will be the same as internal units of the source features. So:</p>
+            <ul>
+              <li> If data is in geographic coordinate system, then after extracting spatial characteristics data the result will be in decimal degrees, while dataframe can have or have no projection set up (this is acceptable for points coordinates, but not for lengths and areas).</li>
+              <li> If data is in the unknown coordinate system, then calculation can still be carried, but the resulting units will remain unknown also. </li>
+            </ul>
+            <p>Further you can how it is possible to get metric data about spatial characteristics even if your data is internally unprojected (being in geographic coordinate system), while dataframe projection is set up. For such calculation it is important to remember what projected coordinate system was used for calculations, as in different projections the results will vary.</p>
+            <p>So for updating your feature attributes table for all objects at once you need: </p>
+            <p>1. Open attributes table by right clicking on the layer, for objects of which you need to calculate spatial characteristics, choose <strong>Open Attribute Table </strong></p>
+            <p>2. Create field or fields of integer of floating format depending on type of characteristic you want to calculate. <strong>Options\Add Field...</strong></p>
+            <p>3. Choose data entry instrument by right clicking on field header and choosing <strong>Calculate Values...</strong></p>
+            <p align="center"><img src="/images/shapecalc-04.gif" width="440" height="203" /></p>
+            <p>4. In the Field Calculator window switch on Advanced
+              mode</p>
+            <p>5. In newly appeared Pre-logic VBA Script Code field enter one of the following expressions, which will get spatial characteristic data from <b>shape </b>field which hold geometry of the object. </p>
+            <p align="center"><span><img src="/images/shapecalc-05.gif" width="468" height="431" /></span> </p>
+            <p><b>1. <a name="polygon" id="polygon"></a>Polygon</b></p>
+            <p><b>Area</b></p>
+            <p>Expression for getting spatial characteristic data in the internal units and coordinate system of the layer. Layer and dataframe can be either in geographic or projected coordinate system, the result will be the same, as it is not dependent on dataframe coordinate system/units:</p>
+            <tcode>Dim Output as double<br />
+                    Dim pArea as IArea<br />
+                    Set pArea = [shape]<br />
+                    Output = pArea.area
+                  </tcode>
+            <p>To repeat, this query will not give sound results if your data is initially in geographic projection and it doesn't matter if your dataframe is projected or not. However, if you are working with vector data which is already projected, using these expression can save a lot of time. </p>
+            <p>For getting spatial characteritics in metric system using data stored in geographic coordinate system and projected of the fly using ArcGIS capabilities, it is needed to modify the expression this way:</p>
+            <tcode>Dim pMxDoc As IMxDocument<br />
+                    Set pMxDoc = ThisDocument<br />
+                    Dim pMap As IMap<br />
+                    Set pMap = pMxDoc.FocusMap<br />
+                    Dim pSR As ISpatialReference<br />
+                    Set pSR = pMap.SpatialReference<br />
+                    Dim pPolygon As IPolygon<br />
+                    Dim pArea as IArea<br />
+                    Set pPolygon = [Shape]<br />
+                    pPolygon.Project pSR<br />
+                    Set pArea = pPolygon<br />
+                    Output = pArea.area<br />
+                  </tcode>
+            <p>In the last textbox, in the header of which we have &quot;<b>area =&quot; </b>text, you need to put <b>output. </b>Output is the name of the variable, that contains the result of the calculation for each record (=feature).</p>
+            <p>Area is the name of the field in which the results of calculate will be stored, you can use other field name.</p>
+            <p><b>Perimeter</b></p>
+            <p>Expression for unprojected dataframe, data can be either in geographic or projected coordinate system:</p>
+            <tcode>Dim Output as double<br />
+                    Dim pCurve as ICurve<br />
+                    Set pCurve = [shape]<br />
+                    Output = pCurve.Length<br />
+                  </tcode>
+            <p>Expression for projected dataframe, data can be either in geographic or projected coordinate system, the resulting spatial characteristics value will be calculated in the projected units and using the projection of the data frame: </p>
+            <tcode>Dim pMxDoc As IMxDocument<br />
+                    Set pMxDoc = ThisDocument<br />
+                    Dim pMap As IMap<br />
+                    Set pMap = pMxDoc.FocusMap<br />
+                    Dim pSR As ISpatialReference<br />
+                    Set pSR = pMap.SpatialReference<br />
+                    Dim pCurve As ICurve<br />
+                    Set pCurve = [Shape]<br />
+                    pCurve.Project pSR<br />
+                    Output = pCurve.Length<br />
+                  </tcode>
+            <p>In the last textbox, in the header of which we have &quot;<b><b>perimeter =</b></b>&quot; text, you need to put <b>output. </b>Output is the name of the variable, that contains the result of the calculation for each record (=feature).</p>
+            <p>Perimeter is the name of the field in which the results of calculate will be stored, you can use other field name.</p>
+            <p><b>2. <a name="line" id="line"></a>Linear features:</b></p>
+            <p><b>Length</b></p>
+            <p>Expression for unprojected dataframe, data can be either in geographic or projected coordinate system:</p>
+            <tcode>Dim Output as double<br />
+                    Dim pCurve as ICurve<br />
+                    Set pCurve = [shape]<br />
+                    Output = pCurve.Length<br />
+                  </tcode>
+            <p>Expression for projected dataframe, data can be either in geographic or projected coordinate system, the resulting spatial characteristics value will be calculated in the projected units and using the projection of the data frame: </p>
+            <tcode>Dim pMxDoc As IMxDocument<br />
+                    Set pMxDoc = ThisDocument<br />
+                    Dim pMap As IMap<br />
+                    Set pMap = pMxDoc.FocusMap<br />
+                    Dim pSR As ISpatialReference<br />
+                    Set pSR = pMap.SpatialReference<br />
+                    Dim pCurve As ICurve<br />
+                    Set pCurve = [Shape]<br />
+                    pCurve.Project pSR<br />
+                    Output = pCurve.Length<br />
+                  </tcode>
+            <p>In the last textbox, in the header of which we have &quot;<b><b>length =</b></b>&quot; text, you need to put <b>output. </b>Output is the name of the variable, that contains the result of the calculation for each record (=feature).</p>
+            <p>Length is the name of the field in which the results of calculate will be stored, you can use other field name.</p>
+            <p><b>3. <a name="point" id="point"></a>Point features:</b></p>
+            <p><strong>Coordinates</strong></p>
+            <p>For getting coordinates, 2 field are needed to be created and 2 expression used, one for latitude and one for longitude.</p>
+            <p>Expression for unprojected dataframe, data can be either in geographic or projected coordinate system:</p>
+            <p>For longitude:</p>
+            <p><b><img src="../images/shapecalc3.gif" width="351" height="323" align="right" /></b></p>
+            <tcode>Dim pPoint As IPoint<br />
+                    Set pPoint = [Shape]<br />
+                    output = pPoint.x
+                  </tcode>
+            <p>In the last textbox, in the header of which we have &quot;<b>long = </b>&quot; text, you need to type in <b>output. </b></p>
+            <p>For latitude:</p>
+            <tcode>Dim pPoint As IPoint<br />
+                    Set pPoint = [Shape]<br />
+                    output = pPoint.y
+                  </tcode>
+            <p>In the last textbox, in the header of which we have &quot;<b>lat = </b>&quot; text, you need to type in <b>output. </b></p>
+            <p>Expression for projected dataframe, data can be either in geographic or projected coordinate system, the resulting spatial characteristics value will be calculated in the projected units and using the projection of the data frame: </p>
+            <tcode>Dim pMxDoc As IMxDocument<br />
+                    Set pMxDoc = ThisDocument<br />
+                    Dim pMap As IMap<br />
+                    Set pMap = pMxDoc.FocusMap<br />
+                    Dim pSR As ISpatialReference<br />
+                    Set pSR = pMap.SpatialReference<br />
+                    Dim pPoint As IPoint<br />
+                    Set pPoint = [Shape]<br />
+                    pPoint.Project pSR<br />
+                  </tcode>
+            <p>In the last textbox, in the header of which we have &quot;<b>long =</b>&quot; or &quot;<b>lat =</b>&quot; text, you need to type in <b><b>pPoint.x</b> или <b>pPoint.y</b> </b>respectively.</p>
+            <p>Lat and long are the names of the fields in which the results of calculate will be stored, you can use other field names.</p>
+            <p>This expressions show how spatial data can be queried to get and modify certain characteristics about it, both spatial and attributive, for such editing Calculate with VBA language expressions are used in ArcGIS.</p>
+            <p class="discuss">
+				<span><!--#include virtual="/scripts/forum-comments-num.php?i=902&lang=e"--></span>
+			</p>
+			<div class="links">
+			<h2>Ссылки по теме</h2>
+			<ul>
+               <li><a href="/qa/shapecalc.html">Getting main spatial characteristics  of objects in Arcview GIS (in Russian)</a></li>
+			</ul>
+			</div>
+            <p class="status">
+			   <span><!--#include virtual="/scripts/date.php?lang=e" --></span>
+			</p>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<p class="status"><span>Дата создания: 20.02.2006
+<br>Автор(ы): <a href="/forum/memberlist.php?mode=viewprofile&u=2" target="_blank">Максим Дубинин</a></span></p>
+<!--#include virtual="/inc/footer2.php" -->

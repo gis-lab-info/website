@@ -1,0 +1,205 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Данные по тепловым аномалиям MOD14: получение</title>
+<!--#include virtual="/inc/header2.txt" -->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Статьи</a></li>
+</ul>
+<!--Contents start-->
+<h1>Данные по тепловым аномалиям MOD14: получение</h1>
+<p class="ann">Получение данных </p>
+<p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=7892"--></span></p>
+
+<h2>Общая информация </h2>
+<p>Продукты MODIS группы Тепловые аномалии/Пожары (Thermal Anomalies/Fire) - MOD14 дают информацию об очагах пожаров, т.е. о локациях горящих в данный конкретный момент (Рис. 1). Принцип детектирования пожаров использует тот факт, что они сильно излучают в среднем инфракрасном диапазоне. </p>
+<p>Общую информацию о MOD14 и других продуктах этой серии можно найти в статье &quot;<a href="mod14a1.html">Данные по тепловым аномалиям MOD14A1: описание и получение</a>&quot;. </p>
+<p>Эта статья предоставляет доступ к зеркалу данных по территории Российской Федерации и сопредельным территориям. </p>
+<p>Основная часть данных получена в результате <a href="/forum/viewtopic.php?f=46&t=7892">коллективного проекта</a> в котором участвовали: bolotoved: 2003, 2006, 2007, 2009, 2011, amuriy: 2004, 
+  aesapronov: 2005, 
+  _DR_: 2010, Максим Дубинин: 2000, 2001, 2008, 
+  Voltron: 2002.</p>
+<p class="ill"><img src="/images/mod14-process-03.jpg" alt="" width="350" height="351" /><span>Рис. 1. Пример сгоревшей территории (черная область) и очаги MOD14A1 (красные точки) </span></p>
+<h2>Получение данных</h2>
+<p>Данные доступны бесплатно. Формат данных - HDF. Получить оригинальные данные можно через систему WIST <SPAN LANG="ru-RU">(Warehouse Inventory </SPAN>Search<SPAN LANG="ru-RU"> </SPAN>Tool). Подробное описание работы с системой можно <a href="wist.html">прочитать здесь</a>. Следует иметь в виду, что данные поступают несколько раз в день и поэтому здесь может сказываться ограничение WIST в 2 тысячи гранул на один заказ. Таким образом, на всю территорию России, например, можно заказать данные только за один месяц.</p>
+<p>Для заказа можно использовать следующие предварительно сформированные файлы *.query разбитые на полумесячные промежутки с 2000 по 2011 г. Область заказа - вся РФ за исключением Чукотки. <a href="/programs/python/mod14-gen-query.7z">Скачать</a> файлы запросов и скрипт для генерации дополнительных файлов. </p>
+<p>Данные без прохождение процедуры регистрации, заказа и ожидания также можно на GIS-Lab. Покрытие доступных данных доступных через наш сервер приведено на Рисунке 2 (также можно <a href="/data/mod14-myd14/mod14-query-gislab.7z">скачать</a> полигон запроса в формате shape). </p>
+<p><span class="ill"><img src="/images/mod14-data-01.gif" alt="" width="750" height="377" /><span>Рис. 2. Зеркало данных MOD14/MYD14 на сервере GIS-Lab</span></span></p>
+<p>По ссылкам в таблице можно перейти к папкам с данными по конкретному году (HDF) или скачать непосредственно локации очагов пожаров (вектор) в shape-формате объединенные по обоим спутникам в единые покрытия. </p>
+<p>Данные за 2011 год доступны до 9 июня включительно. </p>
+<table>
+  <tr>
+    <th>&nbsp;</th>
+    <th>Растры</th>
+    <th>&nbsp;</th>
+    <th>Вектор</th>
+    <th>CSV</th>
+    </tr>
+  <tr>
+    <th>Год</th>
+    <th>MOD</th>
+    <th>MYD</th>
+    <th>MOD/MYD</th>
+    <th>MOD/MYD</th>
+    </tr>
+  <tr>
+    <td> 2000-2011 </td>
+    <td><a href="/data/mod14">shp</a></td>
+    <td><a href="/data/myd14">shp</a></td>
+    <td><a href="/data/mod14-myd14/fire14-shape.7z">shp</a></td>
+    <td><a href="/data/mod14-myd14/fire14-csv.7z">csv</a></td>
+    </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>2000</td>
+    <td><a href="/data/mod14/2000">shp</a></td>
+    <td><a href="/data/myd14/2000">shp</a></td>
+    <td><a href="/data/mod14-myd14/fire14-2000.7z">shp</a></td>
+    <td><a href="/data/mod14-myd14/fire14-2000-csv.7z">csv</a></td>
+    </tr>
+  <tr>
+    <td> 2001 </td>
+    <td><a href="/data/mod14/2001">shp</a></td>
+    <td><a href="/data/myd14/2001">shp</a></td>
+    <td><a href="/data/mod14-myd14/fire14-2001.7z">shp</a></td>
+    <td><a href="/data/mod14-myd14/fire14-2001-csv.7z">csv</a></td>
+    </tr>
+  <tr>
+    <td> 2002 </td>
+    <td><a href="/data/mod14/2002">shp</a></td>
+    <td><a href="/data/myd14/2002">shp</a></td>
+    <td><a href="/data/mod14-myd14/fire14-2002.7z">shp</a></td>
+    <td><a href="/data/mod14-myd14/fire14-2002-csv.7z">csv</a></td>
+    </tr>
+  <tr>
+    <td> 2003 </td>
+    <td><a href="/data/mod14/2003">shp</a></td>
+    <td><a href="/data/myd14/2003">shp</a></td>
+    <td><a href="/data/mod14-myd14/fire14-2003.7z">shp</a></td>
+    <td><a href="/data/mod14-myd14/fire14-2003-csv.7z">csv</a></td>
+    </tr>
+  <tr>
+    <td> 2004 </td>
+    <td><a href="/data/mod14/2004">shp</a></td>
+    <td><a href="/data/myd14/2004">shp</a></td>
+    <td><a href="/data/mod14-myd14/fire14-2004.7z">shp</a></td>
+    <td><a href="/data/mod14-myd14/fire14-2004-csv.7z">csv</a></td>
+    </tr>
+  <tr>
+    <td> 2005 </td>
+    <td><a href="/data/mod14/2005">shp</a></td>
+    <td><a href="/data/myd14/2005">shp</a></td>
+    <td><a href="/data/mod14-myd14/fire14-2005.7z">shp</a></td>
+    <td><a href="/data/mod14-myd14/fire14-2005-csv.7z">csv</a></td>
+    </tr>
+  <tr>
+    <td> 2006 </td>
+    <td><a href="/data/mod14/2006">shp</a></td>
+    <td><a href="/data/myd14/2006">shp</a></td>
+    <td><a href="/data/mod14-myd14/fire14-2006.7z">shp</a></td>
+    <td><a href="/data/mod14-myd14/fire14-2006-csv.7z">csv</a></td>
+    </tr>
+  <tr>
+    <td> 2007 </td>
+    <td><a href="/data/mod14/2007">shp</a></td>
+    <td><a href="/data/myd14/2007">shp</a></td>
+    <td><a href="/data/mod14-myd14/fire14-2007.7z">shp</a></td>
+    <td><a href="/data/mod14-myd14/fire14-2007-csv.7z">csv</a></td>
+    </tr>
+  <tr>
+    <td>2008</td>
+    <td><a href="/data/mod14/2008">shp</a></td>
+    <td><a href="/data/myd14/2008">shp</a></td>
+    <td><a href="/data/mod14-myd14/fire14-2008.7z">shp</a></td>
+    <td><a href="/data/mod14-myd14/fire14-2008-csv.7z">csv</a></td>
+    </tr>
+  <tr>
+    <td>2009</td>
+    <td><a href="/data/mod14/2009">shp</a></td>
+    <td><a href="/data/myd14/2009">shp</a></td>
+    <td><a href="/data/mod14-myd14/fire14-2009.7z">shp</a></td>
+    <td><a href="/data/mod14-myd14/fire14-2009-csv.7z">csv</a></td>
+    </tr>
+  <tr>
+    <td>2010</td>
+    <td><a href="/data/mod14/2010">shp</a></td>
+    <td><a href="/data/myd14/2010">shp</a></td>
+    <td><a href="/data/mod14-myd14/fire14-2010.7z">shp</a></td>
+    <td><a href="/data/mod14-myd14/fire14-2010-csv.7z">csv</a></td>
+    </tr>
+  <tr>
+    <td>2011</td>
+    <td><a href="/data/mod14/2011">shp</a></td>
+    <td><a href="/data/myd14/2011">shp</a></td>
+    <td><a href="/data/mod14-myd14/fire14-2011.7z">shp</a></td>
+    <td><a href="/data/mod14-myd14/fire14-2011-csv.7z">csv</a></td>
+    </tr>
+</table>
+ <h2>База данных</h2>
+<p>Данные также доступны через БД PostGIS. БД можно подключать в QGIS и любом другом ПО понимающем такие базы данных. </p>
+<p>Настройки:</p>
+<ul>
+  <li>Сервер: gis-lab.info</li>
+  <li>Имя: fire_usr</li>
+  <li>Пароль: J59DY</li>
+  <li>Имя базы: mod14</li>
+</ul>
+<h3>Атрибутивные поля векторных данных</h3>
+<p>Поля извлеченные из исходных данных: </p>
+<ul>
+  <li>line</li>
+  <li>sample</li>
+  <li>latitude</li>
+  <li>longitude</li>
+  <li>R2</li>
+  <li>T21</li>
+  <li>T31</li>
+  <li>MeanT21</li>
+  <li>MeanT31</li>
+  <li>MeanDT</li>
+  <li>MAD_T21</li>
+  <li>MAD_T31</li>
+  <li>MAD_DT</li>
+  <li>power</li>
+  <li>AdjCloud</li>
+  <li>AdjWater</li>
+  <li>WinSize</li>
+  <li>NumValid</li>
+  <li>confidence</li>
+  </ul>
+<p>Поля добавленные в процессе извлечения:</p>
+<ul>
+  <li>sat</li>
+  <li>granule </li>
+  <li>year</li>
+  <li>month</li>
+  <li>day</li>
+  <li>daynumber</li>
+  <li>date</li>
+  <li>time</li>
+  <li>version</li>
+  </ul>
+<p class="discuss"><span><!--#include virtual="/scripts/forum-comments-num.php?i=7892"--></span></p>
+<!-- ссылки -->
+<div class="links">
+	<h2>Ссылки по теме</h2>
+		<ul>
+			<li><a href="/qa/mod14a1-import.html">Импорт данных MOD14A1 в shape-формат </a></li>
+			<li><a href="firms.html">Мониторинг пожаров на природных территориях с помощью сервиса FIRMS</a></li>
+			<li><a href="mcd45.html">Данные о сгоревших площадях MCD45: описание и получение</a></li>
+		</ul>
+</div>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<p class="status"><span>Дата создания: 21.07.2011
+<br>
+Автор(ы): <a href="/forum/memberlist.php?mode=viewprofile&u=2" target="_blank">Максим Дубинин</a></span></p>
+<!--#include virtual="/inc/footer2.php" -->

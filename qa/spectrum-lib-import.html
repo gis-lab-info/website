@@ -1,0 +1,245 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Импорт спектральной библиотеки GIS-LAB в ПК ENVI</title>
+<!--#include virtual="/inc/header2.txt" -->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Вопросы и ответы</a></li>
+</ul>
+<!--Contents start-->
+<h1>Импорт спектральной библиотеки GIS-LAB в  ENVI</h1>
+<p class="ann">Как воспользоваться информацией из базы по спектральным кривым</p>
+<p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=6161"--></span></p>
+
+<p>Для импорта кривых спектральной  отражательной способности объектов в  ENVI необходимы  значения длины волны и коэффициентов отражения. Эту информацию можно посмотреть  в колонке График –  Скачать и сохранить в текстовый файл.</p>
+<p><strong>Оглавление</strong></p>
+<ol>
+	  <li><a href="#01">Отображение кривых</a></li>
+	  <li><a href="#02">Создание спектральной библиотеки</a></li>
+      <li><a href="#03">Работа со спектральными библиотеками</a></li>
+      </ol>
+
+<!-- Первый раздел -->
+<h2><strong><a name="01" id="01"></a></strong>1. Отображение кривых</h2>
+<p>Скачaнные текстовые файлы можно  отобразить в окне ENVI Plot Window.</p>
+<p>В главном меню ENVI выбираем <em>Window -&gt; Start  New Plot Window</em>.</p>
+<p>В окне ENVI Plot Window выбираем <em>File -&gt; Input  Data ASCII….</em>  и открываем нужные кривые по одной.</p>
+<p align="center"><img src="/images/spectrum-lib-import-01.gif" width="374" height="373"></p>
+<p align="center"><img src="/images/spectrum-lib-import-02.gif" width="573" height="402"></p>
+<p><strong><em>Пример<br>
+</em></strong>1 − Одуванчик (Taraxacum sp.), цветы − диапазон 405−695 нанометров − 59 значений; 167 − Картофель.  Здоровые листья − диапазон 410−870 нанометров − 92 значения.</p>
+<p>Оформление графиков и самого окна можно поменять (в окне ENVI Plot Window <em>Edit -&gt; Data Parameters, Edit -&gt; Plot Parameters</em>). Графики из окна Plot можно сохранить как рисунок (в окне ENVI Plot Window <em>File -&gt; Save Plot As… -&gt; Image File</em>). Сохранить графики в файл спектральной библиотеки не получится, так как  они имеют разный диапазон и количество значений.</p>
+<!-- Второй раздел -->
+<h2><strong><a name="02" id="02"></a></strong>2. Создание спектральной библиотеки</h2>
+<p>Предположим нам необходимо создать спектральную  библиотеку для лесов Московской области.</p>
+<p>Выбираем спектральные кривые по категориям Растительность  – Деревья.</p>
+<p align="center"><img src="/images/spectrum-lib-import-03.gif" width="600" height="261"></p>
+<p>Просматриваем список и копируем в текстовый файл  названия, в которых указана Московская область (вместе с номерами).</p>
+<pre>73 Береза (Betula pendula),крона, Московская обл.
+74 Осина (Populus tremula), 25 июня, крона, Московская обл.
+75 Сосна, крона, Московская обл.
+76 Ель, крона, 6 августа, Московская обл.
+168 Береза, крона, Московская обл.,17 мая
+169 Береза, крона, Московская обл., 31 мая
+170 Береза, крона, Московская обл., 8 июня
+171 Береза, крона, Московская обл., 26 июня
+172 Береза, крона, Московская обл., 14 июля
+173 Береза, крона, Московская обл., 6 августа
+174 Береза, крона, Московская обл.,1 сентября
+175 Береза, крона, Московская обл.,10 сентября
+176 Береза, крона, Московская обл., 1 октября
+177 Осина, крона, Московская обл., 17 мая
+178 Осина, крона, Московская обл., 25 июня
+179 Осина, крона, Московская обл., 10 июля
+180 Осина, крона, Московская обл., 3 июля
+181 Осина, крона, Московская обл., 23 июля
+182 Осина, крона, Московская обл., 6 августа
+183 Осина, крона, Московская обл., 1 сентября
+184 Осина, крона, Московская обл., 10 сентября
+185 Дуб, крона, Московская обл., 26 июня
+186 Дуб, крона, Московская обл., 4 июля
+187 Дуб, крона, Московская обл., 2 сентября
+199 Дуб, крона. Московская обл., 17 сентября
+200 Ель, крона. Московская обл., 2 июня
+201 Ель, крона. Московская обл.,11 июня
+202 Ель, крона Московская обл., 10 июля
+203 Ель, крона Московская обл., 29 июля
+204 Ель, крона. Московская обл., 6 августа
+205 Ель, крона. Московская обл., 23 августа
+206 Сосна, крона. Московская обл., 20 мая (молодые побеги). Моск. обл.
+207 Сосна, крона. . Московская обл., 17 мая (цветы сосны). Моск. обл.
+208 Сосна, крона. Московская обл., 4 июня. Моск. обл.
+209 Сосна, крона. Московская обл., 24 июня (молодые побеги). Моск. обл.
+210 Сосна, крона. . Московская обл., 10 июля
+211 Сосна, крона. Московская обл., 6 августа
+212 Сосна, крона. Московская обл., 23 августа
+</pre>
+
+<p>Поскольку на настоящий момент функция “Скачать выбранные”  не реализована, необходимо скачать отобранные  спектральные кривые вручную. Ссылка для просмотра будет иметь вид:<br>
+        <a href="http://gis-lab.info/scripts/spectra/showcsv.php?id=73">http://gis-lab.info/scripts/spectra/showcsv.php?id=73</a><strong><br>
+</strong><a href="http://gis-lab.info/scripts/spectra/showcsv.php?id=74">http://gis-lab.info/scripts/spectra/showcsv.php?id=74</a><br>
+и т.д.</p>
+<p>Сохраняем текстовые файлы под теми же номерами.</p>
+<p>Теперь необходимо определиться со спектральным диапазоном  нашей библиотеки.
+Мы не знаем для каких длин волн у нас есть значения в  текстовых файлах. Например: cпектральная кривая с номером 73 имеет диапазон&nbsp;405-765 нанометров, 173 − 400-755 нанометров,  207 − 405-775 нанометров.</p>
+<p>Необходимо создать шаблон для будущей библиотеки,  сделать его можно в Excel и сохранить в текстовый файл. В шаблоне указываются значения длины  волны.</p>
+<pre>400
+405
+410
+415
+420
+…
+890
+895
+900
+</pre>
+<p>В главном меню ENVI выбираем <em>Spectral -&gt; Spectral Libraries -&gt; Spectral Library Builder</em>. Откроется диалоговое окно Spectral Library Builder, выбираем диапазон для новой библиотеки из нашего шаблона  - <em>Input Spectral Wavelenght From -&gt;  ASCII File</em><strong>. </strong>Единицы измерения –  нанометры.</p>
+<p align="center"><img src="/images/spectrum-lib-import-04.gif" alt="" width="180" height="173"></p>
+<p align="center"><img src="/images/spectrum-lib-import-05.gif" alt="" width="281" height="322"></p>
+<p>Теперь можно импортировать имеющиеся спектральные  кривые в <strong>Spectral </strong><strong>Library </strong><strong>Builder. </strong></p>
+<p><strong>Import </strong>-&gt; <strong>from  ASCII file… </strong>Выбираем все кривые и нажимаем Ok. Ось X – первая колонка, ось Y – вторая колонка, единицы измерения  можно не указывать. </p>
+<p align="center"><img src="/images/spectrum-lib-import-06.gif" alt="" width="580" height="472"></p>
+<p>Импортированные спектральные кривые  добавятся в <strong>Spectral </strong><strong>Library </strong><strong>Builder. </strong>В  колонке Wavelength  указан диапазон значений спектральных кривых. Диапазон нашей спектральной  библиотеки 400-900 нанометров с шагом в 5 нанометров. Диапазон спектральных  кривых 405-750 нанометров, 405-765 нанометров, шаг такой же как у библиотеки – 5  нанометров.  </p>
+<p align="center"><img src="/images/spectrum-lib-import-07.gif" alt="" width="580" height="351"></p>
+<p>При импорте кривых в ENVI автоматически производится  интерполяция данных внутри диапазона кривой (если имеются пропуски) и выполняется  экстраполяция данных до значений диапазона спектральной библиотеки.</p>
+<p>Для просмотра графика спектральной кривой  нужно выбрать кривую и нажать кнопку <strong>Plot.</strong></p>
+<p align="center"><img src="/images/spectrum-lib-import-08.gif" alt="" width="589" height="473"></p>
+<p>Проблему искажений кривых можно решить  двумя способами:</p>
+<ol>
+  <li>Изменить  диапазон библиотеки  с 400-900 нанометров  до 400-755 нанометров. Создать новый шаблон и импортировать спектры.  Интерполяция и экстраполяция в этом случае так же будет выполняться, но  искажения будут не столь сильные;</li>
+  <li>Добавить  ограничитель -NaN  или два 0 в конце  данных кривой.</li>
+  </ol>
+<p>Удаляем  все спектры из <strong>Spectral Library Builder.  Select</strong><strong> </strong><strong>All </strong>-&gt;<strong> </strong><strong>Delete. </strong>Редактируем  содержание наших текстовых файлов, добавляем –NaN в конце и импортируем кривую в <strong>Spectral </strong><strong>Library </strong><strong>Builder</strong>. Ограничители infinity или –NaN в начале кривой не  воспринимаются при импорте, поэтому указывать их нет смысла. Если нужно  исправить значения на этих участках, то это можно сделать вручную в окне Plot<strong>  </strong><strong>Edit -&gt; </strong><strong>Data </strong><strong>Value</strong>. После  импорта будет теряться одно значение перед –NaN. Кривые с  – NaN будут  правильно отображаться в окне Plot,  но будут приводить к ошибкам при попытке калибровки библиотеки под конкретную  съемочную систему. При использовании 0 таких ошибок не возникает, но график  будет не столь красивый. Поскольку при экстраполяции 0 обрабатывается как  число, а не как ограничитель, нужно ставить два значения 0 в конце кривой, и  если нужно то и в начале. Например, если кривая имеет диапазон 420 - 750 нанометров,  а созданная библиотека 400 – 900 нанометров, тогда в файл необходимо добавить  значения 410,0 415,0 755,0 760,0.</p>
+<p><em>Значения  коэффициентов отражения спектральной кривой номер 174</em></p>
+<table width="85%" align="center">
+  <tr>
+	<th>До исправления</th>
+	<th>Вариант исправления с -NaN</th>
+	<th>Вариант исправления с 0 </th>
+  </tr>
+  <tr>
+	<td><p align="center">x,y</p></td>
+	<td><p align="center">x,y</p></td>
+	<td><p align="center">x,y</p></td>
+  </tr>
+    <tr>
+	<td><p align="center">405,0.01155</p></td>
+	<td><p align="center">405,0.01155</p></td>
+	<td><p align="center">400,0</p></td>
+  </tr>
+    <tr>
+	<td><p align="center">410,0.01320</p></td>
+	<td><p align="center">410,0.01320</p></td>
+	<td><p align="center">405,0.01155</p></td>
+  </tr>
+    <tr>
+	<td><p align="center">415,0.01485</p></td>
+	<td><p align="center">415,0.01485</p></td>
+	<td><p align="center">410,0.01320</p></td>
+  </tr>
+    <tr>
+	<td><p align="center">....</p></td>
+	<td><p align="center">....</p></td>
+	<td><p align="center">415,0.01485</p></td>
+  </tr>
+    <tr>
+	<td><p align="center">745,0.20297</p></td>
+	<td><p align="center">745,0.20297</p></td>
+	<td><p align="center">....</p></td>
+  </tr>
+    <tr>
+	<td><p align="center">750,0.20297</p></td>
+	<td><p align="center">750,0.20297</p></td>
+	<td><p align="center">745,0.20297</p></td>
+  </tr>
+    <tr>
+	<td><p align="center">755,0.20297</p></td>
+	<td><p align="center">755,0.20297</p></td>
+	<td><p align="center">750,0.20297</p></td>
+  </tr>
+   <tr>
+	<td><p align="center"></p></td>
+	<td><p align="center">760,-NaN</p></td>
+	<td><p align="center">755,0.20297</p></td>
+  </tr>
+     <tr>
+	<td><p align="center"></p></td>
+	<td><p align="center"></p></td>
+	<td><p align="center">760,0</p></td>
+  </tr>
+     <tr>
+	<td><p align="center"></p></td>
+	<td><p align="center"></p></td>
+	<td><p align="center">765,0</p></td>
+  </tr>
+</table>
+<p align="center"><img src="/images/spectrum-lib-import-09.gif" alt="" width="500" height="211"><br>
+  <em>Кривая с –NaN и  кривая с 0  </em>  </p>
+<p>Теперь нужно определиться со структурой  библиотеки порядком и названием спектральных кривых. Редактирует текстовый файл  с названиями кривых, упрощаем их названия и расставляем в нужном порядке. Проще  это сделать в Excel.</p>
+<p align="center"><img src="/images/spectrum-lib-import-10.gif" alt="" width="333" height="507"></p>
+<p>Колонку B сохраняем в отдельный текстовый файл,  этот файл мы используем для автоматического проставления названий кривых. Импортируем  исправленные спектральные кривые в <strong>Spectral </strong><strong>Library </strong><strong>Builder </strong>в нужном порядке.   Проставляем названия кривых <strong>Options -&gt;  Import spectrum names from ASCII…</strong></p>
+<p align="center"><img src="/images/spectrum-lib-import-11.gif" alt="" width="543" height="631"><img src="/images/spectrum-lib-import-12.gif" alt="" width="537" height="625"></p>
+<p>
+  <!-- обсуждение на форуме, цифра изменяется при публикации статьи -->   
+Спектральную библиотеку можно сохранить прямо из окна  Spectral Library Builder  <strong>File </strong>-&gt;<strong> Save Spectra As  </strong>-&gt;<strong> Spectral Library file… </strong>Если необходимо отредактировать  значения или изменить диапазон библиотеки сохраняем библиотеку в ASCII файл <strong>File</strong><strong> </strong>-&gt;<strong> </strong><strong>Save</strong><strong> </strong><strong>Spectra</strong><strong> </strong><strong>As</strong><strong>  </strong>-&gt;<strong> </strong><strong>ASCII</strong><strong> </strong><strong>file</strong><strong>… </strong>Редактируем файл в любом  текстовом редакторе и открываем в новом окне Plot (<strong>Window</strong><strong> </strong><strong>-&gt; </strong><strong>Start</strong><strong> </strong><strong>New</strong><strong> </strong><strong>Plot</strong><strong> </strong><strong>Window</strong>, в окне ENVI Plot Window выбираем <strong>File</strong><strong> </strong><strong>-&gt; </strong><strong>Input</strong><strong> </strong><strong>Data</strong><strong> </strong><strong>ASCII</strong><strong>…</strong>)</p>
+<p align="center"><img src="/images/spectrum-lib-import-13.gif" alt="" width="375" height="308"></p>
+
+<p>Сохраняем спектральную библиотеку из окна Plot.<strong> </strong><strong>File -&gt; Save Plot As -&gt; Spectral Library… </strong>Выбираем  все кривые и нажимаем Ok.<strong></strong></p>
+<p align="center"><img src="/images/spectrum-lib-import-14.gif" alt="" width="282" height="448"></p>
+<p>Можно поменять название осей X и Y, перевести значения оси Х из  нанометров в микрометры (X Scale factor  = 0.001) вводим имя файла и нажимаем Ok.</p>
+<p align="center"><img src="/images/spectrum-lib-import-15.gif" alt="" width="385" height="79"></p>
+<p>Готовый файл спектральной библиотеки будет  добавлен в окно Available Band List.  Для просмотра библиотеки нужно навестись на имя файл и выбрать в контекстном  меню <strong>Spectral Library Viewer.</strong> </p>
+<p align="center"><img src="/images/spectrum-lib-import-16.gif" alt="" width="260" height="411"></p>
+<!-- Третий раздел -->
+<h2><strong><a name="03" id="012"></a></strong>3. Работа со спектральными библиотеками</h2>
+<p align="left"><em><strong>Открытие и просмотр</strong></em></p>
+<p>В главном меню ENVI  выберите <strong>Spectral </strong>-&gt;<strong> Spectral Libraries </strong>-&gt;<strong> Spectral Library Viewer</strong>. Откроется диалоговое окно <strong>Spectral Library Input File</strong>. Нажмите на кнопку открыть файл (<strong>Open</strong>) и выберите в  списке Спектральная библиотека (<strong>Spectral  library…</strong>).</p>
+<p align="center"><img src="/images/spectrum-lib-import-17.gif" alt="" width="542" height="479"></p>
+<p>Перейдите в папку со спектральными  библиотеками ENVI для растительности envidata\spec_lib\veg_lib, выберите любой файл с расширением <strong>*.</strong><strong>sli</strong> и нажмите <strong>Открыть</strong> (Open).  Если спектральная библиотека уже была открыта раньше, выберите ее в списке  диалогового окна <strong>Spectral </strong><strong>Library </strong><strong>Input </strong><strong>File</strong> и  нажмите<strong> </strong><strong>OK</strong>. Появиться  диалог <strong>Spectral </strong><strong>Library </strong><strong>Viewer</strong>.</p>
+<p align="center"><img src="/images/spectrum-lib-import-18.gif" alt="" width="263" height="424"></p>
+<p>Для отображения спектральной кривой один  раз нажмите на ее имя в окне <strong>Spectral </strong><strong>Library </strong><strong>Viewer</strong>.<strong> </strong>Появиться окно <strong>Spectral </strong><strong>Library </strong><strong>Plots</strong> с выбранной спектральной кривой.<strong> </strong>Для открытия нескольких спектральных кривых поочередно нажимаем на  имена спектров. Каждая новая спектральная кривая  будет отображаться в окне Plot новым цветом.<strong></strong></p>
+<p align="center"><img src="/images/spectrum-lib-import-19.gif" alt="" width="366" height="307"></p>
+<p>Для того чтобы  показать имена спектральных кривых нажмите на правую кнопку мыши в окне <strong>Spectral </strong><strong>Library </strong><strong>Plots </strong>и  выбрать в контекстном меню  <strong>Plot </strong><strong>Key</strong>. Для  удаления кривой из окна Plot нужно навестись на ее имя и выбрать в контекстном меню <strong>Remove</strong>. Нажав левую кнопку мыши над именем кривой и удерживая  ее можно перетащить кривую из одного окна <strong>Plot</strong> в  другое окно  <strong>Plot</strong>. Можно  поменять оформление графиков и самого окна (в окне ENVI Plot Window <strong>Edit -&gt; Data Parameters</strong>, <strong>Edit -&gt; Plot  Parameters</strong>). Графики из окна Plot можно сохранить как рисунок (в окне ENVI  Plot Window <strong>File  -&gt; Save Plot As… -&gt; Image File</strong>).</p>
+<p><em><strong>Калибровка спектральной библиотеки под  конкретную съемочную систему (Resampling)</strong></em></p>
+<p>Для сравнения и  сопоставления кривых спектральной отражательной способности полученных со  снимка с кривыми из спектральной библиотеки, последние необходимо пересчитать,  используя функции пропускания энергия для   каждого спектрального канала съемочной системы. Для некоторых съемочных  систем функции пропускания энергии (так называемые Filter Function Files) есть в ENVI папке filt_func.</p>
+<p>Выполним калибровку  созданной библиотеки для работы со снимками Landsat7/ETM+.  Откроем файл с функциями пропускания энергии для каналов Landsat7/ETM+ - IDL**\products\envi**\filt_func\tm.sli  . Filter Function File  - обычный файл спектральной библиотеки, открывается через <strong>Spectral </strong><strong>Library </strong><strong>Viewer.</strong></p>
+<p align="center"><img src="/images/spectrum-lib-import-20.gif" alt="" width="264" height="372"></p>
+<p>Выбираем нужные каналы Landsat7/ETM+, например 1,2,3,4,5,7.</p>
+<p align="center"><img src="/images/spectrum-lib-import-21.gif" alt="" width="368" height="309"></p>
+<p>В главном меню ENVI  выберите <strong>Spectral </strong>-&gt;<strong> Spectral Libraries </strong>-&gt;<strong> Spectral Library Viewer</strong>. Нажмите  на кнопку открыть файл (<strong>Open</strong>) и выберите в списке  Спектральная библиотека (<strong>Spectral </strong><strong>library…</strong>).<strong></strong></p>
+<p>Открываем созданную спектральную библиотеку для лесов  Московской области с нулевыми значениями.</p>
+<p align="center"><img src="/images/spectrum-lib-import-22.gif" alt="" width="368" height="309"></p>
+<p>Диапазон нашей библиотеки подходит только для работы с 1,2,3  каналами Landsat7/ETM+. Удаляем кривые для 4,5,7 каналов  из окна Plot и сохраняем оставшиеся кривые в  файл <strong>landsat</strong><strong>_</strong><strong>etm</strong><strong>_123.</strong><strong>sli</strong><strong>.</strong></p>
+<p>Выбираем <strong>Spectral  </strong>-&gt;<strong> </strong><strong>Spectral Libraries </strong>-&gt; <strong>Spectral Library Resampling. Spectral Resampling Input  File </strong>– наша спектральная библиотека. Указываем <strong>Resample Wavelengh to -&gt;  User Defined Filter Function, Set bad Valuees to = 0. </strong>Пишем имя новой спектральной библиотеки и нажимаем <strong>Ok</strong>.</p>
+<p align="center"><img src="/images/spectrum-lib-import-23.gif" alt="" width="282" height="377"></p>
+<p><strong>Input Filter Function Spectral  Library </strong>выбираем файл <strong>landsat_etm_123.sli. </strong>Готовый файл пересчитанной спектральной библиотеки будет добавлен в  окно Available Band  List. </p>
+<p align="center"><img src="/images/spectrum-lib-import-24.gif" alt="" width="367" height="308"></p>
+<p>Центры спектральных каналов, рассчитанные  по filter function file – 0.4791, 0.5607, 0.6611. </p>
+<p>Спектральные кривые, пересчитанные под конкретную съемочную систему могут  быть использованы для решения различных задач:</p>
+<ol>
+  <li>калибровка съемочной аппаратуры</li>
+  <li>коррекция влияния атмосферы</li>
+  <li>выделение искомых объектов на снимке  (классификации например методом SAM)</li>
+  <li>оценка возможности выполнения субпиксельного  анализа изображения</li>
+  <li>субпиксельный анализ изображения </li>
+</ol>
+<p>Главным условием корректного решения всех этих задач будет сопоставимость  наших данных: дата и время года получения спектральной кривой и съемки; условия  освещенности и состояние атмосферы на момент получения спектральной кривой и  съемки; и многое другое.</p>
+<p class="discuss">
+   <span><!--#include virtual="/scripts/forum-comments-num.php?i=6161"--></span>
+</p>
+<!-- ссылки -->
+<div class="links">
+	<h2>Ссылки по теме</h2>
+		<ul>
+			
+      <li><a href="/qa/spectrum-lib.html">Cпектральные библиотеки - источники данных по спектрам</a></li>
+      <li><a href="/projects/spectra">Спектры отражения природных объектов - база данных</a></li>
+			</ul>
+</div>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<p class="status"><span>Дата создания: 27.08.2009
+<br>Автор(ы): <a href="/forum/memberlist.php?mode=viewprofile&u=2611" target="_blank">Александр Черепанов</a></span></p>
+<!--#include virtual="/inc/footer2.php" -->

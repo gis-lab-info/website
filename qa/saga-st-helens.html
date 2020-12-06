@@ -1,0 +1,63 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Рельеф в ГИС SAGA: Покоряя вулкан Сент-Хеленс</title>
+<!--#include virtual="/inc/header2.txt" -->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Вопросы и ответы</a></li>
+</ul>
+<h1>Рельеф в ГИС SAGA: Покоряя вулкан Сент-Хеленс</h1>
+<!--Contents start-->
+<p class="ann">В статье дается общее представление о работе с данными о рельефе в ГИС SAGA</p>
+<p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=4107"--></span></p>
+<p><strong>Оглавление</strong></p>
+<ol>
+	<li><a href="#01">От переводчика</a></li>
+	<li><a href="#02">Загрузка растра</a></li>
+	<li><a href="#03">Теневая отмывка</a></li>
+	<li><a href="#04">Трехмерный вид</a></li>
+</ol>
+
+<!-- Первый раздел -->
+<h2><strong><a name="01" id="01"></a></strong>1. От переводчика</h2>
+<p>Данная работа является переводом с английского статьи "<a href="http://sourceforge.net/apps/trac/saga-gis/wiki/Climbing Mount St. Helens" title="http://sourceforge.net/apps/trac/saga-gis/wiki/Climbing%20Mount%20St.%20Helens" target="_blank" class="external" rel="nofollow">Climbing Mount St. Helens</a>" (автор не указан). Вулкан St. Helens носит имя не "Святой Елены", как вы подумали, а английского дипломата, лорда Alleyne FitzHerbert, который носил титул "Барон St. Helens". Поэтому произносить название надо "<a href="http://www.audioenglish.net/dictionary/mount_saint_helens.htm" title="http://www.audioenglish.net/dictionary/mount_saint_helens.htm" target="_blank" class="external" rel="nofollow">сэ́инт хе́ленз</a>", но ни о каких Ленах даже не думать.</p>
+<p>В статье дается общее представление о ГИС <a href="http://www.saga-gis.org/" title="http://www.saga-gis.org/" target="_blank" class="external" rel="nofollow">SAGA</a>: загрузка растровых данных, компоновка карты, создание теневой отмывки и отображение в трехмерном виде.</p>
+
+<!-- Второй раздел -->
+<h2><strong><a name="02" id="02"></a>2. Загрузка растра</strong></h2>
+<p><a href="http://downloads.sourceforge.net/saga-gis/DGM_30m_Mt.St.Helens_SRTM.zip" title="http://downloads.sourceforge.net/saga-gis/DGM_30m_Mt.St.Helens_SRTM.zip" target="_blank" class="external" rel="nofollow">Загрузите</a> образец данных (вулкан St. Helens, 467 Kb) и разархивируйте его. Запустите программу SAGA и откройте грид через меню File|Grid|Load Grid. Окне сообщений (Messages) сообщит об успешной загрузке: <b>Load Grid: DGM_30m_Mt.St.Helens_SRTM.grd...okay</b>. В окне Workspace перейдите на закладку Data. В списке гридов (Grids) появились информация о загруженных данных: <b>30;312x 458y; 557970x 5108130y</b>. Первая цифра говорит о размере ячейки (30 метров); следующая пара чисел указывает на количество ячеек по оси x и у; а последная - задает привязку грида. В SAGA гриды привязываются по левому нижнему углу. Более подробную информацию по гриду можно найти на закладке Description в окне свойств: Value Type - тип данных (в нашем примере, FLOAT - вещественный); Value Range - диапазон значений; немного статистической информации и объем используемой памяти.</p>
+<p align="center">><IMG height=256 src="/images/saga-st-helens-01.png" width=365 border=0>
+  </a></p>
+<p>Чтобы посмотреть грид на карте, просто дважды щелкните по нему на закладке Data. Появится окно карты. Левая и верхняя линейки карты показывают мировые координаты, правая и нижняя - размер в единицах карты. При движении мышки внизу главного окна SAGA отображаются координаты x и y. Если на закладке Data (или Map) выбрать грид, то будет отображаться, также, и координата z.</p>
+<p>Перейдем к инструментам навигации:</p>
+<p align="center"><IMG height=25 alt="Панель инструментов" src="/images/saga-st-helens-02.png" width=303 border=0></p>
+<p>По-умолчанию выбран инструмент Zoom: щелчок левой кнопкой увеличивает карту, правой - уменьшает. Можно выделить и приблизить интересующую область. При большом увеличении на ячейках грида появляются подписи со значениями. Третья слева кнопка означает "Показать все" (Full extent).</p>
+<!-- Третий раздел -->
+<h2><strong><a name="03" id="03"></a></strong>3. Теневая отмывка</h2>
+<p>Улучшим карту для видимого восприятия рельефа. Перейдите на закладку Modules и откройте группу "Terrain Analysis - Lightning, Visibility" (щелчок мышкой по иконке с плюсом). Теперь выберите модуль "Analytical Hillshadin" и перейдите на закладку Settings. Параметр Grid system не задан ([not set]), поменяйте его на загруженный грид (<b>30;312x 458y; 557970x 5108130y</b>). В Elevation задайте "<b>01. DGM_30m_Mt.St.Helens_SRTM.grd</b>". Тип расчета (Shading Method) задайте Standard. Все готово, нажимаем Apply и Execute и на закладке Data появится новый грид "02. Analytical Hillshading".</p>
+<p align="center"><IMG height=256 src="/images/saga-st-helens-03.png" width=365 border=0>
+  </a></p>
+<p>Переходим на закладку Data, дважды щелкаем по новому гриду чтобы добавить его на карту. Открывшееся окно предлагает добавить слой на существующую карту или создать новую. Выбираем "01. Map" и нажимаем OK. Если переключиться на закладку Map, то видно что на карте два слоя. Щелкните правой кнопкой по слою с теневой отмывкой и быверить Move To Bottom (Отправить назад). Выберите первый слой и перейдите на закладку Settings. В разделе Display|Transparensy (Прозрачность) введите значение 30 и нажмите Apply (Применить).</p>
+<p>Попробуйте другие значения прозрачности. Вы можете даже вернуться на закладку Modules и поэкспериментировать с другими вариантами Shading Method. Результат сразу отобразится на карте.</p>
+
+<!-- Четвертый раздел -->
+<h2><strong><a name="04" id="04"></a></strong>4. Трехмерный вид</h2>
+<p>Убедитесь что окно с картой открыто, нажмите кнопку 3D на панели навигации (вторая справа). В появившемся окне задайте Grid system (<b>30;312x 458y; 557970x 5108130y</b>) и Elevation (<b>01. DGM_30m_Mt.St.Helens_SRTM.grd</b>). Нажмите Okay и появится трехмерный вид. Для управления успользуются левая (вращение модели) и правая (увеличение, перемещение) кнопки мыши.</p>
+<p><a href="/images/saga-st-helens-04.png" onClick="NewWindow(this.href,'mm','635','345','yes');return false;"><IMG height=256 alt="Щелкните для получения увеличенного изображения" src="/images/saga-st-helens-04.png" width=471 border=0>
+</a>
+<p class="discuss"><span><!--#include virtual="/scripts/forum-comments-num.php?i=4107"--></span></p>
+<div class="links">
+<h2>Ссылки по теме</h2>
+<ul>
+	<li><a href="3dviz.html">Визуализация рельефа в Arcview GIS</a></li>
+	<li><a href="3danalyst.html">Использование модуля 3D Analyst для Arcview GIS</a></li>
+	<li><a href="3dviz-ag.html">Визуализация рельефа и создание 3D моделей местности в ArcGIS</a></li>
+</ul>
+</div>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<p class="status"><span>Дата создания: 22.11.2009
+<br>Автор(ы): <a href="/forum/memberlist.php?mode=viewprofile&u=6850" target="_blank">Mavka</a></span></p>
+<!--#include virtual="/inc/footer2.php" -->

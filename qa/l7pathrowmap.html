@@ -1,0 +1,112 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Схема разграфки систем WRS-1,2 для данных Landsat</title>
+<!--#include virtual="/inc/header2.txt" -->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Вопросы и ответы</a></li>
+</ul>
+<!--Contents start-->
+<h1>Схема  разграфки систем WRS-1,2 для данных Landsat</h1>
+<p class="ann">Описание системы разграфки данных и сама схема для загрузки.</p>
+<p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=4088"--></span></p>
+<p><b>Path</b>- колонка <br />
+              <b>Row</b> - ряд <br />
+              <b>WRS</b> - Worldwide Reference System </p>
+            <p>Типичная задача с которой часто приходится сталкиваться - определить как будут располагаться сцены <b>Landsat</b> на определенной
+              территории. Иногда знание того, какая сцена покрывает интересующую
+              территорию может сильно ускорить отбор съемки Landsat. Для
+              облегчения этой задачи может использоваться покрытие path\row Landsat.
+              Оно представляет из себя набор полигонов, каждый из которых соответствует
+              покрытию сцены Landsat на земле. В атрибутивной
+              базе покрытия имеется информация о номере ряда\колонки. </p>
+            <p align="center"><img src="/images/l7pathrow.gif" width="567" height="264" /></p>
+            <p>Примечание: полигон представляющий сцену не соответствует
+              ей на 100%, обычно реальная сцена на несколько процентов больше
+              во всех направлениях. На приведенном примере хорошо видно, как не соотвествует расчетное покрытие снимка (footprint) и его реальное покрытие (красная линия - контур снимка из покрытия). </p>
+            <p align="center"><img src="/images/l7pathrow02.jpg" width="310" height="274" /></p>
+            <p>Системы WRS-1 и WRS-2 различаются. Эти разграфки использовались
+              для данных полученных с разных спутников Landsat. WRS-1 использовалась
+              для данных <a href="/projects/ss/sensor/mss.html">MSS</a> с <a href="/projects/ss/sat/landsat-1.html">Landsat-1</a>,<a href="/projects/ss/sat/landsat-2.html">2</a>,<a href="/projects/ss/sat/landsat-3.html">3</a>, WRS-2 для данных MSS, <a href="/projects/ss/sensor/tm.html">TM</a>,
+              <a href="/projects/ss/sensor/etmplus.html">ETM+</a> с Landsat-<a href="/projects/ss/sat/landsat-4.html">4</a>,<a href="/projects/ss/sat/landsat-5.html">5</a>,<a href="/projects/ss/sat/landsat-7.html">7</a></p>
+            <p>Расшифровка названий полей в атрибутивной таблице
+              данных WRS-2:</p>
+            <ul>
+              <li>Dayclass - номер дня в орбитальном цикле (1..16),
+                т.е. период съемки одной и той же точки - 16 дней</li>
+              <li>Sequence - хронологический номер назначаемый каждой
+                сцене (ряд\колонка), начиная с первой сцены полученной в первый
+                день орбитального цикла</li>
+              <li>Mode - D - нисходящий виток (дневной пролет), А
+                - восходящий виток (ночной пролет)</li>
+              <li>Wrspr - уникальная совокупность ряд-колонка, образованная
+                просто строковым сложением этих двух цифр, форматирующие
+                нули к рядам не добавляются</li>
+            </ul>
+            <p><b>Мир: </b></p>
+            <table>
+              <tr>
+                <th>WRS-1</th>
+                <th>WRS-2</th>
+              </tr>
+              <tr>
+                <td><p><a href="/data/wrs/wrs1.7z">1.2 Mb</a></p></td>
+                <td><p><a href="/data/wrs/l7pathrow.7z">9.1 Mb</a></p></td>
+              </tr>
+            </table>
+            <p><b>Континенты (WRS-2): </b></p>
+            <table>
+              <tr>
+                <th>Северная Америка</th>
+                <th>Южная Америка</th>
+                <th>Евразия</th>
+                <th>Австралия</th>
+                <th>Африка</th>
+                <th>Антарктида</th>
+              </tr>
+              <tr>
+                <td><p align="center"><a href="/data/wrs/wrs2-nam.7z">2.1
+                    Mb</a></p></td>
+                <td><p align="center"><a href="/data/wrs/wrs2-sam.7z">1.2
+                    Mb</a></p></td>
+                <td><p align="center"><a href="/data/wrs/wrs2-eurasia.7z">2.3
+                    Mb</a></p></td>
+                <td><p align="center"><a href="/data/wrs/wrs2-aus.7z">0.6
+                    Mb</a></p></td>
+                <td><p align="center"><a href="/data/wrs/wrs2-afr.7z">1.4
+                    Mb</a></p></td>
+                <td><p align="center"><a href="/data/wrs/wrs2-ant.7z">1.7
+                    Mb</a></p></td>
+              </tr>
+            </table>
+            <p><b>Россия:</b></p>
+            <table>
+              <tr>
+                <th>WRS-1</th>
+                <th>WRS-2</th>
+              </tr>
+              <tr>
+                <td><p><a href="/data/wrs/wrs1-russia.7z">0.1
+                  Mb</a></p></td>
+                <td><p><a href="/data/wrs/wrs2-russia.7z">0.7
+                    Mb</a></p></td>
+              </tr>
+            </table>
+            <h3>PostGIS</h3>
+            <p>Загрузить слои WRS-1, WRS-2 можно также из базы данных PostGIS: сервер: gis-lab.info, БД: gen, имя/пароль: guest/guest, слои: wrs* (<a href="/qa/openbase.html">подробнее</a>).</p>
+            <p class="discuss"><span><!--#include virtual="/scripts/forum-comments-num.php?i=4088"--></span></p>
+			<div class="links">
+			<h2>Ссылки по теме</h2>
+			<ul>
+               <li><a href="/qa/landsat-glovis-catalog.html">Каталог существующих данных Landsat из архива USGS</a></li>
+			   <li><a href="/qa/aster-l1a-catalog.html">Каталог существующих данных ASTER</a></li>
+			   <li><a href="/qa/modis-tiles.html">Схема фрагментов для продуктов MODIS 2G, 3, и 4</a></li>
+			</ul>
+			</div>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<p class="status"><span>Дата создания: 28.07.2002
+<br>Автор(ы): <a href="/forum/memberlist.php?mode=viewprofile&u=2" target="_blank">Максим Дубинин</a></span></p>
+<!--#include virtual="/inc/footer2.php" -->

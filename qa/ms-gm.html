@@ -1,0 +1,149 @@
+<!--#include virtual="/inc/header02-google.txt" -->
+<title>GIS-Lab: Использование WMS Mapserver в Google Maps</title>
+<!--#include virtual="/inc/header2-google.txt" -->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Вопросы и ответы</a></li>
+</ul>
+<!--Contents start-->
+<script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAAcxaLeNvSZAM8_X6SDd1_fhQGhS5yCmtMNZMUBKgpbJFW2uH_cRTXeqK2vtaYYO0RO5wSqEbfPoLmDw" type="text/javascript"></script>
+<script src="../programs/mapserver/wms-world-gmap/wms236.js" type="text/javascript"></script>
+<script language="JavaScript" type="text/javascript">
+function load() {
+if (GBrowserIsCompatible()) {
+
+	lon = 25;
+	lat = 0;
+	zoom = 2;
+
+    map = new GMap2(document.getElementById("mapnew"));
+
+    var tile= new GTileLayer(new GCopyrightCollection(""),1,17);
+    tile.myLayers='WMS';
+    tile.myFormat='image/png';
+    tile.myBaseURL='http://gis-lab.info/cgi-bin/wmsworld?';
+    tile.getTileUrl=CustomGetTileUrl;
+
+    tile.getOpacity = function() {return 0.7;}
+
+	map.getMapTypes().length = 0;
+
+    var layer=[G_NORMAL_MAP.getTileLayers()[0], tile];
+    var G_NORMAL_MAP_CUSTOM = new GMapType(layer, G_NORMAL_MAP.getProjection(), "C-Map", G_NORMAL_MAP);
+    map.addMapType(G_NORMAL_MAP_CUSTOM);
+
+    var layer=[G_PHYSICAL_MAP.getTileLayers()[0], tile];
+    var G_PHYSICAL_MAP_CUSTOM = new GMapType(layer, G_SATELLITE_MAP.getProjection(), "C-Topo", G_PHYSICAL_MAP);
+    map.addMapType(G_PHYSICAL_MAP_CUSTOM);
+
+    var layer=[G_SATELLITE_MAP.getTileLayers()[0], tile];
+    var G_SATELLITE_MAP_CUSTOM = new GMapType(layer, G_SATELLITE_MAP.getProjection(), "C-Space", G_SATELLITE_MAP);
+    map.addMapType(G_SATELLITE_MAP_CUSTOM);
+
+    map.addControl(new GLargeMapControl());
+    map.addControl(new GMapTypeControl());
+    map.addControl(new GScaleControl());
+    map.setCenter(new GLatLng(lon, lat), zoom, G_NORMAL_MAP_CUSTOM);
+}
+}
+</script>
+
+<h1>Использование WMS MapServer в Google Maps</h1>
+<p class="ann">Краткая аннотация</p>
+<p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=2757"--></span></p>
+            <p>В отличие OpenLayers, специально предназначенного на работу с данными получаемых с других серверов, программный интерфейс (API) к Google Maps по умолчанию не поддерживает работу с WMS слоями, что очень неудобно. Так же, Google Maps не предоставляет возможности использовать свои данные через WMS. К счастью, есть способ &quot;научить&quot; API Google Maps работать с WMS слоями, например поставляемыми с помощью MapServer. </p>
+            <p>Создание WMS сервиса на базе Mapserver подробно рассматривается в <a href="mapserver-wms.html">специальной статье</a>. Для работы с основой Google понадобится небольшая модификация, которую мы обсудим после описания примера javascript-скрипта показывающего слой WMS на Google Maps.</p>
+            <p>Альтернативой предложенному подходу является использоваться OpenLayers, предоставляющего удобный интерфейс для использования данных сервисов Google, самостоятельных слоев векторных и растровых данных и слоев WMS. Недостатком данного подхода является необходимость загрузки дополнительной библиотеки и использования OpenLayers API вместо Google API, что не всегда удобно. Данный способ не противоречит лицензионному соглашению с Google, так как использование сервисов реализовано через Google Maps API. </p>
+            <p>Есть и другие способы использовать Google Maps в качестве подложки для своих данных, эта статья не ставит перед собой цель их сравнения, а всего лишь иллюстрирует проверенный, работающий метод, которым используется в ряде наших проектов. </p>
+            <h2>Код для Google Maps</h2>
+            <h3>Получение фрагментов </h3>
+            <p>Следующий код целиком можно посмотреть в исходном коде этой страницы, подробности использования Google Maps на страницах своего сайта рассматриваются в <a href="google-web.html">специальной статье</a> и подразумевается, что читатель с ними знаком. Если это не так, то рекомендуем сначала ознакомиться с ней. </p>
+            <p>Итак, &quot;трюк&quot; с наложением слоя WMS состоит из двух частей. Создадим новый слой типа <a href="http://code.google.com/apis/maps/documentation/reference.html#GTileLayer" target="_blank" class="external">GTileLayer</a> и <a href="http://code.google.com/apis/maps/documentation/reference.html#GCopyrightCollection" target="_blank" class="external">GCopyrightCollection</a>, расширенные интерфейсы Google Maps API, предназначенные для наложения пользовательских изображений, таких как копирайты. Как видно, в примере, одним из главных параметров, передаваемых этому слою является адрес нашего сервиса WMS, созданного заранее. </p>
+            <pre>var tile= new GTileLayer(new GCopyrightCollection(""),1,17);
+tile.myLayers='WMS';
+tile.myFormat='image/png';
+tile.myBaseURL='http://gis-lab.info/cgi-bin/wmsworld?';
+tile.getTileUrl=CustomGetTileUrl;</pre>
+            <p>После указания некоторых дополнительных параметров, URL каждого фрагмента слоя с помощью фукнции CustomGetTileUrl. Эта функция содержится в специальной программе на javascript, созданной <a href="http://johndeck.blogspot.com/2006/02/layerwing-wms-services-with-googlemaps.html" target="_blank" class="external">John Deck</a>. Разумеется, нужно не забыть подключить этот javascript:</p>
+            <pre>&lt;script src=&quot;wms236.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;</pre>
+            <p>Этот скрипт предназначен для формирования с помощью javascript специальных запросов к WMS серверам с учетом системы координат, неоходимой для правильного показа данных в Google Maps. Если взглянуть на фрагмент генерируемого запроса, то можно увидеть, что представляет собой URL с некоторыми параметрами (выдержка из скрипта):</p>
+            <pre>var lURL=this.myBaseURL;
+lURL+=&quot;&amp;REQUEST=GetMap&quot;;
+lURL+=&quot;&amp;SERVICE=WMS&quot;;
+lURL+=&quot;&amp;VERSION=1.1.1&quot;;
+lURL+=&quot;&amp;LAYERS=&quot;+this.myLayers;
+lURL+=&quot;&amp;STYLES=&quot;+this.myStyles;
+lURL+=&quot;&amp;FORMAT=&quot;+this.myFormat;
+lURL+=&quot;&amp;BGCOLOR=0xFFFFFF&quot;;
+lURL+=&quot;&amp;TRANSPARENT=TRUE&quot;;
+lURL+=&quot;&amp;SRS=&quot;+lSRS;
+lURL+=&quot;&amp;BBOX=&quot;+lBbox;
+lURL+=&quot;&amp;WIDTH=256&quot;;
+lURL+=&quot;&amp;HEIGHT=256&quot;;
+lURL+=&quot;&amp;reaspect=false&quot;;</pre>
+            <p>Пример подобного запроса в полном виде будет выглядеть следующим образом:</p>
+            <pre>http://gis-lab.info/cgi-bin/wmsworld?&REQUEST=GetMap&SERVICE=WMS&VERSION=1.1.1&LAYERS=WMS&STYLES=&FORMAT=image/png&BGCOLOR=0xFFFFFF&TRANSPARENT=TRUE&SRS=EPSG:54004&BBOX=-10018754.017583234,0.05233327391523142,0,9979519.992591204&WIDTH=256&HEIGHT=256&reaspect=false</pre>
+            <p>Вот что получится, если открыть эту ссылку с <a href="http://gis-lab.info/cgi-bin/wmsworld?&REQUEST=GetMap&SERVICE=WMS&VERSION=1.1.1&LAYERS=WMS&STYLES=&FORMAT=image/png&BGCOLOR=0xFFFFFF&TRANSPARENT=TRUE&SRS=EPSG:54004&BBOX=-10018754.017583234,0.05233327391523142,0,9979519.992591204&WIDTH=256&HEIGHT=256&reaspect=false">помощью браузера</a>:</p>
+            <p align="center"><img src="/images/ms-gm-01.png" width="256" height="256"></p>
+            <p>Результаты запроса возвращаются в GTileLayer блоками определенного размера в системе координат Google Maps. </p>
+            <h3>Настройка кнопок </h3>
+            <p>Помимо стандартного подключения и кода API, так как мы хотим, чтобы загружаемый через WMS слой был наложен на все 3 основные карты Google (map, hybrid, landscape), нам понадобится сначала очистить список типов карт. </p>
+            <pre>map.getMapTypes().length = 0;</pre>
+            <p>А зачет создать новые кнопки, использующие кроме основных слоев еще и наш свеже подключенный слой WMS.</p>
+            <pre>var layer=[G_NORMAL_MAP.getTileLayers()[0], tile];
+var G_NORMAL_MAP_CUSTOM = new GMapType(layer, G_NORMAL_MAP.getProjection(), "C-Map", G_NORMAL_MAP);
+map.addMapType(G_NORMAL_MAP_CUSTOM);
+
+var layer=[G_PHYSICAL_MAP.getTileLayers()[0], tile];
+var G_PHYSICAL_MAP_CUSTOM = new GMapType(layer, G_SATELLITE_MAP.getProjection(), "C-Topo", G_PHYSICAL_MAP);
+map.addMapType(G_PHYSICAL_MAP_CUSTOM);
+
+var layer=[G_SATELLITE_MAP.getTileLayers()[0], tile];
+var G_SATELLITE_MAP_CUSTOM = new GMapType(layer, G_SATELLITE_MAP.getProjection(), "C-Space", G_SATELLITE_MAP);
+map.addMapType(G_SATELLITE_MAP_CUSTOM);</pre>
+            <p>Тонкости настройки завершены, стандартные функции по добавлению элементов управления можно подчерпнуть из статьи по использованию <a href="google-web.html">Google Maps на своем сайте</a> или в исходном коде этой страницы.</p>
+            <h2>Модификация map-файла</h2>
+            <p>Перед тем как насладиться результатом, необходимо правильно сконфигурировать системы координат нашего сервиса WMS и программы работающей с системами координат, которой конечно является Proj.</p>
+            <h3>Настройка Proj</h3>
+            <p>Находим файл кодов EPSG используемый Proj для хранения описаний систем координат, который также использует MapServer, он может храниться например здесь: /usr/local/share/proj/epsg. Добавляем в него новую систему координат: </p>
+            <pre># Google Mercator
+<54004> +proj=merc +lat_ts=0 +lon_0=0 +k=1.000000 +x_0=0 +y_0=0
++ellps=WGS84 +datum=WGS84 +units=m no_defs <>
+</pre>
+            <p>Эта строка — структурированная информация о системе координат,  включающая проекцию (merc — меркатор), эллипсоид (WGS84), единицы  измерения (метры) и другие параметры. Такой вид описания — стандарт  описания системы координат в PROJ, системе работы с проекциями и СК. Запоминаем код 54004 и переходим к редактированию wms.map.</p>
+            <h2>Настройка сервиса WMS</h2>
+            <p>В MapServer сервис созадется и конфигурируется посредством файла map. Подробно о создании сервиса WMS рассказывается в <a href="mapserver-wms.html">отдельной статье</a>, нам же понадобится всего-лишь добавить в раздел описаний отдаваемых MapServer систем координат нашу свежепрописанную систему 54004.  </p>
+            <pre>LAYER
+    ....
+	METADATA
+		wms_title "world"
+		wms_abstract "world test"
+		wms_srs "EPSG:4326 EPSG:54004"
+		wms_include_items "all"
+	END
+END</pre>
+            <p>Сервис может &quot;отдавать&quot; данные сразу в нескольких системах координат, в зависимости от того, что запрашивается клиентом WMS, поэтому добавление никоим образом не скажется на работоспособности сервиса в другом клиентском ПО. </p>
+            <p><strong>Результат</strong></p>
+            <p>Пример подобной реализации можно увидеть ниже. В этом примере сервис WMS MapServer содержащий один слой - границы стран показывается поверх основы Google Maps. </p>
+            <div id="mapnew" style="width:600px;height:400px;"></div>
+       <p>&nbsp;</p>
+        <p class="discuss">
+		   <span><!--#include virtual="/scripts/forum-comments-num.php?i=2757"--></span>
+		</p>
+            <div class="links">
+				<h2>Ссылки по теме</h2>
+					<ul>
+						<li><a href="/qa/google-web.html">Размещение Google Maps на своей интернет странице</a></li>
+						<li><a href="/qa/mapserver-wms.html">Создание WMS-сервиса с помощью Mapserver</a></li>
+					    <li><a href="ol-load.html">Способы отображения данных с помощью OpenLayers</a></li>
+					</ul>
+			</div>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<p class="status"><span>Дата создания: 11.01.2009
+<br>Автор(ы): <a href="/forum/memberlist.php?mode=viewprofile&u=2" target="_blank">Максим Дубинин</a></span></p>
+<!--#include virtual="/inc/footer2.php" -->
+

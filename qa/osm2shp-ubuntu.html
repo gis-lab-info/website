@@ -1,0 +1,93 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Компиляция osm2shp для Ubuntu</title>
+<!--#include virtual="/inc/header2.txt" -->
+<!--Contents start-->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Вопросы и ответы</a></li>
+</ul>
+<h1>Компиляция osm2shp для Ubuntu</h1>
+            <p class="ann">Пошаговая инструкция по компиляции osm2shp</p>
+            <p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=2425"--></span></p>
+            <p>Для начинающего пользователя Unix, запуск инструмента osm2shp может оказаться нетривиальной задачей, для того, чтобы он все-таки смог это сделать и создана эта инструкция. Обращаем внимание, что <a href="http://lists.openstreetmap.org/pipermail/talk/2007-May/013857.html" target="_blank" class="external">описания приводимые</a> на самом OSMнедостаточно подробно описывают процесс, особенно для новичков. В этом описание предполагается, что пакеты make, gcc, g++, subversion уже установлены. Наверняка есть какая-то несуразица в подходе (несколько смущает последняя часть с переписыванием путей в Makefile), прошу учесть базовое знакомство с Unix автора данных строк. </p>
+            <p>Примечание: текущая версия библиотеки libosm и использующего ее конвертера <a href="http://trac.openstreetmap.org/browser/applications/utils/export/osm2shp" target="_blank" class="external">osm2shp</a> (<a href="http://trac.openstreetmap.org/changeset/2911" target="_blank" class="external">ревизия 2911</a>) не работают с текущим форматом OSM XML 0.5 на момент написания статьи и предназначены для данных версии 0.4. </p>
+            <p>Сначала установим дополнительные библиотеки, shapelib и libshp-dev для создания shape-файлов, expat и libexpatl-dev для чтения XML синтаксиса.</p>
+            <pre>apt-get install shapelib libshp-dev
+apt-get install expat libexpat1-dev</pre>
+            <p>              Эти пакеты при установке потребуют дополнительных, установим и их, проблем быть не должно. Если не установить libshp-dev, make будет выдавать сообщение об ошибке: /usr/bin/ld: cannot find -lshp<br />
+              Если не установить libexpat1-dev, make будет выдавать сообщение об ошибке: /usr/bin/ld: cannot find -lexpat.</p>
+            <p>Если директории с исходниками еще нет, создадим и перейдем в нее:</p>
+            <pre>mkdir src
+~/src</pre>
+            <p>  Перед установкой самого osm2shp, необходимо установить две дополнительные библиотеки libosm и ccoord:</p>
+<pre>svn co http://svn.openstreetmap.org/applications/lib/libosm
+svn co http://svn.openstreetmap.org/applications/lib/ccoord</pre>
+            <p>Ревизия этих библиотек и osm2shp на момент написания статьи: 10355</p>
+            <p>Для начала разберемся с библиотекой libosm. </p>
+            <pre>cd libosm</pre>
+            <p>Отредактируем Components.cpp:</p>
+            <pre>pico Components.cpp</pre>
+            <p>Найдем и заменим: </p>
+            <pre>#include &lt;libshp/shapefil.h&gt;</pre>
+            <p>на</p>
+            <pre>#include &lt;shapefil.h&gt;</pre>
+            <p>Запустим сборку и установку:</p>
+            <pre>make
+make install</pre>
+            <p>Разберемся с библиотекой ccoord:</p>
+            <pre>cd ../ccoord
+make</pre>
+            <p>Инструкций по make install для этой библиотеки не существует, поэтому выполним необходимые действия вручную:</p>
+            <pre>cp libccoord.a /usr/local/lib
+cp *.h /usr/local/include</pre>
+            <p>Сборка дополнительных библиотек завершена, перейдем к собственно osm2shp:</p>
+            <pre>cd ..
+svn co http://svn.openstreetmap.org/applications/utils/export/osm2shp
+cd osm2shp</pre>
+            <p>Здесь потребуется сделать ряд замен в osm2shp.cpp и Makefile. Сначала исправим osm2shp.cpp:</p>
+            <pre>pico osm2shp.cpp</pre>
+            <p>Найдем и заменим: </p>
+            <pre>#include &lt;libshp/shapefil.h&gt;</pre>
+            <p> на</p>
+            <pre>#include &lt;shapefil.h&gt;</pre>
+            <p>Теперь очередь Makefile:</p>
+            <<pre>pico Makefile</pre>
+            <p>Заменим:</p>
+            <<pre>-I../../../lib/libosm</pre>
+            <p>            на</p>
+            <pre>-I/usr/local/lib</pre>
+            <p><br />
+  Заменим:</p>
+            <pre>../../../lib/libosm/libosm.a</pre>
+            <p>            на</p>
+            <pre>/usr/local/lib/libosm.a</pre>
+            <p>Заменим:</p>
+            <pre>../../../lib/ccoord/libccoord.a</pre>
+            <p>              на</p>
+            <pre>/usr/local/lib/libccoord.a</pre>
+            <p>Заменим:</p>
+            <pre>../../../lib/libosm/libosm.a</pre>
+            <p>              на</p>
+            <pre>/usr/local/lib/libosm.a</pre>
+            <p>Вот и все, проверим и если на:</p>
+            <pre>./osm2shp</pre>
+            <p>              Нам в ответ выдается:</p>
+            <pre>Usage: osm2shp OSMfile nodeSHPfile waySHPfile  areaSHPfile features.xml</pre>
+            <p>То значит все прошло удачно.        </p>
+            <p class="discuss">
+				<span><!--#include virtual="/scripts/forum-comments-num.php?i=2425"--></span>
+			</p>
+			<div class="links">
+			<h2>Ссылки по теме</h2>
+			<ul>
+               <li><a href="osm-begin.html">Начало работы с OpenStreetMap</a></li>
+			</ul>
+			</div>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<p class="status"><span>Дата создания: 01.09.2008
+<br>Автор(ы): <a href="/forum/memberlist.php?mode=viewprofile&u=2" target="_blank">Максим Дубинин</a></span></p>
+<!--#include virtual="/inc/footer2.php" -->

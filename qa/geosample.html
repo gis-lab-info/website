@@ -1,0 +1,452 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Geosample: Открытый набор геоданных для различного ПО ГИС</title>
+<!--#include virtual="/inc/header2.txt" -->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Вопросы и ответы</a></li>
+</ul>
+<!--Contents start-->
+<h1>Geosample: Открытый набор геоданных для различного ПО ГИС </h1>
+<p class="ann">Описание, загрузка, применение.</p>
+<p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=3728"--></span></p>
+            <p><strong>Оглавление</strong></p>
+            <ol>
+              <li><a href="#about">Описание</a></li>
+              <li><a href="#get">Получение</a></li>
+              <li><a href="#layers">Слои данных</a></li>
+              <li><a href="#use">Особенности использования в ПО ГИС </a></li>
+              <li><a href="#authors">Участники создания</a></li>
+            </ol>
+            <p>Геосэмпл - адаптированный к российским условиям набор данных. Данный набор может использоваться для обучения, LiveCD, примерах, тестах ПО ГИС и т.п. Предлагаемый набор данных является лицензионно чистым: создан без использования материалов запрещающих копирование и распространение без специфических соглашений и лицензий, в нем не используются материалы созданные на основе данных Роскартографии и коммерческих компаний. Источники данных и другая информация про компоненты набора приведена в разделе описание слоёв. Загрузка целиком, по ПО приведены в таблицах ссылок для загрузки.</p>
+            <p>Текущая версия геосэмпла: 1.0 </p>
+            <p>Реализации данного набора доступны для:</p>
+            <ul>
+              <li>десктоп ГИС: QGIS, gvSIG, uDig, Arcview GIS, ArcGIS, OpenJUMP, SAGA, SpatiaLite GIS, MapWindow. </li>
+              <li>векторных форматов: Shape, Mapinfo TAB, SQLite/Spatialite, GRASS Vector; </li>
+              <li>растровых форматов: GeoTIFF, Arcinfo GRID, GRASS Raster, SAGA Raster;</li>
+              <li>картографических веб-серверов и библиотек: GeoServer, OpenLayers. </li>
+            </ul>
+            <p><strong>В задачи данного набора входит:</strong></p>
+            <ul>
+              <li>Предоставление готового к использованию набора растровых и векторных слоёв и проектов для распространённого ПО ГИС;</li>
+              <li>Предоставление русифицированных данных. Вся атрибутивная информация на русском языке, в кодировке Win-1251 (поддерживается всем ПО) или UTF-8 (не поддерживается Arcview GIS).</li>
+            </ul>
+            <p><strong>В задачи данного набора не входит:</strong></p>
+            <ul>
+              <li>Предоставление примеров <strong>всех</strong> возможных типов данных;</li>
+              <li>Реклама тех или иных источников данных или ПО ГИС. Этот выбор предстоит сделать вам самим. </li>
+              <li>Предоставление <strong>точных</strong> данных. Данные не претендуют на абсолютную достоверность и предназначены в первую очередь для обучения и экспериментов. </li>
+            </ul>
+            <p>Пожалуйста, сообщайте, если вы использовали этот набор данных в своей работе и о своих идеях как сделать этот набор лучше. </p>
+            <p align="center"><img src="/images/geosample-01.gif" alt="geosample" width="700" height="464">
+              <!-- Первый раздел -->
+            </p>
+            <h2><strong><a name="about" id="about"></a>1. Описание</strong></h2>
+            <p>Замечания по данным независимо от программного обеспечения. </p>
+            <p>Данные представлены четырьмя субъектами Российской Федерации: Кемеровской, Новосибирской областями, Алтайским краем и Республикой Алтай.</p>
+            <ul>
+              <li><strong></strong>Данные в открытом наборе геоданных представлены послойно, в растровом или векторном формате.</li>
+              <li>Данные находятся в географической системе координат WGS84, проекция отсутствует.</li>
+              <li>Названия файлов данных и слоёв в проектах англоязычные: населенные пункты - settlements, речная сеть - hydro и т.д.</li>
+              <li>Для тех ГИС, где это возможно, в проектах используются относительные ссылки, т.е. загружать и открыть проекты можно из любой папки. Рекомендуются пути без пробелов и кириллицы в названии. Для остальных ГИС следуется ознакомиться с комментариями ниже.</li>
+              <li>Кодировка атрибутивных данных Win1251. Для других форматов - возможно использование UTF-8. </li>
+            </ul>
+            <p>Описание данных в формате HTML для распечатки и ознакомления также присутствует в файле комплекта данных.</p>
+            <p>Для того, чтобы начать пользоваться этим набором, вам понадобится установить одну из ГИС, присутствующих в списке. </p>
+            <h2><a name="get"></a>2. Получение</h2>
+            <p>Геосэмпл можно загрузить  целиком, для конкретного ПО или послойно, его также можно посмотреть в работе картсервера или PostGIS. </p>
+            <p>Внимание: проекты будут полностью функциональны только в случае загрузки комплекта целиком или набора целиком для конкретного ПО. </p>
+            <table width="85%" align="center">
+              <tr>
+                <th>Название</th>
+                <th>Название файла</th>
+                <th>Размер, Mb</th>
+                <th>Ссылка</th>
+              </tr>
+              <tr>
+                <td>Набор целиком </td>
+                <td>geosample</td>
+                <td>41.8</td>
+                <td><a href="/data/geosample/geosample.7z">скачать</a></td>
+              </tr>
+            </table>
+            <p>Набор целиком  по ПО (включает данные, проектные файлы, файлы легенд, если они есть). Ссылка на имени ГИС ведет на официальную страницу. Ссылка на названии файла - на снимок экрана этой ГИС:</p>
+            <table width="90%" align="center">
+              <tr>
+                <th>Название</th>
+                <th>Название файла</th>
+                <th>Версия ПО </th>
+                <th>Размер, Mb</th>
+                <th>Ссылка</th>
+                <th>Демо</th>
+              </tr>
+              <tr>
+                <td><a href="http://www.esri.com/software/arcgis/" target="_blank" class="external">ArcGIS</a></td>
+                <td><a href="/images/geosample-arcgis.png">geosample-arcgis</a></td>
+                <td>9.2</td>
+                <td>6.7</td>
+                <td><a href="/data/geosample/geosample-arcgis.7z">скачать</a></td>
+                <td>&nbsp;</td>
+              </tr>
+              <tr>
+                <td><a href="http://en.wikipedia.org/wiki/ArcView_3.x" target="_blank" class="external">Arcview 3 </a></td>
+                <td><a href="/images/geosample-arcview.png">geosample-arcview</a></td>
+                <td>3.2</td>
+                <td>6.8</td>
+                <td><a href="/data/geosample/geosample-arcview.7z">скачать</a></td>
+                <td>&nbsp;</td>
+              </tr>
+              <tr>
+                <td><a href="http://grass.gis-lab.info/index.php" target="_blank" class="external">GRASS</a></td>
+                <td><a href="/images/geosample-grass-tcltk.png">geosample-grass-tcltk</a><br>
+                  <a href="/images/geosample-grass-wxpython.png">geosample-grass-wxpython</a></td>
+                <td>6.3</td>
+                <td>20.4</td>
+                <td><a href="/data/geosample/geosample-grass.7z">скачать</a></td>
+                <td>&nbsp;</td>
+              </tr>
+              <tr>
+                <td><a href="http://geoserver.org/display/GEOS/Welcome" target="_blank" class="external">GeoServer</a></td>
+                <td>geosample-geoserver</td>
+                <td>1.7.6</td>
+                <td>6.7</td>
+                <td><a href="/data/geosample/geosample-geoserver.7z">скачать</a></td>
+                <td><a href="http://gis-lab.info:8180/geoserver/wms">посмотреть</a></td>
+              </tr>
+              <tr>
+                <td><a href="http://www.gvsig.gva.es/" target="_blank" class="external">gvSIG</a></td>
+                <td><a href="/images/geosample-gvsig.png">geosample-gvsig</a></td>
+                <td>1.1.2</td>
+                <td>6.7</td>
+                <td><a href="/data/geosample/geosample-gvsig.7z">скачать</a></td>
+                <td>&nbsp;</td>
+              </tr>
+              <tr>
+                <td><a href="http://en.wikipedia.org/wiki/MapInfo" target="_blank" class="external">Mapinfo</a></td>
+                <td><a href="/images/geosample-mapinfo.png">geosample-mapinfo</a></td>
+                <td>7.5</td>
+                <td>6.3</td>
+                <td><a href="/data/geosample/geosample-mapinfo.7z">скачать</a></td>
+                <td>&nbsp;</td>
+              </tr>
+              <tr>
+                <td><a href="http://www.mapwindow.org/" target="_blank" class="external">MapWindow</a></td>
+                <td><a href="/images/geosample-mapwindow.png">geosample-mapwindow</a></td>
+                <td>4.7</td>
+                <td>7.4</td>
+                <td><a href="/data/geosample/geosample-mapwindow.7z">скачать</a></td>
+                <td>&nbsp;</td>
+              </tr>
+              <tr>
+                <td><a href="http://www.openjump.org/wiki/show/HomePage" target="_blank" class="external">OpenJUMP</a></td>
+                <td><a href="/images/geosample-openjump.png">geosample-openjump</a></td>
+                <td>1.3</td>
+                <td>6.7</td>
+                <td><a href="/data/geosample/geosample-openjump.7z">скачать</a></td>
+                <td>&nbsp;</td>
+              </tr>
+              <tr>
+                <td><a href="http://openlayers.org/" target="_blank" class="external">OpenLayers</a></td>
+                <td><a href="/images/geosample-ol.png">geosample-openlayers</a></td>
+                <td>2.8</td>
+                <td>1.5</td>
+                <td><a href="/data/geosample/geosample-openlayers.7z">скачать</a></td>
+                <td><a href="/qa/geosample-ol.html">посмотреть</a></td>
+              </tr>
+              <tr>
+                <td><a href="http://postgis.org">PostGIS</a></td>
+                <td>&nbsp;</td>
+                <td>1.5</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td><a href="/qa/openbase.html">посмотреть</a></td>
+              </tr>
+              <tr>
+                <td><a href="http://www.qgis.org/" target="_blank" class="external">QGIS</a></td>
+                <td><a href="/images/geosample-qgis.png">geosample-qgis</a></td>
+                <td>1.4</td>
+                <td>6.8</td>
+                <td><a href="/data/geosample/geosample-qgis.7z">скачать</a></td>
+                <td>&nbsp;</td>
+              </tr>
+              <tr>
+                <td><a href="http://www.saga-gis.org/en/index.html" target="_blank" class="external">Saga</a></td>
+                <td><a href="/images/geosample-saga.png">geosample-saga</a></td>
+                <td>2.0.3</td>
+                <td>15.2</td>
+                <td><a href="/data/geosample/geosample-saga.7z">скачать</a></td>
+                <td>&nbsp;</td>
+              </tr>
+              <tr>
+                <td><a href="http://www.gaia-gis.it/spatialite/" target="_blank" class="external">SQLite/SpatiaLite</a></td>
+                <td><a href="/images/geosample-qgis.png">geosample-sqlite</a></td>
+                <td>2.3</td>
+                <td>6.5</td>
+                <td><a href="/data/geosample/geosample-sqlite.7z">скачать</a></td>
+                <td>&nbsp;</td>
+              </tr>
+              <tr>
+                <td><a href="http://www.gaia-gis.it/spatialite/" target="_blank" class="external">SpatiaLite GIS </a></td>
+                <td><a href="/images/geosample-spatialite-gis.png">geosample-spatialite-gis</a></td>
+                <td>1.0</td>
+                <td>3.6</td>
+                <td><a href="/data/geosample/geosample-spatialite-gis.7z">скачать</a></td>
+                <td>&nbsp;</td>
+              </tr>
+              <tr>
+                <td><a href="http://udig.refractions.net/" target="_blank" class="external">uDIG</a></td>
+                <td><a href="/images/geosample-udig.png">geosample-udig</a></td>
+                <td>1.1.1</td>
+                <td>6.8</td>
+                <td><a href="/data/geosample/geosample-udig.7z">скачать</a></td>
+                <td>&nbsp;</td>
+              </tr>
+            </table>
+            <p>Данные послойно (в различных форматах):</p>
+            <table width="85%" align="center">
+              <tr>
+                <th>Название</th>
+                <th>Название файла</th>
+                <th>Размер, Mb</th>
+                <th>Ссылка</th>
+              </tr>
+              <tr>
+                <td>Административные границы</td>
+                <td>admin</td>
+                <td>0.1</td>
+                <td><a href="/data/geosample/admin.7z">скачать</a></td>
+              </tr>
+              <tr>
+                <td>Населенные пункты </td>
+                <td>settlements</td>
+                <td>0.1</td>
+                <td><a href="/data/geosample/settlements.7z">скачать</a></td>
+              </tr>
+              <tr>
+                <td>Гидросеть линейная </td>
+                <td>hydro-l</td>
+                <td>0.5</td>
+                <td><a href="/data/geosample/hydro-l.7z">скачать</a></td>
+              </tr>
+              <tr>
+                <td>Гидросеть полигональная </td>
+                <td>hydro-a</td>
+                <td>0.3</td>
+                <td><a href="/data/geosample/hydro-a.7z">скачать</a></td>
+              </tr>
+              <tr>
+                <td>Объекты (POI) </td>
+                <td>poi-osm</td>
+                <td>0.2</td>
+                <td><a href="/data/geosample/poi-osm.7z">скачать</a></td>
+              </tr>
+              <tr>
+                <td>Дорожная сеть </td>
+                <td>road-l-osm</td>
+                <td>1.4</td>
+                <td><a href="/data/geosample/road-l-osm.7z">скачать</a></td>
+              </tr>
+              <tr>
+                <td>Железные дороги </td>
+                <td>railroad-l</td>
+                <td>0.1</td>
+                <td><a href="/data/geosample/railroad-l.7z">скачать</a></td>
+              </tr>
+              <tr>
+                <td>Охраняемые природные территории</td>
+                <td>oopt</td>
+                <td>0.1</td>
+                <td><a href="/data/geosample/oopt.7z">скачать</a></td>
+              </tr>
+              <tr>
+                <td>Растительность</td>
+                <td>veg</td>
+                <td>1.0</td>
+                <td><a href="/data/geosample/veg.7z">скачать</a></td>
+              </tr>
+              <tr>
+                <td>Почвы</td>
+                <td>soil</td>
+                <td>0.2</td>
+                <td><a href="/data/geosample/soils.7z">скачать</a></td>
+              </tr>
+              <tr>
+                <td>Экорегионы</td>
+                <td>ecoregions</td>
+                <td>0.1</td>
+                <td><a href="/data/geosample/ecoregions.7z">скачать</a></td>
+              </tr>
+              <tr>
+                <td>Рельеф</td>
+                <td>relief</td>
+                <td>7.6</td>
+                <td><a href="/data/geosample/relief.7z">скачать</a></td>
+              </tr>
+              <tr>
+                <td>MODIS</td>
+                <td>modis</td>
+                <td>8.5</td>
+                <td><a href="/data/geosample/modis.7z">скачать</a></td>
+              </tr>
+            </table>
+            <h2><strong><a name="layers" id="layers"></a>3. Слои </strong> </h2>
+            <h3>Административные границы</h3>
+            <p>Название слоя: admin</p>
+            <p>Поля: NAME - название субъекта </p>
+            <p>Тип слоя: полигональный. <a href="/images/geosample-02.gif">Условные обозначения</a></p>
+            <p>Источник: <a href="/qa/vmap0.html">Vmap0</a></p>
+            <h3>Точечные объекты (POI)</h3>
+            <p>Рестораны, автозаправки и т.п.</p>
+            <p>Название слоя: poi-osm </p>
+            <p>Поля: CATEGORY - категория, NAME - полное название, TYPE - тип (часть имени) (источник классов). </p>
+            <p>Тип слоя: векторный, точечный. <a href="/images/geosample-03.gif">Условные обозначения</a></p>
+            <p>Источник: <a href="http://osm.org" target="_blank" class="external">OpenStreetMap</a><a href="/qa/vmap0.html"></a></p>
+            <h3>Дорожная сеть</h3>
+            <p>Название слоя: road-l-osm</p>
+            <p>Поля: NAME -  название (если имеется), TYPE - тип (англ), TYPERUS - тип (рус) (источник классов) </p>
+            <p>Тип слоя: векторный, линейный. <a href="/images/geosample-04.gif">Условные обозначения</a></p>
+            <p>Источник:  <a href="http://osm.org" target="_blank" class="external">OpenStreetMap</a></p>
+            <h3>Железные дороги </h3>
+            <p>Название слоёв: railroad-l</p>
+            <p>Поля: STATUS -  статус, LANES - количество путей. </p>
+            <p>Тип слоя: векторный, линейный. <a href="/images/geosample-05.gif">Условные обозначения</a></p>
+            <p>Источник: <a href="/qa/vmap0.html">Vmap0</a></p>
+            <h3> Гидросеть</h3>
+            <p>Название слоёв: hydro-poly, hydro-line </p>
+            <p>Поля: NAME -  название (если имеется), TYPE - тип (источник классов).</p>
+            <p>Тип слоёв: векторный, полигональный и линейный. <a href="/images/geosample-06.gif">Условные обозначения</a></p>
+            <p>Источник: <a href="/qa/vmap0.html">Vmap0</a></p>
+            <h3> Населенные пункты</h3>
+            <p>Название слоя: settlements </p>
+            <p>Поля: Type - тип наспункта, Subject - название субъекта, Rayon - название района, Name - название наспункта (используется для подписей начиная с масштаба: 1:500'000), Code - код КЛАДР, Index - почтовый индекс, Ocatd - код ОКАТО, Lat - широта центра, Long - долгота центра. </p>
+            <p>Тип слоя: векторный, полигональный.  <a href="/images/geosample-07.gif">Условные обозначения</a></p>
+            <p>Источники: <a href="/qa/vmap0.html">Vmap0</a>, <a href="/qa/vmap0-settl-rus.html">GIS-Lab.info</a></p>
+            <h3> Рельеф</h3>
+            <p>Данные о высоте местности в виде собственно данных разбитых по диапазонам и теневой отмывки рельефа. Разрешение 1 км. </p>
+            <p>Название слоёв: relief-color, relief-hillshade </p>
+            <p>Тип слоёв: растровый. <a href="/images/geosample-08.gif">Условные обозначения</a></p>
+            <p>Источник: <a href="/qa/srtm.html">SRTM30</a> </p>
+            <h3> Снимки MODIS</h3>
+            <p>Фрагмент мозаики  на месяц май. Разрешение 500 метров. </p>
+            <p>Тип слоя: растровый. <a href="/images/geosample-09.gif">Условные обозначения</a></p>
+            <p>Источники: <a href="http://earthobservatory.nasa.gov/Features/BlueMarble/bmng.pdf" target="_blank" class="external">Blue Marble</a></p>
+            <h3>Тематические слои: охраняемые территории </h3>
+            <p>Заповедники, национальные парки, заказники федерального значения. </p>
+            <p>Название слоя: oopt </p>
+            <p>Поля: NAME_R - название, TYPE - тип, NAME_PRT_R - название участка если их несколько. </p>
+            <p>Тип слоя: векторный. <a href="/images/geosample-10.gif">Условные обозначения</a></p>
+            <p>Источники: <a href="http://oopt.info/index.php?page=15" target="_blank" class="external">ЦОДП/МСоЭС/WRI</a> </p>
+            <h3>Тематические слои: почвы</h3>
+            <p>Название слоя: soils </p>
+            <p>Поля: FAOSOIL - код типов почв (<a href="http://lib.berkeley.edu/EART/UCONLY/fao/South-Asia-Near-East/NOTES.DOS" target="_blank" class="external">расшифровка</a>), UNIT - класс, TYPE - тип, NAME - название (источник классов). </p>
+            <p>Тип слоя: векторный. <a href="/images/geosample-11.gif">Условные обозначения</a></p>
+            <p>Источники: <a href="/qa/world-soil-maps.html">FAO-UNESCO Soil Map of the World, 1974</a></p>
+            <h3>Тематические слои: растительность</h3>
+            <p>Название слоя: veg </p>
+            <p>Поля: TYPE - тип, SUBTYPE - подтип</p>
+            <p>Тип слоя: векторный. <a href="/images/geosample-12.gif">Условные обозначения</a></p>
+            <p>Источник: Карта растительности СССР (для высших учебных заведений)	 1:4 000 000; 1990; М.</p>
+            <h3>Тематические слои: экорегионы </h3>
+            <p>Границы экорегионов </p>
+            <p>Название слоя: ecoregions </p>
+            <p>Поля: Weblink - ссылка на описание (англ.), Name - название субъекта, Eco_name_r - название экорегиона.</p>
+            <p>Тип слоя: векторный. <a href="/images/geosample-13.gif">Условные обозначения</a></p>
+            <p>Источник: Olson, D. M, E. Dinerstein, E.D. Wikramanayake, N.D. Burgess, G.V.N. Powell, E.C. Underwood, J.A. D'amico, I. Itoua, H.E. Strand, J.C. Morrison, C.J. Loucks, T.F. Allnutt, T.H. Ricketts, Y. Kura, J.F. Lamoreux, W.W.Wettengel, P. Hedao, &amp; K.R. Kassem. 2001. Terrestrial Ecoregions of the World: A New Map of Life on Earth. BioScience 51:933-938 (<a href="http://www.worldwildlife.org/science/data/item1875.html" target="_blank" class="external">ссылка</a>)</p>
+            <h3>Файлы включенные в набор </h3>
+            <p>shape - векторные слои в shape-формате, используются QGIS, gvSIG, Arcview GIS, ArcGIS</p>
+            <p>tab - векторные слои в формате TAB, используются Mapinfo </p>
+            <p>sql - данные в формате SQLite/SpatiaLite</p>
+            <p>grass - данные в формате GRASS </p>
+            <p>lyr/mxd - файлы условных обозначений и проект для ArcGIS;</p>
+            <p>avl/apr - файлы условных обозначений и проект для  Arcview GIS;</p>
+            <p>qml/qgs - файлы условных обозначений и проект для  QGIS;</p>
+            <p>gvl/qvp - файлы условных обозначений и проект для  gvSIG;</p>
+            <p>geosample-udig.umap - проект для uDig; </p>
+            <p>wor - проект для Mapinfo;</p>
+            <p>readme - описание набора данных (копия этой страницы). </p>
+            <h2><a name="use"></a>4. Особенности использования в ПО ГИС </h2>
+            <h3>ArcGIS</h3>
+            <p>Запуск проекта: geosample-arcgis.mxd. Только Windows</p>
+            <h3>Arcview</h3>
+            <p>Запуск проекта: geosample-arcview.apr. Только Windows.</p>
+            <p>Не поддерживает группы слоёв, прозрачность, классификацию растров GeoTIFF. Использует растры рельефа в формате Arcinfo GRID. Для отображения данных о рельефе необходим установленный модуль Spatial Analyst. </p>
+            <h3>GeoServer</h3>
+            <p>Помимо собственного набора для скачивания, данный набор данных доступен по:</p>
+            <ul>
+              <li>WMS: <a href="http://gis-lab.info:8180/geoserver/wms">http://gis-lab.info:8180/geoserver/wms</a>
+                <!-- m --></li>
+              <li>WFS: <a href="http://gis-lab.info:8180/geoserver/wfs">http://gis-lab.info:8180/geoserver/wfs</a>
+                <!-- m -->
+              </li>
+              <li>WCS: <a href="http://gis-lab.info:8180/geoserver/wcs">http://gis-lab.info:8180/geoserver/wcs</a> Реализована ранняя версия WCS 1.0.0, которую не  поддерживают некоторые   клиенты. Известно что успешно подключиться можно из <a href="http://www.cadcorp.com/products_geographical_information_systems/map_viewer.htm">Cadcorp SIS Map Browser</a> при отключенной проверке "Validate XML from server".</li>
+              <li><a href="geosample-ol.html">OpenLayers</a></li>
+              </ul>
+            <h3><a name="postgis"></a>PostGIS</h3>
+            <p>Хост: gis-lab.info<br>
+              База данных: geosample<br>
+            Логин/пароль: guest/guest</p>
+            <p><a href="/qa/openbase.html">Подробнее</a></p>
+            <h3>GRASS</h3>
+            <p>Кодировка атрибутивных данных UTF-8.</p>
+            <p>При использование самих данных: распаковать в любую папку, при запуске GRASS указать: </p>
+            <ul>
+              LOCATION: geosample<br>
+              MAPSET:  PERMANENT<br>
+              DATABASE: /путь/к/папке/в/которую/распакован/пример/
+            </ul>
+            <h3>gvSIG</h3>
+            <p>Запуск проекта: geosample-gvsig-linux.gvp или geosample-gvsig-win.gvp.</p>
+            <p>Не поддерживает относительные ссылки, классифицированные растры, прозрачность векторных слоёв. Для правильного отображения слоёв необходим установленный русификатор. Данные архива для Windows версии должны быть распакованы в c:\geosample, для Linux - /usr/share/geosample. Необходимо установить права на папку geosample: chmod 755 *.</p>
+            <h3>MapWindow</h3>
+            <p>Запуск проекта: geosample-mapwindow.mwprj. Только Windows </p>
+            <h3>OpenJUMP</h3>
+            <p>Запуск проекта: c:\geosample\geosample-openjump.jmp или /usr/share/geosample/geosample-openjump-linux.jmp</p>
+            <p>Не поддерживает относительные ссылки, классифицированные растры. </p>
+            <h3>OpenLayers</h3>
+            <p>Запуск проекта: openlayers\geosample-ol.html. Требуется подключение к интернету. </p>
+            <h3>QGIS</h3>
+            <p>Варианты запуска:</p>
+            <ul>
+              <li>geosample-qgis.qgs, независимо от ОС. Проект с использованием shape-файлов и растров GeoTIFF.</li>
+              <li>geosample-grass-qgis.qgs, независимо от ОС. Проект с использованием базы данных GRASS. </li>
+              <li>geosample-sqlite-qgis.qgs, независимо от ОС. Проект с использованием SQLite/SpatiaLite базы векторных данных и растров GeoTIFF. Для работы с относительными путями необходим QGIS 1.4.0, а лучше <a href="/qa/qgis-osgeo4w.html">ночная сборка</a>. В более ранних версиях не работает сохранение  относительных путей к БД, возможна потеря слоев.</li>
+            </ul>
+            <p>В версиях QGIS 1.3 и ниже возможна потеря слоёв из-за непонимания относительных ссылок.</p>
+            <h3>SAGA</h3>
+            <p>Запуск проекта: geosample-saga.sprj. Только Windows.</p>
+            <h3>SpatiaLite GIS</h3>
+            <p>Работа только с векторными данными, отсутствуют группы слоёв. Для использования: распаковать в любую папку, запустить SpatiaLite GIS и открыть ранее распакованную базу (подключиться к ней).</p>
+            <h3>uDIG</h3>
+            <p>Запуск проекта: указываем каталог udig-project.udig (linux), папку geosample (windows). </p>
+            <p>Не поддерживает относительные ссылки, группы слоёв, прозрачность. В версии под  linux не удалось раскрасить слои, так как udig не определил поля шейп  файлов. Данные архива для Windows версии должны быть распакованы в c:/geosample, для Linux - /usr/share/geosample.</p>
+            <h2><a name="authors"></a>5. Участники создания</h2>
+            <p>Эта страница - результат коллективного проект, над которым работало много людей. Результат был бы невозможен без: </p>
+            <ul>
+              <li><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=538" target="_blank">Boris</a> - версия данных и проекта для Mapinfo;</li>
+              <li><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=6901" target="_blank">_DR_</a> - пример данных MODIS из Blue Marble (май) и вырезка соответствующего фрагмента, проект для uDig. </li>
+              <li><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=6906" target="_blank">Ace</a> - проект и легенды для gvSIG; </li>
+              <li><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=7975" target="_blank">vveco</a> - проект и легенды для ArcGIS;</li>
+              <li><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=5325" target="_blank">voltron</a> - перевод векторных данных в SQLite/SpatiaLite, проект и легенды для Arcview GIS, SpatiaLite GIS;</li>
+              <li><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=31" target="_blank">anna</a> - перевод атрибутики  слоя hydro-a;</li>
+              <li><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=6850" target="_blank">Mavka</a> - демо для GeoServer, WMS/WFS/OpenLayers, SAGA;</li>
+              <li><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=6597" target="_blank">KolesovDmitry</a> - набор для GRASS, формирование описания; </li>
+              <li><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=7619" target="_blank">SS_Rebelious</a> - MapWindow;</li>
+              <li><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=8280" target="_blank">Geobotanic</a> - перевод атрибутики слоя <a href="http://gis-lab.info/forum/viewtopic.php?f=5&t=3840" target="_blank">почв</a>;</li>
+              <li>amuriy - tcl/tk и wxpython проекты для GRASS; </li>
+              <li><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=2" target="_blank">sim</a> - проект для QGIS, QGIS-GRASS, OpenJUMP, общая координация, упаковка, документация. </li>
+            </ul>
+            <p class="discuss"><span><!--#include virtual="/scripts/forum-comments-num.php?i=3728"--></span></p>
+            <div class="links">
+				<h2>Ссылки по теме</h2>
+					<ul>
+						<li><a href="http://grass.gis-lab.info/download/data.php" target="_blank" class="external">GRASS sample data</a></li>
+					  </ul>
+			</div>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<p class="status"><span>Дата создания: 30.07.2009
+<br>Автор(ы): <a href="/forum/memberlist.php?mode=viewprofile&u=2" target="_blank">Максим Дубинин</a></span></p>
+<!--#include virtual="/inc/footer2.php" -->

@@ -1,0 +1,248 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Установка QGIS для Linux</title>
+<!--#include virtual="/inc/header2.txt" -->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Вопросы и ответы</a></li>
+</ul>
+<!--Contents start-->
+
+<h1>Установка QGIS для Linux</h1>
+<p class="ann">Описание разных способов установки для разных дистрибутивов Linux.</p>
+<p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=2586"--></span></p>
+            <p>Установку Quantum GIS можно произвести несколькими способами, в порядке усложнения:</p>
+            <ol>
+                  <li><a href="#01">Автоматическая установка с помощью пакетного менеджера вашего дистрибутива</a></li>
+                  <li><a href="#02">Автоматическая установка с дополнительной настройкой пакетного менеджера вашего дистрибутива</a></li>
+                  <li><a href="#03">Установка из исходного кода </a></li>
+</ol>
+
+
+            <p>Как известно преимущество первого способа это простота, преимущество второго, большая скорость работы приложения, и возможность создание бинарной версии под конфигурацию вашей системы.</p>
+            <p>Следующие действия по установке QGIS подразумевают, что у вас есть подключение к Internet и установлены соответствующие пакетные менеджеры. Если они не установлены по умолчанию (что маловероятно), то установите их.</p>
+            <p>
+              <!-- Первый раздел -->Данная статья описывает установку QGIS версии 1.0 </p>
+            <h2><strong><a name="01" id="01"></a></strong>1. Установка из дистрибутива без дополнительной настройки </h2>
+            <p><strong> Debian</strong>  и подобные:</p>
+	    <p>Переключитесь  в  root с помощью sudo bash в Ubuntu или su в Debian; для этого вы должны ввести пароль (свой в Ubuntu или пароль root – в Debian). Затем наберите:</p>
+	    <pre>apt-get install qgis</pre>
+
+<!-- Второй раздел -->
+            <p><strong>RedHat</strong> и подобные:</p>
+            <p>Переключитесь  в администратора root с помощью su; для этого вы должны ввести пароль. Затем наберите:              </p>
+            <pre>yum install qgis</pre>
+            </p>
+            <p><strong>Slackware</strong> и подобные:</p>
+            <p>Переключитесь в администратора  root с помощью su; для этого вы должны ввести пароль. Затем наберите:              </p>
+            <pre>slapt-get --install qgis</pre>
+            </p>
+            <p>В результате этих действие должна выполниться  установка QGIS и всех необходимые зависимостей. Если этого не произошло и вы получили сообщение об ошибке, перейдите к шагу 2.</p>
+            <p><strong>Arch Linux</strong>: </p>
+            <p>Получите права администратора root с помощью <strong>su</strong>; для этого вы должны ввести пароль. Затем наберите:</p>
+            <pre>pacman -Sy qgis grass</pre>
+            <p>вместо <strong>su</strong> можно использовать <strong>sudo</strong>:</p>
+            <pre>sudo pacman -Sy qgis grass</pre>
+            <p>Заметьте: в файле /etc/pacman.conf у вас должен быть подключен   репозиторий [community]. Обычно   он уже подключен по-умолчанию.</p>
+            <h2><strong><a name="02" id="02"></a></strong>2. Установка из дистрибутива с дополнительной настройкой</h2>
+            <p><strong>Debian</strong> и подобные:</p>
+            <p>В /etc/apt/sources.list если у вас Ubuntu Hardy добавьте:		          </p>
+            <pre>deb http://ppa.launchpad.net/qgis/ubuntu hardy main</pre>
+		        </p>
+            <p>или, если у вас Ubuntu Gutsy:              </p>
+            <pre>deb http://ppa.launchpad.net/qgis/ubuntu gutsy main</pre>
+            </p>
+            <p>Выполните с правами root:              </p>
+            <pre>sudo apt-get update</pre>
+            </p>
+            <p>Вернитесь к шагу 1 и повторите установку.</p>
+            <p><strong>RedHat</strong> и подобные:</p>
+            <p>Если у вас пакетный менеджер yum, то в /etc/yum.repos.d/fedora.repo добавьте:</p>
+            <pre>[fedora-qgis]
+name=Fedora QGIS
+baseurl=http://www.silfreed.net/download/repo/packages/qgis/
+enabled=1
+gpgcheck=0</pre>
+            </p>
+            <p>Вернитесь к шагу 1 и повторите установку.</p>
+            <p><strong>OpenSUSE</strong> и подобные:</p>
+            <p>Для пакетного  менеджера YaST, добавьте в него <a href="http://ru.opensuse.org/Добавление_репозитариев_в_YaST" target="_blank" class="external">репозиторий</a>.              </p>
+            <pre>http://download.opensuse.org/repositories/Application:/Geo/</pre>
+            </p>
+            <p>Вернитесь к шагу 1 и повторите установку.</p>
+            <p><strong>Slackware</strong> и подобные:</p>
+            <p>Если у вас пакетный менеджер slapt-get, то добавьте в  /etc/slapt-get/slapt-getrc:              </p>
+            <pre>SOURCE=http://darkstar.ist.utl.pt/slackware/addon/slacky/slackware-12.1/</pre>
+            </p>
+            <p>на данный момент в этом репозитории   доступна версия QGIS 0.10.0.</p>
+            <p>Если у вас пакетный менеджер  swaret, то в /etc/swaret.conf добавьте:              </p>
+            <pre>REPOS_ROOT=Slacky%http://darkstar.ist.utl.pt/slackware/addon/slacky/slackware-12.1/</pre>
+            </p>
+            <p>но и здесь доступна только версия  0.10.0.</p>
+            <p>Вернитесь к шагу 1 и повторите установку.</p>
+            <p>Если после этих  действий установить QGIS не удастся, то скачайте ее версию для вашего дистрибутива  с сайта QGIS <a href="http://download.qgis.org/downloads.rhtml" target="_blank" class="external">http://download.qgis.org/downloads.rhtml</a> зайдите в директорию  с пакетом и выполните описанные выше действие по установке, используя вместо qgis имя скачанного  пакета. Также необходимо будет вручную скачать все дополнительные для установки QGIS  пакеты.</p>
+            <p>&nbsp;</p>
+            <h2><strong><a name="03" id="03"></a></strong>3. Установка из исходного кода</h2>
+            <h3><strong> Ubuntu 8.04</strong></h3>
+            <p>Цель этого руководства  - объяснение как собрать QGIS из исходников, используя только бинарные пакеты всех зависимостей. Подробное руководство на английском языке доступно в <a href="http://svn.osgeo.org/qgis/trunk/qgis/INSTALL" target="_blank" class="external">дистрибутиве программы</a>. </p>
+            <p>Необходимые пакеты для QGIS доступны в  «universe» компонентах Ubuntu. По умолчанию они не активированы, чтобы активировать  их:</p>
+            <ol>
+              <li>Откройте для редактирования файл  /etc/apt/sources.list.</li>
+              <li>Уберите комментарии со всех строчек, начинающихся  с «deb»</li>
+            </ol>
+            <p>Обновите локальную  базу данных исходников:              </p>
+            <pre>sudo apt-get update</pre>
+            </p>
+            <p>Установка Qt4:</p>
+            <pre>sudo apt-get install libqt4-core libqt4-dbg \
+libqt4-dev libqt4-gui libqt4-qt3support libqt4-sql lsb-qt4 qt4-designer \
+qt4-dev-tools qt4-doc qt4-qtconfig uim-qt gcc libapt-pkg-perl resolvconf</pre>
+            </p>
+            <p>Внимание: Если вы выполните эти команды в системе, где уже установлен  Qt3, то произойдет конфликт между Qt3 и Qt4. Например, qmake будет указывать на  версию Qt3, а не Qt4. Пакеты Qt4 и Qt3 в Ubuntu спроектированы так, чтобы они были  установлены в разных директориях. Если установлены оба этих пакета, то должно быть  три исполняемых qmake:</p>
+            <pre>/usr/bin/qmake -> /etc/alternatives/qmake
+/usr/bin/qmake-qt3
+/usr/bin/qmake-qt4</pre>
+            </p>
+            <p>То же самое относится и ко всем программам  из Qt. Если установлена только Qt4, этот шаг можно пропустить. Перед тем как начать сборку QGIS, необходимо установить Qt4 по умолчанию.  После установки при необходимости верните по умолчанию Qt3. Что бы установить  Qt4 по умолчанию выполните:	  </p>
+            <pre>sudo update-alternatives --config qmake
+sudo update-alternatives --config uic
+sudo update-alternatives --config designer
+sudo update-alternatives --config assistant
+sudo update-alternatives --config qtconfig
+sudo update-alternatives --config moc
+sudo update-alternatives --config lupdate
+sudo update-alternatives --config lrelease
+sudo update-alternatives --config linguist</pre>
+            </p>
+            <p>После выполнения каждой из команд, будет  появляться вопрос с выбором приложения соответствующего Qt4.  </p>
+            <p><strong>Установка  дополнительного ПО необходимого для QGIS</strong></p>
+            <pre>sudo apt-get install gdal-bin libgdal1-dev libgeos-dev proj \
+libgdal-doc libhdf4g-dev libhdf4g-run python-dev \
+libgsl0-dev g++ libjasper-dev libtiff4-dev subversion \
+libsqlite3-dev sqlite3 ccache make libpq-dev flex bison cmake txt2tags \
+python-qt4 python-qt4-dev python-sip4 sip4 python-sip4-dev</pre>
+            </p>
+            <p>Пользователям Debian лучше использовать  libgdal-dev.</p>
+            <p>Замечание: Для привязки QGIS к python необходимы SIP  &gt;= 4.5 и PyQt4 &gt;= 4.1! В некоторых GNU/Linux дистрибутивах (например Debian или SuSE), есть только SIP &lt; 4.5 и  PyQt4 &lt; 4.1. Поэтому, чтобы обеспечить поддержку python, вам нужно будет собрать  и установить их из исходников.</p>
+            <p><strong>Установка GRASS</strong></p>
+            <p>Если вам не нужна поддержка GRASS, можете  пропустить этот раздел.
+Для установки выполните:              </p>
+            <pre>sudo apt-get install grass libgrass-dev libgdal1-1.4.0-grass</pre>
+            </p>
+            <p>Возможно придется явно указать версию  grass например llibgdal1-1.3.2-grass</p>
+            <p><strong>Настройка ccache (Опционально)</strong></p>
+            <p>Чтобы увеличить скорость компиляции выполните:</p>
+            <pre>cd /usr/local/bin
+sudo ln -s /usr/bin/ccache gcc
+sudo ln -s /usr/bin/ccache g++ </pre>
+            </p>
+            <p><strong>Подготовка среды разработки</strong></p>
+            <p>Если вся разработка ведется в  $HOME/dev/&lt;languade&gt;, то создайте рабочее окружение так:</p>
+            <pre>mkdir -p ${HOME}/dev/cpp
+cd ${HOME}/dev/cpp </pre>
+            </p>
+            <p>С этой директорией будут связаны все последующие  инструкции.</p>
+            <p><strong>Получение  исходников QGIS</strong></p>
+            <p>Исходники могут быть получены двумя способами.  Используя анонимных вход, если у вас нет прав на редактирование в репозитории  QGIS, либо использую доступ разработчика, если у вас есть права на внесение изменений  в код.</p>
+            <p> Получить исходный код анонимно:</p>
+            <pre>cd ${HOME}/dev/cpp
+svn co https://svn.osgeo.org/qgis/branches/Release-1_0_0/ Release-1_0_0</pre>
+                  <p>Получить исходный код как разработчик:</p>
+<pre>cd ${HOME}/dev/cpp
+svn co --username &lt;yourusername&gt; https://svn.osgeo.org/qgis/branches/Release-1_0_0/ Release-1_0_0</pre>
+            </p>
+            <p>При первом получении исходника вам предложат  принять сертификат qgis.org. Нажмите 'p' чтобы принять его насовсем (при последующих запусках это сообщение повторяться не будет).</p>
+            <p><strong>Компиляция</strong></p>
+            <p>              Чтобы можно было использовать бинарные пакеты QGIS вместе с  разрабатываемой (собранной из исходников)  версией, разрабатываемую версию  QGIS можно компилировать в директорию ~/apps, это позволит избежать конфликтов с пакетам Ubuntu. Для этого нужно сделать следующее:              </p>
+            <pre>mkdir -p ${HOME}/apps</pre>
+              <p> Теперь мы создаем директорию сборки и запускаем ccmake:
+<pre>cd qgis
+mkdir build
+cd build
+ccmake .. </pre>
+            Когда вы запустите ccmake (обратите внимание &quot;..&quot; обязательны!), появится меню, в котором  вы можете произвести настройку параметров сборки QGIS. Если у вас нет администраторских прав  или вы не хотите перезаписывать ранее установленную версию QGIS (например пакетным менеджером), то установите  CMAKE_INSTALL_PREFIX туда, где вы имеете права на запись (например /home/qgisuser/apps). Далее, чтобы произвести  конфигурацию нажмите 'c', 'e' чтобы отклонить ошибки, которые могут появиться и  'g', чтобы с генерировать makefile'ы. Учтите, что иногда 'c' нужно нажать несколько  раз перед тем как появится опция 'g'.  После  завершения генерации, для выхода из ccmake нажмите 'q'.</p>
+            <p>Компилируем и устанавливаем:            </p>
+            <pre>make
+sudo make install </pre>
+            </p>
+            <p><strong>Запуск QGIS</strong></p>
+            <p> Теперь вы можете запустить QGIS:</p>
+              <pre>$HOME/apps/bin/qgis</pre>
+            <p>Если все было сделано правильно, QGIS  запустится.</p>
+            <p><strong>Arch Linux </strong></p>
+            <p>Для установки QGIS из исходного кода (SVN) необходимо сначала установить ее из репозитория описанным выше способом. Установятся все необходимые зависимости. Затем сборка производится с помощью Arch Building System.</p>
+            <p>Для сборки понадобится файл сборки PKGBUILD (<a href="/other/pkgbuild.gz">скачать</a>). </p>
+            <pre>pkgname=qgis-svn
+pkgver=12957
+pkgrel=1
+pkgdesc="A Geographic Information System (GIS) that supports vector, raster & database formats."
+url="http://qgis.org/"
+license=('GPL')
+arch=('i686' 'x86_64')
+depends=('jasper' 'curl' 'qt' 'xorg-server' 'gsl' 'grass' 'python' 'pyqt' 'giflib' 'xerces-c')
+makedepends=('postgis' 'netcdf' 'cmake' 'svn')
+conflicts=('qgis')
+replace=('qgis')
+options=('force' '!makeflags')
+#source=('qgis.desktop')
+#md5sums=('d41d8cd98f00b204e9800998ecf8427e')
+
+_svntrunk=https://svn.osgeo.org/qgis/trunk/qgis
+_svnmod=qgis
+
+build() {
+
+        if [ -d $_svnmod/.svn ]; then
+          (cd $_svnmod && svn up -r $pkgver)
+        else
+          svn co $_svntrunk --config-dir ./ -r $pkgver $_svnmod
+        fi
+
+        msg "SVN checkout done or server timeout"
+        msg "Starting make..."
+
+        rm -rf "$srcdir/$_svnmod-build"
+        cp -r "$srcdir/$_svnmod" "$srcdir/$_svnmod-build"
+        cd "$srcdir/$_svnmod-build"
+        # Fix insecure RPATH is weird, but just works ;)
+        echo "os.system(\"sed -i '/^LFLAGS/s|-Wl,-rpath,.\+ ||g' gui/Makefile core/Makefile\")" >> python/configure.py.in
+
+        mkdir build
+        cd build
+        cmake ../ \
+                -DCMAKE_BUILD_TYPE=Release \
+                -DCMAKE_SKIP_RPATH=ON \
+                -DCMAKE_INSTALL_PREFIX=/usr \
+                -DGRASS_PREFIX=/opt/grass \
+                -DQGIS_MANUAL_SUBDIR=share/man
+
+        sleep 10
+        make || return 1
+        make install DESTDIR=$pkgdir
+
+        # install some freedesktop.org compatibility
+        install -D -m644 ../../qgis.desktop \
+                $pkgdir/usr/share/applications/qgis.desktops
+} </pre>
+            <p><a href="/other/pkgbuild.gz">Скачайте</a> или создайте этот файл, перейдите в папку с файлом. Получите права администратора root с помощью su и выполните команду:</p>
+            <pre>makepkg PKGBUILD</pre>
+            <p>Когда пакет будет собран и скомпилирован, выполните команду:</p>
+            <pre>pacman -U qgis-svn-версия.pkg.tar.gz</pre>
+            <p>Заметьте, установленная из репозитория программа будет ЗАМЕНЕНА SVN-версией. </p>
+            <p class="discuss"><span>
+              <!--#include virtual="/scripts/forum-comments-num.php?i=2586"-->
+            </span></p>
+            <div class="links">
+				<h2>Ссылки по теме</h2>
+					<ul>
+						<li><a href="qgis-vector.html">Создание и редактирование векторных слоев средствами QGIS</a></li>
+						<li><a href="qgis-standalone.html">Создание приложения на базе набора библиотек QGIS на Python</a></li>
+					</ul>
+			</div>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<p class="status"><span>Дата создания: 03.11.2008
+<br>Автор(ы): <a href="/forum/memberlist.php?mode=viewprofile&u=7290" target="_blank">Алексей Попрядухин</a></span></p>
+<!--#include virtual="/inc/footer2.php" -->

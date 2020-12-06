@@ -1,0 +1,63 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Установка SQLite и SpatiaLite для Windows</title>
+<!--#include virtual="/inc/header2.txt" -->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Вопросы и ответы</a></li>
+</ul>
+<!--Contents start-->
+<h1>Установка SQLite и SpatiaLite для Windows</h1>
+<p class="ann">Краткая аннотация</p>
+            <p>SpatiaLite and VirtualShape are SQLite extensions, so you need  to install SQLite too, in order to allow them to operate.<br />
+              There are various alternative ways you can follow at your choice:            </p>
+            <ol>
+  <li>the standard way:
+    <ul>
+        <li>go to the <a href="http://www.sqlite.org/download.html">SQLite downloads</a> and get the latest sqlite-version.zip and sqlitedll-version.zip</li>
+      <li>get the spatialite-win-1.0.zip</li>
+      <li>neither SQLite nor SpatiaLite requires a Windows installer;<br />
+        you simply have to unzip what you've just downloaded, putting all the stuff together in the same folder</li>
+      <li>to get started you can launch the sqlite3.exe program, and then .load 'SpatiaLite.dll'<br />
+        That's all</li>
+    </ul>
+  </li>
+  <li>the GUI tool way:
+    <ul>
+        <li>you can find lots of GUI tools supporting SQLite.<br />
+          May well be one of them supports extensions loading; all the ones I tested refused to do this.</li>
+      <li>If you have best luck than me, then you simply have to get the spatialite-win-1.0.zip</li>
+      <li>unzip it somewhere</li>
+      <li>then you start you preferred SQLite GUI tool and after .load 'SpatiaLite.dll'<br />
+        If this works, you are ready to start</li>
+    </ul>
+  </li>
+  <li>the SQLiteGeo way:
+    <ul>
+        <li>if you think the first two ways are too complicated for you, get the sqlitegeo-win-1.0.zip</li>
+      <li>this one is simply a standard sqlite3 slightly modified in order to support  		automatically loading for SpatiaLite and VirtualShape</li>
+      <li>SQliteGeo does not requires a Windows installer;<br />
+        you simply have to unzip what you've just downloaded, putting all the stuff together in the same folder</li>
+      <li>to get started you can launch the SQLiteGeo.exe program. That's all.<br />
+        [you have not to type .load 'SpatiaLite.dll' at all; it's implicit]</li>
+    </ul>
+  </li>
+</ol>
+Then I suggest you to download the test.db database and follow the tutorial step by step;<br />
+it's the fastest way to become accustomed with SpatiaLite and VirtualShape
+<p>&nbsp;</p>
+            <p class="discuss">
+				<span><!--#include virtual="/scripts/forum-comments-num.php?i=852"--></span>
+			</p>
+			<div class="links">
+			<h2>Ссылки по теме</h2>
+			<ul>
+               <li><a href="spatiallite.html">Начало работы с SpatiaLite</a></li>
+               <li><a href="http://cran.r-project.org/web/packages/rgdal/index.html" target="_blank" class="external">Ссылка на дополнительный источник информации внешняя</a></li>
+			</ul>
+			</div>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<!--#include virtual="/inc/footer2.php" -->

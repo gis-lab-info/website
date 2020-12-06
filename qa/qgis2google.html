@@ -1,0 +1,75 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Открытие объектов из QGIS в Google Maps/Earth</title>
+<!--#include virtual="/inc/header2.txt" -->
+<!--Contents start-->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Вопросы и ответы</a></li>
+</ul>
+<h1>Открытие объектов из QGIS в Google Earth</h1>
+<p class="ann">Описание инструмента для QGIS</p>
+<p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=2615"--></span></p>
+<ol>
+  <li><a href="#01">Введение</a></li>
+  <li><a href="#02">Получение и исходный код </a></li>
+  <li><a href="#03">Демонстрация</a></li>
+  </ol>
+<!-- Первый раздел -->
+<h2><strong><a name="01" id="01"></a>1. Введение</strong></h2>
+<p>Данное расширение  дает возможность запустить Google Earth и быстро переместив туда объекты, указанные пользователем в окне QGIS. Открытые в Google Earth объекты хранятся во временной папке и удаляются после закрытия программы. Может импортироваться символика слоя или использоваться новая, настраиваемая отдельно. При импорте для подписывания объектов может также импортироваться содержимое поля NAME. Расширение работает только с векторными слоями.</p>
+<p>Расширение протестировано и работает в среде Windows, QGIS 1.5 и выше, Google Earth 5 и выше. </p>
+<p>Система координат данных слоя должна быть Geographic (широта/долгота), WGS 84 (EPSG: 4326),  данные также могут быть в другой географической системе координат, но будут рассматриваться как 4326. Система координат вида карты не важна, вы можете назначить любую, важна только исходная система координат данных. Если после отправки объекта или объектов в Google Earth он зумировался на точке с координатами 0,0, проверьте систему координат данных, скорее всего она не географическая, а спроецированная (метрическая).</p>
+<h3>Инструмент &quot;Открыть объект&quot; </h3>
+<p><img src="../images/qgis2google-04.png" alt="qgis 2 google maps" width="48" height="48"></p>
+<p>При щелчке на объекте активного слоя этот объект конвертируется в KML и открывается окно Google Earth с открытым только что сконвертированным объектом. Атрибутивная информация наследуется из свойств слоя или специальных настроек. </p>
+<h3>Инструмент &quot;Открыть объекты&quot;</h3>
+<p><img src="../images/qgis2google-05.png" alt="qgis 2 google earth" width="48" height="48"> </p>
+<p>То же самое, что и инструмент выше, но переносится не один объект, а весь слой целиком. Так же импортируется легенда (единое условное обозначение или уникальный символ) и настройки прозрачности. </p>
+<h3>Настройки</h3>
+<p><img src="../images/qgis2google-06.png" alt="qgis 2 google earth" width="48" height="47"></p>
+<p>Настройки стилей, которые будут применены взамен текущих настроек стилей слоя. Для использования общих настроек стиля слоя, а не текущих, должен быть включен переключатель &quot;Override layer's current style settings&quot;.</p>
+<p align="center"><img src="../images/qgis2google-07.gif" alt="qgis 2 google earth" width="272" height="432"></p>
+<h2><strong><a name="02" id="02"></a></strong>2. Получение и исходный код </h2>
+<p>Для начала работы с инструментом в среде Windows:</p>
+<ol>
+  <li> Скачайте модуль <a href="http://svn.gis-lab.info/qgis2google2/qgis2googleplugin.dll">qgis2google</a> </li>
+  <li>Переместите модуль в каталог установки QGIS\Plugins, если вы устанавливали QGIS через OSGeo4w, то путь к папке может выглядеть примерно так: C:\Gis\OSGeo4W\apps\qgis\plugins</li>
+  <li>Включите модуль используя Менеджер модулей (<em>Модули\Управление модулями</em>) </li>
+</ol>
+<p align="center"><img src="/images/qgis2google-06.gif" alt="georef interface" width="559" height="404"></p>
+<p>Исходный код модуля на языке C++ доступен через SVN.</p>
+<pre>svn checkout http://svn.gis-lab.info/qgis2google2 qgis2google2</pre>
+<p>Для компиляции расширения в Linux: </p>
+<p>1. Получите код плагина из svn в папку с плагинами QGIS qgis/src/plugins:</p>
+<pre>cd qgis/src/plugins
+svn checkout http://svn.gis-lab.info/qgis2google2 qgis2google2</pre>
+<p> 2. Добавьте имя папки с кодом плагина в CMakeLists.txt находящийся в папке плагинов:</p>
+<pre>cd qgis/src/plugins
+nano CMakeLists.txt
+SUBDIRS (qgis2google2)</pre>
+<p> 3. Запустите сборку QGIS:</p>
+<pre>cd qgis/build
+ccmake ..
+make && make install</pre>
+<h2><strong></strong></h2>
+<h2><strong><a name="03" id="03"></a></strong>3. Демонстрация</h2>
+<p>Вы можете посмотреть видео-демонстрацию по <a href="/images/qgis2google-09.swf">этой ссылке</a> (предупреждение видео большого размера 100 Мб).</p>
+<p>Результат экспорта слоя Экорегионы из набора <a href="/qa/geosample.html">Геосэмпл</a>.</p>
+<p align="center"><img src="/images/qgis2google-08.gif" alt="georef interface" width="700" height="470"></p>
+<p class="discuss">
+		   <span><!--#include virtual="/scripts/forum-comments-num.php?i=2615"--></span>
+		</p>
+            <div class="links">
+				<h2>Ссылки по теме</h2>
+					<ul>
+						<li><a href="open-in-google.html">Открытие нужной точки из Arcview GIS в Google Maps/Earth</a></li>
+					  </ul>
+			</div>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<p class="status"><span>Дата создания: 08.12.2008
+<br>Автор(ы): <a href="/forum/memberlist.php?mode=viewprofile&u=2" target="_blank">Максим Дубинин</a></span></p>
+<!--#include virtual="/inc/footer2.php" -->

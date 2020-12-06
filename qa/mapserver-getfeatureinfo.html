@@ -1,0 +1,187 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Особенности работы с запросами GetFeatureInfo для организации сервиса WMS на базе MapServer</title>
+<!--#include virtual="/inc/header2.txt" -->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Вопросы и ответы</a></li>
+</ul>
+<!--Contents start-->
+<h1>Особенности работы с запросами GetFeatureInfo для организации сервиса WMS  на базе MapServer</h1>
+<p class="ann">Запрос GetFeatureInfo возвращает информацию об объекте (объектах), расположенных в локации запроса, указанного, например, кликом мыши.</p>
+<p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=5284"--></span></p>
+<p>
+  <!-- Первый раздел --><!-- Второй раздел -->
+  Создание сервиса WMS с помощью MapServer описано в соответствующей <a href="http://gis-lab.info/qa/mapserver-wms.html">статье</a>. Эта статья рассматривает некоторые особенности настройки слоёв WMS, доступных для запросов <strong>GetFeatureInfo</strong>. Эти запросы применяются для получения информации об объектах. </p>
+<p>В MapServer результат ответа на запрос GetFeatureInfo может быть представлен в одном из трёх форматов:</p>
+<ul>
+  <li>text/plain - простой текст (используется по умолчанию);</li>
+  <li>text/html - текст в формате html;</li>
+  <li>application/vnd.ogc.gml - ответ в формате GML.</li>
+  </ul>
+
+<p>Чтобы сообщить MapServer в каком виде вы хотите получить результаты, необходимо в URL как параметр передать нужный формат, например, info_format=application/vnd.ogc.gml. Если в info_format ничего не передавать, то результат будет возвращен в формате text/plain. Далее рассмотрим особенности использования каждого формата.</p>
+<p>Вне зависимости от формата ответа, <strong>обязательным</strong> условием использования запросов является прсутствие в разделе LAYER тега <strong>&quot;TEMPLATE&quot;</strong> с указанием на некоторый файл (фактически, этот файл может быть пустым или вовсе отсутствовать). Файл, указанный в этом теге, будет непосредственно использоваться только в случае формата ответа text/html.</p>
+<pre>MAP
+   ...
+       LAYER
+          ...
+          TEMPLATE template.html
+          ...
+       END
+   ...   
+END
+</pre>
+<h3><strong>text/plain</strong></h3>
+<p>Для запроса результатов в этом формате, необходимо передать в URL info_format=text/plain, либо ничего не передавать, так как этот формат ответа используется по умолчанию. Также, по умолчанию результат запроса в text/plain всегда пуст, по причине того, что все атрибутивные поля слоя заблокированы. Чтобы снять блокировку, необходимо воспользоваться недокументированным тегом <strong>wms_include_items</strong>, поместив его в раздел METADATA объекта LAYER и выставив в значение <strong>&quot;all&quot;</strong>:</p>
+<pre>MAP
+   ...
+   LAYER
+      ...
+      METADATA
+         ...
+         wms_include_items &quot;all&quot;
+         ...
+      END
+      ...   
+   END  
+   ...   
+END
+</pre>
+<p>Ответ в формате text/plain будет иметь следующий вид:</p>
+<pre>GetFeatureInfo results:    
+Layer 'soils'    
+Feature 0:       
+gid = '6'      
+id = '3'      
+FAOSOIL = 'I-Gx-Rx-2c'      
+UNIT = 'I'      
+TYPE = 'LITHOSOLS'      
+NAME = 'Литосоли'</pre>
+<h3><strong>text/html</strong></h3>
+<p>Для запроса результатов в этом формате, необходимо передать в URL info_format=text/html. Однако это не всё, если просто передать этот параметр, то в ответ придёт ошибка <em>WMS server error. Unsupported INFO_FORMAT value (text/html)</em>. Для устранения этой ошибки в раздел WEB/METADATA должна быть включена инструкция &quot;<strong>wms_feature_info_mime_type text/html</strong>&quot;.</p>
+<pre>MAP   
+   ...
+   WEB
+      ...
+      METADATA     
+         ...
+         wms_feature_info_mime_type &quot;text/html&quot;
+         ...
+      END
+      ...   
+   END
+   ...
+END</pre>
+<p>Чтобы сервер смог вернуть ответ в указанном формате, файл шаблона должен быть оформлен надлежащим образом (в том числе разделен на <strong>&quot;HEADER&quot;</strong>, <strong>&quot;TEMPLATE&quot;</strong> и <strong>&quot;FOOTER&quot;</strong>). Условие разнесения шаблона по трём файлам - очень важно, файл, указанный в  <strong>&quot;HEADER&quot;</strong> обрабатывается единожды, в то время как, обращение к файлу  <strong>&quot;TEMPLATE&quot;</strong> происходит каждый раз по мере извлечения записей из БД или файла данных, после того, как все записи были извлечены, обрабатывается файл <strong>&quot;FOOTER&quot;</strong>. В файл <strong>&quot;HEADER&quot;</strong> можно включить, например, ссылку на CSS таблицу и в результате получать достаточно красиво оформленные результаты запросов.</p>
+<pre>MAP   
+   ...
+   LAYER
+      ...
+      HEADER   header.html
+      TEMPLATE template.html
+      FOOTER   footer.html
+      ...
+   END
+   ...   
+END<br></pre>
+<p> Пример содержимого <strong>&quot;HEADER&quot;</strong> (файл header.html):</p>
+<pre>&lt;!-- MapServer Template --&gt;
+&lt;html&gt;
+&lt;head&gt;
+&lt;link rel=&quot;stylesheet&quot; href=&quot;style.css&quot; type=&quot;text/css&quot; /&gt; 
+&lt;meta http-equiv=&quot;content-type&quot; content=&quot;text/html; charset=UTF-8&quot;&gt;&lt;/meta&gt;
+&lt;title&gt;GetFeatureInfo Response&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+   &lt;table&gt;
+      &lt;caption&gt;Имя слоя: soils&lt;/caption&gt;
+         &lt;tbody&gt;
+            &lt;th&gt;FAOSOIL&lt;/th&gt;
+            &lt;th&gt;UNIT&lt;/th&gt;
+            &lt;th&gt;TYPE&lt;/th&gt;
+            &lt;th&gt;NAME&lt;/th&gt;</pre>
+<p>Пример содержимого <strong>&quot;TEMPLATE&quot;</strong> (файл template.html, содержит список полей запроса):</p>
+<pre>&lt;!-- MapServer Template --&gt;
+&lt;tr&gt;
+     &lt;td&gt;[item name=FAOSOIL format=$value escape=none]&lt;/td&gt;
+     &lt;td&gt;[item name=UNIT format=$value escape=none]&lt;/td&gt;
+     &lt;td&gt;[item name=TYPE format=$value escape=none]&lt;/td&gt;
+     &lt;td&gt;[item name=NAME format=$value escape=none]&lt;/td&gt;
+&lt;/tr&gt;</pre>
+<p>Описание параметров шаблона доступно в <a href="http://mapserver.org/mapfile/template.html" class="external">документации</a>.</p>
+<p>Пример содержимого <strong>&quot;FOOTER&quot;</strong> (файл footer.html):</p>
+<pre>&lt;!-- MapServer Template --&gt;    
+    &lt;/tbody&gt;
+  &lt;/table&gt;
+ &lt;/body&gt;
+&lt;/html&gt;</pre>
+<p align="justify">Ответ в формате text/html будет иметь следующий вид:</p>
+<p align="center"><img src="../images/ms-getfeatureinfo-01.gif"></p>
+<h3 align="left"><strong>application/vnd.ogc.gml</strong></h3>
+<p align="left">Для запроса результатов в этом формате, необходимо передать в URL info_format=application/vnd.ogc.gml. Кроме того, в разделе LAYER необходимо выставить тег <strong>DUMP</strong> в значение <strong>TRUE</strong>.</p>
+<pre>MAP
+   ...
+   LAYER
+      ...
+      DUMP TRUE
+      ...
+   END
+   ...   
+END
+</pre>
+<p align="left">По умолчанию, список возвращаемых полей - пуст. Чтобы выбрать нужные поля, воспользуйтесь комбинацией тегов <strong>gml_include_items</strong> и <strong>gml_exclude_items</strong>. Следующий пример демонстрирует формирование списка, состоящего из всех полей за исключением одного:</p>
+<pre>MAP
+   ...
+   LAYER
+      ...
+      METADATA
+         ...
+         gml_include_items &quot;all&quot;
+         gml_exclude_items &quot;NAME&quot;
+         ...
+      END
+      ...
+   END
+   ...   
+END
+</pre>
+<p align="left">При обращении к серверу с указанием данного формата ответа, в ответ вы получите файл в формате GML, который браузер предложит сохранить. В дальнейшем файл может быть просмотрен в любом текстовом редакторе.</p>
+<p align="left">Пример GML файла:</p>
+<pre>&#60;?xml version="1.0" encoding="ISO-8859-1"?&#62;
+
+&#60;msGMLOutput 
+   xmlns:gml=<font>"http://www.opengis.net/gml"</font>
+   xmlns:xlink=<font >"http://www.w3.org/1999/xlink"</font>
+   xmlns:xsi=<font>"http://www.w3.org/2001/XMLSchema-instance"</font>&#62;
+  &#60;soils_layer&#62;
+    &#60;soils_feature&#62;
+      &#60;gml:boundedBy&#62;
+        &#60;gml:Box srsName=<font>"EPSG:4326"</font>&#62;
+          &#60;gml:coordinates&#62;0.584244,-0.786084 2.134148,-0.056728&#60;/gml:coordinates&#62;
+        &#60;/gml:Box&#62;
+      &#60;/gml:boundedBy&#62;
+      &#60;gid&#62;6&#60;/gid&#62;
+      &#60;id&#62;3&#60;/id&#62;
+      &#60;FAOSOIL&#62;I-Gx-Rx-2c&#60;/FAOSOIL&#62;
+      &#60;UNIT&#62;I&#60;/UNIT&#62;
+      &#60;TYPE&#62;LITHOSOLS&#60;/TYPE&#62;
+    &#60;/soils_feature&#62;
+  &#60;/soils_layer&#62;
+&#60;/msGMLOutput&#62;
+</pre>
+<p class="discuss"><span><!--#include virtual="/scripts/forum-comments-num.php?i=5284"--></span></p>
+<div class="links">
+	<h2>Ссылки по теме</h2>
+		<ul>
+			<li><a href="mapserver-wms.html">Создание WMS-сервиса с помощью Mapserver</a></li>
+			<li><a href="http://mapserver.org/ogc/wms_server.html" target="_blank" class="external">WMS Server &mdash; MapServer 5.6.1 documentation</a></li>
+            <li><a href="http://mapserver.org/mapfile/template.html" target="_blank" class="external">Templating &mdash; MapServer 5.6.1 documentation</a></li>
+            <li><a href="http://augusttown.blogspot.com/2010/01/customize-wms-getfeatureinfo-response.html" target="_blank" class="external">Customize WMS GetFeatureInfo response :: GeoServer 2.0 versus MapServer 5.4.2</a></li>
+		</ul>
+</div>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<!--#include virtual="/inc/footer2.php" -->

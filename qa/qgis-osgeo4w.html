@@ -1,0 +1,93 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Установка QGIS с помощью OSGeo4W</title>
+<!--#include virtual="/inc/header2.txt" -->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Вопросы и ответы</a></li>
+</ul>
+<!--Contents start-->
+<h1>Установка QGIS/GRASS с помощью OSGeo4W</h1>
+<p class="ann">Начало работы с рекомендованной к работе ночной сборкой QGIS</p>
+<p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=3009"--></span></p>
+            <p>Одним из настоящих способов начать работу с бесплатными настольными ГИС - QGIS и GRASS под Windows, является ее установка с помощью OSGeo4W.</p>
+            <p>OSGeo4W - специальный установщик, специально предназначенный для установки ПО для работы с пространственными данными, часто имещих много разнообразных зависимостей (связанных программ). Помимо QGIS, с помощью него можно установить GDAL/OGR,  MapServer и многое другое (всего более 70 пакетов). </p>
+            <p>Содержание:</p>
+            <ul>
+              <li><a href="#top">Получение и запуск установщика OSGeo4W</a></li>
+              <li><a href="#select">Выбор и установка пакетов</a></li>
+              <li><a href="#start">Запуск установленного ПО</a> </li>
+              <li><a href="#remove">Удаление</a></li>
+            </ul>
+            <h2>Получение и запуск установщика OSGeo4W</h2>
+            <p>Для начала работы необходимо загрузить <a href="http://download.osgeo.org/osgeo4w/osgeo4w-setup.exe" target="_blank" class="external">последнюю версию OSGeo4W Installer </a>.</p>
+	        <p>Установки
+	      <!-- Второй раздел -->
+	      OSGeo4W, как таковой не понадобится, все что нужно, просто  запустить osgeo4w-setup.exe. В появившемся окне нужно выбрать Advanced Install и нажать Next.</p>
+	    <p align="center"><img src="/images/qgis-osgeo4w-install-01ru.gif" width="513" height="399"></p>
+	    <p>На
+	      следующей странице нужно выбрать метод установки. Доступны следующие варианты:</p>
+	    <ul>
+	      <li>Install from Internet - загрузить и установить из интернет. Загружаемые пакеты будут сохранены для будущего использования</li>
+	      <li>Download without installing - загрузить без установки</li>
+	      <li>Установить из папки  </li>
+	    </ul>
+	    <p align="center"><img src="/images/qgis-osgeo4w-install-02ru.gif" width="513" height="399"></p>
+	    <p>Выберем Install from Internet и нажмем Next. В следующем окне выберем, куда будет установлен OSGeo4W и соответственно все устанавливаемые с ним компоненты, лучше если это будет папка по-умолчанию, без пробелов и русских символов в названии, например C:\OSGeo4W</p>
+	    <p align="center"><img src="/images/qgis-osgeo4w-install-03ru.gif" width="513" height="399"> </p>
+	    <p>Далее будет предложено выбрать папку, куда будут сохранены загружаемые пакеты для установки. Лучше всего, если пакеты будут храниться в той же папке, куда будет установлен сам OSGeo4W, поэтому в качестве папки задаем что-то вроде: C:\OSGeo4W\downloads. Так как этой папки еще не существует, вводим ее вручную. </p>
+	    <p align="center"><img src="/images/qgis-osgeo4w-install-04ru.gif" width="513" height="399"></p>
+	    <p>Нажимаем Next и в следующем окне выбираем один из способов подключения к интернет, по умолчанию Direct Connection. Если вы находитесь за прокси, здесь можно ввести его параметры.</p>
+	    <p align="center"><img src="/images/qgis-osgeo4w-install-05ru.gif" width="513" height="399"></p>
+	    <h2><a name="select"></a>Выбор и установка пакетов</h2>
+	    <p>После нажатия Next будет загружен список доступных пакетов и содержащий информацию об их взаимосвязях. Это информация хранится в файле setup.ini, хранящемся в архивированном виде по адресу http://download.osgeo.org/osgeo4w/setup.ini.bz2</p>
+	    <p align="center"><img src="/images/qgis-osgeo4w-install-06ru.gif" width="513" height="399"></p>
+	    <p><strong>Примечание:</strong></p>
+	    <p>Если Вы получили сообщение об ошибке:</p>
+	  <pre>Невозможно получить setup.ini из http://download.osgeo.org/osgeo4w</pre>
+	  <p>Попробуйте временно отключить брандмауэр (firewall) Windows (Пуск\Панель управления\Брандмауэр). </p>
+	  <p>Если все прошло нормально, после загрузки установщик перейдет в состояние выбора пакетов. Выбор пакетов осуществляется из Cygwin-подобного дерева пакетов, при этом выбор одного из них, автоматически включает необходимые зависимости, без которых этот пакет не сможет работать, что очень удобно. </p>
+	    <p align="center"><img src="/images/qgis-osgeo4w-install-08.gif" width="505" height="388"></p>
+	    <p>Для установки какого-либо компонента нужно найти его в дереве и нажимать на круговую стрелку до тех пор пока надпись Skip не изменится на название пакета. <strong>Важно: не нажимайте на кнопку Default у названия группы компонентов!</strong> </p>
+	    <p><img src="/images/qgis-osgeo4w-install-12.gif" width="113" height="12"> -&gt; <img src="/images/qgis-osgeo4w-install-13.gif" width="106" height="15"></p>
+	    <p>Это приведет к переключению Default на Install и установке всех компонентов из группы, а этого в нашем случае делать не нужно. Необходимо сначала раскрыть группу, а потом установить некоторые из ее компонентов, перечисленные ниже. Например: </p>
+	    <p align="center"><img src="/images/qgis-osgeo4w-install-09ru.gif" width="513" height="442"></p>
+	    <p>Для полной установки QGIS/GRASS, выберем следующие компоненты (версии могут отличаться от показанных на иллюстрации), при выборе некоторых из них, будут автоматически включаться и другие модули (зависимости), это нормально, выключать их не нужно: </p>
+	    <p>Desktop: qgis-dev (обновляется ежедневно, т.н. ночные сборки)</p>
+	    <p>Libs: gdal-python</p>
+	    <p><strong>Внимание: если вы только начинаете пользоваться QGIS, устанавливайте только эти пакеты, других пакетов пока включать не нужно. Окно программы должно выглядеть именно так как на иллюстрации выше, только цифры в колонке Current будут немного другими. </strong></p>
+	    <p>Нажимаем Next.</p>
+	    <p>OSGeo4W автоматически загрузит и установит те пакеты, которые мы выбрали и все связанные с ними (таким образом загружено будет  больше пакетов, чем было выбрано). </p>
+	    <p align="center"><img src="/images/qgis-osgeo4w-install-10ru.gif" width="513" height="419"></p>
+	    <p>После окончания установки будет предложено создать ярлыки на рабочем столе и меню Пуск Windows. Если в составе пакетов был выбран и QGIS/GRASS, то соответствующий ярлык будет установлен и для него в группу OSGeo4W. </p>
+	    <p align="center"><img src="/images/qgis-osgeo4w-install-11ru.gif" width="513" height="419">  </p>
+	    <p>Другой способ запуска установленного QGIS: запуск OSGeo4W Shell и команда qgis.</p>
+	    <p>В дальнейшем, при использовании некоторых модулей расширения, может понадобится доустановить определенные пакеты, например matplotlib для <a href="/qa/statist.html">Statist</a> или обновить установленные. Для этого нужно будет просто еще раз запустить OSGeo4W и дополнительно выбрать не отмеченные в первый раз модули (например matplotlib), все остальные, уже установленные модули обновятся автоматически если это необходимо.</p>
+	    <h2><a name="start"></a>Запуск установленного ПО</h2>
+	    <p>QGIS: Пуск\Программы\OSGeo4W\QGIS или иконка <img src="/images/qgis-osgeo4w-install-15.gif" width="32" height="30"></p>
+	    <p>GRASS:  Пуск\Программы\OSGeo4W\GRASS GIS\ и один из интерфейсов или иконка <img src="/images/qgis-osgeo4w-install-16.gif" width="27" height="30"></p>
+	    <p>Для запуска инструментов GDAL нужно использовать среду OSGeo4W. Для запуска среды, выберите из меню Пуск\Программы\OSGeo4W\ пункт OSGeo4W Shell или иконку: <img src="/images/qgis-osgeo4w-install-17.gif" width="26" height="30">. После запуска должно появиться окно консоли:</p>
+	    <p align="center"><img src="/images/qgis-osgeo4w-install-14.gif" width="668" height="331"></p>
+	    <p>Из этой среды можно запустить:</p>
+	    <ul>
+	      <li>QGIS - введите qgis-dev</li>
+	      <li>GRASS - введите grass64</li>
+	      <li>Утилиты GDAL - сначала введите gdal16 или gdaldev, потом gdal_merge, gdalinfo, и т.п. </li>
+	    </ul>
+	    <h2><a name="remove"></a>Удаление </h2>
+	    <p>При возникновении проблем с QGIS, если другие способы их решения не помогли, рекомендуется произвести чистую переустановку, предварительно полностью удалив QGIS. Для удаления уже установленного QGIS следует:</p>
+	    <ol>
+	      <li>Удалить папку OSGeo4W.</li>
+	      <li>Удалить ветку настроек QGIS из реестра Windows (Пуск\Запуск\regedit.exe). Обычно она хранится в разделе HKEY_USERS, например: HKEY_USERS\S-1-5-21-1294419703-2643849633-1075583040-4140\Software\QuantumGIS</li>
+	      <li>Удалить папку с расширениями: C:\Documents and Settings\USERNAME\.qgis (в Windows 7 C:\Users\USERNAME\.qgis), где USERNAME - имя под которым вы входите в систему. </li>
+	    </ol>
+	    <p class="discuss">
+		   <span><!--#include virtual="/scripts/forum-comments-num.php?i=3009"--></span>
+		</p>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<p class="status"><span>Дата создания: 13.04.2009
+<br>Автор(ы): <a href="/forum/memberlist.php?mode=viewprofile&u=2" target="_blank">Максим Дубинин</a></span></p>
+<!--#include virtual="/inc/footer2.php" -->

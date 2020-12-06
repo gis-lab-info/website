@@ -1,0 +1,226 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Working with metadata using Metatools for QGIS</title>
+<!--#include virtual="/inc/header2.txt" -->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Home</a></li>
+   <li><a href="/qa.html">Articles</a></li>
+</ul>
+<!--Contents start-->
+<h1>Working with metadata using Metatools for QGIS</h1>
+<p class="ann">Description of the metadata editing and viewing tool for QGIS.</p>
+<p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=8390"--></span></p>
+
+<p>There are more then 150 plugin for QGIS. The core QGIS functionality
+is extending very quickly. But until recently it was impossible
+to work in QGIS with such important information as metadata. It makes work with large datasets less productive as there are no possibility to
+view or prepare matadata.</p>
+<p>Until recently there was only one tool, that allowed to open and partly
+edit metadata - <a href="http://plugins.qgis.org/plugins/24/" target="_blank" class="external">MetaEdit</a>
+plugin by Alex Mandel. But its development was stopped about year ago and
+many features were left unimplemented.</p>
+<p>To fix this situation NextGIS developed new QGIS plugin&nbsp;&mdash;
+Metatools, that allows creating, editing and viewing metadata.</p>
+<p>We want to thank Linifiniti Consulting for sponsoring development.</p>
+
+<div style="text-align:center;margin:10px 0;"><a href="http://nextgis.ru" target="_blank"><img height="33" width="100" alt="NextGIS: Open source geospatial solutions" src="http://nextgis.ru/img/nextgis.png" style="margin: 0pt 7px 0pt 0pt; vertical-align: middle;"></a><strong style="font: bold 11px Arial;">Open source geospatial solutions</strong></div>
+
+<p><strong>Contents</strong></p>
+<ol>
+  <li><a href="#01">Installation notes</a></li>
+  <li><a href="#02">How does it work</a></li>
+  <li><a href="#03">Conclusion</a></li>
+  <li><a href="#04">Contacts</a></li>
+</ol>
+
+<h2><strong><a name="01" id="01"></a></strong>1. Installation notes</h2>
+<p>Plugin is available via <a href="http://gis-lab.info/programs/qgis/qgis-repo.xml">GIS-Lab repository</a>.</p>
+<p>Metatools was developed for QGIS 1.5.0 or higher. It also requires
+Qt 4.6.0 or higher and corresponding version of the PyQt, in addition you
+need GDAL library with Python bindings. Windows users can get all necessary
+stuff via standalone QGIS installer or via OSGeo4W installer.</p>
+<p>You can obtain sources from our SVN:</p>
+<pre>svn co http://svn.gis-lab.info/metatools/trunk metatools</pre>
+
+<h2><strong><a name="02" id="02"></a></strong>2. How does it work</h2>
+<p>After installation plugin will create two toolbars and add submenu in
+the &laquo;Plugins&raquo; menu.</p>
+
+<p align="center"><img src="/images/metatools-01.png" alt="Plugin toolbars" width="354" height="40"></img></p>
+<p align="center"><img src="/images/metatools-02.png" alt="Metatools in menu" width="462" height="341"></img></p>
+
+<p>The plugin allows you to create, view and edit metadata in <a href="http://www.iso.org/iso/catalogue_detail.htm?csnumber=26020" target="_blank" class="external">ISO19115/ISO19139</a>
+and <a href="http://www.fgdc.gov/metadata/csdgm/" target="_blank" class="external">FGDC</a>
+standards. Support of other standards such as Dublin Core, will be available
+in future versions. Contributors and sponsors are welcome.</p>
+<p>Both vector (currently only shapefiles) and raster data are supported.
+If layer doesn't have any metadata, plugin will create it on first access attempt
+using selected profile.</p>
+
+<h3>View metadata</h3>
+<p><img src="/images/metatools-03.png" alt="View metadata" width="137" height="137"></p>
+<p>Viewing metadata is implemented via translating it into html-representation.
+This makes it easy to change the appearance of the output just by editing the
+xslt conversion file. Conversion files are stored in the xsl directory
+of the plugin folder, for example in ~/.qgis/python/plugins/Metatools/xsl/.
+To edit these files you need only basic knowledge of the XSLT language
+and your favorite text editor. Here how standard appearance looks:</p>
+
+<p align="center"><img src="/images/metatools-04.png" alt="Metadata viewer" width="836" height="782"></img></p>
+
+<p>You can copy all or only selected metadata from context menu, and then
+paste it as plain text or HTML into another editor. Also from this menu
+it is possible to print metadata.</p>
+
+<h3>Edit metadata</h3>
+<p><img src="/images/metatools-05.png" alt="Edit metadata" width="137" height="137"></p>
+<p>Metadata editor has two modes: displaying full metadata tree (&laquo;Full
+view&raquo;):
+<p align="center"><img src="/images/metatools-06.png" alt="Metadata editor (full view)" width="888" height="738"></img></p>
+
+<p>and displaying only favorite nodes (&laquo;Filtered view&raquo;): </p>
+<p><img src="/images/metatools-07.png" alt="Metadata editor (filtered view)" width="888" height="738"></img></p>
+<p>Filtered approach allows quick editing of some predefined nodes (for example,
+the filter can be used for quick access to the most used fields), and
+modify all other fileds by searching them in full tree.</p>
+<p>You can create as many filters as you need, current filter can be selected
+in the plugin settings. Filter definition is stored as plain text, so to create
+new filter you should create new text file and fill it with necessary node
+path (one node in each line). Here is an example:</p>
+<pre>
+MD_Metadata -> fileIdentifier
+MD_Metadata -> contact -> CI_ResponsibleParty -> individualName
+MD_Metadata -> contact -> CI_ResponsibleParty -> organisationName
+</pre>
+<p>To find node path: open editor in &laquo;Full view&raquo; mode, select
+necessary node and in right side above edit area you will see full node path.
+You can copy it to clipboard from context menu.</p>
+<p>This path (except type identifier) will be desired filter line. For
+example, node path may look like this:</p>
+<pre>MD_Metadata -> dateStamp -> gco:Date</pre>
+<p>the last part (gco:Date)&nbsp;&mdash; is a type indentifier,
+and should be ommited. So, in the filter file you should paste this string:</p>
+<pre>MD_Metadata -> dateStamp</pre>
+<p>When you finished, save file where you want and in settings dialog select
+it as &laquo;Filter file&raquo;.</p>
+
+<p align="center"><img src="/images/metatools-08.png" alt="Setting up filter" width="376" height="350"></img></p>
+
+<p>You can find sample filter file in the filter folder.</p>
+
+<p>To edit a node, select it in the left side of the editor window, node value
+will be displayed in the &laquo;Edit value&raquo; field in the right side
+of the window, where you can change it. Pressing the &laquo;Apply&raquo;
+button will update metadata. To undo your edits press &laquo;Discard&raquo;
+button. <strong>Warning!</strong> All changes are stored in memory, to save
+edits on disk you need to press &laquo;Save&raquo; button.</p>
+<p>Please remember that entered values are not checked for the accordance
+with the standard schema because of limitations of the development platform.
+Hope this will be fixed in future releases.</p>
+
+<h3>Apply templates</h3>
+<p><img src="/images/metatools-09.png" alt="Apply templates" width="137" height="137"></p>
+<p>For the convenience of preparing metadata for a large number of layers
+plugin provides a template mechanism. Once filling information about institution,
+license, workflow and data type you can apply this information to several
+layers at once.</p>
+<p><strong>Note</strong>: currently templates works only with metadata in
+ISO19115 format, support of the FGDC standard is upcoming.</p>
+
+<p align="center"><img src="/images/metatools-10.png" alt="Applying templates to layers" width="649" height="399"></img></p>
+
+<p>You can create as many templates as you need, to manage templates press
+&laquo;Manage&raquo; button</p>
+
+<p align="center"><img src="/images/metatools-11.png" alt="Manage DataType templates" width="387" height="529"></img></p>
+
+<p>All templates are stored in the subfolders of the templates folder under plugin path.</p>
+<p>After applying, information from template will be saved in the metadata
+file in accordance with the standard.</p>
+<p>In addition to applying templates to the layers in layers list, it is possible to apply
+templates to the external datasets without loading them in QGIS. To do this
+check &laquo;Select files from disk&raquo; checkbox and select necessary
+files.</p>
+
+<p align="center"><img src="/images/metatools-12.png" alt="Applyin templates to files" width="649" height="399"></img></p>
+
+<p>If you want you can extract some information about data such as extent,
+bands number, data type, minimum and maximum value for each raster band
+automatically. This feature can be activated by checking &laquo;Extract
+layer parameters to metadata XML&raquo;. Also when processing raster data
+it is possible to generate previews in user defined format (you can change
+it in plugin settings). To enable this activate &laquo;Generate preview
+image checkbox&raquo;.</p>
+<p>If you have some processing logs, you can embed them into metadata.
+To do this select  log file from disk and plugin will add it to
+the metadata of all layers or files.</p>
+
+<h3>Metadata import and export</h3>
+<p><img src="/images/metatools-13.png" alt="Metadata import" width="137" height="137">&nbsp;
+<img src="/images/metatools-14.png" alt="Metadata export" width="137" height="137"></p>
+<p>Import tool allows to load layer metadata from existing metadata file
+(usefull when layers have similar metadata). Export tool allows to save
+layer metadata in the separate file with any name.</p>
+
+<h3>Validate metadata</h3>
+<p><img src="/images/metatools-15.png" alt="Validate metadata" width="137" height="137"></p>
+<p>This tool is used for metadata file validation (checking for compliance
+with selected standard). It is under development and currently supports
+only FGDC standart and produces ugly and mainly nonreadable reports.</p>
+
+<p align="center"><img src="/images/metatools-16.png" alt="Metadata validation results" width="566" height="204"></img></p>
+
+<h3>Working with FGDC</h3>
+<p>Since several functions for complete FGDC support are still unimplemented
+we've include  two external tools:
+<a href="http://geology.usgs.gov/tools/metadata/tools/doc/tkme.html" target="_blank" class="external">USGS Tkme</a>
+&nbsp;&mdash; editor for FGDC metadata by Peter N. Schweitzer and
+<a href="http://geology.usgs.gov/tools/metadata/tools/doc/mp.html" target="_blank" class="external">mp</a>
+&nbsp;&mdash; metadata validator. These tools can be accessed using toolbuttons:</p>
+<p><img src="/images/metatools-17.png" alt="USGS Tkme" width="32" height="32">&nbsp;&mdash; USGS Tkme</p>
+<p><img src="/images/metatools-18.png" alt="USGS mp" width="32" height="32">&nbsp;&mdash; USGS mp</p>
+<p>This utilities will help you  edit metadata documents according with
+the FGDC requirements and validate existing metadata files. You can run them
+directly from QGIS to handle metadata of the layers.</p>
+
+<p align="center"><img src="/images/metatools-19.png" alt="Editing with Tkme" width="683" height="496"></img></p>
+<p align="center"><img src="/images/metatools-20.png" alt="Validating with mp" width="813" height="532"></img></p>
+
+<h3>Plugin settings</h3>
+<p><img src="/images/metatools-21.png" alt="Plugin settings" width="137" height="137"></p>
+<p>Here you can setup filter for editor &laquo;Filtered view&raquo; mode,
+preview files format, default metadata profile and view stylesheets.</p>
+
+<p align="center"><img src="/images/metatools-08.png" alt="Configure plugin" width="376" height="350"></img></p>
+
+<h2><strong><a name="03" id="03"></a></strong>3. Conclusion</h2>
+<p>At this stage the described plugin is not yet an ideal tool to work with metadata.
+There is no complex validation and extended node editing. It is impossible
+to work with the node properties and there is no full-text search.</p>
+<p>But even now the plugin is quite functional and convenient. The developers
+are worked on adding new functionality and new standards. Let's hope that
+the new versions of plugin will released without this drawbacks.</p>
+
+<h2><strong><a name="04" id="04"></a></strong>4. Contacts</h2>
+<p>If you want report a bug, make suggestion or have a question about the
+plugin, please <a href="http://www.nextgis.ru/contact/">contact us</a>.</p>
+<div style="text-align:center;margin:10px 0;"><a href="http://nextgis.ru" target="_blank"><img height="33" width="100" alt="NextGIS: Open source geospatial solutions" src="http://nextgis.ru/img/nextgis.png" style="margin: 0pt 7px 0pt 0pt; vertical-align: middle;"></a><strong style="font: bold 11px Arial;">Open source geospatial solutions</strong></div>
+
+<!-- обсуждение на форуме, цифра изменяется при публикации статьи -->
+<p class="discuss"><span><!--#include virtual="/scripts/forum-comments-num.php?i=8390"--></span></p>
+
+<div class="links">
+<h2>Links</h2>
+<ul>
+   <li></li>
+   </ul>
+</div>
+
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<p class="status"><span>Дата создания: 10.09.2011
+<br>
+Автор(ы): <a href="/forum/memberlist.php?mode=viewprofile&u=7776" target="_blank">Никулин Евгений</a></span></p>
+<!--#include virtual="/inc/footer2.php" -->

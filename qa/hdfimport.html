@@ -1,0 +1,109 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Импорт данных в формате HDF</title>
+<!--#include virtual="/inc/header2.txt" -->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Вопросы и ответы</a></li>
+</ul>
+<!--Contents start-->
+<h1>Импорт данных в формате HDF</h1>
+<p class="ann">Несколько общедоступных программ, с помощью
+	которых можно работать с форматом HDF и его расширением HDF-EOS. Особенности обработки
+	данных распространяемых в этом формате в этой статье не рассматриваются.</p>
+<p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=821"--></span></p>
+            <p>В следствие развития программы NASA Earth Observing
+              System, широким распространением данных получаемых ее инструментами
+              (<a href="/projects/ss/sensor/aster.html">ASTER</a>, <a href="/projects/ss/sensor/modis.html">MODIS</a>, CERES и др.), встает вопрос, что же с ними делать,
+              так как распространяются они в большинстве своем в формате HDF,
+              который не отличается простотой.</p>
+            <p>Данная заметка не ставит перед собой целью осветить
+              все средства работы с форматом HDF, а скорее только наиболее распространенные
+              и, как кажется авторам, наиболее удобные.</p>
+            <p><b>HDF</b> - Hierarchical Data Format (Иерархический
+              формат данных) разрабатываемый <b>The National Center for Supercomputing
+              Applications</b> (<a href="http://www.ncsa.uiuc.edu" target="_blank" class="external">http://www.ncsa.uiuc.edu</a>)
+              с 1987г. и довольно широко используемый в настоящее время  научным сообществом. Более широкое использование формата ограничено его достаточно большой
+              сложностью. В настоящее время поддержка и развитие формата осуществляется некоммерческой организацией The HDF Group, сайт которой является официальной страницей формата <a href="http://www.hdfgroup.org/" target="_blank" class="external">&gt;&gt;&gt;</a> </p>
+            <p>Формат HDF существует в двух основных версиях 4 и 5, на момент последнего обновления статьи версия HDF5 5 - 1.6.5,
+              HDF4 - 4.2r1.  Для данных дистанционного зондирования
+              (вообще этот формат позиционируется как формат для любых сложных составных
+              данных, включающих разнотипные типы данных, такие как текст, растры,
+              таблицы и т.д.) используются расширения формата адаптированные NASA:
+              например расширение <a href="http://www.hdfgroup.org/hdfeos.html" target="_blank" class="external">HDF-EOS</a> (HDF-Earth Observing System) - это специальная надстройка для формата
+              HDF, позволяющая более эффективно хранить данные получаемые со спутников
+              системы EOS (Terra, Aqua и другие, планируемые). Программное обеспечение для обработки этого формата распространяется через <a href="http://hdfeos.org/index.php" target="_blank" class="external">специальный сайт </a>созданный и поддерживаемый HDF Group.</p>
+            <p>HDF-EOS дополнен следующими форматами данных: grid, swath, point, отличие этих данных от других заключается в
+              наличие пространственной привязки. С точки зрения
+              программирования, программные библиотеки HDF при обращению к HDF-EOS
+              будут вести себя с ними как с обычными HDF данными, игнорируя привязку,
+              поэтому для правильной работы с этим расширением формата HDF, необходимы
+              специальные библиотеки, &quot;понимающие&quot; географическую привязку.</p>
+            <p>HDF-EOS существует в двух основных версиях: v2.x является
+              расширением к HDF v4, v5.x является расширением HDF v5. Эти версии
+              плохо совместимы из-за сильных изменений введенных в формат HDF
+              начиная с версии 5.</p>
+            <p>Программное обеспечение для работы с данными в формате HDF:</p>
+            <ul>
+              <li><a href="http://www.ittvis.com/noesys/index.asp" target="_blank" class="external"> NOeSYS</a> - разработка компании RSINC (автора ENVI). Дает пожалуй
+                самый полный визуальный контроль на данными HDF, <b>иерархически
+                представляет их структуру</b>, позволяет экспортировать любую
+                из компонентов файла (растр, таблицы и т.д.). К сожалению небесплатна,
+                но, кроме собственно демо-версии, по запросу авторам, они предоставляют
+                файл лицензии делающей программу <b>полностью работоспособной</b> на несколько дней. </li>
+            </ul>
+            <table width="400" border="0" align="center">
+              <tr>
+                <td valign="top"><img src="/images/aster-radiocorr4.jpg" width="214" height="288" align="top" border="1" /></td>
+                <td width="5" bgcolor="#CCCCCC">&nbsp;</td>
+                <td valign="top"><img src="/images/aster-radiocorr5.jpg" width="242" height="422" align="top" border="1" /></td>
+              </tr>
+            </table>
+            <ul>
+              <li><a href="http://www.space-research.org" target="_blank" class="external">HDF Explorer</a> - Программное обеспечение португальского производства, так же позволяющее
+                визуализировать иерархическую структуру HDF в удобной для восприятия
+                форме, экспортировать содержимое наборов данных как текст.
+                <ul>
+                  <li><a href="/other/hdfexplorersetup.zip">HDF
+                Explorer</a> v1.1, 7Mb, загрузка через GIS-Lab)</li>
+                  <li><a href="http://www.space-research.org/download/HDFExplorerSetup.exe" target="_blank" class="external">HDF
+                Explorer</a> v1.4.022, 14Mb, загрузка через домашнюю страницу программы) </li>
+                </ul>
+              </li>
+              <li><a href="http://www.hdfgroup.org/hdf-java-html/hdfview/" target="_blank" class="external">HDFView</a> - программное обеспечение от создателей формата HDF, NCSA и Университета Иллинойса. Написана на языке Java, поэтому требует также установки виртуальной машины Java. К сожалению, не позволяет просматривать метаданные (CoreMetadata.0, StructMetadata.0, archiveMetadata.0). </li>
+              <li><a href="http://dynamo.ecn.purdue.edu/%7Ebiehl/MultiSpec/" class="external">Multispec</a> - Учебная программа, позволяющая импортировать растровые данные
+                из формата HDF, не визуализирует иерархическую структуру, не позволяет
+                импортировать текстовые и табличные данные. Бесплатна.</li>
+              <li><a href="/other/hdf2bin.zip">HDF2Bin</a> - Пожалуй наиболее распространенная утилита для конвертирования
+                растров, содержащихся в HDF файле (если они там есть) в простой
+                бинарный растр. В результате работы программы, запустить ее можно
+                так (содержание командной строки):
+                <pre>hdf2bin aster.hdf &gt; logfile.txt</pre>
+                Программа создаст бинарные файлы для каждого из входящего в HDF
+                набора данных, размерность растров по осям записывается в лог-файл.
+              (<a href="mailto:yang@rattler.gsfc.nasa.gov">Wenli Yang</a>, George Mason University)</li>
+              <li>HDP - Утилита, входящая в состав <a href="ftp://ftp.hdfgroup.org/HDF/HDF_Current/bin/" target="_blank" class="external">набора инструментов NCSA</a> (подробное <a href="hdf-dump.html">описание работы</a> с утилитой). Для работы с утилитами входящими в этот набор надо также установить набор библиотек <a href="ftp://ftp.ncsa.uiuc.edu/HDF/lib-external/zlib/" target="_blank" class="external">ZLIB</a>и <a href="ftp://ftp.ncsa.uiuc.edu/HDF/lib-external/szip/2.0/" target="_blank" class="external">SZIP</a>. Результат использования утилиты HDP в принципе должен совпадать с результатом импорта с помощью HDF2Bin. Для работы с HDP, необходимо определить название импортируемого набора данных (это можно сделать с помощью HDF Explorer. Пример импорта слоя влажности почв из данных AMSR-E (содержание командной строки):<br />
+                <pre>hdp dumpsds -n A_Soil_Moisture -o new -b A20040831.hdf</pre>
+              </li>
+            </ul>
+            <p>Особенности использования этого формата для разных
+              данных дистанционного зондирования, таких как например MODIS, IRS,
+            ASTER несколько различаются и в данной заметке не рассматриваются.</p>
+            <p class="discuss">
+				<span><!--#include virtual="/scripts/forum-comments-num.php?i=821"--></span>
+			</p>
+			<div class="links">
+			<h2>Ссылки по теме</h2>
+			<ul>
+               <li><a href="hdf-dump.html">Экспорт данных HDF и HDF-EOS с помощью hdp</a></li>
+			   <li><a href="/qa/aster_radiocorr.html">Радиометрическая коррекция VNIR данных ASTER</a></li>
+			   <li><a href="/docs/hdf.html">Документация по формату HDF, отличия форматов и др.</a></li>
+			</ul>
+			</div>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<p class="status"><span>Дата создания: 26.12.2003
+<br>Автор(ы): <a href="/forum/memberlist.php?mode=viewprofile&u=2" target="_blank">Максим Дубинин</a></span></p>
+<!--#include virtual="/inc/footer2.php" -->

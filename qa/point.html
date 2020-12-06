@@ -1,0 +1,98 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Получение координат точки и координат щелчка мыши</title>
+<!--#include virtual="/inc/header2.txt" -->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Вопросы и ответы</a></li>
+</ul>
+<!--Contents start-->
+<h1>Получение координат точки и координат щелчка мыши</h1>
+<p class="ann">Получение координат точки и простейший скрипт на Avenue с комментариями</p>
+<p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=2333"--></span></p>
+            <p><strong>Получение координат точек через интерфейс Arcview </strong></p>
+            <p>Самый простой способ узнать координаты точки - поставить
+              графический объект &quot;точка&quot; (или точку в точечной теме)
+              в нужном вам месте, и удерживая правую кнопку мыши выбрать пункт <b>shape properties</b> (свойства объекта). </p>
+            <table width="60%"  border="0" align="center">
+              <tr>
+                <td><span><img src="/images/point1.gif" width="359" height="226" border="1" /></span></td>
+                <td><span><img src="/images/point2.gif" width="242" height="182" border="1" /></span></td>
+              </tr>
+            </table>
+            <p>Координаты точки будут показаны в строке вида: <b>Point:
+              X Y</b>, где X Y и будут искомые координаты. </p>
+            <p>То, в каких единицах будут отображаться координаты зависит от двух параметров:</p>
+            <ol>
+              <li>Исходные единицы данных</li>
+              <li>Установленная проекция Вида</li>
+            </ol>
+            <p>Если Виду (View)  задана проекция через <b><b>View\Properties\Projection</b> </b>(где при этом должно значится: Projection: Имя проекции), то координаты будут отображаться в спроектированных (метровых) координатах. </p>
+            <p>Если Виду (View) <b>не</b> задана проекция через <b>View\Properties\Projection</b> (где при этом должно значится: Projection: None) координаты будут отображаться в единицах исходных данных, это могут быть как метры так и десятичные градусы. </p>
+            <p align="center"><img src="/images/point3.gif" width="324" height="241" border="1" /></p>
+            <p>Чтобы эти координаты перевести в привычные географические, необходимо изменить проекцию вида на географическую и еще раз для нужной точки выбрать <b>shape properties</b>.</p>
+            <p>View\Properties\Projection<br />
+              Category: Projection of the world<br />
+              Type: Geographic</p>
+            <p><strong>Программная реализация на языке Avenue </strong></p>
+            <p>Для того, чтобы получить координаты щелчка мышкой
+              программно, через Avenue, нужно создать или <a href="/programs/scripts/getpoint.ave">загрузить</a>:</p>
+            <tcode>'Задать точность вывода координат, количество знаков после разделителя целой и дробной части <br />
+                    <strong>Script.The.SetNumberFormat(&quot;d.dddddd&quot;)</strong><br />
+                    'Определить объект aView - Вид<br />
+                    <b>aView = av.GetActiveDoc</b><br />
+                    'Определить объект aDisplay (область отображения данных являющаяся
+                    частью вида)<br />
+                    <b>aDisplay = av.GetActiveDoc.GetDisplay</b><br />
+                    'Определить объект aPoint - точку, показывающую положение
+                    курсора мыши в момент щелчка<br />
+                    <b>aPoint = aDisplay.ReturnUserPoint</b><br />
+                    'Определить спроектирован ли вид<br />
+                    <b>aPrj = aView.GetProjection</b><br />
+                    'Если вид спроектирован - перевести точку в географическую
+                    проекцию<br />
+                    <b>if (aPrj.IsNull.Not) then aPoint = aPoint.ReturnUnprojected(aPrj)
+                    end</b><br />
+                    'Определить географические координаты точки<br />
+                    <b>xCoord = aPoint.getX<br />
+                    yCoord = aPoint.getY</b><br />
+                    'Очистить буфер обмена<br />
+                    <b>Clipboard.The.Empty</b><br />
+                    'Добавить в буфер обмена строку содержащую координаты<br />
+                    <b>Clipboard.The.Add(&quot;X-coord: &quot; + xCoord.asString
+                    + nl + &quot;Y-coord: &quot; + yCoord.asString)</b><br />
+                    'Обновить буфер обмена<br />
+                    <b>Clipboard.The.Update</b><br />
+                    'Вывести полученные координаты в окне сообщения<br />
+                    <b>msgbox.info(&quot;X: &quot; + xCoord.asString + nl + &quot;Y:
+                    &quot; + yCoord.asString, &quot;Координаты скопированы в буфер
+                    обмена&quot;)</b></tcode>
+            <p>Если модифицировать строку добавляющую в буфер обмена
+              координаты таким образом:</p>
+            <tcode><b>Clipboard.The.Add(xCoord.asString + tab +
+                    yCoord.asString)</b></tcode>
+            <p>То скопированные координаты будет удобно добавлять
+              в документ Excel, они сразу будут попадать в соседние ячейки, для
+              вставки в ячейки таблиц ACCESS и WORD нужно, чтобы смежные поля были
+              оба выделены (<a href="http://gis-lab.info/forum/viewtopic.php?t=104">подробнее</a>).</p>
+            <p>После создания скрипта, необходимо, на панели инструментов
+              вида создать новый инструмент (tool), и назначить событию <b>Apply</b> созданный скрипт.</p>
+            <p>Можно также сразу <a href="/programs/avenue/point.zip">загрузить
+              расширение</a>, расширение называется GetPoint и добавляет в панель четыре новых кнопки для получения координат, действие кнопок различается разделителем между координатами, порядком XY (долгота-широта или широта-долгота).</p>
+		    <p class="discuss">
+				<span><!--#include virtual="/scripts/forum-comments-num.php?i=2333"--></span>
+			</p>
+			<div class="links">
+			<h2>Ссылки по теме</h2>
+			<ul>
+               <li><a href="/qa/addscript.html">Подключение скриптов в Arcview 3.x</a></li>
+			   <li><a href="/qa/butscript.html">Создание кнопки и назначение ей скрипта в Arcview 3.x</a></li>
+			</ul>
+			</div>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<p class="status"><span>Дата создания: 12.05.2004
+<br>Автор(ы): <a href="/forum/memberlist.php?mode=viewprofile&u=2" target="_blank">Максим Дубинин</a></span></p>
+<!--#include virtual="/inc/footer2.php" -->

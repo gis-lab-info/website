@@ -1,0 +1,189 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Описание и получение данных Blue Marble Next Generation</title>
+<!--#include virtual="/inc/header2.txt" -->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Вопросы и ответы</a></li>
+</ul>
+<!--Contents start-->
+<h1>Описание и получение данных MODIS Blue Marble Next Generation</h1>
+<p class="ann">Описание и загрузка данных </p>
+<p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=5104"--></span></p>
+
+<blockquote>
+  <p>Эта статья представляет краткое описание данных Blue Marble Next Generation, набора данных о рельефе и растительном покрове Земли глобального охвата. Набор может быть полезен в первую очередь для иллюстративных и образовательных целей. Так как данные распространяются в графических форматах (JPEG, PNG), обычных геоданных в них нет. Например, в файле рельефа нет данных о высотах, они редуцированы до диапазона 0-255. Он годится как, например, источник данных о яркости пикселя   в зависимости от высоты и создания цветовых отмывок рельефа в   совокупности с данными из других источников (см. например   Рельеф+снимок).</p>
+</blockquote>
+<p><strong>Оглавление</strong></p>
+<ol>
+	  <li><a href="#01">О данных </a></li>
+	  <li><a href="#02">Получение данных </a></li>
+</ol>
+
+<!-- Первый раздел -->
+<h2><strong><a name="01" id="01"></a></strong>1. О данных </h2>
+<p>Источник данных: <a href="http://earthobservatory.nasa.gov/Features/BlueMarble/BlueMarble_monthlies.php" target="_blank" class="external">Earth Observatory</a> </p>
+<p>Данные находятся в географической (Plate Carree) проекции на эллипсоиде WGS84. </p>
+<p>Данные распространяются в трех разрешениях:</p>
+<ul>
+  <li>8000 м на пиксел  - глобально, размер файла 1-2 Mb, 5400x2700 пикселей, формат JPEG. </li>
+  <li>2000 м на пиксел  - глобально, размер файла 6-20 Mb, 21600x10800 пикселей, формат JPEG. </li>
+  <li>2000 м на пиксел  - 8 блоков, размер файла 100-300 Mb, 21600x10800 пикселей каждый блок, формат PNG. </li>
+</ul>
+<p>Схема разбивков блоков (<a href="/data/bluemarble/bmgrid.7z">скачать</a> схему в формате shape):</p>
+<p><img src="/images/bluemarble-01.gif" width="600" height="302"> </p>
+<p>Тематика данных:</p>
+<ul>
+  <li>Батиметрия (поверхность дна океанов). Источник: <a href="http://www.bodc.ac.uk/projects/international/gebco/gebco_digital_atlas/" target="_blank" class="external">GEBCO</a></li>
+  <li>Рельеф земной поверхности. Источник: <a href="/qa/srtm.html">SRTM</a></li>
+  <li>Ежемесячный ландшафтный покров    земной поверхности. Источник: <a href="/projects/ss/sensor/modis.html">MODIS</a>, съемка 2004 года.</li>
+  <li>Теневая отмывка рельефа суши. Источники: MODIS, июль 2004 и SRTM</li>
+  <li>Теневая отмывка рельефа суши и подводного рельефа. Источники: MODIS, июль 2004, SRTM  и GEBCO. </li>
+</ul>
+<p>Данным добавлены <a href="/qa/tfw.html">world-файлы</a> обеспечивающие привязку в систему координат WGS84 с достаточной степенью точности. </p>
+<p>Имена файлов данных укорочены и упрощены по сравнению с оригинальными. Пример оригинального названия: world.200409.3x5400x2700.jpg, упрощенного: world_200409.jpg. Для 500-метровых фрагментов, исходное: world.topo.bathy.200401.3x21600x21600.A1.png, упрощенное: world_topo_bathy_200401_A1.png.</p>
+<p>Подробная информация: </p>
+<ul>
+  <li>R. St&ouml;ckli, E. Vermote, N. Saleous, R. Simmon, and D. Herring. True color earth data set includes seasonal dynamics. EOS, 87(5):49, 55, 2006 (<a href="http://www.iac.ethz.ch/staff/stockli/publications/stockli_bluemarble_EOS.2006.pdf" target="_blank" class="external">PDF</a>).</li>
+  <li>Reto St&ouml;ckli, Eric Vermote, Nazmi Saleous, Robert Simmon and David Herring. The Blue Marble Next Generation - A true color earth dataset including seasonal dynamics from MODIS.  May 30, 2007 (<a href="http://snowy.arsc.alaska.edu/nasa/readme.pdf" target="_blank" class="external">PDF</a>).</li>
+</ul>
+<!-- Второй раздел -->
+<h2><strong><a name="02" id="02"></a></strong>2. Получение данных </h2>
+<p>Если вам необходимы географически привязанные данные, скачайте так же файл по ссылке wld. Для получения данных 500-метрового разрешения, определите нужный фрагмент по разграфке приведенной выше и перейдите в нужную папку используя ссылку в таблице. Для предварительного просмотра можно использовать ссылку из колонки превью, по ссылке находится уменьшенное до 600 пикселей по ширине 8000-метровое изображение. </p>
+	<table width="85%" align="center">
+  <tr>
+	<th>Тема/Разрешение</th>
+	<th>Превью</th>
+	<th>8000 м </th>
+	<th>2000 м </th>
+	<th>500 м </th>
+  </tr>
+  <tr>
+    <td><p>Батиметрия</p></td>
+	<td><a href="/data/bluemarble/preview/gebco_bathy_8km.jpg">посмотреть</a></td>
+	<td><a href="/data/bluemarble/8000m/gebco_bathy_8km.jpg">1 Mb</a> / <a href="/data/bluemarble/8000m/gebco_bathy_8km.jgw">wld</a></td>
+	<td><p><a href="/data/bluemarble/2000m/gebco_bathy_2km.jpg">7 Mb</a>/ <a href="/data/bluemarble/2000m/gebco_bathy_2km.jgw">wld</a></p></td>
+	<td><p>&nbsp;</p></td>
+  </tr>
+  <tr>
+    <td>Рельеф</td>
+    <td><a href="/data/bluemarble/preview/srtm_8km.jpg">посмотреть</a></td>
+    <td><a href="/data/bluemarble/8000m/srtm_8km.jpg">1 Mb</a> / <a href="/data/bluemarble/8000m/srtm_8km.jgw">wld</a></td>
+    <td><a href="/data/bluemarble/2000m/srtm_2km.jpg">7 Mb</a> / <a href="/data/bluemarble/2000m/srtm_2km.jgw">wld</a></td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>Рельеф+снимок</td>
+    <td><a href="/data/bluemarble/preview/world_topo_200407_8km.jpg">посмотреть</a></td>
+    <td><a href="/data/bluemarble/8000m/world_topo_200407_8km.jpg">2 Mb</a> / <a href="/data/bluemarble/8000m/world_topo_200407_8km.jgw">wld</a></td>
+    <td><a href="/data/bluemarble/2000m/world_topo_200407_2km.jpg">22 Mb</a> / <a href="/data/bluemarble/2000m/world_topo_200407_2km.jgw">wld</a></td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>Рельеф+батиметрия+снимок</td>
+    <td><a href="/data/bluemarble/preview/world_topo_bathy_200407_8km.jpg">посмотреть</a></td>
+    <td><a href="/data/bluemarble/8000m/world_topo_bathy_200407_8km.jpg">2 Mb</a> / <a href="/data/bluemarble/8000m/world_topo_bathy_200407_8km.jgw">wld</a></td>
+    <td><a href="/data/bluemarble/2000m/world_topo_bathy_200407_2km.jpg">22 Mb</a> / <a href="/data/bluemarble/2000m/world_topo_bathy_200407_2km.jgw">wld</a></td>
+    <td><a href="/data/bluemarble/500m/00TopoBathy">список</a></td>
+  </tr>
+  <tr>
+    <td>Январь</td>
+    <td><a href="/data/bluemarble/preview/world_200401_8km.jpg">посмотреть</a></td>
+    <td><a href="/data/bluemarble/8000m/world_200401_8km.jpg">2 Mb</a> / <a href="/data/bluemarble/8000m/world_200401_8km.jgw">wld</a></td>
+    <td><a href="/data/bluemarble/2000m/world_200401_2km.jpg">22 Mb</a> / <a href="/data/bluemarble/2000m/world_200401_2km.jgw">wld</a></td>
+    <td><a href="/data/bluemarble/500m/01January">список</a></td>
+  </tr>
+  <tr>
+    <td>Февраль</td>
+    <td><a href="/data/bluemarble/preview/world_200402_8km.jpg">посмотреть</a></td>
+    <td><a href="/data/bluemarble/8000m/world_200402_8km.jpg">2 Mb</a> / <a href="/data/bluemarble/8000m/world_200402_8km.jgw">wld</a></td>
+    <td><a href="/data/bluemarble/2000m/world_200402_2km.jpg">22 Mb</a> / <a href="/data/bluemarble/2000m/world_200402_2km.jgw">wld</a></td>
+    <td><a href="/data/bluemarble/500m/02February">список</a></td>
+  </tr>
+  <tr>
+    <td>Март</td>
+    <td><a href="/data/bluemarble/preview/world_200403_8km.jpg">посмотреть</a></td>
+    <td><a href="/data/bluemarble/8000m/world_200403_8km.jpg">2 Mb</a> / <a href="/data/bluemarble/8000m/world_200403_8km.jgw">wld</a></td>
+    <td><a href="/data/bluemarble/2000m/world_200403_2km.jpg">22 Mb</a> / <a href="/data/bluemarble/2000m/world_200403_2km.jgw">wld</a></td>
+    <td><a href="/data/bluemarble/500m/03March">список</a></td>
+  </tr>
+  <tr>
+    <td>Апрель</td>
+    <td><a href="/data/bluemarble/preview/world_200404_8km.jpg">посмотреть</a></td>
+    <td><a href="/data/bluemarble/8000m/world_200404_8km.jpg">2 Mb</a> / <a href="/data/bluemarble/8000m/world_200404_8km.jgw">wld</a></td>
+    <td><a href="/data/bluemarble/2000m/world_200404_2km.jpg">22 Mb</a> / <a href="/data/bluemarble/2000m/world_200404_2km.jgw">wld</a></td>
+    <td><a href="/data/bluemarble/500m/04April">список</a></td>
+  </tr>
+  <tr>
+    <td>Май</td>
+    <td><a href="/data/bluemarble/preview/world_200405_8km.jpg">посмотреть</a></td>
+    <td><a href="/data/bluemarble/8000m/world_200405_8km.jpg">2 Mb</a> / <a href="/data/bluemarble/8000m/world_200405_8km.jgw">wld</a></td>
+    <td><a href="/data/bluemarble/2000m/world_200405_2km.jpg">22 Mb</a> / <a href="/data/bluemarble/2000m/world_200405_2km.jgw">wld</a></td>
+    <td><a href="/data/bluemarble/500m/05May">список</a></td>
+  </tr>
+  <tr>
+    <td>Июнь</td>
+    <td><a href="/data/bluemarble/preview/world_200406_8km.jpg">посмотреть</a></td>
+    <td><a href="/data/bluemarble/8000m/world_200406_8km.jpg">2 Mb</a> / <a href="/data/bluemarble/8000m/world_200406_8km.jgw">wld</a></td>
+    <td><a href="/data/bluemarble/2000m/world_200406_2km.jpg">22 Mb</a> / <a href="/data/bluemarble/2000m/world_200406_2km.jgw">wld</a></td>
+    <td><a href="/data/bluemarble/500m/06June">список</a></td>
+  </tr>
+  <tr>
+    <td>Июль</td>
+    <td><a href="/data/bluemarble/preview/world_200407_8km.jpg">посмотреть</a></td>
+    <td><a href="/data/bluemarble/8000m/world_200407_8km.jpg">2 Mb</a> / <a href="/data/bluemarble/8000m/world_200407_8km.jgw">wld</a></td>
+    <td><a href="/data/bluemarble/2000m/world_200407_2km.jpg">20 Mb</a> / <a href="/data/bluemarble/2000m/world_200407_2km.jgw">wld</a></td>
+    <td><a href="/data/bluemarble/500m/07July">список</a></td>
+  </tr>
+  <tr>
+    <td>Август</td>
+    <td><a href="/data/bluemarble/preview/world_200408_8km.jpg">посмотреть</a></td>
+    <td><a href="/data/bluemarble/8000m/world_200408_8km.jpg">2 Mb</a> / <a href="/data/bluemarble/8000m/world_200408_8km.jgw">wld</a></td>
+    <td><a href="/data/bluemarble/2000m/world_200408_2km.jpg">20 Mb</a> / <a href="/data/bluemarble/2000m/world_200408_2km.jgw">wld</a></td>
+    <td><a href="/data/bluemarble/500m/08August">список</a></td>
+  </tr>
+  <tr>
+    <td>Сентябрь</td>
+    <td><a href="/data/bluemarble/preview/world_200409_8km.jpg">посмотреть</a></td>
+    <td><a href="/data/bluemarble/8000m/world_200409_8km.jpg">2 Mb</a> / <a href="/data/bluemarble/8000m/world_200409_8km.jgw">wld</a></td>
+    <td><a href="/data/bluemarble/2000m/world_200409_2km.jpg">20 Mb</a> / <a href="/data/bluemarble/2000m/world_200409_2km.jgw">wld</a></td>
+    <td><a href="/data/bluemarble/500m/09September">список</a></td>
+  </tr>
+  <tr>
+    <td>Октябрь</td>
+    <td><a href="/data/bluemarble/preview/world_200410_8km.jpg">посмотреть</a></td>
+    <td><a href="/data/bluemarble/8000m/world_200410_8km.jpg">2 Mb</a> / <a href="/data/bluemarble/8000m/world_200410_8km.jgw">wld</a></td>
+    <td><a href="/data/bluemarble/2000m/world_200410_2km.jpg">22 Mb</a> / <a href="/data/bluemarble/2000m/world_200408_2km.jgw">wld</a></td>
+    <td><a href="/data/bluemarble/500m/10October">список</a></td>
+  </tr>
+  <tr>
+    <td>Ноябрь</td>
+    <td><a href="/data/bluemarble/preview/world_200411_8km.jpg">посмотреть</a></td>
+    <td><a href="/data/bluemarble/8000m/world_200411_8km.jpg">2 Mb</a> / <a href="/data/bluemarble/8000m/world_200411_8km.jgw">wld</a></td>
+    <td><a href="/data/bluemarble/2000m/world_200411_2km.jpg">22 Mb</a> / <a href="/data/bluemarble/2000m/world_200411_2km.jgw">wld</a></td>
+    <td><a href="/data/bluemarble/500m/11November">список</a></td>
+  </tr>
+  <tr>
+    <td>Декабрь</td>
+    <td><a href="/data/bluemarble/preview/world_200412_8km.jpg">посмотреть</a></td>
+    <td><a href="/data/bluemarble/8000m/world_200412_8km.jpg">2 Mb</a> / <a href="/data/bluemarble/8000m/world_200412_8km.jgw">wld</a></td>
+    <td><a href="/data/bluemarble/2000m/world_200412_2km.jpg">22 Mb</a> / <a href="/data/bluemarble/2000m/world_200412_2km.jgw">wld</a></td>
+    <td><a href="/data/bluemarble/500m/12December">список</a></td>
+  </tr>
+</table>
+    <!-- обсуждение на форуме, цифра изменяется при публикации статьи -->
+<p class="discuss"><span><!--#include virtual="/scripts/forum-comments-num.php?i=5104"--></span></p>
+<!-- ссылки -->
+<div class="links">
+	<h2>Ссылки по теме</h2>
+		<ul>
+			<li><a href="/qa/landsat-mosaics.html">Получение данных Landsat/ETM+ 2000 года в виде мозаик</a></li>
+			</ul>
+</div>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<p class="status"><span>Дата создания: 27.03.2010
+<br>Автор(ы): <a href="/forum/memberlist.php?mode=viewprofile&u=2" target="_blank">Максим Дубинин</a></span></p>
+<!--#include virtual="/inc/footer2.php" -->

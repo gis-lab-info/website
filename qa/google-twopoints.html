@@ -1,0 +1,99 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>Distance between two Latitude/Logitude points – Map</title>
+<script type="text/javascript">
+  //<![CDATA[
+
+  /*
+   * Return URL params as associative array - eg param ?p=v can be accessed as getURLParams().p or getURLParams()['p']
+   */
+ function getURLParams() {
+  var params = new Object();
+  var srch = location.search.substring(1);  // lose the initial '?'
+  var paramlist = srch.split('&');          // list of name=val pairs
+  for (var i=0; i<paramlist.length; i++)
+  { 										// for each pair
+    var pair = paramlist[i].split('=');     // split at '='
+    var name = pair[0], val = pair[1];      // to get name & val
+    params[name] = decodeURIComponent(val);
+  }
+  return params;
+}
+    //]]>
+</script>
+</head>
+
+<body>
+<div id="map" style="width: 500px; height: 500px"></div>
+<p id="coords">&nbsp;</p>
+
+<script src="http://maps.google.com/maps?file=api&v=1&key=ABQIAAAAcxaLeNvSZAM8_X6SDd1_fhQGhS5yCmtMNZMUBKgpbJFW2uH_cRTXeqK2vtaYYO0RO5wSqEbfPoLmDw" type="text/javascript"></script>
+
+<script type="text/javascript">
+    //<![CDATA[
+    var mapW = 500, mapH = 500; // size of the map in pixels
+
+    // create the Google map
+    var map = new GMap(document.getElementById("map"));
+    map.setMapType(G_HYBRID_TYPE);
+    map.addControl(new GLargeMapControl());
+    map.addControl(new GMapTypeControl());
+
+    // get the points from the URL arguments
+    var lat1 = parseFloat(getURLParams().lat1)*180/3.141592654, lon1 = parseFloat(getURLParams().long1)*180/Math.PI;
+    var lat2 = parseFloat(getURLParams().lat2)*180/3.141592654, lon2 = parseFloat(getURLParams().long2)*180/Math.PI;
+    var latMid = (lat1+lat2)/2, lonMid = (lon1+lon2)/2;  // not exactly, but close enough
+
+    if (abs(lon2-lon1)>180) {  // when a line crosses longitude 180°, Google still puts it through 0°, so...
+      if (lonMid>0) {               // - if midpoint is E, add 360° to western point & adjust midpoint
+        if (lon1>lon2) lon1 -= 360; else lon2 -= 360; lonMid -= 180;
+      } else {                      // - if midpoint is W, subtract 360° from eastern point & adjust midpoint
+        if (lon1<lon2) lon1 += 360; else lon2 += 360; lonMid += 180;
+      }
+    }
+
+    if (isNaN(lat1) || isNaN(lon1) || isNaN(lat2) || isNaN(lon2)) {  // invalid co-ordinates
+      map.centerAndZoom(new GPoint(0.000, 51.477), 16);
+      document.getElementById("coords").innerHTML = 'No co-ordinates given';
+    } else {
+
+      // calculate zoom level based on E-W and N-S distance spanned
+      //  - spanLat° = 2^z * h / 100000, spanLong° = 2^z * w * cos(lat) / 100000
+      var spanLat = Math.abs(lat2-lat1);
+      var spanLon = Math.abs(lon2-lon1);
+      var zoomX = Math.log(spanLon*100000*Math.cos(latMid*Math.PI/180)/mapW)/Math.log(2);
+      var zoomY = Math.log(spanLat*100000/mapH)/Math.log(2);
+      var zoom = Math.ceil(Math.max(zoomX, zoomY, 0));
+
+      // center it on midpoint & use zoom level calculated above
+      map.centerAndZoom(new GPoint(lonMid, latMid), zoom+1);
+
+      // convert to degrees
+      //lat1 = lat1*180/3.141592654; lon1 = lon1*180/3.141592654;
+      //lat2 = lat2*180/3.141592654; lon2 = lon2*180/3.141592654;
+
+      // add markers representing two points
+      var gp1 = new GPoint(lon1, lat1);
+      var gm1 = new GMarker(gp1);
+      GEvent.addListener(gm1, 'click', function() { gm1.openInfoWindowHtml(lat1.toFixed(4)+'°,'+lon1.toFixed(4)+'°'); });
+      map.addOverlay(gm1);
+      var gp2 = new GPoint(lon2, lat2);
+      var gm2 = new GMarker(gp2);
+      GEvent.addListener(gm2, 'click', function() { gm2.openInfoWindowHtml(lat2.toFixed(4)+'°,'+lon2.toFixed(4)+'°'); });
+      map.addOverlay(gm2);
+      var Gline = new GPolyline([gp1,gp2], '#ff0000', 4, 0.5);
+      map.addOverlay(Gline);
+
+      // display co-ordinates & distance
+      lon1 = parseFloat(getURLParams().long1)*180/Math.PI; lon2 = parseFloat(getURLParams().long2)*180/Math.PI
+      var c = document.getElementById("coords");
+      c.innerHTML = lat1.toFixed(4)+'°,'+lon1.toFixed(4) + '° — ' +
+        lat2.toFixed(4)+'°,'+lon2.toFixed(4) + '° : ' +
+        parseFloat(getURLParams().d).toPrecision(4) + ' km' + ' /  ' +
+        (parseFloat(getURLParams().d)/1.609).toPrecision(4) + ' m (great circle distance)' + '<br>' +
+        '<i>Based on Haversine formula using spherical-earth model. ' +
+        '© <a href="LatLong.html" target="_blank">MTL</a>.</i><font color=#ffffff>z' + zoom +'</font>';
+    }
+    //]]>
+    </script>
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Импорт данных MODIS первого уровня обработки с помощью MODIS-Swath-Import-tool</title>
+<!--#include virtual="/inc/header2.txt" -->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Вопросы и ответы</a></li>
+</ul>
+<!--Contents start-->
+<h1>Импорт данных MODIS первого уровня обработки с помощью MODIS-Swath-Import-tool</h1>
+<p class="ann"> Описание процесса импорта данных MODIS и  вспомогательной программы облегчающей этот процесс </p>
+<p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=2135"--></span></p>
+<p><strong>Задача:</strong> Пакетно перевести имеющиеся данные MODIS  уровней 2G, 3, 4 в нужную проекцию и формат TIF.</p>
+<p>Когда количество импортируемых данных MODIS велико, становится сложно <a href="modis-l1-import.html">использовать MRT Swath</a> для их обработки поштучно. Небольшая программа MODIS-Swath-Import-tool может сильно сэкономить время и силы. Перед началом работы с ней нужно внимательно изучить данное описание. Если необходимо импортировать данные MODIS более высоких уровней обработки, необходимо использовать другую вспомогательную программу <a href="modisimport-tool.html">MODIS-Import-tool</a>. </p>
+            <p>MODIS-Swath-Import-tool - генератор пакетных файлов для MRT Swath и FWTools. Сценарий использования MODIS-Import-tool очень прост, для десятков сотен исходных сцен MODIS в формате HDF, используя MODIS-Import-tool генерируется пакетный файл для MRT Swath включающий все необходимые операции по фрагментированию, перепроектированию данных из формата HDF в формат TIF и их последующему поканальному склеиванию используя FWTools (<a href="layerstack.html">подробнее об операции склеивания</a>). После запуска этого пакетного файла MRT Swath производит необходимые операции без участия оператора.</p>
+            <p>Результатом работы программы является файл <strong>!process-modis.bat</strong> создаваемый в рабочей директории. </p>
+            <p><strong>Подготовка</strong></p>
+            <p>Для работы программы необходимо наличие установленных пакетов <a href="https://lpdaac.usgs.gov/lpdaac/tools/modis_reprojection_tool_swath" target="_blank" class="external">MRT Swath</a> и <a href="http://fwtools.maptools.org/" target="_blank" class="external">FWTools</a>. FWTools нужен только если импортированные файлы каналов необходимо еще и склеить в единые многоканальные файлы (что обычно необходимо). </p>
+            <p>Кроме папок с данными MODIS в рабочей директории НЕ должно находиться других данных. <br />
+            <br />
+            Все данные могут лежать в одной папке. При этом, каждому файлу с данными MODIS (MOD02QKM, MOD02HKM, MOD021KM) должен соответствовать файл привязки MOD03. Разные типы данных MODIS не должны смешиваться в одной папке. </p>
+            <p><strong>Настройки программы </strong></p>
+            <p align="center"><img src="/images/modis-swath-import-tool-01.gif" width="213" height="364" />            </p>
+            <p><strong>Path to MRT Swath </strong> - Путь к папке в которую установлен пакет MODIS Swath Reprojection Tool (MRT Swath) и лежит файл swath2grid.exe. Пример: C:\Gis\MRTSwath\bin\</p>
+            <p><strong>HDF files folder</strong> - Папка в которой расположены папки с данными MODIS.</p>
+            <p><strong>Path to FWTools</strong> - Путь к папке в которую установлен пакет FWTools. Пример: C:\Gis\FWTools\bin\</p>
+            <p><strong>Geographic/Albers/SIN</strong> - поддерживаемые проекции, проекция Альберса пока поддерживается только с параметрами центральный меридиан 45, первая стандартная параллель 52, вторая 64. SIN - синусоидальная проекция на сфере. </p>
+            <p><strong>Set AOI </strong>- установка участок интереса (area of interest), если значения установлены, выходные данные будут обрезаться по этому участку. </p>
+            <p><strong>MOD Type</strong> - тип данных MODIS, если вашего типа данных в списке нет, выберите один из похожих и внимательно введите соответствующее количество импортируемых и не импортируемых каналов.</p>
+            <p><strong>Stack bands </strong>- склеивать импортируемые каналы в единый многоканальный файл. </p>
+            <p><strong>Remove parameter files after finish </strong>- удалять файлы параметров после завершения импорта. </p>
+            <p><strong>Remove singlefile bands after stack</strong> - удалять файлы отдельных каналов после завершения склеивания. </p>
+            <p><strong>Примечания</strong></p>
+            <p>На данный момент программа проверена и протестирована для работы с данными MOD02QKM, если вам необходимо работать с другими данными MODIS первого уровня обработки, сообщите, мы добавим эту возможность к программе. То же касается и новых проекций и других возможностей. </p>
+            <p>Программа находится в стадии разработки, комментарии приветствуются, ошибки исправляются.</p>
+            <h2><a href="/programs/vb/modis-swath-import-tool.zip">Скачать MODIS-Swath-Import-tool </a></h2>
+            <p class="discuss">
+				<span><!--#include virtual="/scripts/forum-comments-num.php?i=2135"--></span>
+			</p>
+			<div class="links">
+			<h2>Ссылки по теме</h2>
+			<ul>
+               <li><a href="modis-l1-import.html">Импорт продуктов MODIS уровня 1</a></li>
+			   <li><a href="/qa/modisimport.html">Импорт продуктов MODIS уровней 2G, 3, 4 с помощью MRT</a></li>
+			</ul>
+			</div>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<p class="status"><span>Дата создания: 04.04.2008
+<br>Автор(ы): <a href="/forum/memberlist.php?mode=viewprofile&u=2" target="_blank">Максим Дубинин</a></span></p>
+<!--#include virtual="/inc/footer2.php" -->

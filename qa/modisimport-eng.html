@@ -1,0 +1,87 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Import MODIS level 2G, 3, 4 products using MRT</title>
+<!--#include virtual="/inc/header2-eng.txt" -->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Вопросы и ответы</a></li>
+</ul>
+<!--Contents start-->
+<h1>Import MODIS level 2G, 3, 4 products using MRT</h1>
+<p class="ann"> Description of MODIS products import process using MODIS Reprojection Tool </p>
+            <p><strong>Objective:</strong> Convert MODIS level 2G, 3, 4 data in needed projection and GeoTIFF format with simultaneous mosaicing in case of multiple tiles. </p>
+            <p><img src="../images/1.gif" width="33" height="41" align="left" /><strong>Transformation without mosaicing</strong></p>
+            <p>Originally, MODIS data products of levels 2G, 3, 4 are distributed in HDF format and specific sinusoidal projection (<a href="modislandprod.html">more on MODIS products (rus)</a>).</p>
+            <p>To reach our objective, we can use (convesion and reprojection) we can use software called <a href="http://edcdaac.usgs.gov/landdaac/tools/modis/index.asp" target="_blank">MRT</a> (MODIS Reprojection Tool). Besides graphic user interface, this program can be operated via command line. To process MODIS data level 1, different software should be used - <a href="modis-l1-import.html">MRT Swath</a>. Using command line data processing can be easily automated to work with multiple tiles. </p>
+            <p>Command line to run transformation process will look like this. </p>
+            <tcode>resample -p paramfile.prm -i inputfile.hdf -o outputfile.tif</tcode>
+            <p>where:</p>
+            <p><strong>-p paramfile.prm</strong> - name of the parameters file, which contains all necessary information for transformation process, this is a required parameter (see below) </p>
+            <p><strong>-i inputfile.hdf</strong> - input file name in hdf format (e.g. MOD09Q1.A2003001.h18v02.004.2003352020715.hdf)</p>
+            <p><strong>-o outputfile.tif</strong> - output files name with tif extension </p>
+            <p>Addtitional parameters can be set via command line, by adding new parameters, or by entering them in parameters file, in our case paramfile.prm. This file is a regular text file, which looks like this:</p>
+            <p>For Albers Equal Area projection of the output: </p>
+            <tcode>INPUT_FILENAME = Z:\MOD09Q1.A2000057.h20v04.004.2002357141257.hdf<br />
+                    SPECTRAL_SUBSET = (1 0 0)<br />
+                    OUTPUT_FILENAME = Z:\MOD09Q1.A2000057.h20v04.004.2002357141257.tif<br />
+                    RESAMPLING_TYPE = NEAREST_NEIGHBOR<br />
+                    OUTPUT_PROJECTION_TYPE = AEA<br />
+                    OUTPUT_PROJECTION_PARAMETERS = ( <br />
+                    0.0 0.0 52.0 64.0 45.0 0.0 8500000.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 )<br />
+                    DATUM = WGS84<br />
+                    OUTPUT_PIXEL_SIZE = 250</tcode>
+            <p>For geographic projections :</p>
+            <tcode>INPUT_FILENAME = Z:\MOD09Q1.A2000057.h20v04.004.2002357141257.hdf<br />
+                    SPECTRAL_SUBSET = (1 0 0)<br />
+                    OUTPUT_FILENAME = Z:\MOD09Q1.A2000057.h20v04.004.2002357141257.tif<br />
+                    RESAMPLING_TYPE = NEAREST_NEIGHBOR<br />
+                    OUTPUT_PROJECTION_TYPE = GEO <br />
+                    OUTPUT_PROJECTION_PARAMETERS = ( <br />
+                    0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 )<br />
+                    DATUM = WGS84<br />
+                    OUTPUT_PIXEL_SIZE = 0.02 </tcode>
+            <p>where:</p>
+            <p><strong>INPUT_FILENAME</strong> - input hdf filename.</p>
+            <p><strong>SPECTRAL_SUBSET</strong> - band to be imported. E.g., for MOD09Q1 product (reflectance, 250 м resolution) total number of bands is 3, to import first two and skip 3 this parameter should look like this SPECTRAL_SUBSET = (1 1 0).</p>
+            <p><strong>OUTPUT_FILENAME</strong> - output tif filename.</p>
+            <p><strong>RESAMPLING_TYPE</strong> - interpolation type (nearest neighbor, bilinear, cubic convolution).</p>
+            <p><strong>OUTPUT_PROJECTION_TYPE</strong> - projection type of the output file, in our case AEA - Albers Equal Area, GEO is used often too.</p>
+            <p><strong>OUTPUT_PROJECTION_PARAMETERS</strong> - list of output projection parameters, if output projection is GEO (OUTPUT_PROJECTION_TYPE = GEO), then all parameters are zeroes.</p>
+            <p><strong>DATUM</strong> - datum, usually WGS84 (NAD83), other datums like  Pulkovo 1942 are not supported.</p>
+            <p><strong>OUTPUT_PIXEL_SIZE</strong> - output file resolution, if this parameter is omitted, then output resolution is calculated by MRT itself.</p>
+            <p><img src="../images/2.gif" width="33" height="41" align="left" /><strong>Transformation with mosaicing</strong></p>
+            <p>Если территория исследования захватывает несколько фрагментов, то перед перепроектированием рекомендуется их объединить в мозаику, но не наоборот. Это следует делать исходя из следующих соображений:</p>
+            <p>1. MRT не может сшивать в мозаику файлы в формате TIF<br />
+              2. Если сначала сделать resample каждому фрагменту, а потом сшить их в мозаику в другом ПО, то есть большая вероятность получить &quot;щели&quot; шириной в 1 пиксел на стыках фрагментов.</p>
+            <p align="center"><img src="../images/modisimport-01.gif" width="383" height="203" /> </p>
+            <p>Для получения более корректной мозаики, можно воспользоваться второй программой, входящей в пакет MRT - mrtmosaic. </p>
+            <tcode>mrtmosaic -i files.prm -s &quot;1 0 0&quot; -o A2000057_mos_b1.hdf</tcode>
+            <p>где:</p>
+            <p><strong>-i files.prm</strong> - имя файла содержащего перечень (полный путь и название файла) фрагментов для создания мозаики </p>
+            <p><strong>-s &quot;1 0 0&quot; </strong> - конвертируемые каналы. Например для продукта MOD09Q1 (отражающая способность 250 м разрешения) общее количество каналов 3, соответственно, чтобы импортировать первый, второй, но не импортировать третий SPECTRAL_SUBSET = (1 1 0)</p>
+            <p><strong>-o outputfile.tif</strong> - имя выходного файла в формате TIFF.</p>
+            <p>Таким образом, обычно, командный файл (bat-файл) имеет вид:</p>
+            <tcode>mrtmosaic -i files.prm -s &quot;1 0 0&quot; -o A2000057_mos_b1.hdf<br />
+                    resample -p mosaic_b1.prm -g Z:\resample.log</tcode>
+            <p>То есть сначала фрагменты мозаицируются, а затем трансформируются в необходимую проекцию и формат TIF.</p>
+            <p>Кроме командной строки MRT также имеет графический интерфейс. </p>
+            <p>Дополнительные настройки командной строки и дополнительные настройки файла параметров смотрите в документации к MRT.</p>
+            <p>Для большого количества файлов удобно воспользоваться <a href="/qa/modisimport-tool.html">утилитой генератором пакетных файлов MODIS-Import-tool</a>, которая выполнит работу по созданию файлов параметров и т.д. автоматически. </p>
+            <p class="discuss">
+				<span><!--#include virtual="/scripts/forum-comments-num.php?i=852&lang=e"--></span>
+			</p>
+			<div class="links">
+			<h2>Ссылки по теме</h2>
+			<ul>
+               <li><a href="modislandprod.html">Продукты MODIS - Land</a></li>
+			   <li><a href="/qa/modisimport-tool.html">Импорт продуктов MODIS с помощью MODIS-Import-tool</a></li>
+               <li><a href="http://lpdaac.usgs.gov/landdaac/tools/modis/about.asp" target="_blank" class="external">MODIS Reprojection Tool Overview</a></li>
+			</ul>
+			</div>
+            <p class="status">
+			   <span><!--#include virtual="/scripts/date.php?lang=e" --></span>
+			</p>
+<!--Contents end-->
+<!--#include virtual="/inc/footer2.php" -->

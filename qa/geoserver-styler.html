@@ -1,0 +1,83 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Работа со стилями в GeoServer/GeoExt Styler</title>
+<!--#include virtual="/inc/header2.txt" -->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Вопросы и ответы</a></li>
+</ul>
+<h1>Работа со  стилями в GeoServer/GeoExt Styler</h1>
+<!--Contents start-->
+<p class="ann">Дается общее представление о стандарте SLD и описывается работа с ним в GeoServer</p>
+<p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=3824"--></span></p>
+<p><strong>Оглавление</strong></p>
+<ol>
+	<li><a href="#01">Пролог</a></li>
+	<li><a href="#02">GeoExt Styler</a></li>
+	<li><a href="#03">Использование</a></li>
+</ol>
+
+<!-- Первый раздел -->
+<h2><strong><a name="01" id="01"></a></strong>1. Пролог</h2>
+<p>В сравнении GeoServer и MapServer часто указывают на сложное описание стилей в первом и простое и понятное во втором. В этой статье попытаемся объяснить причины и немного помочь в освоении GeoServer.
+
+Для задания стилей оформления в GeoServer используется язык описания <a href="http://www.opengeospatial.org/standards/sld" target="_blank" class="external">Styled Layer Descriptor</a> (SLD). Изначально, он создавался для работы с сервисами WMS. Вы можете подготовить свой файл стилей на языке SLD и передать их чужому серверу WMS. И получить карту оформленную так, как нужно вам. Упрощенно это выглядит так:
+<pre>http://server/wms?REQUEST=GetMap&SLD=http://myserver/style.sld</pre>
+
+<p>Следовательно, все серверы WMS стремятся к полной реализации возможностей SLD. Хотя на сегодня нет ни одного продукта <a href="http://www.opengeospatial.org/resource/products/stats" target="_blank" class="external">полностью</a> соответствующего стандарту SLD 1.0, выпущенного в 2002 году. Тем не менее <a href="http://www.opengeospatial.org/resource/products/byspec/?specid=51" target="_blank" class="external">список</a> постоянно расширяется.
+
+  Позже, SLD стал использоваться и как внутренний язык описания стилей. Например, в OpenLayers сейчас идет активная работа по загрузке стилей из внешних файлов в формате SLD.
+
+  SLD основан на XML, что позволяет легко развивать язык в дальнейшем, добавлять специфичные для отдельных программ разделы, проверять описание стиля на синтаксические ошибки.
+
+  Не смотря на широкие возможности его освоение вызывает большие трудности среди новичков. Чтобы упростить работу со стилями, компания <a href="http://opengeo.org/" target="_blank" class="external">OpenGeo</a> разрабатывает приложение <a href="http://projects.opengeo.org/styler/" target="_blank" class="external">Styler</a>. Результатом этой работы является дополнение к GeoServer - <a href="http://geoserver.org/display/GEOS/GeoExt+Styler" target="_blank" class="external">GeoExt Styler</a>.  </p>
+
+  <!-- Второй раздел -->
+</p>
+<p>Пример создания стиля SLD описан в статье &quot;<a href="/qa/geoserver-begin.html">Начало работы с GeoServer</a>&quot;.</p>
+<h2><strong><a name="02" id="02"></a></strong>2. GeoExt Styler</h2>
+<ol>
+	<li><a href="http://geoserver.org/display/GEOS/Stable" target="_blank" class="external">Загрузите</a> расширение REST, соответствующее вашей версии GeoServer</li>
+	<li>Распакуйте его в папку WEB-INF/lib на сервере сервлетов, например:
+	  <ul>
+		<li>Инсталлятор GeoServer: C:\Program Files\GeoServer 1.7.5\webapps\geoserver\
+		<li>Tomcat: c:\Program Files\Apache Software Foundation\Tomcat 6.0\webapps\geoserver\
+	    <li>Jetty (FreeBSD):        /usr/local/geoserver/webapps/geoserver/WEB-INF/lib/
+	</ul>
+	<li>Перезапустите GeoServer</li>
+	<li>Загрузите приложение GeoExt Styler (т.к. в комплект GeoServer 1.7.5 оно не вошло, то возьмите его из <a href="http://sourceforge.net/projects/geoserver/files/GeoServer%20Extensions/1.7.3/styler-1.7.3.zip/download" target="_blank" class="external">архива</a> к версии 1.7.3 [649.1 Kb])</li>
+	<li>Распакуйте его в папку www в папке данных GeoServer (по-умолчанию, [каталог установки GeoServer]\data_dir)</li>
+</ol>
+<h2><strong><a name="03" id="03"></a></strong>3. Использование</h2>
+<p>Перейдите по ссылке:
+<pre>http://localhost:8080/geoserver/www/styler/index.html</pre>
+<p>Перед вами откроется рабочее окно GeoExt Styler. Теперь можно выбрать нужный слой из списка и начать работу со стилями. Все изменения сразу отображаются на карте.
+
+<p align="center"><IMG height=256 alt="Щелкните для получения увеличенного изображения" src="/images/geoserver-styler-01.png" width=295 border=0>
+<p>Пока что Styler позволяет задавать только основные параметры стилей и чтобы, например, указать точку привязки текстовых надписей, вам потребуется открывать файл SLD и вносить изменения вручную. Но для чернового наброска и задания общей схемы приложение очень полезно.</p>
+
+<div align="center"><IMG height=433 alt="Щелкните для получения увеличенного изображения" src="/images/geoserver-styler-02.png" width=386 border=0></div>
+<p>Если стиль основан на нескольких правилах (rules), то щелчок по объекту на карте подскажет какие параметры к нему применяются.</p>
+
+<div align="center"><img alt="Свойства объекта" src="/images/geoserver-styler-03.png" height=314 width=307 border=0></div>
+<p><br>
+Не стоит бояться стилей в GeoServer. Они немного сложнее чем в MapServer. Но язык SLD - это признанный стандарт, к полной реализации которого стремятся многие программы, включая сам MapServer. Если вы уделите время на его изучение, оно не будет потрачено впустую.</p>
+
+<span>
+    <!--#include virtual="/scripts/forum-comments-num.php?i=3824"-->
+</span>
+
+<div class="links">
+	<h2>Ссылки по теме</h2>
+	<ul>
+		<li><a href="geoserver-begin.html">Начало работы с GeoServer</a></li>
+		<li><a href="http://en.geopublishing.org/AtlasStyler" target="_blank" class="external">AtlasStyler SLD Editor</a></li>
+	</ul>
+</div>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<p class="status"><span>Дата создания: 24.09.2009
+<br>Автор(ы): <a href="/forum/memberlist.php?mode=viewprofile&u=6850" target="_blank">Mavka</a></span></p>
+<!--#include virtual="/inc/footer2.php" -->

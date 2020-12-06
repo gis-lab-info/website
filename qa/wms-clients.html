@@ -1,0 +1,56 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Создание WMS-сервиса с помощью Mapserver</title>
+<!--#include virtual="/inc/header2.txt" -->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Вопросы и ответы</a></li>
+</ul>
+<!--Contents start-->
+<h1>Работа с WMS в ПО ГИС</h1>
+<p class="ann">О том, как использовать данные WMS-сервиса.</p>
+<p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=3962"--></span></p>            
+<ul>
+  <li><strong>Используя:  </strong></li>
+</ul>
+<ol>
+  <ul>
+    <li><a href="#qgis">QGIS</a></li>
+                      <li><a href="#arcgis">ArcGIS</a></li>
+                      <li><a href="#age">ArcGIS Explorer</a></li>
+                  </ul>
+</ol>
+<p>В большинстве современных ГИС есть средства загрузки и работы со слоями WMS. Мы иллюстрируем работу с созданным сервисом в QGIS, ArcGIS и ArcGIS Explorer.</p>
+            <p><strong><a name="qgis" id="qgis"></a>QGIS</strong></p>
+            <p>WMS-слой в QGIS подключается с помощью Layer\Add WMS layer. В появившемся окне нужно нажать на кнопку New (новый) и ввести параметры нового соединения. При этом URL должен быть равен значению параметра wms_onlineresource, включая знак &quot;&amp;&quot; в конце строки. </p>
+            <p align="center"><img src="/images/mapserver-wms-01.gif" alt="qgis-wms" /> </p>
+            <p>После установки соединения необходимо выбрать и слои для загрузки.</p>
+            <p align="center"><img src="/images/mapserver-wms-02.gif" alt="qgis-wms" width="608" height="532" /></p>
+            <p><strong><a name="ag" id="ag"></a>ArcGIS</strong></p>
+            <p>В ArcGIS загрузка WMS-слоев производится через добавление темы. После чего в выпадающем списке (Look in) нужно выбрать GIS Servers, нажать на WMS Servers и ввести URL WMS.</p>
+            <p align="center"><img src="/images/mapserver-wms-05.gif" alt="arcgis-wms" width="491" height="327" /> </p>
+            <p>После ввода URL нужно нажать на Get Layers и выбрать загружаемые слои. </p>
+            <p align="center"><img src="/images/mapserver-wms-06.gif" alt="arcgis-wms" width="507" height="578" /></p>
+            <p><strong><a name="age" id="age"></a>ArcGIS Explorer</strong></p>
+            <p>Подключение WMS-слоев, как и любых других данных в ArcGIS Explorer осуществляется через меню File\Open..., в котором нужно переключиться на раздел Servers и выбрать кнопку WMS. В появившееся окно нужно ввести адрес WMS-сервиса в интернет.  </p>
+            <p align="center"><img src="/images/mapserver-wms-03.gif" alt="age-wms" width="667" height="585" /> </p>
+            <p>После нажатия на Ok, будет предложено также выбрать некоторые параметры отображения, такие как растровое разрешение, отображаемые слои и зумирование после загрузки на загруженные слои. </p>
+            <p align="center"><img src="/images/mapserver-wms-04.gif" alt="age-wms" width="521" height="430" /></p>
+            <p>Так как WMS выдает данные в растровом формате, на мелких масштабах может быть заметна пикселизация. </p>
+            <p class="discuss">
+				<span><!--#include virtual="/scripts/forum-comments-num.php?i=3962"--></span>
+			</p>
+			<div class="links">
+			<h2>Ссылки по теме</h2>
+			<ul>
+               <li><a href="mapserver-begin.html">Начало работы с MapServer</a></li>
+			   <li><a href="mapserver.html">Создание картографических сервисов с использованием MapServer. Введение</a></li>
+			</ul>
+			</div>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<p class="status"><span>Дата создания: 28.09.2009
+<br>Автор(ы): <a href="/forum/memberlist.php?mode=viewprofile&u=2" target="_blank">Максим Дубинин</a></span></p>
+<!--#include virtual="/inc/footer2.php" -->

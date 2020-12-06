@@ -1,0 +1,149 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Использование Google Maps для публикации точечных данных и треков</title>
+<!--#include virtual="/inc/header2.txt" -->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Статьи</a></li>
+</ul>
+<!--Contents start-->
+<h1>Использование Google Maps для публикации точечных данных и треков</h1>
+<p class="ann">Как использовать сервис Google Maps для публикации точечных данных на своем интернет сайте.</p>
+<p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=1402"--></span></p>
+
+<p><a href="google-gen.html">Google Maps</a> http://maps.google.com/ - картографический сервис работающий в режиме web страницы. Данный сервис представляет возможность легко размещать окно карты на своих страницах (<a href="google-web.html">подробнее</a>). </p>
+<p>Данная статья развивает эту тему и иллюстрирует как можно, дополнительно к данным Google Maps, использовать также свои точечные данные, в нашем случае - соединенные в линию-трэк. Подразумевается, что Читатель знаком с установкой и настройкой Google Maps на своей странице, если это не так, рекомендуем сначала ознакомиться со статьей &quot;<a href="google-web.html">Размещение Google Maps на своей интернет странице</a>&quot;. В нижеследующей инструкции вопросы затронутые в этой статье вторично не рассматриваются. </p>
+            <p>Приводимые инструкции иллюстрируют конкретный пример, если ваши данные имеют другую природу, возможно, что может понадобится некая адаптация приводимого кода под ваш конкретный случай.</p>
+            <p>Для начала работы необходимо наличие файла с точечными данными в формате XML. Существуют и другие форматы данных, с которыми можно работать используя платформу Google Maps. </p>
+            <h2>1. Модификация блока &lt;html&gt;&lt;/html&gt;</h2>
+            <p>Для корректного отображения линейных объектов в Internet Explorer, необходимо, чтобы тэг &lt;html&gt; имел следующий вид:</p>
+            <pre>&lt;html xmlns=&quot;http://www.w3.org/1999/xhtml&quot; xmlns:v=&quot;urn:schemas-microsoft-com:vml&quot;&gt;</pre>
+            <h2>2. Модификация блока &lt;body&gt;&lt;/body&gt;</h2>
+            <p>Так как наш метод связан с загрузкой данных, необходимо прописать в тэге &lt;body&gt; следующие функции, ответственные за загрузку данных про открытии страницы и их выгрузку по окончанию работы:</p>
+            <pre>&lt;body onload=&quot;load()&quot; onunload=&quot;GUnload()&quot;&gt;</pre>
+            <h2>3. Загрузка данных </h2>
+            <p>Основные операции с картой перед ее отображением осуществляются с помощью подпрограммы на языке Javascript. Эта подпрограмма содержит несколько процедур, первая из которых - загрузка данных пользователя <strong>function load()</strong>. Данная процедура, помимо  создания собственно объекта типа GMap2, включает также создание условного значка, используемого для отображения каждой точки:</p>
+            <pre>&lt;script type=&quot;text/javascript&quot;&gt;
+//&lt;![CDATA[
+function load() {
+if (GBrowserIsCompatible()) {
+...
+var icon = new GIcon();
+icon.image = &quot;/images/google-marker.png&quot;;
+icon.iconSize = new GSize(12, 12);
+icon.iconAnchor = new GPoint(6, 3);
+icon.infoWindowAnchor = new GPoint(5, 1);
+
+...
+</pre>
+            <p>Далее идет операция собственно загрузки данных, загружаемые данные собираются в массив <strong>points</strong>, согласно соответственно значениям lat и long хранящимся в XML файле с исходными данными:</p>
+            <pre>GDownloadUrl(&quot;/test.xml&quot;, function(data) {
+var xml = GXml.parse(data);
+var markers = xml.documentElement.getElementsByTagName(&quot;marker&quot;);
+var numpoints = markers.length - 1;
+var points = [];
+for (var i = 0; i &lt; markers.length; i++) {
+var point = new GLatLng(parseFloat(markers[i].getAttribute(&quot;lat&quot;)),
+parseFloat(markers[i].getAttribute(&quot;lng&quot;)));
+points.push(point);
+}</pre>
+            <h2>4. Получение географического охвата данных </h2>
+            <p>Для того, чтобы отобразить на карте ВСЕ точки, необходимо правильно задать ее географический охват. На практике это означает, что географический охват карты должен быть равен географическому охвату всех точек из файл XML, например прямоугольник, определенный крайними значениями южной широты, северной широты, восточной и западной долготы. К сожалению прямой процедуры получить такой прямоугольник нет, но его достаточно просто вычислить зная координаты точек. Для этого надо отсортировать их массив сначала по долготе, а потом по широте и получить первое и последнее значение (экстремумы) для соответственно широты и долготы, из этих 4 координат нужно создать 2 точки (соответственно левую нижнюю и правую верхнюю), которых достаточно, чтобы создать прямоугольник (объект GLatLngBounds), который потом использовать для вычисления масштаба карты (уровня увеличния - зума): </p>
+            <pre>var points2 = points.slice();
+points2.sort(function(p1, p2) {
+return p1.lng() - p2.lng();
+});
+var west = points2[0].x;
+var east = points2[numpoints].x;
+points2.sort(function(p1, p2) {
+return p1.lat() - p2.lat();
+});
+var north = points2[numpoints].y;
+var south = points2[0].y;
+var sw = new GLatLng(south,west);
+var ne = new GLatLng(north,east);
+var bounds = new GLatLngBounds(sw, ne);
+var centerpoint = new GLatLng((north + south)/2, (east + west)/2);
+var zoomlevel = map.getBoundsZoomLevel(bounds);</pre>
+            <p>Вычисленный уровень увеличения затем нужно будет задать созданному в самом начале объекту карты:</p>
+            <pre>map.setCenter(centerpoint, zoomlevel, G_SATELLITE_MAP);</pre>
+            <h2>5. Отображение точек </h2>
+            <p>Визуализация точек производится с помощью функции AddOverlay, с использованием созданного ранее значка (icon):</p>
+            <pre>for (var i = 0; i &lt; (numpoints + 1); i++) {
+map.addOverlay(new GMarker(points[i], icon));
+}
+map.addOverlay(new GPolyline(points));</pre>
+            <h2>6. Соединение точек в линию </h2>
+            <p>Точки можно соединить линией, если это необходимо, при этом соединяться они будут в том же порядке, в котором они идут в исходном XML файле:</p>
+            <pre>map.addOverlay(new GPolyline(points));</pre>
+            <h2>7. Результат</h2>
+            <p><a href="/projects/piskulka/piskulka1.html">Посмотреть пример карты</a> созданной с помощью данной технологии, но с некоторыми дополнениями. В исходном коде этой страницы можно посмотреть подробности реализации. Результирующий код программы отображения подобной карты, должен выглядеть примерно вот так:</p>
+				<pre>function load() {
+ if (GBrowserIsCompatible()) {
+  var map = new GMap2(document.getElementById("map"));
+  map.addControl(new GLargeMapControl());
+  map.addControl(new GMapTypeControl());
+  map.addControl(new GScaleControl());
+
+  var icon = new GIcon();
+  icon.image = "http://labs.google.com/ridefinder/images/mm_20_red.png";
+  icon.shadow = "http://labs.google.com/ridefinder/images/mm_20_shadow.png";
+  icon.iconSize = new GSize(12, 20);
+  icon.shadowSize = new GSize(22, 20);
+  icon.iconAnchor = new GPoint(6, 20);
+  icon.infoWindowAnchor = new GPoint(5, 1);
+
+  GDownloadUrl("/test.xml", function(data) {
+    var xml = GXml.parse(data);
+    var markers = xml.documentElement.getElementsByTagName("marker");
+    var numpoints = markers.length - 1;
+    var points = [];
+    for (var i = 0; i < markers.length; i++) {
+      var point = new GLatLng(parseFloat(markers[i].getAttribute("lat")),
+                              parseFloat(markers[i].getAttribute("lng")));
+      points.push(point);
+    }
+    var points2 = points.slice();
+    points2.sort(function(p1, p2) {
+      return p1.lng() - p2.lng();
+    });
+    var west = points2[0].x;
+    var east = points2[numpoints].x;
+    points2.sort(function(p1, p2) {
+      return p1.lat() - p2.lat();
+    });
+    var north = points2[numpoints].y;
+    var south = points2[0].y;
+    var sw = new GLatLng(south,west);
+    var ne = new GLatLng(north,east);
+    var bounds = new GLatLngBounds(sw, ne);
+    var centerpoint = new GLatLng((north + south)/2, (east + west)/2);
+    var zoomlevel = map.getBoundsZoomLevel(bounds);
+    map.setCenter(centerpoint, zoomlevel, G_SATELLITE_MAP);
+    for (var i = 0; i < (numpoints + 1); i++) {
+      map.addOverlay(new GMarker(points[i], icon));
+    }
+    map.addOverlay(new GPolyline(points));
+  });
+ }
+}
+//]]></pre>
+            <p>Все остальные части кода, необходимые для того, чтобы установить Google Maps на свой сайт описываются <a href="google-web.html">вот в этой статье</a>. </p>
+            <p>Если у Вас есть замечания или предложения, мы будем рады добавить недостающую информацию к этой статье. Вы можете отправить свои комментарии используя форму справа или по одному из контактов.</p>
+            <!-- обсуждение на форуме, цифра изменяется при публикации статьи -->   
+<p class="discuss"><!--#include virtual="/scripts/forum-comments-num.php?i=1402"--></p>
+<!-- ссылки -->
+			<div class="links">
+			<h2>Ссылки по теме</h2>
+			<ul>
+               <li><a href="/qa/google-gen.html">Картографический сервис Google Maps. Общая информация</a></li>
+			   <li><a href="/qa/google-web.html">Размещение Google Maps на своей интернет странице</a></li>
+			</ul>
+			</div>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<p class="status"><span>Дата создания: 19.02.2007
+<br>Автор(ы): <a href="/forum/memberlist.php?mode=viewprofile&u=2" target="_blank">Максим Дубинин</a></span></p>
+<!--#include virtual="/inc/footer2.php" -->

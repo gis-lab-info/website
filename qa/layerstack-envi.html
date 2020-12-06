@@ -1,0 +1,52 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Объединение многоканальных данных в единый файл с помощью Arcview GIS и Image Analysis</title>
+<!--#include virtual="/inc/header2.txt" -->
+<!--Contents start-->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Вопросы и ответы</a></li>
+</ul>
+<h1>Объединение многоканальных данных в единый файл в ENVI</h1>
+<p class="ann">Описание процесса &quot;склеивания&quot; нескольких слоев в единый файл с помощью ENVI</p>
+<p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=1718"--></span></p>
+<p><strong>Задача:</strong> Склеить некоторое количество растровых слоев (каждый из которых представлен файлом в одном из растровых форматов) в единый, многоканальный файл используя ENVI.</p>
+            <p>Подробнее операция объединения отдельных слоев в единый файл, а так же информация, как это сделать в Arcview GIS и ERDAS IMAGINE, описана в <a href="layerstack.html">этой статье</a>. Данный пример демонстрирует эту операцию применительно к данным Landsat, исходно находящимся в формате GeoTIFF. </p>
+            <p>В EVNI 4.0-4.3 объединение производится следующим образом: </p>
+            <p><img src="../images/1.gif" width="33" height="41" /><strong><a name="erdas" id="erdas"></a>Загрузка файлов отдельных зон</strong></p>
+            <p>File\Open External File\Landsat\GeoTIFF или File\Open Image File </p>
+            <p align="center"><img src="/images/layerstack-envi-01.gif" alt="layerstack" width="643" height="573" /></p>
+            <p align="center"><img src="/images/layerstack-envi-02.gif" alt="layerstack" width="364" height="236" /></p>
+            <p>В результате этого действия появится окно Availble Bands List с перечнем загруженных слоев.</p>
+            <p align="center"><img src="/images/layerstack-envi-03.gif" alt="layerstack" width="239" height="566" /></p>
+            <p><img src="/images/2.gif" width="33" height="41" /><strong><a name="arcview" id="arcview"></a>&quot;Склеивание&quot; каналов </strong></p>
+            <p>После загрузки файлов-каналов, используя инструмент Basic Tools\Layer Stacking нужно добавить нужные каналы в набор с помощью опции Import File..., и, если необходимо, изменить порядок, в котором они будут состыкованы. Также необходимо указать результирующую систему координат данных (для данных Landsat она будет прочитана из файлов-каналов, то есть исходная СК будет равна конечной) и тип интерполяции значений, если выходная система будет отличаться от исходной СК склеиваемых слоев. Если результат нужно сохранить в формате, отличном от используемого по умолчанию ENVI, то имеет смысл результат записать в память (output result to memory) и выполнить шаг 3. </p>
+            <p align="center"><img src="/images/layerstack-envi-06.gif" alt="layerstack" width="551" height="434" /></p>
+            <p><img src="/images/3.gif" alt="3" width="33" height="41" /><strong><a name="arcview" id="arcview"></a>Сохранение данных </strong></p>
+            <p>После создания многоканального файла, хранящегося в памяти, его можно сохранить в нужном формате используя инструмент File\Save File As, который позволяет сохранять данные в форматах GeoTIFF, ERDAS IMAGINE, GRID и др.</p>
+            <p><img src="/images/4.gif" alt="4" width="33" height="41" /><strong><a name="arcview" id="arcview"></a>Создание трехканального (RGB) композитного изображения</strong></p>
+            <p>Если целью создания композитного изображения является только визуальный анализ  в строго определенном синтезе или изображение дальше импортируется в графический редактор, то после загрузки данных (шаг 1) нужно составить композицию каналов. Чтобы выбрать зону, необходимо, используя загруженные каналы в окне Availble Bands List сначала щелкнуть мышкой на соответствующий цвет (R, G или B) после этого на слово Band1 под соответствующим названием файла-канала. После завершения выбора для всех зон, нажать Load RGB (подробнее о зональных комбинациях для данных Landsat TM / ETM+).</p>
+            <p>В появившемся рабочем окне с изображением композиции выбранных каналов выбираем File – Save Image file – Image file.</p>
+            <table width="90%" border="0" align="center">
+              <tr>
+                <td><span><img src="/images/layerstack-envi-04.gif" alt="layerstack" width="399" height="501" /></span></td>
+                <td><span><img src="/images/layerstack-envi-05.gif" alt="layerstack" width="287" height="459" /></span></td>
+              </tr>
+            </table>
+            <p>В появившемся окне Output Display to Image Eile, можно настроить параметры сохраняемого файла. Как видно из рисунка настраивается радиометрическое разрешение, размеры изображения (т.е. можно заодно и вырезать нужный фрагмент), а также – формат получаемого файла. По желанию можно получить Tiff/Geotiff, ERDAS IMAGINE, ER Mapper, Arcview .bil, и другие. Кнопкой Choose выбирается название нового файла и путь к нему.</p>
+            <p class="discuss">
+				<span><!--#include virtual="/scripts/forum-comments-num.php?i=1718"--></span>
+			</p>
+			<div class="links">
+			<h2>Ссылки по теме</h2>
+			<ul>
+               <li><a href="layerstack.html">Объединение многоканальных данных в единый файл</a></li>
+			</ul>
+			</div>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<p class="status"><span>Дата создания: 13.10.2007
+<br>Автор(ы): <a href="/forum/memberlist.php?mode=viewprofile&u=2" target="_blank">Максим Дубинин</a></span></p>
+<!--#include virtual="/inc/footer2.php" -->

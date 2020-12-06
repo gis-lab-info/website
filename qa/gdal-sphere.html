@@ -1,0 +1,81 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Использование GDAL для перепроектировки данных на базе эллипсоида на сферу</title>
+<!--#include virtual="/inc/header2.txt" -->
+<!--Contents start-->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Вопросы и ответы</a></li>
+</ul>
+<h1>Использование GDAL для перепроектировки данных на базе эллипсоида на сферу</h1>
+<p class="ann">Решение задачи перевода данных в системе координат на базе  эллипсоида на сферу с помощью GDAL на примере данных ASTER (Terralook)</p>
+<p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=1747"--></span></p>
+<p><strong>Общая информация о GDAL</strong></p>
+<p>Для дальнейшего использования полученных данных дистанционного зондирования в ГИС  системах, обычно бывает необходимо спроецировать данные в пользовательскую  проекцию. Часто исходные данные находятся в географической системе координат и не имеют проекции (единицы   измерения – десятичные градусы). В принципе, для изменения  проекции снимков может подойти любая современная ГИС, работающая с растровыми  данными (ERDAS Imagine, ArcGIS,   PCI Geomatica и   другие). Однако, существуют ситуации, когда ни одна из них не подходит. В этой статье предлагается использование альтернативного подхода –  проецирование данный <a href="/qa/georef-gdal.html">с использованием библиотеки GDAL</a>.  По сравнению с распространенными коммерческими пакетами GDAL обладает рядом преимуществ: </p>
+            <p>1. Библиотека GDAL -  бесплатно распространяемый набор инструментов и библиотек с открытым исходным  кодом. Использование этих инструментов - один из немногих способов осуществить  перепроецирование растрового изображения используя исключительно бесплатное ПО. </p>
+            <p>2. Трансформирование  снимков в системе GDAL  производиться значительно быстрее, чем во многих платных продуктах. К примеру,  трансформация снимка ASTER  в GDAL занимает 2-3  минуты, в то время как в ArcGIS Desktop – около получаса.</p>
+            <p>3. GDAL корректно производит пересчет между  системами координат использующими эллипсоиды и системами координат на сфере (обычная проблема, с которой сталкиваются пользователи ERDAS Imagine, который данную   операцию производит не корректно).</p>
+            <p>Подробно с установкой и основами  работы с системой GDAL  можно ознакомиться в <a href="/qa/georef-gdal.html">специальной статье</a> или на <a href="http://www.gdal.org/" target="_blank" class="external">официальном сайта GDAL</a>. Кратко  еще раз напомним процедуру установки:</p>
+            <ol>
+              <li> <a href="http://trac.osgeo.org/gdal/wiki/DownloadingGdalBinaries" target="_blank" class="external">Загрузите</a> исполняемые модули GDAL, необходимо загрузить пакет Minimalist windows executables.</li>
+              <li>Распакуйте фалы в директорию где будет храниться GDAL (Например: C:\gdalwin32-1.4.2).</li>
+              <li>Добавьте путь к директории куда были установлены исполняемые файлы GDAL к переменной окружения Path. Например: C:\gdalwin32-1.4.2\bin</li>
+              <li>Создайте переменную  окружения GDAL_DATA со значением равным названию директории в который был установлен GDAL. Например: C:\gdalwin32-1.4.2\data.</li>
+            </ol>
+            <p>Для корректной работы  пакета Вам также потребуется установить библиотеку картографических проекций PROJ.4 (также являющуюся свободно распространяемым ПО). Для этого:</p>
+            <p> 1. <a href="http://proj.maptools.org/" target="_blank" class="external">Загрузите</a> пакет PROJ. Необходимо загрузить Prebuilt Win32 executables.<br />
+              2. Распакуйте фалы (например, в C:\proj).<br />
+              3. Добавьте путь C:\proj\bin к переменной окружения Path.</p>
+            <p>Стандартная команда  трансформации с помощью GDAL выглядит следующим образом:</p>
+            <pre>gdalwarp -s_srs &quot;+proj=longlat +datum=WGS84  +no_defs&quot; -t_srs &quot;+proj=laea +lat_0=90 +lon_0=100 +ellps=sphere  +x_0=0 +y_0=0 +units=m +no_defs&quot; -tr 15 15 -rn  -srcnodata 0 -dstnodata 0 images\XXXXXX.jpg XXXXXX.tif</pre>
+            <p>Вот что означает эта комманда:<br />
+              <br />
+              <strong>gdalwarp</strong> – вызов программы трансформации</p>
+            <p><strong>-s_srs &quot;+proj=longlat +datum=WGS84 +no_defs&quot;</strong> – описание исходной проекции/системы координат снимков</p>
+            <p><strong>-t_srs &quot;+proj=laea +lat_0=90  +lon_0=100 +ellps=sphere +x_0=0 +y_0=0 +units=m +no_defs&quot;</strong> – описание выходной системы координат и проекции. В данном примере мы используем проекцию Lambert azimuthal equal area с центром 90 с.ш., 100  в.д., основанную на сфере, а не эллипсоиде.  Для других проекций набор параметров может отличаться.</p>
+            <p><strong>-tr 15 15</strong> – размер выходного пикселя в метрах</p>
+            <p><strong>-srcnodata 0 -dstnodata 0</strong> – заливка нулями поля вокруг  изображения.</p>
+            <p><strong>images\XXXXXX.jpg</strong>  – исходный снимок из папки images<br />
+              <strong>XXXXXX.tif</strong>  – выходной файл.</p>
+            <p><strong>Пакетное  перепроектирование данных ASTER (Terralook)</strong></p>
+            <p>Проиллюстрируем данную операцию конкретным примером. Для  примера осуществим пакетную трансформацию <a href="/qa/terralook.html">данных ASTER (TerraLook)</a>.  Эти данные поставляются в формате jpeg и имеют географическую привязку. Информация о привязке  хранится в файле привязки jpgw. В комплект также входят текстовые файл с  координатами углов для каждого снимка.</p>
+            <p>Для трансформации одного снимка из директории images скачанного набора  данных TerraLook нужно,  используя командную строку, выполнить следующее выражение (все   пути даны относительно корневой папки распакованной коллекции):</p>
+            <pre>gdalwarp -s_srs &quot;+proj=longlat +datum=WGS84  +no_defs&quot; -t_srs &quot;+proj=laea +lat_0=90 +lon_0=100 +ellps=sphere  +x_0=0 +y_0=0 +units=m +no_defs&quot; -tr 15 15 -rn  -srcnodata 0 -dstnodata 0 images\XXXXXX.jpg XXXXXX.tif</pre>
+            <p>Расшифровку данной команды смотрите выше.</p>
+            <p>Для выполнения пакетного проецирования снимков ASTER используем  прилагаемый скрипт на языке PERL  (<a href="/programs/perl/reproject.txt">reproject.pl</a>). Подробнее о языке PERL можно  <a href="perl.html">прочитать на нашем сайте</a>. Для  выполнения трансформации достаточно скопировать скрипт в папку распакованных  данных ASTER и запустить. Перед этим необходимо убедиться что все  необходимые компоненты установлены (PERL, GDAL и PROJ.4). Срипт  создан для трансформации данных в проекцию Lambert azimuthal equal area. Отредактируйте скрипт  для использования Вашей пользовательской проекции. При формировании имени  выходного файла скрипт использует дату и время исходного снимка. Имя выходного  файла будет выглядеть так: ГГГГММЧЧ_ЧЧММСС.</p>
+<pre>#!/usr/local/bin/perl
+@dir=readpipe(&quot;dir images\\*.jpg /O:N /B&quot;);
+$files=@dir;
+for($inc=0;$inc&lt;$files;++$inc)
+{
+$line = @dir[$inc];
+chomp($line);
+($name,$ext)=split('\.',$line);
+if ($ext eq &quot;jpg&quot;)
+{
+$line =~ s/.jpg//;
+(@temp)=split('\_',$line);
+$year=substr @temp[2],7,4;
+$date=substr @temp[2],3,4;
+$time=substr @temp[2],11,6;
+$newname=$year.$date.&quot;\_&quot;.$time;
+system(&quot;gdalwarp -s_srs \&quot;+proj=longlat +datum=WGS84 +no_defs\&quot; -t_srs \&quot;+proj=laea +lat_0=90 +lon_0=100 +ellps=sphere +x_0=0 +y_0=0 +units=m +no_defs\&quot; -tr 15 15 -rn  -srcnodata 0 -dstnodata 0 images\\$line.jpg $newname.tif&quot;);
+}
+}</pre>
+            <p class="discuss">
+				<span><!--#include virtual="/scripts/forum-comments-num.php?i=1747"--></span>
+			</p>
+			<div class="links">
+			<h2>Ссылки по теме</h2>
+			<ul>
+               <li><a href="georef-gdal.html">Использование GDAL для привязки растровых материалов</a></li>
+               <li><a href="http://www.gdal.org/gdalwarp.html" target="_blank" class="external">Официальная страница gdalwarp</a></li>
+			</ul>
+			</div>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<p class="status"><span>Дата создания: 06.11.2007
+<br>Автор(ы): <a href="/forum/memberlist.php?mode=viewprofile&u=2" target="_blank">Максим Дубинин</a></span></p>
+<!--#include virtual="/inc/footer2.php" -->

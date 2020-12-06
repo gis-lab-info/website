@@ -1,0 +1,91 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Фигурная обрезка растра по заданной форме</title>
+<!--#include virtual="/inc/header2.txt" -->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Вопросы и ответы</a></li>
+</ul>
+<!--Contents start-->
+<h1>Фигурная обрезка растра по заданной форме</h1>
+<p class="ann">Как обрезать растр и сделать его не прямоугольным, с помощью ArcGIS и Arcview GIS Image Analysis</p>
+<p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=428"--></span></p>
+<p>Растровые данные в принципе не могут быть непрямоугольными, так как всегда представляют собой прямоугольную матрицу размером X на Y. Однако, переведя лишнее в класс NODATA можно добится того, чтобы визуально и статистически растр принял визуально любую форму (при этом физически он останется прямоугольным).</p>
+            <p>Для начала работы необходимо иметь <a href="/qa/georef-ag.html">привязанный</a> многоканальный RGB или CMYK растр (лучше в формате GeoTIFF) и маску обрезки в виде векторного полигонального shape-файла. Системы координат обоих наборов данных должны совпадать. </p>
+            <p>В статье приведено решение задачи в ArcGIS, с помощью Spatial Analyst и Arcview GIS с помощью Image Analysis. </p>
+            <h2>1. Решение задачи с помощью ArcGIS</h2>
+            <p>Этот вариант иллюстрирует пошаговое решение задачи с помощью ArcGIS. Необходимо отметить, что описываемое здесь решение является, возможно, излишне подробным (<a href="/forum/viewtopic.php?f=16&t=3616#p14518">обсуждение</a>). Операции 1 - 7 из данного описания могут быть заменены инструментом Extract by Mask (ArcToolbox\Spatial Analyst Tools\Extraction).</p>
+            <p align="center"><img src="/images/clipraster-freeform-01.jpg" width="200" height="204" /></p>
+            <ol>
+              <li>Добавить растровый слой, если растр - многоканальный, то необходимо загрузить каждый слой отдельно.<br />
+                <br />
+                <table width="80%"  border="0" align="center">
+                  <tr>
+                    <td><div align="center"><img src="/images/clipraster-freeform-05.jpg" width="200" height="206" /></div></td>
+                    <td><div align="center"><img src="/images/clipraster-freeform-06.jpg" width="200" height="203" /></div></td>
+                    <td><div align="center"><img src="/images/clipraster-freeform-07.jpg" width="200" height="204" /></div></td>
+                  </tr>
+                </table>
+                <br />
+              </li>
+              <li> Влючить расширение Spatial Analyst Tools\Extensions\Spatial Analyst и добавить его панель в ArcGIS - View\Toolbars\Spatial Analyst</li>
+              <li>Добавить векторный слой, которым будет обрезаться растровый, векторный слой должен содержать полигональный объект - маску. <br />
+                <br />
+                <img src="/images/clipraster-freeform-02.jpg" width="200" height="198" /> <br />
+              </li>
+              <li>Вызвать меню настройки Spatial Analyst - Панель Spatial Analyst\Options и установить маску анализа (Analysis mask) и географических охват (Extent) равные названию темы, которой осуществляется обрезка.<br />
+                <table width="80%"  border="0" align="center">
+                  <tr>
+                    <td><div align="center"><img src="/images/clipraster-freeform-03.gif" width="337" height="334" /></div></td>
+                    <td><div align="center"><img src="/images/clipraster-freeform-04.gif" width="337" height="334" /></div></td>
+                  </tr>
+                </table>
+              </li>
+              <li>Для каждого канала выполнить операцию Spatial Analyst\Raster Calculator, в окне формулы должно стоять название канала, его можно получить дважды щелкнув в списке каналов. Суть операции - простое копирование растрового слоя в самого себя, но уже с учетом обрезающего векторного слоя.<br />
+                <br />
+                <img src="/images/clipraster-freeform-08.jpg" width="421" height="347" /> <br />
+              </li>
+              <li> Результатом операции должно стать добавление в вид новой темы с названием - Calculate, после N операций (где N - количество каналов исходного растра) появится N тем Calculate.</li>
+              <li>Включить ArcToolbox и выбрать инструмент Data Management Tools\Raster\Composite bands и по очереди добавить темы Calculate в том же порядке, в каком они создавались.<br />
+                <br />
+                <img src="/images/clipraster-freeform-09.jpg" width="417" height="329" /> <br />
+              </li>
+              <li> После создания нового растра нужно его пересохранить, для этого необходимо правой кнопкой щелкнуть на новой теме (по умолчанию - Compos) и выбрать Data\Export Data... и выбрать папку, название и тип нового файла.</li>
+            </ol>
+            <p align="center"><span><img src="/images/clipraster-freeform-10.jpg" width="200" height="215" /></span></p>
+            <p>Имейте в виду, что ArcGIS по умолчанию применяет растяжку гистрограммы, поэтому исходный растр и его фрагмент будут выглядеть по разному из-за разной статистики, но по сути останутся одним и тем же.</p>
+            <p>Пример:</p>
+            <table width="70%"  border="0" align="center">
+              <tr>
+                <td><p align="center"><img src="/images/clipraster-freeform-02.jpg" width="200" height="198" /></p>
+                  <p align="center"> Исходный растр </p></td>
+                <td><p align="center"><img src="/images/clipraster-freeform-11.jpg" width="200" height="210" /></p>
+                  <p align="center">Результирующий (обрезанный) растр </p></td>
+              </tr>
+            </table>
+            <p>Для того, чтобы увидеть исходный, не модифицированный растяжкой гистограммы растр. В окне Свойств слоя (Layer properties) на закладке Легенда (Symbology) в пункте Растяжка (Stretch) выберите - None.</p>
+            <p align="center"><img src="/images/clipraster-freeform-12.jpg" width="590" height="436" /> </p>
+            <p>Из папки указанной в пункте Рабочая директория (Working directory)
+              окна свойств Spatial Analyst, после выполнения операций необходимо удалить временные файлы.</p>
+            <h2>2. Решение задачи с помощью Arcview GIS Image Analysis </h2>
+            <p>Для того, чтобы обрезать по заданному контуру растр с помощью Arcview GIS, понадобится модуль Image Analysis. В этом случае операцию обрезки можно выполнить быстрее и удобнее, чем в ArcGIS. </p>
+            <ol>
+              <li>Создать Вид (View) в Arcview GIS</li>
+              <li>Добавить тему обрезаемого растра (View\Add theme..., тип данных должен быть равен Image Analysis data source)</li>
+              <li>Добавить полигональную тему по которой будет производиться обрезка (маску) (View\Add theme..., тип данных должен быть равен Feature data source)</li>
+              <li>Задать географический охват и маску обрезки, Image Analysis\Properties, Analysis extent: Same as название растровой темы, Analysis mask: название векторной маски.<br />
+                <img src="/images/clipraster-freeform-13.gif" width="351" height="420" /><br />
+              </li>
+              <li>Выполнить операцию subset, оставив  все каналы, как есть (Image Analysis\Subset...).</li>
+              <li>Сохранить полученный новый растр под новым именем (Theme\Save image as...) </li>
+            </ol>
+            <p class="discuss">
+				<span><!--#include virtual="/scripts/forum-comments-num.php?i=428"--></span>
+			</p>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<p class="status"><span>Дата создания: 27.07.2005
+<br>Автор(ы): <a href="/forum/memberlist.php?mode=viewprofile&u=2" target="_blank">Максим Дубинин</a></span></p>
+<!--#include virtual="/inc/footer2.php" -->

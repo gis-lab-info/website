@@ -1,0 +1,59 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Using Process-srtm for SRTM import</title>
+<!--#include virtual="/inc/header-eng.txt" -->
+<!--Contents start-->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Вопросы и ответы</a></li>
+</ul>
+<h1>Using Process-srtm for SRTM import</h1>
+            <p class="ann">User manual for Process-srtm tool</p>
+            <p align="left"><b>Process-</b><strong>srtm</strong> - special tool for automating SRTM data import. <a href="/programs/vb/process-srtm.zip"> This software</a> is the middleman between downloaded SRTM data and Arcinfo Workstation and can be used for any number of SRTM tiles. You'll need Arcinfo Workstation to run the file, which will be created after you run the program. </p>
+            <p align="center"><img src="/images/process-srtm-01.gif" width="215" height="169" /></p>
+            <p align="left">Take into consideration following issues when using Process-srtm:</p>
+            <ol>
+              <li>If you're running this software for the first time, you'll need to <a href="/programs-eng.html#libraries">download and install software libraries</a>. </li>
+              <li>Process-srtm doesn't process actual SRTM data and doesn't create any new raster data, it is only creating special batch processing file. </li>
+              <li> Process-srtm is the batch file generator, it is creating batch SML file, which is then needed to re run with Arcinfo Workstation, which in turn do the actual work.</li>
+              <li>If you don't have Arcinfo Workstation, using of process-srtm makes no sense.</li>
+            </ol>
+            <p>To start working, you need to obtain SRTM tiles and unpack them into certain directory that need to be selected with the Process-srtm. Press after <strong>Create sml</strong> this. </p>
+            <p>Process-srtm is doing the following:</p>
+            <ol>
+              <li> Rename HGT to BIL</li>
+              <li>Calculate corner coordinates and create header file HDR for each tile </li>
+              <li>Create batch processing file to use with  Arcinfo Workstation </li>
+            </ol>
+            <p>Further during SML-file execution, Arcinfo Workstation is doing the following:</p>
+            <ol>
+              <li>Import SRTM tiles into GRID format </li>
+              <li>Correct 16-bit values</li>
+              <li>Set NODATA value </li>
+              <li>Merge all grids into single raster </li>
+              <li>Remove temporary files </li>
+              <li>Optional: project grid into needed projection </li>
+            </ol>
+            <p>In depth description of these step <a href="/qa/srtm.html">is available here</a> (rus). </p>
+            <p>To execute created SML-file in Arcinfo Workstation:</p>
+            <p>1. Start Arcinfo Workstation. Set directory with SRTM tiles and generated SML as working directory. To do this enter this command into Arcinfo Workstation command prompt:</p>
+            <tcode><b>&amp;workspace full_dir_name_including_path</b></tcode>
+            <p>2. Run SML-file, which is by default located in the same folder with SRTM tiles:</p>
+            <tcode><b>&amp;run !process-srtm.sml</b> </tcode>
+            <p>The result will be single GRID which contains merged and corrected SRTM tiles. This software can be used for any number of SRTM tiles. </p>
+            <p class="discuss">
+				<span><!--#include virtual="/scripts/forum-comments-num.php?i=1014&lang=e"--></span>
+			</p>
+			<div class="links">
+			<h2>Ссылки по теме</h2>
+			<ul>
+               <li><a href="/qa/srtm.html">SRTM data and its import with Arcinfo Workstation (rus)</a></li>
+			</ul>
+			</div>
+            <p class="status">
+			   <span><!--#include virtual="/scripts/date.php?lang=e" --></span>
+			</p>
+<!--Contents end-->
+<!--#include virtual="/inc/footer2.php" -->

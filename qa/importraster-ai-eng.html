@@ -1,0 +1,79 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Batch import of raster data into GRIDs and postprocessing using Arcinfo Workstation</title>
+<!--#include virtual="/inc/header2-eng.txt" -->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Home</a></li>
+   <li><a href="/qa.html">Articles</a></li>
+</ul>
+<!--Contents start-->
+<h1>Batch import of raster data into GRIDs and postprocessing using Arcinfo Workstation</h1>
+<p class="ann">Description for several tools designed for fast conversion and processing of raster data in Arcinfo Workstation</p>
+<p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=1311"--></span></p>
+<p><strong>Introduction</strong></p>
+<p>It is possible to use Arcinfo Workstation for high-preformance import of raster data in TIF, BSQ/BIL/BIP formats into GRID format, used for the analysis and calculations in Arcinfo, Arcview, ArcGIS such scripts can also help to carry out several processing operations on GRIDs in the batch mode. Script is creating a list of files for conversion or processing and perform necessary operations. Arcinfo Workstation is the unbeaten in terms of speed and reliability software which ideally can solve this kind of tasks. </p>
+            <p>All raster files (any number of them) in BIL or TIF format should be located in the same directory.</p>
+            <p>For all scripts mentioned here, input folder where all the files to be processed are located and output folder where the results will be put should be specified. If output folder parameter is omited, script will be using input folder for storing outputs. For output folder, relative to input path can be used. For example: if input folder is set to be  <strong>c:\work\</strong>, then setting <strong>result\ </strong>as an output will mean that full path to output folder will be c:\work\result\. Both input and output folder parameters must have trailing slashes (end with &quot;\&quot;).</p>
+            <p><strong>Running arc and Setting the environment </strong></p>
+            <p>To start Arcinfo Workstation you need either to type <strong>arc</strong> in Start\Run... or select Start\Programs\ArcGIS\ArcInfo Workstation\Arc or something similar. After you see the console, you'll have to enter all commands manually into it, commands are entered after <strong>arc:</strong> prompt, in all the examples below, system prompt is omitted. To start working, it is better to specify the path to the folder, where all your scripts are located, doing it, you want have to specify full path to the tools each time you run it. This can be done by <strong>&amp;workspace </strong>command: </p>
+            <pre><b>&amp;workspace c:\work\myscripts\ </b></pre>
+            <p>To check if command run correctly just put <strong>w</strong> into the system prompt, to have something like Current location: c:\work\myscripts as a responce from Arcinfo.</p>
+            <pre><b>w</b></pre>
+            <p>We recommend to store all the scripts in one folder, this is will make it easy to run them one after the other.  </p>
+            <p><strong>Scripts</strong></p>
+            <p>To start working with GRID data, usually you have to convert some other data to GRID format, you can do it with  <a href="/programs/aml/image2grid.aml">image2grid.aml</a> tool which will do the work. To run the script, you'll need to enter this command in Arcinfo Workstation console:</p>
+<pre><b>&amp;run image2grid.aml input output
+or
+&amp;run image2grid.aml c:\work\ d:\result\</tcode>
+            <p>If your input rasters have  signed 16-bit format, then you'll have to make one more step to correct them after importing using <a href="/programs/aml/con2.aml">con2.aml</a>:</p>
+            <tcode><b>&amp;run con2.aml input output<br />
+                </b>or<br />
+                  <b>&amp;run con2.aml c:\work\ d:\result\ </b></tcode>
+            <p>The result of this script work will be new set of GRIDs with &quot;c&quot; prefix for initial name, files generated after first step of import (using image2grid) will be removed. </p>
+            <p>Opposite operation is export from GRID back to BIL format, it can be also batched using  <a href="/programs/aml/grid2bil.aml">grid2bil.aml</a>. Files in BIL format can be used to load data into other software, <a href="modis-timesat-eng.html">like for example TIMESAT</a>. </p>
+            <tcode><b>&amp;run grid2bil.aml input output<br />
+                    </b>or<b><br />
+                    <b>&amp;run grid2bil.aml c:\work\ ..\result\</b></b></tcode>
+            <p>To get rid of certain values, you can set certain values of raster equal to NODATA, this often used for remote sensing data, where certain negative value is used for boundary of the image and don't carry any meaningful information. Usual raster formats (TIF, BIL and others) doesn't have an ability to store NODATA value, while GRID can. To use set certain value or range to NODATA, use <a href="/programs/aml/setnull.aml">setnull.aml</a> script.</p>
+            <tcode><b>&amp;run setnull.aml input output<br />
+                </b>or<b><b><br />
+                        <b>&amp;run setnull.aml c:\work\ d:\result\</b></b></b></tcode>
+            <p>To set certain values, you need to find a line in the script, using any text editor, which contains a condition which should be true to set value to NODATA, by default this line contains <strong>%current%</strong> <strong>&lt;= - 3000</strong> condition, you can change to something else, depending on what data are you using, for example, you can turn in NODATA, only values, which are exactly equal to -3000: <strong> %current% == -3000</strong>.</p>
+            <p>This script will result in new set of files in GRID format, with &quot;z&quot; prefix to a GRID's name. Files which were used as a source will be deleted. </p>
+            <tcode>%output% = setnull(%current% &lt;= -3000, %current%)<br />
+                or<b><b><br />
+                  <b>%output% = setnull(%current% == -3000, %current%)</b></b></b><br />
+                or<b><b><br />
+                <b>%output% = setnull(%current% &lt;= -3000 and <b><b>%current% &gt;= -5000</b></b>, %current%)</b></b></b></tcode>
+            <p>To clip all grids using some clipping coverage <a href="/programs/aml/clip-all.aml">clip-all.aml</a> script can be used. To work with it, clipping coverage first need to be created and should contain a polygon which will be used for clipping. This coverage can be located in the same folder as source files, in this case it will be enough just to use its name without path in the console.</p>
+            <tcode><b>&amp;run clip-all.aml clipcover input output<br />
+                </b>or<b><br />
+                  &amp;run clip-all.aml clipper c:\work\data\ ..\result\ </b></tcode>
+            <p>If clipping coverage is located in any other directory, then that with source files, full path to clipping coverage should be specified, for example: </p>
+            <tcode><b>&amp;run clip-all.aml c:\temp\clipcover input output</b><br />
+                or<br />
+                  <b>&amp;run clip-all.aml c:\temp\clipcover c:\work\data\ ..\result\</b></tcode>
+            <p>After multiple operation on files, their names can become hard to read or meaningless. To change all the names at once using certain susbstitution for substrings you can use  <a href="/programs/aml/rename.aml">rename.aml</a> script:</p>
+            <tcode><b>&amp;run rename.aml sourcedir findstr replacestr<br />
+                </b>or<b><br />                  &amp;run rename.aml c:\work\data\ znc</b></tcode>
+            <p>To run this script, you need to specify source folder, where GRIDs to rename are stored - sourcedir, findstr - fragment of text to find in GRID's name, replacestr - text on which substring found will be substituted, this parameter can be omitted, then substring found wil be simple deleted from the name of the GRID. </p>
+            <p>These scripts are relatively easy to modify to make them do any other operation on any number of input GRIDs or files. </p>
+            <p>Download scripts : <a href="/programs/aml/image2grid.aml">image2grid.aml</a>, <a href="/programs/aml/con2.aml">con2.aml</a>, <a href="/programs/aml/grid2bil.aml">grid2bil.aml</a>, <a href="/programs/aml/setnull.aml">setnull.aml</a>, <a href="/programs/aml/grid2bil.aml">grid2bil.aml</a>, <a href="/programs/aml/clip-all.aml">clip-all.aml</a>.</p>
+            <p class="discuss">
+				<span><!--#include virtual="/scripts/forum-comments-num.php?i=1311&lang=e"--></span>
+			</p>
+			<div class="links">
+			<h2>  </h2>
+			<ul>
+               <li><a href="/qa/gimms.html">GIMMS AVHRR data (rus)</a></li>
+			   <li><a href="/qa/extract-values-grids-eng.html">Extracting data from multiple rasters using point profiles</a></li>
+			   <li><a href="/qa/zonalstats-eng.html">Calculation of zonal statistics in Arcview GIS</a></li>
+			</ul>
+			</div>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<p class="status"><span>Дата создания: 08.08.2006
+<br>Автор(ы): <a href="/forum/memberlist.php?mode=viewprofile&u=2" target="_blank">Максим Дубинин</a></span></p>
+<!--#include virtual="/inc/footer2.php" -->

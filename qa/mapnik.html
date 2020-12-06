@@ -1,0 +1,100 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Рендеринг карт с помощью Mapnik</title>
+<!--#include virtual="/inc/header2.txt" -->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Вопросы и ответы</a></li>
+</ul>
+<!--Contents start-->
+<h1>Рендеринг карт с помощью Mapnik</h1>
+<p class="ann">Описание начала работы с Mapnik и опыт использования в проекте &quot;Космоснимки&quot; </p>
+<p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=2276"--></span></p>
+            <p><strong>Введение</strong></p>
+            <p><a href="http://mapnik.org" target="_blank" class="external">Mapnik</a> - открытая библиотека для рендеринга  растровых карт из векторных данных. Она была разработана для проекта <a href="http://openstreetmap.org" target="_blank" class="external">OpenStreetMap</a> нашим соотечественником  Артемом Павленко, и сегодня используется <a href="http://mapnik.org/news/2008/feb/07/release_0_5_0/" target="_blank" class="external">и другими ресурсами</a>, среди которых стоит отметить <a href="http://www.everyblock.com/" target="_blank" class="external">EveryBlock</a> и российские <a href="http://kosmosnimki.ru" target="_blank" class="external">Космоснимки</a>. Основная  заявленная цель Mapnik - получение красивых карт.
+            Данная статья кратко описывает возможности Mapnik и начало работы с ним.</p>
+            <p><strong>Общая информация</strong></p>
+            <ul type="disc">
+              <li>лицензия: <a href="http://www.fsf.org/licensing/licenses/lgpl.txt" target="_blank" class="external">LGPL</a></li>
+              <li>платформы: UNIX, Windows</li>
+              <li>языки: C++, Python</li>
+              <li>форматы входных данных: ESRI       Shapefile, PostGIS, PNG, TIFF</li>
+              <li>выходные форматы: JPEG, PNG</li>
+              <li>поддержка кодировок: Unicode       и любые другие</li>
+              <li>поддержка шрифтов: TrueType</li>
+              <li>поддерживаемые графические       элементы: </li>
+              <ul type="circle">
+                <li>точка</li>
+                <li>линия с заливкой,        текстурой</li>
+                <li>полигон с заливкой,        текстурой, экструзией (псевдо-3D)</li>
+                <li>надпись к точке,        линии, полигону</li>
+                <li>щиток        (картинка+надпись, например, для обозначения трасс)</li>
+                <li>векторный указатель        (например, стрелка вдоль улицы)</li>
+              </ul>
+            </ul>
+            <p><strong>Установка под Windows</strong></p>
+            <ul type="disc">
+              <li>Скачайте и установите <a href="http://python.org/download/" target="_blank" class="external">Python 2.5</a>.</li>
+              <li>Скачайте и установите <a href="http://www.pythonware.com/products/pil/#pil116" target="_blank" class="external">PIL для Python 2.5</a>.</li>
+              <li>Скачайте и разархивируйте       win32 binaries с <a href="http://mapnik.org" target="_blank" class="external">сайта Mapnik</a> в папку по выбору - далее [mapnik].</li>
+              <li>Отредактируйте файл [mapnik]\site-packages\mapnik\paths.py:       в первой строчке вместо указанного пути пропишите mapniklibpath =       [mapnik]/lib/mapnik</li>
+              <li>Добавьте путь к папке [mapnik]\lib       к системной переменной PATH.</li>
+              <li>Добавьте путь к папке [mapnik]\site-packages       к системной переменной PYTHONPATH.</li>
+              </ul>
+            <p>Проверьте, все ли сделано правильно. В командной консоли, выполните:</p>
+            <pre>python
+from mapnik import *</pre>
+            <p>Если появились сообщения об ошибках, проверьте пути выше и ознакомьтесь с <a href="http://trac.mapnik.org/wiki/WindowsInstallation#TroubleShooting" target="_blank" class="external">TroubleShooting</a>.</p>
+            <p><strong>Установка под UNIX</strong></p>
+            <p>С подробной инструкцией на английском языке можно ознакомиться <a href="http://mapnik.org/documentation/install/" target="_blank" class="external">на сайте Mapnik</a>.</p>
+            <p><strong>Начало работы</strong></p>
+            <p>Чтобы использовать Mapnik, необходимо написать скрипт на Python, вызывающий нужные  его функции (<a href="http://trac.openstreetmap.org/browser/applications/rendering/mapnik/generate_tiles.py" target="_blank" class="external">пример  такого скрипта</a> из проекта OpenStreetMap). Стили можно задавать прямо в  Python-коде или в отдельном XML-файле (<a href="http://trac.openstreetmap.org/browser/applications/rendering/mapnik/osm.xml" target="_blank" class="external">пример</a>).</p>
+            <p><strong>Опыт работы с Mapnik на сайте Космоснимки </strong></p>
+            <p>На сайте <a href="http://www.kosmosnimki.ru" target="_blank" class="external">Космоснимки</a>Mapnik используется для отрисовки карты России масштаба  500.000, а также <a href="http://kosmosnimki.ru/?mode=map&amp;x=37.415301&amp;y=55.832567&amp;z=14&amp;fullscreen=true" target="_blank" class="external">детальной  карты Москвы</a>.</p>
+            <p> Наши карты мы, следовательно, делали под Веб: сначала прорабатывалось  содержание масштабных уровней, подготавливались данные в векторных слоях, потом  этому всему задавались стили, затем с помощью Mapnik выполнялся рендеринг и тайлинг - предварительная подготовка растровых данных - нарезка на фрагменты заданной величины для быстрого  показа в Интернет.              </p>
+            <p>Еще одна подготовительная процедура для визуальной  оценки полученного результата: до того как запускать карту на тайлинг,   для примера отрисовывался какой-либо фрагмент карты. Этот способ заменял  собой визуальное редактирование в векторном редакторе.</p>
+            <p> Далее несколько наблюдений из опыта применения Mapnik для данного проекта, потенциально полезных для тех, кто решит пройти испытания Mapnik самостоятельно.</p>
+            <ol start="1" type="1">
+              <li>Самое простое: полилинии       с внешней границей (outline) мы отрисовывали двумя линиями       разного цвета и толщины - одна поверх другой.</li>
+              <li>Для того, чтобы разместить       пунсон, картинку в точке с подписью, использовался сдвиг текста       по оси y. Оператор allow_overlap=&quot;true&quot; разрешает картинкам       перекрываться - тоже нужно, когда пунсонов много.</li>
+              <li>Наиболее сложная из задач - размещение на карте надписей.  Когда их много, они начинали налезать друг на друга, либо пропадать: когда,  скажем, улица попадалась особенно изгибистая, ее название искореживалось  поворотами и становилось нечитаемым. Как на этих примерах:<br />
+                  <img src="/images/mapnik-01.gif" alt="mapnik" width="135" height="111" /><br />
+                    <br />
+                <img src="/images/mapnik-02.gif" alt="mapnik" width="127" height="141" /><br />
+              В итоге, выяснилось, что есть       оператор &quot;max_char_angle_delta&quot;, который позволяет установить       ограничение на изгиб надписи и в ином случае она просто не показывается. </li>
+              <li>С min_distance, который по       идее должен задавать расстояние между повторяющимися надписями,       нам разобраться до конца не удалось. Судя по всему, этот оператор работает       только для исключения &quot;лишних&quot; повторяющихся надписей.</li>
+              <li>Со шрифтами и       форматированием текста у Mapnik по умолчанию все не слишком       разнообразно. Opacity, прозрачность, для текста пока не работает. Когда мы       начинали работать с картой поддерживалась только кодировка UTF-8, поэтому,       таблицы в какой-либо кириллической кодировке приходилось предварительно       перекодировать. В последней версии стало возможным задавать кодировку в       самой программе - encoding=&quot;UTF-8&quot;.
+                Дополнительные шрифты записывались в папку ../mapnik/lib/fonts/ и       регистрировались в программе следующим образом: <br />
+                <br />
+                <pre>FontEngine.instance().register_font(&quot;c:/mapnik_20080205/lib/mapnik/fonts/PTR76__C.PFB&quot;)</pre>
+              </li>
+              <li>К сожалению,  возможность задавать padding (отступ от внутренней границы) обнаружить не удалось. Из-за этого возникает проблема, когда надо совместить границы двух карты - надписи обрезаются.<br />
+              </li>
+            </ol>
+            <p>А вот какая карта у нас в итоге получилась:</p>
+            <p align="center"><img src="/images/mapnik-03.jpg" alt="mapnik" width="485" height="390" /></p>
+            <p><strong>Mapnik и  MapServer</strong></p>
+            <p>Mapnik конкурирует с <a href="mapserver.html">UMN MapServer</a> в части отрисовки качественных растровых карт из векторных данных. Следующие  два примера показывают разницу между Mapnik и MapServer последних версий:</p>
+            <p>                <a href="http://openstreetmap.org/?lat=42.29979&amp;lon=-71.05548&amp;zoom=16&amp;layers=B0FT" target="_blank" class="external">http://openstreetmap.org/?lat=42.29979&amp;lon=-71.05548&amp;zoom=16&amp;layers=B0FT</a> (Mapnik) <a href="http://boston.freemap.in/?lat=894547.08189&amp;lon=236111.07751&amp;zoom=7&amp;layers=B" target="_blank" class="external">http://boston.freemap.in/?lat=894547.08189&amp;lon=236111.07751&amp;zoom=7&amp;layers=B</a> (MapServer)</p>
+            <p> По отрисовке линий, полигонов и шрифтов возможности двух программ очень  близки: обе используют <a href="http://www.antigrain.com/" target="_blank" class="external">AGG</a> и <a href="http://freetype.sourceforge.net/index2.html" target="_blank" class="external">FreeType</a> с  anti-aliasing. Но есть много различий в размещении надписей, и тренированный  взгляд найдет достаточно проблем в обоих примерах. В целом Mapnik явно  разрабатывался под новомодную стилистику Google Maps, и пока проигрывает по  настраиваемости и документации более старорежимному на вид MapServer. Это добавляет разработчикам вариантов при выборе пакета для рендеринга.   Christopher Schmidt, создатель <a href="http://openlayers.org" target="_blank" class="external">OpenLayers</a>,  сначала перевел свой проект <a href="http://boston.freemap.in/" target="_blank" class="external">Boston Free Map</a> с Mapserver на Mapnik, а потом <a href="http://crschmidt.net/blog/244/mapserver-agg-rendering-now-with-fonts/" target="_blank" class="external">обратно</a>.</p>
+            <p><strong>В заключение</strong></p>
+            <p>В целом, можно сказать, что мы не слишком страдали от отсутствия графической  оболочки под Mapnik, гораздо больше мучений нам доставил поиск Mapnik'овских  возможностей, в отсутствие документации, а так же ряд нереализованных или  &quot;реализованных не полностью&quot; возможностей, которые мы тщетно пытались  найти, и которых не хватило для более качественного, на наш взгляд, рендеринга.</p>
+            <p> Тем не менее, Mapnik это свободное ПО, действительно позволяющее добиваться  красивой отрисовки карт, лучшей, чем в более функциональных и дорогущих  редакторах, типа ArcMap.</p>
+            <p> А то, чего не хватает в Mapnik, например, с точки зрения юзабилити, разнесения  функций по классам и т.д. - можно надеятся, во многом восполнимо созданием  пользовательской документации. Начало чему уже положено и для чего написана, в  частности, данная статья. </p>
+            <p class="discuss">
+				<span><!--#include virtual="/scripts/forum-comments-num.php?i=2276"--></span>
+			</p>
+			<div class="links">
+			<h2>Ссылки по теме</h2>
+			<ul>
+               <li><a href="http://kosmosnimki.ru" target="_blank" class="external">Космоснимки</a></li>
+			   <li><a href="http://mapnik.org" target="_blank" class="external">Официальный сайт Mapnik</a></li>
+			</ul>
+			</div>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<p class="status"><span>Дата создания: 27.07.2008
+<br>Автор(ы): <a href="/forum/memberlist.php?mode=viewprofile&u=6663" target="_blank">Георгий Потапов, Владимир Слепнёв</a></span></p>
+<!--#include virtual="/inc/footer2.php" -->

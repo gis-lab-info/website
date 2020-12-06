@@ -1,0 +1,60 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Простейший способ подсчитать количество пикселей определенного цвета в изображении</title>
+<!--#include virtual="/inc/header2.txt" -->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Статьи</a></li>
+</ul>
+<!--Contents start-->
+<h1>Простейший способ подсчитать количество  пикселей определенного цвета в изображении</h1>
+<p class="ann">Гистограмма в ImageMagick </p>
+<p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=8261"--></span></p>
+
+<h2>Задача</h2>
+<p>Есть двухцветное изображение и нужно подсчитать процент одного и другого цвета.</p>
+<p>Например изображение может выглядеть так:</p>
+<p align="center"><img src="../images/im-countpixels.gif" width="400" height="585"> </p>
+<p>Загрузить <a href="/data/samples/black-white-elnik.tif">изображение</a> для самостоятельной работы. </p>
+<h2>Решение</h2>
+<p>Для решения используем программу ImageMagick. Программа бесплатная, с открытым исходным кодом, работает под Windows и Linux, под Windows не требует установки и ничего не записывает в реестр операционной системы.</p>
+<p>Программа работает из командной строки.</p>
+<p>Дальнейшие объяснения касаются Windows, под Linux команды будут выглядеть точно также.   </p>
+<h3>Установка</h3>
+<p>Загрузите пакет программы <a href="http://www.imagemagick.org/script/binary-releases.php?ImageMagick=b4ekbh0uknj2n8aj2oods5vdv3#windows" class="external">по ссылке</a>. Необходимо загрузить версию обозначенную как Portable Win32 static, на момент написания этого документа это <a href="http://www.imagemagick.org/download/binaries/ImageMagick-6.7.1-Q16-windows.zip" target="_blank" class="external">ImageMagick-6.7.1-Q16-windows.zip</a></p>
+<p>Распакуйте все из этого архива в новую папку, например: C:\Tools\ImageMagick </p>
+<h3>Запуск</h3>
+<p>Нужная нам утилита запускается из командного интерпретатора, поэтому сначала запустим его через Пуск\Выполнить, где введем:</p>
+<pre>cmd</pre>
+<p>Нужная нам утилита называется convert, введем в командную строку следующую команду:</p>
+<pre>C:\Tools\ImageMagick\convert c:\temp\black-white-elnik.tif -format %c histogram:info:c:\temp\out.txt</pre>
+
+<!-- Второй раздел -->
+<p>Альтернативно, можно ввести команду выше сразу в строку меню Пуск\Запустить Windows. </p>
+<p>Команда говорит следующее:</p>
+<p> - запустить программу C:\Tools\ImageMagick\convert</p>
+<p>- взять файл  c:\temp\black-white-elnik.tif</p>
+<p>- построить гистограмму (частотное распределение встречаемости пикселов каждого цвета)</p>
+<p>- сохранить гистограмму в виде текстового файла в  c:\temp\out.txt</p>
+<p>Разумеется, чтобы программа заработала, вы должны <strong>проверить все пути</strong> к файлам и их имена. </p>
+<h3>Результат</h3>
+<p>В результате в файле out.txt появится таблица, где первое значение в каждой строке будет показывать количество пикселей данного цвета.</p>
+<pre>1063835: (  0,  0,  0) #000000 black
+2407325: (255,255,255) #FFFFFF white</pre>
+<p>Так что для выяснения количества в процентах остается только простая арифметическая операция. Например для выяснения % черного = 1063835*100/(1063835+2407325) = 30.64782%</p>
+<!-- обсуждение на форуме, цифра изменяется при публикации статьи -->   
+<p class="discuss"><span><!--#include virtual="/scripts/forum-comments-num.php?i=8261"--></span></p>
+<!-- ссылки -->
+<div class="links">
+	<h2>Ссылки по теме</h2>
+		<ul>
+			<li></li>
+			</ul>
+</div>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<p class="status"><span>Дата создания: 16.07.2011
+<br>Автор(ы): <a href="/forum/memberlist.php?mode=viewprofile&u=2" target="_blank">Максим Дубинин</a></span></p>
+<!--#include virtual="/inc/footer2.php" -->

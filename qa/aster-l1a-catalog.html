@@ -1,0 +1,54 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Каталог существующих данных ASTER</title>
+<!--#include virtual="/inc/header2.txt" -->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Вопросы и ответы</a></li>
+</ul>
+<!--Contents start-->
+<h1>Каталог существующих данных ASTER</h1>
+<p class="ann">Слои в формате ESRI Shape для работы в ГИС</p>
+<p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=1172"--></span></p>
+<p>Для тех, кто использует или планирует использовать <a href="/projects/ss/sensor/aster.html">данные ASTER</a> в работе  важно знать, какое количество съемки существует для исследуемой территории. Для ответа на этот вопрос можно воспользоваться онлайн-каталогами, такими как <a href="/qa/edcgate.html">EDC</a> или <a href="http://glovis.usgs.gov" target="_blank" class="external">GloVis</a>. Однако, для больших территорий поочередный &quot;просмотр&quot; превью может занять значительное количество времени.</p>
+            <p>Для облегчения процесса заказа снимков удобно использовать покрытие каталога существующих сцен полученных камерой ASTER за всю историю ее существования. В каталоге представлены все сцены уровня обработки L1A, что отличает этот каталог от, например, каталога <a href="http://glovis.usgs.gov" target="_blank" class="external">GloVis</a>, в котором представлены только сцены L1B, количество которых значительно меньше чем L1A. Использование такого каталога в Arcview/ArcGIS сильно облегчает процесс отбора и заказа сцен ASTER и дает хорошее представление о наличие безоблачных сцен на исследуемую территорию. </p>
+            <p align="center"><img src="/images/aster-l1a-catalog-01.jpg" alt="Фрагмент каталога данных ASTER" width="400" height="240" /></p>
+            <p><strong>Получение данных </strong></p>
+            <p>Источник данных - архивный центр LP DAAC: <a href="ftp://e0mss21u.ecs.nasa.gov/ARC_GIS/" target="_blank" class="external">ftp://e0mss21u.ecs.nasa.gov/ARC_GIS/</a>Размер архива - 131 Мб. Распакованный каталог занимает объем порядка полутора гигабайт в основном засчет базы атрибутивных данных. Название каталога соответствует дате его последнего обновления. </p>
+            <p>Этот же архив, упакованый WinRAR, можно также <a href="/data/aster-l1a/ast_l1a_v3_20060801.7z">скачать с нашего сайта</a>, размер архива 110 Мб, архив также включает файлы пространственного индекса (sbn, sbx) для ускорения операций работы с атрибутивными данными. Также с GIS-Lab можно скачать фрагмент последнего каталога <a href="/data/aster-l1a/aster-l1a-ussr-060801.7z">на территорию бывшего СССР</a>, размер архива 10 Мб. Дата последнего обновления каталога (1 августа 2006).</p>
+            <p><strong>180 меридиан</strong></p>
+            <p>Сцены пересекающие 180 меридиан - разрезаются на две части. </p>
+            <p><strong>Соответствие полигона каталога сцене </strong></p>
+            <p>Полигон, представляющий сцену в каталоге достаточно точно представляет территорию покрытую съемкой (красная линия - контур снимка из покрытия каталога). </p>
+            <p align="center"><img src="/images/aster-l1a-catalog-02.jpg" width="394" height="385" /></p>
+            <p><strong>Названия полей в атрибутивной таблице
+              данных</strong></p>
+            <p>Для каждой сцены: </p>
+            <ul>
+              <li>OID_1 - номер ID </li>
+              <li>Collection - название коллекции и ее версия </li>
+              <li>GranuleUR - уникальный идентификатор </li>
+              <li>ACQ_Date - дата съемки </li>
+              <li>INS_Date - дата вставки в каталог </li>
+              <li>DayNight - D - нисходящий виток (дневной пролет), А
+                - восходящий виток (ночной пролет)</li>
+              <li>CldCvrPct - облачность всей сцены в процентах </li>
+              <li>UL_Lat, UL_Long, UR_Lat, UR_Long, LR_Lat, LR_Long, LL_Lat, LL_Long - координаты углов сцены </li>
+            </ul>
+			<p class="discuss">
+				<span><!--#include virtual="/scripts/forum-comments-num.php?i=1172"--></span>
+			</p>
+			<div class="links">
+			<h2>Ссылки по теме</h2>
+			<ul>
+               <li><a href="/qa/l7pathrowmap.html">Карта path/row систем WRS-1,2 для данных Landsat</a></li>
+			   <li><a href="/qa/landsat-glovis-catalog.html">Каталог существующих данных Landsat из архива USGS</a></li>
+			</ul>
+			</div>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<p class="status"><span>Дата создания: 06.09.2006
+<br>Автор(ы): <a href="/forum/memberlist.php?mode=viewprofile&u=2" target="_blank">Максим Дубинин</a></span></p>
+<!--#include virtual="/inc/footer2.php" -->

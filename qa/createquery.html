@@ -1,0 +1,51 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Создание query-файла для системы EDC</title>
+<!--#include virtual="/inc/header2.txt" -->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Вопросы и ответы</a></li>
+</ul>
+<!--Contents start-->
+<h1>Создание query-файла для системы EDC </h1>
+<p class="ann">Описание query-файла и того, как быстро его создать.</p>
+<p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=813"--></span></p>
+            <p><strong>Задача:</strong> Если вы много работаете с системой заказа снимков EDC (<a href="edcgate.html">подробнее о системе</a>) и вам не раз приходилось настраивать запрос, то, возможно, вы знаете, что его со всеми его настройками можно сохранять и загружать в виде специального query-файла. Синтаксис файла очень прост и его можно быстро создать самому. Можно также воспользоваться <a href="/programs/avenue/create-query.zip">специальным расширением для Arcview GIS</a>, которое позволит быстро создать такой файл из области на вашей карте. </p>
+            <pre>GROUP = INVENTORY_SEARCH
+MESSAGE_ID = &quot;0&quot;
+DATASET_ID = &quot;MODIS/TERRA SURFACE REFLECTANCE 8-DAY L3 GLOBAL 250M SIN GRID V004&quot;
+GROUP = RANGE_LOC
+NORTH_LATITUDE = 58.9
+SOUTH_LATITUDE = 58.1
+WEST_LONGITUDE = 122.3
+EAST_LONGITUDE = 123.0
+END_GROUP = RANGE_LOC
+START_DATE = 1980-01-01T00:00:00Z
+STOP_DATE = 2005-12-29T23:59:59Z
+GRANULE_LIMIT = 1000
+GUIDE_LIMIT = 40
+TIME_LIMIT = 45
+SEARCH_NAME = &quot;modis&quot;
+END_GROUP = INVENTORY_SEARCH
+END</pre>
+            <p>Однако более удобный способ - воспользоваться расширением для Arcview GIS, которое позволит нарисовать на карте нужный прямоугольник и по нему создать файл запроса (query-файл).</p>
+            <p>Для того, чтобы воспользоваться этим способом, нужно:</p>
+            <ol>
+              <li><a href="/programs/avenue/create-query.zip">Загрузить расширение</a></li>
+              <li>Включить его File\Extensions...<br />
+                <br />
+                <img src="/images/createquery-03.gif" width="376" height="305" /> </li>
+              <li>Нарисовать в виде прямоугольник с помощью инструмента <img src="/images/createquery-04.gif" width="23" height="20" /></li>
+              <li>Нажать на кнопку <img src="/images/createquery1.gif" width="25" height="22" /> и выбрать название типа данных и облачности. Полученный файл можно загрузить в любой из порталов системы EDC без каких-либо дополнительных настроек. </li>
+            </ol>
+            <p align="center"><img src="/images/createquery-02.gif" width="382" height="392" /></p>
+            <p class="discuss">
+				<span><!--#include virtual="/scripts/forum-comments-num.php?i=813"--></span>
+			</p>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<p class="status"><span>Дата создания: 11.02.2006
+<br>Автор(ы): <a href="/forum/memberlist.php?mode=viewprofile&u=2" target="_blank">Максим Дубинин</a></span></p>
+<!--#include virtual="/inc/footer2.php" -->

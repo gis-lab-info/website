@@ -1,0 +1,33 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1251" />
+<link rel=stylesheet href="/css/styles.css" type="text/css">
+<title>Untitled Document</title>
+</head>
+
+<body>
+
+<p>Enter the co-ordinates into the text boxes to try it out (using deg-min-sec
+          suffixed with N/S/E/W, or signed decimal degrees):</p>
+        <p>Lat 1:
+          <input name="lat1"  value="53 00 00N" size="12">
+          Long 1:
+          <input name="long1" value="45 00 00E" size="12">
+        </p>
+        <p>Lat 2:
+          <input name="lat2"  value="52 00 00N" size="12">
+          Long 2:
+          <input name="long2" value="46 00 00E" size="12">
+        </p>
+<a href="/qa/google-twopoints.html" target="LLMap" onclick="
+p1=new LatLong(f.lat1.value, f.long1.value);
+p2=new LatLong(f.lat2.value, f.long2.value);
+window.open(this.href + '?lat1='+p1.lat+'&long1='+p1.lon+'&lat2='+p2.lat+'&long2='+p2.lon,
+new LatLong(f.lat2.value, f.long2.value)),
+this.target, 'width=525,height=575,menubar=no,location=no'); return false">see it on a map</a>
+<p>
+<a href="/qa/google-twopoints.html" class="external">see it on a map</a>
+</p>
+</body>
+</html>

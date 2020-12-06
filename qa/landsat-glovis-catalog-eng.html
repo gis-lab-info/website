@@ -1,0 +1,92 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Map of actual Landsat coverage (USGS)</title>
+<!--#include virtual="/inc/header2-eng.txt" -->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/index-eng.html">Home</a></li>
+   <li><a href="/qa-eng.html">Articles</a></li>
+</ul>
+<!--Contents start-->
+<h1>Map of actual Landsat coverage (USGS)</h1>
+            <p>For those who are using or planning to use Landsat data in their everyday work it is important to know, what imagery exists for the territory of their interest. When the territory is quite small and doesn't exceed 2-3 images then it is convenient to use browsing software like USGS  <a href="http://glovis.usgs.gov" target="_blank" class="external">GloVis</a>.  However, for huge territories, listing through hundreds of images can be very ineffective.</p>
+            <p>For facilitating of image selection and ordering it is convenient to use actual Landsat map, which shows all the Landsats from GloVis (read USGS) archives. Using attributive data, like cloudiness, acquisition time or image quality, it is easy to make preliminary assumptions on availability of the data. These maps are available as GIS data, so it is really easy to integrate them with any other spatial data using Arcview or ArcGIS.</p>
+            <p>Index maps for data from following data is available: </p>
+            <ul>
+              <li><a href="/projects/ss/sensor/tm.html">TM</a> (Landsat 4,5)</li>
+              <li><a href="/projects/ss/sensor/etmplus.html">ETM+</a> (Landsat 7 data before 2003)</li>
+              <li><a href="/projects/ss/sensor/etmplus.html">ETM+</a>-SLCOFF (Landsat 7 data after 2003)</li>
+            </ul>
+            <p>Data source - GloVis catalog, with represents USGS Landsat archives, largest in the world. Note, that large portion of data from Landsat 4,5 satellites (TM sensor), was not received and stored in USGS thus is missing from GloVis and our coverages, this data should searched through IGS (<a href="http://landsat.usgs.gov/project_facts/ground_assets/igs_network/" target="_blank" class="external">International Ground Stations</a> ), in the presented maps there is no data about IGS scenes. </p>
+            <p>Last update of the catalog in <strong>January 2009</strong>, it is important to know, that after this time, new data will appear in USGS archives, especially TM and ETM+-SLCOFF, which still on the orbit. </p>
+            <p align="center"><img src="/images/landsat-glovis-catalog-01.gif" alt="Фрагмент каталога данных Landsat" width="618" height="358" /></p>
+            <p><strong>Get data </strong></p>
+            <p>Following data is available in Arcview shape-file format. </p>
+            <table width="70%" border="0" align="center">
+              <tr>
+                <th width="22%"><p>Sensor</p></th>
+                <th width="36%"><p>Global (file size, number of scenes) </p></th>
+                <th width="42%"><p>former USSR   (file size, number of scenes)  </p></th>
+              </tr>
+              <tr>
+                <td><p>ETM+</p></td>
+                <td><p align="center"><a href="/data/landsat/gis-lab-etm-glovis.rar">36 Mb, 327173</a></p></td>
+                <td><p align="center"><a href="/data/landsat/gis-lab-etm-glovis-ussr.rar">4 Mb, 45867</a></p></td>
+              </tr>
+              <tr>
+                <td><span>ETM+-SLCOFF</span></td>
+                <td><p align="center"><a href="/data/landsat/gis-lab-etm-slcoff-glovis.7z">33 Mb, 536631</a></p></td>
+                <td><p align="center"><a href="/data/landsat/gis-lab-etm-slcoff-glovis-ussr.7z">4 Mb, 68490</a></p></td>
+              </tr>
+              <tr>
+                <td><p>TM</p></td>
+                <td><p align="center"><a href="/data/landsat/gis-lab-tm-glovis.7z">67 Mb, 774844 </a></p></td>
+                <td><p align="center"><a href="/data/landsat/gis-lab-tm-glovis-ussr.7z">5 Mb, 78806</a></p></td>
+              </tr>
+            </table>
+            <p><strong>180 meridian </strong></p>
+            <p>Scenes which are crossing International date line are cut in 2 parts with the same attributes. </p>
+            <p><strong>Relation of image frame to a real Landsat scene</strong></p>
+            <p>Polygon which represents the scene in the catalog fits it quite well (red line - image frame), while not perfect, real Landsat image is usually several percents bigger. Following image illustrates this fact.</p>
+            <p align="center"><img src="/images/landsat-glovis-catalog-02.gif" alt="Полигон сцены Landsat" width="400" height="369" /></p>
+            <p><strong>Attributes</strong></p>
+            <p>Attributive information is slightly different for different sensors. All information found in GloVis metadata is ingested in the coverage attribute table. </p>
+            <ul>
+              <li>Lines - number or lines </li>
+              <li>Samples - number of columns </li>
+              <li>Path - path index (WRS-2) </li>
+              <li>Row - path index  (WRS-2)</li>
+              <li>Scenecc - cloud cover </li>
+              <li>Sclat, Sclong - position of image center </li>
+              <li>Ullat, Ullong, Urlat, Urlong, Lrlat, Lrlong, Lllat, Lllong - corner coordinates </li>
+              <li>Sunazi - sun azimuth </li>
+              <li>Sunelev - sun elevation </li>
+              <li>Scenecentre - time of image center </li>
+              <li>Localbrows - browse image name in GloVis archive </li>
+              <li>Flightpath - ascending/descending path </li>
+              <li>Daynight - day/night </li>
+              <li>Browseavai - availability of browse image (yes/no) </li>
+              <li>Acqdate - acquisition date </li>
+              <li>Fullpartia - full or partial scene </li>
+              <li>Recstation - receiving station </li>
+              <li>Scenestart - scene start time </li>
+              <li>Scenestop - scene end time </li>
+              <li>Imageqlty1 - image quality 1 </li>
+              <li>Imageqlty2 - image quality 2 </li>
+              <li>B1gain, B2gain, B3gain, B4gain, B5gain, B6hgain, B6lgain, B7gain, B8gain, B1gainchg, B2gainchg, B2gainchg, B3gainchg, B4gainchg, B5gainchg, B6hgainchg, B6lgainchg, B7gainchg, B8gainchg - gain and gain changes parameters per band, number and name of the fields differs for different sensors </li>
+              <li>Filename - name of metadata file </li>
+            </ul>
+			<p class="discuss">
+				<span><!--#include virtual="/scripts/forum-comments-num-eng.php?i=2681"--></span>
+			</p>
+			<div class="links">
+			<h2>Ссылки по теме</h2>
+			<ul>
+               <li><a href="/qa/l7pathrowmape.html">WRS-2/WRS-1 coverage for Landsat - path/row maps</a></li>
+               <li><a href="/qa/aster-l1a-catalog.html" target="_blank" class="external">Map of actual ASTER coverage (in Russian)</a></li>
+			</ul>
+			</div>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php?lang=e" -->
+<!--#include virtual="/inc/footer2-eng.php" -->

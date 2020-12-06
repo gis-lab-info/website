@@ -1,0 +1,92 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Установка MapServer для Windows</title>
+<!--#include virtual="/inc/header2.txt" -->
+<!--Contents start-->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Вопросы и ответы</a></li>
+</ul>
+<h1>Установка MapServer для Windows </h1>
+<p class="ann">В статье даются краткие сведения о установке MapServer для Windows.</p>
+<p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=1717"--></span></p>
+<p><strong>Описание MapServer</strong></p>
+<p> О том, что такое MapServer, и каковы его возможности, сказано в
+статье <a href="/qa/mapserver.html" target="_blank"
+               class="external">Создание картографических сервисов с
+               использованием MapServer. Введение.</a>
+            	Дистрибутивы MapServer (для различных платформ)  можно скачать по
+            	адресу: <a href="http://mapserver.org/download.html"
+            	target="_blank"
+            	class="external">http://mapserver.gis.umn.edu/download/current/</a>.
+               В этой статье рассматривается установка MapServer для Windows (<a
+               href="http://maptools.org/ms4w/" target="_blank"
+               class="external">MS4W</a>).</p>
+	        <p><strong>Процедура установки MapServer</strong></p>
+            <ol>
+              <li>Скачиваем дистрибутив MapServer, представляющий собой zip-архив.</li>
+              <li>Находим внутри архива файл README_INSTALL. Знакомимся с содержимым.
+                   Наиболее важным представляется следующее: во-первых,
+                   пакет устанавливает Apache, PHP, MapServer
+                   CGI, MapScript (как следствие, предварительно устанавливать Internet
+                   Information Services - IIS, - нет необходимости);
+                   во-вторых, устанавливать пакет нужно
+                   в корень диска (не обязательно системного), если же
+                   установить его не в корневую папку, то могут возникнуть
+                   проблемы.              </li>
+              <li>Как было сказано, нужно распаковать архив в корень диска, например,
+                 диска "D". В результате получаем каталог с MapServer: D:/ms4w.              </li>
+              <li>Устанавливаем MS4W Apache Web Server (для этого
+                 предоставляется специальный bat-файл:
+                 D:/ms4w/apache-install.bat). Запускаем на выполнение этот
+                 файл и он начнет установку Apache Web Server как службу Windows.
+                 В процессе установки bat-файл должен выдать следующие сообщения:<br />
+                 <br />
+                <pre>Installing the Apache MS4W Web Server service
+The Apache MS4W Web Server service is successfully installed.
+
+Testing httpd.conf....
+Errors reported here must be corrected before the
+service can be started.
+The Apache MS4W Web Server service is starting.
+The Apache MS4W Web Server service was started successfully.</pre>
+                         </p>
+                <br />
+              </li>
+               <li>Все. Теперь Apache MS4W Web Server service установлен
+                 и будет автоматически запускаться после перезагрузки
+                 компьютера. Убедиться в том, что этот сервис запущен и работает можно через Панель
+                 управления\Администрирование\Службы. Среди сервисов
+                 должен появиться этот сервис, тип запуска - авто.
+                 <br />
+                 <br />
+                 Согласно инструкции, при работе с Windows 95,98,ME запустить Apache как сервис не удастся, поэтому
+                 каждый раз нужно будет вручную вызывать
+                 D:/ms4w/Apache/bin/httpd.exe.              </li>
+              <li>Проверяем, как работает Apache: открываем
+                браузер, вводим адрес http://localhost/ (или, что даст тот же результат,
+                http://127.0.0.1/). Если все в порядке, должна появиться главная страничка
+                MS4W.              </li>
+              <li>Установка завершена.
+                Так же можно установить дополнительные приложения,
+                например, MapLab, ka-Map и/или поддержку Oracle
+                10g, SDE 9.1, скриптов CSharp, Java, Python, организовать парольный доступ к создаваемым приложениям и т.д. Как это делается, описано все в том же README_INSTALL.              </li>
+            </ol>
+            <p>            </p>
+            <p class="discuss">
+				<span><!--#include virtual="/scripts/forum-comments-num.php?i=1717"--></span>
+			</p>
+			<div class="links">
+			<h2>Ссылки по теме</h2>
+			<ul>
+               <li><a href="mapserver.html">Создание картографических сервисов с использованием MapServer. Введение</a></li>
+			   <li><a href="mapserver-begin.html">Начало работы с MapServer</a></li>
+			</ul>
+			</div>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<p class="status"><span>Дата создания: 04.10.2007
+<br>Автор(ы): <a href="/forum/memberlist.php?mode=viewprofile&u=6597" target="_blank">Дмитрий Колесов</a></span></p>
+<!--#include virtual="/inc/footer2.php" -->

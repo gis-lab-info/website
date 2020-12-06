@@ -1,0 +1,142 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Примеры использования утилит GDAL</title>
+<!--#include virtual="/inc/header2.txt" -->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Вопросы и ответы</a></li>
+</ul>
+<!--Contents start-->
+<h1>Примеры использования утилит GDAL </h1>
+<p class="ann">Перечь примеров для справки </p>
+<p><a href="http://www.gdal.org/index.html" target="_blank" class="external">GDAL/OGR</a> - библиотека для работы с географическими форматами данных. GDAL представляет собой набор утилит для обработки растровых данных, в то время, как  OGR предназначена для работы с векторными форматами. В статье рассматриваются некоторые практические примеры применения утилит  этой библиотеки для работы с растровыми данными.</p>
+<p>С библиотекой gdal так же поставляется утилита ogr2ogr, предназначнная для конвертации векторных данных. Примеры использования этой утилиты приводятся в <a href="/qa/ogr2ogr-examples.html">другой статье</a>.</p>
+<p>Если у вас есть свои часто используемые примеры - присылайте. </p>
+<p><strong>Оглавление</strong></p>
+            <ol>
+                  <li><a href="#01">Общие сведения.</a></li>
+                  <li><a href="#02">Примеры конвертации</a></li>
+				  <li><a href="#03">Конвертация с перепроецированием</a></li>
+				  <li><a href="#04">Работа с рельефом </a></li>
+                  <li><a href="#netCDF">netCDF</a></li>
+                  <li><a href="#hdf4">HDF4</a></li>
+            </ol>
+
+
+<!-- Первый раздел -->
+            <h2><strong><a name="01" id="01"></a></strong>1. Общие сведения</h2>
+            <p>Утилиты GDAL предназначены для конвертации растровых данных из одного формата в другой и выполнения над ними различных операций. Установить утилиты GDAL для Windows можно с <a href="/qa/qgis-osgeo4w.html">помощью OSGeo4W</a>. Удобный визуальный интерфейс для утилит имеется в <a href="/qa/gdaltools.html">GDALTools для QGIS</a>. В комплект GDAL входят следующие утилиты:</p>
+	        <ul>
+	        <li> <a href="http://www.gdal.org/gdalinfo.html">gdalinfo</a> - информация о растре;</li>
+	        <li> <a href="http://www.gdal.org/gdal_translate.html">gdal_translate</a> - конвертация растров из формата в формат;</li>
+	        <li> <a href="http://www.gdal.org/gdaladdo.html">gdaladdo</a> - добавление пирамидных слоёв (overview);</li>
+	        <li> <a href="http://www.gdal.org/gdalwarp.html">gdalwarp</a> - трансформация изображения в новую систему координат;</li>
+	        <li> <a href="http://www.gdal.org/gdaltindex.html">gdaltindex</a> - построить индекс фрагментов (тайлов) MapServer;</li>
+	        <li> <a href="http://www.gdal.org/gdalbuildvrt.html">gdalbuildvrt</a> - создание виртуального растра (VRT) из набора;</li>
+	        <li> <a href="http://www.gdal.org/gdal_contour.html">gdal_contour</a> - получение изолиний по цифровым моделям рельефа (ЦМР);</li>
+	        <li> <a href="http://www.gdal.org/gdaldem.html">gdaldem</a> - набор инструментов для анализа и визуализации ЦМР;</li>
+	        <li> <a href="http://www.gdal.org/rgb2pct.html">rgb2pct.py</a> - конвертация 24-битных RGB изображений в  8-битные с палитрой;</li>
+	        <li> <a href="http://www.gdal.org/pct2rgb.html">pct2rgb.py</a> - конвертация 8-битных изображений с палитрой в 24-битные RGB изображений;</li>
+	        <li> <a href="http://www.gdal.org/gdal_merge.html">gdal_merge.py</a> - создание мозаик и композитных изображений;</li>
+	        <li> <a href="http://www.gdal.org/gdal2tiles.html">gdal2tiles.py</a> - создание тайловой структуры, KML и простого просмотровщика;</li>
+	        <li> <a href="http://www.gdal.org/gdal_rasterize.html">gdal_rasterize</a> - растеризация векторных данных;</li>
+	        <li> <a href="http://www.gdal.org/gdaltransform.html">gdaltransform</a> - трансформация координат;</li>
+	        <li> <a href="http://www.gdal.org/nearblack.html">nearblack</a> - конвертация черных/белых границ в нужное значение;</li>
+	        <li> <a href="http://www.gdal.org/gdal_retile.html">gdal_retile.py</a> - создать новый набор тайлов и/или перестроить пирамидные слои;</li>
+	        <li> <a href="http://www.gdal.org/gdal_grid.html">gdal_grid</a> - создать растр из данных; </li>
+	        <li> <a href="http://www.gdal.org/gdal_proximity.html">gdal_proximity.py</a> - расчитать растр близости;</li>
+	        <li> <a href="http://www.gdal.org/gdal_polygonize.html">gdal_polygonize.py</a> - векторизовать растр с получением полигонального слоя;</li>
+	        <li> <a href="http://www.gdal.org/gdal_sieve.html">gdal_sieve.py</a> - фильтрация осколочных объектов растра;</li>
+	        <li> <a href="http://www.gdal.org/gdal_fillnodata.html">gdal_fillnodata.py</a> - заполнение областей имеющих значение NODATA;</li>
+	        <li> <a href="http://www.gdal.org/gdal-config.html">gdal-config</a> - получить опции необходимые для создания ПО использующего GDAL</li>
+	        </ul>
+	    <p>Поддерживаемые форматы и используемые ключи  можно узнать просто набрав в коммандной строке имя одной из утилит. </p>
+	    <pre>gdalinfo</pre>
+		<p>В результате будет получена справка по использованию этой программы:</p>
+		<pre>Usage: gdalinfo [--help-general] [-mm] [-stats] [-nogcp] [-nomd]
+                [-noct] [-checksum] [-mdd domain]* datasetname</pre>
+		<p>Версию GDAL можно посмотреть командой: </p>
+		<pre>gdalinfo --version</pre>
+        <p>Список форматов поддерживаемых утилитами GDAL можно посмотреть следующим образом: </p>
+        <pre>gdalinfo --formats</pre>
+		<p>Cписок поддерживаемых форматов (список может отличаться как в большую, так и в меньшую сторону, поскольку зависит от того, были ли подключены/отключены соответствующие модули при компиляции программы):</p>
+		<ul>
+          <li>GRASS (ro): GRASS Database Rasters (5.7+)</li>
+          <li> VRT (rw+): Virtual Raster</li>
+		  <li> GTiff (rw+): GeoTIFF</li>
+		  <li>HFA (rw+): Erdas Imagine Images (.img)</li>
+		  <li>  AIG (ro): Arc/Info Binary Grid</li>
+		  <li> AAIGrid (rw): Arc/Info ASCII Grid</li>
+		  <li> JPEG (rw): JPEG JFIF</li>
+		  <li> MEM (rw+): In Memory Raster</li>
+		  <li> GIF (rw): Graphics Interchange Format (.gif)</li>
+		  <li>BMP (rw+): MS Windows Device Independent Bitmap</li>
+		  <li> DIMAP (ro): SPOT DIMAP</li>
+		  <li>PCIDSK (rw+): PCIDSK Database File</li>
+		  <li>SRTMHGT (rw): SRTMHGT File Format</li>
+		  <li> GMT (rw): GMT NetCDF Grid Format</li>
+		  <li> HDF4 (ro): Hierarchical Data Format Release 4</li>
+		  <li> HDF4Image (rw+): HDF4 Dataset</li>
+		  <li>ENVI (rw+): ENVI .hdr Labelled</li>
+		  <li> EHdr (rw+): ESRI .hdr Labelled
+		    <!-- Второй раздел -->
+		    </li>
+		  </ul>
+        <h2><strong><a name="02" id="02"></a></strong>2. Примеры конвертации</h2>
+        <p>Извлечь три канала с номерами 1, 2, 3 в новый файл из исходного с перекомбинацией, в котором каналов может быть больше. </p>
+				<pre> gdal_translate -b 3 -b 2 -b 1 output.tif input.tif</pre>	
+		        <p>В результате в текущем каталоге появится результат 3-хканальный файл output.tif.</p>
+		
+		        <p>Создание композитного изображения из серии отдельных растров, каждый из которых в своем файле TIF. Разрешение выходного файла устанавливается по первому их растров. Таким образом, если первый канал 15 м, а остальные 30 м, то последние будут пересчитаны на 15 м. Чтобы указать, что производится помещение каждого растра в свой слой, а не мозаицирование, используется ключ -separate: </p>
+				<pre>gdal_merge.py -o output.tif band1.tif band2.tif band3.tif band4.tif band5.tif -separate</pre>
+                <p>Для мозаицирования, этот ключ нужно убрать. Например чтобы склеить соседние фрагменты (тайлы) рельефа в единое поле:</p>
+                <pre>gdal_merge -o altay.tif srtm_53_02.tif srtm_53_03.tif srtm_54_02.tif srtm_54_03.tif</pre>
+                <p>Конвертация с обрезкой по заданным координатам:</p>
+                <pre>gdal_translate -of GTiff -projwin 75.081940 57.250275 89.869980 49.083084 input.tif output.tiff</pre>
+                <p>Конвертация с компрессией и созданием <a href="/qa/tfw.html">world-файла</a>:</p>
+                <pre>gdal_translate -co "COMPRESS=LZW" -co &quot;worldfile=yes&quot; input.tif output.tiff</pre>
+                <p>Конвертация с заменой одного значения на другое (обычно используется для NODATA): </p>
+                <pre>gdalwarp -srcnodata -999 -dstnodata 0 input.tif output.tif</pre>
+                <h2><strong><a name="03" id="03"></a></strong>3. Конвертация с перепроецированием</h2>
+                <p>Программа ogr2ogr позволяет не только конвертировать данные из одного формата в другой, но и одновременно произветси перепроецирование данных из одной системы координат в другую. Для этого используются параметры:</p>
+		    <ol>
+                  <li>-a_srs используется для указания системы координат для данных</li>
+				  <li>-s_srs используется для перезаписи информации о системе координат</li>
+                  <li>-t_srs перепроецирования данных в требуемую ситсему координат</li>
+        </ol>
+		<p>Например, мы знаем, что файл topo2km-rus.shp содержит данные в географической системе координат Пулково 1942, но в комплекте с topo2km-rus.shp нет файла описания проекции (*.prj). Мы можем сгенерировать этот файл, воспользовавшись командой:</p>
+				<pre>gdalwarp.exe -t_srs "+proj=aea +lat_1=52 +lat_2=64 +lat_0=0 +lon_0=45 +x_0=8500000 +y_0=0 +ellps=krass +units=m +towgs84=28,-130,-95,0,0,0,0 +no_defs" in.tif out.tif</pre>	
+		        <h2><a name="04" id="04"></a>4. Работа с рельефом</h2>
+		        <p>Теневая отмывка рельефа: </p>
+		<pre>gdaldem hillshade altay.tif altayhill.tif -z 5 -s 111120</pre>
+
+			<p>Цветовая отмывка рельефа: </p>
+
+		    <pre>gdaldem color-relief altay.tif ramp.txt altay-color.tif</pre>
+
+			<h2><a name="netCDF" id="netCDF"></a>5. netCDF</h2>
+			<p>
+		  <!-- Конец текста статьи, начало ссылок -->
+ Импорт:</p>
+		<pre>gdal_translate -of GTiff -b 1 NETCDF:precip.mon.mean.nc:precip b1.tif</pre>
+		<p>Импорт с обрезкой по исходным координатам и созданием TFW файла:</p>
+		<pre>gdal_translate -of GTiff -srcwin 0 0 72 72 -co TFW=YES -b 1 NETCDF:precip.mon.mean.nc:precip b1.tif</pre>
+		<h2>6. HDF4</h2>
+		<p>В HDF4 распространяется множество данных дистанционного зондирования, например MODIS и ASTER. Использовать -geoloc для перепроецирования не нужно.</p>
+		<p>Импорт данных ASTER L1A:  </p>
+		<pre>gdalwarp -overwrite -of GTiff HDF4_EOS:EOS_SWATH:"110601_081441.hdf":VNIR_Band1:ImageData b1.tif </pre>
+		<p>&nbsp;</p>
+		<p class="discuss">
+		   <span><!--#include virtual="/scripts/forum-comments-num.php?i=3158"--></span>
+		</p>
+            <div class="links">
+				<h2>Ссылки по теме</h2>
+					<ul>
+						<li><a href="http://www.gdal.org/index.html" target="_blank" class="external">Библиотеки GDAL/OGR</a></li>
+					</ul>
+			</div>
+			<!--#include virtual="/scripts/date.php" -->
+<!--Contents end-->
+<!--#include virtual="/inc/footer2.php" -->

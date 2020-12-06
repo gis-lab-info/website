@@ -1,0 +1,89 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: VMap0 - получение данных</title>
+<!--#include virtual="/inc/header2.txt" -->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Вопросы и ответы</a></li>
+</ul>
+<!--Contents start-->
+<h1>VMap0 - получение данных</h1>
+<p class="ann">Ссылки для скачивания данных VMap0, описание и кодификатор смотрите в других статьях (ссылки ниже).</p>
+<p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=1011"--></span></p>
+<p>Данные VMap0 – относительно новая версия векторных данных, являющаяся следующей версией широко распространенных данных DCW (<a href="vmap0-about.html">подробнее о данных VMap0</a>).</p>
+<p>Данные VMap0 в исходном формате VPF, на территорию всего земного шара, можно получить непосредственно на сайте <a href="http://geoengine.nga.mil" target="_blank" class="external">National Geospatial-Intelligence Agency</a>. Данные являются общественным достоянием (public domain) за исключением слоёв границ и Reference Library копирайтом на которые владеет ESRI (ограничения на использование этих данных неизвестны, поэтому они все равно публикуются, как и в исходных данных).</p>
+            <p>PRJ файлы можно <a href="/data/vmap0/prj.7z">скачать</a> отдельно.</p>
+            <p><strong>Глобальные данные </strong></p>
+            <p>Данные по регионам мира в формате ESRI Shapefile (см. схему границ зон, <a href="/data/vmap0/vmap0-continental-tiling.7z">границы зон в формате shape</a>): </p>
+            <ul>
+              <li><a href="/data/vmap0/eur.7z">Зона Eur, 104 Мб</a></li>
+              <li><a href="/data/vmap0/noa.7z">Зона Noa, 110 Мб</a></li>
+              <li><a href="/data/vmap0/soa.7z">Зона Soa, 90 Мб</a></li>
+              <li><a href="/data/vmap0/sas.7z">Зона Sas, 115 Мб</a></li>
+              </ul>
+            <p>Данные в формате SQL пригодные для загрузки в PostGIS/PostgreSQL</p>
+            <ul>
+              <li><a href="/data/vmap0/eur-sql.7z">Зона Eur, 130 Мб</a></li>
+              </ul>
+            <p>Данные конвертируются следующим образом:</p>
+            <pre>
+for f in *shp
+do  
+  #удалить расширение и заменить дефисы на подчеркивания
+  name=$(basename $f .shp| tr "-" "_")
+  #конвертировать файл $f из shp в набор команд sql
+  shp2pgsql -d -I -s 4326 $f $name > ./sql/$name".sql"
+done
+</pre>
+            <p>Параметры доступа к серверу данных:</p>
+            <ul>
+              <li>Сервер: gis-lab.info</li>
+              <li>База: vmap0 </li>
+              <li>Порт: 5432</li>
+              <li>Имя/пароль: gislab/gislab </li>
+            </ul>
+            <p align="center"><img src="/images/vmap0-02.gif" alt="Границы зон Vmap0" width="500" height="248" border="0" /></p>
+            <p><strong>Данные на территорию России </strong></p>
+            <p>Данные VMap0 на территорию России, преобразованные в формат Arcview shapefile можно получить на этой странице.</p>
+            <p>Данные полностью импортированы из формата VPF, обрезаны границей РФ, взятой из того же покрытия, склеены в единые слои из библиотек континентов Европы, Северной Америки и Азии, каждый слой имеет легенду в формате avl.</p>
+            <p><a href="/data/vmap0/vmap0.7z"><strong>Скачать всю базу, 113 Mb</strong></a></p>
+            <p>Скачать по слоям/темам (в каждом архиве может быть несколько слоев):</p>
+            <h3>Границы</h3>
+            <p><a href="/data/vmap0/bounds.7z">Границы субъектов</a> (2Mb)<br />
+              Границы субъектов РФ с убранными лишними разделителями и расширенной атрибутикой (2Mb) (<a href="/data/vmap0/bounds-correct.7z">cp1251</a>, <a href="/data/vmap0/bounds-correct-utf.7z">utf</a>, <a href="/data/vmap0/bnd-political-boundary-a.sql">sql</a>) <br />
+              <a href="/data/vmap0/world-bounds.7z">Только границы государств</a> (8Mb) <br />
+              <a href="/data/vmap0/political-boundaries.7z">Только границы государств, по зонам</a> (8Mb)</p>
+            <h3>Другое</h3>
+            <p><a href="/data/vmap0/data-quality.7z">Вспомогательные слои (качество данных, разграфка и т.д.)</a> (2Mb)<br />
+              <a href="/data/vmap0/elevation.7z">Рельеф и высоты</a> (37Mb)<br />
+              <a href="/data/vmap0/hydro-points.7z">Гидросеть - точечные объекты</a> (&lt;1Mb)<br />
+              <a href="/data/vmap0/hydro-lines.7z">Гидросеть - линейные объекты</a> (9Mb)<br />
+              <a href="/data/vmap0/hydro-area.7z">Гидросеть - площадные объекты</a> (6Mb)<br />
+              <a href="/data/vmap0/industry.7z">Промышленность</a> (&lt;1Mb)<br />
+              <a href="/data/vmap0/physical.7z">Физическая география</a> (&lt;1Mb)<br />
+              <a href="/data/vmap0/population.7z">Населенные пункты</a> (&lt;1Mb) <br>
+              <img src="/images/new.gif" alt="new" width="27" height="10" />Населенные пункты с русскоязычной атрибутикой и дополнительными полями (<a href="/qa/vmap0-settl-rus.html">подробнее</a>)<br />
+              <a href="/data/vmap0/transport.7z">Транспорт</a></a> (4Mb)<br />
+              <a href="/data/vmap0/utility.7z">Инфраструктура</a> (1Mb)<br />
+              <a href="/data/vmap0/vegetation.7z">Растительность</a> (16Mb)</p>
+            <p>Пример изображения построенного на основе данных VMap0 (щелкните на картинке, чтобы получить увеличенную версию с легендой). </p>
+            <p align="center"><a href="/images/vmap0-01b.jpg"><img src="/images/vmap0-01.gif" width="579" height="496" border="0" /></a></p>
+            <p class="discuss">
+				<span><!--#include virtual="/scripts/forum-comments-num.php?i=1011"--></span>
+			</p>
+			<div class="links">
+			   <h2>Ссылки по теме</h2>
+			   <ul>
+			               <li><a href="/qa/vmap0-about.html">Vmap0 - описание данных</a></li>
+			               <li><a href="/qa/vmap0-code.html">Vmap0 - кодификатор</a></li>
+						   <li><a href="http://www.nga.mil/portal/site/nga01/index.jsp?epi-content=GENERIC&amp;itemID=a2986591e1b3af00VgnVCMServer23727a95RCRD&amp;beanID=1629630080&amp;viewID=Article" target="_blank" class="external">Vector Product Format (VPF) Overview</a></li>
+			               <li><a href="vmap1.html">VMap1 - получение данных</a></li>
+			   </ul>
+			</div>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<p class="status"><span>Дата создания: 23.04.2006
+<br>Автор(ы): <a href="/forum/memberlist.php?mode=viewprofile&u=2" target="_blank">Максим Дубинин</a></span></p>
+<!--#include virtual="/inc/footer2.php" -->

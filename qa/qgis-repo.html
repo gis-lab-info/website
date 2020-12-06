@@ -1,0 +1,95 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Организация и работа с репозиториями расширений QGIS</title>
+<!--#include virtual="/inc/header2.txt" -->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+	<li class="first"><a href="/">Главная</a></li>
+	<li><a href="/qa.html">Вопросы и ответы</a></li>
+</ul>
+<!--Contents start-->
+<h1>Организация и работа с репозиториями расширений QGIS</h1>
+<p class="ann">Как создать и использовать хранилище расширений QGIS</p>
+<p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=2804"--></span></p>
+<p>Разработка расширений для QGIS может вестись на C++ и Python. Разработка на Python, помимо того, что является более простой, быстрой и кросс-платформенной, еще и имеет мощную  децентрализованную систему распространения результатов. Каждый автор расширения имеет возможность быстро организовать систему полуавтоматического его распространения через свой сайт. Средства самого QGIS позволяют подключать и отслеживать обновление расширений, происходящие на веб-сайте автора. К сожалению, из-за сложностей связанных с компиляцией и установкой, эта возможность работает пока только для расширений, написанных на языке Python.</p>
+<p>Эта статья рассказывает, как автор расширения может создать репозиторий, а пользователь им воспользоваться. </p>
+<p><strong>Оглавление</strong></p>
+<ol>
+  <li><a href="#01">Создание репозитория</a></li>
+  <li><a href="#02">Работа с репозиторием в QGIS</a></li>
+  </ol>
+<!-- Первый раздел -->
+<h2><strong><a name="01" id="01"></a></strong>1. Создание репозитория</h2>
+<p>Допустим расширение разработано, проверенно и работает локально. Создание репозитория заключается в пакетировке расширения и создании специального файла XML описания репозитория. </p>
+<p>Пакет с расширением должен представлять из себя архив папки с набором всех необходимых файлов расширения, например: </p>
+<pre>/testplugin
+|
++- __init__.py
+|
++- icon.png
+|
++- plugin.py
+|
++- resources.py</pre>
+<p>Архив должен быть создан с помощью архиватора ZIP.</p>
+<p>После того, как расширение запакетировано, надо настроить его описание, являющееся частью XML файла репозитория. </p>
+<p>Пример XML файла с описанием плагина, расположенного в репозитории выглядит следующим образом: </p>
+<pre>&lt;?xml version=&quot;1.0&quot; ?&gt;
+&lt;?xml-stylesheet type=&quot;text/xsl&quot; href=&quot;plugins.xsl&quot; ?&gt;
+&lt;plugins&gt;
+  &lt;pyqgis_plugin name=&quot;TestPlugin&quot; version=&quot;0.1.29&quot;&gt;
+    &lt;description&gt;This is the test plugin&lt;/description&gt;
+    &lt;homepage&gt;http://gis-lab.info/qa/qgis-dev-python.html&lt;/homepage&gt;
+    &lt;qgis_minimum_version&gt;1.0&lt;/qgis_minimum_version&gt;
+    &lt;file_name&gt;testplugin.zip&lt;/file_name&gt;
+    &lt;author_name&gt;GIS-Lab&lt;/author_name&gt;
+    &lt;download_url&gt;http://gis-lab.info/programs/qgis/testplugin.zip&lt;/download_url&gt;
+  &lt;/pyqgis_plugin&gt;
+&lt;/plugins&gt;</pre>
+<p>
+  <!-- Второй раздел --> 
+   При добавлении в репозиторий еще одного расширения, добавляется еще один блок &lt;pyqgis_plugin&gt;&lt;/pyqgis_plugin&gt; и все что содержится в нем. </p>
+<p>Разберем по пунктам:</p>
+<p>pyqgis_plugin - начало описания расширения, содержит параметры названия name=&quot;TestPlugin&quot; и последней версии version=&quot;0.1.29&quot; расширения.</p>
+<p>description - строка описание расширения</p>
+<p>homepage - домашняя страница</p>
+<p>qgis_minimum_version - минимальная версия QGIS под которой будет работать расширение </p>
+<p>author_name - автор расширения </p>
+<p>download_url - ссылка на пакет расширения (файл zip)</p>
+<p>Итак, после того, как этот файл создан и загружен на сервер, можно сказать, что репозиторий создан и работает.  </p>
+<h2><strong><a name="02" id="02"></a></strong>2. Работа с репозиторием в QGIS</h2>
+<p>Для получения расширения теперь нам не обязательно рассылать его само, достаточно дать  ссылку на репозиторий. Например, репозиторий расширений GIS-Lab:</p>
+<pre>http://gis-lab.info/programs/qgis/qgis-repo.xml</pre>
+<p>Подключимся к этому репозиторию из QGIS.</p>
+<p>Для этого: </p>
+<p>а) Подключим, если оно еще не подключено расширение Plugin Installer (Plugins\Manage plugins) </p>
+<p align="center"><img src="/images/qgis-repo-01.gif" width="559" height="404"></p>
+<p>б) Вызовем установщик расширений Модули\Загрузить модули (Plugins\Fetch Python Plugins... ) и перейдем на закладку Репозитории (Repositories). Исходно в ней содержится только один, официальный репозиторий. </p>
+<p align="center"><img src="/images/qgis-repo-02.gif" width="607" height="401"></p>
+<p>Чтобы добавить остальные, нажмем на кнопку Добавить сторонние репозитории, добавятся все остальные, среди которых будет и репозиторий GIS-Lab:</p>
+<p align="center"><img src="/images/qgis-repo-07.gif" width="608" height="426"> </p>
+<p>Если по какой-то причине у вас это не получилось, можно добавить репозиторий вручную (Add...). </p>
+<p>Имя: GIS-Lab</p>
+<p>Адрес:   http://gis-lab.info/programs/qgis/qgis-repo.xml</p>
+<p align="center"><img src="/images/qgis-repo-03.gif" width="530" height="218"> </p>
+<p>На закладке параметры включим проверку новых версий при старте и включите отображение экспериментальных модулей:</p>
+<p align="center"><img src="/images/qgis-repo-08.gif" width="608" height="426"> </p>
+<p>г) Перейдем на закладку расширений. Если все было сделано правильно, в списке расширений будут указаны неколько расширений и из нашего репозитория, которые можно тут же установить, обновить или удалить. </p>
+<p>д) Включим автоматическое обновление при загрузке QGIS (check updates on startup). Теперь, если будет увеличена версия расширения в XML, QGIS даст знать с помощью сообщения в строке статуса программы, что расширение изменилось и его можно обновить. Щелчок на надпись откроет установщик расширений. </p>
+<p align="center"><img src="/images/qgis-repo-04.gif" width="581" height="75"></p>
+<p>Либо в самом установщике расширений:</p>
+<p align="center"><img src="/images/qgis-repo-05.gif" width="777" height="422"> </p>
+<p class="discuss"><span><!--#include virtual="/scripts/forum-comments-num.php?i=2804"--></span></p>
+<div class="links">
+  <h2>Ссылки по теме</h2>
+  <ul>
+    <li><a href="qgis-dev-python.html">Разработка простого расширения для QGIS на Python</a></li>
+    <li><a href="qgis-repo-update.html">Автоматическое обновление репозитория расширений QGIS из SVN</a></li>
+    </ul>
+</div>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<p class="status"><span>Дата создания: 19.02.2009
+<br>Автор(ы): <a href="/forum/memberlist.php?mode=viewprofile&u=2" target="_blank">Максим Дубинин</a></span></p>
+<!--#include virtual="/inc/footer2.php" -->

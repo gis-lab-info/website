@@ -1,0 +1,495 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Данные о сгоревших площадях MCD45: описание и получение</title>
+<!--#include virtual="/inc/header2.txt" -->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Статьи</a></li>
+</ul>
+<!--Contents start-->
+<h1>Данные о сгоревших площадях MCD45: описание и получение</h1>
+<p class="ann">Описание продукта и получение данных.</p>
+<p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=7491"--></span></p>
+
+<h2>Введение</h2>
+<p>Существует два основных источника данных о пожарной активности, характеризующиеся своими специфическими подходами: <a href="mod14a1.html">активные очаги горения</a> (active fires, hotspots) и сгоревшие площади (burned areas). При этом подход к детектирования очагов обладает рядом ограничений и не может быть использован для оценки пространственного охвата пройденных огнём территорий в том числе и из-за того, что в момент активного горения спутник часто отсутствует в точке необходимой для детектирования или она скрыта от него облачностью. Таким образом, возникает потребность в площадных данных о сгоревших территориях.</p>
+<p>До недавнего времени подобная информация отсутствовала в глобальном масштабе. В последнее десятилетие ситуация стала меняться: было выполнено множество  работ по разработке алгоритмов обнаружения сгоревших площадей и их картированию  на базе данных дистанционного зондирования низкого (~1000 м) и среднего (250 — 500 м) пространственного разрешений (ERS ATSR, NOAA-AVHRR, SPOT-VEGETATION и MODIS). Из всех вышеназванных сенсоров — MODIS больше других подходит для задач мониторинга сгоревших площадей, поскольку он обладает отличными показателями  временного разрешения. Продукту, созданному на его основе и посвящена данная статья.</p>
+
+<h2>Используемый алгоритм</h2>
+<p>Не вдаваясь в технические подробности, опишем основную идею используемую для выделения сгоревших площадей. Специально разработанный для MCD45 алгоритм обнаружения сгоревших участков основан на анализе временных серий ежедневных данных об отражательной способности поверхности. Алгоритм использует двулучевую функцию отражательной способности (BRDF) и позволяет детектировать только свежие территории, пройденные огнем, исключая площади, сгоревшие ранее (например, в прошлом году или в прошлом месяце). Основная идея заключается в ретроспективном анализе коэффициентов отражения каждого пиксела и предсказании его последующего значения. В случае если предсказанное значение отличается от непосредственно наблюдаемого на некоторую пороговую величину, то анализируемый пиксел считается пикселом-кандидатом на отнесение к «сгоревшим». Для окончательного отнесения пиксела в разряд «сгоревших», требуется чтобы он прошел тест на временную устойчивость (выполняется на основе данных об его отражательной способности в последующие дни).</p>
+
+
+<p class="ill"><img src="/images/mcd45-01.gif" alt="Концептуальная схема обнаружения сгоревших площадей на основе анализа коэффициента отражательной способности (ρ) " width="700" height="388"><span>Рисунок 1: Концептуальная схема обнаружения сгоревших площадей на основе анализа коэффициента отражательной способности (ρ)</span></p>
+
+<h2>Формат MCD45</h2>
+<p>Продукт MCD45 доступен в двух форматах: HDF-EOS (официальный, MCD45A1) и GeoTIFF (подготовкой данной модификации занимается Мэрилендский университет).</p>
+
+<p><strong>MCD45A1</strong></p>
+<p>MCD45A1 – ежемесячный продукт третьего уровня, представляющий собой грид 500 метрового разрешения, находящийся в синусоидальной проекции и содержащий попиксельную информацию о сгоревших площадях, начиная c 2000 года. Как и в случае прочих продуктов MODIS, имя файла MCD45A1 содержит информацию о пространственном и временном охвате продукта, а также номер его версии. Например:</p>
+
+<pre><span style="color:red;">MCD45A1</span>.<span style="color:blue;">A2001274</span>.<span style="color:red;">h19v03</span>.<span style="color:blue;">005</span>.<span style="color:red;">2007081135115</span>.<span style="color:blue;">hdf</span></pre>
+<p>Где:</p>
+
+<ol>
+    <li><strong>MCD45A1</strong> – продукт, содержащий информацию о сгоревших площадях;</li>
+    <li><strong>A2001274</strong> – год и дата первого дня (0-365), информация о сгоревших площадях за который представлена в файле: 274 – 1 октября, то есть запись вида 2001274 означает, что файл содержит информацию о сгоревших площадях за октябрь 2001 года;</li>
+    <li><strong>h19v03</strong> – пространственный охват: в файле содержится информация о тайле h19v03;</li>
+    <li><strong>005</strong> – версия продукта;</li>
+    <li><strong>2007081135115</strong> – дата и время обработки (год 2007, день 081, время 13:51:15).</li>
+</ol>
+
+<p>Для вычисления  дня года существуют специальные таблицы: <a href="http://www.quadax.com/Support/Julian2011.pdf" target="_blank" class="external">невисокосный год</a>, <a href="http://www.quadax.com/Support/Julian2008.pdf" target="_blank" class="external">високосный</a>.</p>
+<br>
+
+<p><strong>GeoTIFF</strong></p>
+<p>Удобная для непосредственного использования в ГИС GeoTIFF версия оригинального продукта MCD45A1, выпускаемая Мэрилендским университетом. Файлы GeoTIFF спроецированы в равнопромежуточную проекцию и покрывают несколько субконтинентальных фрагментов:</p>
+
+<p class="ill"><img src="/images/mcd45-02.gif" alt="Схема покрытия MCD45 в формате GeoTIFF" width="700" height="337"><span>Рисунок 2: Схема покрытия MCD45 в формате GeoTIFF</span></p>
+
+<p>Координаты указанных на схеме покрытия фрагментов представлены в <a href="http://modis-fire.umd.edu/Documents/MODIS_Burned_Area_User_Guide_2.0.pdf" target="_blank" class="external">руководстве пользователя MCD45</a>.</p>
+
+<p>По ряду причин схема именования GeoTIFF-файлов отличается от используемой в официальном варианте. Например:</p>
+
+<pre><span style="color:red;">MCD45monthly</span>.<span style="color:blue;">A2000306</span>.<span style="color:red;">Win01</span>.<span style="color:blue;">005</span>.<span style="color:red;">burndate</span>.<span style="color:blue;">tif</span></br><span style="color:red;">MCD45monthly</span>.<span style="color:blue;">A2000306</span>.<span style="color:red;">Win01</span>.<span style="color:blue;">005</span>.<span style="color:red;">ba_qa</span>.<span style="color:blue;">tif</span></pre>
+
+<p>Где:</p>
+<ol>
+    <li><strong>MCD45monthly</strong> – GeoTIFF-версия оригинального MCD45A1;</li>
+    <li><strong>A2000306</strong> – дата, формируется аналогично как для MCD45A1;</li>
+    <li><strong>Win01</strong> – пространственный охват: в данном случае это окно 1 (Аляска);</li>
+    <li><strong>005</strong> – версия продукта;</li>
+    <li><strong>burndate/ba_qa</strong> – идентифицирует содержимое файла. Формат GeoTIFF не позволяет хранить несколько наборов данных одновременно в отличие от HDF, поэтому они представлены в виде отдельных файлов (на данный момент в GeoTIFF их два - дата пожара и его оценка точности).</li>
+</ol>
+
+<h2>Описание данных MCD45</h2>
+<p>Формат HDF позволяет хранить несколько наборов данных (Science Data Sets, SDS) в одном файле. MCD45A1 содержит 8 наборов, наиболее важными для задач мониторинга пожаров являются первые два:</p>
+
+<ol>
+    <li><strong>Burn date</strong>: приблизительная дата горения (определяется на временном интервале: минус 8 дней от начала месяца до плюс 8 дней после его конца) или специальный код:
+        <ul>
+            <li>0 - пожар отсутствует;</li>
+            <li>1-366 - дата горения;</li>
+            <li>900 - снег или аэрозоли;</li>
+            <li>9998 - внутренние водоемы;</li>
+            <li>9999 - моря и океаны;</li>
+            <li>10000 – не достаточно данных для выполнения вычислений;</li>
+        </ul></li>
+    <li><strong>BA pixel QA</strong>: достоверность пожара (от 1 - наибольшая достоверность до 4 - наименьшая достоверность);</li>
+    <li><strong>Number of Passes</strong>: число наблюдений, подтверждающих прохождение теста на временную устойчивость</li>
+    <li><strong>Number Used</strong>: общее число наблюдений в тесте на временную устойчивость;</li>
+    <li><strong>Direction</strong>: временное направление горения пиксела:
+        <ul>
+            <li>1 — после;</li>
+            <li>2 — до;</li>
+            <li>3 — и до и после;</li>
+        </ul></li>
+    <li><strong>Surface Type</strong>: информация, описывающая тип подстилающей поверхности. За детальным описанием используемых значений обращайтесь к <a href="http://modis-fire.umd.edu/Documents/MODIS_Burned_Area_User_Guide_2.0.pdf" target="_blank" class="external">руководству пользователя</a>.</li>
+    <li><strong>Gap Range 1</strong>, <strong>Gap Range 2</strong> – информация, описывающая наибольшее число последовательных дней, информация об отражающей способности пиксела за которые отсутствует (например, из-за облачности).</li>
+</ol>
+
+<p>Помимо указанных данных, каждый продукт содержит набор метаданных на уровне тайлов, позволяющих манипулировать ими при заказе (например, процент сгоревших пикселов земной поверхности, процент пикселов в каждой «BA pixel QA» категории и т.п.).</p>
+<p>Первые два из рассмотренных 8 наборов данных доступны и в GeoTIFF варианте (в отдельных файлах). Единственное отличие заключается в том, что набор Burn_date в GeoTIFF не содержит перекрывающихся дат, то есть если пиксел отмечен как сгоревший в одном файле, то в другом его уже не будет.</p>
+
+<h2>Получение MCD45</h2>
+
+<p>Продукт MCD45A1 как и прочие продукты MODIS – бесплатен и доступен для заказа через с <a href="https://wist.echo.nasa.gov/" target="_blank" class="external">Warehouse Inventory Search Tool</a> (WIST). Как пользоваться данной системой можно прочитать <a href="/qa/wist.html" target="_blank">здесь</a>. Для заказа MCD45 следует выбрать набор:</p>
+
+<pre>MODIS/Terra+Aqua Burned Area Monthly L3 Global 500m SIN Grid V005</pre>
+
+<p>MCD45A1 (а также его GeoTIFF версию) можно скачть напрямую с ftp-сервера Мэрилендского университета (<a href="ftp://ba1.geog.umd.edu/" target="_blank" class="external">ftp://ba1.geog.umd.edu</a>). Для этого перейдите по <a href="http://modis-fire.umd.edu/form.html" target="_blank" class="external">адресу</a>, заполните форму и получите на указанный в форме e-mail логин и  пароль для доступа к ftp-серверу.</p>
+
+<p>Структура ftp-cервера слюдующая. В корне содержится 2 каталога, обладающих следующей структурой:</p>
+<ul>
+    <li>HDF/YYYY/DDD</li>
+    <li>TIFF/WinXX/YYYY</li>
+</ul>
+
+<p>Таким образом, будучи знакомым со схемой именования файлов продукта, найти необходимые данные очень просто.</p>
+
+<p>Данные без прохождение процедуры регистрации, заказа и ожидания также можно получить на GIS-Lab. На данный момент доступны для скачивания MCD45A1 в формате HDF и GeoTIFF (<a href="/data/mcd45/tiff_umd/Win08.7z">8</a>, <a href="/data/mcd45/tiff_umd/Win15.7z">15</a>, <a href="/data/mcd45/tiff_umd/Win16.7z">16</a>, <a href="/data/mcd45/tiff_umd/Win17.7z">17</a> окна). Покрытие данных MCD45A1, доступных через наш FTP приведено на иллюстрации ниже.<p><br>
+<p class="ill">
+    <img src="/images/mod14-01.gif" alt="Покрытие тайлов MCD45A1, доступных для скачивания через GIS-Lab" width="750" height="201" border="0">
+    <span>Рисунок 3: Покрытие тайлов MCD45A1, доступных для скачивания через GIS-Lab (синусоидальная проекция) </span></p>
+
+<p>Для получения данных необходимо определить фрагмент или фрагменты (так же можно использовать разграфку, которую в разных форматах можно скачать <a href="modis-tiles.html">здесь</a>) и по ссылкам перейти к скачиванию исходных данных (тайлы v01hNN не содержат информации о сгоревших площадях и недоступны в первоисточнике):</p>
+<table border="1">
+  <tr> 
+    <td>v\h</td>
+    <td>10</td>
+    <td>11</td>
+    <td>12</td>
+    <td class="gray">&nbsp;</td>
+    <td>19</td>
+    <td>20</td>
+    <td>21</td>
+    <td>22</td>
+    <td>23</td>
+    <td>24</td>
+    <td>25</td>
+    <td>26</td>
+    <td>27</td>
+    <td>28</td>
+  </tr>
+  <tr>
+    <td>01</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>HDF</td>
+    <td class="gray">&nbsp;</td>
+    <td>HDF</td>
+    <td>HDF</td>
+    <td>HDF</td>
+    <td>HDF</td>
+    <td>HDF</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>02</td>
+    <td><a href="/data/mcd45/h10v02.7z">HDF</a></td>
+    <td><a href="/data/mcd45/h11v02.7z">HDF</a></td>
+    <td>&nbsp;</td>
+    <td class="gray">&nbsp;</td>
+    <td><a href="/data/mcd45/h19v02.7z">HDF</a></td>
+    <td><a href="/data/mcd45/h20v02.7z">HDF</a></td>
+    <td><a href="/data/mcd45/h21v02.7z">HDF</a></td>
+    <td><a href="/data/mcd45/h22v02.7z">HDF</a></td>
+    <td><a href="/data/mcd45/h23v02.7z">HDF</a></td>
+    <td><a href="/data/mcd45/h24v02.7z">HDF</a></td>
+    <td><a href="/data/mcd45/h25v02.7z">HDF</a></td>
+    <td><a href="/data/mcd45/h26v02.7z">HDF</a></td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>03</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td class="gray">&nbsp;</td>
+    <td><a href="/data/mcd45/h19v03.7z">HDF</a></td>
+    <td><a href="/data/mcd45/h20v03.7z">HDF</a></td>
+    <td><a href="/data/mcd45/h21v03.7z">HDF</a></td>
+    <td><a href="/data/mcd45/h22v03.7z">HDF</a></td>
+    <td><a href="/data/mcd45/h23v03.7z">HDF</a></td>
+    <td><a href="/data/mcd45/h24v03.7z">HDF</a></td>
+    <td><a href="/data/mcd45/h25v03.7z">HDF</a></td>
+    <td><a href="/data/mcd45/h26v03.7z">HDF</a></td>
+    <td><a href="/data/mcd45/h27v03.7z">HDF</a></td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>04</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td class="gray">&nbsp;</td>
+    <td>&nbsp;</td>
+    <td><a href="/data/mcd45/h20v04.7z">HDF</a></td>
+    <td><a href="/data/mcd45/h21v04.7z">HDF</a></td>
+    <td><a href="/data/mcd45/h22v04.7z">HDF</a></td>
+    <td><a href="/data/mcd45/h23v04.7z">HDF</a></td>
+    <td><a href="/data/mcd45/h24v04.7z">HDF</a></td>
+    <td><a href="/data/mcd45/h25v04.7z">HDF</a></td>
+    <td><a href="/data/mcd45/h26v04.7z">HDF</a></td>
+    <td><a href="/data/mcd45/h27v04.7z">HDF</a></td>
+    <td><a href="/data/mcd45/h28v04.7z">HDF</a></td>
+  </tr>
+</table>
+
+<p></p>С целью снижения порога вхождения в работу с продуктом MCD45, набор данных Burn date был сконвертирован в Shape-файлы (в каждом архиве находятся данные в синусоидальной проекции и lat/long WGS84):</p>
+<table border="1">
+  <tr> 
+    <td>v\h</td>
+    <td>10</td>
+    <td>11</td>
+    <td>12</td>
+    <td class="gray">&nbsp;</td>
+    <td>19</td>
+    <td>20</td>
+    <td>21</td>
+    <td>22</td>
+    <td>23</td>
+    <td>24</td>
+    <td>25</td>
+    <td>26</td>
+    <td>27</td>
+    <td>28</td>
+  </tr>
+  <tr>
+    <td>01</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>SHP</td>
+    <td class="gray">&nbsp;</td>
+    <td>SHP</td>
+    <td>SHP</td>
+    <td>SHP</td>
+    <td>SHP</td>
+    <td>SHP</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>02</td>
+    <td><a href="/data/mcd45/shp/h10v02_shp.7z">SHP</a></td>
+    <td><a href="/data/mcd45/shp/h11v02_shp.7z">SHP</a></td>
+    <td>&nbsp;</td>
+    <td class="gray">&nbsp;</td>
+    <td><a href="/data/mcd45/shp/h19v02_shp.7z">SHP</a></td>
+    <td><a href="/data/mcd45/shp/h20v02_shp.7z">SHP</a></td>
+    <td><a href="/data/mcd45/shp/h21v02_shp.7z">SHP</a></td>
+    <td><a href="/data/mcd45/shp/h22v02_shp.7z">SHP</a></td>
+    <td><a href="/data/mcd45/shp/h23v02_shp.7z">SHP</a></td>
+    <td><a href="/data/mcd45/shp/h24v02_shp.7z">SHP</a></td>
+    <td><a href="/data/mcd45/shp/h25v02_shp.7z">SHP</a></td>
+    <td><a href="/data/mcd45/shp/h26v02_shp.7z">SHP</a></td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>03</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td class="gray">&nbsp;</td>
+    <td><a href="/data/mcd45/shp/h19v03_shp.7z">SHP</a></td>
+    <td><a href="/data/mcd45/shp/h20v03_shp.7z">SHP</a></td>
+    <td><a href="/data/mcd45/shp/h21v03_shp.7z">SHP</a></td>
+    <td><a href="/data/mcd45/shp/h22v03_shp.7z">SHP</a></td>
+    <td><a href="/data/mcd45/shp/h23v03_shp.7z">SHP</a></td>
+    <td><a href="/data/mcd45/shp/h24v03_shp.7z">SHP</a></td>
+    <td><a href="/data/mcd45/shp/h25v03_shp.7z">SHP</a></td>
+    <td><a href="/data/mcd45/shp/h26v03_shp.7z">SHP</a></td>
+    <td><a href="/data/mcd45/shp/h27v03_shp.7z">SHP</a></td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>04</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td class="gray">&nbsp;</td>
+    <td>&nbsp;</td>
+    <td><a href="/data/mcd45/shp/h20v04_shp.7z">SHP</a></td>
+    <td><a href="/data/mcd45/shp/h21v04_shp.7z">SHP</a></td>
+    <td><a href="/data/mcd45/shp/h22v04_shp.7z">SHP</a></td>
+    <td><a href="/data/mcd45/shp/h23v04_shp.7z">SHP</a></td>
+    <td><a href="/data/mcd45/shp/h24v04_shp.7z">SHP</a></td>
+    <td><a href="/data/mcd45/shp/h25v04_shp.7z">SHP</a></td>
+    <td><a href="/data/mcd45/shp/h26v04_shp.7z">SHP</a></td>
+    <td><a href="/data/mcd45/shp/h27v04_shp.7z">SHP</a></td>
+    <td><a href="/data/mcd45/shp/h28v04_shp.7z">SHP</a></td>
+  </tr>
+</table>
+
+<p>Также полезным может оказаться продукт MCD45 в формате GeoTIFF (набор данных Burn date), разбитый не по субконтинентальным фрагментам, как это сделано в GeoTIFF-ах от Мэриленда, а в соответствии с исходной тайловой структурой (в каждом архиве находятся данные в синусоидальной проекции):</p>
+<table border="1">
+  <tr> 
+    <td>v\h</td>
+    <td>10</td>
+    <td>11</td>
+    <td>12</td>
+    <td class="gray">&nbsp;</td>
+    <td>19</td>
+    <td>20</td>
+    <td>21</td>
+    <td>22</td>
+    <td>23</td>
+    <td>24</td>
+    <td>25</td>
+    <td>26</td>
+    <td>27</td>
+    <td>28</td>
+  </tr>
+  <tr>
+    <td>01</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>TIF</td>
+    <td class="gray">&nbsp;</td>
+    <td>TIF</td>
+    <td>TIF</td>
+    <td>TIF</td>
+    <td>TIF</td>
+    <td>TIF</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>02</td>
+    <td><a href="/data/mcd45/tiff/h10v02_tif.7z">TIF</a></td>
+    <td><a href="/data/mcd45/tiff/h11v02_tif.7z">TIF</a></td>
+    <td>&nbsp;</td>
+    <td class="gray">&nbsp;</td>
+    <td><a href="/data/mcd45/tiff/h19v02_tif.7z">TIF</a></td>
+    <td><a href="/data/mcd45/tiff/h20v02_tif.7z">TIF</a></td>
+    <td><a href="/data/mcd45/tiff/h21v02_tif.7z">TIF</a></td>
+    <td><a href="/data/mcd45/tiff/h22v02_tif.7z">TIF</a></td>
+    <td><a href="/data/mcd45/tiff/h23v02_tif.7z">TIF</a></td>
+    <td><a href="/data/mcd45/tiff/h24v02_tif.7z">TIF</a></td>
+    <td><a href="/data/mcd45/tiff/h25v02_tif.7z">TIF</a></td>
+    <td><a href="/data/mcd45/tiff/h26v02_tif.7z">TIF</a></td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>03</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td class="gray">&nbsp;</td>
+    <td><a href="/data/mcd45/tiff/h19v03_tif.7z">TIF</a></td>
+    <td><a href="/data/mcd45/tiff/h20v03_tif.7z">TIF</a></td>
+    <td><a href="/data/mcd45/tiff/h21v03_tif.7z">TIF</a></td>
+    <td><a href="/data/mcd45/tiff/h22v03_tif.7z">TIF</a></td>
+    <td><a href="/data/mcd45/tiff/h23v03_tif.7z">TIF</a></td>
+    <td><a href="/data/mcd45/tiff/h24v03_tif.7z">TIF</a></td>
+    <td><a href="/data/mcd45/tiff/h25v03_tif.7z">TIF</a></td>
+    <td><a href="/data/mcd45/tiff/h26v03_tif.7z">TIF</a></td>
+    <td><a href="/data/mcd45/tiff/h27v03_tif.7z">TIF</a></td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>04</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td class="gray">&nbsp;</td>
+    <td>&nbsp;</td>
+    <td><a href="/data/mcd45/tiff/h20v04_tif.7z">TIF</a></td>
+    <td><a href="/data/mcd45/tiff/h21v04_tif.7z">TIF</a></td>
+    <td><a href="/data/mcd45/tiff/h22v04_tif.7z">TIF</a></td>
+    <td><a href="/data/mcd45/tiff/h23v04_tif.7z">TIF</a></td>
+    <td><a href="/data/mcd45/tiff/h24v04_tif.7z">TIF</a></td>
+    <td><a href="/data/mcd45/tiff/h25v04_tif.7z">TIF</a></td>
+    <td><a href="/data/mcd45/tiff/h26v04_tif.7z">TIF</a></td>
+    <td><a href="/data/mcd45/tiff/h27v04_tif.7z">TIF</a></td>
+    <td><a href="/data/mcd45/tiff/h28v04_tif.7z">TIF</a></td>
+  </tr>
+</table>
+
+<h2>Валидация</h2>
+<p>Прежде чем использовать продукт MCD45 в широкой практике рекомендуется  исследование достоверности результатов, получаемых с его помощью. Предварительный анализ, проведенный авторами данной статьи (Дубинин М., Рыков Д., 2010, неопубликованные данные), показал, что продукт MCD45 на исследуемых территориях склонен к  недооценке сгоревших площадей. В качестве базы для сравнения выступали данные 250 м пространственного разрешения MOD02QKM.</p>
+
+<p class="ill">
+    <img src="/images/mcd45-03.gif" alt="Сравнение сгоревших площадей на основе MCD45 (синий) и оцифрованных вручную по данным MOD02QKM (красный) за разные годы" width="485" height="189" border="0">
+    <span>Рисунок 4: Сравнение сгоревших площадей на основе MCD45 (синий) и оцифрованных вручную по данным MOD02QKM (красный) за разные годы (Республика Калмыкия).</span></p>
+
+<p>Пример сравнения площадей сгоревших территорий :
+<table>
+    <tr>
+    <td>&nbsp;</td>
+    <td>2001</td>
+    <td>2002</td>
+    <td>2003</td>
+    <td>2004</td>
+    <td>2005</td>
+    <td>2006</td>
+    <td>2007</td>
+    <td>2008</td>
+    </tr>
+    <tr>
+    <td>MOD02QKM</td>
+    <td>3404</td>
+    <td>7249</td>
+    <td>827</td>
+    <td>2415</td>
+    <td>3514</td>
+    <td>8768</td>
+    <td>6218</td>
+    <td>1292</td>
+    </tr>
+    <tr>
+    <td>MCD45</td>
+    <td>1461</td>
+    <td>2382</td>
+    <td>210</td>
+    <td>591</td>
+    <td>2419</td>
+    <td>4150</td>
+    <td>4300</td>
+    <td>531</td>
+    </tr>
+    <tr>
+    <td>&nbsp;</td>
+    <td>43%</td>
+    <td>33%</td>
+    <td>25%</td>
+    <td>24%</td>
+    <td>69%</td>
+    <td>47%</td>
+    <td>69%</td>
+    <td>41%</td>
+    </tr>
+</table></p>
+
+<p>Суммарная точность (точность производителя (PA) и точность пользователя (UA), <a href="/qa/error-matrix.html">подробнее об этих показателях</a>):
+<table>
+    <tr>
+    <td>&nbsp;</td>
+    <td>2001</td>
+    <td>2002</td>
+    <td>2003</td>
+    <td>2004</td>
+    <td>2005</td>
+    <td>2006</td>
+    <td>2007</td>
+    <td>2008</td>
+    <td>AVG</td>
+    </tr>
+    <tr>
+    <td>UA</td>
+    <td>72%</td>
+    <td>70%</td>
+    <td>44%</td>
+    <td>68%</td>
+    <td>64%</td>
+    <td>70%</td>
+    <td>77%</td>
+    <td>43%</td>
+    <td>64%</td>
+    </tr>
+    <tr>
+    <td>PA</td>
+    <td>31%</td>
+    <td>23%</td>
+    <td>10%</td>
+    <td>17%</td>
+    <td>47%</td>
+    <td>32%</td>
+    <td>53%</td>
+    <td>16%</td>
+    <td>29%</td>
+    </tr>
+</table></p>
+
+
+<h2><!-- обсуждение на форуме, цифра изменяется при публикации статьи -->Основная литература по продукту</h2>
+<p>Luigi Boschetti, David Roy, Anja A. Hoffmann (2009). MODIS Collection 5 Burned Area. Product - MCD45. User's Guide. Version 2.0, November 2009. (<a href="/docs/mod_burned_area_user_guide_2.0.pdf">скачать</a>)</p>
+<p>Roy, D.P., Jin, Y., Lewis, P.E., &amp; Justice, C.O. (2005). Prototyping a global algorithm for systematic fire-affected area mapping using MODIS time series data. Remote Sensing of Environment, 97, 137-162</p>
+<p class="discuss"><span><!--#include virtual="/scripts/forum-comments-num.php?i=7491"--></span></p>
+<!-- ссылки -->
+<div class="links">
+	<h2>Ссылки по теме</h2>
+		<ul>
+			<li><a href="mod14a1.html">Данные по тепловым аномалиям MOD14A1: описание и получение</a></li>
+			</ul>
+</div>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<p class="status"><span>Дата создания: 11.03.2011
+<br>
+Автор(ы): <a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=6901" target="_blank">Денис Рыков</a>, <a href="/forum/memberlist.php?mode=viewprofile&u=2" target="_blank">Максим Дубинин</a></span></p>
+<!--#include virtual="/inc/footer2.php" -->

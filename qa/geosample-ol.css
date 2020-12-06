@@ -1,0 +1,20 @@
+.map {
+	position: relative;
+    width: 700px;
+    height: 514px;
+    border: 1px solid #ccc;
+}
+
+.layerchanger {
+	position: relative;
+}
+
+.thematicToggle {
+	list-style: none;
+	margin-left: 0;
+	padding-left: 0;
+}
+
+#tags {
+    display: none;
+}

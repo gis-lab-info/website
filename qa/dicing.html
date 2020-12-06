@@ -1,0 +1,64 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Эффект разбиения на прямоугольники при экспорте из ArcGIS 8.x</title>
+<!--#include virtual="/inc/header2.txt" -->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Вопросы и ответы</a></li>
+</ul>
+<!--Contents start-->
+<h1>Эффект разбиения на прямоугольники при экспорте из ArcGIS 8.x</h1>
+<p class="ann">Для тех, кто сталкивался с проблемой разбиения
+                    экспортируемых в векторный формат карт на множество вертикальных
+                    прямоугольников, но не смог побороть эту проблему.</p>
+            <p>Данный эффект носит название &quot;dicing&quot; и
+              связан с оптимизацией ArcGIS и Arcview3 процесса вывода на экран
+              и на печать. В этом режиме все полигоны имеющие более чем 20.000
+              вертексов разбиваются на вертикальные прямоугольники при экспорте. </p>
+            <p align="center"><img src="/images/dicing1.gif" width="401" height="355" border="1" /></p>
+            <p>В отличие от ArcGIS, данную проблему в Arcview 3.x можно
+              решить только убрав все заливки у объектов, что в большинстве случаев
+              конечно неприемлемо. В ArcGIS, используя VBA режим разбиения можно
+              отключить. Для этого необходимо перед началом сеанса работы с ArcGIS,
+              или перед экспортом, выполнить небольшой макрос на VBA (<a href="/other/dice-off.bas">скачать
+              макрос выключения режима Dicing</a>).</p>
+            <table width="400" border="1" align="center" bordercolor="#999999" bgcolor="#E6E6E6">
+              <tr>
+                <td height="111"><p>Public Sub turnOffDicing() </p>
+                  <p>Dim pGeometryEnv As IGeometryEnvironment3<br />
+                    Set pGeometryEnv = New GeometryEnvironment<br />
+                    pGeometryEnv.DicingEnabled = False</p>
+                  <p>End Sub</p></td>
+              </tr>
+            </table>
+            <p>После экспорта режим желательно включить обратно (<a href="/other/dice-on.bas">скачать
+              макрос включения режима Dicing</a>).</p>
+            <table width="400" border="1" align="center" bordercolor="#999999" bgcolor="#E6E6E6">
+              <tr>
+                <td height="111"><p>Public Sub turnOnDicing()</p>
+                  <p>Dim pGeometryEnv As IGeometryEnvironment3<br />
+                    pGeometryEnv.DicingEnabled = True</p>
+                  <p>End Sub </p></td>
+              </tr>
+            </table>
+            <p><img src="/images/dicing2.gif" width="188" height="412" border="1" align="right" />Для
+              того, чтобы выполнить макросы, достаточно в ArcGIS выбрать <b>Tools\Macros\Visual
+              Basic Editor</b> и импортировать (<b>File\Import file</b>) <a href="/other/dice-on.bas">первый</a> или <a href="/other/dice-off.bas">второй</a> макрос. Затем в списке
+              модулей (см. рисунок) выбрать соответствующий модуль (DicingOn и DicingOff
+              для первого и второго макросов) и запустить его на выполнение (<b>Run\Run
+              Macro</b>). </p>
+            <p align="left">Для отключения режима, нужно ту же операцию
+              проделать со вторым скриптом.</p>
+            <p align="left">Оба макроса можно сохранить в Normal.mxt,
+              чтобы не нужно было загружать их из каждого проекта. Для этого, при
+              выбранном в Visual Basic Editor пункта Normal.mxt нужно импортировать
+              оба файла и сохранить Normal.mxt.</p>
+            <p align="left"><b>По умолчанию считается, что режим разбиения
+              на прямоугольники - включен! То есть выполнен первый макрос.</b></p>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<p class="status"><span>Дата создания: 01.11.2003
+<br>Автор(ы): <a href="/forum/memberlist.php?mode=viewprofile&u=2" target="_blank">Максим Дубинин</a></span></p>
+<!--#include virtual="/inc/footer2.php" -->

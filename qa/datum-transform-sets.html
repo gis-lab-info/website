@@ -1,0 +1,402 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Переход от одной системы координат к другой - наборы параметров</title>
+<!--#include virtual="/inc/header2.txt" -->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Вопросы и ответы</a></li>
+</ul>
+<h1>Переход от одной системы координат к другой - наборы параметров</h1>
+<!--Contents start-->
+<p class="ann">Наборы параметров и источники</p>
+<p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=3791"--></span></p>
+            <p>Переход
+            с одной системы координат на другую может осуществляться <a href="datum-transform-methods.html">разными способами</a> и использовать разные наборы параметров перехода.</p>
+            <p>В нашей стране наиболее распространенной является система координат СК-42 (так же известная как Pulkovo 1942), набирают оборот ПЗ-90 и СК-95 и наконец приходится иметь дело с массой данных в WGS 84. Цель этой статьи собрать в одном месте распространенные наборы параметров пересчета из одной системы координат в другую, применяющиеся для территории России. Для осуществления обратного преобразования  необходимо использовать инвертированные значения параметров. </p>
+            <h2><strong>3-х параметрическое преобразование</strong></h2>
+            <p>Так же известно как <a href="/qa/datum-transform-methods.html#mol">преобразование Молоденского</a>.</p>
+            <p> Три параметра используемые в этом преобразовании: dX, dY, dZ (т.н. линейные элементы трансформирования, единицы измерения - метры) определяют смещение центра эллипсоида по осям X, Y, Z. </p>
+            <p>Набор параметров включает: dX, dY, dZ</p>
+            <h3>СК-42 -&gt; WGS84 </h3>
+            <table width="70%" border="0">
+              <tr>
+                <th>#</td>
+                <th>dX</td>
+                <th>dY</td>
+                <th>dZ</td>
+                <th>Источник</td>
+              </tr>
+              <tr>
+                <td><p>1</p></td>
+                <td><p>28</p></td>
+                <td><p>-130</p></td>
+                <td><p>-95</p></td>
+                <td><p><span class="postbody">World Geodetic System 1984</span>. NIMA, 2000 <a href="/docs/nima-tr8350.2-wgs84fin.pdf">&gt;&gt;&gt;</a></p>
+                  <p>То же: EPSG::1254<br>
+                    </p></td>
+              </tr>
+              <tr>
+                <td><p>2</p></td>
+                <td><p>23.92</p></td>
+                <td><p>-141.27</p></td>
+                <td><p>-80.91</p></td>
+                <td><p>ГОСТ 51794-2001 <a href="/docs/law/gost51794-2001.zip">&gt;&gt;&gt;</a></p></td>
+              </tr>
+            </table>
+            <p>Группа параметров #1 используется так же в наборе &quot;Pulkovo 1942-1 (Russia)&quot; в ERDAS IMAGINE и ArcGIS Pulkovo_1942_To_WGS_1984.</p>
+            <h3>СК95 -&gt; ПЗ-90</h3>
+            <table width="70%" border="0">
+              <tr>
+                <th>#</th>
+                <th>dX</th>
+                <th>dY</th>
+                <th>dZ</th>
+                <th>Источник</th>
+              </tr>
+              <tr>
+                <td><p>1</p></td>
+                <td><p>25.90</p></td>
+                <td><p>-130.94</p></td>
+                <td><p>-81.76</p></td>
+                <td><p>ГОСТ 51794-2001<br />
+                  СК-95 -&gt; ПЗ-90 <a href="/docs/law/gost51794-2001.zip">&gt;&gt;&gt;</a></p>
+                    <p>То же:  EPSG::1257, ГОСТ 51794-2008 (Приложение Б) <a href="http://protect.gost.ru/v.aspx?control=8&baseC=6&page=0&month=9&year=2009&search=&RegNum=1&DocOnPageCount=15&id=166620&pageK=FE7F3516-A111-4E03-8A87-BFBF3D67174A" target="_blank" class="external">&gt;&gt;&gt;</a><br />
+                  </p></td>
+              </tr>
+            </table>
+            <h2><strong>7-ми параметрическое преобразование</strong></h2>
+            <p>Так же известно как преобразование Bursa-Wolf (<a href="datum-transform-methods.html">Position Vector/Coordinate frame rotation</a>). Отличается от 3-х параметрического добавлением угловых элементы трансформирования &omega;<sub>x</sub>, &omega;<sub>y</sub>, &omega;<sub>z</sub> (единицы измерения - секунды) и дифференциального различия масштабов систем координат <em>m</em>.</p>
+            <p>Набор параметров включает: dX, dY, dZ, &omega;<sub>x</sub>, &omega;<sub>y</sub>, &omega;<sub>z</sub>, <em>m</em></p>
+            <h3>СК42 -&gt; WGS84</h3>
+            <table width="98%" border="0" align="center">
+              <tr>
+                <th>#</th>
+                <th>dX</th>
+                <th>dY</th>
+                <th>dZ</th>
+                <th> &omega;<sub>x</sub></th>
+                <th>&omega;<sub>y</sub></th>
+                <th>&omega;<sub>z</sub></th>
+                <th>m</th>
+                <th>Источник</th>
+              </tr>
+              <tr>
+                <td><p>1</p></td>
+                <td><p>23.92</p></td>
+                <td><p>-141.27</p></td>
+                <td><p>-80.9</p></td>
+                <td><p>0</p></td>
+                <td><p>0.35</p></td>
+                <td><p>0.82</p></td>
+                <td><p>-0.12*10<sup>-6</sup></p></td>
+                <td><p>ГОСТ 51794-2001 <br />
+                    СК-42 -&gt; WGS 84 <a href="/docs/law/gost51794-2001.zip">&gt;&gt;&gt;</a></p>
+                  <p>То же:  EPSG::1267</p></td>
+              </tr>
+              <tr>
+                <td>2</td>
+                <td><p>23.92</p></td>
+                <td><p>-141.27</p></td>
+                <td><p>-80.9</p></td>
+                <td><p>0</p></td>
+                <td><p>-0.35</p></td>
+                <td><p>-0.82</p></td>
+                <td><p>-0.12*10<sup>-6</sup></p></td>
+                <td><p> Mapinfo 1013<br>
+                NB: вероятно знаки угловых элементов неправильные (<a href="http://gis-lab.info/forum/viewtopic.php?f=3&t=3791&st=0&sk=t&sd=a&start=10000#p44394">см</a>) </p>
+                    </td>
+              </tr>
+              <tr>
+                <td><p>3</p></td>
+                <td><p>27</p></td>
+                <td><p>-135</p></td>
+                <td><p>-84.5</p></td>
+                <td><p>0</p></td>
+                <td><p>0</p></td>
+                <td><p>-2.686*10<sup>-6</sup></p></td>
+                <td><p>2.263*10<sup>-7</sup></p></td>
+                <td><p>ERDAS IMAGINE <br />
+                  Pulkovo 1942
+                </p></td>
+              </tr>
+              <tr>
+                <td><p>4</p></td>
+                <td><p>24</p></td>
+                <td><p>-123</p></td>
+                <td><p>-94</p></td>
+                <td><p>-9.69e-07</p></td>
+                <td><p>1.212e-06</p></td>
+                <td><p>6.3*10<sup>-7</sup></p></td>
+                <td><p>1.1*10<sup>-6</sup></p></td>
+                <td><p>ERDAS IMAGINE <br />
+                  System 42/83 (Pulkow)
+                </p></td>
+              </tr>
+              <tr>
+                <td>5</td>
+                <td>25</td>
+                <td>-141</td>
+                <td>-78.5</td>
+                <td>0</td>
+                <td>-0.35</td>
+                <td>-0.736</td>
+                <td>0</td>
+                <td>EPSG::15865</td>
+              </tr>
+              <tr>
+                <td>6</td>
+                <td>24</td>
+                <td>-123</td>
+                <td>-94</td>
+                <td>-0.02</td>
+                <td>0.25</td>
+                <td>0.13</td>
+                <td>1.1*10<sup>-6</sup></td>
+                <td>Mapinfo 1001 <br>
+                  NB: вероятно знаки угловых элементов неправильные (<a href="http://gis-lab.info/forum/viewtopic.php?f=3&t=3791&st=0&sk=t&sd=a&start=10000#p44394">см</a>) </td>
+              </tr>
+            </table>
+            <h3><strong>СК-42 -&gt; ПЗ-90</strong></h3>
+            <table width="98%" border="0" align="center">
+              <tr>
+                <th>#</th>
+                <th>dX</th>
+                <th>dY</th>
+                <th>dZ</th>
+                <th> &omega;<sub>x</sub></th>
+                <th>&omega;<sub>y</sub></th>
+                <th>&omega;<sub>z</sub></th>
+                <th>m</th>
+                <th>Источник</th>
+              </tr>
+              <tr>
+                <td><p>1</p></td>
+                <td><p>25&plusmn;2</p></td>
+                <td><p>-141&plusmn;2</p></td>
+                <td><p>-80&plusmn;3</p></td>
+                <td><p>0&plusmn;0.1</p></td>
+                <td><p>-0.35&plusmn;0.1</p></td>
+                <td><p>-0.66&plusmn;0.1</p></td>
+                <td><p>(0&plusmn;0.25)10<sup>-6</sup></p></td>
+                <td><p>ГОСТ 51794-2001                  <a href="/docs/law/gost51794-2001.zip">&gt;&gt;&gt;</a></p>
+                    <p>То же: EPSG::15844<br />
+                  </p></td>
+              </tr>
+              <tr>
+                <td>2</td>
+                <td>25</td>
+                <td>-141</td>
+                <td>-80</td>
+                <td>0</td>
+                <td>-0.35</td>
+                <td>-0.66</td>
+                <td>0<sup></sup></td>
+                <td>ГОСТ 51794-2008 (Приложение Б) <a href="http://protect.gost.ru/v.aspx?control=8&baseC=6&page=0&month=9&year=2009&search=&RegNum=1&DocOnPageCount=15&id=166620&pageK=FE7F3516-A111-4E03-8A87-BFBF3D67174A" target="_blank" class="external">&gt;&gt;&gt;</a></td>
+              </tr>
+            </table>
+            <h3><strong>СК-42 -&gt; ПЗ-90</strong>.02</h3>
+            <table width="98%" border="0">
+              <tr>
+                <th>#</th>
+                <th>dX</th>
+                <th>dY</th>
+                <th>dZ</th>
+                <th> &omega;<sub>x</sub></th>
+                <th>&omega;<sub>y</sub></th>
+                <th>&omega;<sub>z</sub></th>
+                <th>m</th>
+                <th>Источник</th>
+              </tr>
+
+              <tr>
+                <td>1</td>
+                <td>23.93</td>
+                <td>-141.03</td>
+                <td>-79.98</td>
+                <td>0</td>
+                <td>-0.35</td>
+                <td>-0.79</td>
+                <td>-0.22*10<sup>-6</sup></td>
+                <td>ГОСТ 51794-2008 (Приложение А) <a href="http://protect.gost.ru/v.aspx?control=8&baseC=6&page=0&month=9&year=2009&search=&RegNum=1&DocOnPageCount=15&id=166620&pageK=74BC4EE6-C57A-4B9F-BF7D-F67C02865E45" target="_blank" class="external">&gt;&gt;&gt;</a></td>
+              </tr>
+            </table>
+            <h3><strong>СК-95 -&gt; ПЗ-90</strong>.02</h3>
+            <table width="98%" border="0">
+              <tr>
+                <th>#</th>
+                <th>dX</th>
+                <th>dY</th>
+                <th>dZ</th>
+                <th> &omega;<sub>x</sub></th>
+                <th>&omega;<sub>y</sub></th>
+                <th>&omega;<sub>z</sub></th>
+                <th>m</th>
+                <th>Источник</th>
+              </tr>
+
+              <tr>
+                <td>1</td>
+                <td>24.83</td>
+                <td>-130.97</td>
+                <td>-81.74</td>
+                <td>0</td>
+                <td>0</td>
+                <td>-0.13</td>
+                <td>-0.22*10<sup>-6</sup></td>
+                <td>ГОСТ 51794-2008 (Приложение А)  <a href="http://protect.gost.ru/v.aspx?control=8&baseC=6&page=0&month=9&year=2009&search=&RegNum=1&DocOnPageCount=15&id=166620&pageK=74BC4EE6-C57A-4B9F-BF7D-F67C02865E45" target="_blank" class="external">&gt;&gt;&gt;</a></td>
+              </tr>
+            </table>
+
+            <h3><strong>СК-95</strong>-&gt; WGS84</h3>
+            <table width="98%" border="0">
+              <tr>
+                <th>#</th>
+                <th>dX</th>
+                <th>dY</th>
+                <th>dZ</th>
+                <th> &omega;<sub>x</sub></th>
+                <th>&omega;<sub>y</sub></th>
+                <th>&omega;<sub>z</sub></th>
+                <th>m</th>
+                <th>Источник</th>
+              </tr>
+
+              <tr>
+                <td>1</td>
+                <td><p>24.82</p></td>
+                <td><p>-131.21</p></td>
+                <td><p>-82.66</p></td>
+                <td><p>0</p></td>
+                <td><p>0</p></td>
+                <td><p>-0.16</p></td>
+                <td><p>-0.12*10<sup>-6</sup></p></td>
+                <td><p> Mapinfo 1014 </p>
+                    </td>
+              </tr>
+            </table>
+            <h3><strong>ПЗ-90</strong> -&gt; WGS84</h3>
+            <table width="98%" border="0">
+              <tr>
+                <th>#</th>
+                <th>dX</th>
+                <th>dY</th>
+                <th>dZ</th>
+                <th> &omega;<sub>x</sub></th>
+                <th>&omega;<sub>y</sub></th>
+                <th>&omega;<sub>z</sub></th>
+                <th>m</th>
+                <th>Источник</th>
+              </tr>
+              <tr>
+                <td><p>1</p></td>
+                <td><p>0</p></td>
+                <td><p>0</p></td>
+                <td><p>1.5</p></td>
+                <td><p>0</p></td>
+                <td><p>0</p></td>
+                <td><p>-0.076</p></td>
+                <td><p>0<sup></sup></p></td>
+                <td><p>EPSG::15843</p>                    </td>
+              </tr>
+              <tr>
+                <td>2</td>
+                <td><p>-1.08&plusmn;0.2</p></td>
+                <td><p>-0.27&plusmn;0.2</p></td>
+                <td><p>-0.9&plusmn;0.3</p></td>
+                <td><p>0</p></td>
+                <td><p>0</p></td>
+                <td><p>-0.16&plusmn;0.1</p></td>
+                <td><p>(-0.12&plusmn;0.06)10<sup>-6</sup></p></td>
+                <td><p>ГОСТ 51794-2001 <a href="/docs/law/gost51794-2001.zip">&gt;&gt;&gt;</a></p>
+                  <p>Тоже: EPSG::1244</p>
+                  <p>Тоже: Mapinfo 1012 </p></td>
+              </tr>
+              <tr>
+                <td>3</td>
+                <td>-1.10</td>
+                <td>-0.30</td>
+                <td>-0.90</td>
+                <td>0</td>
+                <td>0</td>
+                <td>-0.20&plusmn;0.01</td>
+                <td>-0.12*10<sup>-6</sup></td>
+                <td>ГОСТ 51794-2008 (Приложение Г) <a href="http://protect.gost.ru/v.aspx?control=8&baseC=6&page=0&month=9&year=2009&search=&RegNum=1&DocOnPageCount=15&id=166620&pageK=33D374CC-30E0-4FC4-BD71-12E9C058FC15" target="_blank" class="external">&gt;&gt;&gt;</a></td>
+              </tr>
+            </table>
+            <h3>ПЗ-90.02 -&gt; WGS84</h3>
+            <table width="70%" border="0">
+              <tr>
+                <th>#</th>
+                <th>dX</th>
+                <th>dY</th>
+                <th>dZ</th>
+                <th> &omega;<sub>x</sub></th>
+                <th>&omega;<sub>y</sub></th>
+                <th>&omega;<sub>z</sub></th>
+                <th>m</th>
+                <th>Источник</th>
+              </tr>
+              <tr>
+                <td><p>1</p></td>
+                <td><p>-0.36</p></td>
+                <td><p>0.08</p></td>
+                <td><p>0.18</p></td>
+                <td><p>0</p></td>
+                <td><p>0</p></td>
+                <td><p>0</p></td>
+                <td><p>0<sup></sup></p></td>
+                <td><p>ГОСТ 51794-2008 (Приложение В) <a href="http://protect.gost.ru/v.aspx?control=8&baseC=6&page=0&month=9&year=2009&search=&RegNum=1&DocOnPageCount=15&id=166620&pageK=9E688ED2-4115-4F7A-83BB-2F04B6B2E0B0" target="_blank" class="external">&gt;&gt;&gt;</a><br />
+                </p></td>
+              </tr>
+            </table>
+            <h3>ПЗ-90.02 -&gt;<strong>ПЗ-90</strong></h3>
+            <table width="70%" border="0">
+              <tr>
+                <th>#</th>
+                <th>dX</th>
+                <th>dY</th>
+                <th>dZ</th>
+                <th> &omega;<sub>x</sub></th>
+                <th>&omega;<sub>y</sub></th>
+                <th>&omega;<sub>z</sub></th>
+                <th>m</th>
+                <th>Источник</th>
+              </tr>
+              <tr>
+                <td><p>1</p></td>
+                <td><p>1.07</p></td>
+                <td><p>0.03</p></td>
+                <td><p>-0.02</p></td>
+                <td><p>0</p></td>
+                <td><p>0</p></td>
+                <td><p>0.13</p></td>
+                <td><p>0.22*10<sup>-6</sup></p></td>
+                <td>ГОСТ 51794-2008 (Приложение Г) <a href="http://protect.gost.ru/v.aspx?control=8&baseC=6&page=0&month=9&year=2009&search=&RegNum=1&DocOnPageCount=15&id=166620&pageK=33D374CC-30E0-4FC4-BD71-12E9C058FC15" target="_blank" class="external">&gt;&gt;&gt;</a></td>
+              </tr>
+            </table>
+            <p>&nbsp;</p>
+            <h2>Источники информации</h2>
+            <p><strong>ERDAS IMAGINE</strong>: Файл spheroid.tab, например: C:\Gis\IMAGINE9.0\etc\spheroid.tab</p>
+            <p><strong>ArcGIS Desktop</strong>: Файл geographic_transformations.pdf, например: C:\Gis\ArcGIS\Documentation\geographic_transformations.pdf</p>
+            <p><strong>Mapinfo</strong>: Internal datum parameters used in MapInfo Professional <a href="http://testdrive.mapinfo.com/TechSupp/MIProd.nsf/3572165bbc9c316e8525712500769409/71c24d1304c4a05785256dd600641eb2?OpenDocument" target="_blank" class="external">>>></a> или <a href="/other/mapinfo_datumparameters.zip">в XLS</a> </p>
+            <p><strong>EPSG</strong>: Отдельная база в виде <a href="http://www.epsg.org/Geodetic.html" target="_blank" class="external">базы MS Access</a>, либо <a href="http://www.epsg-registry.org/" target="_blank" class="external">онлайн репозиторий</a></p>
+            <p>ГОСТ 51794-2001, ГОСТ 51794-2008 <a href="/docs/legislation.html">&gt;&gt;&gt;</a> </p>
+            <p class="discuss">
+				<span><!--#include virtual="/scripts/forum-comments-num.php?i=3791"--></span>
+			</p>
+			<div class="links">
+			<h2>Ссылки по теме</h2>
+			<ul>
+               <li><a href="/qa/gps-dnrgarmin.html">Загрузка данных с GPS в нужной системе координат (DNRGarmin)</a></li>
+
+			   <li><a href="/qa/wgs-pul-compare.html">Разница в определении координат в WGS84 и СК42</a></li>
+			   <li><a href="projutility.html">Использование Arcview Projection Utility для перевода данных из одной системы координат в другую</a></li>
+			</ul>
+			</div>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<p class="status"><span>Дата создания: 23.08.2009
+<br>Автор(ы): <a href="/forum/memberlist.php?mode=viewprofile&u=2" target="_blank">Максим Дубинин</a></span></p>
+<!--#include virtual="/inc/footer2.php" -->

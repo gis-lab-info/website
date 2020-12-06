@@ -1,0 +1,82 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: VMap0 data in ESRI shape format</title>
+<!--#include virtual="/inc/header2-eng.txt" -->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Вопросы и ответы</a></li>
+</ul>
+<!--Contents start-->
+<h1>VMap0 data in ESRI shape format</h1>
+<p class="ann">Downloadable VMap0 data. Description and field notations can be found in linked articles.</p>
+<p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=1011"--></span></p>
+<p>VMap0 data are relatively new vector dataset which represents a next version of widely used Digital Chart of the World (DCW) dataset (<a href="vmap0-about.html">more about VMap0 - rus</a>).</p>
+<p>Global VMap0 dataset is distributed in original VPF format and available through <a href="http://geoengine.nga.mil" target="_blank">National Geospatial-Intelligence Agency</a> website. This page allows to download exact replica of VMap0 in ESRI shape format. The dataset is in public domain with the exception of Boundaries Coverage and the Reference Library layers that are copyrighted by ESRI (allowed use limitations are unknown, so the layers are still published here as in source VPFs). </p>
+            <p>Data are packed with free <a href="http://7-zip.org" target="_blank" class="external">7z compressor</a>.</p>
+            <p>All the data are in Latitude/Longitude, WGS84 coordinate system. </p>
+            <p><strong>Global data </strong></p>
+            <p>Global data are separated into 4 parts and available to download from this website in ESRI Shapefile format (see figure, zones boundaries, <a href="/data/vmap0/vmap0-continental-tiling.7z">shapefile</a>): </p>
+            <ul>
+              <li><a href="/data/vmap0/eur.7z"> Eur Zone, 104 Mb </a></li>
+              <li><a href="/data/vmap0/noa.7z">Noa Zone, 110 Mb </a></li>
+              <li><a href="/data/vmap0/soa.7z">Soa Zone, 90 Mb </a></li>
+              <li><a href="/data/vmap0/sas.7z">Sas Zone, 115 Mb </a></li>
+            </ul>
+            <p>Data in SQL format ready for uploading into PostGIS/PostgreSQL</p>
+            <ul>
+              <li><a href="/data/vmap0/eur-sql.7z">Eur Zone, 130 Mb </a></li>
+            </ul>
+            <p>Data is converted using the following routine :</p>
+            <pre>for f in *shp
+do  
+  #remove extension and substitute &quot;-&quot; for &quot;_&quot;
+  name=$(basename $f .shp| tr "-" "_")
+  #convert file $f from shp to sql commands
+  shp2pgsql -d -I -s 4326 $f $name > ./sql/$name".sql"
+done</pre>
+            <p align="center"></p>
+            <p align="center"><img src="/images/vmap0-02.gif" alt="Границы зон Vmap0" width="500" height="248" border="0" /></p>
+            <p><strong>Data for the territory of Russia</strong></p>
+            <p>Data for the territory of Russia in ESRI Shapefile format is available here.</p>
+            <p>Data are imported from VPF, clipped with Russia's boundart from the same dataset and merged together from the Eur, Noa and Sas parts, each layer has accompanying legend as an avl-file.</p>
+            <p><a href="/data/vmap0/vmap0.7z"><strong>Download database for the whole country, 113 Mb</strong></a></p>
+            <p>Download by subject (each archive can contain several layers):</p>
+            <h3>Boundaries</h3>
+            <p><a href="/data/vmap0/bounds.7z">Boundaries</a> (2Mb) <br />
+              <a href="/data/vmap0/bounds-correct.7z">Boundaries, delimiters removed and with attributes added </a> (2Mb) <br />
+              <a href="/data/vmap0/world-bounds.7z">Countries boundaries only</a> (8Mb)<br> 
+              <a href="/data/vmap0/political-boundaries.7z">Countries boundaries divided by zones</a> (8Mb)</p>
+            <h3>Other</h3>
+            <p><a href="/data/vmap0/data-quality.7z">Auxillary layers (data quality, grids etc.) </a>(2Mb)<br />
+              <a href="/data/vmap0/elevation.7z">Elevation</a> (37Mb)<br />
+              <a href="/data/vmap0/hydro-points.7z">Hydro - points</a> (&lt;1Mb)<br />
+              <a href="/data/vmap0/hydro-lines.7z">Hydro - lines</a> (9Mb)<br />
+              <a href="/data/vmap0/hydro-area.7z">Hydro - areas</a> (6Mb)<br />
+              <a href="/data/vmap0/industry.7z">Industry</a> (&lt;1Mb)<br />
+              <a href="/data/vmap0/physical.7z">Physical geography</a> (&lt;1Mb)<br />
+              <a href="/data/vmap0/population.7z">Populated places</a> (&lt;1Mb)<br>
+              <img src="/images/new.gif" alt="new" width="27" height="10" />Populated place with Russian names and additional attributes (<a href="/qa/vmap0-settl-rus.html">details in Russian </a>)<br />
+              <a href="/data/vmap0/transport.7z">Transport</a> (4Mb)<br />
+              <a href="/data/vmap0/utility.7z">Infrustructure</a> (1Mb)<br />
+              <a href="/data/vmap0/vegetation.7z">Vegetation</a> (16Mb)</p>
+            <p>Example build from VMap0 dataset (click on the figure to see bigger one with the legend). </p>
+            <p align="center"><a href="/images/vmap0-01b.jpg"><img src="/images/vmap0-01.gif" width="579" height="496" border="0" /></a></p>
+            <p class="discuss">
+				<span><!--#include virtual="/scripts/forum-comments-num.php?i=1011&lang=e"--></span>
+			</p>
+			<div class="links">
+			   <h2>Ссылки по теме</h2>
+			   <ul>
+			               <li><a href="/qa/vmap0-about.html">Vmap0 - data description (rus)</a></li>
+						   <li><a href="/qa/vmap0-code.html">Vmap0 - fields description</a></li>
+			               <li><a href="http://www.nga.mil/portal/site/nga01/index.jsp?epi-content=GENERIC&amp;itemID=a2986591e1b3af00VgnVCMServer23727a95RCRD&amp;beanID=1629630080&amp;viewID=Article" target="_blank" class="external">Vector Product Format (VPF) Overview</a></li>
+			               <li><a href="vmap1.html">Get VMap1 data (rus)</a> </li>
+			   </ul>
+			</div>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<p class="status"><span>Дата создания: 23.04.2006
+<br>Автор(ы): <a href="/forum/memberlist.php?mode=viewprofile&u=2" target="_blank">Максим Дубинин</a></span></p>
+<!--#include virtual="/inc/footer2.php" -->

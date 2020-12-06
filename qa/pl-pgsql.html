@@ -1,0 +1,102 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Создание и использование пользовательских функций в PostGIS</title>
+<!--#include virtual="/inc/header2.txt" -->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Вопросы и ответы</a></li>
+</ul>
+<h1>Создание и использование пользовательских функций в PostGIS</h1>
+<!--Contents start-->
+<p class="ann">Создание функций на языке PL/pgSQL</p>
+<p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=6839"--></span></p>
+<p>Как известно, в sql-запросе  можно использовать функции. Например, подсчитаем количество дождливых дней для отдельных регионов:</p>
+
+<pre>
+	<span style="color: #3366ff;">SELECT</span> region, sum(rain_days)
+	<span style="color: #3366ff;"> FROM</span> mytable
+	<span style="color: #3366ff;"> GROUP BY</span> region;
+</pre>
+
+<p>Эти функции являются встроенными. PostgreSQL позволяет добавлять функции, используя <a href="http://www.postgresql.org/docs/8.3/static/plpgsql.html">PL/pgSQL</a>, <a href="http://www.postgresql.org/docs/8.3/static/plpython.html">PL/Python</a> и другие. Мы воспользуемся языком PL/pgSQL.</p>
+
+
+<p>PostGIS привносит дополнительные функции, специфичные для ГИС. В моем случае стояла задача соединить попарно точки линиями (места кольцевания птиц и регистрации их в других районах мира). Допустим, имеются две таблицы ring и ret (от return), связанные общим полем id.</p>
+
+<p>Используем стандартную функцию <a href="http://postgis.refractions.net/documentation/manual-svn/ST_MakeLine.html">ST_Makeline</a>:</p>
+
+<pre>
+	<span style="color: #3366ff;">SELECT</span> ring.id, ST_Makeline(ring.the_geom, ret.the_geom) <span style="color: #3366ff;">AS</span> the_geom
+	<span style="color: #3366ff;">FROM</span> ret <span style="color: #3366ff;">LEFT JOIN</span> ring <span style="color: #3366ff;">ON</span> ret.id = ring.id
+</pre>
+
+<p>И получим:</p>
+
+<p><img src="/images/pl-pgsql-01.png" alt="ST_Makeline" width="483" height="233" /></p>
+
+<p>"Правильные птицы" летают напрямик через Тихий океан. (Утверждение спорное, птицы бывают разные, но в моем случае примем за аксиому, что летают они по минимальному расстоянию. Кстати, пересечение южного и северного полюсов также не предусмотрено.) Сложности возникли из-за распространенной проблемы "пересечения линии перемены дат" (wrap dateline, +/- 180 градусов).</p>
+
+<p>PostGIS не имеет встроенной обработки подобной ситуации, поэтому создадим собственную функцию. Алгоритм будет такой:</p>
+
+<p><img src="/images/pl-pgsql-02.png" alt="ST_Makeline" width="526" height="262" /></p>
+
+<p>Любая точка земного шара отстоит от любую другой не более чем на 180 градусов по долготе. Точку с отрицательной долготой переносим на запад на 360 градусов. Строим линию с помощью ST_Makeline. Потом разбиваем линию пересечением с прямоугольниками от 0 до 180 и от 180 до 360. Одна часть линии остается на месте, а вторую перемещаем восточнее на 360 градусов.</p>
+
+<p>Реализуем на языке PL/pgSQL:</p>
+
+<pre style='color:#000000;background:#ffffff;'><span style='color:#800000; font-weight:bold; '>CREATE</span> <span style='color:#800000; font-weight:bold; '>FUNCTION</span> return_lines<span style='color:#808030; '>(</span>ring GEOMETRY<span style='color:#808030; '>,</span> ret GEOMETRY<span style='color:#808030; '>)</span> <span style='color:#800000; font-weight:bold; '>RETURNS</span> GEOMETRY <span style='color:#800000; font-weight:bold; '>AS</span> $$
+<span style='color:#800000; font-weight:bold; '>DECLARE</span>
+  end_geom    GEOMETRY<span style='color:#808030; '>;</span>
+  new_ring    GEOMETRY<span style='color:#808030; '>;</span>
+  new_ret    GEOMETRY<span style='color:#808030; '>;</span>
+
+<span style='color:#800000; font-weight:bold; '>BEGIN</span>
+  <span style='color:#800000; font-weight:bold; '>IF</span> <span style='color:#bb7977; font-weight:bold; '>abs</span><span style='color:#808030; '>(</span>ST_X<span style='color:#808030; '>(</span>ring<span style='color:#808030; '>)</span><span style='color:#808030; '>-</span>ST_X<span style='color:#808030; '>(</span>ret<span style='color:#808030; '>)</span><span style='color:#808030; '>)</span> <span style='color:#808030; '>&lt;</span> <span style='color:#008c00; '>180</span> <span style='color:#800000; font-weight:bold; '>THEN</span>
+    end_geom :<span style='color:#808030; '>=</span> ST_Makeline<span style='color:#808030; '>(</span>ring<span style='color:#808030; '>,</span> ret<span style='color:#808030; '>)</span><span style='color:#808030; '>;</span>
+  <span style='color:#800000; font-weight:bold; '>ELSE</span>
+    <span style='color:#800000; font-weight:bold; '>IF</span> ST_X<span style='color:#808030; '>(</span>ring<span style='color:#808030; '>)</span> <span style='color:#808030; '>&lt;</span> <span style='color:#008c00; '>0</span> <span style='color:#800000; font-weight:bold; '>THEN</span>
+        new_ring :<span style='color:#808030; '>=</span> ST_Translate<span style='color:#808030; '>(</span>ring<span style='color:#808030; '>,</span> <span style='color:#008c00; '>360</span><span style='color:#808030; '>,</span> <span style='color:#008c00; '>0</span><span style='color:#808030; '>,</span> <span style='color:#008c00; '>0</span><span style='color:#808030; '>)</span><span style='color:#808030; '>;</span>
+        end_geom :<span style='color:#808030; '>=</span> ST_Makeline<span style='color:#808030; '>(</span>new_ring<span style='color:#808030; '>,</span> ret<span style='color:#808030; '>)</span><span style='color:#808030; '>;</span>
+    <span style='color:#800000; font-weight:bold; '>ELSE</span>
+        new_ret :<span style='color:#808030; '>=</span> ST_Translate<span style='color:#808030; '>(</span>ret<span style='color:#808030; '>,</span> <span style='color:#008c00; '>360</span><span style='color:#808030; '>,</span> <span style='color:#008c00; '>0</span><span style='color:#808030; '>,</span> <span style='color:#008c00; '>0</span><span style='color:#808030; '>)</span><span style='color:#808030; '>;</span>
+        end_geom :<span style='color:#808030; '>=</span> ST_Makeline<span style='color:#808030; '>(</span>ring<span style='color:#808030; '>,</span> new_ret<span style='color:#808030; '>)</span><span style='color:#808030; '>;</span>
+    <span style='color:#800000; font-weight:bold; '>END IF</span><span style='color:#808030; '>;</span>
+    end_geom :<span style='color:#808030; '>=</span> ST_Union<span style='color:#808030; '>(</span>
+        ST_Intersection<span style='color:#808030; '>(</span>
+            ST_SetSRID<span style='color:#808030; '>(</span>ST_MakeBox2D<span style='color:#808030; '>(</span>ST_Point<span style='color:#808030; '>(</span><span style='color:#008c00; '>0</span><span style='color:#808030; '>,</span><span style='color:#808030; '>-</span><span style='color:#008c00; '>90</span><span style='color:#808030; '>)</span><span style='color:#808030; '>,</span>ST_Point<span style='color:#808030; '>(</span><span style='color:#008c00; '>180</span><span style='color:#808030; '>,</span><span style='color:#008c00; '>90</span><span style='color:#808030; '>)</span><span style='color:#808030; '>)</span><span style='color:#808030; '>,</span><span style='color:#008c00; '>4326</span><span style='color:#808030; '>)</span><span style='color:#808030; '>,</span>
+            end_geom
+        <span style='color:#808030; '>)</span><span style='color:#808030; '>,</span>
+        ST_Translate<span style='color:#808030; '>(</span>ST_Intersection<span style='color:#808030; '>(</span>
+            ST_SetSRID<span style='color:#808030; '>(</span>ST_MakeBox2D<span style='color:#808030; '>(</span>ST_Point<span style='color:#808030; '>(</span><span style='color:#008c00; '>180</span><span style='color:#808030; '>,</span><span style='color:#808030; '>-</span><span style='color:#008c00; '>90</span><span style='color:#808030; '>)</span><span style='color:#808030; '>,</span>ST_Point<span style='color:#808030; '>(</span><span style='color:#008c00; '>360</span><span style='color:#808030; '>,</span><span style='color:#008c00; '>90</span><span style='color:#808030; '>)</span><span style='color:#808030; '>)</span><span style='color:#808030; '>,</span><span style='color:#008c00; '>4326</span><span style='color:#808030; '>)</span><span style='color:#808030; '>,</span>
+            end_geom
+        <span style='color:#808030; '>)</span><span style='color:#808030; '>,</span> <span style='color:#808030; '>-</span><span style='color:#008c00; '>360</span><span style='color:#808030; '>,</span> <span style='color:#008c00; '>0</span><span style='color:#808030; '>,</span> <span style='color:#008c00; '>0</span><span style='color:#808030; '>)</span>
+    <span style='color:#808030; '>)</span><span style='color:#808030; '>;</span>
+  <span style='color:#800000; font-weight:bold; '>END IF</span><span style='color:#808030; '>;</span>
+
+  <span style='color:#800000; font-weight:bold; '>RETURN</span> end_geom<span style='color:#808030; '>;</span>
+
+ <span style='color:#800000; font-weight:bold; '>END</span><span style='color:#808030; '>;</span>
+$$ <span style='color:#800000; font-weight:bold; '>LANGUAGE</span> <span style='color:#0000e6; '>'plpgsql'</span><span style='color:#808030; '>;</span>
+</pre>
+
+<p>Если разница между долготами (ST_X) точек меньше 180, то просто рисуем линию. Иначе, проверяем что перенести (ST_Translate) - точку начала или конца. Рисуем линию стандартными средствами (ST_Makeline). Пересекаем линию (ST_Intersection) прямоугольниками (ST_MakeBox2D) и создаем мультилинию (ST_Union).</p>
+
+<p>Теперь, как внести функцию в базу данных. Достаточно запустить pgAdmin III, открыть нужную базу и схему (например, postgis > public) и перейти в раздел "функции". Далее - как с обычными таблицами. Пользуйтесь диалогами, указываете имя функции и на закладке "Определение" вписываете код.</p>
+
+<p>Все, функцию можно использовать в запросах или, как в моей задаче, создать вид. Как и в начале статьи, только с другой функцией:</p>
+
+<pre>
+	<span style="color: #3366ff;">SELECT</span> ring.id, return_lines(ring.the_geom, ret.the_geom) <span style="color: #3366ff;">AS</span> the_geom
+	<span style="color: #3366ff;">FROM</span> ret <span style="color: #3366ff;">LEFT JOIN</span> ring <span style="color: #3366ff;">ON</span> ret.id = ring.id
+</pre>
+
+<p>Теперь, если в таблицы ring и ret добавлять новые записи, то автоматически обновится вид с линиями.</p>
+
+<p class="discuss"><span><!--#include virtual="/scripts/forum-comments-num.php?i=6839"--></span></p>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<p class="status"><span>Дата создания: 29.12.2010
+<br>Автор(ы): <a href="/forum/memberlist.php?mode=viewprofile&u=6850" target="_blank">Mavka</a></span></p>
+<!--#include virtual="/inc/footer2.php" -->

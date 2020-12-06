@@ -1,0 +1,330 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Полиномиальные преобразования - примеры реализации для большого количества точек</title>
+<!--#include virtual="/inc/header2.txt" -->
+<!--Contents start-->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Вопросы и ответы</a></li>
+</ul>
+<h1>Полиномиальные преобразования - примеры реализации для большого количества точек</h1>
+            <p class="ann">Математические выкладки решения задачи, применяемой при привязке данных</p>
+            <p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=2049"--></span></p>
+            <p>При операции географической привязки данных, то есть перевода данных из локальной системы координат в географическую или прямоугольную, сам пересчет обычно происходит &quot;за сценой&quot; и его особенности часто понятны пользователю только интуитивно. Эта статья  использует <a href="polynom-calc.html">математические выкладки</a> алгоритма и показывает их реализацию, с помощью различных инструментов. Основная цель - быстрая интеграция кода в свое программное обеспечение и просто лучшее понимание процесса привязки. </p>
+            <p>Так как одно из наиболее часто используемых преобразований при привязке - полиномиальное преобразование 2-й степени, мы иллюстрируем наши рассчёты на его примере. Для нашего примера используем 7 точек, так как это больше, чем необходимо, также рассчитаем ошибку для каждой точки.</p>
+            <p><strong>Оглавление</strong></p>
+            <ol>
+                  <li><a href="polynom-calc.html">Математика</a></li>
+                  <li><a href="#test">Тестовый набор данных</a></li>
+				  <li><a href="#excel">Пример пересчета в Excel</a></li>
+				  <li><a href="#r">Пример пересчета в R</a></li>
+                  <li><a href="#mathcad">Листы рассчётов для MathCad</a></li>
+                  <li><a href="#delphi">Процедура для пересчета на Delphi</a></li>
+                  <li><a href="#csharp">Процедура для пересчета на C# </a></li>
+            </ol>
+
+
+            <p><strong><img src="/images/1.gif" alt="1" width="33" height="41" align="left" /><a name="01" id="01"></a>Математика</strong></p>
+            <p>Математические выкладки описывающие аналитическое решение задачи приводятся <a href="polynom-calc-many.html">в отдельной статье</a>. <!-- Первый раздел -->
+            </p>
+            <p><strong><img src="/images/2.gif" alt="2" width="33" height="41" align="left" /><a name="test" id="test"></a>Тестовый набор данных </strong></p>
+	        <p>Для дальнейших пересчетов, зададим тестовый набор данных, на котором будем демонстрировать корректность вычислений. Данный пример иллюстрирует преобразование из локальной системы координат в прямоугольную (спроектированную), но на месте конечных координат могут быть и географического координаты долгота/широта. </p>
+	        <table width="60%" border="0" align="center">
+              <tr>
+                <td><p>Точка</p></td>
+                <td><p>x</p></td>
+                <td><p>y</p></td>
+                <td><p>x<sup>'</sup></p></td>
+                <td><p>y<sup>'</sup></p></td>
+              </tr>
+              <tr>
+                <td><p>1</p></td>
+                <td><p>84</p></td>
+                <td><p>-36</p></td>
+                <td><p>557125</p></td>
+                <td><p>5479747</p></td>
+              </tr>
+              <tr>
+                <td><p>2</p></td>
+                <td><p>110</p></td>
+                <td><p>-583</p></td>
+                <td><p>564345</p></td>
+                <td><p>5376737</p></td>
+              </tr>
+              <tr>
+                <td><p>3</p></td>
+                <td><p>1038</p></td>
+                <td><p>-435</p></td>
+                <td><p>646175</p></td>
+                <td><p>5421503</p></td>
+              </tr>
+              <tr>
+                <td><p>4</p></td>
+                <td><p>539</p></td>
+                <td><p>-694</p></td>
+                <td><p>603773</p></td>
+                <td><p>5363472</p></td>
+              </tr>
+              <tr>
+                <td><p>5</p></td>
+                <td><p>831</p></td>
+                <td><p>-352</p></td>
+                <td><p>626858</p></td>
+                <td><p>5433468</p></td>
+              </tr>
+              <tr>
+                <td><p>6</p></td>
+                <td><p>633</p></td>
+                <td><p>-219</p></td>
+                <td><p>607905</p></td>
+                <td><p>5455043</p></td>
+              </tr>
+              <tr>
+                <td><p>7</p></td>
+                <td><p>500</p></td>
+                <td><p>-300</p></td>
+                <td><p>595703</p></td>
+                <td><p>5437671</p></td>
+              </tr>
+            </table>
+	        <p>Так же, используя тот же инструмент ERDAS IMAGINE, посмотрим вычисленные им коэффициенты преобразования. Примечание: по какой-то причине, ERDAS IMAGINE показыват коэффициенты не прямой, а обратной задачи, поэтому при вычислении например в Excel, нужно будет поменять местами x,y и x',y'. Итак, для нашего тестового набора данных коэффициенты расчитанные ERDAS IMAGINE следующие: </p>
+	        <p align="center"><img src="/images/polynom-calc-09.gif" alt="система уравнений" width="425" height="303" /></p>
+	        <p>
+          <!-- Конец текста статьи, начало ссылок -->
+          <strong><img src="/images/3.gif" alt="3" width="33" height="41" align="left" /><a name="excel" id="excel"></a>Пример пересчета в Excel </strong></p>
+        <p>Для быстрой проверки можно воспользоваться <a href="../other/polynom-calc.xls">данной таблицей в MS Excel</a>, которая использует вышеприведенные расчеты для вычисления трансформации и предсказания новых координат. С помощью этой таблицы, используем тестовый набор данных и сравним коэффициенты преобразования с полученными в ERDAS IMAGINE:</p>
+        <table width="60%" border="0" align="center">
+          <tr>
+            <td><p>Коэффициент</p></td>
+            <td><p>a</p></td>
+            <td><p>b</p></td>
+          </tr>
+          <tr>
+            <td><p>0  </p></td>
+            <td>- 15071.583923079</td>
+            <td width="234">-24679.2116161184</td>
+          </tr>
+          <tr>
+            <td><p>1 (X)  </p></td>
+            <td>0.01203458721463060</td>
+            <td>-0.0017086683749</td>
+          </tr>
+          <tr>
+            <td><p>2 (Y)</p></td>
+            <td>0.00267941522144888</td>
+            <td>0.0040310417433</td>
+          </tr>
+          <tr>
+            <td><p>3 (X<sup>2</sup>) </p></td>
+            <td>-0.00000000027645868</td>
+            <td>0.0000000001492</td>
+          </tr>
+          <tr>
+            <td><p>4 (XY)</p></td>
+            <td>-0.00000000011992843</td>
+            <td>0.0000000000882</td>
+          </tr>
+          <tr>
+            <td><p>5 (Y<sup>2</sup>)</p></td>
+            <td>-0.00000000019248837   </td>
+            <td>0.0000000001062</td>
+          </tr>
+        </table>
+        <p>Результат - не отличается от результата ERDAS IMAGINE.  </p>
+        <p><strong><img src="/images/4.gif" alt="4" width="33" height="41" align="left" /><a name="r" id="r"></a>Пример пересчета в R </strong></p>
+        <p>Зададим исходные данные: </p>
+        <pre>x = c(84,110,1038,539,831,633,500)
+y = c(-36,-583,-435,-694,-352,-219,-300)
+x2 = c(557125,564345,646175,603773, 626858, 607905, 595703)
+y2 = c(5479747,5376737,5421503,5363472,5433468,5455043, 5437671) </pre>
+        <p>Построим матрицу:</p>
+        <pre>mat = matrix( c(1, 1, 1, 1, 1, 1, 1, x, y, x^2, x*y, y^2), nrow = 7, ncol = 6)</pre>
+        <p>И решим прямую задачу (x,y -&gt; x2,y2) для нахождения коэффициентов a и b:</p>
+        <pre>an  = solve(t(mat)%*%mat)%*%t(mat)%*%x2
+bn  = solve(t(mat)%*%mat)%*%t(mat)%*%y2</pre>
+        <p>Или обратную задачу (x,y &lt;- x2,y2), для этого нам также понадобится переопределить матрицу:</p>
+        <pre>matinv &lt;- matrix( c(1, 1, 1, 1, 1, 1, x2, y2, x2^2, x2*y2, y2^2), nrow = 6, ncol = 6)
+aninv = solve(matinv, x)
+bninv = solve(matinv, y)</pre>
+        <p>Результатом прямой задачи будут следующие наборы коэффициентов, для прямого преобразования:</p>
+        <pre>[1]  5.493158e+05  8.948879e+01 -8.564444e+00  2.322324e-04  2.727497e-04  6.293799e-04
+[1]  5.485053e+06  1.809379e+01  1.888970e+02 -2.225621e-04 -3.448929e-04 -6.190561e-04</pre>
+        <p>Создадим тестовую точку и проверим результат:</p>
+          <pre>testpoint = c(500, -300)
+xpred = an[1] + an[2]* testpoint[1] + an[3]* testpoint[2] + an[4]* testpoint[1]^2 + an[5]* testpoint[1]*testpoint[2] + an[6]*testpoint[2]^2
+ypred = bn[1] + bn[2]* testpoint[1] + bn[3]* testpoint[2] + bn[4]* testpoint[1]^2 + bn[5]* testpoint[1]*testpoint[2] + bn[6]*testpoint[2]^2</pre>
+        <p>Наш результат:</p>
+        <pre>596703.3
+5437371.0</pre>
+        <p>Что отличается от результатов ERDAS лишь на доли метра. Что и требовалось доказать.          </p>
+        <p><strong><img src="/images/5.gif" alt="5" width="33" height="41" align="left" /><a name="mathcad" id="mathcad"></a>Листы рассчётов для MathCad  </strong></p>
+        <p>Файлы представляют из себя лист рассчётов для среды MathCad (версия 11 и выше), где на примере показано как можно трансформировать координаты с использованием полиномиальных преобразований 1-го и 2-го порядков (<a href="../other/polynom-calc-mathcad.rar">скачать</a>). Прислал Александр Г. </p>
+        <p><strong><img src="/images/6.gif" alt="6" width="33" height="41" align="left" /><a name="delphi" id="delphi"></a>Процедура для пересчета на Delphi </strong></p>
+        <p>Для расчетов также понадобится дополнительная <a href="../other/polynom-calc-inv-delphi.zip">библиотека</a> для осуществления операций с матрицами. </p>
+          <pre>map:record
+     pnts:array of record                    // набор точек для привязки карты
+     xr,yr,xg,yg:extended;                 // xr,yr - растровые координаты; xg,yg - географические координаты
+     end;
+     coeff_x:array of extended;
+     coeff_y:array of extended;
+     end;
+
+function getx(x,y:extended):extended;var m:word;
+begin
+    if length(main.map.coeff_x)>0 then getx:=main.map.coeff_x[1]+main.map.coeff_x[2]*x+main.map.coeff_x[3]*y+main.map.coeff_x[4]*x*x+main.map.coeff_x[5]*x*y+main.map.coeff_x[6]*y*y else getx:=-1;
+end;
+function gety(x,y:extended):extended;
+begin
+    if length(main.map.coeff_y)>0 then gety:=main.map.coeff_y[1]+main.map.coeff_y[2]*x+main.map.coeff_y[3]*y+main.map.coeff_y[4]*x*x+main.map.coeff_y[5]*x*y+main.map.coeff_y[6]*y*y else gety:=-1;
+end;
+
+procedure map_calculate_ceeff;var aa:TReal2DArray;var i,j:byte;
+begin
+// вычисление коэффициентов полинома
+//--------------------------------------------------------
+// заполнение обратной матрицы
+ setlength(aa,7,7);
+ for i:=1 to 6 do begin
+   aa[1,i]:=1;
+   aa[2,i]:=main.map.pnts[i-1].xg;
+   aa[3,i]:=main.map.pnts[i-1].yg;
+   aa[4,i]:=main.map.pnts[i-1].xg*main.map.pnts[i-1].xg;
+   aa[5,i]:=main.map.pnts[i-1].xg*main.map.pnts[i-1].yg;
+   aa[6,i]:=main.map.pnts[i-1].yg*main.map.pnts[i-1].yg;
+ end;
+ // вычисление обратной матрицы
+ if Inverse(aa,6)=false then begin main.show_err('Ошибка. Необходим другой набор контрольных точек.');exit;end;
+
+ // умножение с обратной матрицей X
+ setlength(main.map.coeff_x,7);for j:=1 to 6 do main.map.coeff_x[j]:=0;
+ for i:=1 to 6 do for j:=1 to 6 do main.map.coeff_x[i]:=main.map.coeff_x[i]+aa[j,i]*main.map.pnts[j-1].xr;
+ // умножение с обратной матрицей Y
+ setlength(main.map.coeff_y,7);for j:=1 to 6 do main.map.coeff_y[j]:=0;
+ for i:=1 to 6 do for j:=1 to 6 do main.map.coeff_y[i]:=main.map.coeff_y[i]+aa[j,i]*main.map.pnts[j-1].yr;
+end;
+</pre>
+        <p><a href="../other/polynom-calc-mathcad.rar"></a></p>
+        <p><strong><img src="/images/7.gif" alt="7" width="33" height="41" align="left" /><a name="csharp" id="csharp"></a>Процедура для пересчета на C# </strong></p>
+        <p>Для расчетов также понадобится дополнительная библиотека для осуществления операций с матрицами. Библиотеку LU-декомпозиции для решения системы, а так же пример программы можно скачать <a href="/other/polynom-cs.rar">здесь</a>. Прислал Deshchenko Sergey.</p>
+        <pre>
+using System;
+
+namespace Transformation
+{
+    class Program
+    {
+        static void Main()
+        {
+            double[] x1 = { 83.786, 109.929, 1038.000, 539.107, 831.036, 632.786 };
+            double[] y1 = { -36.107, -582.929, -434.786, -694.036, -352.000, -219.107 };
+            double[] x2 = { 557124.596, 564344.898, 646174.994, 603772.500, 626857.500, 607905.000 };
+            double[] y2 = { 5479746.857, 5376737.207, 5421503.083, 5363472.000, 5433468.000, 5455042.500 };
+            int n = 6;
+            int p = 6;
+
+            /*************************************************************************
+            Входные параметры:
+            m   -   Матрица системы.
+                Массив с нумерацией элементов [1..N, 1..N].
+            bForX   -   Правая часть для X.
+            bForY   -   Правая часть для Y.
+                Массив с нумерацией элементов [1..N, 1..N].
+            n   -   Размерность системы.
+            p   -   Количество точек.
+            a   -   Решение системы с X.
+            b   -   Решение системы с Y.
+            *************************************************************************/
+
+            double[,] m = new double[n + 1, n + 1];
+            double[] bForX = new double[n + 1];
+            double[] bForY = new double[n + 1];
+            double[] a = new double[n + 1];
+            double[] b = new double[n + 1];
+
+            for (int i = 0; i < p; i++)
+            {
+
+                m[1, 1] = n;
+                m[1, 2] = m[2, 1] += x1[i];
+                m[1, 3] = m[3, 1] += y1[i];
+                m[1, 4] = m[4, 1] = m[2, 2] += Math.Pow(x1[i], 2);
+                m[1, 5] = m[5, 1] = m[2, 3] = m[3, 2] += x1[i] * y1[i];
+                m[1, 6] = m[6, 1] = m[3, 3] += Math.Pow(y1[i], 2);
+                m[2, 4] = m[4, 2] += Math.Pow(x1[i], 3);
+                m[2, 5] = m[5, 2] = m[3, 4] = m[4, 3] += Math.Pow(x1[i], 2) * y1[i];
+                m[2, 6] = m[6, 2] = m[3, 5] = m[5, 3] += x1[i] * Math.Pow(y1[i], 2);
+                m[3, 6] = m[6, 3] += Math.Pow(y1[i], 3);
+                m[4, 4] += Math.Pow(x1[i], 4);
+                m[4, 5] = m[5, 4] += Math.Pow(x1[i], 3) * y1[i];
+                m[4, 6] = m[6, 4] = m[5, 5] += Math.Pow(x1[i], 2) * Math.Pow(y1[i], 2);
+                m[5, 6] = m[6, 5] += x1[i] * Math.Pow(y1[i], 3);
+                m[6, 6] += Math.Pow(y1[i], 4);
+
+                bForX[1] += x2[i];
+                bForX[2] += x1[i] * x2[i];
+                bForX[3] += y1[i] * x2[i];
+                bForX[4] += Math.Pow(x1[i], 2) * x2[i];
+                bForX[5] += x1[i] * y1[i] * x2[i];
+                bForX[6] += Math.Pow(y1[i], 2) * x2[i];
+                bForY[1] += y2[i];
+                bForY[2] += x1[i] * y2[i];
+                bForY[3] += y1[i] * y2[i];
+                bForY[4] += Math.Pow(x1[i], 2) * y2[i];
+                bForY[5] += x1[i] * y1[i] * y2[i];
+                bForY[6] += Math.Pow(y1[i], 2) * y2[i];
+            }
+            {
+                System.Console.Write("Error! Degenerate matrix A!");
+                System.Console.WriteLine();
+                System.Console.ReadKey();
+                return;
+            }
+            if (!linsolve.solvesystem(m, bForY, n, ref b))
+            {
+                System.Console.Write("Error! Degenerate matrix A!");
+                System.Console.WriteLine();
+                System.Console.ReadKey();
+                return;
+            }
+            double testPointX1 = 500;
+            double testPointY1 = -300;
+            double testPointX2 = a[1] + a[2] * testPointX1 + a[3] * testPointY1 + a[4] * Math.Pow(testPointX1, 2) + a[5] * testPointX1 * testPointY1 + a[6] * Math.Pow(testPointY1, 2);
+            double testPointY2 = b[1] + b[2] * testPointX1 + b[3] * testPointY1 + b[4] * Math.Pow(testPointX1, 2) + b[5] * testPointX1 * testPointY1 + b[6] * Math.Pow(testPointY1, 2);
+            System.Console.Write("X = " + testPointX2);
+            System.Console.WriteLine();
+            System.Console.Write("Y = " + testPointY2);
+            System.Console.WriteLine();
+            for (int i = 0; i < n; i++)
+            {
+                System.Console.WriteLine();
+                System.Console.Write("a[" + i + "] = " + a[i + 1]);
+            }
+            System.Console.WriteLine();
+            for (int i = 0; i < n; i++)
+            {
+                System.Console.WriteLine();
+                System.Console.Write("b[" + i + "] = " + b[i + 1]);
+
+            }
+            System.Console.ReadKey();
+        }
+    }
+}
+</pre>
+        <p>&nbsp;</p>
+        <p class="discuss">
+			<span><!--#include virtual="/scripts/forum-comments-num.php?i=2049"--></span>
+</p>
+			<div class="links">
+			<h2>Ссылки по теме</h2>
+			<ul>
+               <li><a href="polynom.html">Полиномиальные преобразования</a></li>
+			   <li><a href="rmse.html">Среднеквадратичная ошибка (RMSE)</a></li>
+			   <li><a href="polynom-calc.html">Полиномиальные преобразования - математика</a></li>
+			</ul>
+			</div>
+            <!--#include virtual="/scripts/date.php" -->
+<!--Contents end-->
+<!--#include virtual="/inc/footer2.php" -->

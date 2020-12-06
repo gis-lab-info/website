@@ -1,0 +1,52 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Замена значений в растрах с помощью GDAL/Numpy</title>
+<!--#include virtual="/inc/header2.txt" -->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Вопросы и ответы</a></li>
+</ul>
+<!--Contents start-->
+<h1>Замена значений в растрах с помощью GDAL/Numpy</h1>
+<p class="ann">Описание и скрипт</p>
+<p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=5679"--></span></p>
+
+<p>Задача: заменить в растре одно значение на другое.</p>
+<p>Для решения можно использовать возможности GDAL для чтения/записи растров и Numpy для операций замены.  Данный способ использовался, например, для нормализации ошибочных значений NODATA в данных <a href="/qa/srtm.html">SRTM 5x5</a>.</p>
+<h2>Реализация</h2>
+<p>Все основные моменты работы с растрами изложены в статье &quot;<a href="/qa/gdal-python.html">Работа с растрами при помощи GDAL и Python</a>&quot;. Остановимся на ключевых деталях реализации:</p>
+<p>Так как мы хотим только поменять значение, то важно сохранить растр в том же числовом формате, что и исходный. Для этого нужно при чтении получить исходный числовой формат:</p>
+<pre>gd = gdal.Open( input )
+intype = gd.GetRasterBand( 1 ).DataType</pre>
+
+<!-- Второй раздел -->
+<p>и использовать его же при сохранении результирующего растра: </p>
+<pre>outRaster = driver.Create( output, xsize, ysize, 1, intype )</pre>
+<p>Также полезным может оказаться установка значения NoData, если для его установки и заменяются значения:</p>
+<pre>outRaster.GetRasterBand( 1 ).SetNoDataValue(-32678)</pre>
+<p>Основная работа производится с помощью функций обработки массивов Numpy, значительно более быстрых чем попиксельная обработка. Цикл поиска-замены значения выглядит следующим образом: </p>
+<pre>temp1_bool = numpy.equal(raster,inval)
+numpy.putmask(raster,temp1_bool,outval)</pre>
+<h2>Скрипт </h2>
+<p>Запуск скрипта производится следующим образом: </p>
+<pre>remap.py input_raster output_raster input_value output_value</pre>
+<p>В качестве аргументов используется имя исходного и конечного растра, а также исходное и конечное значение. Например, для замены значения 255 на -32678:</p>
+<pre>remap.py input.tif output.tif 255 -32678</pre>
+<p><a href="/programs/python/remap.7z">Скачать</a> скрипт.</p>
+<p>Предупреждение: на данный момент описанная реализация относительно медленная, операции на больших растрах могут занимать значительное время. </p>
+<!-- обсуждение на форуме, цифра изменяется при публикации статьи -->   
+<p class="discuss"><span><!--#include virtual="/scripts/forum-comments-num.php?i=5679"--></span></p>
+<!-- ссылки -->
+<div class="links">
+	<h2>Ссылки по теме</h2>
+		<ul>
+			<li><a href="/qa/ogr-python.html">Работа с векторными данными при помощи OGR и Python</a></li>
+			</ul>
+</div>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<p class="status"><span>Дата создания: 04.07.2010
+<br>Автор(ы): <a href="/forum/memberlist.php?mode=viewprofile&u=2" target="_blank">Максим Дубинин</a></span></p>
+<!--#include virtual="/inc/footer2.php" -->

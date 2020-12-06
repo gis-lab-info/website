@@ -1,0 +1,64 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Добавление атрибутов полигонального слоя точечному shape-файлу в ArcGIS</title>
+<!--#include virtual="/inc/header2.txt" -->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Вопросы и ответы</a></li>
+</ul>
+<!--Contents start-->
+<h1>Добавление атрибутов полигонального слоя точечному shape-файлу в ArcGIS</h1>
+<p class="ann">Описание простой операции связывания с переносом данных в ArcGIS </p>
+<p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=3104"--></span></p>
+            <p>Часто в работе с векторными  данными бывает необходимо добавить в атрибутивную таблицу точечного shape-файла  значения из атрибутивной таблицы полигонального shape-файла, т.е. получить  значение точки в том месте, где она накладывается на полигон. Эту операцию  можно легко выполнить с помощью ArcGIS.            </p>
+            <p><strong><img src="/images/1.gif" alt="1" width="33" height="41" align="left" /><a name="01" id="01"></a>Выделение точек, которые накладываются на полигональный слой</strong></p>
+            <p>
+              <!-- Второй раздел -->
+	          Запускаем ArcGIS.</p>
+	        <p>Добавляем во фрейм точечный и  полигональный shape-файл (File\Add data… или кнопкой <img src="/images/spatialjoin-ag-01.gif" width="26" height="25">).</p>
+	        <p>Для того чтобы выделить точки, которые  накладываются на полигоны выбираем (Selection\Select by location…). </p>
+	        <p align="center"><img src="/images/spatialjoin-ag-02.gif" width="287" height="243"></p>
+	        <p align="center"><img src="/images/spatialjoin-ag-03.gif" width="335" height="439"></p>
+	        <p>Далее, в появившемся диалоговом  окне указываем: </p>
+	        <ul>
+	          <ul>
+	            <li>В поле I want to: указываем select features from  (выбрать объекты слоя)</li>
+	                <li>В поле the  following layer(s): указываем точечный shape-файл, из которого  мы хотим выбрать точки, пересекающиеся с полигонами.</li>
+	                <li>В поле that: указываем условие выборки. Поскольку нам необходимо  выбрать точки, пересекающиеся с полигонами, выбираем intersect (пересекать).</li>
+	                <li>В поле  the features in this layer: указываем полигональный shape-файл,  по которому осуществляется выборка.</li>
+	                </ul>
+	          </ul>
+	        <p>Нажимаем ОК, в результате чего выделаются все  точки, которые пересекают полигональный слой.</p>
+	        <p align="center"><img src="/images/spatialjoin-ag-04.gif" width="700" height="474"> </p>
+	        <p><strong><img src="/images/2.gif" alt="2" width="33" height="41" align="left" /><a name="02" id="02"></a>Добавление атрибутов полигонального слоя</strong></p>
+	    <p>&nbsp;</p>
+	    <p>Открываем точечную тему на редактирование (Editor\Start Editing).</p>
+	    <p align="center"><img src="/images/spatialjoin-ag-05.gif" width="178" height="167"></p>
+	    <p>Загружаем ArcToolbox  <img src="/images/spatialjoin-ag-06.gif" width="27" height="25">. В открывшемся окне находим и запускаем двойным щелчком инструмент Spatial Join (Analysis Tools\Overlay\Spatial Join).</p>
+	    <p>Далее, в появившемся диалоговом  окне указываем: </p>
+	    <ul>
+	      <li>В поле Target Features: указываем точечный слой, в атрибутику которого будут  добавляться значения</li>
+	      <li>В поле Join Features указываем наш полигональный слой, из  которого будут выбираться значения.</li>
+	      <li>В поле Output Feature Class указываем местонахождения и имя результирующего shape-файла.</li>
+	      <li>В поле Join Operation (Optional) предлагаются  два варианта создания результирующего слоя. JOIN_ONE_TO_ONE и JOIN_ONE_TO_MANY.&nbsp;</li>
+	      </ul>
+	    <p>JOIN_ONE_TO_ONE&nbsp;означает, что  количество строк в результирующем слое будет соответствовать количеству строк в  точечном слое. Если точка будет попадать на стык полигонов, в результирующем  файле значения будут суммироваться.</p>
+	    <p> JOIN_ONE_TO_MANY&nbsp;означает, что  каждой строке точечного shape-файла может соответствовать несколько строк  результирующего слоя. Другими словами, если точка попадает на стык полигонов,  значения не суммируются, а вместо одной строки дается несколько. </p>
+	    <p>Нажимаем ОК в  результате чего во фрейм добавляется новый точечный shape-файл, содержащий в  своей атрибутивной таблице новую колонку со значениями, которые получает точка,  пересекающаяся с каким-либо полигоном.</p>
+	    <p class="discuss">
+		   <span><!--#include virtual="/scripts/forum-comments-num.php?i=3104"--></span>
+		</p>
+            <div class="links">
+				<h2>Ссылки по теме</h2>
+					<ul>
+						<li><a href="/qa/extract-values-grids.html">Получение данных по точечным профилям из серий растровых данных</a></li>
+						<li><a href="/qa/extract-pixel-data.html">Получение значений пикселей по полигональным профилям из многоканальных растровых данных</a></li>
+					</ul>
+			</div>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<p class="status"><span>Дата создания: 13.04.2009
+<br>Автор(ы): <a href="/forum/memberlist.php?mode=viewprofile&u=6732" target="_blank">Евгений Лазарев</a></span></p>
+<!--#include virtual="/inc/footer2.php" -->

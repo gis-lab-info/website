@@ -1,0 +1,1683 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: VMap0 - кодификатор</title>
+<!--#include virtual="/inc/header2.txt" -->
+
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Вопросы и ответы</a></li>
+</ul>
+<!--Contents start-->
+<h1>VMap0 - кодификатор</h1>
+<p class="ann">Номенклатура, описание полей и значений, которые могут находится в этих полях</p>
+<p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=1009"--></span></p>
+<p>В скобках жирным шрифтом указано название данного слоя, которое он будет иметь, если он скачан с GIS-Lab.
+Слои разделены по типам содержащихся в них объектов и имею суффикс <strong>-a</strong> для площадных объектов (area), <strong>-l</strong> для линейных объектов (line), <strong>-p</strong> для точечных объектов (point). Слои, для которых нет названия эквивалетного слоя, выделенного жирным шрифтом,  в архиве, доступном для скачивания через GIS-Lab пока отсутствуют, их планируется добавить позже (например большинство текстовых слоев).</p>
+            <p>Для получения информации об интересующем слое, нужно найти его в списке и перейти по ссылке на таблицу, в которой будут указаны названия полей, их описание и возможные значения атрибутов. Кроме того, если точное название слоя неизвестно, можно использовать ссылку из соответствующей группы слоев. </p>
+            <ol>
+              <li>Группа слоев: Library Reference (<a href="#libref">libref</a>)<br />
+                <br />
+                Линейный объект: (<a href="#libref.libref">libref libref</a>) <strong>libref-library-reference-l</strong><br />
+                Текстовый объект: (<a href="#libref.libreft">libref libreft</a>)<br />
+              </li>
+              <li> Группа слоев: Tile Reference (<a href="#tileref">tileref</a>)<br />
+                <br />
+                Полигональный объект:  (<a href="#tileref.tileref">tileref tileref</a>) <strong>tile-reference-a</strong><br />
+                Текстовый объект:  (<a href="#tileref.tilereft">tileref tilereft</a>)<br />
+              </li>
+              <li>Группа слоев: Boundaries (<a href="#bnd">bnd</a>)<br />
+                <br />
+                Точечный объект: Political Boundary Point Features (<a href="#bnd.polbndp">bnd polbndp</a>) <strong>bnd-boundary-p</strong><br />
+                Линейный объект: Coastlines (<a href="#bnd.coastl">bnd coastl</a>) <strong>bnd-coast-l</strong><br />
+                Линейный объект: Depth Contours (<a href="#bnd.depthl">bnd depthl</a>)<br />
+                Линейный объект: Political Boundaries (<a href="#bnd.polbndl">bnd polbndl</a>) <strong>bnd-political-boundary-l</strong><br />
+                Полигональный объект: Oceans/Seas (<a href="#bnd.oceansea">bnd oceansea</a>)<br />
+                Полигональный объект: Administrative Areas (<a href="#bnd.polbnda">bnd polbnda</a>) <strong>bnd-political-boundary-a</strong><br />
+                Текстовый объект: Boundaries Coverage Text (<a href="#bnd.bndtxt">bnd bndtxt</a>)<br />
+              </li>
+              <li>Группа слоев: Data Quality (<a href="#dq">dq</a>)<br />
+                <br />
+                Линейный объект:  (<a href="#dq.dqline">dq dqline</a>) <strong>dq-data-quality-l</strong><br />
+                Полигональный объект:  (<a href="#dq.dqarea">dq dqarea</a>) <strong>dq-data-quality-a</strong><br />
+                Текстовый объект:  (<a href="#dq.dqtxt">dq dqtxt</a>)<br />
+              </li>
+              <li>Группа слоев: Elevation (<a href="#elev">elev</a>)<br />
+                <br />
+                Точечный объект: Spot Elevations (<a href="#elev.elevp">elev elevp</a>) <strong>elev-elevation-p</strong><br />
+                Линейный объект: Elevation Contours (<a href="#elev.contourl">elev contourl</a>) <strong>elev-contour-l</strong><br />
+              </li>
+              <li>Группа слоев: Hydrography (<a href="#hydro">hydro</a>)<br />
+                <br />
+                Точечный объект: Danger Point Features (<a href="#hydro.dangerp">hydro dangerp</a>) <strong>hydro-danger-p</strong><br />
+                Точечный объект: Miscellaneous Point Features (<a href="#hydro.miscp">hydro miscp</a>) <strong>hydro-miscellaneous-p</strong><br />
+                Линейный объект: Aqueducts/Canals/Flumes/Penstocks (<a href="#hydro.aquecanl">hydro aquecanl</a>) <strong>hydro-aqueduct-canal-l</strong><br />
+                Линейный объект: Water Courses (<a href="#hydro.watrcrsl">hydro watrcrsl</a>) <strong>hydro-water-course-l</strong><br />
+                Полигональный объект: Inland Water Areas (<a href="#hydro.inwatera">hydro inwatera</a>) <strong>hydro-inland-water-a</strong><br />
+                Текстовый объект: Hydrography Группа слоев Text (<a href="#hydro.hydrotxt">hydro hydrotxt</a>)<br />
+              </li>
+              <li>Группа слоев: Industry (<a href="#ind">ind</a>)<br />
+                <br />
+                Точечный объект: Extraction Point Features (<a href="#ind.extractp">ind extractp</a>) <strong>ind-extraction-p</strong><br />
+                Точечный объект: Miscellaneous Industry Point Features (<a href="#ind.misindp">ind misindp</a>) <strong>ind-miscellaneous-p</strong><br />
+                Точечный объект: Storage Point Features (<a href="#ind.storagep">ind storagep</a>) <strong>ind-storage-p</strong><br />
+                Полигональный объект: Extraction Areas (<a href="#ind.extracta">ind extracta</a>) <strong>ind-extraction-a</strong><br />
+                Текстовый объект: Industry Группа слоев Text (<a href="#ind.indtxt">ind indtxt</a>)<br />
+              </li>
+              <li>Группа слоев: Physiography (<a href="#phys">phys</a>)<br />
+                <br />
+                Полигональный объект: Ground Surface Areas (<a href="#phys.grounda">phys grounda</a>) <strong>phys-ground-a</strong><br />
+                Полигональный объект: Snow/Ice Fields and Glaciers (<a href="#phys.landicea">phys landicea</a>) <strong>phys-land-ice-a</strong><br />
+                Полигональный объект: Sea Ice Areas (<a href="#phys.seaicea">phys seaicea</a>) <strong>phys-sea-ice-a</strong><br />
+                Текстовый объект: Physiography Группа слоев Text (<a href="#phys.phystxt">phys phystxt</a>)<br />
+              </li>
+              <li> Группа слоев: Population (<a href="#pop">pop</a>)<br />
+                <br />
+                Точечный объект: Miscellaneous Population Points (<a href="#pop.mispopp">pop mispopp</a>) <strong>pop-miscellaneous-population-p</strong><br />
+                Полигональный объект: Built-Up Areas (<a href="#pop.builtupa">pop builtupa</a>) <strong>pop-built-up-a</strong><br />
+                Полигональный объект: Miscellaneous Population Areas (<a href="#pop.mispopa">pop mispopa</a>) <strong>pop-miscellaneous-a</strong><br />
+                Текстовый объект: Population Группа слоев Text (<a href="#pop.poptxt">pop poptxt</a>)<br />
+              </li>
+              <li> Группа слоев: Transportation (<a href="#trans">trans</a>)<br />
+                <br />
+                Точечный объект: Airport Facilities Points (<a href="#trans.aerofacp">trans aerofacp</a>) <strong>trans-airport-p</strong><br />
+                Точечный объект: Railroad Yard Points (<a href="#trans.rryardp">trans rryardp</a>) <strong>trans-railroad-yard-p</strong><br />
+                Точечный объект: Transportation Structures Points (<a href="#trans.transtrc">trans transtrc</a>) <strong>trans-structure-p</strong><br />
+                Линейный объект: Miscellaneous Transportation  (<a href="#trans.mistranl">trans mistranl</a>) <strong>trans-miscellaneous-l</strong><br />
+                Линейный объект: Railroads (<a href="#trans.railrdl">trans railrdl</a>) <strong>trans-railroad-l</strong><br />
+                Линейный объект: Roads (<a href="#trans.roadl">trans roadl</a>) <strong>trans-road-l</strong><br />
+                Линейный объект: Trails and Tracks (<a href="#trans.traill">trans traill</a>) <strong>trans-trail-</strong>l<br />
+                Линейный объект: Transportation Structures Lines (<a href="#trans.transtrl">trans transtrl</a>) <strong>trans-structure-l</strong><br />
+                Текстовый объект: Transportation Группа слоев Text (<a href="#trans.transtxt">trans transtxt</a>)<br />
+              </li>
+              <li>Группа слоев: Utilities (<a href="#util">util</a>)<br />
+                <br />
+                Точечный объект: Utility Point Features (<a href="#util.utilp">util utilp</a>) <strong>util-p</strong><br />
+                Линейный объект: Pipelines (<a href="#util.pipel">util pipel</a>) <strong>util-pipeline-l</strong><br />
+                Линейный объект: Power Transmission/Telephone/Telegraph Lines (<a href="#util.utill">util utill</a>) <strong>util-l</strong><br />
+                Линейный объект: Utilities Data Quality Линейный объект: Table (<a href="#util.dqline">util dqline</a>)<br />
+                Текстовый объект: Utilities Группа слоев Text (<a href="#util.utiltxt">util utiltxt</a>)<br />
+              </li>
+              <li>Группа слоев: Vegetation (<a href="#veg">veg</a>)<br />
+                <br />
+                Полигональный объект: Croplands (<a href="#veg.cropa">veg cropa</a>) <strong>veg-cropland-a</strong><br />
+                Полигональный объект: Grasslands (<a href="#veg.grassa">veg grassa</a>) <strong>veg-grassland-a</strong><br />
+                Полигональный объект: Marshs/Swamps (<a href="#veg.swampa">veg swampa</a>) <strong>veg-swamp-a</strong><br />
+                Полигональный объект: Trees (<a href="#veg.treesa">veg treesa</a>) <strong>veg-tree-a</strong><br />
+                Полигональный объект: Tundra (<a href="#veg.tundraa">veg tundraa</a>) <strong>veg-tundra-a</strong></li>
+            </ol>
+            <strong>
+            <p><a name="libref" id="libref"></a>1. Группа слоев: Library Reference (libref)</p>
+            </strong>
+            <p><a name="libref.libref" id="libref.libref"></a>Линейный объект:  (libref libref)</p>
+            <table border="border" align="center">
+              <tr>
+                <th><p><strong>Имя поля</strong></p></th>
+                <th><p><strong>Описание</strong></p></th>
+                <th><p><strong>Тип</strong></p></th>
+                <th><p><strong>Возможные значения</strong></p></th>
+              </tr>
+              <tr>
+                <th><p>f_code</p></th>
+                <td><p>FACC Feature Code</p></td>
+                <td><p>text</p></td>
+                <td><p> BA010 Coastline/Shoreline<br />
+                    FA000 Administrative Boundary</p></td>
+              </tr>
+            </table>
+            <p><a name="libref.libreft" id="libref.libreft"></a>Текстовый объект:  (libref libreft)</p>
+            <table border="border" align="center">
+              <tr>
+                <th><p><strong>Имя поля</strong></p></th>
+                <th><p><strong>Описание</strong></p></th>
+                <th><p><strong>Тип</strong></p></th>
+                <th><p><strong>Возможные значения</strong></p></th>
+              </tr>
+              <tr>
+                <th><p>f_code</p></th>
+                <td><p>FACC Feature Code</p></td>
+                <td><p>text</p></td>
+                <td><p> BA010 Named Location<br />
+                    FA000 Text Description</p></td>
+              </tr>
+            </table>
+            <strong>
+            <p><a name="tileref" id="tileref"></a>2. Группа слоев: Tile Reference (tileref)</p>
+            </strong>
+            <p><a name="tileref.tileref" id="tileref.tileref"></a>Полигональный объект:  (tileref tileref)</p>
+            <table border="border" align="center">
+              <tr>
+                <th><p><strong>Имя поля</strong></p></th>
+                <th><p><strong>Описание</strong></p></th>
+                <th><p><strong>Тип</strong></p></th>
+                <th><p><strong>Возможные значения</strong></p></th>
+              </tr>
+              <tr>
+                <th><p>tile_name</p></th>
+                <td><p>VMap Library Tile Path Name</p></td>
+                <td><p>text</p></td>
+                <td><p>No value restrictions.</p></td>
+              </tr>
+            </table>
+            <p><a name="tileref.tilereft" id="tileref.tilereft"></a>Текстовый объект:  (tileref tilereft)</p>
+            <table border="border" align="center">
+              <tr>
+                <th><p><strong>Имя поля</strong></p></th>
+                <th><p><strong>Описание</strong></p></th>
+                <th><p><strong>Тип</strong></p></th>
+                <th><p><strong>Возможные значения</strong></p></th>
+              </tr>
+              <tr>
+                <th><p>tile_name</p></th>
+                <td><p>Tile Name</p></td>
+                <td><p>text</p></td>
+                <td><p>No value restrictions.</p></td>
+              </tr>
+            </table>
+            <strong>
+            <p><a name="bnd" id="bnd"></a>3. Группа слоев: Boundaries (bnd)</p>
+            </strong>
+            <p><a name="bnd.polbndp" id="bnd.polbndp"></a>Точечный объект: Political Boundary Point Features (bnd polbndp)</p>
+            <table border="border" align="center">
+              <tr>
+                <th><p><strong>Имя поля</strong></p></th>
+                <th><p><strong>Описание</strong></p></th>
+                <th><p><strong>Тип</strong></p></th>
+                <th><p><strong>Возможные значения</strong></p></th>
+              </tr>
+              <tr>
+                <th><p>f_code</p></th>
+                <td><p>FACC Feature Code</p></td>
+                <td><p>text</p></td>
+                <td><p>FA001 Administrative Area</p></td>
+              </tr>
+              <tr>
+                <th><p>nam</p></th>
+                <td><p>Name</p></td>
+                <td><p>text</p></td>
+                <td><p>UNK No entry present</p></td>
+              </tr>
+              <tr>
+                <th><p>na2</p></th>
+                <td><p>Second Name</p></td>
+                <td><p>text</p></td>
+                <td><p> AC Antigua and Barbuda<br />
+                    AQ American Samoa<br />
+                    AV Anguilla<br />
+                    BD Bermuda<br />
+                    BF The Bahamas<br />
+                    BH Belize<br />
+                    CA Canada<br />
+                    CJ Cayman Islands<br />
+                    CO Colombia<br />
+                    CS Costa Rica<br />
+                    CU Cuba<br />
+                    CW Cook Islands<br />
+                    DO Dominica<br />
+                    DR Dominican Republic<br />
+                    EC Ecuador<br />
+                    ES El Salvador<br />
+                    FJ Fiji<br />
+                    FP French Polynesia<br />
+                    GL Greenland<br />
+                    GP Guadeloupe<br />
+                    HA Haiti<br />
+                    HO Honduras<br />
+                    IC Iceland<br />
+                    JM Jamaica<br />
+                    JQ Johnston Atoll<br />
+                    KQ Kingman Reef<br />
+                    KR Kiribati<br />
+                    LQ Palmyra Atoll<br />
+                    MH Montserrat<br />
+                    MQ Midway Islands<br />
+                    MX Mexico<br />
+                    NU Nicaragua<br />
+                    NZ New Zealand<br />
+                    PC Pitcairn Islands<br />
+                    RQ Puerto Rico<br />
+                    RS Russia<br />
+                    SC Saint Kitts and Nevis<br />
+                    TK Turks and Caicas Islands<br />
+                    TN Tonga<br />
+                    US United States<br />
+                    VI British Virgin Islands<br />
+                    VQ Virgin Islands<br />
+                    WF Wallis and Futuna<br />
+                    WQ Wake Island<br />
+                    WS Samoa </p>
+                  <p>etc ... </p></td>
+              </tr>
+              <tr>
+                <th><p>na3</p></th>
+                <td><p>Classification Name</p></td>
+                <td><p>text</p></td>
+                <td><p> A Asia<br />
+                    E Europe<br />
+                    N North America<br />
+                    S South America<br />
+                    U Australian Area</p></td>
+              </tr>
+            </table>
+            <p><a name="bnd.coastl" id="bnd.coastl"></a>Линейный объект: Coastlines (bnd coastl)</p>
+            <table border="border" align="center">
+              <tr>
+                <th><p><strong>Имя поля</strong></p></th>
+                <th><p><strong>Описание</strong></p></th>
+                <th><p><strong>Тип</strong></p></th>
+                <th><p><strong>Возможные значения</strong></p></th>
+              </tr>
+              <tr>
+                <th><p>f_code</p></th>
+                <td><p>FACC Feature Code</p></td>
+                <td><p>text</p></td>
+                <td><p>FA001 Coastline/Shoreline</p></td>
+              </tr>
+              <tr>
+                <th><p>acc</p></th>
+                <td><p>Accuracy Category</p></td>
+                <td><p>integer</p></td>
+                <td><p> 0 Unknown<br />
+                    1 Accurate<br />
+                    2 Approximate</p></td>
+              </tr>
+              <tr>
+                <th><p>exs</p></th>
+                <td><p>Existence Category</p></td>
+                <td><p>integer</p></td>
+                <td><p> 0 Unknown<br />
+                    1 Definite<br />
+                    44 Approximate/About<br />
+                    55 Unexamined/Unsurveyed</p></td>
+              </tr>
+            </table>
+            <p><a name="bnd.depthl" id="bnd.depthl"></a>Линейный объект: Depth Contours (bnd depthl)</p>
+            <table border="border" align="center">
+              <tr>
+                <th><p><strong>Имя поля</strong></p></th>
+                <th><p><strong>Описание</strong></p></th>
+                <th><p><strong>Тип</strong></p></th>
+                <th><p><strong>Возможные значения</strong></p></th>
+              </tr>
+              <tr>
+                <th><p>f_code</p></th>
+                <td><p>FACC Feature Code</p></td>
+                <td><p>text</p></td>
+                <td><p> FA001 Depth Contour </p></td>
+              </tr>
+              <tr>
+                <th><p>crv</p></th>
+                <td><p>Depth Curve or Contour Value (meters)</p></td>
+                <td><p>integer</p></td>
+                <td><p>No value restrictions.</p></td>
+              </tr>
+            </table>
+            <p><a name="bnd.polbndl" id="bnd.polbndl"></a>Линейный объект: Political Boundaries (bnd polbndl)</p>
+            <table border="border" align="center">
+              <tr>
+                <th><p><strong>Имя поля</strong></p></th>
+                <th><p><strong>Описание</strong></p></th>
+                <th><p><strong>Тип</strong></p></th>
+                <th><p><strong>Возможные значения</strong></p></th>
+              </tr>
+              <tr>
+                <th><p>f_code</p></th>
+                <td><p>FACC Feature Code</p></td>
+                <td><p>text</p></td>
+                <td><p> FA001 Administrative Boundary<br />
+                    BA010 Claim Line<br />
+                    BE015 Defacto Boundary<br />
+                    FA000 International Date Line</p></td>
+              </tr>
+              <tr>
+                <th><p>acc</p></th>
+                <td><p>Accuracy Category</p></td>
+                <td><p>integer</p></td>
+                <td><p> 0 Accurate<br />
+                    1 Approximate</p></td>
+              </tr>
+              <tr>
+                <th><p>bst</p></th>
+                <td><p>Boundary Status Type</p></td>
+                <td><p>integer</p></td>
+                <td><p> 1 Definite<br />
+                    3 In Dispute</p></td>
+              </tr>
+              <tr>
+                <th><p>use</p></th>
+                <td><p>Usage</p></td>
+                <td><p>integer</p></td>
+                <td><p> 23 International<br />
+                    26 Primary/1st Order</p></td>
+              </tr>
+            </table>
+            <p><a name="bnd.oceansea" id="bnd.oceansea"></a>Полигональный объект: Oceans/Seas (bnd oceansea)</p>
+            <table border="border" align="center">
+              <tr>
+                <th><p><strong>Имя поля</strong></p></th>
+                <th><p><strong>Описание</strong></p></th>
+                <th><p><strong>Тип</strong></p></th>
+                <th><p><strong>Возможные значения</strong></p></th>
+              </tr>
+              <tr>
+                <th><p>f_code</p></th>
+                <td><p>FACC Feature Code</p></td>
+                <td><p>text</p></td>
+                <td><p> FA001 Water (except Inland)</p></td>
+              </tr>
+              <tr>
+                <th><p>nam</p></th>
+                <td><p>Name</p></td>
+                <td><p>text</p></td>
+                <td><p>No value restrictions.</p></td>
+              </tr>
+            </table>
+            <p><a name="bnd.polbnda" id="bnd.polbnda"></a>Полигональный объект: Administrative Areas (bnd polbnda)</p>
+            <table border="border" align="center">
+              <tr>
+                <th><p><strong>Имя поля</strong></p></th>
+                <th><p><strong>Описание</strong></p></th>
+                <th><p><strong>Тип</strong></p></th>
+                <th><p><strong>Возможные значения</strong></p></th>
+              </tr>
+              <tr>
+                <th><p>f_code</p></th>
+                <td><p>FACC Feature Code</p></td>
+                <td><p>text</p></td>
+                <td><p> FA001 Administrative Area </p></td>
+              </tr>
+              <tr>
+                <th><p>nam</p></th>
+                <td><p>Name</p></td>
+                <td><p>text</p></td>
+                <td><p>No value restrictions.</p></td>
+              </tr>
+              <tr>
+                <th><p>na2</p></th>
+                <td><p>Second Name</p></td>
+                <td><p>text</p></td>
+                <td><p>AG Algeria<br>
+                  AJ Azerbaijan<br>
+                  AL Albania<br>
+                  AM Armenia<br>
+                  AN Andorra<br>
+                  AU Austria<br>
+                  BE Belgium<br>
+                  BK Bosnia and Herzegovina<br>
+                  BO Belarus<br>
+                  BU Bulgaria<br>
+                  CH China<br>
+                  CY Cyprus<br>
+                  DA Denmark<br>
+                  EG Egypt<br>
+                  EI Ireland<br>
+                  EN Estonia<br>
+                  EZ Czech Republic<br>
+                  FI Finland<br>
+                  FO Faroe Islands<br>
+                  FR France<br>
+                  GG Georgia<br>
+                  GI Gibraltar<br>
+                  GK Guernsey<br>
+                  GM Germany<br>
+                  GR Greece<br>
+                  HR Croatia<br>
+                  HU Hungary<br>
+                  IM Isle of Man<br>
+                  IT Italy<br>
+                  JE Jersey<br>
+                  KZ Kazakhstan<br>
+                  LG Latvia<br>
+                  LH Lithuania<br>
+                  LO Slovakia<br>
+                  LS Liechtenstein<br>
+                  LU Luxembourg<br>
+                  LY Libya<br>
+                  MD Moldova<br>
+                  MG Mongolia<br>
+                  MK The Former Yugoslav Republic of Macedonia<br>
+                  MN Monaco<br>
+                  MO Morocco<br>
+                  MT Malta<br>
+                  MW Montenegro<br>
+                  NL Netherlands<br>
+                  NO Norway<br>
+                  PL Poland<br>
+                  PO Portugal<br>
+                  RO Romania<br>
+                  RS Russia<br>
+                  SI Slovenia<br>
+                  SM San Marino<br>
+                  SP Spain<br>
+                  SR Serbia<br>
+                  SV Svalbard<br>
+                  SW Sweden<br>
+                  SZ Switzerland<br>
+                  TS Tunisia<br>
+                  TU Turkey<br>
+                  TX Turkmenistan<br>
+                  UK United Kingdom<br>
+                  UP Ukraine<br>
+                  US United States<br>
+                  UZ Uzbekistan<br>
+                  VT Vatican City</p>
+                  <p>etc ... <br>
+                    </p></td>
+              </tr>
+              <tr>
+                <th><p>na3</p></th>
+                <td><p>Classification Name</p></td>
+                <td><p>text</p></td>
+                <td><p> A Asia<br />
+                    E Europe<br />
+                    N North America<br />
+                    S South America<br />
+                    U Australian Area</p></td>
+              </tr>
+            </table>
+            <p><a name="bnd.bndtxt" id="bnd.bndtxt"></a>Текстовый объект: Boundaries Группа слоев Text (bnd bndtxt)</p>
+            <table border="border" align="center">
+              <tr>
+                <th><p><strong>Имя поля</strong></p></th>
+                <th><p><strong>Описание</strong></p></th>
+                <th><p><strong>Тип</strong></p></th>
+                <th><p><strong>Возможные значения</strong></p></th>
+              </tr>
+              <tr>
+                <th><p>f_code</p></th>
+                <td><p>FACC Feature Code</p></td>
+                <td><p>text</p></td>
+                <td><p> FA001 Named Location<br />
+                    BA010 Text Description</p></td>
+              </tr>
+              <tr>
+                <th><p>symbol_id</p></th>
+                <td><p>Symbol Identification</p></td>
+                <td><p>integer</p></td>
+                <td><p>No value restrictions.</p></td>
+              </tr>
+            </table>
+            <strong>
+            <p><a name="dq" id="dq"></a>4. Группа слоев: Data Quality (dq)</p>
+            </strong>
+            <p><a name="dq.dqline" id="dq.dqline"></a>Линейный объект:  (dq dqline)</p>
+            <table border="border" align="center">
+              <tr>
+                <th><p><strong>Имя поля</strong></p></th>
+                <th><p><strong>Описание</strong></p></th>
+                <th><p><strong>Тип</strong></p></th>
+                <th><p><strong>Возможные значения</strong></p></th>
+              </tr>
+              <tr>
+                <th><p>dqline_id</p></th>
+                <td><p>Data Quality Линейный объект: Identifier</p></td>
+                <td><p>integer</p></td>
+                <td><p>No value restrictions.</p></td>
+              </tr>
+              <tr>
+                <th><p>source1</p></th>
+                <td><p>First Source Sheet or Data ID</p></td>
+                <td><p>text</p></td>
+                <td><p>No value restrictions.</p></td>
+              </tr>
+              <tr>
+                <th><p>source2</p></th>
+                <td><p>Second Source Sheet or Data ID</p></td>
+                <td><p>text</p></td>
+                <td><p>No value restrictions.</p></td>
+              </tr>
+            </table>
+            <p><a name="dq.dqarea" id="dq.dqarea"></a>Полигональный объект:  (dq dqarea)</p>
+            <table border="border" align="center">
+              <tr>
+                <th><p><strong>Имя поля</strong></p></th>
+                <th><p><strong>Описание</strong></p></th>
+                <th><p><strong>Тип</strong></p></th>
+                <th><p><strong>Возможные значения</strong></p></th>
+              </tr>
+              <tr>
+                <th><p>source_id</p></th>
+                <td><p>Source Identification Name or Number</p></td>
+                <td><p>text</p></td>
+                <td><p>No value restrictions.</p></td>
+              </tr>
+              <tr>
+                <th><p>comp_date</p></th>
+                <td><p>Map Compilation Date</p></td>
+                <td><p>date and time</p></td>
+                <td><p>No value restrictions.</p></td>
+              </tr>
+              <tr>
+                <th><p>rev_date</p></th>
+                <td><p>Map Revision Date</p></td>
+                <td><p>date and time</p></td>
+                <td><p>No value restrictions.</p></td>
+              </tr>
+              <tr>
+                <th><p>print_date</p></th>
+                <td><p>Map Print Date</p></td>
+                <td><p>date and time</p></td>
+                <td><p>No value restrictions.</p></td>
+              </tr>
+              <tr>
+                <th><p>source_info</p></th>
+                <td><p>General Sheet Information</p></td>
+                <td><p>text</p></td>
+                <td><p>No value restrictions.</p></td>
+              </tr>
+              <tr>
+                <th><p>abs_horiz_acc</p></th>
+                <td><p>Absolute Horizontal Accuracy (meters)</p></td>
+                <td><p>integer</p></td>
+                <td><p>No value restrictions.</p></td>
+              </tr>
+              <tr>
+                <th><p>abs_vert_acc</p></th>
+                <td><p>Absolute Vertical Accuracy (meters)</p></td>
+                <td><p>integer</p></td>
+                <td><p>No value restrictions.</p></td>
+              </tr>
+            </table>
+            <p><a name="dq.dqtxt" id="dq.dqtxt"></a>Текстовый объект:  (dq dqtxt)</p>
+            <table border="border" align="center">
+              <tr>
+                <th><p><strong>Имя поля</strong></p></th>
+                <th><p><strong>Описание</strong></p></th>
+                <th><p><strong>Тип</strong></p></th>
+                <th><p><strong>Возможные значения</strong></p></th>
+              </tr>
+              <tr>
+                <th><p>f_code</p></th>
+                <td><p>FACC Feature Code</p></td>
+                <td><p>text</p></td>
+                <td><p> ZD045 Text Description </p></td>
+              </tr>
+              <tr>
+                <th><p>symbol_id</p></th>
+                <td><p>Symbol Identification</p></td>
+                <td><p>integer</p></td>
+                <td><p>No value restrictions.</p></td>
+              </tr>
+            </table>
+            <strong>
+            <p><a name="elev" id="elev"></a>5. Группа слоев: Elevation (elev)</p>
+            </strong>
+            <p><a name="elev.elevp" id="elev.elevp"></a>Точечный объект: Spot Elevations (elev elevp)</p>
+            <table border="border" align="center">
+              <tr>
+                <th><p><strong>Имя поля</strong></p></th>
+                <th><p><strong>Описание</strong></p></th>
+                <th><p><strong>Тип</strong></p></th>
+                <th><p><strong>Возможные значения</strong></p></th>
+              </tr>
+              <tr>
+                <th><p>f_code</p></th>
+                <td><p>FACC Feature Code</p></td>
+                <td><p>text</p></td>
+                <td><p> CA030 Spot Elevation<br />
+                    CA035 Inland Water Elevation </p></td>
+              </tr>
+              <tr>
+                <th><p>acc</p></th>
+                <td><p>Accuracy Category</p></td>
+                <td><p>integer</p></td>
+                <td><p> 1 Accurate<br />
+                    2 Approximate </p></td>
+              </tr>
+              <tr>
+                <th><p>ela</p></th>
+                <td><p>Elevation Accuracy</p></td>
+                <td><p>integer</p></td>
+                <td><p> 0 Unknown<br />
+                    1 Accurate<br />
+                    2 Approximate </p></td>
+              </tr>
+              <tr>
+                <th><p>zv2</p></th>
+                <td><p>Highest Z-value (meters)</p></td>
+                <td><p>integer</p></td>
+                <td><p>No value restrictions.</p></td>
+              </tr>
+            </table>
+            <p><a name="elev.contourl" id="elev.contourl"></a>Линейный объект: Elevation Contours (elev contourl)</p>
+            <table border="border" align="center">
+              <tr>
+                <th><p><strong>Имя поля</strong></p></th>
+                <th><p><strong>Описание</strong></p></th>
+                <th><p><strong>Тип</strong></p></th>
+                <th><p><strong>Возможные значения</strong></p></th>
+              </tr>
+              <tr>
+                <th><p>f_code</p></th>
+                <td><p>FACC Feature Code</p></td>
+                <td><p>text</p></td>
+                <td><p> CA030 Contour Line (Land) </p></td>
+              </tr>
+              <tr>
+                <th><p>hqc</p></th>
+                <td><p>Hypsography Portrayal Category</p></td>
+                <td><p>integer</p></td>
+                <td><p> 0 Unknown<br />
+                    2 Intermediate<br />
+                    6 Depression Intermediate<br />
+                    12 Intermediate Approximate<br />
+                    13 Supplementary Approximate<br />
+                    19 Carrying Contour (coincident contours)<br />
+                    21 Supplementary<br />
+                    22 Supplemental Depression<br />
+                    23 Supplemental Depression Approximate </p></td>
+              </tr>
+              <tr>
+                <th><p>zv2</p></th>
+                <td><p>Highest Z-value (meters)</p></td>
+                <td><p>integer</p></td>
+                <td><p>No value restrictions.</p></td>
+              </tr>
+            </table>
+            <strong>
+            <p><a name="hydro" id="hydro"></a>6. Группа слоев: Hydrography (hydro)</p>
+            </strong>
+            <p><a name="hydro.dangerp" id="hydro.dangerp"></a>Точечный объект: Danger Point Features (hydro dangerp)</p>
+            <table border="border" align="center">
+              <tr>
+                <th><p><strong>Имя поля</strong></p></th>
+                <th><p><strong>Описание</strong></p></th>
+                <th><p><strong>Тип</strong></p></th>
+                <th><p><strong>Возможные значения</strong></p></th>
+              </tr>
+              <tr>
+                <th><p>f_code</p></th>
+                <td><p>FACC Feature Code</p></td>
+                <td><p>text</p></td>
+                <td><p> BD130 Rock<br />
+                    BD180 Wreck </p></td>
+              </tr>
+            </table>
+            <p><a name="hydro.miscp" id="hydro.miscp"></a>Точечный объект: Miscellaneous Point Features (hydro miscp)</p>
+            <table border="border" align="center">
+              <tr>
+                <th><p><strong>Имя поля</strong></p></th>
+                <th><p><strong>Описание</strong></p></th>
+                <th><p><strong>Тип</strong></p></th>
+                <th><p><strong>Возможные значения</strong></p></th>
+              </tr>
+              <tr>
+                <th><p>f_code</p></th>
+                <td><p>FACC Feature Code</p></td>
+                <td><p>text</p></td>
+                <td><p> BD130 Island<br />
+                    BD180 Rapids<br />
+                    BA030 Spring/Water-Hole<br />
+                    BH120 Waterfall<br />
+                    BH170 Dam/Weir<br />
+                    BH180 Lock<br />
+                    BI020 Sluice Gate </p></td>
+              </tr>
+            </table>
+            <p><a name="hydro.aquecanl" id="hydro.aquecanl"></a>Линейный объект: Aqueducts/Canals/Flumes/Penstocks (hydro aquecanl)</p>
+            <table border="border" align="center">
+              <tr>
+                <th><p><strong>Имя поля</strong></p></th>
+                <th><p><strong>Описание</strong></p></th>
+                <th><p><strong>Тип</strong></p></th>
+                <th><p><strong>Возможные значения</strong></p></th>
+              </tr>
+              <tr>
+                <th><p>f_code</p></th>
+                <td><p>FACC Feature Code</p></td>
+                <td><p>text</p></td>
+                <td><p> BD130 Inland Water </p></td>
+              </tr>
+              <tr>
+                <th><p>exs</p></th>
+                <td><p>Existence Category</p></td>
+                <td><p>integer</p></td>
+                <td><p> 1 Definite<br />
+                    5 Under Construction </p></td>
+              </tr>
+              <tr>
+                <th><p>loc</p></th>
+                <td><p>Location Category</p></td>
+                <td><p>integer</p></td>
+                <td><p> 0 Unknown<br />
+                    4 Below Surface/Submerged/Underground<br />
+                    8 On Ground Surface </p></td>
+              </tr>
+              <tr>
+                <th><p>nam</p></th>
+                <td><p>Name</p></td>
+                <td><p>text</p></td>
+                <td><p> UNK No entry present</p></td>
+              </tr>
+            </table>
+            <p><a name="hydro.watrcrsl" id="hydro.watrcrsl"></a>Линейный объект: Water Courses (hydro watrcrsl)</p>
+            <table border="border" align="center">
+              <tr>
+                <th><p><strong>Имя поля</strong></p></th>
+                <th><p><strong>Описание</strong></p></th>
+                <th><p><strong>Тип</strong></p></th>
+                <th><p><strong>Возможные значения</strong></p></th>
+              </tr>
+              <tr>
+                <th><p>f_code</p></th>
+                <td><p>FACC Feature Code</p></td>
+                <td><p>text</p></td>
+                <td><p> BD130 River/Stream </p></td>
+              </tr>
+              <tr>
+                <th><p>hyc</p></th>
+                <td><p>Hydrological Category</p></td>
+                <td><p>integer</p></td>
+                <td><p> 6 Non-Perennial/Intermittent/Fluctuating<br />
+                    8 Perennial/Permanent </p></td>
+              </tr>
+              <tr>
+                <th><p>nam</p></th>
+                <td><p>Name</p></td>
+                <td><p>text</p></td>
+                <td><p> UNK No entry present </p></td>
+              </tr>
+            </table>
+            <p><a name="hydro.inwatera" id="hydro.inwatera"></a>Полигональный объект: Inland Water Areas (hydro inwatera)</p>
+            <table border="border" align="center">
+              <tr>
+                <th><p><strong>Имя поля</strong></p></th>
+                <th><p><strong>Описание</strong></p></th>
+                <th><p><strong>Тип</strong></p></th>
+                <th><p><strong>Возможные значения</strong></p></th>
+              </tr>
+              <tr>
+                <th><p>f_code</p></th>
+                <td><p>FACC Feature Code</p></td>
+                <td><p>text</p></td>
+                <td><p> BH090 Land Subject to Inundation<br />
+                    BH000 Inland Water </p></td>
+              </tr>
+              <tr>
+                <th><p>hyc</p></th>
+                <td><p>Hydrological Category</p></td>
+                <td><p>integer</p></td>
+                <td><p> 6 Non-Perennial/Intermittent/Fluctuating<br />
+                    8 Perennial/Permanent </p></td>
+              </tr>
+              <tr>
+                <th><p>nam</p></th>
+                <td><p>Name</p></td>
+                <td><p>text</p></td>
+                <td><p> UNK No entry present </p></td>
+              </tr>
+            </table>
+            <p><a name="hydro.hydrotxt" id="hydro.hydrotxt"></a>Текстовый объект: Hydrography Группа слоев Text (hydro hydrotxt)</p>
+            <table border="border" align="center">
+              <tr>
+                <th><p><strong>Имя поля</strong></p></th>
+                <th><p><strong>Описание</strong></p></th>
+                <th><p><strong>Тип</strong></p></th>
+                <th><p><strong>Возможные значения</strong></p></th>
+              </tr>
+              <tr>
+                <th><p>f_code</p></th>
+                <td><p>FACC Feature Code</p></td>
+                <td><p>text</p></td>
+                <td><p> BD130 Named Location<br />
+                    BD180 Text Description </p></td>
+              </tr>
+              <tr>
+                <th><p>symbol_id</p></th>
+                <td><p>Symbol Identification</p></td>
+                <td><p>integer</p></td>
+                <td><p>No value restrictions.</p></td>
+              </tr>
+            </table>
+            <strong>
+            <p><a name="ind" id="ind"></a>7. Группа слоев: Industry (ind)</p>
+            </strong>
+            <p><a name="ind.extractp" id="ind.extractp"></a>Точечный объект: Extraction Point Features (ind extractp)</p>
+            <table border="border" align="center">
+              <tr>
+                <th><p><strong>Имя поля</strong></p></th>
+                <th><p><strong>Описание</strong></p></th>
+                <th><p><strong>Тип</strong></p></th>
+                <th><p><strong>Возможные значения</strong></p></th>
+              </tr>
+              <tr>
+                <th><p>f_code</p></th>
+                <td><p>FACC Feature Code</p></td>
+                <td><p>text</p></td>
+                <td><p> AA010 Mine/Quarry<br />
+                    AA050 Well<br />
+                    AA052 Oil/Gas Field </p></td>
+              </tr>
+              <tr>
+                <th><p>txt</p></th>
+                <td><p>Text Attribute</p></td>
+                <td><p>text</p></td>
+                <td><p>No value restrictions.</p></td>
+              </tr>
+            </table>
+            <p><a name="ind.misindp" id="ind.misindp"></a>Точечный объект: Miscellaneous Industry Point Features (ind misindp)</p>
+            <table border="border" align="center">
+              <tr>
+                <th><p><strong>Имя поля</strong></p></th>
+                <th><p><strong>Описание</strong></p></th>
+                <th><p><strong>Тип</strong></p></th>
+                <th><p><strong>Возможные значения</strong></p></th>
+              </tr>
+              <tr>
+                <th><p>f_code</p></th>
+                <td><p>FACC Feature Code</p></td>
+                <td><p>text</p></td>
+                <td><p> AA010 Processing Plant/Treatment Plant<br />
+                    AA050 Oil/Gas Facilities </p></td>
+              </tr>
+              <tr>
+                <th><p>txt</p></th>
+                <td><p>Text Attribute</p></td>
+                <td><p>text</p></td>
+                <td><p>No value restrictions.</p></td>
+              </tr>
+            </table>
+            <p><a name="ind.storagep" id="ind.storagep"></a>Точечный объект: Storage Point Features (ind storagep)</p>
+            <table border="border" align="center">
+              <tr>
+                <th><p><strong>Имя поля</strong></p></th>
+                <th><p><strong>Описание</strong></p></th>
+                <th><p><strong>Тип</strong></p></th>
+                <th><p><strong>Возможные значения</strong></p></th>
+              </tr>
+              <tr>
+                <th><p>f_code</p></th>
+                <td><p>FACC Feature Code</p></td>
+                <td><p>text</p></td>
+                <td><p> AA010 Depot (Storage)<br />
+                    AA050 Tank<br />
+                    AA052 Water Tower </p></td>
+              </tr>
+              <tr>
+                <th><p>txt</p></th>
+                <td><p>Text Attribute</p></td>
+                <td><p>text</p></td>
+                <td><p>No value restrictions.</p></td>
+              </tr>
+            </table>
+            <p><a name="ind.extracta" id="ind.extracta"></a>Полигональный объект: Extraction Areas (ind extracta)</p>
+            <table border="border" align="center">
+              <tr>
+                <th><p><strong>Имя поля</strong></p></th>
+                <th><p><strong>Описание</strong></p></th>
+                <th><p><strong>Тип</strong></p></th>
+                <th><p><strong>Возможные значения</strong></p></th>
+              </tr>
+              <tr>
+                <th><p>f_code</p></th>
+                <td><p>FACC Feature Code</p></td>
+                <td><p>text</p></td>
+                <td><p> AA010 Mine/Quarry<br />
+                    AA050 Oil/Gas Field<br />
+                    AA052 Salt Evaporator </p></td>
+              </tr>
+              <tr>
+                <th><p>min</p></th>
+                <td><p>Mining Category</p></td>
+                <td><p>integer</p></td>
+                <td><p> 0 Unknown<br />
+                    999 Other </p></td>
+              </tr>
+            </table>
+            <a name="ind.indtxt" id="ind.indtxt"></a>
+            <p>Текстовый объект: Industry Группа слоев Text (ind indtxt)</p>
+            <table border="border" align="center">
+              <tr>
+                <th><p><strong>Имя поля</strong></p></th>
+                <th><p><strong>Описание</strong></p></th>
+                <th><p><strong>Тип</strong></p></th>
+                <th><p><strong>Возможные значения</strong></p></th>
+              </tr>
+              <tr>
+                <th><p>f_code</p></th>
+                <td><p>FACC Feature Code</p></td>
+                <td><p>text</p></td>
+                <td><p> AA010 Named Location<br />
+                    AA050 Text Description </p></td>
+              </tr>
+              <tr>
+                <th><p>symbol_id</p></th>
+                <td><p>Symbol Identification</p></td>
+                <td><p>integer</p></td>
+                <td><p>No value restrictions.</p></td>
+              </tr>
+            </table>
+            <strong>
+            <p><a name="phys" id="phys"></a>8. Группа слоев: Physiography (phys)</p>
+            </strong>
+            <p><a name="phys.grounda" id="phys.grounda"></a>Полигональный объект: Ground Surface Areas (phys grounda)</p>
+            <table border="border" align="center">
+              <tr>
+                <th><p><strong>Имя поля</strong></p></th>
+                <th><p><strong>Описание</strong></p></th>
+                <th><p><strong>Тип</strong></p></th>
+                <th><p><strong>Возможные значения</strong></p></th>
+              </tr>
+              <tr>
+                <th><p>f_code</p></th>
+                <td><p>FACC Feature Code</p></td>
+                <td><p>text</p></td>
+                <td><p> DA010 Ground Surface Element </p></td>
+              </tr>
+              <tr>
+                <th><p>smc</p></th>
+                <td><p>Surface Material Category</p></td>
+                <td><p>integer</p></td>
+                <td><p> 0 Unknown<br />
+                    52 Lava<br />
+                    88 Sand<br />
+                    119 Distorted Surface </p></td>
+              </tr>
+              <tr>
+                <th><p>swc</p></th>
+                <td><p>Soil Wetness Condition</p></td>
+                <td><p>integer</p></td>
+                <td><p> 0 Unknown<br />
+                    3 Wet </p></td>
+              </tr>
+            </table>
+            <p><a name="phys.landicea" id="phys.landicea"></a>Полигональный объект: Snow/Ice Fields and Glaciers (phys landicea)</p>
+            <table border="border" align="center">
+              <tr>
+                <th><p><strong>Имя поля</strong></p></th>
+                <th><p><strong>Описание</strong></p></th>
+                <th><p><strong>Тип</strong></p></th>
+                <th><p><strong>Возможные значения</strong></p></th>
+              </tr>
+              <tr>
+                <th><p>f_code</p></th>
+                <td><p>FACC Feature Code</p></td>
+                <td><p>text</p></td>
+                <td><p> DA010 Snow Field/Ice Field </p></td>
+              </tr>
+            </table>
+            <p><a name="phys.seaicea" id="phys.seaicea"></a>Полигональный объект: Sea Ice Areas (phys seaicea)</p>
+            <table border="border" align="center">
+              <tr>
+                <th><p><strong>Имя поля</strong></p></th>
+                <th><p><strong>Описание</strong></p></th>
+                <th><p><strong>Тип</strong></p></th>
+                <th><p><strong>Возможные значения</strong></p></th>
+              </tr>
+              <tr>
+                <th><p>f_code</p></th>
+                <td><p>FACC Feature Code</p></td>
+                <td><p>text</p></td>
+                <td><p> BJ070 Pack Ice<br />
+                    BJ080 Polar Ice </p></td>
+              </tr>
+              <tr>
+                <th><p>nam</p></th>
+                <td><p>Name</p></td>
+                <td><p>text</p></td>
+                <td><p> UNK No entry present </p></td>
+              </tr>
+            </table>
+            <p><a name="phys.phystxt" id="phys.phystxt"></a>Текстовый объект: Physiography Группа слоев Text (phys phystxt)</p>
+            <table border="border" align="center">
+              <tr>
+                <th><p><strong>Имя поля</strong></p></th>
+                <th><p><strong>Описание</strong></p></th>
+                <th><p><strong>Тип</strong></p></th>
+                <th><p><strong>Возможные значения</strong></p></th>
+              </tr>
+              <tr>
+                <th><p>f_code</p></th>
+                <td><p>FACC Feature Code</p></td>
+                <td><p>text</p></td>
+                <td><p> DA010 Named Location<br />
+                    BJ100 Text Description </p></td>
+              </tr>
+              <tr>
+                <th><p>symbol_id</p></th>
+                <td><p>Symbol Identification</p></td>
+                <td><p>integer</p></td>
+                <td><p>No value restrictions.</p></td>
+              </tr>
+            </table>
+            <strong>
+            <p><a name="pop" id="pop"></a>9. Группа слоев: Population (pop)</p>
+            </strong>
+            <p><a name="pop.mispopp" id="pop.mispopp"></a>Точечный объект: Miscellaneous Population Points (pop mispopp)</p>
+            <table border="border" align="center">
+              <tr>
+                <th><p><strong>Имя поля</strong></p></th>
+                <th><p><strong>Описание</strong></p></th>
+                <th><p><strong>Тип</strong></p></th>
+                <th><p><strong>Возможные значения</strong></p></th>
+              </tr>
+              <tr>
+                <th><p>f_code</p></th>
+                <td><p>FACC Feature Code</p></td>
+                <td><p>text</p></td>
+                <td><p> AI030 Camp<br />
+                    AK160 Stadium/Amphitheatre<br />
+                    AL015 Building<br />
+                    AL105 Settlement<br />
+                    AL130 Monument<br />
+                    AL135 Native Settlement<br />
+                    AL200 Ruins<br />
+                    BC050 Lighthouse<br />
+                    SU001 Military Base </p></td>
+              </tr>
+              <tr>
+                <th><p>nam</p></th>
+                <td><p>Name</p></td>
+                <td><p>text</p></td>
+                <td><p>No value restrictions.</p></td>
+              </tr>
+              <tr>
+                <th><p>txt</p></th>
+                <td><p>Text Attribute</p></td>
+                <td><p>text</p></td>
+                <td><p> UNK No entry present </p></td>
+              </tr>
+            </table>
+            <p><a name="pop.builtupa" id="pop.builtupa"></a>Полигональный объект: Built-Up Areas (pop builtupa)</p>
+            <table border="border" align="center">
+              <tr>
+                <th><p><strong>Имя поля</strong></p></th>
+                <th><p><strong>Описание</strong></p></th>
+                <th><p><strong>Тип</strong></p></th>
+                <th><p><strong>Возможные значения</strong></p></th>
+              </tr>
+              <tr>
+                <th><p>f_code</p></th>
+                <td><p>FACC Feature Code</p></td>
+                <td><p>text</p></td>
+                <td><p> AI030 Built-Up Area </p></td>
+              </tr>
+              <tr>
+                <th><p>nam</p></th>
+                <td><p>Name</p></td>
+                <td><p>text</p></td>
+                <td><p> UNK No entry present </p></td>
+              </tr>
+            </table>
+            <p><a name="pop.mispopa" id="pop.mispopa"></a>Полигональный объект: Miscellaneous Population Areas (pop mispopa)</p>
+            <table border="border" align="center">
+              <tr>
+                <th><p><strong>Имя поля</strong></p></th>
+                <th><p><strong>Описание</strong></p></th>
+                <th><p><strong>Тип</strong></p></th>
+                <th><p><strong>Возможные значения</strong></p></th>
+              </tr>
+              <tr>
+                <th><p>f_code</p></th>
+                <td><p>FACC Feature Code</p></td>
+                <td><p>text</p></td>
+                <td><p> AI030 Race Track </p></td>
+              </tr>
+              <tr>
+                <th><p>nam</p></th>
+                <td><p>Name</p></td>
+                <td><p>text</p></td>
+                <td><p>No value restrictions.</p></td>
+              </tr>
+              <tr>
+                <th><p>txt</p></th>
+                <td><p>Text Attribute</p></td>
+                <td><p>text</p></td>
+                <td><p>No value restrictions.</p></td>
+              </tr>
+            </table>
+            <p><a name="pop.poptxt" id="pop.poptxt"></a>Текстовый объект: Population Группа слоев Text (pop poptxt)</p>
+            <table border="border" align="center">
+              <tr>
+                <th><p><strong>Имя поля</strong></p></th>
+                <th><p><strong>Описание</strong></p></th>
+                <th><p><strong>Тип</strong></p></th>
+                <th><p><strong>Возможные значения</strong></p></th>
+              </tr>
+              <tr>
+                <th><p>f_code</p></th>
+                <td><p>FACC Feature Code</p></td>
+                <td><p>text</p></td>
+                <td><p> AI030 Named Location </p></td>
+              </tr>
+              <tr>
+                <th><p>symbol_id</p></th>
+                <td><p>Symbol Identification</p></td>
+                <td><p>integer</p></td>
+                <td><p>No value restrictions.</p></td>
+              </tr>
+            </table>
+            <strong>
+            <p><a name="trans" id="trans"></a>10. Группа слоев: Transportation (trans)</p>
+            </strong>
+            <p><a name="trans.aerofacp" id="trans.aerofacp"></a>Точечный объект: Airport Facilities Points (trans aerofacp)</p>
+            <table border="border" align="center">
+              <tr>
+                <th><p><strong>Имя поля</strong></p></th>
+                <th><p><strong>Описание</strong></p></th>
+                <th><p><strong>Тип</strong></p></th>
+                <th><p><strong>Возможные значения</strong></p></th>
+              </tr>
+              <tr>
+                <th><p>f_code</p></th>
+                <td><p>FACC Feature Code</p></td>
+                <td><p>text</p></td>
+                <td><p> GB005 Airport/Airfield </p></td>
+              </tr>
+              <tr>
+                <th><p>iko</p></th>
+                <td><p>ICAO Designator</p></td>
+                <td><p>text</p></td>
+                <td><p>No value restrictions.</p></td>
+              </tr>
+              <tr>
+                <th><p>nam</p></th>
+                <td><p>Name</p></td>
+                <td><p>text</p></td>
+                <td><p>No value restrictions.</p></td>
+              </tr>
+              <tr>
+                <th><p>na3</p></th>
+                <td><p>Name</p></td>
+                <td><p>text</p></td>
+                <td><p>No value restrictions.</p></td>
+              </tr>
+              <tr>
+                <th><p>use</p></th>
+                <td><p>Usage</p></td>
+                <td><p>integer</p></td>
+                <td><p> 8 Military<br />
+                    22 Joint Military/Civilian<br />
+                    49 Civilian/Public<br />
+                    999 Other </p></td>
+              </tr>
+              <tr>
+                <th><p>zv3</p></th>
+                <td><p>Airfield/Aerodrome Elevation (meters)</p></td>
+                <td><p>integer</p></td>
+                <td><p>No value restrictions.</p></td>
+              </tr>
+            </table>
+            <p><a name="trans.rryardp" id="trans.rryardp"></a>Точечный объект: Railroad Yard Points (trans rryardp)</p>
+            <table border="border" align="center">
+              <tr>
+                <th><p><strong>Имя поля</strong></p></th>
+                <th><p><strong>Описание</strong></p></th>
+                <th><p><strong>Тип</strong></p></th>
+                <th><p><strong>Возможные значения</strong></p></th>
+              </tr>
+              <tr>
+                <th><p>f_code</p></th>
+                <td><p>FACC Feature Code</p></td>
+                <td><p>text</p></td>
+                <td><p> GB005 Railroad Yard/Marshalling Yard </p></td>
+              </tr>
+            </table>
+            <p><a name="trans.transtrc" id="trans.transtrc"></a>Точечный объект: Transportation Structures Points (trans transtrc)</p>
+            <table border="border" align="center">
+              <tr>
+                <th><p><strong>Имя поля</strong></p></th>
+                <th><p><strong>Описание</strong></p></th>
+                <th><p><strong>Тип</strong></p></th>
+                <th><p><strong>Возможные значения</strong></p></th>
+              </tr>
+              <tr>
+                <th><p>f_code</p></th>
+                <td><p>FACC Feature Code</p></td>
+                <td><p>text</p></td>
+                <td><p> GB005 Bridge/Overpass/Viaduct </p></td>
+              </tr>
+              <tr>
+                <th><p>tuc</p></th>
+                <td><p>Transportation Use Category</p></td>
+                <td><p>integer</p></td>
+                <td><p> 4 Road </p></td>
+              </tr>
+              <tr>
+                <th><p>cnd_id</p></th>
+                <td><p>Connected Node Primitive ID</p></td>
+                <td><p>integer</p></td>
+                <td><p>No value restrictions.</p></td>
+              </tr>
+            </table>
+            <p><a name="trans.mistranl" id="trans.mistranl"></a>Линейный объект: Miscellaneous Transportation Линейный объект:s (trans mistranl)</p>
+            <table border="border" align="center">
+              <tr>
+                <th><p><strong>Имя поля</strong></p></th>
+                <th><p><strong>Описание</strong></p></th>
+                <th><p><strong>Тип</strong></p></th>
+                <th><p><strong>Возможные значения</strong></p></th>
+              </tr>
+              <tr>
+                <th><p>f_code</p></th>
+                <td><p>FACC Feature Code</p></td>
+                <td><p>text</p></td>
+                <td><p> GB005 Aerial Cableway Lines/Ski Lift Line<br />
+                    AN060 Pier/Wharf/Quay </p></td>
+              </tr>
+            </table>
+            <p><a name="trans.railrdl" id="trans.railrdl"></a>Линейный объект: Railroads (trans railrdl)</p>
+            <table border="border" align="center">
+              <tr>
+                <th><p><strong>Имя поля</strong></p></th>
+                <th><p><strong>Описание</strong></p></th>
+                <th><p><strong>Тип</strong></p></th>
+                <th><p><strong>Возможные значения</strong></p></th>
+              </tr>
+              <tr>
+                <th><p>f_code</p></th>
+                <td><p>FACC Feature Code</p></td>
+                <td><p>text</p></td>
+                <td><p> GB005 Railroad </p></td>
+              </tr>
+              <tr>
+                <th><p>exs</p></th>
+                <td><p>Existence Category</p></td>
+                <td><p>integer</p></td>
+                <td><p> 5 Under Construction<br />
+                    28 Operational<br />
+                    55 Unexamined/Unsurveyed<br />
+                    59 Not Usable </p></td>
+              </tr>
+              <tr>
+                <th><p>fco</p></th>
+                <td><p>Feature Configuration</p></td>
+                <td><p>integer</p></td>
+                <td><p> 0 Unknown<br />
+                    2 Multiple<br />
+                    3 Single </p></td>
+              </tr>
+              <tr>
+                <th><p>rrc</p></th>
+                <td><p>Railroad Categories</p></td>
+                <td><p>integer</p></td>
+                <td><p> 0 Unknown </p></td>
+              </tr>
+            </table>
+            <p><a name="trans.roadl" id="trans.roadl"></a>Линейный объект: Roads (trans roadl)</p>
+            <table border="border" align="center">
+              <tr>
+                <th><p><strong>Имя поля</strong></p></th>
+                <th><p><strong>Описание</strong></p></th>
+                <th><p><strong>Тип</strong></p></th>
+                <th><p><strong>Возможные значения</strong></p></th>
+              </tr>
+              <tr>
+                <th><p>f_code</p></th>
+                <td><p>FACC Feature Code</p></td>
+                <td><p>text</p></td>
+                <td><p> GB005 Road </p></td>
+              </tr>
+              <tr>
+                <th><p>acc</p></th>
+                <td><p>Accuracy Category</p></td>
+                <td><p>integer</p></td>
+                <td><p> 1 Accurate<br />
+                    2 Approximate </p></td>
+              </tr>
+              <tr>
+                <th><p>exs</p></th>
+                <td><p>Existence Category</p></td>
+                <td><p>integer</p></td>
+                <td><p> 5 Doubtful<br />
+                    28 Under Construction<br />
+                    55 Operational<br />
+                    59 Unexamined/Unsurveyed </p></td>
+              </tr>
+              <tr>
+                <th><p>med</p></th>
+                <td><p>Median Category</p></td>
+                <td><p>integer</p></td>
+                <td><p> 0 Unknown<br />
+                    1 With Median<br />
+                    2 Without Median </p></td>
+              </tr>
+              <tr>
+                <th><p>rtt</p></th>
+                <td><p>Route Intended Use</p></td>
+                <td><p>integer</p></td>
+                <td><p> 0 Unknown<br />
+                    14 Primary Route<br />
+                    15 Secondary Route </p></td>
+              </tr>
+            </table>
+            <p><a name="trans.traill" id="trans.traill"></a>Линейный объект: Trails and Tracks (trans traill)</p>
+            <table border="border" align="center">
+              <tr>
+                <th><p><strong>Имя поля</strong></p></th>
+                <th><p><strong>Описание</strong></p></th>
+                <th><p><strong>Тип</strong></p></th>
+                <th><p><strong>Возможные значения</strong></p></th>
+              </tr>
+              <tr>
+                <th><p>f_code</p></th>
+                <td><p>FACC Feature Code</p></td>
+                <td><p>text</p></td>
+                <td><p> GB005 Trail </p></td>
+              </tr>
+              <tr>
+                <th><p>exs</p></th>
+                <td><p>Existence Category</p></td>
+                <td><p>integer</p></td>
+                <td><p> 5 Doubtful<br />
+                    28 Operational </p></td>
+              </tr>
+            </table>
+            <p><a name="trans.transtrl" id="trans.transtrl"></a>Линейный объект: Transportation Structures Lines (trans transtrl)</p>
+            <table border="border" align="center">
+              <tr>
+                <th><p><strong>Имя поля</strong></p></th>
+                <th><p><strong>Описание</strong></p></th>
+                <th><p><strong>Тип</strong></p></th>
+                <th><p><strong>Возможные значения</strong></p></th>
+              </tr>
+              <tr>
+                <th><p>f_code</p></th>
+                <td><p>FACC Feature Code</p></td>
+                <td><p>text</p></td>
+                <td><p> GB005 Bridge/Overpass/Viaduct<br />
+                    AN060 Causeway<br />
+                    AQ040 Ferry Crossing<br />
+                    AQ010 Tunnel </p></td>
+              </tr>
+              <tr>
+                <th><p>tuc</p></th>
+                <td><p>Transportation Use Category</p></td>
+                <td><p>integer</p></td>
+                <td><p> 4 Railroad<br />
+                    3 Road </p></td>
+              </tr>
+            </table>
+            <p><a name="trans.transtxt" id="trans.transtxt"></a>Текстовый объект: Transportation Группа слоев Text (trans transtxt)</p>
+            <table border="border" align="center">
+              <tr>
+                <th><p><strong>Имя поля</strong></p></th>
+                <th><p><strong>Описание</strong></p></th>
+                <th><p><strong>Тип</strong></p></th>
+                <th><p><strong>Возможные значения</strong></p></th>
+              </tr>
+              <tr>
+                <th><p>f_code</p></th>
+                <td><p>FACC Feature Code</p></td>
+                <td><p>text</p></td>
+                <td><p> GB005 Named Location<br />
+                    AN060 Text Description </p></td>
+              </tr>
+              <tr>
+                <th><p>symbol_id</p></th>
+                <td><p>Symbol Identification</p></td>
+                <td><p>integer</p></td>
+                <td><p>No value restrictions.</p></td>
+              </tr>
+            </table>
+            <strong>
+            <p><a name="util" id="util"></a>11. Группа слоев: Utilities (util)</p>
+            </strong>
+            <p><a name="util.utilp" id="util.utilp"></a>Точечный объект: Utility Point Features (util utilp)</p>
+            <table border="border" align="center">
+              <tr>
+                <th><p><strong>Имя поля</strong></p></th>
+                <th><p><strong>Описание</strong></p></th>
+                <th><p><strong>Тип</strong></p></th>
+                <th><p><strong>Возможные значения</strong></p></th>
+              </tr>
+              <tr>
+                <th><p>f_code</p></th>
+                <td><p>FACC Feature Code</p></td>
+                <td><p>text</p></td>
+                <td><p> AD010 Power Plant<br />
+                    AD030 Substation/Transformer Yard<br />
+                    AQ116 Pumping Station<br />
+                    AT050 Communication Building </p></td>
+              </tr>
+              <tr>
+                <th><p>txt</p></th>
+                <td><p>Text Attribute</p></td>
+                <td><p>text</p></td>
+                <td><p>No value restrictions.</p></td>
+              </tr>
+            </table>
+            <p><a name="util.pipel" id="util.pipel"></a>Линейный объект: Pipelines (util pipel)</p>
+            <table border="border" align="center">
+              <tr>
+                <th><p><strong>Имя поля</strong></p></th>
+                <th><p><strong>Описание</strong></p></th>
+                <th><p><strong>Тип</strong></p></th>
+                <th><p><strong>Возможные значения</strong></p></th>
+              </tr>
+              <tr>
+                <th><p>f_code</p></th>
+                <td><p>FACC Feature Code</p></td>
+                <td><p>text</p></td>
+                <td><p> AD010 Pipeline/Pipe </p></td>
+              </tr>
+              <tr>
+                <th><p>loc</p></th>
+                <td><p>Location Category</p></td>
+                <td><p>integer</p></td>
+                <td><p> 4 Below Surface/Submerged/Underground<br />
+                    8 On Ground Surface </p></td>
+              </tr>
+            </table>
+            <p><a name="util.utill" id="util.utill"></a>Линейный объект: Power Transmission/Telephone/Telegraph Lines (util utill)</p>
+            <table border="border" align="center">
+              <tr>
+                <th><p><strong>Имя поля</strong></p></th>
+                <th><p><strong>Описание</strong></p></th>
+                <th><p><strong>Тип</strong></p></th>
+                <th><p><strong>Возможные значения</strong></p></th>
+              </tr>
+              <tr>
+                <th><p>f_code</p></th>
+                <td><p>FACC Feature Code</p></td>
+                <td><p>text</p></td>
+                <td><p> AD010 Power Transmission Line<br />
+                    AD030 Telephone Line/Telegraph Line </p></td>
+              </tr>
+            </table>
+            <p><a name="util.dqline" id="util.dqline"></a>Линейный объект: Utilities Data Quality Линейный объект: Table (util dqline)</p>
+            <table border="border" align="center">
+              <tr>
+                <th><p><strong>Имя поля</strong></p></th>
+                <th><p><strong>Описание</strong></p></th>
+                <th><p><strong>Тип</strong></p></th>
+                <th><p><strong>Возможные значения</strong></p></th>
+              </tr>
+              <tr>
+                <th><p>dqdescr_id</p></th>
+                <td><p>dq Description Related Row Identifier</p></td>
+                <td><p>integer</p></td>
+                <td><p>No value restrictions.</p></td>
+              </tr>
+              <tr>
+                <th><p>feature_class</p></th>
+                <td><p>Feature Class</p></td>
+                <td><p>text</p></td>
+                <td><p>No value restrictions.</p></td>
+              </tr>
+              <tr>
+                <th><p>f_code</p></th>
+                <td><p>FACC Feature Code</p></td>
+                <td><p>text</p></td>
+                <td><p> AD010 Pipeline/Pipe<br />
+                    AD030 Power Transmission Line </p></td>
+              </tr>
+            </table>
+            <p><a name="util.utiltxt" id="util.utiltxt"></a>Текстовый объект: Utilities Группа слоев Text (util utiltxt)</p>
+            <table border="border" align="center">
+              <tr>
+                <th><p><strong>Имя поля</strong></p></th>
+                <th><p><strong>Описание</strong></p></th>
+                <th><p><strong>Тип</strong></p></th>
+                <th><p><strong>Возможные значения</strong></p></th>
+              </tr>
+              <tr>
+                <th><p>f_code</p></th>
+                <td><p>FACC Feature Code</p></td>
+                <td><p>text</p></td>
+                <td><p> AD010 Named Location<br />
+                    AD030 Text Description </p></td>
+              </tr>
+              <tr>
+                <th><p>symbol_id</p></th>
+                <td><p>Symbol Identification</p></td>
+                <td><p>integer</p></td>
+                <td><p>No value restrictions.</p></td>
+              </tr>
+            </table>
+            <strong>
+            <p><a name="veg" id="veg"></a>12. Группа слоев: Vegetation (veg)</p>
+            </strong>
+            <p><a name="veg.cropa" id="veg.cropa"></a>Полигональный объект: Croplands (veg cropa)</p>
+            <table border="border" align="center">
+              <tr>
+                <th><p><strong>Имя поля</strong></p></th>
+                <th><p><strong>Описание</strong></p></th>
+                <th><p><strong>Тип</strong></p></th>
+                <th><p><strong>Возможные значения</strong></p></th>
+              </tr>
+              <tr>
+                <th><p>f_code</p></th>
+                <td><p>FACC Feature Code</p></td>
+                <td><p>text</p></td>
+                <td><p> EA010 Cropland </p></td>
+              </tr>
+              <tr>
+                <th><p>ftc</p></th>
+                <td><p>Farming Type Category</p></td>
+                <td><p>integer</p></td>
+                <td><p> 0 Unknown </p></td>
+              </tr>
+              <tr>
+                <th><p>veg</p></th>
+                <td><p>Vegetation Characteristics</p></td>
+                <td><p>integer</p></td>
+                <td><p> 0 Unknown<br />
+                    1 Dry Crops<br />
+                    999 Other </p></td>
+              </tr>
+            </table>
+            <p><a name="veg.grassa" id="veg.grassa"></a>Полигональный объект: Grasslands (veg grassa)</p>
+            <table border="border" align="center">
+              <tr>
+                <th><p><strong>Имя поля</strong></p></th>
+                <th><p><strong>Описание</strong></p></th>
+                <th><p><strong>Тип</strong></p></th>
+                <th><p><strong>Возможные значения</strong></p></th>
+              </tr>
+              <tr>
+                <th><p>f_code</p></th>
+                <td><p>FACC Feature Code</p></td>
+                <td><p>text</p></td>
+                <td><p> EB010 Grassland<br />
+                    EB020 Scrub/Brush </p></td>
+              </tr>
+              <tr>
+                <th><p>dmb</p></th>
+                <td><p>Density Measure (Brush/Undergrowth)</p></td>
+                <td><p>integer</p></td>
+                <td><p> 0 Unknown </p></td>
+              </tr>
+            </table>
+            <p><a name="veg.swampa" id="veg.swampa"></a>Полигональный объект: Marshs/Swamps (veg swampa)</p>
+            <table border="border" align="center">
+              <tr>
+                <th><p><strong>Имя поля</strong></p></th>
+                <th><p><strong>Описание</strong></p></th>
+                <th><p><strong>Тип</strong></p></th>
+                <th><p><strong>Возможные значения</strong></p></th>
+              </tr>
+              <tr>
+                <th><p>f_code</p></th>
+                <td><p>FACC Feature Code</p></td>
+                <td><p>text</p></td>
+                <td><p> BH015 Bog<br />
+                    BH095 Marsh/Swamp </p></td>
+              </tr>
+              <tr>
+                <th><p>veg</p></th>
+                <td><p>Vegetation Characteristics</p></td>
+                <td><p>integer</p></td>
+                <td><p> 0 Unknown</p></td>
+              </tr>
+            </table>
+            <p><a name="veg.treesa" id="veg.treesa"></a>Полигональный объект: Trees (veg treesa)</p>
+            <table border="border" align="center">
+              <tr>
+                <th><p><strong>Имя поля</strong></p></th>
+                <th><p><strong>Описание</strong></p></th>
+                <th><p><strong>Тип</strong></p></th>
+                <th><p><strong>Возможные значения</strong></p></th>
+              </tr>
+              <tr>
+                <th><p>f_code</p></th>
+                <td><p>FACC Feature Code</p></td>
+                <td><p>text</p></td>
+                <td><p> EA010 Trees </p></td>
+              </tr>
+              <tr>
+                <th><p>dmt</p></th>
+                <td><p>Density Measure (% Tree/Canopy Cover)</p></td>
+                <td><p>integer</p></td>
+                <td><p> 0 Unknown </p></td>
+              </tr>
+              <tr>
+                <th><p>exs</p></th>
+                <td><p>Existence Category</p></td>
+                <td><p>integer</p></td>
+                <td><p> 0 Unknown </p></td>
+              </tr>
+              <tr>
+                <th><p>nam</p></th>
+                <td><p>Name</p></td>
+                <td><p>text</p></td>
+                <td><p> UNK No entry present </p></td>
+              </tr>
+              <tr>
+                <th><p>pht</p></th>
+                <td><p>Predominant Height (meters)</p></td>
+                <td><p>integer</p></td>
+                <td><p> 0 Unknown </p></td>
+              </tr>
+              <tr>
+                <th><p>veg</p></th>
+                <td><p>Vegetation Characteristics</p></td>
+                <td><p>integer</p></td>
+                <td><p> 24 Deciduous<br />
+                    25 Evergreen<br />
+                    50 Mixed Trees </p></td>
+              </tr>
+            </table>
+            <p><a name="veg.tundraa" id="veg.tundraa"></a>Полигональный объект: Tundra (veg tundraa)</p>
+            <table border="border" align="center">
+              <tr>
+                <th><p><strong>Имя поля</strong></p></th>
+                <th><p><strong>Описание</strong></p></th>
+                <th><p><strong>Тип</strong></p></th>
+                <th><p><strong>Возможные значения</strong></p></th>
+              </tr>
+              <tr>
+                <th><p>f_code</p></th>
+                <td><p>FACC Feature Code</p></td>
+                <td><p>text</p></td>
+                <td><p> EA010 Tundra </p></td>
+              </tr>
+            </table>
+            <p class="discuss">
+				<span><!--#include virtual="/scripts/forum-comments-num.php?i=1009"--></span>
+			</p>
+           <div class="links">
+			<h2>Ссылки по теме</h2>
+			<ul>
+               <li><a href="/qa/vmap0-about.html">Vmap0 - описание данных</a></li>
+			   <li><a href="/qa/vmap0.html">Vmap0 - получение данных</a></li>
+               <li><a href="http://www.nga.mil/portal/site/nga01/index.jsp?epi-content=GENERIC&amp;itemID=a2986591e1b3af00VgnVCMServer23727a95RCRD&amp;beanID=1629630080&amp;viewID=Article" target="_blank" class="external">Vector Product Format (VPF) Overview</a></li>	
+			   <li><a href="http://www.terragear.org/docs/vmap0/coverage.html" target="_blank" class="external">VMap0 Coverages</a> </li>
+			</ul>
+			</div>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<p class="status"><span>Дата создания: 23.04.2006
+<br>Автор(ы): <a href="/forum/memberlist.php?mode=viewprofile&u=2" target="_blank">Максим Дубинин</a></span></p>
+<!--#include virtual="/inc/footer2.php" -->

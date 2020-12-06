@@ -1,0 +1,400 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Серверы WMS и фильтрация данных</title>
+<!--#include virtual="/inc/header2.txt" -->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Вопросы и ответы</a></li>
+</ul>
+
+<h1>Серверы WMS и фильтрация данных</h1>
+
+<!--Contents start-->
+<p class="ann">Рассматриваются вопросы динамической выборки из массива данных определенной части. Описывается решение, стандартизированное в спецификации OGC WMS, и частные реализации в программах GeoServer, UMN MapServer, QGIS MapServer. Не затрагивается раздел работы с временны́ми отрезками.
+Приводятся методы работы с фильтрами в javascript-библиотеке OpenLayers.</p>
+<p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=7055"--></span></p>
+
+<p><strong>Оглавление</strong></p>
+<ol>
+	<li><a href="#01">Спецификация OGC WMS</a></li>
+	<li><a href="#02">Использование</a></li>
+	<li><a href="#03">GeoServer</a></li>
+	<li><a href="#04">UMN MapServer</a></li>
+	<li><a href="#05">OpenLayers</a></li>
+</ol>
+
+<!-- Первый раздел -->
+<h2>
+  <strong><a name="01" id="01"></a></strong>1. Спецификация OGC WMS</h2>
+<p>Текущая редакция стандарта <a href="http://www.opengeospatial.org/standards/wms">OGC Web Map Service Interface</a> 1.3.0 (20.01.2004) предполагает  настройку сервиса в реальном времени посредством отправки документов SLD. Фильтры можно задать в двух случаях: LayerFeatureConstraints для всего слоя (SLD 1.1.0, раздел 11.2 «Named layers») и для каждого правила (Rule) в стилях (SE 1.1.0, раздел 10 «Rules»).</p>
+
+<p style="background: #ddd; border-top: 1px dotted #000000; border-bottom: 1px dotted #000000;"><strong>Примечание:</strong> правила составления фильтров описываются в спецификации <a href="http://www.opengeospatial.org/standards/filter">Filter Encoding Implementation</a>.</p>
+
+<p>Во втором случае данные из хранилища (например, БД или WFS) запрашиваются в полном объеме. А после применения стилей часть объектов может быть исключена, т.к. они не вошли ни в одно из правил. Накладные расходы на подготовку и транспортировку данных очевидны, но проект <strong>UMN MapServer</strong> пошел именно по этому пути (см. ниже).</p>
+
+<p>Если же задать LayerFeatureConstraints для слоя, то запрос в хранилище будет производиться с учетом фильтра и лишние данные не будут включены в результат.</p>
+
+<p>Обратимся к профилю <a href="http://www.opengeospatial.org/standards/sld">Styled Layer Descriptor</a> (версия 1.1.0 от 29.06.2007). Пример фильтра слоя выглядит так (описание namespace опущено):</p>
+
+<pre style='color:#000020;background: #ddd; border-top: 1px dotted #000000; border-bottom: 1px dotted #000000;'>
+<span style='color:#0057a6; '>&lt;</span><span style='color:#0066ee; '>sld</span><span style='color:#406080; '>:</span><span style='color:#333385; '>StyledLayerDescriptor</span> <span style='color:#474796; '>version</span><span style='color:#308080; '>=</span><span style='color:#1060b6; '>"</span><span style='color:#1060b6; '>1.1.0</span><span style='color:#1060b6; '>"</span><span style='color:#0057a6; '>></span>
+    <span style='color:#0057a6; '>&lt;</span><span style='color:#0066ee; '>sld</span><span style='color:#406080; '>:</span><span style='color:#333385; '>NamedLayer</span><span style='color:#0057a6; '>></span>
+        <span style='color:#0057a6; '>&lt;</span><span style='color:#0066ee; '>se</span><span style='color:#406080; '>:</span><span style='color:#333385; '>Name</span><span style='color:#0057a6; '>></span>mylayer<span style='color:#0057a6; '>&lt;/</span><span style='color:#0066ee; '>se</span><span style='color:#406080; '>:</span><span style='color:#333385; '>Name</span><span style='color:#0057a6; '>></span>
+
+        <span style='color:#595979; '>&lt;!--</span><span style='color:#595979; '> фильтр слоя </span><span style='color:#595979; '>--></span>
+        <span style='color:#0057a6; '>&lt;</span><span style='color:#0066ee; '>sld</span><span style='color:#406080; '>:</span><span style='color:#333385; '>LayerFeatureConstraints</span><span style='color:#0057a6; '>></span>
+            <span style='color:#0057a6; '>&lt;</span><span style='color:#0066ee; '>sld</span><span style='color:#406080; '>:</span><span style='color:#333385; '>FeatureTypeConstraint</span><span style='color:#0057a6; '>></span>
+                <span style='color:#0057a6; '>&lt;</span><span style='color:#0066ee; '>ogc</span><span style='color:#406080; '>:</span><span style='color:#333385; '>Filter</span><span style='color:#0057a6; '>></span>
+                    <span style='color:#0057a6; '>&lt;</span><span style='color:#0066ee; '>ogc</span><span style='color:#406080; '>:</span><span style='color:#333385; '>PropertyIsEqualTo</span><span style='color:#0057a6; '>></span>
+                        <span style='color:#0057a6; '>&lt;</span><span style='color:#0066ee; '>ogc</span><span style='color:#406080; '>:</span><span style='color:#333385; '>PropertyName</span><span style='color:#0057a6; '>></span>country<span style='color:#0057a6; '>&lt;/</span><span style='color:#0066ee; '>ogc</span><span style='color:#406080; '>:</span><span style='color:#333385; '>PropertyName</span><span style='color:#0057a6; '>></span>
+                        <span style='color:#0057a6; '>&lt;</span><span style='color:#0066ee; '>ogc</span><span style='color:#406080; '>:</span><span style='color:#333385; '>Literal</span><span style='color:#0057a6; '>></span>UKRAINE<span style='color:#0057a6; '>&lt;/</span><span style='color:#0066ee; '>ogc</span><span style='color:#406080; '>:</span><span style='color:#333385; '>Literal</span><span style='color:#0057a6; '>></span>
+                    <span style='color:#0057a6; '>&lt;/</span><span style='color:#0066ee; '>ogc</span><span style='color:#406080; '>:</span><span style='color:#333385; '>PropertyIsEqualTo</span><span style='color:#0057a6; '>></span>
+                <span style='color:#0057a6; '>&lt;/</span><span style='color:#0066ee; '>ogc</span><span style='color:#406080; '>:</span><span style='color:#333385; '>Filter</span><span style='color:#0057a6; '>></span>
+            <span style='color:#0057a6; '>&lt;/</span><span style='color:#0066ee; '>sld</span><span style='color:#406080; '>:</span><span style='color:#333385; '>FeatureTypeConstraint</span><span style='color:#0057a6; '>></span>
+        <span style='color:#0057a6; '>&lt;/</span><span style='color:#0066ee; '>sld</span><span style='color:#406080; '>:</span><span style='color:#333385; '>LayerFeatureConstraints</span><span style='color:#0057a6; '>></span>
+
+        <span style='color:#0057a6; '>&lt;</span><span style='color:#0066ee; '>sld</span><span style='color:#406080; '>:</span><span style='color:#333385; '>UserStyle</span><span style='color:#0057a6; '>></span>
+            <span style='color:#595979; '>&lt;!--</span><span style='color:#595979; '> описание стилей (rules) </span><span style='color:#595979; '>--></span>
+        <span style='color:#0057a6; '>&lt;/</span><span style='color:#0066ee; '>sld</span><span style='color:#406080; '>:</span><span style='color:#333385; '>UserStyle</span><span style='color:#0057a6; '>></span>
+
+    <span style='color:#0057a6; '>&lt;/</span><span style='color:#0066ee; '>sld</span><span style='color:#406080; '>:</span><span style='color:#333385; '>NamedLayer</span><span style='color:#0057a6; '>></span>
+<span style='color:#0057a6; '>&lt;/</span><span style='color:#0066ee; '>sld</span><span style='color:#406080; '>:</span><span style='color:#333385; '>StyledLayerDescriptor</span><span style='color:#0057a6; '>></span>
+</pre>
+
+<p>Полная реализация LayerFeatureConstraints есть в <strong>QGIS MapServer</strong>.</p>
+
+<p>В программе <strong>UMN MapServer</strong> фильтр слоя напрямую не поддерживается, но если источником данных является БД, то выполняется довольно спорная оптимизация (<a href="http://trac.osgeo.org/mapserver/ticket/2840">ticket #2840</a>): фильтры из всех rules объединяются в один общий, который используется при обращении к источникам данных. Если же вы хотите установить фильтр слоя другими методами (см. ниже), то такое поведение будет сильно мешать. Отключить эту оптимизацию можно только в исходном коде с перекомпиляцией (или применить бинарный патч).</p>
+
+<p><strong>GeoServer</strong> использует библиотеку GeoTools, в которой реализация LayerFeatureConstraints присутствует. (В реальной жизни не проверял.)</p>
+
+<!-- Второй раздел -->
+<h2><strong><a name="02" id="02"></a></strong>2. Использование</h2>
+<p>Подготовленный документ SLD сохраняется в файл, доступный для сервера WMS по протоколу HTTP. В строке запроса указывается полная ссылка в параметре SLD (одной строкой):</p>
+
+<pre style="background: #ddd; border-top: 1px dotted #000000; border-bottom: 1px dotted #000000;">http://wms-server/wms?SERVICE=WMS&amp;
+LAYERS=mylayer&amp;
+SLD=http://other-server/layer_with_filter.sld</pre>
+
+<p>Заметьте, что имя слоя в параметре LAYERS и в документе SLD должно совпадать (в примере и там и там 'mylayer').</p>
+
+<p>При работе в OpenLayers составляют условие фильтра и передают серверному скрипту (например, php или python) который оформляет документ SLD и сохраняет в виде файла. Как вариант, можно направить результат сразу на сервер WMS:</p>
+
+<pre style="background: #ddd; border-top: 1px dotted #000000; border-bottom: 1px dotted #000000;">http://wms-server/wms?SERVICE=WMS&
+LAYERS=mylayer&
+SLD=http://other-server/style_filter.php?country#UKRAINE</pre>
+
+<p>Если отбросить решаемые трудности с кодированием строки, то нужно отметить только увеличение длины строки запроса и накладные расходы на постоянную работу скрипта (будет выполняться при рендеринге каждого тайла). Для несложных фильтров это метод может быть удобен.</p>
+
+<p>Применение фильтра к слою:</p>
+
+<pre style='color:#000020;background: #ddd; border-top: 1px dotted #000000; border-bottom: 1px dotted #000000;'>lay_points<span style='color:#308080; '>.</span>mergeNewParams<span style='color:#308080; '>(</span><span style='color:#406080; '>{</span>
+    sld<span style='color:#406080; '>:</span> <span style='color:#1060b6; '>'http://other-server/layer_with_filter.sld'</span>
+<span style='color:#406080; '>}</span><span style='color:#308080; '>)</span><span style='color:#406080; '>;</span>
+</pre>
+
+<p>При добавлении (обновлении) параметров слоя он автоматически перерисовывается.</p>
+
+<p style="background: #ddd; border-top: 1px dotted #000000; border-bottom: 1px dotted #000000;"><strong>Примечание:</strong> можно, также, передать все содержимое документа в параметре SLD_BODY. Но так как длина строки ограничена (зависит от браузера, 500-2000 знаков), то практического применения этот способ не нашел.</p>
+
+<!-- Третий раздел -->
+<h2><strong><a name="03" id="03"></a></strong>3. GeoServer</h2>
+<p>Использование SLD позволяет создавать веб-приложения, не зависящие от используемого на сервере WMS программного обеспечения. Но иногда бывает удобнее и проще воспользоваться дополнительными функциями (vendor feature) конкретного сервера.</p>
+
+<u>Common Query Language</u>
+
+<p>В GeoServer реализован собственный механизм фильтров слоя — CQL. В новой версии (см. <a href="http://blog.geoserver.org/2010/12/20/geoserver-2-1-beta3-released-now-with-wms-1-3/">пресс-релиз GeoServer 2.1 beta 3</a>) обещают его расширенный вариант ECQL. Язык CQL введен в спецификации <a href="http://www.opengeospatial.org/standards/cat">OGC Catalogue Services</a> (CS 2.0.2, раздел 6.2.2). В тексте дано исключительно формальное описание, требующее для понимания определенной подготовки. Поэтому рекомендую обратиться к документации <a href="http://docs.geoserver.org/latest/en/user/tutorials/cql/cql_tutorial.html">GeoServer</a> и <a href="http://docs.codehaus.org/display/GEOTDOC/14+CQL">GeoTools</a>.</p>
+
+<p>OGC FE разрабатывается на основе CQL и по возможностям оба языка равны. В CQL присутствуют функции пространственных отношений (BBOX, пересечение и т.п.) и временные выборки.</p>
+
+<p>Примеры фильтров:</p>
+
+<pre style="background: #ddd; border-top: 1px dotted #000000; border-bottom: 1px dotted #000000;">
+city_name LIKE 'A%' AND population > 100000
+country IN ('UKRAINE', 'BELARUS')
+</pre>
+
+<p>При использовании с сервисами WMS в строку запроса добавляется параметр CQL_FILTER:</p>
+
+<pre style="background: #ddd; border-top: 1px dotted #000000; border-bottom: 1px dotted #000000;">
+http://wms-server/wms?SERVICE=WMS&
+LAYERS=mylayer&
+CQL_FILTER="country IN ('UKRAINE', 'BELARUS')"
+</pre>
+
+</p>Аналогично для OpenLayers:</p>
+
+<pre style='color:#000020;background: #ddd; border-top: 1px dotted #000000; border-bottom: 1px dotted #000000;'>
+lay_points<span style='color:#308080; '>.</span>mergeNewParams<span style='color:#308080; '>(</span><span style='color:#406080; '>{</span>
+    CQL_FILTER<span style='color:#406080; '>:</span> <span style='color:#1060b6; '>"country IN ('UKRAINE', 'BELARUS')"</span>
+<span style='color:#406080; '>}</span><span style='color:#308080; '>)</span><span style='color:#406080; '>;</span>
+</pre></pre>
+
+<u>OGC Filter</u>
+
+<p>GeoServer позволяет применять фильтры OGC напрямую. В параметре FILTER запроса передается описание фильтра в формате XML. Пример из документации:</p>
+
+<pre style="background: #ddd; border-top: 1px dotted #000000; border-bottom: 1px dotted #000000;">
+http:/localhost:8080/geoserver/wms/kml_reflect?
+layers=topp:states&
+FILTER=%3CFilter%3E%3CPropertyIsBetween%3E%3CPropertyName%3Etopp:LAND_KM%3C/PropertyName%3E%3CLowerBoundary%3E%3CLiteral%3E100000%3C/Literal%3E%3C/LowerBoundary%3E%3CUpperBoundary%3E%3CLiteral%3E150000%3C/Literal%3E%3C/UpperBoundary%3E%3C/PropertyIsBetween%3E%3C/Filter%3E
+</pre>
+
+<p>Строка закодирована по методу Quoted-printable и эквивалентна:</p>
+
+<pre style='color:#000020;background: #ddd; border-top: 1px dotted #000000; border-bottom: 1px dotted #000000;'>
+<span style='color:#0057a6; '>&lt;</span><span style='color:#333385; '>Filter</span><span style='color:#0057a6; '>></span>
+    <span style='color:#0057a6; '>&lt;</span><span style='color:#333385; '>PropertyIsBetween</span><span style='color:#0057a6; '>></span>
+        <span style='color:#0057a6; '>&lt;</span><span style='color:#333385; '>PropertyName</span><span style='color:#0057a6; '>></span>topp:LAND_KM<span style='color:#0057a6; '>&lt;/</span><span style='color:#333385; '>PropertyName</span><span style='color:#0057a6; '>></span>
+        <span style='color:#0057a6; '>&lt;</span><span style='color:#333385; '>LowerBoundary</span><span style='color:#0057a6; '>></span>
+            <span style='color:#0057a6; '>&lt;</span><span style='color:#333385; '>Literal</span><span style='color:#0057a6; '>></span>100000<span style='color:#0057a6; '>&lt;/</span><span style='color:#333385; '>Literal</span><span style='color:#0057a6; '>></span>
+        <span style='color:#0057a6; '>&lt;/</span><span style='color:#333385; '>LowerBoundary</span><span style='color:#0057a6; '>></span>
+        <span style='color:#0057a6; '>&lt;</span><span style='color:#333385; '>UpperBoundary</span><span style='color:#0057a6; '>></span>
+            <span style='color:#0057a6; '>&lt;</span><span style='color:#333385; '>Literal</span><span style='color:#0057a6; '>></span>150000<span style='color:#0057a6; '>&lt;/</span><span style='color:#333385; '>Literal</span><span style='color:#0057a6; '>></span>
+        <span style='color:#0057a6; '>&lt;/</span><span style='color:#333385; '>UpperBoundary</span><span style='color:#0057a6; '>></span>
+    <span style='color:#0057a6; '>&lt;/</span><span style='color:#333385; '>PropertyIsBetween</span><span style='color:#0057a6; '>></span>
+<span style='color:#0057a6; '>&lt;/</span><span style='color:#333385; '>Filter</span><span style='color:#0057a6; '>></span>
+</pre>
+
+<p>Как правило, кодировать вручную не требуется, браузер выполняет эту работу самостоятельно. Но если понадобиться раскодировать, то рекомендую программу Штирлиц. (Последняя версия 4.01 вышла в 2001 году, но легко находится в интернете.)</p>
+
+<u>featureid</u>
+
+<p>Редко используемый фильтр, предназнаен для выбора объекта по известному идентификатору:</p>
+
+<pre style="background: #ddd; border-top: 1px dotted #000000; border-bottom: 1px dotted #000000;">
+http://localhost:8080/geoserver/wms/kml_reflect?
+layers=topp:states&featureid=states.5
+</pre>
+
+<!-- Четвертый раздел -->
+<h2><strong><a name="04" id="04"></a></strong>4. UMN MapServer</h2>
+<p>Стационарный фильтр слоя задается в файле настроек <a href="http://mapserver.org/mapfile/layer.html#filter">ключевым словом FILTER</a>:</p>
+
+<pre style="background: #ddd; border-top: 1px dotted #000000; border-bottom: 1px dotted #000000;">
+LAYER
+	NAME "mylayer"
+	FILTER ([type]=’road’ and [size]<2)
+	...
+END # layer
+</pre>
+
+<p>Полный список возможных логических конструкций приведен в документации в разделе <a href="http://mapserver.org/mapfile/expressions.html#mapserver-expressions">«MapServer expressions»</a>.</p>
+
+<u>Run-time Substitution</u>
+
+<p>Что бы изменять параметры динамически (см. главу <a href="http://mapserver.org/cgi/runsub.html">«Run-time Substitution»</a>), введем в фильтр переменные и опишем информацию, для проверки на корректность:</p>
+
+<pre style="background: #ddd; border-top: 1px dotted #000000; border-bottom: 1px dotted #000000;">
+LAYER
+	...
+	FILTER ( ("[region]" = %country%) AND ("[size]" < %size%) )
+	...
+	METADATA
+		country_validation_pattern '.'
+		size_validation_pattern '^[0-9]{1,}$'
+	END
+END
+</pre>
+
+<p>Две переменные — %country% и %size%. Соответствующие им строки проверки задаются в форме Regular expression (RegExp): country — любое значение, size — только цифры. В документации строго не рекомендуют использовать RegExp '.', так как это создает опасность проведения атаки. Но в принципе, никто не запрещает использовать универсальный фильтр типа:</p>
+
+<pre style="background: #ddd; border-top: 1px dotted #000000; border-bottom: 1px dotted #000000;">
+LAYER
+	...
+	FILTER (%myfilter%)
+	...
+	METADATA
+		myfilter_validation_pattern '.'
+	END
+END
+</pre>
+
+<p>Строка запроса к серверу WMS принимает вид:</p>
+
+<pre style="background: #ddd; border-top: 1px dotted #000000; border-bottom: 1px dotted #000000;">
+http://wms-server/wms?SERVICE=WMS&amp;
+LAYERS=mylayer&amp;
+country='UKRAINE'&amp;
+size='100000'
+</pre>
+
+<p>Есть и более общий механизм изменения любых параметров файла настроек. Он очень похож на описанный выше:</p>
+
+<pre style="background: #ddd; border-top: 1px dotted #000000; border-bottom: 1px dotted #000000;">
+LAYER
+	...
+	VALIDATION
+		'filter' '.'
+	END
+END
+</pre>
+
+<p>Используется группа VALIDATION, в которой указывается имя параметра и строка проверки. Как я указал выше изменять можно любой параметр, имя которого внесено в группу. Это позволяет изменять, например, строку подключения к базе данных. На всякий случай приведу познавательную ссылку - <a href="http://ru.wikipedia.org/wiki/Внедрение_SQL-кода">SQL injection</a>).</p>
+
+<p>В строку запроса на сервер добавляются конструкция вида (пробелы можно заменять на символ '+', при необходимости):</p>
+
+<pre style="background: #ddd; border-top: 1px dotted #000000; border-bottom: 1px dotted #000000;">
+&amp;map.layer[0]=FILTER+("[country]" = "UKRAINE")
+&amp;map.layer[0].class[0]=EXPRESSION+("[country]" = "BELARUS")
+&amp;map.layer[0]=DATA+"the_geom from xxx using unique gid using srid=4326"
+</pre>
+
+<u>MapScript</u>
+
+<p>Пожалуй, наиболее удобный вариант изменения фильтра — это использование скрипта на одном из диалектов <a href="http://mapserver.org/mapscript/index.html">MapScript</a> (PHP, Python, Perl и др.). Тем более, что при работе с этим сервером создание враппера желательно в любом случае.</p>
+
+<p>Пример для PHP/MapScript:</p>
+
+<pre style="background: #ddd; border-top: 1px dotted #000000; border-bottom: 1px dotted #000000;">
+<span style='color:#7f0055;'>&lt;?php</span><span style='color:#000000;'></span>
+<span style='color:#3f7f59;'>#dl('php_mapscript.so');</span><span style='color:#000000;'></span>
+<span style='color:#000000;'></span>
+<span style='color:#3f7f59;'># создаем карту</span><span style='color:#000000;'></span>
+<span style='color:#000000;'>$map</span><span style='color:#000000;'> </span><span style='color:#000000;'>=</span><span style='color:#000000;'> ms_newMapobj</span><span style='color:#000000;'>(</span><span style='color:#2a00ff;'>'/usr/local/example.map'</span><span style='color:#000000;'>)</span><span style='color:#000000;'>;</span><span style='color:#000000;'></span>
+<span style='color:#3f7f59;'># загружаем переданные параметры</span><span style='color:#000000;'></span>
+<span style='color:#000000;'>$request</span><span style='color:#000000;'> </span><span style='color:#000000;'>=</span><span style='color:#000000;'> ms_newowsrequestobj</span><span style='color:#000000;'>(</span><span style='color:#000000;'>)</span><span style='color:#000000;'>;</span><span style='color:#000000;'></span>
+<span style='color:#000000;'>$request</span><span style='color:#000000;'>-</span><span style='color:#000000;'>></span><span style='color:#000000;'>loadparams</span><span style='color:#000000;'>(</span><span style='color:#000000;'>)</span><span style='color:#000000;'>;</span><span style='color:#000000;'></span>
+<span style='color:#3f7f59;'># задаем фильтр</span><span style='color:#000000;'></span>
+<span style='color:#000000;'>$layer</span><span style='color:#000000;'> </span><span style='color:#000000;'>=</span><span style='color:#000000;'> </span><span style='color:#000000;'>$map</span><span style='color:#000000;'>-</span><span style='color:#000000;'>></span><span style='color:#000000;'>getLayerByName</span><span style='color:#000000;'>(</span><span style='color:#2a00ff;'>'mylayer'</span><span style='color:#000000;'>)</span><span style='color:#000000;'>;</span><span style='color:#000000;'></span>
+<span style='color:#000000;'>$layer</span><span style='color:#000000;'>-</span><span style='color:#000000;'>></span><span style='color:#000000;'>setFilter</span><span style='color:#000000;'>(</span><span style='color:#000000;'>$request</span><span style='color:#000000;'>-</span><span style='color:#000000;'>></span><span style='color:#000000;'>getValueByName</span><span style='color:#000000;'>(</span><span style='color:#2a00ff;'>'MY_FILTER'</span><span style='color:#000000;'>)</span><span style='color:#000000;'>)</span><span style='color:#000000;'>;</span><span style='color:#000000;'></span>
+<span style='color:#000000;'></span>
+<span style='color:#3f7f59;'># рисуем карту</span><span style='color:#000000;'></span>
+<span style='color:#000000;'>ms_ioinstallstdouttobuffer</span><span style='color:#000000;'>(</span><span style='color:#000000;'>)</span><span style='color:#000000;'>;</span><span style='color:#000000;'></span>
+<span style='color:#000000;'>$map</span><span style='color:#000000;'>-</span><span style='color:#000000;'>></span><span style='color:#000000;'>owsdispatch</span><span style='color:#000000;'>(</span><span style='color:#000000;'>$request</span><span style='color:#000000;'>)</span><span style='color:#000000;'>;</span><span style='color:#000000;'></span>
+<span style='color:#000000;'>$contenttype</span><span style='color:#000000;'> </span><span style='color:#000000;'>=</span><span style='color:#000000;'> ms_iostripstdoutbuffercontenttype</span><span style='color:#000000;'>(</span><span style='color:#000000;'>)</span><span style='color:#000000;'>;</span><span style='color:#000000;'></span>
+<span style='color:#7f0055;font-weight:bold; '>if</span><span style='color:#000000;'> </span><span style='color:#000000;'>(</span><span style='color:#000000;'>$contenttype</span><span style='color:#000000;'> </span><span style='color:#000000;'>=</span><span style='color:#000000;'>=</span><span style='color:#000000;'> </span><span style='color:#2a00ff;'>'image/png'</span><span style='color:#000000;'>)</span><span style='color:#000000;'></span>
+<span style='color:#000000;'>&#xa0;&#xa0;&#xa0;&#xa0;</span><span style='color:#7f0055;font-weight:bold; '>header</span><span style='color:#000000;'>(</span><span style='color:#2a00ff;'>'Content-type: image/png'</span><span style='color:#000000;'>)</span><span style='color:#000000;'>;</span><span style='color:#000000;'></span>
+<span style='color:#000000;'>ms_iogetStdoutBufferBytes</span><span style='color:#000000;'>(</span><span style='color:#000000;'>)</span><span style='color:#000000;'>;</span><span style='color:#000000;'></span>
+<span style='color:#000000;'>ms_ioresethandlers</span><span style='color:#000000;'>(</span><span style='color:#000000;'>)</span><span style='color:#000000;'>;</span><span style='color:#000000;'></span>
+<span style='color:#7f0055;'>?></span>
+</pre>
+
+<!-- Пятый раздел -->
+<h2><strong><a name="05" id="05"></a></strong>5. OpenLayers</h2>
+<p>В библиотеке есть встроенная поддержка работы с фильтрами в формате OGC — набор классов <a href="http://dev.openlayers.org/docs/files/OpenLayers/Filter-js.html">OpenLayers.Filter</a>.</p>
+
+<p>Простое сравнение country = 'UKRAINE':</p>
+
+<pre style='color:#000020;background: #ddd; border-top: 1px dotted #000000; border-bottom: 1px dotted #000000;'>
+<span style="color: #003366;"><strong>var</strong></span> filter <span style="color: #339933;">=</span> <span style="color: #003366;"><strong>new</strong></span> OpenLayers.<span style="color: #660066;">Filter</span>.<span style="color: #660066;">Comparison</span><span style="color: #339933;">({</span>
+    type<span style="color: #339933;">:</span> OpenLayers.<span style="color: #660066;">Filter</span>.<span style="color: #660066;">Comparison</span>.<span style="color: #660066;">EQUAL_TO</span><span style="color: #339933;">,</span>
+    property<span style="color: #339933;">:</span> <span style="color: #3366cc;">'country'</span><span style="color: #339933;">,</span>
+    value<span style="color: #339933;">:</span> <span style="color: #3366cc;">'UKRAINE'</span><span style="color: #339933;">,</span>
+<span style="color: #339933;">});</span>
+</pre>
+
+<p>Преобразование в XML:</p>
+
+<pre style='color:#000020;background: #ddd; border-top: 1px dotted #000000; border-bottom: 1px dotted #000000;'>
+<span style="color: #003366;"><strong>var</strong></span> format <span style="color: #339933;">=</span> <span style="color: #003366;"><strong>new</strong></span> OpenLayers.<span style="color: #660066;">Format</span>.<span style="color: #660066;">Filter</span><span style="color: #339933;">({</span>version<span style="color: #339933;">:</span> <span style="color: #3366cc;">"1.1.0"</span><span style="color: #339933;">});</span>
+<span style="color: #003366;"><strong>var</strong></span> xml <span style="color: #339933;">=</span> <span style="color: #003366;"><strong>new</strong></span> OpenLayers.<span style="color: #660066;">Format</span>.<span style="color: #660066;">XML</span><span style="color: #339933;">();</span>
+<span style="color: #003366;"><strong>var</strong></span> text <span style="color: #339933;">=</span> xml.<span style="color: #660066;">write</span><span style="color: #339933;">(</span>format.<span style="color: #660066;">write</span><span style="color: #339933;">(</span>filter<span style="color: #339933;">));</span>
+</pre>
+
+<p>В версии для разрабочиков (trunk) уже присутствует парсер <a href="http://openlayers.org/dev/examples/cql-format.html">OpenLayers.Format.CQL</a>. Работа с ним аналогична рассмотреному выше.</p>
+
+<p><u>Стили</u></p>
+
+<p>Вот так выглядит точечный стиль с логическим условием (country = 'UKRAINE') OR (country = 'BELARUS'):</p>
+
+<pre style='color:#000020;background: #ddd; border-top: 1px dotted #000000; border-bottom: 1px dotted #000000;'>
+<span style="color: #003366;"><strong>var</strong></span> style <span style="color: #339933;">=</span> <span style="color: #003366;"><strong>new</strong></span> OpenLayers.<span style="color: #660066;">Style</span><span style="color: #339933;">();</span>
+
+<span style="color: #003366;"><strong>var</strong></span> rule <span style="color: #339933;">=</span> <span style="color: #003366;"><strong>new</strong></span> OpenLayers.<span style="color: #660066;">Rule</span><span style="color: #339933;">({</span>
+    <span style="color: #000066;">name</span><span style="color: #339933;">:</span> species_selected<span style="color: #339933;">[</span>i<span style="color: #339933;">],</span>
+    filter<span style="color: #339933;">:</span> <span style="color: #003366;"><strong>new</strong></span> OpenLayers.<span style="color: #660066;">Filter</span>.<span style="color: #660066;">Logical</span><span style="color: #339933;">({</span>
+        type<span style="color: #339933;">:</span> OpenLayers.<span style="color: #660066;">Filter</span>.<span style="color: #660066;">Logical</span>.<span style="color: #660066;">OR</span><span style="color: #339933;">,</span>
+        filters<span style="color: #339933;">:</span> <span style="color: #339933;">[</span>
+            <span style="color: #003366;"><strong>new</strong></span> OpenLayers.<span style="color: #660066;">Filter</span>.<span style="color: #660066;">Comparison</span><span style="color: #339933;">({</span>
+                type<span style="color: #339933;">:</span> OpenLayers.<span style="color: #660066;">Filter</span>.<span style="color: #660066;">Comparison</span>.<span style="color: #660066;">EQUAL_TO</span><span style="color: #339933;">,</span>
+                property<span style="color: #339933;">:</span> <span style="color: #3366cc;">'country'</span><span style="color: #339933;">,</span>
+                value<span style="color: #339933;">:</span> <span style="color: #3366cc;">'</span><span style="color: #3366cc;">UKRAINE</span><span style="color: #3366cc;">'</span><span style="color: #339933;">,</span>
+            <span style="color: #339933;">}),</span>
+            <span style="color: #003366;"><strong>new</strong></span> OpenLayers.<span style="color: #660066;">Filter</span>.<span style="color: #660066;">Comparison</span><span style="color: #339933;">({</span>
+                type<span style="color: #339933;">:</span> OpenLayers.<span style="color: #660066;">Filter</span>.<span style="color: #660066;">Comparison</span>.<span style="color: #660066;">EQUAL_TO</span><span style="color: #339933;">,</span>
+                property<span style="color: #339933;">:</span> <span style="color: #3366cc;">'country'</span><span style="color: #339933;">,</span>
+                value<span style="color: #339933;">:</span> <span style="color: #3366cc;">'BELARUS'</span><span style="color: #339933;">,</span>
+            <span style="color: #339933;">})</span>
+        <span style="color: #339933;">]</span>
+    <span style="color: #339933;">}),</span>
+    symbolizer<span style="color: #339933;">:</span> <span style="color: #339933;">{</span>
+        <span style="color: #3366cc;">"Point"</span><span style="color: #339933;">:</span> <span style="color: #339933;">{</span>
+            graphicName<span style="color: #339933;">:</span> <span style="color: #3366cc;">"circle"</span><span style="color: #339933;">,</span> pointRadius<span style="color: #339933;">:</span> <span style="color: #cc0000;">3.5</span><span style="color: #339933;">,</span>
+            strokeWidth<span style="color: #339933;">:</span> <span style="color: #cc0000;">1</span><span style="color: #339933;">,</span> strokeColor<span style="color: #339933;">:</span> <span style="color: #3366cc;">"#000000"</span><span style="color: #339933;">,</span>
+            fillColor<span style="color: #339933;">:</span> palette<span style="color: #339933;">[</span>x<span style="color: #339933;">],</span> fillOpacity<span style="color: #339933;">:</span> <span style="color: #cc0000;">0.5</span>
+        <span style="color: #339933;">}</span>
+    <span style="color: #339933;">}</span>
+<span style="color: #339933;">});</span>
+
+style.<span style="color: #660066;">addRules</span><span style="color: #339933;">([</span>rule<span style="color: #339933;">]);</span>
+</pre>
+
+<p>Преобразование стиля в формат SLD (LayerFeatureConstraints не поддерживается):</p>
+
+<pre style='color:#000020;background: #ddd; border-top: 1px dotted #000000; border-bottom: 1px dotted #000000;'>
+<span style="color: #003366;"><strong>var</strong></span> text <span style="color: #339933;">=</span> <span style="color: #003366;"><strong>new</strong></span> OpenLayers.<span style="color: #660066;">Format</span>.<span style="color: #660066;">SLD</span><span style="color: #339933;">()</span>.<span style="color: #660066;">write</span><span style="color: #339933;">({</span>
+    namedLayers<span style="color: #339933;">:</span> <span style="color: #339933;">[{</span>
+        <span style="color: #000066;">name</span><span style="color: #339933;">:</span> <span style="color: #3366cc;">"mylayer"</span><span style="color: #339933;">,</span>
+        userStyles<span style="color: #339933;">:</span> <span style="color: #339933;">[</span>style<span style="color: #339933;">]</span>
+    <span style="color: #339933;">}]</span>
+<span style="color: #339933;">});</span>
+</pre>
+
+<p>И в заключение, небольшая справка по подстановочным символам (wild-card):</p>
+<table width="100%" border="1" cellspacing="0" cellpadding="4">
+	<tr>
+		<td width="18%" align="center"><br></td>
+		<td width="13%" align="center">один любой символ</td>
+		<td width="20%" align="center">любое количество<br>любых символов</td>
+		<td width="14%" align="center">экранирование (escape)</td>
+		<td width="34%" align="center">Примечание</td>
+	</tr>
+	<tr>
+		<td>SLD (FE)</td>
+		<td align="center">. (точка)</td>
+		<td align="center">*</td>
+		<td align="center">!</td>
+		<td>Переопределяется в singleChar, wildCard, escapeChar</td>
+	</tr>
+	<tr>
+		<td>UMN MapServer</td>
+		<td align="center">. (точка)</td>
+		<td align="center">*</td>
+		<td align="center">\</td>
+		<td>Про правилам RegExp</td>
+	</tr>
+	<tr>
+		<td>CQL</td>
+		<td align="center">_</td>
+		<td align="center">%</td>
+		<td align="center">\</td>
+		<td><br></td>
+	</tr>
+	<tr>
+		<td>SQL</td>
+		<td align="center">_</td>
+		<td align="center">%</td>
+		<td align="center"><br></td>
+		<td>экранирование задается параметром escape</td>
+	</tr>
+</table>
+
+<span>
+    <!--#include virtual="/scripts/forum-comments-num.php?i=7055"-->
+  </span>		</p>
+<div class="links">
+	<h2>Ссылки по теме</h2>
+	<ul>
+		<li><a href="geoserver-begin.html">Начало работы с GeoServer</a></li>
+		<li><a href="mapserver-begin.html">Начало работы с MapServer</a></li>
+		<li><a href="mapserver-query.html">Реализация определяющей выборки в Mapserver</a></li>
+		<li><a href="mapserver-expressions.html">Выражения в MapServer</a></li>
+	</ul>
+</div>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<p class="status"><span>Дата создания: 29.12.2010
+<br>Автор(ы): <a href="/forum/memberlist.php?mode=viewprofile&u=6850" target="_blank">Mavka</a></span></p>
+<!--#include virtual="/inc/footer2.php" -->

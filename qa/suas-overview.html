@@ -1,0 +1,112 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Обзор SUAS MapServer</title>
+<!--#include virtual="/inc/header2.txt" -->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Вопросы и ответы</a></li>
+</ul>
+<h1>Обзор SUAS MapServer</h1>
+<!--Contents start-->
+<p class="ann">Представлен общий обзор SUAS MapServer и его основные возможности</p>
+<p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=3755"--></span></p>
+            <p><strong>Оглавление</strong></p>
+            <ol>
+                  <li><a href="#01">Пролог</a></li>
+                  <li><a href="#02">Установка</a></li>
+                  <li><a href="#03">Создание карты</a></li>
+                  <li><a href="#04">Сервисы WMS/WFS</a></li>
+                  <li><a href="#05">Эпилог</a></li>
+                  </ol>
+<!-- Первый раздел -->
+<h2><strong><a name="01" id="01"></a></strong>1. Пролог</h2>
+<p><i>PHP сервер WMS/WFS, лицензия LGPL</i></p>
+<p>Этот картографический сервер разрабатывается в Stuttgart University Applied Science (Германия) в рамках проекта <a href="http://www.easywms.com/easywms/" target="_blank" class="external">EasyWMS</a>. По-русски название произносится "шуас" ([sju:as] как "Show Us"). Первоначальное название - PHPMyWMS.<p align="center">
+
+<a href="/images/suasoverview-01b.png" onClick="NewWindow(this.href,'mm','1086','800','yes');return false;"><IMG alt="Щелкните для получения увеличенного изображения" src="/images/suasoverview-01.png" width=343 height=256></a>
+
+<p>SUAS представляет собой целый портал, где зарегистрированные пользователи могут создавать свои атласы, загружать данные и обмениваться картами максимально просто. Например, карта на базе OpenLayers создается автоматически. Помимо OpenLayers сервер умеет работать с такими клиентами как Carto SVG Viewer, GeoXml Viewer, Gmaps WMS Viewer, Gearth 3D&Gmaps 2D Viewer, Google Earth и др.</p>
+
+<ul>
+	<li><a href="http://www.easywms.com/easywms/?q=en/suasmapserver4" target="_blank" class="external">Официальный сайт</a></li>
+	<li><a href="http://www.easywms.com/suas4/" target="_blank" class="external">Демо</a></li>
+</ul></p>
+
+<p>Основные возможности:</p>
+<ul>
+	<li><b>Источники данных:</b> SVG, CSV, SHP, MIF, E00, OSM, KML, GPX</li>
+	<li><b>WMS:</b> SVG, PNG, JPEG, GIF, BMP, PDF, Flash, VRML, X3D, KML<br>Расширения: SLD, GetMap25D, GetMap3D</li>
+	<li><b>WFS:</b> text/xml, GML<br>Расширения: WFS-T (в разработке)</li>
+</ul>
+
+<p>Данные загружаются из файлов в базу данных MySQL (в формате <a href="http://www.gismngt.de/format/wktformat.html" target="_blank" class="external">WKT</a>), но с внешними базами SUAS работать не умеет. Как вы заметили в списке есть VRML и X3D. Сервер умеет генерировать трехмерные данные в стиле <a href="http://www.web3d.org/x3d-earth/meetings/2007November/X3dEarthMeetingReportSchlumbergerNovember2007.php#CityGML" target="_blank" class="external">W3DS</a> (Web 3D Service, черновик стандарта OGC), хотя автор не ставит целью полную реализацию стандарта.</p>
+
+<!-- Второй раздел -->
+<h2><strong><a name="02" id="02"></a></strong>2. Установка</h2>
+<p>На официальном сайте приведено руководство "<a href="http://code.google.com/p/suas-map-server/downloads/list" target="_blank" class="external">SUAS MapServer Tutorial</a>", детально описывающее все шаги установка в картинках. Процесс простой и при минимальном владении английским языком не вызывающий трудностей.</p>
+
+<p>В общих словах:</p>
+<ol>
+	<li>Устанавливаем <a href="http://www.apachefriends.org/en/xampp.html" target="_blank" class="external">XAMPP</a></li>
+	<li>Открываем файл xampp\php\php.ini, находим строку "extension=php_dbase.dll" и убираем ";" в начале строки. Это позволит php работать с DBF. </li>
+	<li>Перезапускаем службу Apache</li>
+	<li><a href="http://code.google.com/p/suas-map-server/downloads/list" target="_blank" class="external">Скачиваем</a> дистрибутив SUAS MapServer. Распаковываем его в папку xampp\htdocs. Имя suas4_01_0703_beta10 можно укоротить до "suas"</li>
+	<li>Переходим по ссылке http://localhost/suas/install/ и проходим этапы установки</li>
+	<li>На первом шаге проводится проверка необходимых компонентов. Должны быть обнаружены все библиотеки</li>
+	<li>Лицензия. Читаем, соглашаемся</li>
+	<li>Выбираем сервер баз данных MySQL (PostgresQL находится в разработке), адрес, имя пользователя и пароль. После проверки прав доступа предлагается задать имя базы и префикс таблиц, например - suas</li>
+	<li>Установка завершена. В конце предлагается создать пользователя-администратора для сервера SUAS (на данный момент  консоль администратора находится в разработке и поэтому реальных полномочий он не получает)</li>
+</ol></p>
+
+<!-- Третий раздел -->
+<h2><strong><a name="03" id="03"></a></strong>3. Создание карты</h2>
+<p>Регистрируемся на сервере. Переходим в раздел Atlas/My Atlas. Нажимаем "Create" для создания нового атласа. Поля отмеченные звездочкой обязательны для заполнения. Переходим к следующему этапу. Выбираем из списка доступных форматов нужный, например - SHP:</p>
+
+<div align="center"><a href="/images/suasoverview-03b.png" onClick="NewWindow(this.href,'mm','836','600','yes');return false;"><img height=256 alt="Щелкните для получения увеличенного изображения" src="/images/suasoverview-03.png" width=358 border=0></a></div>
+<p>Нажимаем "Обзор" и выбираем файл. (Если PHP не поддерживает расширение dbase, см. п. 2 установки, то вы не сможете импортировать атрибутивную информацию.) В правой части указываем название нового слоя, систему координат (список небольшой, только основные СК) и кодировку файла (UTF-8, Windows-1251 и т.п.). Нажимаем "Import" и ожидаем окончания процесса.</p>
+
+<p>Переходим на следующий этап - стили оформления:</p>
+
+<div align="center"><a href="/images/suasoverview-04b.png" onClick="NewWindow(this.href,'mm','960','600','yes');return false;"><IMG height=256 alt="Щелкните для получения увеличенного изображения" src="/images/suasoverview-04.png" width=417 border=0></a></div>
+<p>Не самый большой выбор, но все наглядно и понятно.</p>
+<p>Проходим 2 следующих этапа и возвращаемся на страницу My Atlas. Наш первый атлас создан.</p>
+<p>Если выбрать только что созданный атлас и нажать кнопку "Configuration", то можно добавить в атлас новые слои, изменить параметры и стили.</p>
+<p>Кнопка "Demo" позволяет посмотреть атлас. Выбираем MAP Viewers, указываем проекцию. От выбора фреймворка (OpenLayers, Carto SVG viewer и т.д.) зависят дальнешие настройки. В итоге вы получите готовую web карту.</p>
+
+<!-- Четвертый раздел -->
+<h2><strong><a name="04" id="04"></a></strong>4. Сервисы WMS/WFS</h2>
+<p>Адрес сервиса выглядит так:</p>
+<pre>http://localhost/suas/files/atlas/2/wms.php</pre>
+<p>Число после слова atlas может меняться, поэтому с упоминавшейся страницы "Demo" перейдите в раздел "GetCapabilities" и посмотрите результат.</p>
+<p>Подключить WMS в QGIS у автора не получилось (сервер возвращает ошибку "Version number has not been given. The supported version number is VERSION = 1.1.1"). В OpenLayers слой Layer.WMS подключается успешно.</p>
+
+<!-- Пятый раздел -->
+<h2><strong><a name="05" id="05"></a>5. Эпилог</strong></h2>
+<p>Автору не приходилось эксплуатировать сервер в производстве, поэтому просто выражу свое впечатление от знакомства с SUAS. С одной стороны, не достает таких взрослых возможностей как подключение к базам данных, ощущение некоторой незаконченности и неотлаженности (что, конечно, простительно для beta-версии). С другой - сервер расчитан на пользователей без специальных знаний и на нем действительно можно реализовать интересные социальные проекты. Здесь, пожалуй, очень подошла бы функции редактирования данных.</p>
+
+<p>Особенностью SUAS является реализация <a href="http://www.easywms.com/easywms/?q=en/show-us-map-45-minutes-build-your-own-3d-city-map-server-suas-mapserver3" target="_blank" class="external">псевдо 3D</a>, очень редкая (если не единственная) среди открытых проектов:</p>
+
+<div align="center"><a href="/images/suasoverview-02b.png" onClick="NewWindow(this.href,'mm','580','450','yes');return false;"><IMG height=256 alt="Щелкните для получения увеличенного изображения" src="/images/suasoverview-02.png" width=335 border=0></a>
+
+</div>
+<p>Несколько расстраивает медленное развитие проекта. Работа над проектом возобновилась последние 3 месяца после более чем годового затишья.</p>
+
+<span>
+    <!--#include virtual="/scripts/forum-comments-num.php?i=3755"-->
+</span>
+<div class="links">
+				<h2>Ссылки по теме</h2>
+					<ul>
+						<li><a href="arcims.html">Создание картографических сервисов с использованием ArcIMS. Введение</a></li>
+						<li><a href="mapserver.html">Создание картографических сервисов с использованием MapServer. Введение</a></li>
+						<li><a href="mapserver-begin.html">Начало работы с MapServer</a></li>
+						<li><a href="geoserver-begin.html">Начало работы с GeoServer</a></li>
+					  </ul>
+			</div>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<p class="status"><span>Дата создания: 23.08.2009
+<br>Автор(ы): <a href="/forum/memberlist.php?mode=viewprofile&u=6850" target="_blank">Mavka</a></span></p>
+<!--#include virtual="/inc/footer2.php" -->

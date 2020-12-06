@@ -1,0 +1,87 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Импорт и обработка данных пассивного радиометра AMSR-E</title>
+<!--#include virtual="/inc/header2.txt" -->
+<!--Contents start-->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Вопросы и ответы</a></li>
+</ul>
+<h1>Импорт и обработка данных пассивного радиометра AMSR-E</h1>
+<p class="ann">Еще один пример импорта данных влажности почв из формата HDR в пригодный для использования в ГИС формат.</p>
+<p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=1640"--></span></p>
+<p>Данные пассивного радиометра Advanced Microwave Scanning Radiometer (<a href="/projects/ss/sensor/amsre.html">AMSR-E</a>) базирующегося на спутнике <a href="/projects/ss/sat/aqua.html">Aqua</a> распространяются в формате HDR, имеют систему координат EASE-GRID и широко используются для расчета влажности почв. В данной статье будет рассмотрен импорт этих данных в ArcGIS для дальнейшей обработки. Общая схема импорта изложена в <a href="hdfimport-sa.html">предыдущих статьях</a>, однако в эту схему для успешного импорта данных AMSR-E необходимо внести некоторые изменения.</p>
+            <p>Пассивной радиометр измеряет отраженное излучение земной поверхности в микроволновой области электромагнитного спектра, интенсивность которого характеризуется температурной яркостью (temperature brightness, TB), называемой также радиояркость (radio brightness). Для расчета влажности почв, кроме температурной яркости используется также диэлектрическая постоянная и температура поверхности почвы.  Оптимальным диапазоном исследования влажности почвы является диапазон 1–10 ГГц. AMSR-E имеет канал на частоте 6.9 ГГц с грубым пространственным разрешением (около 50 км). Такое разрешение дает общую картину пространственного распределения влажности почвы, но не позволяет вести мониторинг этого показателя на относительно небольших территориях.</p>
+            <p>Для импорта данных понадобится следующее ПО:</p>
+            <ul>
+              <li>HDF2Bin – утилита, предназначенная для конвертирования растров, содержащихся в HDF файле в простой бинарный растр (<a href="/qa/hdfimport.html">подробнее</a>);</li>
+              <li>ArcGIS любой версии;</li>
+              <li>Файл описания проекции EASE-GRID.</li>
+            </ul>
+            <p><img src="/images/1.gif" alt="1" width="33" height="41" align="left" /><strong>Получение данных </strong></p>
+            <p>Спутниковые данные радиометра AMSR-E могут быть получены из одного из <a href="http://www.nsidc.colorado.edu/data/amsre/order_data.html" target="_blank" class="external">5 источников</a>, например системы заказа данных <a href="https://wist.echo.nasa.gov/" target="_blank" class="external">WIST</a>. Продукт AMSR-E/Aqua Daily L3 Surface Soil Moisture имеет интерполированное пространственное разрешение пиксела 25 км (в оригинале 50 км) и периодичность равную суткам.</p>
+            <p><img src="/images/2.gif" alt="2" width="33" height="41" align="left" /><strong>Импорт данных </strong></p>
+            <p>Преобразуем файл HDF в бинарные DAT-файлы с помощью утилиты HDF2BIN (<a href="/qa/hdfimport-sa.html#2">подробнее о процедуре импорта</a>). Необходимый файл будет  иметь название GRID_Descending_Land_Grid_D_Soil_Moisture.bil или GRID_Ascending_Land_Grid_D_Soil_Moisture.bil. Командная строка может выглядеть следующим образом:</p>
+            <pre>hdf2bin-win2000.exe GRID_Ascending_Land_Grid_D_Soil_Moisture.bil  &gt;param.txt</pre>
+            <p><img src="/images/3.gif" alt="3" width="33" height="41" align="left" /><strong>Создание сопутствующих файлов и добавление проекции</strong></p>
+            <p>Создаем пустой файл с названием идентичным растровому файлу, полученному на предыдущем этапе, назначаем новому файлу расширение *.HDR (<a href="/qa/hdfimport-sa.html#3">подробнее с создании WORLD-файлов</a>). Для данных AMSR L2B Surface Soil Moisture файл привязки должен выглядеть примерно таким образом: </p>
+            <pre>BYTEORDER I
+LAYOUT BSQ
+NROWS 586
+NCOLS 1383
+NBANDS 1
+NBITS 16
+ulxmap  -17321659.7750
+ulymap  7332251.0625
+xdim 25067.525
+ydim 25067.525</pre>
+            <p>Эта информация зависит от типа импортируемого продукта и может быть получена из технической документации к снимку.  Для корректного отображения снимка в ArcMap необходимо добавить прописать проекцию растру. Для этого нужно скачать <a href="/other/ease-grid.zip">файл  проекции Ease-Grid</a> и в ArcCatalog устанавить эту проекцию растру с влажностью почвы (выделяем растровый файл – Properties – Spatial Reference – Edit – Select и выбираем файл с нужной проекцией) (<a href="/qa/addprjag.html">подробнее</a>). </p>
+            <p align="center"><img src="/images/amsre-import-01.gif" alt="назначение проекции растру" width="492" height="431" /> </p>
+            <p><img src="/images/3.gif" alt="3" width="33" height="41" align="left" /><strong>	Обработка данных в ArcGIS</strong></p>
+            <p>Запускаем ArcMap и добавляем в проект файл BIL.</p>
+            <p align="center"><span><img src="/images/amsre-import-02.gif" alt="назначение проекции растру" width="500" height="183" /></span></p>
+            <p>Обработка  снимков в ArcMap включает три этапа: </p>
+            <ol>
+              <li>Преобразование числового формата данных в формат, распознаваемый ArcMap (unsign  16 bit – sign 16 bit).</li>
+              <li>Маскирование пикселов, не несущих смысловую  нагрузку (водная поверхность, бракованные пикселы, облака и др.)</li>
+              <li>Расчет значения пиксела с помощью коэффициента  масштабирования (Scale Factor).</li>
+            </ol>
+            <p>Все эти операции выполняются с  использованием инструмента Raster Calculator модуля Spatial Analyst.  </p>
+            <p>              Для перевода числового формата из unsign 16 bit в sign 16 bit (%current% – растр с которым производится операция):</p>
+            <pre>con(%current% &gt;= 32768, %current% - 65536, %current%)</pre>
+            <p>Для удаления пикселов, не несущих смысловую нагрузку (%current% – растр с которым производится операция, N – значение пиксела). В качестве таких пикселов на приведенном снимке выступают значения 9999 - вода, 55537 - отсутствующие данные:</p>
+            <pre>setnull(%current% = N, %current%)</pre>
+            <p>Оригинальные значения влажности почвы получены находятся в форме, требующей изменения значений пикселей. Для расчета «нормальных» значений пиксела этих показателей нужно использовать коэффициент масштабирования. Его значение указывается в <a href="http://nsidc.org/data/docs/daac/ae_land_l2b_soil_moisture.gd.html">технической документации</a> к снимку (AMSR-E/Aqua L2B Surface Soil Moisture), расчет производится по формуле:</p>
+            <p align="center">SM<sub>R</sub> = SM<sub>I</sub> / 1000</p>
+            <p>где SM<sub>R</sub> – результат пересчета, SM<sub>I</sub> – исходные значения.</p>
+            <p>В результате полученного пересчета полученная шкала значений будет соответствует значениям из технической документации снимка (оригинальные 0-500, преобразованные – 0-0,5). </p>
+            <p align="center"><img src="/images/amsre-import-03.gif" alt="назначение проекции растру" width="500" height="187" /> </p>
+            <p><img src="/images/4.gif" alt="3" width="33" height="41" align="left" /><strong> Автоматизация обработки </strong></p>
+            <p>Для облегчения обработки большого количества снимков создан блок инструментов Soil Moisture (<a href="/other/soil-moisture-model.zip">скачать</a>) для ArcToolbox. Модель выполняет пересчисленные выше шаги. Все операции выполняются в папке C:\TEMP. При не соответствии значений пикселов NODATA необходимо отредактировать модель.</p>
+            <table width="60%" border="0" align="center">
+              <tr>
+                <td><span><img src="/images/amsre-import-05.gif" alt="назначение проекции растру" width="174" height="96" /></span></td>
+                <td width="100">&nbsp;</td>
+                <td>&nbsp;</td>
+              </tr>
+            </table>
+            <span><img src="/images/amsre-import-04.gif" alt="назначение проекции растру" width="300" height="206" /></span>
+            <p class="discuss">
+				<span><!--#include virtual="/scripts/forum-comments-num.php?i=1640"--></span>
+			</p>
+			<div class="links">
+			<h2>Ссылки по теме</h2>
+			<ul>
+               <li><a href="hdfimport-sa.html">Импорт и обработка данных в формате HDF - пример</a></li>
+			   <li><a href="/projects/ss/sensor/amsre.html">Технические характеристики камеры AMSR-E</a></li>
+               <li><a href="http://www.nsidc.colorado.edu/data/amsre/" target="_blank" class="external">Aqua/AMSR-E Data at National Snow and Ice Data Center</a></li>
+			</ul>
+			</div>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<p class="status"><span>Дата создания: 27.07.2007
+<br>
+Автор(ы): Евгений Киселев</span></p>
+<!--#include virtual="/inc/footer2.php" -->

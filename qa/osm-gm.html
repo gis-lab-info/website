@@ -1,0 +1,62 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Синхронизация Google Maps и OpenStreetMaps</title>
+<!--#include virtual="/inc/header2.txt" -->
+	  <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAAcxaLeNvSZAM8_X6SDd1_fhQGhS5yCmtMNZMUBKgpbJFW2uH_cRTXeqK2vtaYYO0RO5wSqEbfPoLmDw" type="text/javascript"></script>
+	  <script type="text/javascript" src="/scripts/mapstraction.js"></script>
+<!--Contents start-->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Вопросы и ответы</a></li>
+</ul>
+<h1>Синхронизация Google Maps и OpenStreetMaps  </h1>
+            <p class="ann">proof-of-concept</p>
+            <p>Этот пример показывает возможность синхронизации визуализации данных из двух различных источников. Одна из целей данного инструмента - проверка полноты OpenStreetMaps и лучшее планирование работ по его обновлению - добавлениям. Дополнительных инструментов (шкалы масштаба и т.д.) пока нет, будет добавляться по необходимости/заявкам. Для работы с примером надо использовать панорамирование, зумирование карты Google Maps (слева), карта OpenStreetMap должна соотвествующим образом панорамироваться, масштабироваться автоматически.</p>
+            <p>Работоспособность проверена в браузере Mozilla Firefox 2.0.14. Детали по реализации в отдельной статье. </p>
+            <table><tr>
+      			<td><div id="gmap" style="height:500px; width:500px"></div></td>
+      			<td><div id="osmap" style="height:500px; width:500px"></div></td>
+    		</tr></table>
+			<script type="text/javascript">
+      var gmapstraction = new Mapstraction('gmap','google');
+
+      var osmapstraction = new Mapstraction('osmap','openstreetmap');
+      var myPoint = new LatLonPoint(55.756486,37.617188);
+      gmapstraction.setCenterAndZoom(myPoint, 12);
+	  osmapstraction.setCenterAndZoom(myPoint,12);
+
+      // synchronise center of gmap and mmap with ymap
+      var ycsync = function() {
+        var center = gmapstraction.getCenter();
+	    osmapstraction.setCenter(center);
+	    center = undefined;
+      };
+      // synchronise zoom of gmap and mmap with ymap
+      var yzsync = function() {
+        var zoom = gmapstraction.getZoom();
+	    osmapstraction.setZoom(zoom);
+	    zoom = undefined;
+      };
+
+      var gmap = gmapstraction.getMap();
+	  gmap.addControl(new GSmallZoomControl());
+      GEvent.addListener(gmap, "dragend", ycsync);
+      GEvent.addListener(gmap, "moveend", ycsync);
+      GEvent.addListener(gmap, "endAutoPan", ycsync);
+      GEvent.addListener(gmap, "zoomend", yzsync);
+    </script>
+            <p class="discuss">
+				<span><!--#include virtual="/scripts/forum-comments-num.php?i=852"--></span>
+			</p>
+			<div class="links">
+			<h2>Ссылки по теме</h2>
+			<ul>
+               <li><a href="modislandprod.html">Ссылка на дополнительный источник информации внутренняя</a></li>
+               <li><a href="http://lpdaac.usgs.gov/landdaac/tools/modis/about.asp" target="_blank" class="external">Ссылка на дополнительный источник информации внешняя</a></li>
+			</ul>
+			</div>
+            <!--#include virtual="/scripts/date.php" -->
+<!--Contents end-->
+<!--#include virtual="/inc/footer2.php" -->

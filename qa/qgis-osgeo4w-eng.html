@@ -1,0 +1,59 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Installing QGIS/GRASS with OSGeo4W</title>
+<!--#include virtual="/inc/header2-eng.txt" -->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/index-eng.html">Home</a></li>
+   <li><a href="/qa-eng.html">Articles</a></li>
+</ul>
+<!--Contents start-->
+<h1>Installing QGIS/GRASS with OSGeo4W</h1>
+<p class="ann">Program installation </p>
+<p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=3009"--></span></p>
+            <p>One of the ways to start working with open desktop GIS software, like QGIS and GRASS under Windows is to install them with OSGeo4W.</p>
+            <p>OSGeo4W is a  installer program, specially designed to manage geospatial software packages, that often have multiple dependencies (dependent software packages). Besides QGIS you can also install GDAL/OGR,  MapServer and many other programs (more than 70 packages total). </p>
+            <h2>Get and run OSGeo4W</h2>
+            <p>Download <a href="http://download.osgeo.org/osgeo4w/osgeo4w-setup.exe" target="_blank" class="external">last OSGeo4W Installer </a>to start working with it.</p>
+	        <p>You don't need to install
+	      <!-- Второй раздел -->
+	      OSGeo4W Installer,  just run osgeo4w-setup.exe. Select <em>Advanced Install </em>and hit Next in the new window.</p>
+	        <p align="center"><img src="/images/qgis-osgeo4w-install-02.gif" width="505" height="388"></p>
+	    <p>On the next page, select installation method. You choose between:</p>
+	    <ul>
+	      <li>Install from Internet - download and install software from internet. Downloaded packages will be also kept for future use.</li>
+	      <li>Download without installing - download packages, but don't install them (useful for creating offline installers). </li>
+	      <li>Install from Local Directory - use pre-downloaded packages for installation. </li>
+	    </ul>
+	    <p align="center"><img src="/images/qgis-osgeo4w-install-03.gif" width="505" height="388"></p>
+	    <p>Let's choose <em> Install from Internet </em>and hit <em>Next</em>. On the next window, select where OSGeo4W suite will be installed and all the components, we recommend to install everything in C:\OSGeo4W.</p>
+	    <p align="center"><img src="/images/qgis-osgeo4w-install-04.gif" width="505" height="388"> </p>
+	    <p>Then you will be asked to select a folder, where downloaded packages will be stored. It is wise to keep packages in the same folder with OSGeo4W itself, so let's choose something like: C:\OSGeo4W\downloads. There may be no such existing folder so type in the name manually. </p>
+	    <p align="center"><img src="/images/qgis-osgeo4w-install-05.gif" width="505" height="388"></p>
+	    <p>Hit <em>Next </em>and choose the mean to connect to internet, with the default being <em>Direct Connection</em>. If you're behind proxy here you can set its parameters.</p>
+	    <p align="center"><img src="/images/qgis-osgeo4w-install-06.gif" width="505" height="388"></p>
+	    <h2>Choose and install packages</h2>
+	    <p>After hiting <em>Next </em>the list of available packages will be downloaded that also contains information about their dependencies. This information is stored in setup.ini file, which is stored in compressed form here: http://download.osgeo.org/osgeo4w/setup.ini.bz2</p>
+	    <p align="center"><img src="/images/qgis-osgeo4w-install-07.gif" width="505" height="388"></p>
+	    <p>After the list is loaded, the installer will go into package installation mode. The packages are chosen using Cygwin-like tree of packages and a selection of one of the packages may automatically turn on some others that are needed for the selected one to work. </p>
+	    <p align="center"><img src="/images/qgis-osgeo4w-install-08.gif" width="505" height="388"></p>
+	    <p>To install a specific package, find it in the tree and hit a circular arrow until &quot;Skip&quot; is changed to package name. For example: </p>
+	    <p align="center"><img src="/images/qgis-osgeo4w-install-09.gif" width="505" height="388"></p>
+	    <p>To create a full QGIS/GRASS installation, select the following components (versions might be different  on illustration). Note that some other packages will automatically switch on, don't switch them off: </p>
+	    <p>Desktop: qgis, qgis-dev (updated daily, nightly builds),  grass.</p>
+	    <p>Hit <em>Next</em>.</p>
+	    <p>OSGeo4W will automatically download and install all selected and dependent packages (which will be much more then we've selected). </p>
+	    <p align="center"><img src="/images/qgis-osgeo4w-install-10.gif" width="505" height="388"></p>
+	    <p>After installation, you will be asked to create shortcuts on desktop and Windows Start menu.  </p>
+	    <p align="center"><img src="/images/qgis-osgeo4w-install-11.gif" width="505" height="388">  </p>
+	    <p>You can go to Programs\OSGeo4W\QGIS or GRASS to run each of them or you can run OSGeo4W Shell and type in &quot;qgis&quot;.</p>
+	    <p>In the future, when using some extension plugins, you may need to install additional packages, for example  matplotlib package will be needed to run <a href="/qa/statist-eng.html">Statist</a> or you may also need periodically update existing ones. To do that, you will need to run OSGeo4W Installer again and select additional packages, which were not selected first time (i.e. matplotlib), all others will automatically be updated as new versions will become available. </p>
+	    <p class="discuss">
+		   <span><!--#include virtual="/scripts/forum-comments-num.php?i=3009"--></span>
+		</p>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<p class="status"><span>Дата создания: 13.04.2009
+<br>Автор(ы): <a href="/forum/memberlist.php?mode=viewprofile&u=2" target="_blank">Максим Дубинин</a></span></p>
+<!--#include virtual="/inc/footer2.php" -->

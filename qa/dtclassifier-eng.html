@@ -1,0 +1,347 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Raster classification with DTclassifier for QGIS</title>
+<!--#include virtual="/inc/header2-eng.txt" -->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Home</a></li>
+   <li><a href="/qa.html">Articles</a></li>
+</ul>
+<!--Contents start-->
+<h1>Raster classification with DTclassifier for QGIS</h1>
+<p class="ann">Description and usage examples for new raster classification
+and change detection tool.</p>
+<p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=8172"--></span></p>
+
+<p>Supervised thematic raster classification is a fairly common task.
+Typically there are set of input rasters and set of training data,
+defining the target and all the rest (background) classes.
+After these data are gathered, we can use different techniques to
+build a classification: parametric and nonparametric. The first group
+assumes certain statistical distribution of the training data
+(e.g., normal), the second group don't make any of these assumptions
+and  therefore is more flexible and less restrictive. There are several
+articles on this site describing the non-parametric classification of
+raster data using the <a href="/qa/classify-trees-r.html">decision tree in R</a>
+and <a href="/qa/imagesvm.html">support vector machines method in imageSVM</a>.
+In addition to proprietary solutions, there are opensource software, such
+OTB and GRASS which can be used to solve classification problems, however
+their toolbox of classification algorithms is limited and non-parametric
+methods are not well covered.</p>
+<p>In most cases, classification requires using several applications and
+not well integrated with the GIS software, as there are no convenient
+tools for preparation and editing of training data sets, which as a
+result complicates process for average users.</p>
+<p>DTclassifier (Decision Tree classifier) is a C++ plugin for QGIS, which
+provides simple streamlined interface and allows to perform all operations
+within QGIS. The plugin uses particular classification algorithm from
+well-known computer vision library <a href="http://opencv.willowgarage.com/" target="_blank" class="external">OpenCV</a>,
+namely <a href="http://www.basegroup.ru/library/analysis/tree/description/" target="_blank" class="external">decision trees</a>.</p>
+<p>This development is part of the project to facilitate monitoring of FSC
+(Forest Stewardship Council) certified forestry enterprises in Russia.</p>
+
+<div style="text-align:center;margin:10px 0;"><a href="http://nextgis.ru" target="_blank"><img height="33" width="100" alt="Комания NextGIS: Создание открытого ПО ГИС и реализация проектов" src="http://nextgis.ru/img/nextgis.png" style="margin: 0pt 7px 0pt 0pt; vertical-align: middle;"></a><strong style="font: bold 11px Arial;">Open source geospatial solutions </strong></div>
+
+<p><strong>Contents</strong></p>
+<ol>
+  <li><a href="#01">Installation notes</a></li>
+  <li><a href="#02">How does it work</a></li>
+  <li><a href="#03">Example: classification </a></li>
+  <li><a href="#04">Example: change detection</a></li>
+  <li><a href="#05">Conclusion</a></li>
+  <li><a href="#06">Contacts</a></li>
+</ol>
+
+<h2><strong><a name="01" id="01"></a></strong>1. Installation notes</h2>
+<p>The plugin and ready to run binary files for Windows
+are available.</p>
+<h3><strong>Binary files</strong></h3>
+<p>To work with plugin under Windows you need:</p>
+<ol>
+  <li>download and install QGIS 1.8 or higher (<a href="/qa/qgis-osgeo4w.html">read more</a>)</li>
+  <li><a href="http://svn.gis-lab.info/dtclassifier/trunk/bin/DTclassifier.7z">download</a>
+  the archieve with plugin and necessary libraries</li>
+  <li>(optionaly) check md5 sum:
+  <pre>e4a260a271e7aa292f8d142eb481e6dc DTclassifier.7z</pre></li>
+  <li>extract archive into QGIS plugins directory (usually
+  C:\OSGeo4W\apps\qgis-dev\plugins)</li>
+</ol>
+<p> Linux binaries are also available (compiled under 32-bit Slackware 13.1 using
+OpenCV 2.2.0 and QGIS 1.8 (05d2cd9) ). To work with plugin under Linux
+you need:</p>
+<ol>
+  <li>download and install QGIS 1.8 or higher.If packages for your distribution
+  are not available&nbsp;&mdash; you need to compile QGIS from source</li>
+  <li><a href="http://svn.gis-lab.info/dtclassifier/trunk/bin/dtclassifier-linux.tar.bz2">download</a>
+  the archieve with plugin</li>
+  <li>(optionaly) check md5 sum:
+  <pre>49f3b8818283c9a864ffa6ec6e8fa03d  dtclassifer-linux.tar.bz2</pre></li>
+  <li>extract archive into QGIS plugins directory (usually
+  /usr/lib/qgis/pl  ugins)</li>
+</ol>
+<p>After installing you should run QGIS and enable the DTclassifier in
+Plugin Manager (&laquo;Modules&nbsp;&rarr; Manage plugins&raquo;).</p>
+<h3><strong>Source code</strong></h3>
+<p>You can obtain sources (GNU GPL v2) from our SVN:</p>
+<pre>svn co http://svn.gis-lab.info/dtclassifier/trunk dtclassifier</pre>
+<p>You can also download <a href="/data/samples/dtclassifier-demo.7z">sample data</a>
+used in this article.</p>
+
+<h2><strong><a name="02" id="02"></a></strong>2. How does it work</h2>
+<p>After plugin is installed and started by clicking
+<img src="/images/dtclassifier-01.png" alt="Plugin button" width="22" height="22"></img>
+the main window will appear..</p>
+
+<p align="center"><img src="/images/dtclassifier-02.png" alt="Main plugin window" width="381" height="664"></img></p>
+
+<h3>Selecting trainig datasets</h3>
+<p>You can select layers containing training data using comboboxes &laquo;Feature presence layer&raquo; and
+&laquo;Feature absence layer&raquo;. These layers  should contain spatial
+information on target object or phenomenon (presence) and all other areas
+(absence). These layers should be created in advance, before
+classification. You can create them directly in QGIS using all it's tools
+with vector and raster processing. You can learn more about creating and
+editing vector data in <a href="/docs/qgis">QGIS User Guide</a>.</p>
+<p>Plugin supports all basic geometry types (points, lines, polygons) in
+training datasets.  &laquo;+&raquo; button after each combobox allows
+to select several layers at once and the geometry of these layers can be
+different.</p>
+
+<p align="center"><img src="/images/dtclassifier-03.png" alt="Selecting training data" width="262" height="300"></img></p>
+
+<p>Combobox works only if single training layer is used. If you select several
+layers, combobox becomes inactive and you need to press &laquo;+&raquo;
+again to return to single layer mode.</p>
+<p>During the process all training layers are merged into single point shapefile. Point
+layers will be saved &laquo;as is&raquo;, and polyline and polygon objects
+will be converted into points, to obtain points in each pixel inside polygon
+or at line.</p>
+<p>Example for polygon geometry:</p>
+
+<p align="center"><img src="/images/dtclassifier-04.png" alt="Polygon to points conversion" width="339" height="403"></img></p>
+
+<p>To find which points are falling on the line we use the next algorithm.
+Create buffer with 1/2 pixel width around a line; create point in the
+center of each pixel that fall into buffer, than select points that
+completely within the buffer zone.</p>
+<p>Example for polyline geometry:</p>
+
+<p align="center"><img src="/images/dtclassifier-05.png" alt="Polyline to points conversion" width="405" height="400"></img></p>
+
+<p><strong>IMPORTANT!</strong> Proper training data&nbsp;&mdash; the key
+to success. You should be as careful as possible when selecting training layers. If
+the same layer is selected as both presence and absense, the classification result will
+be incorrect.</p>
+
+<h3>Selecting data to classify</h3>
+<p>In field &laquo;Raster(s) to classify&raquo; you can select raster that
+you want to classify. Multiple selection with Shift and Ctrl is supported,
+this may be used for change detection, when rasters &laquo;before&raquo;
+and &laquo;after&raquo; are processed. When multiple rasters are selected, the
+training data will be collected from each image.</p>
+<p><strong>IMPORTANT!</strong> If multiple rasters are selected make sure that
+drive where temporary folder is located has enough free space (free space
+size should be approximately equal to the double rasters size).</p>
+<p>Use the &laquo;Output raster&raquo; filed to specify where to save
+classification result.</p>
+
+<h3>Additional settings</h3>
+<p>If you set the flag &laquo;Add result to map canvas&raquo; then
+classification result will be loaded into QGIS. Setting up the flag
+&laquo;Save point layer to disk&raquo; will force plugin to save
+training data into a point shapefile near to the output file. For each
+point in the file plugin pixel values and class are recorded. This data
+can be used to build the model and perform the classification with other
+software.</p>
+<p>&laquo;Settings&raquo; group allows to customize classification process.
+Here you can select desired method: single decision tree
+(&laquo;Use decision tree&raquo;) or <a href="http://ru.wikipedia.org/wiki/Random_forest" target="_blank" class="external">random
+forest</a> (&laquo;Use random forest&raquo;). Usually classification with
+random forest gives more accurate results. If single tree classification is
+selected, checkbox &laquo;Output values are discrete class labels&raquo;
+will be enabled. When checkbox checked, input train data will be interpreted
+as a set of discrete values ​​(labels). If checkbox unchecked, then the input
+data will be treated as continuous values.</p>
+<p>You can also activate the &laquo;smoothing&raquo; of classification
+results with a custom kernel size (&laquo;Generalize result
+using kernel size&raquo;). When this option is activated, plugin creates two
+output rasters: a classified and smoothed (the name contains the suffix
+&laquo;_smooth&raquo;).</p>
+
+<p>In addition to the classification results plugin saves tree used in
+the classification (in YAML format, the filename is formed from the name
+of the output file and the suffix &laquo;_tree&raquo;).</p>
+
+<p>After pressing &laquo;Ok&raquo; button the extraction of training data begins, followed by
+training of the classifier and classification itself. Progress in
+the classification is displayed using two progressbars: the upper shows
+the progress of current operation and the bottom&nbsp;&mdash; overall
+progress.</p>
+
+<h2><strong><a name="03" id="03"></a></strong>3. Example: classification </h2>
+<p>In this example we will learn how DTclassifier can be used to solve one of the
+tasks of monitoring of forestry activities: detection of clearcuts using a single image.</p>
+<p>Thematic classification process has several steps:</p>
+<ul>
+  <li>remote sensing data acquisition and preparation</li>
+  <li>collecting training data</li>
+  <li>create model on training data</li>
+  <li>apply model to the raster data and get results</li>
+</ul>
+<h3>Remote sensing data acquisition and preparation </h3>
+<p>First of all it is necessary to find and georeference rasters which
+we want to classify. Usually these are satellite imagery (e.g. Landsat),
+where we can find our targets. If you don't know where to obtain remote sensing data, we
+recommend that you read several articles describing the
+<a href="/qa/landsat-glovis.html">Landsat obtaining process</a> via Glovis
+service and their <a href="/qa/qgis-landsat-merge.html">further processing</a>
+(i.e., merging of the individual bands into a single file).</p>
+<p>If you want to reproduce the example, download <a href="/data/samples/dtclassifier-demo.7z">this dataset</a>
+with samples.</p>
+<p>To demonstrate clearcuts detection we use raster after.tif with band combination
+5-4-3, to make easier visualy detect clearcuts (pink on the screenshot).</p>
+
+<p align="center"><img src="/images/dtclassifier-06.png" alt="Input raster" width="638" height="610"></img></p>
+
+<h3><strong>Collecting training data</strong>
+</h3>
+<p>To construct a decision tree it is necessary to prepare training data
+(so-called &laquo;supervised learning&raquo;) that contains objects of
+two classes: presence and absence of clearcuts.</p>
+<p>We will need at least two vector layers: one that shows samples of clearcuts, and
+the second&nbsp;&mdash; with places where there is none. So, we
+can create a two point layers and put dots in the right places (blue dots
+in the figure correspond to the clearcuts, green&nbsp;&mdash; no clearcuts).</p>
+
+<p align="center"><img src="/images/dtclassifier-07.png" alt="Trainig data (points)" width="335" height="351"></img></p>
+
+<p>This method is not very convinient, as a result of classification depends
+on the amount of training data (more data, more accurate results) and
+selecting clearcuts using points is tedious. Therefore,
+it is better to create polygon layers and to digitize a few clearcuts, and
+do the same with the areas where there are none (blue color
+corresponds to clearcuts, green&nbsp;&mdash; no clearcuts).</p>
+
+<p align="center"><img src="/images/dtclassifier-08.png" alt="Training data (polygons)" width="241" height="397"></img></p>
+
+<p>Plugins supports all types of geometries (points, lines, polygons), so
+we can use multiple layers simultaneously. Load the layers with clearcuts
+presence-poly.shp, presence-poi.shp (polygons and points, respectively)
+and layers with background &nbsp;&mdash; absence-poly.shp,
+absence-poi.shp.</p>
+
+<p>If checkbox &laquo;Save point layer to disk&raquo; is checked, a point
+layer created from the initial training layers will be saved for future
+use. For example, after saving an attribute table in the CSV format, you
+can perform a classification of the input raster with R (<a href="/qa/classify-trees-r.html">read more</a>),
+and then compare the results.</p>
+<p>Creation of a point layer and extraction of the raster pixel values
+​will be performed in automatic mode, after the start of the classification
+process.</p>
+
+<h3><strong>Classification</strong>
+</h3>
+<p>When training layers are created and the source raster layers are loaded we can proceed
+with analysis. Using &laquo;+&raquo; button near each combobox, specify
+the training data (presence of clearcuts &nbsp;&mdash; presence layer;
+background &nbsp;&mdash; absence layer), in the raster list select after.tif,
+and finally specify the path where to save the results.</p>
+<p>Because the raster pixel values ​​are continuous values, the
+&laquo;Output values are discrete class labels&raquo; checkbox do not need
+to be activated. But it is recommended to enable smoothing (&laquo;Generalize
+result using kernel size&raquo;): this will remove remove &laquo;noise&raquo;
+and make the result clearer. The default kernel size (3) in most cases
+is sufficient.</p>
+<p>Start a classification by clicking on &laquo;OK&raquo; button. After
+a short wait we get two new rasters.</p>
+<p>A fragment of classified raster:</p>
+
+<p align="center"><img src="/images/dtclassifier-09.png" alt="Classification result" width="555" height="408"></img></p>
+
+<p>It is evident that many individual pixels were classified as clearcuts,
+though in fact they do not belong to them. To eliminate this &laquo;noise&raquo;
+can use smoothing. Below you can see the same fragment of the output image,
+but after smoothing:</p>
+
+<p align="center"><img src="/images/dtclassifier-10.png" alt="Classification result after smoothing" width="555" height="408"></img></p>
+
+<p>Here we can see that output is  clearer and clearcuts boundaries
+becomes more precise.</p>
+
+<h2><strong><a name="04" id="04"></a></strong>4. Example: change detection</h2>
+<p>Another problem, which can be solved with a DTclassifier is change
+detection. The essence of this analysis is that we have the series of
+rasters (in the simplest case&nbsp;&mdash; a pair) before and after an
+event. Using them we look for the changed areas.</p>
+<p>The main steps in this case are the same as in thematic classification,
+so we will no list them again, but will demostrate how to performed
+change detection with DTclassifier. As input data we will use same
+<a href="/data/samples/dtclassifier-demo.7z">sample dataset</a> as in previous
+example.</p>
+<p>First, create new empty project in QGIS and load both rasters: before.tif
+and after.tif. As the name implies, image before.tif is taken before event
+(in our case&nbsp;&mdash; forest clearcutting), and raster after.tif&nbsp;&mdash;
+after this event. So we can detect clearcuts appeared in the interval between
+shots &laquo;before&raquo; and &laquo;after&raquo;.</p>
+<p>Collecting of training data is slightly different from the previous
+example. In case of thematic classification we select data using feature
+presense / feature absence criteria, but now the data are selected using
+two raster images. In the changes layer (presence) we digitize areas in
+which feature is present in the raster &nbsp;after&mdash;, but not in
+the raster &laquo;before&raquo;.</p>
+
+<p align="center"><img src="/images/dtclassifier-11.png" alt="Train data on the before raster" width="242" height="401"></img>&nbsp;<img src="/images/dtclassifier-08.png" alt="Train data on the after raster" width="241" height="397"></img></p>
+
+<p>Absence layers are dizitized as in the previous example from the areas
+where there are no cuttings on both images.</p>
+<p>In this example we will use as training data only polygon layers
+presence-poly.shp and absence-poly.shp. As usual you can use multiple
+layers if necessary.</p>
+<p>Now open DTclassifier, in comboboxes &laquo;Feature presence layer&raquo;
+and &laquo;Feature absence layer&raquo; select presence and absence layers
+respectively. In the input rasters list using SHIFT to select both rasters
+before and after, also select path to output raster. Classification settings
+can be left unchanged. Press &laquo;OK&raquo; to run analysis and wait for it to finish.</p>
+<p>Here is fragment of the raster before clearcuts happened:</p>
+
+<p align="center"><img src="/images/dtclassifier-12.png" alt="Before cutting" width="555" height="406"></img></p>
+
+<p>Same fragment after:</p>
+
+<p align="center"><img src="/images/dtclassifier-13.png" alt="After cutting" width="555" height="406"></img></p>
+
+<p>Analysis result overlayed on the before raster:</p>
+
+<p align="center"><img src="/images/dtclassifier-14.png" alt="Before cutting + analysis result" width="555" height="406"></img></p>
+
+<h2><strong><a name="05" id="05"></a></strong>5. Conclusion</h2>
+<p>DTClassifier is a simple to use plugin that implements advanced method
+for raster classification and change detection. Integration with QGIS
+allows you perform all operations including training data collection,
+tree-building and classification. Use of computer vision library OpenCV
+ensures high performance.</p>
+
+<h2><strong><a name="06" id="06"></a></strong>6. Contacts</h2>
+<p>If you want report a bug, make suggestion or have a question about
+the plugin, please <a href="http://www.nextgis.ru/contact/">contact us</a>.</p>
+<div style="text-align:center;margin:10px 0;"><a href="http://nextgis.ru" target="_blank"><img height="33" width="100" alt="Компания NextGIS: Создание открытого ПО ГИС и реализация проектов" src="http://nextgis.ru/img/nextgis.png" style="margin: 0pt 7px 0pt 0pt; vertical-align: middle;"></a><strong style="font: bold 11px Arial;">Open source geospatial solutions</strong></div>
+
+<!-- обсуждение на форуме, цифра изменяется при публикации статьи -->
+<p class="discuss"><span><!--#include virtual="/scripts/forum-comments-num.php?i=8172"--></span></p>
+
+<div class="links">
+<h2>Links</h2>
+<ul>
+   <li><a href="http://opencv.willowgarage.com/" target="_blank" class="external">OpenCV Wiki</a></li>
+   <li><a href="/qa/classify-trees-r.html">Классификация растровых данных с помощью деревьев решений в R</a></li>
+   <li><a href="/qa/imagesvm.html">Классификация данных ДЗЗ используя метод опорных векторов и imageSVM</a></li>
+   <li><a href="/qa/burnedarea-opencv.html">Распознавание сгоревших территорий с помощью деревьев решений и OpenCV</a></li>
+</ul>
+</div>
+
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<p class="status"><span>Created: 21.06.2011
+<br>Author(s): <a href="/forum/memberlist.php?mode=viewprofile&u=5325" target="_blank">Alexander Bruy</a>, <a href="/forum/memberlist.php?mode=viewprofile&u=2" target="_blank">Maxim Dubinin</a></span></p>
+<!--#include virtual="/inc/footer2-eng.php" -->

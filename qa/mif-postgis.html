@@ -1,0 +1,76 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Экспорт mif/mid в PostgreSQL/PostGIS</title>
+<!--#include virtual="/inc/header2.txt" -->
+<!--Contents start-->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Вопросы и ответы</a></li>
+</ul>
+<h1>Экспорт mif/mid в PostgreSQL/PostGIS </h1>
+<p class="ann">Описание инструмента и примеры применения </p>
+<p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=2668"--></span></p>
+            <p>Для конвертации данных mif/mid (обменный формат векторных данных Mainfo) в PostgreSQL/PostGIS удобно использовать следующий скрипт (<a href="../programs/perl/mif2pg.txt">загрузить</a>).
+              Этот скрипт был написан по причине текущей неспособности ogr2ogr полностью сконвертировать некоторые данные (<a href="/forum/viewtopic.php?f=14&t=2661">подробнее</a>).</p>
+            <p>Скрипт пригоден как для простой конвертации данных, так и для одновременного применения некоторых функций обработки. На данный момент доступна следующая функциональность:</p>
+            <ul>
+              <li> исключение указанных типов геометрий</li>
+              <li> модификация структуры таблиц
+                <ul>
+                  <li>  транслитерация имен полей (необходим модуль Convert::Cyrillic)</li>
+                  <li>  переименование полей</li>
+                  <li>  пропуск полей по имени и/или их порядковому номеру</li>
+                  <li>  помещение дополнительных строк в определение таблиц</li>
+                  <li>  помещение дополнительных строк в вывод до любых сгенерированных данных, после выражений определения таблиц, после всех данных</li>
+                  <li> генерация ddl/sql по собственному шаблону  (необходим модуль Template)</li>
+                </ul>
+              </li>
+              <li> растяжение/сжатие (умножение/деление)</li>
+              <li> отражение по x/y</li>
+              <li> поворот на заданный градус</li>
+              <li> удаление записей с невалидной геометрией</li>
+</ul>
+            <p>Для работы скрипта необходим модуль AppConfig. Для загрузки данных из mid необходим модуль Text::CSV_XS.</p>
+            <p>Исходные данные могут читаться как из файла, так и из STDIN. Вывод по-умолчанию в STDOUT, может быть направлен в указаный файл.</p>
+            <p>В одном файле mif могут находиться любые типы данных. Скрипт обрабатывает следующие типы геометрий: Point, Line, PLine, PLine Multiple, Region, Text (с привязкой в виде полигона). Прочие пропускаются. Поддерживаются только 2D данные.</p>
+            <p>PLine Multiple и Regoin, там где это возможно, конвертируются в полигоны. Незамкнутые объекты Region конвертируются в линии.</p>
+            <p> Имя столбца с геоданными по умолчанию  geom. SRID по-умолчанию -1.</p>
+            <p>Замечание. При конвертации данных создаются таблицы по количеству типов геометрий, они именуются так:
+              к имени таблицы, заданному параметром --table, прибавляется окончание из имени геометрии.
+              Например, если был указан ключ --table test, будут созданы таблицы test_poly, test_line, test_point.
+              Если по окончании конвертации в таблицу не попало данных, она может быть удалена при помощи ключа --dropempty</p>
+            <p>Скрипт далек от совершенства, пожелания и сообщения об ошибках приветствуются.</p>
+            <p><strong>Примеры использования</strong></p>
+            <p>Справка по ключам</p>
+            <pre>perl mif2pg.pl --help</pre>
+            <p>Считать mif данные из data.mif, задать имя таблицы data, переименовать столбец id в old_id, добавить столбец id типа serial, перенаправить вывод в data.sql</p>
+            <pre>perl mif2pg.pl --mif data.mif --table data --rename id=old_id --extra &quot;id serial&quot; &gt; data.sql</pre>
+            <p>Считать mif данные из STDIN, загрузить сразу в postgres:</p>
+            <pre>cat data.mif | perl mif2pg.pl --mif - --table data --rename id=old_id --extra &quot;id serial&quot; \
+ | psql -U user db</pre>
+            <p>Считать mif данные из data.mif, считать mid данные из data.mid, записать вывод в файл data.sql</p>
+            <pre>perl mif2pg.pl --mif data.mif --mid data.mid --table data --rename id=old_id \
+--extra &quot;id serial&quot; --out data.sql</pre>
+            <p>Пропустить столбец id, не генерировать выражения ddl</p>
+            <pre>perl mif2pg.pl --mif data.mif --mid data.mid --table data --skip id --noddl</pre>
+            <p>Задать SRID равным 4326, задать имя солбца с геоданными равным the_geom</p>
+            <pre>perl mif2pg.pl --mif data.mif --table data --column the_geom --srid 4326  --out data.sql</pre>
+            <p>Отразить по X, повернуть на 43.1232 градусов по часовой:</p>
+            <pre>perl mif2pg.pl --mif data.mif --mid data.mid --table data --rotate 43.1232 --mirrorx \
+--rename id=old_id --extra &quot;id serial&quot; --out data.sql</pre>
+            <p class="discuss">
+		   		<span><!--#include virtual="/scripts/forum-comments-num.php?i=2668"--></span>
+			</p>
+            <div class="links">
+				<h2>Ссылки по теме</h2>
+					<ul>
+						<li><a href="perl.html">Использование языка PERL для автоматизации работы с пространственными данными в среде Windows</a></li>
+			  </ul>
+			</div>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<p class="status"><span>Дата создания: 08.12.2008
+<br>Автор(ы): <a href="/forum/memberlist.php?mode=viewprofile&u=2" target="_blank">Максим Дубинин</a></span></p>
+<!--#include virtual="/inc/footer2.php" -->

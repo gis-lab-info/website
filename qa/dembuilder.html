@@ -1,0 +1,62 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: DEM: Vector -&gt; TIN -&gt; GRID</title>
+<!--#include virtual="/inc/header2.txt" -->
+<!--Contents start-->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Вопросы и ответы</a></li>
+</ul>
+<h1>DEM: Vector -&gt; TIN -&gt; GRID</h1>
+<p class="ann">Конвертация TIN в GRID</p>
+<p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=846"--></span></p>
+            <p>Модель TIN (Triangulation Irregular Network) - это
+              модель, разработанная специально для описания рельефа. Средствами
+              3D Analyst для построения TIN можно использовать любое количество
+              входных данных любого типа (точка, линия, полигон). Причем каждую
+              таблицу, добавленную в TIN можно использовать различными способами
+              - как массив точек, как линии перегибов, как отсекающий, заполняющий,
+              затирающий, или за-мещающий полигоны. Модель проста в понимании
+              и наглядна. При правильном исполь-зовании исходных данных - очень
+              точна. Легко конвертируется в грид.</p>
+            <p align="center"><img src="/images/dembuilder1.jpg" width="678" height="194" /></p>
+            <p>Для облегчения подобного преобразования можно использовать
+              программу DEM Builder (<a href="/programs/avenue/dembld-wedmc.zip">скачать</a>).</p>
+            <p>Необходимые условия для работы программы:</p>
+            <ol>
+              <li> Наличие установленных расширений ArcView: 3D Analyst,
+                Spatial Analyst, Cad Reader (для тех использует формат <b>dgn</b>); </li>
+              <li> Если в качестве файла исходных данных используется
+                shp-файл, то в таблице его атрибутов имя поля содержащего значения
+                высоты должно быть &quot;Elevation&quot;. Тип самого поля должен быть <b>Number</b> ; </li>
+              <li> Наличие на жестком диске свободного пространства,
+                необходимого для сохранения промежуточных данных и выходного грида. </li>
+              <li> Если в качестве файла исходных данных используется
+                Microstation dgn-файл, то в построении рельефа участвуют все его
+                элементы (или только те, что имеют ненулевую высоту - это регулируется
+                переключателями диалога). </li>
+            </ol>
+            <p>Кнопка вызова диалога активна всегда, даже если в
+              виде нет ни одной темы. При открытии файла исходных данных, его
+              тема будет добавлена к виду.</p>
+            <p align="center"><img src="/images/dembuilder2.jpg" width="147" height="53" border="1" /></p>
+            <p align="left">Используя инструменты &quot;добавить
+              точку&quot; и &quot;добавить линию&quot;, пользователь может не
+              изменяя файла исходных данных, добавить в расчет рельефа точки и
+              линии с заданной высотой. Эти инструменты удобно использовать для
+              &quot;дотяжки&quot; в углах участка, либо для создания надстроек
+              над уровнем основного рельефа.</p>
+            <p align="center"><img src="/images/dembuilder3.gif" width="623" height="268" /></p>
+            <p align="left">Для тех, кто захочет попробовать работу
+              программы в действии - <a href="/other/dembuilder-i5202900.rar">фрагмент
+              оцифрованного рельефа в формате dgn</a>.</p>
+            <p class="discuss">
+				<span><!--#include virtual="/scripts/forum-comments-num.php?i=846"--></span>
+			</p>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<p class="status"><span>Дата создания: 11.03.2003
+<br>Автор(ы): <a href="/forum/memberlist.php?mode=viewprofile&u=11" target="_blank">WedMC</a></span></p>
+<!--#include virtual="/inc/footer2.php" -->

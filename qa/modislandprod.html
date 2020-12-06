@@ -1,0 +1,132 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Продукты MODIS - Land</title>
+<!--#include virtual="/inc/header2.txt" -->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Вопросы и ответы</a></li>
+</ul>
+<!--Contents start-->
+<h1>Продукты MODIS - Land</h1>
+<p class="ann"> Описание организационных особенностей продуктов дисциплины Land на базе данных MODIS</p>
+<p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=853"--></span></p>
+<p>Содержание</p>
+<ul>
+              <li><a href="#types">Типы продуктов</a></li>
+              <li><a href="#data">Получение данных </a></li>
+              <li><a href="#level">Уровень обработки</a></li>
+              <li><a href="#tiles">Единицы хранения данных</a></li>
+              <li><a href="#tiling">Система &quot;нарезки&quot; данных на фрагменты</a> </li>
+              <li><a href="#name">Названия фрагментов</a></li>
+              <li><a href="#collection">Коллекция (версия) данных</a></li>
+              <li><a href="#proj">Исходная проекция данных</a></li>
+            </ul>
+            <h2><strong><a name="types" id="types"></a></strong>Типы продуктов</h2>
+            <p>Земная поверхность (Land) - одна из дисциплин, в рамках которой производится генерация ряда групп продуктов на базе данных MODIS (<a href="/projects/ss/sensor/modis.html">характеристики сенсора</a>). В рамках этой дисциплины создаются следующие группы продуктов (каждая из которых может включать один или несколько окончательных продуктов):</p>
+            <table width="90%" align="center">
+              <tr>
+                <th><p>Название</p></th>
+                <th><p>Описание</p></th>
+                <th><p>Префикс</p></th>
+                <th><p>Ссылка</p></th>
+              </tr>
+              <tr>
+                <td><p>Surface Reflectance</p></td>
+                <td><p>Отражающая способность земной поверхности</p></td>
+                <td><p>MOD09</p></td>
+                <td><p align="center"><a href="http://modis-land.gsfc.nasa.gov/surfrad.htm" target="_blank">&gt;&gt;&gt;</a></p></td>
+              </tr>
+              <tr>
+                <td><p>Land Surface Temperature and Emissivity</p></td>
+                <td><p>Температура и излучательная (эмиссионная) способность земной поверхности </p></td>
+                <td><p>MOD11</p></td>
+                <td><p align="center"><a href="http://modis-land.gsfc.nasa.gov/temp.htm" target="_blank">&gt;&gt;&gt;</a></p></td>
+              </tr>
+              <tr>
+                <td><p>Land Cover/Change</p></td>
+                <td><p>Классификация типов земной поверхности и их изменений </p></td>
+                <td><p>MOD12</p></td>
+                <td><p align="center"><a href="http://modis-land.gsfc.nasa.gov/landcover.htm" target="_blank">&gt;&gt;&gt;</a></p></td>
+              </tr>
+              <tr>
+                <td><p>Vegetation Indices</p></td>
+                <td><p>Индексы растительности</p></td>
+                <td><p>MOD13</p></td>
+                <td><p align="center"><a href="http://modis-land.gsfc.nasa.gov/vi.htm" target="_blank">&gt;&gt;&gt;</a></p></td>
+              </tr>
+              <tr>
+                <td><p>Thermal Anomalies/Fire</p></td>
+                <td><p>Тепловые аномалии/Пожары </p></td>
+                <td><p>MOD14</p></td>
+                <td><p align="center"><a href="http://modis-land.gsfc.nasa.gov/fire.htm" target="_blank">&gt;&gt;&gt;</a></p></td>
+              </tr>
+              <tr>
+                <td><p>Leaf Area Index/Fraction of Photosynthetically Active Radiation (LAI/FPAR)</p></td>
+                <td><p>Индекс поверхности листовой пластинки/Доля фотосинтетически активной радиации (LAI/FPAR) </p></td>
+                <td><p>MOD15</p></td>
+                <td><p align="center"><a href="http://modis-land.gsfc.nasa.gov/lai.htm" target="_blank">&gt;&gt;&gt;</a></p></td>
+              </tr>
+              <tr>
+                <td><p>Net Primary Vegetation Production</p></td>
+                <td><p>Первичная продуктивность растительности</p></td>
+                <td><p>MOD17</p></td>
+                <td><p align="center"><a href="http://modis-land.gsfc.nasa.gov/npp.htm" target="_blank">&gt;&gt;&gt;</a></p></td>
+              </tr>
+              <tr>
+                <td><p>Bidirectional Reflectance Distribution Function / Albedo</p></td>
+                <td><p>Функция двунаправленного распределения отражающей способности</p></td>
+                <td><p>MOD43</p></td>
+                <td><p align="center"><a href="http://modis-land.gsfc.nasa.gov/brdf.htm" target="_blank">&gt;&gt;&gt;</a></p></td>
+              </tr>
+              <tr>
+                <td><p>Vegetation Conversion/Continuous Fields</p></td>
+                <td><p>Изменения растительности/Проективное покрытие растительности </p></td>
+                <td><p>MOD44</p></td>
+                <td><p align="center"><a href="http://modis-land.gsfc.nasa.gov/vcc.htm" target="_blank">&gt;&gt;&gt;</a></p></td>
+              </tr>
+            </table>
+            <h2><strong><a name="data" id="data"></a></strong>Получение данных</h2>
+            <p>Данные доступны бесплатно. Получить данные можно через систему WIST <SPAN LANG="ru-RU">(Warehouse Inventory </SPAN>Search<SPAN LANG="ru-RU"> </SPAN>Tool). Подробное описание работы с системой можно <a href="wist.html">прочитать здесь</a>. </p>
+            <h2><strong><a name="level" id="level"></a></strong>Уровень обработки</h2>
+            <p>На данный момент, существует 3 типа продуктов на базе данных MODIS: 2G, 3, и 4. Тип продукта фактически соотвествует уровню обработки исходных данных MODIS. На базе данных  уровня 2G получают одно-, 8, 16, 32-дневные композиты продуктов уровня 3 и 4.</p>
+            <h2><strong><a name="tiles" id="tiles"></a></strong>Единицы хранения данных</h2>
+            <p>Для продуктов 2G и 3 - гранула (granule), для 4 уровня обработки - фрагмент (tile). Далее в описании, для удобства используется только термин &quot;фрагмент&quot;. Одному фрагменту обычно соответствует один файл в формате HDF-EOS.</p>
+            <h2><strong><a name="tiling" id="tiling"></a></strong>Система &quot;нарезки&quot; данных на фрагменты </h2>
+            <p><a href="/qa/modis-tiles.html">Подробнее</a> о системе нарезки. </p>
+            <h2><strong><a name="name" id="name"></a></strong>Названия фрагментов</h2>
+            <p>Название фрагмента (granule ID или tile ID) расшифровывается следующим образом:</p>
+            <tcode>ESDT.AYYYYDDD.hHHvVV.CCC.YYYYDDDHHMMSS.hdf</tcode>
+            <p>где:</p>
+            <p><strong>ESDT</strong> - Тип данных (Earth Science Data Type) (например MOD14A1)<br />
+              <strong>YYYYDDD</strong> - Дата съемки, год (YYYY) и дата по Юлианскому календарю (DDD: 1..365) <br />
+              <strong>hHH</strong> - Номер фрагмента по горизонтали (0-35)<br />
+              <strong>vVV</strong> - Номер фрагмента по вертикали (0-17)<br />
+              <strong>CCC</strong> - Номер коллекции (версии данных) <br />
+              <strong>YYYYDDDHHMMSS</strong> - Дата обработки фрагмента: Год, дата по Юлианскому календарю и время UTC<br />
+              <strong>hdf</strong> - расширение формата HDF</p>
+            <h2><strong><a name="collection" id="collection"></a></strong>Коллекция (версия) данных </h2>
+            <p>Продукты MODIS подвергаются многократной обработке (фактически несколько раз переделываются заново), необходимость ее повторения связана с совершенствованием алгоритмов обработки, улучшением параметров радиометрической и геометрической коррекции. Версия продукта называется коллекцией и заложена в <a href="#name">названии продукта</a>. Таким образом, каждый продукт на базе данных MODIS, может иметь несколько версий (коллекций). Рекомендуется для работы использовать последнюю версию продукта. </p>
+            <p>Коллекция 1 - данные созданные в первый год функцирования камеры MODIS: 2000-2001 </p>
+            <p>Коллекция 3 - данные полученные на базе Коллекции 1, а также отснятые в ноябре 2000 - декабре 2002 гг.</p>
+            <p>Коллекция 4 - обработанные данные из Коллекций 1 и 3, а также современные данные.</p>
+            <p>Коллекция 5 - последняя на момент написания статьи версия данных MODIS.</p>
+            <h2><strong><a name="proj" id="proj"></a></strong>Исходная проекция данных</h2>
+            <p>Исходно, данные MODIS, коллекций 1 и 3 распространяются в равноплощадной проекции ISIN - Integerized Sinusoidal, которая не поддерживается большинством пакетов ПО ГИС. Данные из коллекции 4 имеют проекцию Sinusoidal. Продукты других дисциплин, например Snow and Ice могут распространяться в других проекциях. Для работы с данными, необходимо сначала <a href="modisimport.html">перевести их в более привычный формат и систему координат/проекцию</a>. </p>
+            <p class="discuss">
+				<span><!--#include virtual="/scripts/forum-comments-num.php?i=853"--></span>
+			</p>
+			<div class="links">
+		   <h2>Ссылки по теме</h2>
+			<ul>
+               <li><a href="modisimport.html">Импорт продуктов MODIS уровней 2G, 3, 4 с помощью MRT</a></li>
+               <li><a href="http://lpdaac.usgs.gov/modis/dataproducts.asp" target="_blank" class="external">LPDAAC: MODIS Data Products</a></li>
+			   <li><a href="/qa/modis-tiles.html">Схема фрагментов для продуктов MODIS 2G, 3, и 4</a></li>
+			</ul>
+			</div>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<p class="status"><span>Дата создания: 11.02.2006
+<br>Автор(ы): <a href="/forum/memberlist.php?mode=viewprofile&u=2" target="_blank">Максим Дубинин</a></span></p>
+<!--#include virtual="/inc/footer2.php" -->

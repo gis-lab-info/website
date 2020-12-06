@@ -1,0 +1,190 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: SRTM: details and import with Arcinfo Workstation</title>
+<!--#include virtual="/inc/header2-eng.txt" -->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/"></a></li>
+   <li><a href="/qa.html">  </a></li>
+</ul>
+<!--Contents start-->
+<h1>SRTM data: details and import with Arcinfo Workstation</h1>
+            <p class="ann">Some information about SRTM mission and
+                    data, its structure and import with Arcinfo Workstation</p>
+            <ul>
+              <li><a href="#mission"> SRTM</a></li>
+              <li><a href="#maindata"> </a> </li>
+              <li><a href="#otherdata"> </a></li>
+              <li><a href="#mission">      GRID</a></li>
+              <li><a href="#import">   Arcinfo Workstation</a></li>
+            </ul>
+            <p align="left"><b><a name="mission" id="mission"></a> SRTM</b></p>
+            <p><b>Shuttle radar topographic mission
+              (SRTM) </b>-      
+               ,     (&gt;60),  
+               (&gt;54),   ,   11   
+              2000     .  
+               SIR-C  X-SAR,    12   (
+                   ).</p>
+            <p align="center"><img src="/images/srtm1.jpg" width="540" height="275" alt="     SRTM" /></p>
+            <p align="center"><b>   
+               SRTM <br />
+              (Land 0-1-2-3-4, Water 0-1-2-3-4 -     
+                 )</b></p>
+            <p>       
+                (radar interferometry)   
+                  ,   
+                .       .</p>
+            <p><b><a name="maindata" id="maindata"></a> </b></p>
+            <p>   :  (unfinished,  1)   (finished,  2).     ,      ,   . </p>
+            <p>Version 2  - <a href="ftp://e0srp01u.ecs.nasa.gov/srtm/version2/" target="_blank">ftp://e0srp01u.ecs.nasa.gov/srtm/version2/</a><br />
+              Version 1 - <a href="ftp://e0srp01u.ecs.nasa.gov/srtm/version1/" target="_blank">ftp://e0srp01u.ecs.nasa.gov/srtm/version1/</a></p>
+            <p>  
+               Level-2    - 30 (1  ), ,
+                       
+                  Level-1   90
+              (3  )    ,  
+              ,       .
+                   (  50.000 2) 
+                ,       
+              . </p>
+            <p> ,    (raw data)  
+                 Level-2  
+                 .</p>
+            <p>    
+                 (Interferometric Terrain Height Data (ITHD)-2).
+               ,   3030, &lt;=20   .</p>
+            <p>    11 ,
+                  3   
+                 12011201  (). 
+                     
+              .</p>
+            <p>    16   ( ), 
+                      , 
+                  -32768,   
+              no data ( ). -  - WGS84.</p>
+            <p>     
+               . </p>
+            <p>:<br />
+              <b>n45e136</b> /45 . .., 136 ..</p>
+            <p><strong><a name="otherdata" id="otherdata"></a> </strong></p>
+            <p>              (SRTM Water Body Data),     3-D Shapefile (-     -  ).</p>
+            <p>     ,     ,  National
+              Geospatial-Intelligence Agency  ,      SRTM (DTED&reg; 2).            , , , .  ...  .  ...   0. Lake elevations were set to a constant value.  ...   ,    .        30-.     WGS 84.   - 20 (90%),  - 16 (90%).         :</p>
+            <ul>
+              <li> - BA040</li>
+              <li> - BH080</li>
+              <li> - BH140</li>
+            </ul>
+            <p><b><a name="prepare" id="prepare"></a>      GRID</b></p>
+            <ol>
+              <li>,     , 
+                      1   
+                  (. ).       <a href="/other/grid1dg.rar"> grid1dg</a>,  
+                    1 ,    ,
+                  <b>Tilename</b>      
+                </li>
+              <li>      
+                 HGT  BIL</li>
+              <li>   ,    
+                   BIL,    HDR ( ). 
+                       
+                  ,   . : <b>n45e136.bil</b>  <b>n45e136.hdr</b></li>
+              <li>    HDR   :<br />
+                <br />
+                <tcode>BYTEORDER M<br />
+                        LAYOUT BIL<br />
+                        NROWS 1201<br />
+                        NCOLS 1201<br />
+                        NBANDS 1<br />
+                        NBITS 16<br />
+                        BANDROWBYTES 2402<br />
+                        TOTALROWBYTES 2402<br />
+                        BANDGAPBYTES 0<br />
+                        NODATA -32768<br />
+                        ULXMAP 136<br />
+                        ULYMAP 46<br />
+                        XDIM 0.000833333333333<br />
+                        YDIM 0.000833333333333 </tcode>
+              </li>
+            </ol>
+            <p>      
+                 <b>HDR</b> ,    
+                <b>ULXMAP</b>  <b>ULYMAP</b> ( X  Y 
+               ).   ,      ,
+                ,     
+                ,      .
+               ,  <b>ULYMAP</b>    
+                      (.  
+                <b>HDR</b> ,  <b>ULYMAP</b>).</p>
+            <p>   SRTM  <a href="ftp://e0srp01u.ecs.nasa.gov/srtm/version1/Documentation/SRTM_Topo.txt" target="_blank"> </a>    ,  Arcview        ,  ,     <b>ULXMAP</b>  <b>ULYMAP</b> (  X  Y)   .</p>
+            <tcode>For example, the coordinates of the lower-left corner of tile N40W118 are 40 degrees north latitude and 118 degrees west longitude. To be more exact, these coordinates refer to the <strong>geometric center of the lower left pixel</strong></tcode>
+            <p>      Arcinfo
+              Workstation,    <a href="/qa/srtm-sa.html"> Arcview Spatial
+              Analyst</a>, ArcGIS  ..</p>
+            <p>4.    GRID.   
+               IMAGEGRID. <br />
+              : <br />
+            </p>
+            <tcode>arc&gt;<b> imagegrid n45e136 n45e136</b></tcode>
+            <p>5.   . 
+                 CON  GRID. <br />
+              :</p>
+            <tcode>arc&gt;<b> grid<br />
+                    </b>grid&gt;<b> n45e136 = con(n45e136 &gt;= 32768, n45e136
+                    - 65536, n45e136)</b></tcode>
+            <p>    ,   
+                  (graduated color)  Arcview, 
+                =&gt; 32768    ,
+                   .  IMAGEGRID  
+                ,    (
+               nodata)  .<br />
+            </p>
+            <p>6.   NODATA.   
+               SETNULL  GRID.<br />
+              :</p>
+            <tcode>grid&gt;<b> n45e136z = setnull (n45e136c &lt;=
+                    -32768, n45e136)</b></tcode>
+            <p> ,    Arcinfo Workstation,   
+                    
+              ,   <b><a href="/programs/vb/process-srtm.zip">
+              sml-</a></b>,      ,
+                    . </p>
+            <p>*    <a href="/other/ccrpbd.zip"> dll</a>,    
+                 (   Win98 - c:\windows\system,
+              W2K - c:\winnt\system32)</p>
+            <p><b><a name="import" id="import"></a>   Arcinfo Workstation</b></p>
+            <p>    ,    
+                   (   , 
+              )  <b>HGT</b>.    
+                <b>!process-srtm.sml</b>,   
+                   <b>HGT</b>    
+               .</p>
+            <p>    Arcinfo Workstation, 
+                Arcinfo:</p>
+            <p>1.   ,      
+              HGT  ( c:\work\srtm)</p>
+            <tcode><b>&amp;workspace __ </b></tcode>
+            <p>2.   ,     
+                 HGT </p>
+            <tcode><b>&amp;run !process-srtm.sml</b> </tcode>
+            <p>      
+                GRID,       
+               . </p>
+            <p class="discuss">
+				<span><!--#include virtual="/scripts/forum-comments-num.php?i=809&lang=e"--></span>
+			</p>
+			<div class="links">
+			<h2>  </h2>
+			<ul>
+               <li><a href="/qa/process-srtm.html"> Process-srtm    SRTM</a></li>
+			   <li><a href="/docs/srtm-water.rar">          SRTM</a></li>
+               <li><a href="http://www2.jpl.nasa.gov/srtm/" target="_blank" class="external">   SRTM</a></li>
+			</ul>
+			</div>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<p class="status"><span>Дата создания: 23.01.2004
+<br>Автор(ы): <a href="/forum/memberlist.php?mode=viewprofile&u=2" target="_blank">Максим Дубинин</a></span></p>
+<!--#include virtual="/inc/footer2.php" -->

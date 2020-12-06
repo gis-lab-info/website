@@ -1,0 +1,65 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Изменение единиц измерений данных в Arcinfo Workstation</title>
+<!--#include virtual="/inc/header2.txt" -->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Вопросы и ответы</a></li>
+</ul>
+<!--Contents start-->
+<h1>Изменение единиц измерений данных в Arcinfo Workstation </h1>
+            <p class="ann">ПО: Arcinfo Workstation</p>
+<p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=4075"--></span></p>
+            <p>Как изменить единицы измерения данных, не изменяя сами
+              данные? Например: километры перевести в метры? Этот вопрос часто
+              встает при неправильной оцифровке и попытке в дальнейшем совместить
+              данные в метрах с данными в километрах и т.п.</p>
+            <p>Для решения этой задачи в Arcinfo Workstation достаточно
+              использоваться команду <strong>PROJECT</strong> и ее подкоманду <strong>UNITS</strong>, параметры
+              входной и выходной проекции при этом должны оставаться одинаковыми. Даже если вам неизвестна проекция исходных данных, вы можете использовать цифры указанные внизу. При использовании одних и тех же параметров проекции (не важно каких, главное одинаковых для исходной и конечной проекции), собственно проектирования не происходит, изменяются только единицы измерения (фактически происходит масштабирование данных), проекция при этом остается та же, если она была неизвестна, то неизвестной и остается. </p>
+            <p>Для того, чтобы перевести единицы измерения данных
+              из километров в метры необходимо задать в подкоманде UNITS единицы
+              конвертации, вот так: </p>
+            <p><b>UNITS 0.001 </b></p>
+            <p>таким образом показав программе отношение единицы
+              данных, километров, к метрам (единиц исходных данных/метр, на каждый
+              метр - 0.001 километра)</p>
+<pre>Arc: <b>project cover incover outcover</b>
+Project: <b>input</b>
+Project: <b>proj albers</b>
+Project: <b>units 0.001</b>
+Project: <b>spheroid krasov</b>
+Project: <b>param</b>
+1st standard parallel [ 0 0 0.000 ]: <b>52 0 0</b>
+2nd standard parallel [ 0 0 0.000 ]: <b>64 0 0</b>
+central meridian [ 0 0 0.000 ]: <b>45 0 0</b>
+latitude of projection's origin [ 0 0 0.000 ]: <b>0 0 0</b>
+false easting (meters) [ 0.00000 ]: <b>8500000</b>
+false northing (meters) [ 0.00000 ]: <b>0.0</b>
+Project: <b>output</b>
+Project: <b>proj albers</b>
+Project: <b>units meters</b>
+Project: <b>spheroid krasov</b>
+Project: <b>param</b>
+1st standard parallel [ 0 0 0.000 ]: <b>52 0 0</b>
+2nd standard parallel [ 0 0 0.000 ]: <b>64 0 0</b>
+central meridian [ 0 0 0.000 ]: <b>45 0 0</b>
+latitude of projection's origin [ 0 0 0.000 ]: <b>0 0 0</b>
+false easting (meters) [ 0.00000 ]: <b>8500000</b>
+false northing (meters) [ 0.00000 ]: <b>0.0</b>
+Project: <strong>end</strong></pre>
+            <p>В данном примере показан перевод данных в равновеликой
+              проекции Альберса оцифрованных в километрах в ту же проекцию, но
+              единицами измерения - метры. Таким же образом можно переводить данные
+              и в другие единицы измерения:</p>
+            <p>например<br />
+              из метров в километры: <b>UNITS 1000<br />
+              </b>из метров в миллиметры:<b> UNITS 0.001</b></p>
+<p class="discuss"><span><!--#include virtual="/scripts/forum-comments-num.php?i=4075"--></span></p>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<p class="status"><span>Дата создания: 05.03.2004
+<br>Автор(ы): <a href="/forum/memberlist.php?mode=viewprofile&u=2" target="_blank">Максим Дубинин</a></span></p>
+<!--#include virtual="/inc/footer2.php" -->

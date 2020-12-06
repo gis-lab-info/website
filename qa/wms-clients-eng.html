@@ -1,0 +1,60 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Using WMS data in desktop GIS</title>
+<!--#include virtual="/inc/header2-eng.txt" -->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/index-eng.html">Home</a></li>
+   <li><a href="/qa-eng.html">Articles</a></li>
+</ul>
+<!--Contents start-->
+<h1>Using WMS data in desktop GIS</h1>
+<p class="ann">How to make use of WMS data</p>
+<p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=3962"--></span></p>
+<p>Let say you have a link to some WMS service, this article describes what you need to do to make use of this link and load data using this service in your GIS software. We show how tos for 3 widely used software, starting from free one. Most of the other commercial and free GIS software have ability to work with WMS. </p>
+            <ol>
+              <li>Using
+                WMS in:
+                <ul>
+                  <li><a href="#qgis">QGIS</a></li>
+                  <li><a href="#arcgis">ArcGIS</a></li>
+                  <li><a href="#age">ArcGIS Explorer</a></li>
+                </ul>
+              </li>
+            </ol>
+            <p><strong><a name="qgis" id="qgis"></a>QGIS</strong></p>
+            <p>WMS-layer in QGIS is loaded using menu option Layer\Add WMS layer. Click on New button in the window and enter parameters of the connection. Most often the needed parameters are arbitrary name of the service and its URL, which often includes signs &quot;&amp;&quot; or &quot;?&quot; in the end of the line. </p>
+            <p>You can try this examples:</p>
+            <pre>http://gis-lab.info/cgi-bin/wmsworld?</pre>
+			<pre>http://gis-lab.info/cgi-bin/wmsopenifl?</pre>
+            <p align="center"><img src="/images/mapserver-wms-01.gif" alt="qgis-wms" /> </p>
+            <p>Click OK and then Connect. After the connection is set, choose layers and click Add. Layers will be added to the list of layers of the main map window.</p>
+            <p align="center"><img src="/images/mapserver-wms-02.gif" alt="qgis-wms" width="608" height="532" /></p>
+            <p>If there are several possible options for graphic formats, try PNG first, as the background will be transparent, this helps. </p>
+            <p><strong><a name="ag" id="ag"></a>ArcGIS</strong></p>
+            <p>In ArcGIS you can load WMS-layers through Add Data window. After opening this window, select GIS Servers under Look in: in the top right area of the window and hit WMS Servers, which will ask you for the URL of the WMS.</p>
+            <p align="center"><img src="/images/mapserver-wms-05.gif" alt="arcgis-wms" width="491" height="327" /> </p>
+            <p>After you've entered URL click Get Layers and select needed layers. </p>
+            <p align="center"><img src="/images/mapserver-wms-06.gif" alt="arcgis-wms" width="507" height="578" /></p>
+            <p><strong><a name="age" id="age"></a>ArcGIS Explorer</strong></p>
+            <p>WMS-layers in ArcGIS Explorer are opened as any other data using File\Open... menu,where you need to switch to Servers section and hit WMS. In the new dialog, enter URL of WMS.  </p>
+            <p align="center"><img src="/images/mapserver-wms-03.gif" alt="age-wms" width="667" height="585" /> </p>
+            <p>After clicking Ok, you will be asked to select some parameters, such as raster resolution, layers used and zoom level after layers are loaded. </p>
+            <p align="center"><img src="/images/mapserver-wms-04.gif" alt="age-wms" width="521" height="430" /></p>
+            <p>As WMS serves data in raster format, on smaller scales you can see pixelization effect - this is normal. </p>
+            <p class="discuss">
+				<span><!--#include virtual="/scripts/forum-comments-num.php?i=3962"--></span>
+			</p>
+			<div class="links">
+			<h2>See also: </h2>
+			<ul>
+               <li><a href="mapserver-begin.html">Begin working with MapServer</a></li>
+			   <li><a href="mapserver.html">Create web-map usign MapServer. Introduction </a></li>
+			</ul>
+			</div>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<p class="status"><span>Дата создания: 28.09.2009
+<br>Автор(ы): <a href="/forum/memberlist.php?mode=viewprofile&u=2" target="_blank">Максим Дубинин</a></span></p>
+<!--#include virtual="/inc/footer2.php" -->

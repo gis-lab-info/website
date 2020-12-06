@@ -1,0 +1,86 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Возможности работы с пространственными данными статистического пакета R </title><!--#include virtual="/inc/header2.txt" -->
+<!--Contents start-->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Вопросы и ответы</a></li>
+</ul>
+<h1>Возможности работы с пространственными данными статистического пакета R </h1>
+<p class="ann">Краткая описание возможностей R по работе с пространственными данными</p>
+<p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=1593"--></span></p>
+<p><a href="http://cran.gis-lab.info/" target="_blank" class="external">R</a> - бесплатный, свободно распространяемый и очень активно развивающийся статистический пакет. Благодаря своей гибкости, настраиваемости и открытом коду пакет практически признан стандартом де-факто и используется в огромном количестве проектов, учебных учреждений, компаний. Параллельно основному пакету, энтузиастами разрабатываются сотни дополнительных модулей для каждого направления статистики.</p>
+            <p>До недавнего времени главной проблемой было наведение &quot;моста&quot; между самими пространственными данными и той массой аналитических возможностей, предоставляемой R. Новые пакеты осуществляющие импорт/экспорт данных максимально облегчили этот переход. </p>
+            <p>Будучи изначально статистическим пакетом, R предоставляет неизмеримо большие возможности по моделированию и статанализу любых, а в наших случаях и пространственных данных, что делает его интересным инструментом для изучения. Однако, как обычно, необходимо подчеркнуть, что главной фигурой в процессе анализа все же является аналитик, и то насколько он понимает задачу и алгоритм решения как правило будет определять результат.</p>
+            <p>Задача этой заметки указать и дать некоторое описание функциональности R по работе с пространственными данными. При этом очень сложно избежать дублирования и некоторой избыточности, как сложно их избежать при любой попытке классифицировать средства анализа, управления и создания пространственными данными, особенно одновременно со статистическими алгоритмами, поэтому эта заметка, в угоду упоминанию большего количества модулей к R ставит полноту их описания. Мы оставляем за Читателем необходимость выяснения деталей (как касающихся пространственных технологий, так и статистических методов), но будем стараться создавать более подробные описания по конкретным модулям по мере появления в них необходимости у авторов. </p>
+            <p>Мы не ставим перед собой невозможную задачу упоминания всех возможных статистических операций с пространственными данными, начиная с гистограмм и заканчивая классификациями типа ISODATA, все это также реализовано в пакете R на базовом уровне и не требует установки дополнительных пакетов. Таким образом главным вопросом на который пытается ответить эта статья является: &quot;Можно ли работать с пространственными данными в R и что с ними можно там делать?&quot;. Ответить  на которые которко можно: &quot;ДА&quot; и &quot;ПОЧТИ ВСЕ&quot;.</p>
+            <p>Необходимым напомнить, что использование любого из упомянутых ниже пакетов требует базовых статистических/специальных знаний, а также знакомства с тем как работает R, только в этом случае использование этих пакетов может быть максимально эффективно. </p>
+            <ul>
+              <li>
+                <strong> Классы пространственных данных: </strong>Так как многие модули сталкиваются с задачей импорта и использования пространственных данных была принята попытка создать библиотеку общих классов и функций построения графиков для таких данных. Задачу унификации пространственных данных, их графического отображения и базовых пространственных операций решает пакет <a href="http://cran.gis-lab.info/package=sp">sp</a>.  Многие другие пакеты работающие с пространственными данными (такие как <a href="http://cran.gis-lab.info/package=rgdal">rgdal</a> и <a href="http://cran.gis-lab.info/package=maptools">maptools</a>) используют эту библиотеку классов.</li>
+              <li><strong>Импорт и экспорт пространственных данных</strong>: В R можно работать как с векторными так и растровыми данными. Существуют пакеты, позволяющие осуществлять работу напрямую с наборами данных, без конвертации, например <a href="http://cran.gis-lab.info/package=rgdal">rgdal</a> - пакет расширяющий возможности R функциями работы с растровыми данными из пакета <a href="http://www.gdal.org/"> GDAL </a> -  и векторными из пакета <a href="http://www.gdal.org/ogr/"> OGR</a>. Этот пакет так же предоставляет поддержку проекционных преобразований векторных данных на базе <a href="http://www.remotesensing.org/proj/"> PROJ.4</a>. Доступ к другим типам векторных данных:
+                <ul>
+                  <li><a href="http://cran.gis-lab.info/package=maps">maps</a> (<a href="http://cran.gis-lab.info/package=mapdata">mapdata</a> и <a href="http://cran.gis-lab.info/package=mapproj">mapproj</a>)        -  доступ к пространственным базам данных типа S, </li>
+                  <li><a href="http://cran.gis-lab.info/package=RArcInfo">RArcInfo</a> - чтение бинарных и *.e00        файлов созданных Arcinfo</li>
+                  <li><a href="http://cran.gis-lab.info/package=maptools">maptools</a> и <a href="http://cran.gis-lab.info/package=shapefiles">shapefiles</a> - чтение и запись шейп-файлов. </li>
+                  <li><a href="http://cran.gis-lab.info/package=maptools">maptools</a> - дополнительные функции для чтения и записи полигональных файлов в форматах WinBUGS, Mondrian, Stata (команда tmap). </li>
+                  <li><a href="http://cran.gis-lab.info/package=spgrass6">spgrass6</a> и <a href="http://cran.gis-lab.info/package=GRASS">GRASS</a> - доступ к данным GRASS 6 и 5-й версии соответственно. </li>
+                </ul>
+              </li>
+              <li><strong>Визуализация</strong>: удобные цветовые шкалы могут создаваться с помощью пакета  <a href="http://cran.gis-lab.info/package=RColorBrewer">RColorBrewer</a>, эти шкалы могут изменяться и расширяться с помощью базовой функции R - colorRampPalette. Пакет <a href="http://cran.gis-lab.info/package=classInt">classInt</a> предоставляет функции помогающие выбрать границы классов для тематических карт. <br />
+</li>
+              <li>
+                <strong> Анализ точечных распределений</strong>: основные функции анализа точечных распределений находятся в пакете  <a href="http://cran.gis-lab.info/package=spatial">spatial</a> являющемся частью основного пакета R. В дополнение к этому, пакет <a href="http://cran.gis-lab.info/package=spatstat">spatstat</a> позволяет задавать зону интереса любой конфигурации и makes extensions to marked processes        and spatial covariates. Этот пакет отличается хорошими возможностями model-fitting и симуляций, подробно его возможности освещаются на <a href="http://www.spatstat.org/" target="_blank" class="external">странице проекта и книге авторов</a> . Это единственный пакет который позволяет пользователю to fit        inhomogeneous point process models with interpoint interactions. The <a href="http://cran.gis-lab.info/package=splancs">splancs</a> package also allows point data to be analysed        within a polygonal region of interest, and covers many methods,        including 2D kernel densities. The functions for binning points        on grids in <a href="http://cran.gis-lab.info/package=ash">ash</a> may also be of interest.              </li>
+              <li>
+                <strong> Геостатистика</strong>: Пакет <a href="http://cran.gis-lab.info/package=gstat">gstat</a> предоставляет широкие возможности однофакторной и многофакторной геостатистики, в том числе для больших наборов данных. Пакеты <a href="http://cran.gis-lab.info/package=geoR">geoR</a> и <a href="http://cran.gis-lab.info/package=geoRglm">geoRglm</a> содержат фукнции геостатистики основанные на моделировании. Подобный широкий набор функций также может быть найден в пакете  <a href="http://cran.gis-lab.info/package=fields">fields</a>.
+                </p>
+                Помимо этого, полезными могут оказаться следующие пакеты:
+                <ul>
+                  <li><a href="http://cran.gis-lab.info/package=RandomFields">RandomFields</a> симуляция и анализ случайных полей</li>
+                  <li><a href="http://cran.gis-lab.info/package=vardiag">vardiag</a> - диагностика вариограмм</li>
+                  <li><a href="http://cran.gis-lab.info/package=sgeostat">sgeostat</a> - геостатистика </li>
+                  <li><a href="http://cran.gis-lab.info/package=tripack">tripack</a> - триангуляция</li>
+                  <li><a href="http://cran.gis-lab.info/package=akima">akima</a> - сплайн интерполяция</li>
+                  <li><a href="http://cran.gis-lab.info/package=spatialCovariance">spatialCovariance</a> - вычисление пространственных матриц ковариации</li>
+                </ul>
+              </li>
+              <li>
+                <strong> Анализ площадных данных</strong>: Пакет <a href="http://cran.gis-lab.info/package=spdep">spdep</a> предоставляет базовые функции для построения списков соседства и пространственных весов, тесты на пространственную автокорреляцию полигональных данных, такие как Moran's I, и функции нахождения пространственных регрессионных моделей таких как SAR и CAR, подразумевающих, что пространственная зависимости может быть описана известными весовыми коэффициентами. Пакет <a href="http://cran.gis-lab.info/package=spgwr">spgwr</a> содержит реализацию метода пространственно взвешенной регрессии для исследования возможной non-stationarity.              </li>
+              <li><strong> Специализированные задачи</strong>:
+                <ul>
+                  <li><a href="http://cran.gis-lab.info/package=spsurvey">spsurvey</a> - построения выборок. </li>
+                  <li><a href="http://cran.gis-lab.info/package=trip">trip</a> - доступ и управления данными телеметрии животнных</li>
+                  <li><a href="http://cran.gis-lab.info/package=DCluster">DCluster</a> пакет для идентификации пространственной кластеризации заболеваний</li>
+                </ul>
+              </li>
+              <li>
+              <strong> Экологические исследования</strong> (более подробное описание методов - <a href="http://cran.r-project.org/src/contrib/Views/Environmetrics.html">Environmetrics </a> Task        View)
+              <ul>
+                  <li><a href="http://cran.gis-lab.info/package=grasper">grasper</a> - environmental prediction using GAM</li>
+                  <li><a href="http://cran.gis-lab.info/package=ade4">ade4</a> - исследовательский анализ данных и Эвклидовы методы в науках об окружающей среде</li>
+                  <li><a href="http://cran.gis-lab.info/package=adehabitat">adehabitat</a> - анализ выбора местообитаний животными</li>
+                  <li><a href="http://cran.gis-lab.info/package=pastecs">pastecs</a> - управление, разложение и анализ пространственно-временных серий</li>
+                  <li><a href="http://cran.gis-lab.info/package=vegan">vegan</a> - методы ординации</li>
+                </ul>
+              </li>
+            </ul>
+            <p>Главным недостатком работы с пространственными данными в R, на текущий момент, является ограничение на работу с большими наборами данных.</p>
+            <p>Если у вас есть свои интересные примеры использования R в анализе пространственных данных, пожалуйста, пишите, мы с удовольствием их опубликуем у нас на сайте. </p>
+            <p align="right"><em>В статье использованы материалы CRAN Task View: Analysis of Spatial Data</em></p>
+            <p class="discuss">
+				<span><!--#include virtual="/scripts/forum-comments-num.php?i=1593"--></span>
+			</p>
+			<div class="links">
+			<h2>Ссылки по теме</h2>
+			<ul>
+               <li><a href="http://cran.gis-lab.info/web/views/Spatial.html" target="_blank" class="external">CRAN Task View: Analysis of Spatial Data</a></li>
+               <li><a href="http://cran.gis-lab.info/doc/Rnews/Rnews_2005-2.pdf" target="_blank" class="external">Подробнее о пакете sp в R-News</a></li>
+		   </ul>
+			</div>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<p class="status"><span>Дата создания: 19.06.2007
+<br>Автор(ы): <a href="/forum/memberlist.php?mode=viewprofile&u=2" target="_blank">Максим Дубинин</a></span></p>
+<!--#include virtual="/inc/footer2.php" -->

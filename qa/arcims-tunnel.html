@@ -1,0 +1,45 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-lab: Проблема корректного отображения шрифтов при работе с ПО ESRI</title>
+<!--#include virtual="/inc/header2.txt" -->
+<!--Contents start-->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Вопросы и ответы</a></li>
+</ul>
+<h1>ArcIMS Tunnel </h1>
+<p class="ann">Настройка туннеля Putty и RDC</p>
+            <p><a href="http://www.chiark.greenend.org.uk/%7Esgtatham/putty/" target="_blank">Загрузить PuTTY</a>, настройки приведенные ниже показаны для версии 0.58</p>
+            <p>Настройка туннеля</p>
+            <p> - Destination: <strong>192.168.1.111:3389</strong></p>
+            <p>- Source port: <strong>3000</strong></p>
+            <p align="center"><img src="/images/arcims-tunnel-01.gif" width="456" height="435" /></p>
+            <p>Нажать «Add»</p>
+            <p align="center"><img src="/images/arcims-tunnel-02.gif" width="456" height="435" /></p>
+            <p>Переключится на Category: Session и ввести параметры самого соединения с сервером:</p>
+            <p>- Host Name: <strong>dk.seu.ru</strong> </p>
+            <p>- Port: <strong>22222</strong></p>
+            <p>После ввода параметров туннеля и сессии их можно сохранить введя имя и нажав кнопку Save.</p>
+            <p align="center"><img src="/images/arcims-tunnel-03.gif" width="456" height="435" /> </p>
+            <p>Соединяемся с сервером, и вводим необходимые пароли, в окошке putty появятся слова об IP адресе и т.п., через каждые 10 секунд будет ставиться звездочка, это окно нельзя закрывать, необходимо его свернуть. </p>
+            <p align="center"><img src="/images/arcims-tunnel-06.gif" width="666" height="93" /></p>
+            <p>Запустить Remote Desktop Connection (RDC):</p>
+            <p><strong>Start\Programs\Accessories\Communications\Remote Desktop Connection</strong></p>
+            <p>или</p>
+            <p><strong>Start\Run... mstsc.exe</strong></p>
+            <p>Теперь можно войти на ArcIMS-сервер, через адрес <strong>127.0.0.1:3000</strong></p>
+            <p align="center"><img src="/images/arcims-tunnel-05.gif" width="412" height="176" /></p>
+            <p>После входа в систему также необходимо ввести имя и пароль (отличные от имени и пароля для Putty). </p>
+            <p>Возможные сообщения об ошибках (для ссылок если таковые возникают):</p>
+            <p align="center"><img src="/images/arcims-tunnel-08.gif" width="723" height="119" /></p>
+            <p align="center"><img src="/images/arcims-tunnel-10.gif" width="723" height="119" /></p>
+            <p align="center"><img src="/images/arcims-tunnel-09.gif" width="458" height="165" /></p>
+            <p align="center">&nbsp;</p>
+            <p class="discuss">
+				<span><!--#include virtual="/scripts/forum-comments-num.php?i=390"--></span>
+			</p>
+            <!--#include virtual="/scripts/date.php" -->          </td>
+<!--Contents end-->
+<!--#include virtual="/inc/footer2.php" -->

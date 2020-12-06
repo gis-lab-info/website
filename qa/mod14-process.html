@@ -1,0 +1,118 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Запуск алгоритма MOD14 и экстракция данных</title>
+<!--#include virtual="/inc/header2.txt" -->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Статьи</a></li>
+</ul>
+<!--Contents start-->
+<h1>Запуск алгоритма MOD14 и экстракция данных</h1>
+<p class="ann">Запуск детектирования, экстракция и подготовка данных для ГИС </p>
+<p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=7958"--></span></p>
+
+<p>В этой статье мы рассмотрим процесс получения очагов пожаров в формате, пригодном для отображения в ГИС из сырых данных первого уровня обработки. Статья сопровождается <a href="/programs/python/mod14-process.7z">набором скриптов</a> для самостоятельной пакетной обработки данных. </p>
+<p>Статья использует пример территории района Черных Земель  Республики Калмыкия,  21 июля  2007 года (202 день). Достоверно известно, что в этот возникло большое количество возгораний приведшее в последствии к большому степному пожару. Читатель может использовать этот же пример для тестов (<a href="/data/samples/mod021km-kalmykia-2007202-204-more.7z">скачать исходные данные</a>). </p>
+<p class="ill"><img src="/images/mod14-process-01.jpg" alt="" width="350" height="351" />&nbsp;<img src="/images/mod14-process-02.jpg" alt="" width="350" height="352" /><span>Изображение MODIS до (2007202.0815) и после (2007204.0805) крупного степного пожара (<a href="/data/samples/mod021km-kalmykia-2007202-204.7z">загрузить оригиналы</a>). </span></p>
+<p><strong>Оглавление</strong></p>
+<ol>
+	  <li><a href="#getdata">Получение исходных данных </a></li>
+	  <li><a href="#model">Создание матриц оценки вероятностей пожаров </a></li>
+      <li><a href="#extract">Экстракция значений</a></li>
+      <li><a href="#prepare">Подготовка для ГИС</a></li>
+      <li><a href="#check">Проверка</a></li>
+</ol>
+
+<!-- Первый раздел -->
+<h2><strong><a name="01" id="01"></a></strong>1. Получение исходных данных</h2>
+<p>Исходными данными для детектирования очагов пожаров являются данные первого уровня обработки MOD021KM (Level-1B) и соответствующая матрица геолокации
+  MOD03 полученные камерой MODIS со спутника <a href="/projects/ss/sat/terra.html">Terra</a>. Получить такие данные можно через <a href="laadsweb.html">LAADSWeb</a>. Следует обратить внимание, что такие же данные доступны и для камеры MODIS установленной на спутнике <a href="/projects/ss/sat/aqua.html">Aqua</a>. Таким образом для полной информации необходимо получать данные с обоих спутников. В примерах к данной статье для экономии места рассказывается только про Terra. </p>
+<p>Пример запроса на территорию примера выглядит сделающим образом (можно скопировать, вставить в текстовый файл, сохранить и загрузить как настройки поиска): </p>
+<pre>__PREV_form=AADS
+startQAPercentMissingData=0.0
+fileName=
+bb_top=50
+metaRequired=1
+scrollX=0
+coordinate_system=LAT_LON
+north=50
+PGEVersion=
+scrollY=1059
+endTime=07/21/2007 23:59:59
+startTime=07/21/2007 00:00:00
+__PREV_bboxType=NWES
+endQAPercentMissingData=100.0
+products=MOD021KM
+products=MOD03
+south=42
+si=Terra MODIS
+east=49
+orderState=
+__PREV_coordinate_system=LAT_LON
+bb_left=43
+coverageOptions=D
+coverageOptions=N
+coverageOptions=B
+bboxType=NWES
+bb_right=49
+filterPGEVersion=No
+temporal_type=RANGE
+filterQAPercentMissingData=No
+group=Terra  Level 1 Products
+archiveSet=5
+west=43
+bb_bottom=42</pre>
+
+<p>
+  <!-- Второй раздел --> С подробностями о получении данных можно ознакомиться в <a href="laadsweb.html">статье про LAADSWeb</a>.</p>
+<h2><strong><a name="model" id="model"></a></strong>2. Создание матриц оценки вероятностей пожаров </h2>
+<p>К полученным парам MOD021KM+MOD03 нужно применить программную реализацию алгоритма MOD14 позволяющего выявлять очаги пожаров. Оригинальный код можно бесплатно получить на странице <a href="http://directreadout.sci.gsfc.nasa.gov/index.cfm?section=downloads&page=technology" target="_blank" class="external">Direct Readout Laboratory</a>. Для получения кода понадобится зарегистрироваться.</p>
+<p>Если вы не можете собрать исполняемый файл из исходного кода - можно воспользоваться исполняемым файлом скомпилированным для Windows/Linux (<a href="mod14-compile.html">версия алгоритма 5.0.1</a>) или доступным через EOStation (<a href="http://eostation.scanex.ru/software.html">версия алгоритма 4.3.2</a>). Разница между этими версиями небольшая и согласно логу изменений (mod14\algorithm\README.dat) заключается в небольших изменениях в расчете confidence, FRP и формирования метаданных.</p>
+<p>Процесс детектирования запускается командой: </p>
+<pre>mod14.exe -tg &lt;MOD021KM granule&gt; &lt;MOD03 granule&gt; &lt;L2 fire output file&gt;</pre>
+
+<p>Для нашего примера (один из исходных файлов) команда будет выглядеть следующим образом:</p>
+<pre>mod14.exe -tg MOD021KM.A2007202.1750.005.2010202193407.hdf &lt;MOD03.A2007202.1750.005.2010202130358.hdf&gt; &lt;MOD03.A2007202.1750.005.hdf&gt;</pre>
+<p>Результатом ее работы является матрица значений в формате HDF, некоторые из которых пройдя определенный набор пороговых значений обозначаются как очаги горения. Каждая локация имеет ряд параметров таких как яркостные температуры в определенных каналах, достоверность и т.д. Они могут помочь в точности воспроизвести процесс принятия решения и при необходимости его оптимизировать. </p>
+<p>Для запуска алгоритма MOD14  в пакетном режиме можно использовать скрипт <strong>mod14-run.py</strong></p>
+<h2><strong><a name="extract" id="extract"></a></strong>3. Экстракция значений</h2>
+<p>В зависимости от того, что нужно сделать с конечными данными, может понадобится вытащить значения из растра в обычный CSV файл со всей атрибутивной информацией. Сделать это можно с помощью утилиты hdp (<a href="hdf-dump.html">подробнее о работе с hdp</a>).</p>
+<p>Выполняется это с помощью следующей команды: </p>
+<pre>hdp dumpsds -n &lt;variable1 name, ...,variableN name&gt; -o &lt;outputfilename&gt; -d &lt;inputfilename.hdf&gt;</pre>
+<p>Для нашего примера (один из исходных файлов) команда будет выглядеть следующим образом:</p>
+<pre>hdp dumpsds -n FP_line,FP_sample,FP_latitude,FP_longitude,FP_R2,FP_T21,FP_T31,FP_MeanT21,FP_MeanT31,FP_MeanDT,FP_MAD_T21,FP_MAD_T31,FP_MAD_DT,FP_power,FP_AdjCloud,FP_AdjWater,FP_WinSize,FP_NumValid,FP_confidence -o MOD021KM.A2007202.1750.005.txt -d MOD021KM.A2007202.1750.005.hdf</pre>
+<p>Результаты экстракции с помощью этой утилиты нуждаются в небольшой доработки (транспонировании массивов). </p>
+<p>Для пакетной экстракции значений в корректном формате можно использовать скрипт <strong>mod14-process.py</strong></p>
+<h2><strong><a name="prepare" id="prepare"></a></strong>4. Подготовка для ГИС</h2>
+<p>Конвертировать CSV в точечные shape-файлы удобно через виртуальные таблицы VRT и ogr2ogr (<a href="qgis-osgeo4w.html">установка</a>). Строка конвертации выглядит следующим образом:</p>
+<pre>ogr2ogr -overwrite MOD021KM.A2007202.1750.005.shp work.vrt</pre>
+<p>Для каждого CSV файла создается временный рабочий файл VRT следующего вида:</p>
+<pre>&lt;OGRVRTDataSource&gt;<br>&lt;OGRVRTLayer name=&quot;MOD021KM.A2007202.1750.005&quot;&gt;<br>&lt;SrcDataSource&gt;MOD021KM.A2007202.1750.005.csv&lt;/SrcDataSource&gt;<br>&lt;GeometryType&gt;wkbPoint&lt;/GeometryType&gt;<br>&lt;LayerSRS&gt;WGS84&lt;/LayerSRS&gt;<br>&lt;GeometryField encoding=&quot;PointFromColumns&quot; x=&quot;longitude&quot; y=&quot;latitude&quot;/&gt;<br>&lt;/OGRVRTLayer&gt;<br>&lt;/OGRVRTDataSource&gt;</pre>
+<p>Для пакетной конвертации CSV в Shape-формат можно использовать скрипт <strong>csv2shp.py</strong> работающий с ogr2ogr.</p>
+<p>Если точечных файлов получилось много, их удобно сложить вместе используя например операцию Merge в QGIS/Vector/Data Management Tools или аналогичную. </p>
+<h2><strong><a name="check" id="check"></a></strong>5. Результаты</h2>
+<p>Проверку того, что все детектировалось и экспортировалось верно можно осуществить используя один из аналогичных продуктов MOD14. В зависимости от того, какая версия алгоритма использовалась, можно скачать данные <a href="http://fires.kosmosnimki.ru/" target="_blank" class="external">ИТЦ Сканэкс</a> или LPDAAC/USGS через <a href="wist.html">WIST</a> (они же используются в сервисе <a href="firms.html">FIRMS</a>). В последнем случае к данным можно применить скрипты  <strong>mod14-process.py</strong> и <strong>csv2shp.py</strong> для удобной пакетной экстракции и конвертации данных. Для запроса данных в WIST можно использовать следующий query-файл (<a href="/other/mod14-process-example.query">загрузить</a>).</p>
+<p>Таким образом, на настоящий момент очаги пожаров можно получать следующими путями: </p>
+<ul>
+  <li>Очаги выделенные по MOD02 версией алгоритма 4.3.2</li>
+  <li>Очаги выделенные по MOD02 версией алгоритма 5.0.1</li>
+  <li>Очаги экстрагированные из MOD14 (WIST)</li>
+  <li>Очаги из FIRMS</li>
+  </ul>
+<p><a href="../programs/python/mod14-process.7z">Скачать</a> скрипты для пакетной обработки.</p>
+<p class="ill"><img src="/images/mod14-process-03.jpg" alt="" width="350" height="351" /><span>Изображение MODIS (2007204.0805) с наложенными результатами детектирования пожаров за один день - 21.07.2007 </span></p>
+<!-- обсуждение на форуме, цифра изменяется при публикации статьи -->   
+<p class="discuss"><span><!--#include virtual="/scripts/forum-comments-num.php?i=7958"--></span></p>
+<!-- ссылки -->
+<div class="links">
+	<h2>Ссылки по теме</h2>
+		<ul><li><a href="mod14a1.html">Данные по тепловым аномалиям MOD14A1: описание и получение</a></li>
+		</ul>
+</div>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<p class="status"><span>Дата создания: 23.05.2011<br>
+Автор(ы): <a href="/forum/memberlist.php?mode=viewprofile&u=2" target="_blank">Максим Дубинин</a></span></p>
+<!--#include virtual="/inc/footer2.php" -->

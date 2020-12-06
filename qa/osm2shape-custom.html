@@ -1,0 +1,40 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Проверка на наличие топологических ошибок в данных OSM онлайн</title>
+<!--#include virtual="/inc/header2.txt" -->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Вопросы и ответы</a></li>
+</ul>
+<!--Contents start-->
+<h1>Проверка на наличие топологических ошибок в данных OSM онлайн</h1>
+<p class="ann">Сервис проверки наличия ошибок</p>
+<p>Эта страница предназначена для быстрой проверки на наличие топологических ошибок в данных OpenStreetMap XML. Проверяется только полигональная геометрия. Все ошибки подобного рода с возможностью быстрого перехода к исправлениям можно посмотреть <a href="/projects/osm-errors.html">на общей карте</a>.</p>
+<p>Сервис является вспомогательным для общей ежедневной проверки и призван решить проблему быстрой перепроверки типа &quot;решено/не решено&quot;. Его можно использовать для быстрых экспериментов с геометрией и отношениями на предмет того, как на них реагирует валидатор. </p>
+<p><strong>Проверяемые данные OSM</strong></p>
+<p>Обычно представляют собой объект или набор объектов сохраненных в формат OSM с помощью, например, JOSM.</p>
+<p><strong>Что нужно сделать с файлом OSM </strong></p>
+<p>1. Использовать форму внизу, чтобы загрузить файл (не более 3 мегабайт) </p>
+<p>2. Изучить полученный отчет на предмет наличия ошибок. Если сообщений об ошибках нет, значит в полигональных данных их обнаружено не было. </p>
+<p>&nbsp;</p>
+<form enctype="multipart/form-data" action="/projects/osmrus/osm-topocheck.php" method="post">
+ <input type="hidden" name="MAX_FILE_SIZE" value="3000000" />
+ Проверяемый  файл: 
+ <input name="userfile" type="file" />
+ <input type="submit" value="Отправить" />
+</form>
+        <p>Если Вы обнаружили ошибку, пожалуйста, исправьте ее. С примерами и способами исправления типичных ошибок можно ознакомиться <a href="/qa/osm-topoerrors-examples.html">на специальной странице</a>.</p>
+        <p class="discuss"><span><!--#include virtual="/scripts/forum-comments-num.php?i=852"--></span>
+        </p>
+        <div class="links">
+				<h2>Ссылки по теме</h2>
+					<ul>
+<li><a href="/projects/osm-errors.html">Где топологические ошибки в OpenStreetMap?</a></li>
+<li><a href="/qa/josm-start.html">Основы редактирования данных OpenStreetMap в JOSM</a></li>
+					</ul>
+			</div>
+<!--#include virtual="/scripts/date.php" -->
+<!--Contents end-->
+<!--#include virtual="/inc/footer2.php" -->

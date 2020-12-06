@@ -1,0 +1,43 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Minimum convex polygon construction with consideration of locational error</title>
+<!--#include virtual="/inc/header2-eng.txt" -->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Вопросы и ответы</a></li>
+</ul>
+<!--Contents start-->
+<h1>Minimum convex polygon construction with consideration of locational error</h1>
+<p class="ann">Method description. Application for ornithological studies. Arcview extension. </p>
+<p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=950"--></span></p>
+<p><strong>Задача:</strong> Create minimum convex polygon (MCP) with the location estimation bias taken into  consideration.</p>
+<p>При изучении поведения животных с помощью телеметрии и определением их положения методом биангуляции исследователь всегда имеет дело с ошибкой вычисления истинного местоположения исследуемого объекта (ошибка локации). Эта ошибка возникает, во-первых, из-за погрешности в определении азимута (увеличивается на 1 метр с удалением от исследуемого объекта на каждые 10 м), и, во-вторых, она увеличивается с увеличением погрешности определения координат спутниковым навигатором или любым другим методом. При снятии азимутов с реперных точек с заранее известными координатами, второй источник ошибки, влияющий на общую ошибку вычисления истинного местоположения движущегося объекта, исключается.</p>
+            <p>Размер ошибки локации можно вычислить экспериментально. Для этого на передатчик, неподвижно находящийся в одной точке, снимается определенное количество засечек (пар азимутов). Затем рассчитываются точки пересечения и определяется радиус окружности, в которую попадают 100% тестовых засечек. Этот радиус будет соответствовать максимальной ошибке локации, на которую может отклоняться истинное положение объекта от рассчитанного местоположения. Исследователь может принять за ошибку локации и другие значения, соответствующие, например, <a href="/qa/cep.html">радиусам окружностей в которые попадает 50% или 90% тестовых засечек</a>.</p>
+            <p>Исследователю часто требуется рассчитать площадь, внутри которой перемещался исследуемый объект в течение определенной части дня, целого дня, в определенный период годового цикла и т.д. Самый распространенный способ решения этой задачи - построение конвексного полигона. В некоторых исследованиях (например, в исследованиях биотопических предпочтений) требуется учесть ошибку локации, чтобы максимально очертить территорию, внутри которой мог передвигаться исследуемый объект. Для этого вокруг каждой точки трека животного создается окружность с радиусом равным ошибке локации и минимальный конвексный полигон строится на основе этих окружностей.</p>
+            <p align="center"><img src="/images/mcp-locerror-01.gif" width="678" height="372" /></p>
+            <p>С помощью данного <a href="/programs/avenue/convex-hull.zip">расширения для Arcview GIS</a> можно автоматизировать выполнение данной операции. </p>
+            <p>В качестве исходных данных для работы используется точечная тема Arcview
+              (в формате shape-file). Тема
+              должна быть выделена (активна). Вид должен быть спроектирован, так как измерения расстояний между точками осуществляются в метрах.</p>
+            <p>Расчет MCP производится в два этапа.</p>
+            <p>1) Calculation the error circle. Source theme should be loaded and active <img src="/images/mcp-locerror-02.gif" width="25" height="22" />. Результатом этого этапа будет новая точечная тема содержащая расчитанные окружности ошибки. Эту тему необходимо сделать активной</p>
+            <p>2) Build convex polygons using error circles theme created on the first step <img src="/images/mcp-locerror-03.gif" width="25" height="22" />.</p>
+            <p>The result is polygonal  shape-file which represents minimum convex polygon with locational error correction. further you can get area of this polygon (<a href="/qa/areacalc.html">read more</a>).</p>
+            <p class="discuss">
+				<span><!--#include virtual="/scripts/forum-comments-num.php?i=950&lang=e"--></span>
+			</p>
+			<div class="links">
+			<h2>Ссылки по теме</h2>
+			<ul>
+               <li><a href="/qa/biangulation.html">Нахождение точки пересечения двух линий по углам и двум известным точкам (биангуляция)</a></li>
+			   <li><a href="/qa/cep.html">Вычисление радиуса окружности ошибки для оценки точности GPS-измерений</a></li>
+			   <li><a href="/qa/smooth-locerror.html">Усреднение данных о перемещении с учетом ошибки локации</a></li>
+			</ul>
+			</div>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<p class="status"><span>Дата создания: 04.07.2006
+<br>Автор(ы): <a href="/forum/memberlist.php?mode=viewprofile&u=2" target="_blank">Максим Дубинин</a></span></p>
+<!--#include virtual="/inc/footer2.php" -->

@@ -1,0 +1,114 @@
+[
+  {
+    "type": "FeatureCollection", 
+    "features": [
+      {
+        "geometry": {
+          "type": "Point", 
+          "coordinates": [
+            59.9393657, 
+            30.3153628
+          ]
+        }, 
+        "type": "Feature", 
+        "properties": {
+          "count": 1, 
+          "city": "Санкт-Петербург", 
+          "id": [
+            13
+          ]
+        }
+      }
+    ]
+  }, 
+  {
+    "type": "FeatureCollection", 
+    "features": [
+      {
+        "geometry": {
+          "type": "Point", 
+          "coordinates": [
+            44.4970713, 
+            34.1586871
+          ]
+        }, 
+        "type": "Feature", 
+        "properties": {
+          "count": 1, 
+          "city": "Ялта", 
+          "id": [
+            38
+          ]
+        }
+      }
+    ]
+  }, 
+  {
+    "type": "FeatureCollection", 
+    "features": [
+      {
+        "geometry": {
+          "type": "Point", 
+          "coordinates": [
+            55.7516147, 
+            37.6187012
+          ]
+        }, 
+        "type": "Feature", 
+        "properties": {
+          "count": 3, 
+          "city": "Москва", 
+          "id": [
+            10, 
+            9, 
+            11
+          ]
+        }
+      }
+    ]
+  }, 
+  {
+    "type": "FeatureCollection", 
+    "features": [
+      {
+        "geometry": {
+          "type": "Point", 
+          "coordinates": [
+            48.7098404, 
+            44.5155471
+          ]
+        }, 
+        "type": "Feature", 
+        "properties": {
+          "count": 1, 
+          "city": "Волгоград", 
+          "id": [
+            26
+          ]
+        }
+      }
+    ]
+  }, 
+  {
+    "type": "FeatureCollection", 
+    "features": [
+      {
+        "geometry": {
+          "type": "Point", 
+          "coordinates": [
+            52.2895979, 
+            104.2805843
+          ]
+        }, 
+        "type": "Feature", 
+        "properties": {
+          "count": 1, 
+          "city": "Иркутск", 
+          "id": [
+            33
+          ]
+        }
+      }
+    ]
+  }
+]

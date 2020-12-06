@@ -1,0 +1,117 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Бесплатное получение производных продуктов на базе данных ASTER</title>
+<!--#include virtual="/inc/header2.txt" -->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Вопросы и ответы</a></li>
+</ul>
+<!--Contents start-->
+<h1>Производные продукты на базе данных ASTER </h1>
+<p class="ann">Описание типов данных создаваемых на базе ASTER</p>
+<p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=217"--></span></p>
+
+<p>На основе данных получаемых радиометром ASTER существует целая группа производных продуктов (второй уровень обработки - L2). Одним из наиболее близких исходным данным продуктов для использования в таких приложениях как: визуальное и автоматическое дешифрирование, анализ изменений и т.д. является <strong>Ast07/09</strong> - атмосферно скорректированные данные ASTER уровня обработки L1B (значения излучения на сенсоре), визуально мало отличающиеся от привычных исходных данных L1A, L1B. Главным отличием этих продуктов от сырых данных является отсутствие 3B канала, то есть производить из этих данных DEM'ы самим невозможно (но можно пользоваться Ast14DEM).</p>
+            <p>Так же через этот интерфейс можно получить следующие продукты:</p>
+            <table width="90%" align="center">
+              <tbody>
+                <tr>
+                  <td class="ypy"><p>AST_04 </p></td>
+                  <td class="ypy"><p>ASTER On-Demand L2 Brightness Temperature at the Sensor<br />
+                      Данные 5-ти каналов теплового диапазона (TIR) в единицах яркостной температуры на сенсоре.</p></td>
+                  <td class="ypy"><a href="http://asterweb.jpl.nasa.gov/content/03_data/01_Data_Products/release_brightness_temperature_2_5.htm"><img src="/images/weblink-small.gif" width="19" height="19" border="0" /></a><a href="/docs/ast04_v2.3.pdf"><img src="/images/pdf.gif" width="19" height="19" border="0" /></a></td>
+                </tr>
+                <tr>
+                  <td class="ypy"><p>AST_05 </p></td>
+                  <td class="ypy"><p>ASTER On-Demand L2 Surface Emissivity<br />
+                      Данные 5-ти каналов теплового диапазона (TIR) в единицах теплового излучения. </p></td>
+                  <td class="ypy"><a href="http://asterweb.jpl.nasa.gov/content/03_data/01_Data_Products/release_surface_emissivity_product.htm"><img src="/images/weblink-small.gif" width="19" height="19" border="0" /></a><a href="/docs/ast05.pdf"><img src="/images/pdf.gif" width="19" height="19" border="0" /></a></td>
+                </tr>
+                <tr>
+                  <td class="ypy"><p>AST_06V </p></td>
+                  <td class="ypy"><p>ASTER On-Demand L2 Decorrelation Stretch VNIR<br />
+                      Специальная визуализация VNIR каналов.</p></td>
+                  <td class="ypy"><a href="/docs/ast04_v2.3.pdf"></a><a href="http://asterweb.jpl.nasa.gov/content/03_data/01_Data_Products/release_decorrelation_stretch_2_5.htm"><img src="/images/weblink-small.gif" width="19" height="19" border="0" /></a><a href="/docs/ast06.pdf"><img src="/images/pdf.gif" width="19" height="19" border="0" /></a></td>
+                </tr>
+                <tr>
+                  <td class="ypy"><p>AST_06S </p></td>
+                  <td class="ypy"><p>ASTER On-Demand L2 Decorrelation Stretch SWIR<br />
+                      Специальная визуализация SWIR каналов. </p></td>
+                  <td class="ypy"><a href="/docs/ast04_v2.3.pdf"></a><a href="http://asterweb.jpl.nasa.gov/content/03_data/01_Data_Products/release_decorrelation_stretch_2_5.htm"><img src="/images/weblink-small.gif" width="19" height="19" border="0" /></a><a href="/docs/ast06.pdf"><img src="/images/pdf.gif" width="19" height="19" border="0" /></a></td>
+                </tr>
+                <tr>
+                  <td class="ypy"><p>AST_06T </p></td>
+                  <td class="ypy"><p>ASTER On-Demand L2 Decorrelation Stretch TIR<br />
+                      Специальная визуализация TIR каналов. </p></td>
+                  <td class="ypy"><a href="/docs/ast04_v2.3.pdf"></a><a href="http://asterweb.jpl.nasa.gov/content/03_data/01_Data_Products/release_decorrelation_stretch_2_5.htm"><img src="/images/weblink-small.gif" width="19" height="19" border="0" /></a><a href="/docs/ast06.pdf"><img src="/images/pdf.gif" width="19" height="19" border="0" /></a></td>
+                </tr>
+                <tr>
+                  <td class="ypy"><p>AST_07 </p></td>
+                  <td class="ypy"><p>ASTER On-Demand L2 Surface Reflectance<br />
+                      Атмосферно скорректированные данные. </p></td>
+                  <td class="ypy"><a href="/docs/ast04_v2.3.pdf"></a><a href="http://asterweb.jpl.nasa.gov/content/03_data/01_Data_Products/release_aster_surface_reflectance.htm"><img src="/images/weblink-small.gif" width="19" height="19" border="0" /></a><a href="/docs/ast07_v2.3.pdf"><img src="/images/pdf.gif" width="19" height="19" border="0" /></a></td>
+                </tr>
+                <tr>
+                  <td class="ypy"><p>AST_08 </p></td>
+                  <td class="ypy"><p>ASTER On-Demand L2 Surface Kinetic Temperature<br />
+                      Данные 5-ти каналов теплового диапазона (TIR) в единицах температуры поверхности. </p></td>
+                  <td class="ypy"><a href="http://asterweb.jpl.nasa.gov/content/03_data/01_Data_Products/release_surface_kinetic_temperatur.htm"><img src="/images/weblink-small.gif" width="19" height="19" border="0" /></a><a href="/docs/ast08.pdf"><img src="/images/pdf.gif" width="19" height="19" border="0" /></a></td>
+                </tr>
+                <tr>
+                  <td class="ypy"><p>AST_09 </p></td>
+                  <td class="ypy"><p>ASTER Оn-Demand L2 Surface Radiance SWIR and VNIR<br />
+                      Атмосферно скорректированные данные SWIR и VNIR каналов. </p></td>
+                  <td class="ypy"><a href="/docs/ast04_v2.3.pdf"></a><a href="http://asterweb.jpl.nasa.gov/content/03_data/01_Data_Products/release_aster_surface_reflectance.htm"><img src="/images/weblink-small.gif" width="19" height="19" border="0" /></a><a href="/docs/ast09-vnir-swir.pdf"><img src="/images/pdf.gif" width="19" height="19" border="0" /></a></td>
+                </tr>
+                <tr>
+                  <td class="ypy"><p>AST_09T </p></td>
+                  <td class="ypy"><p>ASTER On-Demand L2 Surface Radiance TIR<br />
+                      Атмосферно скорректированные данные TIR каналов. </p></td>
+                  <td class="ypy"><a href="http://asterweb.jpl.nasa.gov/products/RN_surface_leaving_radiance-TIR.htm"><img src="/images/weblink-small.gif" width="19" height="19" border="0" /></a><a href="/docs/ast09-tir.pdf"><img src="/images/pdf.gif" width="19" height="19" border="0" /></a></td>
+                </tr>
+                <tr>
+                  <td class="ypy"><p>AST13POL </p></td>
+                  <td class="ypy"><p>ASTER On-Demand L2 Polar Cloud and Surface Classification<br />
+                      Нейросетевая классификация данных на классы: вода, снег\лед, облачность, суша, морской лед, голая земля и т.д. </p></td>
+                  <td class="ypy"><a href="http://asterweb.jpl.nasa.gov/content/03_data/01_Data_Products/release_Polar_Cloud_Class.htm"><img src="/images/weblink-small.gif" width="19" height="19" border="0" /></a><a href="http://asterweb.jpl.nasa.gov/products/RN_surface_leaving_radiance-TIR.htm"></a></td>
+                </tr>
+                <tr>
+                  <td class="ypy"><p>AST14DEM </p></td>
+                  <td class="ypy"><p>ASTER Digital Elevation Model (Absolute)<br />
+                      Цифровая модель рельефа в абсолютных значения высоты (требует контрольных точек).</p></td>
+                  <td class="ypy"><a href="http://asterweb.jpl.nasa.gov/products/RN_surface_leaving_radiance-TIR.htm"></a><a href="http://asterweb.jpl.nasa.gov/content/03_data/01_Data_Products/release_DEM_absolute.htm"><img src="/images/weblink-small.gif" width="19" height="19" border="0" /></a><a href="http://asterweb.jpl.nasa.gov/products/release_DEM_absolute.htm"></a><a href="/docs/ast14.pdf"><img src="/images/pdf.gif" width="19" height="19" border="0" /></a></td>
+                </tr>
+                <tr>
+                  <td class="ypy"><p>AST14DEM </p></td>
+                  <td class="ypy"><p>ASTER Digital Elevation Model (Relative)<br />
+                      Цифровая модель рельефа в относительных значения высоты (не требует контрольных точек). </p></td>
+                  <td class="ypy"><a href="http://asterweb.jpl.nasa.gov/products/RN_surface_leaving_radiance-TIR.htm"></a><a href="http://asterweb.jpl.nasa.gov/content/03_data/01_Data_Products/release_DEM_relative.htm"><img src="/images/weblink-small.gif" width="19" height="19" border="0" /></a><a href="http://asterweb.jpl.nasa.gov/products/release_DEM_relative.htm"></a><a href="/docs/ast14.pdf"><img src="/images/pdf.gif" width="19" height="19" border="0" /></a></td>
+                </tr>
+              </tbody>
+            </table>
+            <p><strong>Комплектация данных</strong></p>
+            <p>Комплектация данных зависит от типа продукта. Для Ast07 - это данные 9-ти спектральных диапазонов (каналов), соответственно VNIR и SWIR группы. Данные TIR (10-14 каналы) в данный набор данных НЕ входят, они распространяются отдельно и представляют собой продукт Ast09. VNIR и SWIR каналы распространяются отдельными файлами с расширениями <strong>hdf0</strong> и <strong>hdf1</strong> соответственно.</p>
+            <p><strong>Импорт данных</strong></p>
+            <p>Импорт данных проще всего осуществить с помощью <a href="/programs/imgimporter">программы ImgImporter</a>. Программа распространяется бесплатно. Будем благодарны за любую информацию о вашем опыте и работе программы. </p>
+            <p class="discuss">
+				<span><!--#include virtual="/scripts/forum-comments-num.php?i=217"--></span>
+			</p>
+<!--Contents end-->
+<div class="links">
+<h2>Ссылки по теме</h2>
+<ul>
+   <li><a href="http://www.heavens-above.com/orbitdisplay.asp?lat=0&amp;lng=0&amp;alt=0&amp;loc=Unspecified&amp;TZ=CET&amp;satid=25994" target="_blank" class="external">Положение спутника Terra в текущий момент</a></li>
+   <li><a href="/programs/imgimporter">ImgImporter: Импорт данных Ast07 (продукт на базе ASTER)</a></li>
+   <li><a href="http://asterweb.jpl.nasa.gov/content/03_data/01_Data_Products/release_aster_surface_reflectance.htm" target="_blank" class="external">ASTER Surface Reflectance/Radiance VNIR/SWIR Product</a></li>
+   <li><a href="/qa/aster_radiocorr.html">Радиометрическая коррекция данных ASTER L1A</a></li>
+   <li><a href="/qa/edcgate.html">Использование EDG для отбора и получения данных дистанционного зондирования</a></li>
+   <li><a href="/qa/spaceload.html">Использование SpaceLoad для получения больших количеств предварительных изображений (preview)</a></li>
+</ul>
+</div>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<p class="status"><span>Дата создания: 31.12.2004
+<br>Автор(ы): <a href="/forum/memberlist.php?mode=viewprofile&u=2" target="_blank">Максим Дубинин</a></span></p>
+<!--#include virtual="/inc/footer2.php" -->

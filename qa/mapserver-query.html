@@ -1,0 +1,131 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Реализация определяющей выборки в Mapserver</title>
+<!--#include virtual="/inc/header2.txt" -->
+<!--Contents start-->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Вопросы и ответы</a></li>
+</ul>
+<h1>Реализация определяющей выборки в Mapserver</h1>
+<p class="ann">Небольшой пример иллюстрирующий построение карты с выборочным показом объектов. </p>
+<p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=2057"--></span></p>
+            <p>Типичная задача при визуализации пространственной информации - демонстрация некоторого ее подмножества (назовем этот механизм определяющей выборкой), скрыв остальную информацию. Это подмножество может быть определено как пространственно (например ограничением географического охвата или какой-то более сложной формой), так и через атрибутивную таблицу объектов. В данном примере мы иллюстрируем, как можно, с помощью специально сформированного URL карты осуществить выборку и показать только выбранные объекты, скрыв остальные. Данная возможность может пригодится для динамического уменьшения количества информации, показываемой на карте. В терминологии ESRI данные вид выборки называется &quot;definition query&quot; (определяющая выборка). </p>
+            <p>Данный пример предполагает, что у читателя уже есть работающий MapServer и есть некая карта, к которой надо добавить возможность подобных выборок. </p>
+            <p><strong>Изменения в map-файле</strong></p>
+            <p>В конфигурационном файле карты необходимо произвести следующие изменения:</p>
+            <p>В главный раздел необходимо добавить тэг QUERYMAP, вот так:</p>
+              <pre>QUERYMAP
+	STATUS ON
+	SIZE 400 300
+	STYLE  SELECTED
+END</pre>
+            <p>Обращаем внимание, что в STATUS должно стоять именно ON, иначе не будет работать. </p>
+            <p>В разделе слоя, к которому будет осуществляться запрос (LAYER), так же необходимо установить правило составления запроса:</p>
+              <pre>LAYER
+...
+	METADATA
+		qstring_validation_pattern '.'
+	END
+...
+END</pre>
+            <p>Туда же нужно добавить ссылку на шаблон для вывода атрибутивной информации, несмотря на то, что нас в данном случае интересует выборка с отображением элементов карты, а не атрибутики, это все равно необходимо сделать. Файл шаблона должен существовать, хотя содержимое его не имеет значения. Если этого не сделать, Mapserver будет выдавать следующее сообщение об ошибке:</p>
+              <pre>msQueryByAttributes(): Query error. Requested layer has no templates defined so is not queryable.</pre>
+            <p>Таким образом, к содержимому LAYER добавляется еще несколько строк, указывающих местонахождение главного шаблона (в нашем случае это файл template.html). Содержимое данного раздела представляет собой некоторое ухищрение, если ограничиться просто TEMPLATE 	&quot;template_subst.html&quot;, то будет карта с результатом будет выведена столько раз, сколько объектов попадает в выборку определенную qstring, qitem, qlayer. Данный подход складывает все эти карты в одну, при этом TEMPLATE и FOOTER ссылаются на существующий, но абсолютно пустой файл (само собой для своего проекта это может быть изменено). </p>
+              <pre>LAYER
+...
+	TEMPLATE 	"template_subst.html"
+	FOOTER		"template_subst.html"
+	HEADER		"template.html"
+...
+END</pre>
+            <p>В ту же секцию, возможно сразу после TEMPLATE'ов, необходимо также добавить тэг METADATA со схемой проверки запроса. Так как мы по-умолчанию предполагаем, что запрос наш верен (за это у нас отвечается код на Javascript), то наша строка проверки будет выглядеть таким образом:</p>
+              <pre>LAYER
+...
+	TEMPLATE 	&quot;template_subst.html&quot;
+	...
+	METADATA
+		qstring_validation_pattern '.'
+	END
+...
+END</pre>
+            <p>Если этого не сделать, получим ошибку от MapServer такого содержания: </p>
+              <pre>mapserv(): Web application error. Metadata qstring_validation_pattern is not set.</pre>
+            <p>Результирующий map-файл целиком будет выглядеть следующим образом: </p>
+            <pre>MAP
+  IMAGETYPE      PNG
+  EXTENT         -97.238976 41.619778 -82.122902 49.385620
+  SIZE           400 300
+  SHAPEPATH      "/путь/к/каталогу/c/shape-файлами"
+  IMAGECOLOR     255 255 255
+
+  WEB
+    TEMPLATE  "template.html"
+    IMAGEPATH "/путь/к/каталогу/c/временными файлами"
+    IMAGEURL  "/tmp/"
+  END
+
+  QUERYMAP
+    STATUS ON
+    SIZE 400 300
+    STYLE  SELECTED
+  END
+
+  LAYER
+    NAME         states_poly
+    DATA         states_ugl
+    STATUS       DEFAULT
+    TYPE         POLYGON
+    CLASSITEM   "CLASS"
+	TEMPLATE 	"template_subst.html"
+	FOOTER		"template_subst.html"
+	HEADER		"template.html"
+	METADATA
+				qstring_validation_pattern '.'
+	END
+    CLASS
+      NAME 'States'
+      EXPRESSION 'land'
+      STYLE
+        COLOR      232 232 232
+      END
+    END
+    CLASS
+      NAME 'Water'
+      EXPRESSION 'water'
+      STYLE
+        COLOR      198 198 255
+      END
+    END
+  END
+END
+</pre>
+            <p>&nbsp;</p>
+            <p><strong>Изменения в html </strong></p>
+            <p>В HTML нашего шаблона нужно добавить параметры запросов:</p>
+              <pre>&lt;input type=&quot;hidden&quot; name=&quot;qlayer&quot; value=&quot;&quot;&gt;
+&lt;input type=&quot;hidden&quot; name=&quot;qitem&quot; value=&quot;&quot;&gt;
+&lt;input type=&quot;hidden&quot; name=&quot;qstring&quot; value=&quot;&quot;&gt;</pre>
+            <p>И небольшой JavaScript, который будет получить выбранное значение от списка и отправлять его MapServer'у.</p>
+              <pre>&lt;SCRIPT language=JavaScript type=text/javascript&gt;<br />&lt;!--<br />function create_query(form) {<br />    vid=form.vid.value;<br />    query=&quot;('[State]'=='&quot;+vid+&quot;')&quot;;<br />    if (query != &quot;&quot;) {<br />      query=&quot;(&quot;+query+&quot;)&quot; <br />      form.qstring.value=query;<br />	  form.qitem.value=&quot;State&quot;;<br />	  form.qlayer.value=&quot;states_poly&quot;;<br />    };<br />  }<br />  <br />function on_submit_form(){<br />     create_query(document.mapserv);<br />     document.mapserv.mode.value=&quot;itemnquery&quot;<br />     document.mapserv.target = &quot;_self&quot;;<br />     document.mapserv.submit();       <br />  }<br />// --&gt;<br />&lt;/SCRIPT&gt;</pre>
+            <p>Посмотреть пример работающей определяющей выборки реализованной описанным выше образом можно <a href="http://gis-lab.info/cgi-bin/defquery">здесь</a>.</p>
+            <p>Пример результирующего URL, содержащего запрос:</p>
+              <pre>
+http://gis-lab.info/cgi-bin/mapserv?map=/path/to/example/defquery.map&mode=itemnquery&imgext=-97.238976+39.838907+-82.122902+51.166491&imgxy=200.0+150.0&layer=states_poly&layer=states_line&zoom=0&qlayer=states_poly&qitem=State&qstring='Minnesota'</pre>
+            <p class="discuss">
+				<span><!--#include virtual="/scripts/forum-comments-num.php?i=2057"--></span>
+			</p>
+			<div class="links">
+			<h2>Ссылки по теме</h2>
+			<ul>
+               <li><a href="mapserver-begin.html">Начало работы с MapServer</a></li>
+			   <li><a href="mapserver-expressions.html">Выражения в MapServer</a></li>
+			</ul>
+			</div>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<p class="status"><span>Дата создания: 02.03.2008
+<br>Автор(ы): <a href="/forum/memberlist.php?mode=viewprofile&u=2" target="_blank">Максим Дубинин</a></span></p>
+<!--#include virtual="/inc/footer2.php" -->

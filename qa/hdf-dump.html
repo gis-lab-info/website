@@ -1,0 +1,150 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Экспорт данных HDF и HDF-EOS с помощью hdp</title>
+<!--#include virtual="/inc/header2.txt" -->
+<!--Contents start-->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Вопросы и ответы</a></li>
+</ul>
+<h1>Экспорт данных HDF и HDF-EOS с помощью hdp</h1>
+<p class="ann">Рассмотрены некоторые вопросы, связанные с форматом данных HDF-EOS, а также представлены простейшие методы выгрузки подобного рода данных в двоичный и текстовый ASCII форматы.</p>
+<p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=2785"--></span></p>
+            <p>Иерархический формат данных (Hierarchical Data Format, HDF) —  стандартный формат данных для  всех продуктов системы NASA Earth Observing System (EOS). HDF —  довольно сложный формат,   развитием и поддержкой которого в настоящее время занимается организация The HDF Group.</p>
+            <p><strong>Оглавление</strong></p>
+            <ul class="empty">
+                  <li><a href="#01">1. Введение в HDF и HDF-EOS</a></li>
+                  <li><a href="#02">2. Выгрузка данных HDF</a></li>
+                  <ul>
+			        <li><a href="#BinaryDump">2.1 Выгрузка данных HDF в двоичный формат</a></li>
+                      		<ul>
+			                   <li><a href="#Nix">2.1.1 Unix/Linux</a></li>
+			                   <li><a href="#Win">2.1.2 Windows NT/98/2000/XP</a></li>
+                        </ul>
+			        <li><a href="#TxtDump">2.2 Выгрузка данных HDF в текстовый ASCII формат</a></li>
+		          </ul>
+                  <li><a href="#03">3. Географическая привязка данных HDF-EOS</a></li>
+            </ul>
+
+
+<!-- Первый раздел -->
+            <h2><img src="/images/1.gif" alt="1" width="33" height="41" align="left" /><a name="01" id="01"></a>Введение в HDF и HDF-EOS</h2>
+            <p>Формат HDF был разработан с целью  обеспечения передачи научной информации между разнообразными операционными  системами и компьютерными платформами, путем использования интерфейсов языков  программирования C и Fortran, а также различных утилит. HDF поддерживает  широкий спектр типов данных: n-мерные массивы, таблицы, текстовые описания,  всевозможные типы растровых изображений и связанные с ними цветовые палитры и  метаданные. Библиотека HDF содержит интерфейсы, позволяющие сохранять и  получать данные вышеуказанных типов в их сжатом или несжатом виде.</p>
+	    <p>Для каждого элемента данных в HDF  файле существуют специальные теги, определяющие его тип, объём и размерность. Свойство самоописания формата HDF помогает пользователям полностью  понять структуру и содержание хранящейся в файле информации. При работе с  форматом HDF, пользовательская программа интерпретирует, а затем  идентифицирует типы тегов и обрабатывает  соответствующие данные. Единственный HDF файл может содержать в себе данные  различных типов, например, текстовые, числовые или графические; однако,  зачастую растровые изображения и многомерные массивы не содержат в себе  информацию о географической привязке. Поскольку большинство наборов данных о  Земле нуждаются в подобного рода привязке, The HDF Group разработала формат  HDF-EOS, введя дополнительные соглашения и типы данных для HDF файлов.</p>
+	    <p>HDF-EOS поддерживает три типа  геоданных: grid, points и swath, обеспечивая стандартный доступ в  геопространственном контексте. Библиотека для работы с форматом HDF-EOS позволяет  пользователю производить выборку и вырезать фрагменты данных из файла путём  указания необходимых координат и времени. Инструменты предназначенные для  работы со стандартными  файлами HDF,  также могут читать и файлы HDF-EOS, однако вызовы стандартной библиотеки HDF не  смогут получить доступ к данным о географической привязке, данным времени и метаданным, как  в случае использования библиотеки HDF-EOS.
+	      <!-- Второй раздел -->
+	      </p>
+	    <h2><strong><img src="/images/2.gif" alt="2" width="33" height="41" align="left" /><a name="02" id="02"></a></strong>Выгрузка данных HDF</h2>
+	    <p>The HDF Group предоставляет различные  утилиты для просмотра содержимого файлов HDF и извлечения из них растровых,  двоичных или ASCII данных. Одна из них - hdp, обеспечивающая простейший  способ выгрузки объектов HDF в двоичный или ASCII формат. Есть несколько команд,  используемых в качестве ключей утилиты hdp, которая вызывается следующим  образом:</p>
+		        <pre>hdp</pre>
+
+        <p>Например команда dumpsds  позволяет отобразить  данные, содержащиеся в массивах (Scientific Data Set,   SDS). На сайте The HDF Group присутствует <a href="http://hdf.ncsa.uiuc.edu/hdp.html" class="external">документация</a> по использованию hdp,  но это по сути та же информация, что выводится на экран, если набрать:</p>
+        <pre>hdp -h &lt;command&gt;</pre>
+        <h3><strong><a name="BinaryDump" id="BinaryDump"></a></strong>2.1 Выгрузка данных HDF в двоичный формат </h3>
+        <h4><strong><a name="Nix"></a></strong>2.1.1 Unix/Linux</h4>
+        <p><strong>A</strong><strong>.  Загрузка библиотек для работы с  форматом </strong><strong>HDF</strong><strong> с сайта The HDF Group</strong></p>
+        <p>Библиотека  сжатия szip необходима для запуска hdp на платформах Unix/Linux.  Следующие инструкции предполагают, что вы используете sh, csh или  tcsh на своей Unix/Linux системе.</p>
+        <p>1. Перейдите в каталог,  содержащий прекомпилированные двоичные файлы библиотеки szip:<br>
+          <a href="ftp://ftp.hdfgroup.org/lib-external/szip/2.0/bin/" target="_blank" class="external">ftp://ftp.hdfgroup.org/lib-external/szip/2.0/bin/</a> </p>
+        <p>2. Библиотека szip в  скомпилированном виде распространяется двумя способами: в первом случае с  поддержкой функции кодирования и декодирования (может   потребоваться лицензия), а во втором — только с поддержкой  возможности декодирования (без лицензии).  В зависимости от того, какой вариант библиотеки используется, соответствующее  приложение может создавать, записывать и считывать данные, сжатые с помощью szip или только считывать. Скачайте библиотеку szip в соответствии с используемой  операционной системой в свой домашний каталог.<br>
+          Например: szip2-linux2.6-enc.tar.gz</p>
+        <p>3.  Разархивируйте скачанный файл с помощью следующей команды:</p>
+        <pre>gunzip szip2-linux2.6-enc.tar.gz</pre>
+        <p>4.  Распакуйте полученный на предыдущем этапе tar файл:</p>
+        <pre>tar xvf szip2-linux2.6-enc.tar</pre>
+        <p>Замечание: выполнение этой  операции создаст каталог szip2-linux2.6-enc в вашей домашней директории.</p>
+        <p>5.  Проверьте, существует ли переменная окружения LD_LIBRARY_PATH:</p>
+        <pre>echo $LD_LIBRARY_PATH</pre>
+        <p>6. Если переменная  окружения LD_LIBRARY_PATH не определена, создайте ее:</p>
+        <pre>export LD_LIBRARY_PATH=$HOME/szip2-linux2.6-enc/lib</pre>
+        <p>Если  же переменная окружения  LD_LIBRARY_PATH  определена, просто  добавьте в нее новый путь:</p>
+        <pre>export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HOME/szip2-linux2.6-enc/lib</pre>
+        <p><strong>B. </strong><strong>Загрузка</strong><strong> </strong><strong>утилиты</strong><strong> hdp</strong><strong>с</strong><strong> </strong><strong>сайта</strong><strong> The HDF Group</strong></p>
+        <p>1. Перейдите в <a href="ftp://ftp.hdfgroup.org/HDF/HDF_Current/bin/" target="_blank" class="external">каталог скомпилированных  бинарных дистрибутивов</a>.</p>
+        <p>2. Выберите директорию, соответствующую вашей платформе.</p>
+        <p>3. Перейдите в каталог utilities.</p>
+        <p>4.  Загрузите утилиту hdp.</p>
+        <p>5.  Наберите следующую команду, чтобы сделать файл исполняемым:</p>
+        <pre>chmod 755 hdp</pre>
+        <p><strong>C</strong><strong>.  Выбор выгружаемых переменных HDF файла</strong></p>
+        <p>Пользователи  могут конвертировать как все содержимое HDF файла в двоичный формат, так и  содержимое отдельных массивов (SDS).  Имена массивов представлены в виде списка в заголовке файла HDF.</p>
+        <p>1.  Выгрузите информацию заголовка и укажите, что необходимо выгрузить только имена переменных:</p>
+        <pre>hdp dumpsds -h <inputfilename.hdf> | grep &quot;Variable Name&quot;</pre>
+        <p>Например: Имена переменных будут отображены  согласно следующему формату:</p>
+        <pre>Variable Name = CMG_day
+Variable Name = CMG_night
+</pre>
+        <p>2.  Запишите куда-нибудь имена переменных, которые в дальнейшем необходимо будет  выгрузить в двоичный формат.</p>
+        <p><strong>D</strong><strong>. Выгрузка данных </strong><strong>HDF</strong><strong> в двоичный формат</strong></p>
+        <p>1.  Наберите следующую команду:</p>
+        <pre>hdp dumpsds -n &lt;variable1 name, ...,variableN name&gt; -o &lt;outputfilename&gt; -b &lt;inputfilename.hdf&gt;</pre>
+        <p>В  результате выполнения вышеприведенной команды необходимые данные (-n &lt;variable1 name,...,variableN name&gt;) будут выгружены  в указанный файл (-o &lt;outputfilename&gt;) в двоичном виде (-b).</p>
+        <p>Замечание 1: Используйте двойные кавычки  вокруг имен переменных, если те состоят более чем из одного слова, например “Sea  Ice by Reflectance”.<br>
+          Замечание 2: Порядок байтов для платформ  Sun/Solaris, SGI, HP и IBM UNIX - от старшего к младшему («big-endian»),  о чем необходимо помнить.</p>
+        <h4><strong><a name="Win"></a></strong>2.1.2 Windows NT/98/2000/XP</h4>
+        <p><strong>A</strong><strong>.  Загрузка утилиты </strong><strong>hdp</strong><strong> </strong><strong>с сайта </strong><strong>The</strong><strong> </strong><strong>HDF</strong><strong> </strong><strong>Group</strong></p>
+        <p>1. Перейдите по ссылке: <a href="ftp://ftp.hdfgroup.org/HDF/HDF_Current/bin/windows/utilities" class="external">ftp://ftp.hdfgroup.org/HDF/HDF_Current/bin/windows/utilities</a>.</p>
+        <p>2. Загрузите файл hdp.exe</p>
+        <p>3.  Пользователям Windows XP  необходимо загрузить  три  библиотеки в ту же директорию, где расположен файл hdp.exe: <a href="ftp://hdfgroup.org/lib-external/zlib/1.2/bin/windows/" target="_blank" class="external">zlib1.dll</a>,<a href="ftp://ftp.hdfgroup.org/lib-external/szip/2.0/bin/windows/xp/szip20-win-xp-noenc.tar.gz" target="_blank" class="external">szlibdll.dll и szlibdll.lib</em></a>:        </p>
+        <p>4. Запустите командную строку.</p>
+        <p>5.  Перейдите в каталог с утилитой hdp.exe.  Для удобства можете также поместить свой <em>*.</em><em>hdf</em>  файл в этот же каталог.</p>
+        <p><strong>B</strong><strong>. Выбор выгружаемых переменных HDF файла</strong><strong> </strong></p>
+        <p>1. Выгрузите информацию заголовка в файл в текстовом  формате (используется по умолчанию):</p>
+        <pre>hdp dumpsds -h -o &lt;outputfilename&gt; &lt;inputfilename.hdf&gt;</pre>
+        <p>2.  В текстовом редакторе откройте получившийся файл, пролистав его в самый  конец,  вы увидите имена переменных.</p>
+        <p>3.  Отметьте для себя имена тех переменных, которые необходимо будет выгружать.</p>
+        <p><strong>С. Выгрузка данных </strong><strong>HDF</strong><strong> в двоичный формат</strong></p>
+        <p>1.  В командной строке наберите команду:</p>
+        <pre>hdp dumpsds -n &lt;variable1 name, ...,variableN name&gt; -o &lt;outputfilename&gt; -b &lt;inputfilename.hdf&gt;</pre>
+        <p>Замечание 1: Используйте двойные кавычки  вокруг имен переменных, если те состоят более чем из одного слова, например “  Day Tile Snow Cover ”.<br>
+            Замечание 2: Порядок байтов для платформ Windows - от младшего к старшему («little-endian»),  о чём необходимо помнить.</p>
+        <h3><strong><a name="TxtDump"></a></strong>2.2 Выгрузка данных HDF в текстовый ASCII формат</h3>
+        <p>Выгрузка  данных в текстовый ASCII  формат производится  аналогично рассмотренному выше способу выгрузки в двоичный формат, только в  этом случае при использовании утилиты hdp вместо  ключа –b нужно использовать ключ –x,  либо вообще не использовать никакие ключи (ни –b, ни -x), так как по умолчанию  выгрузка итак производится в текстовом формате.</p>
+        <p>Пример:</p>
+        <pre>hdp dumpsds -n &lt;variable1 name, ...,variableN name&gt; -o &lt;outputfilename&gt; &lt;inputfilename.hdf&gt;</pre>
+        <p>Замечание: В приведенном выше способе данные  выгружаются вместе с заголовком HDF файла, чтобы в выходном файле содержались только  данные, нужно воспользоваться ключом –d:</p>
+        <pre>hdp dumpsds -n &lt;variable1 name, ...,variableN name&gt; -o &lt;outputfilename&gt; -d &lt;inputfilename.hdf&gt;</pre>
+        <p>Пример: Рассмотрим выгрузку данных файла <a href="http://gis-lab.info/data/samples/mod14-1scene.7z">MOD14.A2007201.0735.005.2007202182452.hdf</a> из набора MOD14:</p>
+        <pre>hdp dumpsds -n FP_longitude,FP_latitude -o output.txt -d MOD14.A20072
+01.0735.005.2007202182452.hdf</pre>
+        <p>Содержимое выходного файла output.txt будет иметь вид:</p>
+        <pre>47.116291 47.114323 47.106380 47.101460 47.099499 47.092617 46.951347
+47.659725 47.416451 47.414543 47.093536 46.154545 47.343292 47.342487
+47.024929 46.972633 47.022923 46.974819 47.086983 46.443035 47.088673
+46.272400 46.828228 46.196171 46.829624 46.827862 46.676620 46.662701
+46.643841 46.478455 46.523300 46.478695 46.475666 46.398930 46.344063
+46.342270 46.349342 46.335598 43.827866 43.822529 43.706970 43.694920
+...
+
+53.022594 53.035557 53.026371 52.997627 53.010582 52.994797 52.066730
+41.673935 44.352989 44.378529 46.810658 53.409946 41.138630 41.130955
+42.455647 43.126461 42.577427 43.120789 37.113361 48.199680 37.104752
+48.800392 40.626141 48.836739 40.618580 40.658440 41.889912 41.888447
+41.714169 41.719471 40.454330 41.438107 41.430126 41.529949 42.034565
+...</pre>
+        <h2><strong><img src="/images/3.gif" alt="3" width="33" height="41" align="left" /></strong><a name="03" id="022"></a>Географическая  привязка данных HDF-EOS</h2>
+        <p>Основная  функция формата HDF-EOS – хранение географически  привязанной информации в одном файле. Каждый объект HDF-EOS (point, swath или   grid) поддерживает  различные способы привязки. Point  и swath используют данные долготы и  широты. А для grid-структур  библиотека HDF-EOS использует пакет GCTP (U.S. Geological Survey (USGS) General Cartographic  Transformation Package), предназначенный для хранения информации о проекции и  системе координат Инструменты, полностью поддерживающие файлы HDF-EOS, способны автоматически считывать  массивы широт и долгот, связанных с объектами point и swath и, используя методы библиотеки HDF-EOS, конвертировать значения широт и  долгот в столбцы и строки индексов для объектов grid.</p>
+        <p>Чтобы  вручную определить географическое покрытие файла данных, нужно обратиться к  файлу метаданных XML  (*.xml),  котрый идёт совместно с файлом данных *.hdf. Глобальный  текстовый атрибут HDF StructMetadata.0 содержит метаданные о привязке для всех наборов  данных содержащихся в HDF. Данные swath второго уровня включают  наборы Geolocation Fields, содержащие массивы широт и долгот в каждом VGroup. Структурные метаданные указывают как эти массивы соотносятся с  массивами данных. Подробнее о Geolocation Fields можно прочитать в Разделе 5.1.2 Geolocation Fields, стр. 27 <a href="http://www.nsidc.org/data/docs/daac/modis_v5/HDF_EOS_Library_Users_Guide_Volume_1.pdf" class="external">HDF-EOS Library User's Guide, Volume 1</a>. Для HDF-EOS данных третьего уровня, проекция и ее параметры хранятся в  структурных метаданных, в формате GCTP.</p>
+        <p>Свободная  утилита преобразования <a href="http://newsroom.gsfc.nasa.gov/sdptoolkit/HEG/HEGHome.html" class="external">HDF-EOS в GeoTIFF (HEG)</a>, позволяет привязывать,  вырезать фрагменты и сшивать наборы данных HDF-EOS.  На Web сайте утилиты HEG можно найти <a href="http://newsroom.gsfc.nasa.gov/sdptoolkit/HEG/HEGProductList.html" class="external">список  наборов данных</a>, поддерживаемых данной программой.</p>
+        <p><span>
+          <!--#include virtual="/scripts/forum-comments-num.php?i=2785"-->
+        </span></p>
+<div class="links">
+				<h2>Ссылки по теме</h2>
+					<ul>
+						<li><a href="http://gis-lab.info/qa/hdfimport.html">Импорт данных в формате HDF</a></li>
+						<li><a href="hdfimport-sa.html">Импорт и обработка данных в формате HDF - пример</a></li>
+						<li><a href="http://hdfeos.org/" class="external">HDF-EOS Tools and Information Center</a></li>
+                        <li><a href="http://hdfgroup.org/tools.html" class="external">The HDF Group: Software using HDF (4)</a></li>
+                        <li><a href="http://eosweb.larc.nasa.gov/HBDOCS/hdf_data_manipulation.html" class="external">Langely Atmospheric Science Data Center (ASDC): Data Manipulation Software</a></li>
+                        <li><a href="http://modis-atmos.gsfc.nasa.gov/tools.html" class="external">MODIS Atmosphere: Graphical User Interface Tools</a></li>
+					</ul>
+			</div>
+			<!--#include virtual="/scripts/date.php" -->
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<p class="status"><span>Дата создания: 19.01.2009
+<br>Автор(ы): <a href="/forum/memberlist.php?mode=viewprofile&u=6901" target="_blank">Денис Рыков</a></span></p>
+<!--#include virtual="/inc/footer2.php" -->

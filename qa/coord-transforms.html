@@ -1,0 +1,107 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Сравнение преобразований координат в разном ПО</title>
+<!--#include virtual="/inc/header2.txt" -->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Вопросы и ответы</a></li>
+</ul>
+<!--Contents start-->
+<h1>Сравнение преобразований координат в разном ПО</h1>
+            <p class="ann">Как считают используя одни и те же параметры разные программные пакеты. </p>
+            <p>Тесты сгруппированы по программному продукту, каждый тест, кроме названия продукта включает также порядковый номер показанный римской цифрой, например ArcGIS I, ArcGIS II и т. д.</p>
+            <p>Тестируемая исходная точка: 50 гр. с.ш., 50 гр. в.д., исходная система координат: WGS84 (<a href="/other/wgs84-5050.rar">shapefile</a>, <a href="../other/wgs84-5050-ai.rar">покрытие Arcinfo</a>).</p>
+            <p>Результаты приводятся в формате: долгота широта (что-то третье у cs2cs?). Если результатом является также векторный набор данных, он также делается доступным для скачки. Атрибутивная таблица векторного набора данных должна содержать два поля: Lat-new и Long-new с <a href="shapecalc.html#point">рассчитанными</a> значениями широты и долготы.</p>
+            <p>Проверяются 3-х параметрические преобразования. </p>
+            <ul>
+              <li><a href="#pu">Arcview Projection Utility</a></li>
+              <li><a href="#ag">ArcGIS</a></li>
+              <li><a href="#ai">Arcinfo Workstation</a></li>
+              <li><a href="#erdas">ERDAS</a></li>
+              <li><a href="#gc">GeoCalc</a></li>
+              <li><a href="#ogr">ogr2ogr</a></li>
+              <li><a href="#cs">cs2cs</a></li>
+              <li><a href="#trackmaker">Trackmaker</a></li>
+              <li><a href="#formula">Формулы пересчета</a></li>
+            </ul>
+            <h2><a name="pu" id="pu"></a>Arcview Projection Utility</h2>
+            <p><strong>Arcview Projection Utility I</strong></p>
+            <p>Результат: 49.9999631298 50.0014646551  (<a href="../other/pul-pu-i.rar">загрузить</a>)<br />
+            Комментарий:  <a href="/images/coord-transforms-01.jpg">Параметры: 28, -130, -95</a>, Geocentric translation.            </p>
+            <h2><a name="ag" id="ag"></a>ArcGIS</h2>
+            <p><strong>ArcGIS I </strong></p>
+            <pre>Pulkovo_1942_To_WGS_1984</pre>
+            <p>Результат: 49.99996312980 50.0014646515  (<a href="../other/pul-ag-i.rar">загрузить</a>)<br />
+            Комментарий: Абсолютно идентичен Arcview Projection Utility. Настройка трансформации:  28, -130, -95, Geocentric translation. <br>
+            Источник: Supported geographic (datum) transformations (geographic_transformations.pdf)</p>
+            <p><strong>ArcGIS II</strong></p>
+            <pre>Pulkovo_1942_To_WGS_1984_13</pre>
+            <p>Результат: 49.9998716889 50.0013449067  (<a href="../other/pul-ag-ii.rar">загрузить</a>)<br />
+            Комментарий:  Настройка трансформации:  27, -135, -84.5, 0, 0, 0.554, 0.2263, Position vector. <br>
+            Источник информации о преобразовании: Supported geographic (datum) transformations (geographic_transformations.pdf)</p>
+            <h2><a name="ai" id="ai"></a>Arcinfo Workstation</h2>
+            <p><strong>Arcinfo Workstation I </strong></p>
+              <pre>Projection GEOGRAPHIC
+Units DD
+datum user_defined 0 0 0 0 0 0 0
+Parameters 6378137.00 6356752.31
+output
+projection geogr
+units dd
+Datum user_defined 28 -130 -95 0 0 0 0
+Parameters 6378245.0 6356863.019</pre>
+</p>
+            <p>Результат: 49.9999618530 50.0014648438</p>
+            <p>              Комментарий:  </p>
+            <h2><a name="erdas" id="erdas"></a>ERDAS IMAGINE </h2>
+            <p><strong>ERDAS IMAGINE</strong>              </p>
+            <pre> &quot;Pulkovo 1942-1 (Russia)&quot; 28 -130 -95 0 0 0 0</pre>
+            </p>
+            <p>Результат: 49.9999631385638 50.0014646841</p>
+            <p> Комментарий: Совпадение с Arcview Projection Utility c точностью до 7 знака. </p>
+            <p> Источник информации о преобразовании: %ERDAS%/etc/spheroid.tab</p>
+            <h2><a name="ogr" id="ogr"></a>ogr2ogr</h2>
+            <p><strong>ogr2ogr I </strong></p>
+            <pre>ogr2ogr -s_srs &quot;+proj=latlong +ellps=WGS84 +datum=WGS84&quot; -t_srs &quot;+proj=latlong +ellps=krass +towgs84=23.92,-141.27,-80.9,0,0,0,0&quot; -f &quot;ESRI Shapefile&quot; pul-ogr-I.shp wgs84-5050.shp</pre>
+            <p>Результат: 49.9998041685 50.0015220974  (<a href="../other/pul-ogr-i.rar">загрузить</a>)<br />
+            Комментарий: полностью аналогичен cs2cs II, что и должно быть. Убедившись что результат у ogr и cs2cs один и тот же (что логично, так как они используют одну и туже библиотеку трансформации), используем дальше cs2cs, чтобы не генерировать лишних shape-файлов.            </p>
+            <h2><a name="cs" id="cs"></a>cs2cs</h2>
+            <p><strong>cs2cs I</strong></p>
+            <pre>cs2cs +proj=latlong +ellps=WGS84 +to +proj=latlong +ellps=krass +towgs84=23.92,-141.27,-80.9,0,0,0,0 -f '%.10f'</pre>
+            <p>Результат: 50 50 0  <br />
+            Комментарий: При переходе между системами координат обязательно требуется указание датума, например +datum=WGS84            </p>
+            <p><strong>cs2cs II</strong></p>
+            <pre>cs2cs +proj=latlong +ellps=WGS84 +datum=WGS84 +to +proj=latlong +ellps=krass +towgs84=23.92,-141.27,-80.9,0,0,0,0 -f '%.10f'</pre>
+            <p>Результат: 49.9998041685 50.0015220974  12.0732616797</p>
+            <p><strong>cs2cs III</strong></p>
+            <pre>cs2cs +proj=latlong +ellps=WGS84 +datum=WGS84 +to +proj=latlong +ellps=krass +towgs84=28,-130,-95,0,0,0,0 -f '%.10f'</pre>
+            <p>Результат: 49.9999631698 50.0014646551  15.639<br />
+            Комментарий: Результат равен результату трансформации с помощью Arcview Projection Utility с точностью до 7 знака.            </p>
+            <h2><a name="gc" id="gc"></a>GeoCalc</h2>
+            <p>О <a href="/qa/geocalc.html">GeoCalc</a> </p>
+            <p>Параметры: dX=-28, dY=130, dZ=95, остальные 0<br />
+              Результат: 49.9999631301 50.0014646551 (15.6339)<br />
+              Комментарий: Результат равен cs2cs III и Arcview Projection Utility I с точностью до 7 знака (<a href="/forum/viewtopic.php?p=7028#7028">обсуждение</a>). Инвертация параметров сдвига. </p>
+            <h2><a name="trackmaker" id="trackmaker"></a>Trackmaker</h2>
+            <p>Результат: 49.9999631388026 50.0014646841461<br />
+Комментарий: Результат равен cs2cs III и Arcview Projection Utility I с точностью до 7 знака. </p>
+            <h2><a name="formula" id="formula"></a>Формулы пересчета</h2>
+            <p>О <a href="/qa/wgs84-sk42-wgs84-formula.html">формулах</a></p>
+            <p>Параметры: dX=28, dY=-130, dZ=-95, остальные 0 <br />
+              Результат: 49.999963139 50.001464672<br />
+              Комментарий:  Результат равен cs2cs III и Arcview Projection Utility I с точностью до 7 знака.</p>
+            <p class="discuss">
+				<span><!--#include virtual="/scripts/forum-comments-num.php?i=852"--></span>
+			</p>
+			<div class="links">
+			<h2>Ссылки по теме</h2>
+			<ul><li><a href="/qa/datum-transform-sets.html">Переход от одной системы координат к другой - наборы параметров</a></li>
+			</ul>
+			</div>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<p class="status"><span>Дата создания: 02.12.2009
+<br>Автор(ы): <a href="/forum/memberlist.php?mode=viewprofile&u=2" target="_blank">Максим Дубинин</a></span></p>
+<!--#include virtual="/inc/footer2.php" -->

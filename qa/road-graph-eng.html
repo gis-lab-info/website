@@ -1,0 +1,126 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Calculating shortest path in QGIS using Road graph</title>
+<!--#include virtual="/inc/header2.txt" -->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Home</a></li>
+   <li><a href="/qa.html">Articles</a></li>
+</ul>
+<!--Contents start-->
+<h1>Calculating shortest path in QGIS using Road graph</h1>
+<p class="ann">Calculate the shortest path between two points on any polyline layer</p>
+<p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=6803"--></span></p>
+
+<p>Road graph is a C++ plugin for QGIS, that calculates the shortest path
+between two points on any polyline layer and plots this path over the road network. </p>
+<p><strong>Contents</strong></p>
+<ol>
+  <li><a href="#01">Installation notes</a></li>
+  <li><a href="#02">How does it work</a></li>
+  <li><a href="#contacts">Contacts</a></li>
+</ol>
+
+<!-- Первый раздел -->
+<h2><strong><a name="01" id="01"></a></strong>1. Installation notes</h2>
+<p>Source code of the plugin and ready to run binary files for both
+Windows and Linux are available via SVN. </p>
+<strong>Binary files</strong>
+<p>To work with plugin under Windows you need:</p>
+<ol>
+  <li>download and install QGIS 1.6 or higher (<a href="/qa/qgis-osgeo4w.html">read more</a>)</li>
+  <li><a href="http://svn.gis-lab.info/road-graph/binary/roadgraphplugin.dll">download</a> the plugin
+  and copy it to the QGIS plugins folder</li>
+</ol>
+<p>To work with plugin under Linux you need:</p>
+<ol>
+   <li>install QGIS 1.6 or higher. If packages for your distribution are
+    not available&nbsp;&mdash; you need to compile QGIS from source</li>
+   <li><a href="http://svn.gis-lab.info/road-graph/binary/libroadgraphplugin.so">download</a> the plugin
+   and copy it to the QGIS plugins folder. <strong>NOTE:</strong> plugin compiled under
+   Debian Squeeze</li>
+</ol>
+<p>We recommend to check md5sums after plugin download:</p>
+<pre>888c0ddf08384dde45a7e16ffeee6f8c roadgraphplugin.dll
+f48a317381c8d0ef5098f1918f835ca9 libroadgraphplugin.so
+</pre>
+<p>After installing you should run QGIS and enable the Road graph plugin
+in Plugin manager (&laquo;Modules&nbsp;&rarr; Manage plugins&raquo;).</p>
+<strong>Source code</strong>
+<p>You can obtain sources from SVN:</p>
+<pre>svn co http://svn.gis-lab.info/road-graph road-graph</pre>
+<p>Build instructions are located in the file INSTALL
+(or INSTALL.ru for Russian).</p>
+
+<h2><strong><a name="02" id="02"></a></strong>2. How does it work</h2>
+<p>After plugin activation you will see additional panel
+on the left side of the main QGIS window:</p>
+
+<p align="center"><img src="/images/road-graph-01.png" alt="Plugin panel" width="271" height="266"></img></p>
+
+<p>Main features:</p>
+<ul>
+  <li>calculate path, it's length and travel time;</li>
+  <li>optimize by length or by travel time;</li>
+  <li>export path in vector layer;</li>
+  <li>highlight roads directions (this is slow, used mainly for
+  debug purposes and for the settings testing)</li>
+</ul>
+
+<p>As a roads layer you can use any polyline vector layer in any QGIS supported
+format. Two lines with a common point are considered  connected.
+<strong>WARNING:</strong> It is required to use layer CRS as project CRS
+while editing roads layer. This is due to the fact that recalculation of
+the coordinates between different CRS introduce some errors
+that can result in discontinuities, even when the &laquo;snapping&raquo;
+is used.</p>
+
+<p>In the layer attribute table the folloving fields can be used:</p>
+<ul>
+  <li>speed on road section&nbsp;&mdash; numeric field;</li>
+  <li>direction&nbsp;&mdash; any type, that can be casted to string.
+  Forward and reverse directions are correspond to the one-way road,
+  both directions&nbsp;&mdash; two-way road.</li>
+</ul>
+<p>If some fields don't have any value or do not exists&nbsp;&mdash;
+default values are used. You can change defaults and some plugin settings in
+plugin settings dialog.</p>
+
+<p align="center"><img src="/images/road-graph-03.png" alt="Plugin settings" width="405" height="370"></img></p>
+
+<p>You can select start and end points with special buttons
+<img src="/images/road-graph-02.png" alt="Select points tool" width="32" height="32">
+ near the fields or enter coordinates by hand.</p>
+
+<p>Pressing &laquo;Calculate&raquo; button will run shortest path calculation
+using optimization criterion, selected in &laquo;Criterion&raquo; combobox.
+Button &laquo;Export&raquo; allow you exporting calculated path into new vector
+layer, and button &laquo;Clear&raquo; will erase all fields, remove points
+and calculated path from map camvas.</p>
+
+<p>Here is screenshot of the plugin in action.</p>
+
+<p align="center"><img src="/images/road-graph-04.png" alt="Plugin in the action" width="995" height="537"></img></p>
+
+<h2><strong><a name="contacts" id="contacts"></a></strong>3. Contacts</h2>
+<p>If you want report a bug, make suggestion or have a question about the
+plugin, please <a href="mailto:YakushevS@list.ru">contact us</a>. Plugin
+author&nbsp;&mdash; Yakushev Sergey (<a href="/forum/memberlist.php?mode=viewprofile&u=7751">stopa85</a>).</p>
+
+<!-- обсуждение на форуме, цифра изменяется при публикации статьи -->
+<p class="discuss"><span><!--#include virtual="/scripts/forum-comments-num.php?i=6803"--></span></p>
+
+<!-- ссылки -->
+<div class="links">
+  <h2>See also</h2>
+    <ul>
+      <li><a href="http://www.pgrouting.org/" target="_blank" class="external">pgRouting Project</a></li>
+      <li><a href="http://www.carsonfarmer.com/?p=799" target="_blank" class="external">pgRouting, OpenStreetMap, and QGIS</a></li>
+    </ul>
+</div>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<p class="status"><span>Creation date: 15.01.2011
+<br>Author(s): <a href="forum/memberlist.php?mode=viewprofile&u=5325" target="_blank">Alexander Bruy</a></span></p>
+<!--#include virtual="/inc/footer2.php" -->

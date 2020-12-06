@@ -1,0 +1,654 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Использование языка PERL для автоматизации работы с пространственными данными в среде Windows</title>
+<!--#include virtual="/inc/header2.txt" -->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Вопросы и ответы</a></li>
+</ul>
+<!--Contents start-->
+<h1>Использование языка PERL для автоматизации работы с пространственными данными в среде Windows</h1>
+<p class="ann">Как использовать язык PERL для автоматизации рутинных операций с данными с большим количеством примеров</p>
+<p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=1261"--></span></p>
+<h2>Содержание</h2>
+			<ol>
+              <li><a href="#1">Зачем это нужно</a></li>
+              <li><a href="#2">Краткие основы языка PERL</a>              </li>
+              <ul>
+                <li><a href="#2">О языке PERL</a></li>
+                <li><a href="#22">Типы данных, загрузка и вывод данных</a></li>
+                <li><a href="#23">Проверка значений, циклы</a></li>
+                <li><a href="#24">Операторы, встроенные  функции</a></li>
+                <li><a href="#25">Общие правила  написания скриптов в PERL и их отладка</a></li>
+              </ul>
+              <li><a href="#3">Примеры скриптов</a>              </li>
+              <ul>
+                <li><a href="#3">Автоматизация работы с файлами: Операции с файлами и директориями</a></li>
+                <li><a href="#32">Автоматизация работы с файлами: Распаковка архивов</a></li>
+                <li><a href="#33">Автоматизация работы с файлами: Упаковка файлов</a></li>
+                <li><a href="#34">Автоматизация работы в PCI Geomatica: Запуск скриптов EASI</a></li>
+                <li><a href="#35">Автоматизация работы в PCI Geomatica: Генерирование скриптов EASI</a></li>
+                <li><a href="#36">Автоматизация работы в ERDAS Imagine: Генерирование пакетов команд</a></li>
+                <li><a href="#37">Автоматизация работы в ERDAS Imagine: Генерирование моделей</a></li>
+                <li><a href="#38">Автоматизация работы в ArcInfo: Генерирование скриптов AML</a></li>
+                <li><a href="#39">Автоматизация импорта данных MODIS: Использование MRT</a></li>
+                <li><a href="#310">Автоматизация импорта данных MODIS: Использование MRT-Swath</a></li>
+                <li><a href="#311">Автоматизация  обработки текстовых отчетов</a></li>
+              </ul>
+            </ol>
+            <h2>1. <a name="1" id="1"></a>Зачем это нужно</h2>
+            <p>Данная статья безусловно не является пособием по языку PERL, однако она может помочь специалистам, активно использующим пространственные данные , в том числе данные дистанционного зондирования в своей работе. Увеличение количества доступных пространственных данных часто ставит перед исследователями задачу автоматизации  процедур подготовки данных и их анализа. В большинстве случаев, при работе крупных информационных центров, эти задачи решаются написанием специальных программ и реализуются на платформах UNIX-LINUX. В тоже время, для большинства менее масштабных работ стандартных ГИС приложений и среды Windows обычно бывает достаточно для организации небольших потоков операций. Одним из средств организации таких потоков операций в Win32 является использование языка PERL. Приведенные в статье примеры скриптов PERL могут не являться оптимальными с точки зрения программирования. Однако они позволяют решать поставленные задачи и просты для понимания и изменения пользователями. </p>
+            <h2>2. <a name="2" id="2"></a>Краткие основы языка PERL</h2>
+            <p><strong>О языке PERL </strong>(<a href="#top">в начало</a>)</p>
+            <p>Язык PERL - Practical Extraction and Report Language (практический язык извлечений и отчетов) – был создан американским программистом Larry Wall для автоматизации работы с текстом и выполнения рутинных задач в операционной системе UNIX. В настоящее время (сентябрь 2006 года) стандартом является 5-ая версия интерпретатора языка, распространяемая свободно и доступная для платформ UNIX, LINUX, WIN32 и MAC OS. Примеры в этой статье используют версию ActivePerl для Windows (<a href="http://www.activestate.com/Products/ActivePerl/?_x=1" target="_blank" class="external">скачать дистрибутив ActivePerl</a>). Основным удобством использования языка PERL в среде Windows является отсутствие необходимости в компилировании программ – Ваши скрипты будут автоматически запускать интерпретатор языка для выполнения, и изменение программы будет не сложнее внесение правок в текстовый файл! При установке интерпретатора проверьте, чтобы он был установлен в директорию по умолчанию - C:\Perl. </p>
+            <p>Для получения дополнительной информации и справки по языку можно использовать встроенную справочную систему (на английском), а также русскоязычные пособия, доступные в Интернет: Изучаем Perl (<a href="http://perl.find-info.ru/perl/016/index.htm" target="_blank" class="external">http://perl.find-info.ru/perl/016/index.htm</a>), Введение в Perl (<a href="http://perl.org.ru/documentation/docs/perl/index.htm" target="_blank" class="external">http://perl.org.ru/documentation/docs/perl/index.htm</a>) и другие. Следует иметь ввиду, что как и во всяком OpenSource проекте, в PERL существует масса вариантов синтаксиса одних и тех же команд. В этой статье не всегда приводятся самые удобные и короткие выражения – Вы сможете заменить их на более простые при написании своих скриптов. </p>
+            <p><strong><a name="22" id="22"></a>Типы данных, загрузка и вывод данных </strong>(<a href="#top">в начало</a>)</p>
+            <p>В Perl используется три типа данных: переменные, массивы и хеши. В простых скриптах мы будем использовать только переменные и массивы. Имена переменных всегда начинаются с символа $, например: $filename PERL различает тип переменных по контексту данных, и нет необходимости специально декларировать список переменных в начале программы. В любом месте программы вы можете определить новую переменную и присвоить ей значение: </p>
+            <tcode>$filename=”mytext.txt”;<br />
+                  $number=20;<br />
+                  $newnumber=$oldnumber;</tcode>
+            <p> Массив представляет собой последовательность переменных любого типа, элементы массива нумеруются последовательно, начиная с 0. Массив обозначается символом @:</p>
+            <tcode>@alldata</tcode>
+            <p>Элемент массива определяется его номером: </p>
+            <tcode>#первый элемент массива<br />
+  @alldata[0]</tcode>
+            <p>Вы можете присвоить переменной значение элемента массива:</p>
+            <tcode>$data=@alldata[0];</tcode>
+            <p>или определить переменную как размер (число элементов) в массиве:</p>
+            <tcode>$number=@alldata;</tcode>
+            <p>Поскольку мы будем рассматривать скрипты, оперирующие с текстами, то нам необходимо представлять себе как прочитать или записать данные в текстовый файл.    Встроенной функцией <strong>open</strong> можно открыть файл для чтения:</p>
+            <tcode>open (DRR, &quot;dirlist.txt&quot;);</tcode>
+            <p>или для записи:</p>
+            <tcode>open (OUT, &quot;&gt;batch.bat&quot;);</tcode>
+            <p>Если файл с таким именем существует, он будет стерт и записан заново. После записи данных в файл его необходимо закрыть:</p>
+            <tcode>close (OUT);</tcode>
+            <p><strong><a name="23" id="23"></a>Проверка значений, циклы </strong>(<a href="#top">в начало</a>)</p>
+            <p>Основные функции языка программирования, которые нам понадобятся для написания скриптов, будут проверка значений и организация циклов процедур. Эти операции в PERL имеют схожий синтаксис: </p>
+            <tcode>#фигурная скобка обозначает начало блока операций<strong><br />
+  условие <br />
+  {</strong><br />
+                  <strong>операции <br />
+                  }</strong><br />
+                  #конец блока операций <br />
+                </tcode>
+            <p>Проверка значений по типу «если да-то, если нет-то» выглядит  так:</p>
+            <tcode>if ($p1&lt;=$p2)<br />
+{<br />
+$U=$p1;<br />
+}<br />
+else<br />
+{<br />
+$U=$p2;<br />
+}</tcode>
+            <p>              В данном примере переменной $U будет присвоено минимальное  значение из двух вариантов.</p>
+            <p>Определение цикла операций выглядит следующим образом:</p>
+            <tcode>$num=10;<br />
+                  $inc=0;<br />
+                  while ($inc &lt; $num)<br />
+                  {<br />
+                  набор операций<br />
+                  ++$inc;<br />
+                  }</tcode>
+            <p>В данном случае цикл будет выполнен 10 раз, в конце каждого цикла мы увеличиваем значение переменной $inc на единицу - ++$inc.</p>
+            <p><strong><a name="24" id="24"></a>Операторы, встроенные  функции</strong> (<a href="#top">в начало</a>)</p>
+            <p> Вот некоторые из операторов языка, которые будут нами  использованы в примерах скриптов:<br />
+              Присвоение значения:  «=» или «my … =»</p>
+            <tcode>#определение значения переменной<strong><br />
+  $inc=0;</strong></tcode>
+            <br />
+            <tcode>#чтение содержимого файла,  открытого под именем<br />
+                  #DRR  в массив  @alldir<br />
+                  <strong>my @alldir=&lt;DRR&gt;;</strong></tcode>
+            <p>              Отношение: &lt;  (меньше), &gt; (больше), &lt;= (меньше или равно), == (равно – для чисел), !=  (не равно – для чисел), eq (равно – для строк), ne (не равно – для строк).<br />
+              Арифметические  операторы: +,-,*,/.</p>
+            <p>Мы также будем использовать встроенные функции, отвечающие  за ввод и вывод данных и выполняющие простые операции над текстом:</p>
+            <p>              <strong>open/close:</strong> открытие  текстового файла для чтения или записи – open, и закрытие файла – close  (синтаксис этих функция рассмотрен выше).<br />
+              <strong>print:</strong> вывод на печать.</p>
+            <tcode>#значение переменной $line будет  выведено на экран<strong><br />
+  print &quot;$line&quot;;</strong></tcode>
+            <br />
+            <tcode>#значение будет напечатано в  текстовый файл, #открытый под именем OUT<strong><br />
+  print OUT &quot;$line&quot;;</strong></tcode>
+            <p>Следует отметить наиболее  распространенные спецсимволы, которые можно выводить на печать:<br />
+              <strong>\n</strong> – конец строки,<br />
+              <strong>\t</strong> – символ табуляции,<br />
+              <strong>\  </strong>- символ пробела  (пробел стоит после \),<br />
+              <strong>\символ</strong>  - любой  символ, если он зарезервирован во внутренней структуре PERL (например, для  вывода символов  “  ;  \  необходимо  набрать \“  \;  \\  соответственно,  иначе программа не будет работать!).<br />
+            <strong>split:</strong> разделяет  строку по заданному символу-разделителю:</p>
+            <tcode>($filenam,$pnum,$zone)=split(',',$fileout);</tcode>
+            <p>Например:              если $fileout = «image1,s_11,23» (строка таблицы с  информацией о имени файла, номере точки и зоны проекции), то переменные будут  иметь следующие значения:<br />
+              $filenam=«image1»<br />
+              $pnum=«s_11»<br />
+              $zone=«23» (последняя переменная будет так же содержать  символ переноса строки).<br />
+              <a name="112" id="112"></a><strong>s///: </strong>оператор замены. В общем случае синтаксис оператора выгладит так: <br />
+              переменная =~ s/символ-шаблон/символ для замены шаблона/; <br />
+              Например, полученная  выше переменная $zone содержит, кроме необходимой информации, также  символ переноса строки. Что бы очистить его, используем замену:<br />
+              $zone =~ s/\n//; - переменная $zone равна переменной $zone,  в которой символ конца строки \n заменен на отсутствие символа.<br />
+              <strong>system</strong>: выполняет  системную функцию. Например, для получения списка файлов в директории,  используем функцию MS-DOS dir:</p>
+            <tcode> $com=&quot;C:\\Geomatica_V91\\exe\\easi.exe r script&quot;;<br />
+system($com);</tcode>
+            <p>              PERL запустит интерпретатор MS-DOS и выполнит указанную в  переменной строку.</p>
+            <p><strong><a name="25" id="25"></a>Общие правила  написания скриптов в PERL и их отладка</strong> (<a href="#top">в начало</a>)</p>
+            <p> Скрипт PERL в среде Windows представляет собой простой  текстовый файл с расширением .pl. Если в Вашей системе установлен интерпретатор  языка, то файлы *.pl будут иметь значок с желтым шариком, и будут выполняться  автоматически по двойному щелчку на имя файла (подобно файлам .bat). Первая  строка файла должна содержать путь к интерпретатору языка – в нашем случае  строка эта будет выглядеть так:</p>
+            <tcode> #!/usr/local/bin/perl</tcode>
+            <p>              Далее вводиться текст программы. Все строки, в которых  используются операторы или функции, должны заканчиваться точкой с запятой - ;.  Исключение составляют строки, определяющие условия или операторы циклов:</p>
+            <tcode>while ($inc &lt; $num)<br />
+{<br />
+print &quot;привет&quot;;<br />
+++$inc;<br />
+}</tcode>
+            <p>              Примечания обозначаются символом # - весь текст от символа  до конца строки будет считаться примечанием. </p>
+            <p>Никаких специальных символов конца скрипта в PERL не  используется.<br />
+              Для запуска скриптов, рассчитанных на работу со всеми  файлами или поддиректориями в определенной директории, требуется скопировать  файл скрипта в эту папку и запустить его. В противном случае Вам придется  использовать не относительные, а абсолютные пути к папкам и файлам.
+              Для отладки скриптов полезно бывает использовать  интерпретатор MS-DOS. Для этого запустите Command Prompt, перейдите в  директорию со скриптами, и наберите имя файла скрипта с расширением. Файл будет  запущен, и информация об ошибках появиться на экране.</p>
+            <h2>3. <a name="3" id="3"></a>Примеры скриптов</h2>
+            <p>Внимание: для работы с примерами, которые можно загрузить с данной страницы, необходимо сменить их расширение с *.txt на *.pl. </p>
+            <p><strong>Автоматизация работы с файлами: Операции с файлами и директориями </strong>(<a href="#top">в начало</a>)</p>
+            <p>Приведем для примера два простых скрипта. Первый скрипт создает поддиректории во всех поддиректориях рабочей директории (рабочей мы будем называть директорию, из которой запущен скрипт) (<a href="/programs/perl/newfolder.txt">скачать скрипт</a>): </p>
+            <tcode>#Стандартное начало  скрипта:<br />
+                    <strong>#!/usr/local/bin/perl</strong><br />
+#Определяем строковую  переменную, содержащую команду DOS для вывода списка поддиректорий в файл  dirlist.txt (используем ключи команды dir: /A:D – только директории, /O:N –  сортировка по имени и /B – краткий формат) :<br />
+<strong>$com=&quot;dir /A:D /O:N /B &gt;dirlist.txt&quot;;<br />
+</strong>#Выполняем команду в  операционной системе:<br />
+<strong>system($com);<br />
+</strong>#Открываем для чтения  файл со списком поддиректорий:<br />
+<strong>open (DRR, &quot;dirlist.txt&quot;);<br />
+</strong>#Читаем содержимое  файла в массив @alldir:<br />
+<strong>my @alldir=&lt;DRR&gt;;<br />
+</strong>#Определяем длину  массива:<br />
+<strong>$num=@alldir;<br />
+</strong>#Указываем номер  первого элемента (напомним, что элементы в массиве нумеруются с нуля, и  последний элемент будет иметь номер на единицу меньший числа элементов):<br />
+<strong>$inc=0;<br />
+</strong>#Запускаем цикл  операций, который будет продолжаться до тех пор, пока значение переменной $inc  (номер элемента массива) меньше переменной $num (число элементов в массиве). В  ходе этого цикла мы прочитаем последовательно все строки файла, цикл  закончиться после прочтения последней строки:<br />
+<strong>while ($inc &lt; $num)<br />
+</strong>#Начало операций цикла:<br />
+<strong>{<br />
+</strong>#Присваиваем переменной  $line значение первой строки массива (то есть первой строки текстового файла):<br />
+<strong>$line = @alldir[$inc];<br />
+</strong>#Удаляем ненужный  символ конца строки:<br />
+<strong>$line =~ s/\n//;<br />
+</strong>#Определяем команду для  создания поддиректории: команда DOS md (makedir), имя поддиректории составляем  из имени директории, сохраненного в переменной $line и нужного повторяющегося  имени, для вывода на печать символы \ и “  используем вспомогательный символ \,  показывающий, что стоящий за ним символ не является командой (поскольку эти  символы зарезервированы PERL). Имя директории указано в кавычках чтобы избежать  проблем с пробелами в именах директорий:<br />
+<strong>$com=&quot;md \&quot;$line\\data\&quot;\n&quot;;<br />
+</strong>#Выполняем команду в  операционной системе:<br />
+<strong>system($com);<br />
+</strong>#Увеличиваем значение  переменной $inc на единицу: <br />
+<strong>++$inc;<br />
+</strong>#Конец операций цикла:<br />
+<strong>}<br />
+</strong>#После выполнения команд  удалим файл dirlist.txt. Для этого сначала закроем его:<br />
+<strong>close (DRR);<br />
+</strong>#Затем определим команду  DOS:<br />
+<strong>$com=&quot;del dirlist.txt\n&quot;;<br />
+</strong>#И выполним ее:<br />
+<strong>system($com);</strong></tcode>
+            <p>Примечание – хотя данный скрипт может использовать директории с пробелами, многие приведенные ниже скрипты при наличии пробелов в именах директорий и файлов не будут работать. Впрочем, тоже относиться и к большинству распространенных ГИС-приложений.</p>
+            <p>Второй скрипт скопирует файлы с именем time1.tif из всех поддиректорий рабочей директории в директорию output, заменив имя time1 на имя поддиректории, из которой он был скопирован (то есть файл time1.tif из директории 123_056 получит имя 123_056.tif и так далее). Мы могли бы использовать такой же подход, как в предыдущем случае, но сознательно применили другой путь – теперь скрипт PERL не будет самостоятельно выполнять команды ОС, а создаст исполняемый файл, который можно будет запустить позже. Хотя такой подход менее продуктивен, он позволяет избежать необходимости восстанавливать данные при ошибках в программе – понятно, что исполняемый batch файл легче проверить и убедиться, что он будет работать правильно (<a href="/programs/perl/copyfile.txt">скачать скрипт</a>). </p>
+            <tcode>#!/usr/local/bin/perl<br />
+#Создаем список  директорий и читаем его:<br />
+<strong>$com=&quot;dir /A:D /O:N /B &gt;dirlist.txt&quot;;<br />
+system ($com);<br />
+open (DRR, &quot;dirlist.txt&quot;);</strong><br />
+#Открываем файл для  записи (если файл batch.bat существует, он будет стерт и перезаписан):<br />
+<strong>open (OUT, &quot;&gt;batch.bat&quot;);</strong><br />
+#Печатаем в batch команду  создания директории output:<br />
+<strong>print OUT &quot;md output\n&quot;;</strong><br />
+#Запускаем цикл  операций:<br />
+<strong>my @alldir=&lt;DRR&gt;;<br />
+$num=@alldir;<br />
+$inc=0;<br />
+while ($inc &lt; $num)<br />
+{</strong><br />
+#Читаем имена  директорий:<br />
+<strong>$line = @alldir[$inc];<br />
+$line =~ s/\n//;</strong><br />
+#Печатаем команду  копирования и переименования файла:<br />
+<strong>print OUT &quot;copy \&quot;$line\\time1.tif\&quot;  \&quot;output\\$line.tif\&quot;\n&quot;;<br />
+++$inc;<br />
+}</strong><br />
+#Закрываем файлы:<br />
+<strong>close (OUT);<br />
+close (DRR); </strong><br />
+#Удаляем файл  dirlist.txt:<br />
+$com=&quot;del dirlist.txt\n&quot;;<br />
+system($com);</tcode>
+            <p><strong><a name="32" id="32"></a>Автоматизация работы с файлами: Распаковка архивов</strong> (<a href="#top">в начало</a>)</p>
+            <p>Рассмотрим примеры, более близкие к практике. Скрипт, приведенный ниже, может помочь в автоматической распаковке снимков Landsat-7, скаченных с сайта GLCF (<a href="http://glcfapp.umiacs.umd.edu:8080/esdi/index.jsp" target="_blank" class="external">http://glcfapp.umiacs.umd.edu:8080/esdi/index.jsp</a>). Мы скачали целиком директории со снимками и теперь хотим удалить все технические файлы и ненужные каналы, и распаковать файлы tif из архивов GZ с помощью архиватора WinRAR (установленного в C:\WinRAR) (<a href="/programs/perl/landsat_unpack_rar.txt">скачать скрипт</a>): </p>
+            <tcode><strong>#!/usr/local/bin/perl</strong><br />
+#Создаем список  директорий и читаем его:<br />
+<strong>$com=&quot;dir /A:D /O:N /B &gt;dirlist.txt&quot;;<br />
+system($com);<br />
+open (DRR, &quot;dirlist.txt&quot;);</strong><br />
+#Открываем файл для  записи:<br />
+<strong>open(OUT, &quot;&gt;batch.bat&quot;);</strong><br />
+#Запускаем цикл  операций:<br />
+<strong>my @alldir=&lt;DRR&gt;;<br />
+$num=@alldir;<br />
+$inc=0;<br />
+while ($inc &lt; $num)<br />
+{</strong><br />
+#Читаем имена  директорий:<br />
+<strong>$line = @alldir[$inc];<br />
+$line =~ s/\n//;</strong><br />
+#Печатаем команду  перехода в поддиректорию:<br />
+<strong>print OUT &quot;cd $line\n&quot;;</strong><br />
+#Печатаем команды  удаления ненужных файлов (если файлы отсутствуют, команды будут пропущены):<br />
+<strong>print OUT &quot;del /Q *_nn6*\n&quot;;<br />
+print OUT &quot;del /Q *_nn8*\n&quot;;<br />
+print OUT &quot;del /Q *_nn1*\n&quot;;<br />
+print OUT &quot;del /Q *.jpg\n&quot;;<br />
+print OUT &quot;del /Q *.met\n&quot;;<br />
+print OUT &quot;del /Q *.hdr\n&quot;;<br />
+print OUT &quot;del /Q *.i*\n&quot;;</strong><br />
+#Печатаем команду  разархивирования:<br />
+<strong>print OUT &quot;C:\\WinRAR\\winrar.exe e -ibck *.gz\n&quot;;</strong><br />
+#Печатаем команду  удаления архивов:<br />
+<strong>print OUT &quot;del /Q *.gz\n&quot;;</strong><br />
+#Печатаем команду  возврата в рабочую директорию:<br />
+<strong>print OUT &quot;cd ..\n&quot;;<br />
+++$inc;<br />
+}<br />
+close (DRR); <br />
+close (OUT);<br />
+$com=&quot;del dirlist.txt&quot;;<br />
+system($com);</strong></tcode>
+            <p><strong><a name="33" id="33"></a>Автоматизация работы с файлами: Упаковка файлов</strong> (<a href="#top">в начало</a>)</p>
+            <p>Если вы получили снимки Landsat из архивов EROS Data Center, то, скорее всего, они будут в формате tif без сжатия. Мы хотели бы сжать эти файлы в архивы формата GZ с помощью архиватора GZip (установленного в C:\Gzip), причем каждый файл tif в отдельный архивный файл. Для этого мы используем <a href="../programs/perl/landsat_pack_gz.txt">вот такой скрипт</a>: </p>
+            <tcode><strong>#!/usr/local/bin/perl</strong><br />
+#Создаем список  директорий и читаем его:<br />
+<strong>$com=&quot;dir /A:D /O:N /B &gt;dirlist.txt&quot;;<br />
+system($com);<br />
+open (DRR, &quot;dirlist.txt&quot;);</strong><br />
+#Запускаем цикл операций:<br />
+<strong>my @alldir=&lt;DRR&gt;;<br />
+$num=@alldir;<br />
+$inc=0;<br />
+while ($inc &lt; $num)<br />
+{</strong><br />
+#Читаем имена  директорий:<br />
+<strong>$line = @alldir[$inc];<br />
+$line =~ s/\n//;</strong><br />
+#Создаем список файлов  в поддиректории  и читаем его:<br />
+<strong>$com=&quot;dir $line\\*.tif /B &gt;dirlist$inc.txt\n&quot;;<br />
+system($com);<br />
+$newname=&quot;dirlist$inc.txt&quot;;<br />
+open (FRR, $newname);</strong><br />
+#Запускаем второй цикл  операций внутри первого цикла:<br />
+<strong>my @files=&lt;FRR&gt;;<br />
+$num1=@files;<br />
+$inc1=0;<br />
+while ($inc1 &lt; $num1)<br />
+{</strong><br />
+#Читаем имена файлов:<br />
+<strong>$line1 = @files[$inc1];<br />
+$line1 =~ s/.tif\n//;</strong><br />
+#Определяем и выполняем  команду упаковки файлов:<br />
+<strong>$com = &quot;C:\\Gzip\\gzip $line\\$line1.tif\n&quot;;<br />
+system($com);<br />
+++$inc1;</strong><br />
+#Завершаем второй цикл:<br />
+<strong>}<br />
+++$inc;</strong><br />
+Завершаем первый цикл:<br />
+<strong>}<br />
+close (DRR);<br />
+close (FRR);</strong><br />
+#Удаляем все временные  текстовые файлы:<br />
+<strong>$com=&quot;del dirlist*.txt\n&quot;;<br />
+system($com);</strong></tcode>
+            <p><strong><a name="34" id="34"></a>Автоматизация работы в PCI Geomatica: Запуск скриптов EASI</strong> (<a href="#top">в начало</a>)</p>
+            <p>Одним из наиболее удобных приложений PCI Geomatica является язык EASI – простой язык для написания скриптов, позволяющих выполнить большинство распространенных операций подготовки и анализа данных ДЗ. Скрипты EASI имеют расширение .eas и могут быть запущены из командной строки DOS – имя скрипта указывается в качестве атрибута при вызове программы. Простейший скрипт PERL, приведенный ниже, позволяет запускать один и тот же скрипт EASI последовательно в каждой поддиректории рабочей директории – то есть позволяет выполнить однотипные операции над всеми наборами данных, используемых в Вашем проекте. Для удобства использования все необходимые скрипты EASI заранее собраны в директории C:\scripts\, так что перед выполнением скрипта необходимо только указать имя нужного скрипта для исполнения (<a href="/programs/perl/execute_easi.txt">скачать скрипт</a>):</p>
+            <tcode><strong>#!/usr/local/bin/perl<br />
+  $com1=&quot;dir /A:D /O:N /B &gt;dirlist.txt&quot;;<br />
+system($com1);<br />
+open (DRR, &quot;dirlist.txt&quot;);<br />
+open(OUT, &quot;&gt;batch.bat&quot;);<br />
+my @alldir=&lt;DRR&gt;;<br />
+$num=@alldir;<br />
+$inc=0;<br />
+while ($inc &lt; $num)<br />
+{<br />
+$line = @alldir[$inc];<br />
+$line =~ s/\n//;</strong><br />
+#Печатаем комманды в  исполняемый файл DOS: переходим в поддиректорию...<br />
+<strong>print OUT &quot;cd $line\n&quot;;</strong><br />
+#...копируем скрипт,  переименовывая его в script.eas...<br /><strong>
+print OUT &quot;copy C:\\scripts\\myprocess.eas script.eas  /y\n&quot;;</strong><br />
+#...выполняем скрипт...<strong><br />
+print OUT &quot;C:\\Geomatica_V91\\exe\\easi.exe r  script\n\n&quot;;</strong><br />
+#...и удаляем скрипт и  файл параметров EASI:<br />
+<strong>print OUT &quot;del script.eas\n\n&quot;;<br />
+print OUT &quot;del prm.prm\n\n&quot;;</strong><br />
+#Возвращаемся в рабочую  директорию:<br />
+<strong>print OUT &quot;cd ..\n&quot;;<br />
+++$inc;<br />
+}<br />
+close (OUT);<br />
+close (DRR);<br />
+$com=&quot;del dirlist.txt&quot;;<br />
+system($com);</strong></tcode>
+            <p><strong><a name="35" id="35"></a>Автоматизация работы в PCI Geomatica: Генерирование скриптов EASI</strong> (<a href="#top">в начало</a>)</p>
+            <p> Простота языка EASI делает возможным автоматическое создание  скриптов с помощью программы PERL по заданному шаблону. Поскольку задачи, для  которых может потребоваться подобная процедура, достаточно индивидуальны, мы не  будем приводить примера готового скрипта, а покажем только часть кода. В данной  задаче исходными данными служили файлы с таблицами координат углов  прямоугольника, спроецированного из синусоидальной проекции в UTM. Требовалось  построить пустую растровую базу данных PCIDSK с размером ячейки 28.5 метров таким образом, что бы  она полностью включала в себя полученный прямоугольник. Данный кусок кода  представляет собой операцию внутри цикла:</p>
+            <pre>#Вне цикла мы отрыли  список файлов (в формате: «имя файла, номер полигона, номер зоны UTM») и  прочитали его в массив @filelist. В ходе цикла мы открываем строку файла списка,  читаем ее, выделяем имя файла и открываем этот файл:
+<strong>$fileout = @filelist[$inc];
+($filenam,$pnum,$zone)=split(',',$fileout);
+$zone =~ s/\n//;
+open (OUT, &quot;$filenam&quot;);</strong>
+#Читаем содержимое  файла – четыре строки с парами координат:
+my @filetext = &lt;OUT&gt;;
+<strong>$line1 = @filetext[0];
+$line2 = @filetext[1];
+$line3 = @filetext[2];
+$line4 = @filetext[3];</strong>
+#Разбиваем строки с  получением значений координат:
+<strong>($p1_x,$p1_y)=split(' ',$line1);
+($p2_x,$p2_y)=split(' ',$line2);
+($p3_x,$p3_y)=split(' ',$line3);
+($p4_x,$p4_y)=split(' ',$line4);</strong>
+#Сравниваем координаты  для нахождения углов прямоугольника, полностью включающего в себя исходный  прямоугольник (extent):
+<strong>if ($p1_x&lt;=$p3_x)
+{
+$UL_x=$p1_x;
+}
+else
+{
+$UL_x=$p3_x;
+}</strong>
+<strong>if ($p3_y&lt;=$p2_y)
+{
+$UL_y=$p2_y;
+}
+else
+{
+$UL_y=$p3_y;
+}
+if ($p2_x&lt;=$p4_x)
+{
+$LR_x=$p4_x;
+}
+else 
+{
+$LR_x=$p2_x;
+}</strong>
+<strong>if ($p1_y&lt;=$p4_y)
+{
+$LR_y=$p1_y;
+}
+else
+{
+$LR_y=$p4_y;
+}</strong>
+#Создаем новую  директорию с использованием функции PERL:
+<strong>mkdir &quot;s_$pnum&quot;;</strong>
+#Расширяем размер  создаваемой базы данных на 100 метров для избегания краевых эффектов при  последующих операциях:
+<strong>$ULx2=$UL_x-100;
+$ULy2=$UL_y+100;
+$LRx2=$LR_x+100;
+$LRy2=$LR_y-100</strong>;
+#Определяем размер  создаваемой БД в пикселях:
+<strong>$sizeX2=int(($LRx2-$ULx2)/28.5);
+$sizeY2=int(($ULy2-$LRy2)/28.5);</strong>
+#Рассчитываем новые координаты  правого нижнего угола исходя из размера пикселя:
+<strong>$LRx2n=$ULx2+($sizeX2*28.5);
+$LRy2n=$ULy2-($sizeY2*28.5);</strong>
+#Печатаем команды  создания базы данных (файл с именем EASI заранее был открыт для записи):
+<strong>print EASI &quot;FILE=\&quot;s_$pnum\\clip\n&quot;;
+print EASI &quot;DBSZ=$sizeX2,$sizeY2\n&quot;;
+print EASI &quot;DBNC=15,0,0,0\n&quot;;
+print EASI &quot;DBLAYOUT=\&quot;FILE\n&quot;;
+print EASI &quot;RUN CIM\n&quot;;
+print EASI &quot;\n&quot;;</strong>
+#Печатаем команды  присвоения новой БД параметров проекции. Обратите внимание на использование  переменной $zone, которая была прочитана в самом начале цикла.
+<strong>print EASI &quot;UPLEFT=$ULx2,$ULy2\n&quot;;
+print EASI &quot;LORIGHT=$LRx2n,$LRy2n\n&quot;;
+print EASI &quot;MAPUNITS=\&quot;UTM $zone E012\n&quot;;
+print EASI &quot;RUN GEOSET\n&quot;;
+print EASI &quot;\n&quot;;</strong></pre>
+            <p>Примечание – для включения скриптов EASI в непрерывный процесс Вы можете запускать созданные скрипты автоматически из PERL, используя команду: </p>
+            <tcode><strong>$com=&quot;C:\\Geomatica_V91\\exe\\easi.exe r script&quot;;<br />
+                  system($com);</strong></tcode>
+            <p>После чего использовать результаты выполнения скрипта для дальнейших действий. </p>
+            <p><strong><a name="36" id="36"></a>Автоматизация работы в ERDAS Imagine: Генерирование пакетов команд</strong> (<a href="#top">в начало</a>)</p>
+            <p> Скрипт, приведенный в первом примере, создаст пакетный файл команд ERDAS Imagine для относительно простой процедуры Layer merge. В параметрах процедуры требуется указать абсолютные имена файлов. Для этого нам необходимо знать или задать имя рабочей директории. Хотя определить имя директории, из которой запущен скрипт, можно автоматически, мы, в данном случае, использовали переменную, значение которой необходимо изменить на абсолютный путь к рабочей директории перед запуском скрипта. Так же обратите внимание на использование в ERDAS путей в стандарте UNIX. Данный скрипт рассчитан на определенный шаблон имени файлов (стандарт Ortho Landsat  для  GLCF): p169r057_7t20000127_z37_nn30.tif, и будет объединять только 3,4 и 5 каналы снимков (<a href="/programs/perl/layermerge_erdas.txt">скачать скрипт</a>):</p>
+            <tcode><strong>#!/usr/local/bin/perl</strong><br />
+#Абсолютный путь к  рабочей директории (обратите внимание на <br />
+#использование стандарта UNIX в путях!):<br />
+<strong>$path=&quot;D:/glcf&quot;;</strong><br />
+#Создание списка папок  и запуск цикла:<br />
+<strong>$com=&quot;dir /A:D /O:N /B &gt;dirlist.txt&quot;;<br />
+system($com);<br />
+open (DRR, &quot;dirlist.txt&quot;);<br />
+open(OUT, &quot;&gt;merge.bcf&quot;);<br />
+my @alldir=&lt;DRR&gt;;<br />
+$num=@alldir;<br />
+$inc=0;<br />
+while ($inc &lt; $num)<br />
+{<br />
+$line = @alldir[$inc];<br />
+$line =~ s/\n//;<br />
+</strong>#Печатаем в файл имя  одного из файлов tif из папки для получения шаблона<br />
+#имени:<br />
+<strong>$com=&quot;dir $line\\*nn20.tif /B  &gt;dirlist$inc.txt\n&quot;;<br />
+system($com);<br />
+$newname=&quot;dirlist$inc.txt&quot;;<br />
+open (FRR, $newname);<br />
+my @files=&lt;FRR&gt;;<br />
+$line1 = @files[0];</strong><br />
+#Разбиваем имя –  получаем позицию сцены, дату и номер зоны UTM: <br />
+<strong>($wrs,$date,$temp1,$temp2)=split('\_',$line1);</strong><br />
+#Печатаем длинную  строку команды layermerge в пакетный файл ERDAS bcf.<br />
+#Обратите внимание, что это  одна строка, переносы здесь недопустимы!<br />
+<strong>print OUT &quot;modeler -nq  \$IMAGINE_HOME/etc/models/layermerge.pmdl -meter -state Union None \'FLOAT  RASTER n1 FILE OLD NEAREST NEIGHBOR AOI NONE EDGE  FILL\&quot;$path/$line/$wrs\_$date\_$temp1\_nn50.tif\&quot;\; FLOAT RASTER n2  FILE OLD NEAREST NEIGHBOR AOI NONE EDGE  FILL\&quot;$path/$line/$wrs\_$date\_$temp1\_nn40.tif\&quot;\; FLOAT RASTER n3  FILE OLD NEAREST NEIGHBOR AOI NONE EDGE FILL\&quot;$path/$line/$wrs\_$date\_$temp1\_nn30.tif\&quot;\;'  ignore Unsigned_8_bit \&quot;$path/$wrs\_$date\_utm.img\&quot;  \'n1(1)\,n2(1)\,n3(1)\'\n&quot;;<br />
+++$inc;<br />
+}<br />
+close (OUT);<br />
+close (DRR);<br />
+$com=&quot;del dirlist*.txt&quot;;<br />
+system($com);</strong></tcode>
+            <p>Второй пример содержит скрипт для расчета среднего и стандартного отклонения в плавающем окне для всех файлов stat.tif из всех поддиректорий рабочей директории. Его основным отличием от предыдущего скрипта является необходимость внесения путей к файлам в отдельные переменные. Смена абсолютного пути к рабочей директории здесь не продумана, так что при необходимости изменения, придется изменить все четыре пути к файлам (более правильным было бы введение дополнительной переменной, как в предыдущем варианте).</p>
+            <tcode><strong>#!/usr/local/bin/perl<br />
+  $com=&quot;dir /A:D /O:N /B &gt;dirlist.txt&quot;;<br />
+system($com);<br />
+open (DRR, &quot;dirlist.txt&quot;);<br />
+open(OUT, &quot;&gt;batch.bcf&quot;);<br />
+my @alldir=&lt;DRR&gt;;<br />
+$num=@alldir;</strong><br />
+#Поскольку мы будем  создавать два набора переменных для каждого файла, <br />
+#увеличиваем число шагов  вдвое:<br />
+<strong>$num=$num*2;<br />
+$inc=0;<br />
+while ($inc &lt; $num)<br />
+{<br />
+$n=$inc/2;<br />
+$line = @alldir[$n];<br />
+$line =~ s/\n//;<br />
+</strong>#Печатаем первую команду  – вычисление среднего:<br />
+<strong>print OUT &quot;variable Inp$inc Auto  \&quot;d:/data/$line/stat.tif\&quot;\;\n&quot;;<br />
+print OUT &quot;variable Out$inc Auto  \&quot;d:/data/$line/statmean.img\&quot; Delete_Before\;\n&quot;;<br />
+print OUT &quot;modeler -nq  \$IMAGINE_HOME/etc/models/focalanal.pmdl -meter -state  \&quot;\$(Inp$inc)\&quot; Integer \&quot;\$(Out$inc)\&quot; 'Unsigned 8 bit'  Float 'matrix (3,3: 1.000,1.000,1.000,1.000,1.000,1.000,1.000,1.000,1.000)'  Mean '\$(Inp$inc.Ulx)' '\$(Inp$inc.Uly)' '\$(Inp$inc.Lrx)' '\$(Inp$inc.Lry)'  Map useall \&quot;None\&quot; '' '' '' ''\n&quot;;<br />
+++$inc;<br />
+</strong>#Вторая команда –  вычисление стандартного отклонения:<br />
+<strong>print OUT &quot;variable Inp$inc Auto  \&quot;d:/data/$line/stat.tif\&quot;\;\n&quot;;<br />
+print OUT &quot;variable Out$inc Auto  \&quot;d:/data/$line/statstd.img\&quot; Delete_Before\;\n&quot;;<br />
+print OUT &quot;modeler -nq  \$IMAGINE_HOME/etc/models/focalanal.pmdl -meter -state  \&quot;\$(Inp$inc)\&quot; Integer \&quot;\$(Out$inc)\&quot; 'Float Single'  Float 'matrix (3,3: 1.000,1.000,1.000,1.000,1.000,1.000,1.000,1.000,1.000)' SD  '\$(Inp$inc.Ulx)' '\$(Inp$inc.Uly)' '\$(Inp$inc.Lrx)' '\$(Inp$inc.Lry)' Map  useall \&quot;None\&quot; '' '' '' ''\n&quot;;<br />
+++$inc;<br />
+}<br />
+close (OUT);<br />
+close (DRR);<br />
+$com=&quot;del dirlist.txt&quot;;<br />
+system($com);</strong></tcode>
+            <p><strong><a name="37" id="37"></a>Автоматизация работы в ERDAS Imagine: Генерирование моделей</strong> (<a href="#top">в начало</a>)</p>
+            <p>Однако иногда встроенных команд ERDAS бывает недостаточно и возникает необходимость запуска собственных моделей. В таком случае мы использовали следующий подход: сначала создается и тестируется модель, потом она записывается в файл в виде скрипта, затем команды скрипта переносятся в PERL в качестве атрибутов функции print. В таком случае, для каждого набора файлов PERL будет создавать собственную модель, используя абсолютные пути к файлам, а затем все созданные модели будут включены в пакетный файл для автоматического запуска. Ниже приведен пример скрипта для создания и выполнения моделей для расчета стандартного отклонения для 5-канальных файлов stat.tif из всех поддиректорий (<a href="/programs/perl/model_erdas.txt">скачать скрипт</a>): </p>
+            <tcode><strong>#!/usr/local/bin/perl<br />
+  $com=&quot;dir /A:D /O:N /B &gt;dirlist.txt&quot;;<br />
+system($com);<br />
+open (DRR, &quot;dirlist.txt&quot;);<br />
+                                </strong>#Открываем для записи  пакетный файл:<br />
+                                <strong>open(OUT, &quot;&gt;batch.bcf&quot;);<br />
+                                my @alldir=&lt;DRR&gt;;<br />
+$num=@alldir;<br />
+$inc=0;<br />
+while ($inc &lt; $num)<br />
+{<br />
+$line = @alldir[$inc];<br />
+$line =~ s/\n//;<br />
+                                                                </strong>#Создаем и открываем  файл модели:<strong><br />
+                                                                open(MOD, &quot;&gt;std$line.mdl&quot;);</strong><br />
+#Печатаем команды  модели для данного набора файлов (нет переносов!):<br />
+<strong>print MOD &quot;COMMENT \&quot;no comment\&quot;\;\n&quot;;<br />
+print MOD &quot;SET CELLSIZE MIN\;\n&quot;;<br />
+print MOD &quot;SET WINDOW UNION\;\n&quot;;<br />
+print MOD &quot;SET AOI NONE\;\n&quot;;<br />
+print MOD &quot;Integer RASTER n1_temp FILE OLD NEAREST  NEIGHBOR AOI NONE \&quot;D\:/data/$line/stat.tif\&quot;\;\n&quot;;<br />
+print MOD &quot;Integer RASTER n11_std FILE NEW USEALL  ATHEMATIC 8 BIT UNSIGNED INTEGER  \&quot;D\:/data/$line/statstd1.img\&quot;\;\n&quot;;<br />
+print MOD &quot;Integer RASTER n12_std FILE NEW USEALL  ATHEMATIC 8 BIT UNSIGNED INTEGER  \&quot;D\:/data/$line/statstd2.img\&quot;\;\n&quot;;<br />
+print MOD &quot;Integer RASTER n13_std FILE NEW USEALL  ATHEMATIC 8 BIT UNSIGNED INTEGER  \&quot;D\:/data/$line/statstd3.img\&quot;\;\n&quot;;<br />
+print MOD &quot;Integer RASTER n14_std FILE NEW USEALL  ATHEMATIC 8 BIT UNSIGNED INTEGER  \&quot;D\:/data/$line/statstd4.img\&quot;\;\n&quot;;<br />
+print MOD &quot;Integer RASTER n15_std FILE NEW USEALL  ATHEMATIC 8 BIT UNSIGNED INTEGER  \&quot;D\:/data/$line/statstd5.img\&quot;\;\n&quot;;<br />
+print MOD &quot;INTEGER MATRIX n6_Low_Pass\;\n&quot;;<br />
+print MOD &quot;n6_Low_Pass = MATRIX(3, 3\:\n&quot;;<br />
+print MOD &quot;\t1, 1, 1,\n&quot;; <br />
+print MOD &quot;\t1, 1, 1, \n&quot;;<br />
+print MOD &quot;\t1, 1, 1)\;\n&quot;;<br />
+print MOD &quot;n11_std = FOCAL STANDARD DEVIATION (  \$n1_temp(1) , \$n6_Low_Pass ) \;\n&quot;;<br />
+print MOD &quot;n12_std = FOCAL STANDARD DEVIATION (  \$n1_temp(2) , \$n6_Low_Pass ) \;\n&quot;;<br />
+print MOD &quot;n13_std = FOCAL STANDARD DEVIATION (  \$n1_temp(3) , \$n6_Low_Pass ) \;\n&quot;;<br />
+print MOD &quot;n14_std = FOCAL STANDARD DEVIATION (  \$n1_temp(4) , \$n6_Low_Pass ) \;\n&quot;;<br />
+print MOD &quot;n15_std = FOCAL STANDARD DEVIATION (  \$n1_temp(5) , \$n6_Low_Pass ) \;\n&quot;;<br />
+print MOD &quot;QUIT\;\n&quot;;<br />
+</strong>#Закрываем файл модели:<br />
+<strong>close (MOD);</strong><br />
+#Печатаем команду  выполнения модели в пакетный файл:<br />
+<strong>print OUT &quot;modeler -nq D:/data/std$line.mdl -meter  -state\n&quot;;<br />
+++$inc;<br />
+}<br />
+close (OUT);<br />
+close (DRR);</strong></tcode>
+            <p>*Примечание – данный скрипт является примером организации работы с пользовательскими моделями в ERDAS Imagine. Возможны более продуктивные подходы – например, написание моделей с пользовательскими переменными и  пр.</p>
+            <p><strong><a name="38" id="38"></a>Автоматизация работы в ArcInfo: Генерирование скриптов AML</strong> (<a href="#top">в начало</a>)</p>
+            <p>Разумеется, PERL имеет огромный потенциал для автоматического создания скриптов AML. К сожалению, автор практически не использовал в своей работе ArcInfo. В качестве примера можно использовать <a href="/programs/perl/aml_example.txt">небольшой скрипт PERL</a> для создания огромного файла для выполнения команды Generate. </p>
+            <p><strong><a name="39" id="39"></a>Автоматизация импорта данных MODIS: Использование MRT</strong> (<a href="#top">в начало</a>)</p>
+            <p>Использование пакетных файлов для запуска MRT уже реализовано в виде, значительно более дружелюбном к пользователю, чем использование скриптов PERL – например, существует специальная программа, <a href="/qa/modisimport-tool.html"><strong>представленная на сайте GIS-Lab</strong></a>. Тем не менее, мы приведем здесь один из вариантов скриптов, который может быть модифицирован и является общим (хотя и не оптимальным) решением проблемы автоматического импорта, склеивания и перепроецирования продуктов MODIS. Для использования скрипта Вам потребуется изменить путь к программе MRT на тот, который Вы использовали при установке, и разместить свои данные в директории C:\modwork\input. В случае данного скрипта используются 6 ячеек сетки для каждого композита – если число ячеек другое, его надо изменить, также надо изменить параметры проекции и набор каналов. Программа создаст список файлов HDF в Вашей директории, создаст папки для мозаик (C:\modwork\mosaic) и для выгрузки данных (C:\modwork\output), файлы с параметрами перепроецирования для каждого набора мозаик и исполняемый файл для запуска мозаики и перепроецирования (<a href="/programs/perl/mrt_convert.txt">скачать скрипт</a>). </p>
+            <p><strong><a name="310" id="310"></a>Автоматизация импорта данных MODIS: Использование MRT-Swath</strong> (<a href="#top">в начало</a>)</p>
+            <p>Более важная для нас операция – автоматический импорт и перепроецирование продуктов MOD02QKM (Swath продуктов MODIS) с помощью программы MRT-Swath еще не решен в виде отдельного приложения, и поэтому использование скрипта PERL здесь оправдано. Для запуска скрипта надо изменить (или переместить данные): 1. Имя папки с данными – по умолчанию файлы MOD02QKM находятся в D:\MODISWORK\MOD02QKM, а геолокационные поля к ним (MOD03) – в папке D:\\MODISWORK\MOD03\. 2. Путь к программе – в данной версии это C:\MRTSwath\. 3. Параметры проекции и набор каналов. Мы предполагаем, что для всех сцен скачены оба продукта (MOD02QKM и MOD03), и их наборы полностью соотвествуют друг другу. Скрипт создаст папку для выгрузки результатов - D:\MODISWORK\output\, исполняемый файл batch.bat для запуска перепроецирования и набор файлов параметров для каждого снимка. Запускать скрипт надо из директории D:\MODISWORK\ (или той, на которую Вы измените это название!): </p>
+            <tcode><strong>#!/usr/local/bin/perl</strong><br />
+#Создаем список продуктов  MOD02QKM:<br />
+<strong>$com=&quot;dir MOD02QKM\\*.hdf /B &gt;dir1.txt&quot;;<br />
+system($com);</strong><br />
+#Создаем список продуктов  MOD03 (мы предполагаем, что для всех снимков<br />
+#скачены геолокационные поля):<br />
+<strong>$com=&quot;dir MOD03\\*.hdf /B &gt;dir2.txt&quot;;<br />
+system($com);</strong><br />
+#Создаем директорию для  выгрузки данных<br />
+<strong>$com=&quot;md output&quot;;<br />
+system($com);</strong><br />
+#Читаем файлы и создаем  исполняемый файл:<br />
+<strong>open (DR1, &quot;dir1.txt&quot;);<br />
+open (DR2, &quot;dir2.txt&quot;);<br />
+open(OUT, &quot;&gt;batch.bat&quot;);<br />
+my @allmodis=&lt;DR1&gt;;<br />
+my @allgeo=&lt;DR2&gt;;</strong><br />
+#Запускаем цикл для  всех снимков:<br />
+<strong>$num=@allmodis;<br />
+$inc=0;<br />
+while ($inc &lt; $num)<br />
+{</strong><br />
+#Читаем имя файла<br />
+<strong>$line1 = @allmodis[$inc];<br />
+$line2 = @allgeo[$inc];</strong><br />
+#Разбиваем имя по  шаблону и создаем имя выходного файла:<br />
+<strong>($temp1,$temp2,$temp3,$temp4,$temp5,$temp6)=split('\.',$line1);<br />
+$newfile=&quot;$temp1\_$temp2\_$temp3.tif&quot;;</strong><br />
+#Создаем файл  параметров:<br />
+<strong>open(PRM, &quot;&gt;mod$inc.prm&quot;);</strong><br />
+#Печатаем имена файлов  для импорта:<br />
+<strong>print PRM &quot;INPUT_FILENAME =  D:\\MODISWORK\\MOD02QKM\\$line1\n&quot;;<br />
+print PRM &quot;GEOLOCATION_FILENAME =  D:\\MODISWORK\\MOD03\\$line2\n&quot;;</strong><br />
+#Печатаем список  каналов:<br />
+<strong>print PRM &quot;INPUT_SDS_NAME = EV_250_RefSB, 0, 1\n&quot;;</strong><br />
+#Печатаем имя выходного  файла:<br />
+<strong>print PRM &quot;OUTPUT_FILENAME =  D:\\MODISWORK\\output\\$newfile\n&quot;;</strong><br />
+#Печатаем формат и  параметры проекции выходного файла:<br />
+<strong>print PRM &quot;OUTPUT_FILE_FORMAT = GEOTIFF_FMT\n&quot;;<br />
+print PRM &quot;KERNEL_TYPE (CC/BI/NN) = NN\n&quot;;<br />
+print PRM &quot;OUTPUT_PROJECTION_NUMBER = ALBERS\n&quot;;<br />
+print PRM &quot;OUTPUT_PROJECTION_PARAMETER = 0.0 0.0 52.0  64.0 45.0 0.0 8500000.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0\n&quot;;<br />
+print PRM &quot;OUTPUT_PROJECTION_SPHERE = 15\n&quot;;<br />
+print PRM &quot;OUTPUT_PIXEL_SIZE = 250\n&quot;;</strong><br />
+#Закрываем файл  параметров:<br />
+<strong>close (PRM);</strong><br />
+#Печатаем в командный  файл команду импорта и перепроецирования:<br />
+<strong>print OUT &quot;C:\\MRTSwath\\bin\\swath2grid  -pf=mod$inc.prm\n&quot;;<br />
+++$inc;<br />
+}<br />
+close (OUT);<br />
+close (DRR);<br />
+close (FRR);<br />
+$com=&quot;del *.txt\n&quot;;<br />
+system($com);</strong></tcode>
+            <p><strong><a name="311" id="311"></a>Автоматизация  обработки текстовых отчетов</strong> (<a href="#top">в начало</a>)</p>
+            <p> Обработка текстов и генерирование отчетов является основной  задачей PERL, однако при использовании в ГИС такие задачи не являются  первостепенными. Тем не менее, при получении большого количества результатов,  для их сравнения иногда необходимо применять автоматизацию. Например, после  классификации большого количества снимков требуется создание суммарной таблицы  соотношения классов. В нашем случае каждый снимок классифицировался на классы  «лес» и «не лес», кроме того, ряд пикселей был отмечен как «нет данных». Таким  образом, результирующий растровый слой изображения содержит три класса данных:<br />
+              1 – нет данных<br />
+              2 – лес<br />
+              3 - не лес<br />
+              Мы можем выгрузить гистограмму значений этого слоя в  текстовый файл (например, командой EASI histdump) – таким образом, в каждой  директории с данными мы создадим файл blockforest.txt, который представляет  собой колонку чисел:<br />
+              10 – число пикселей первого класса<br />
+              128779 – число пикселей второго класса и т.д....<br />
+              6576<br />
+              0<br />
+              0<br />
+              ...<br />
+              Создадим скрипт для автоматического сбора данных из всех  файлов blockforest.txt и создания таблицы:</p>
+            <tcode><strong>#!/usr/local/bin/perl</strong><br />
+#Создадим список  поддиректорий для обработки:<br />
+<strong>$com=&quot;dir /A:D /O:N /B &gt;dirlist.txt&quot;;<br />
+system($com);</strong><br />
+#Откроем список  директорий и создадим файл с результирующей таблицей:<br />
+<strong>open (DRR, &quot;dirlist.txt&quot;);<br />
+open(OUT, &quot;&gt;output.txt&quot;);</strong><br />
+#В результирующую  таблицу добавим «шапку»:<br />
+<strong>print OUT &quot;name\t nodata\t forest\t noforest\n&quot;;<br />
+my @alldir=&lt;DRR&gt;;</strong><br />
+#Запустим цикл:<br />
+<strong>$num=@alldir;<br />
+$inc=0;<br />
+while ($inc &lt; $num)<br />
+{</strong><br />
+#Читаем имя директории:<br />
+<strong>$line = @alldir[$inc];<br />
+$line =~ s/\n//;</strong><br />
+#Открываем текстовый  фал из нужной директории:<br />
+<strong>$fileforest=&quot;$line\\blockforest.txt&quot;;<br />
+open (bforest, &quot;$fileforest&quot;);</strong><br />
+#Читаем значения  гистограммы:<br />
+<strong>my @allforest=&lt;bforest&gt;;<br />
+$bforest1 = @allforest[0];<br />
+$bforest1 =~ s/\n//;<br />
+$bforest2 = @allforest[1];<br />
+$bforest2 =~ s/\n//;<br />
+$bforest3 = @allforest[2];<br />
+$bforest3 =~ s/\n//;</strong><br />
+#Печатаем значения  переменных в результирующую таблицу:<br />
+<strong>print OUT &quot;$line\t$bforest1\t$bforest2\t$bforest3\n&quot;;<br />
+++$inc;<br />
+}<br />
+close (OUT);<br />
+close (DRR);<br />
+$com=&quot;del dirlist.txt&quot;;<br />
+system($com);</strong></tcode>
+            <p>Мы не будем предлагать этот скрипт для загрузки, поскольку все операции по анализу текстовых отчетов являются индивидуальными. Отметим, что с помощью PERL возможно создание программ для анализа весьма сложных текстовых конструкций. В тех случаях, когда количество переменных велико или изначально неизвестно, можно, для облегчения задачи, создавать промежуточные текстовые файлы, которые затем будут анализироваться (например, выгружать гистограммы по каждому классу в отдельные файлы в виде столбцов данных для последующего статистического анализа). Метод создания промежуточных текстовых файлов является неоптимальным с точки зрения программиста, однако он очень прост для начинающего пользователя и позволяет проверить все промежуточные результаты при необходимости.</p>
+            <p class="discuss">
+				<span><!--#include virtual="/scripts/forum-comments-num.php?i=1261"--></span>
+			</p>
+			<div class="links">
+			<h2>Ссылки по теме</h2>
+			<ul>
+               <li><a href="http://www.perl.org" target="_blank" class="external"> Perl.org</a></li>
+			</ul>
+			</div>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<p class="status"><span>Дата создания: 10.11.2006
+<br>Автор(ы): Пётр Потапов</span></p>
+<!--#include virtual="/inc/footer2.php" -->

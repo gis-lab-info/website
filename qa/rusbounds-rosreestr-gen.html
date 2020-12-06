@@ -1,0 +1,85 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Генерализованные слои границ субъектов РФ </title>
+<!--#include virtual="/inc/header2.txt" -->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Статьи</a></li>
+</ul>
+<!--Contents start-->
+<h1>Генерализованные слои границ субъектов РФ </h1>
+<p class="ann">Разные уровни упрощения и скачка данных </p>
+<p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=8145"--></span></p>
+
+<p>Здесь приводится краткое описание генерализованных слоёв  административного деления РФ на уровне субъектов РФ. Состояние деления на 2010 год. Операции по обработке данных производились в ArcGIS 9.3 (Arcinfo). Возможны артефакты упрощения. </p>
+<p>Представленные наборы могут быть использованы для веб-картографии, простых тематических карт, визуализации статистики и так далее, там, где критичным является количество узлов объектов и/или повышенная точность и детализированность границ не нужна.</p>
+<p>Кодировка атрибутивных таблиц CP1251.</p>
+<p>Каждый слой также сопровождается файлом в формате GeoJSON. </p>
+<h2>Методика подготовки данных</h2>
+<p>Параметры N1-N4, которые меняются в зависимости от выбранного уровня генерализации. Их значения приводятся ниже. </p>
+<p>0. Источник данных: <a href="/qa/rusbounds-rosreestr.html">Коллективный проект по картированию границ субъектов РФ</a></p>
+<p> 1. Перепроецирование в Альберс-Сибирь, WGS84 (<a href="/qa/gis-lab-projections.html">параметры проекции</a>)
+  <br>
+  (отметьте, что используется ГСК WGS84, а не SK42)</p>
+<p>Исправлена вручную ошибка с лишней линией вдоль 180 меридиана (adv.editing - explode, select, merge)</p>
+<p> 2. Arctoolbox\Simplify polygon (management), алгоритм упрощения: POINT_REMOVE, Maximum Allowable Offset: N1, Minimum area: N2, Resolve_errors</p>
+<p> 3. Обновить поле AREA новыми значениями площади. </p>
+<p> 4. Выбрать все полигоны у которых  [AREA]&lt;N3</p>
+<p> 5. Arctoolbox\Eliminate (management). Eliminating polygon by border.</p>
+<p> 6. Выбрать все полигоны у которых [AREA]&lt;N4</p>
+<p> 7. Удалить выбранные </p>
+<h2>Оригинальные данные</h2>
+<p>Полигонов: 1506<br>
+  Узлов: 628363<br>
+  Размер shp-файла на диске: 10 138 369
+</p>
+<p align="center"><img src="../images/rusbounds-rosreestr-gen-03.gif" width="400" height="316"> </p>
+<p><a href="/data/rusbounds-rosreestr-gen/regions2010_sib.7z">Скачать оригинальные данные</a></p>
+<h2>Уровни генерализации и получение упрощенных данных</h2>
+<p>Основным параметром генерализации является пороговое расстояние между узлами (tolerance, maximum allowable offset) или параметр N1 выше, по которому уровни и получили свое название. Чем выше это значение, тем сильнее упрощение. </p>
+<h3>Порог 1000 метров</h3>
+<p>N1: 1000 <br>
+  N2: 1000 <br>
+  N3: 10000000 <br>
+  N4: 10000000<br>
+Полигонов: 428 <br>
+Узлов: 48007<br>
+Размер shp-файла на диске: 792 208 </p>
+<p align="center"><img src="../images/rusbounds-rosreestr-gen-04.gif" width="400" height="316"></p>
+<p><a href="/data/rusbounds-rosreestr-gen/regions2010_sib_gen1.7z">Скачать данные</a></p>
+<h3>Порог 5000 метров</h3>
+<p>N1: 5000 <br>
+N2: 5000 <br>
+N3: 25000000 <br>
+N4: 25000000<br>
+Полигонов: 208 <br>
+Узлов: 10801<br>
+Размер shp-файла на диске: 184 584 </p>
+<p align="center"><img src="../images/rusbounds-rosreestr-gen-01.gif" width="400" height="317"></p>
+<p><a href="/data/rusbounds-rosreestr-gen/regions2010_sib_gen5.7z">Скачать данные</a>  </p>
+<h3>Порог 10000 метров</h3>
+<p>N1: 10000 <br>
+N2: 10000 <br>
+N3: 50000000 <br>
+N4: 50000000<br>
+Полигонов: 209 <br>
+Узлов: 5896<br>
+Размер shp-файла на диске: 106 172 </p>
+<p align="center"><img src="../images/rusbounds-rosreestr-gen-02.gif" width="396" height="314"></p>
+<p><a href="/data/rusbounds-rosreestr-gen/regions2010_sib_gen10.7z">Скачать данные</a></p>
+<!-- обсуждение на форуме, цифра изменяется при публикации статьи -->   
+<p class="discuss"><span><!--#include virtual="/scripts/forum-comments-num.php?i=8145"--></span></p>
+<!-- ссылки -->
+<div class="links">
+	<h2>Ссылки по теме</h2>
+		<ul><li><a href="rusbounds-rosreestr.html">Свободные данные по  границам субъектов РФ</a></li>
+		</ul>
+</div>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<p class="status"><span>Дата создания: 07.07.2011
+<br>
+Автор(ы): <a href="/forum/memberlist.php?mode=viewprofile&u=2" target="_blank">Максим Дубинин</a></span></p>
+<!--#include virtual="/inc/footer2.php" -->

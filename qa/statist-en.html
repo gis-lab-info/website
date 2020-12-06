@@ -1,0 +1,125 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Get statistics on the fields with Statist/QGIS</title>
+<!--#include virtual="/inc/header2-eng.txt" -->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Вопросы и ответы</a></li>
+</ul>
+<h1>Get field statistics with Statist/QGIS</h1>
+<!--Contents start-->
+<p class="ann">QGIS statistics plugin description</p>
+<p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=3749"--></span></p>
+    <p align="right"><a href="mailto:alexander.bruy@gmail.com"><em>Alexander Bruy</em></a></p>
+    <p>The goal of Statist is to provide some basic statistics in text and graphical
+      (frequency distribution histogram) form for the selected field of the vector layer. Both numeric
+      (integer, real, date) and text (string) fields are supported. You can work with the whole layer
+      or only with selected records.</p>
+    <p>If you found a bug, want to make suggestions for improving Statist, or have a question about
+    this plugin, please email me or leave message on our forum. I hope this tool will be usefull.</p>
+    <h2>Installation</h2>
+    <p>You can get this plugin from GIS-Lab repository. </p>
+    <p>The plugin is designed for QGIS version 1.0 and higher. It also depends on matplotlib&nbsp;
+      &mdash; Python 2D plotting library. If you want to use this plugin you need to install matplotlib first.
+      If there is no matplotlib in your system, you'll see error message on QGIS startup.</p>
+    <p>For those who use OSGeo4W online installer obtaining and installing matplotlib very simple.&nbsp;Matplotlib package available through under libraries. In other case you can download it
+    from project home page (<a href="http://matplotlib.sourceforge.net" target="_blank" class="external">http://matplotlib.sourceforge.net</a>)
+    and install manually.</p>
+
+    <h2>Work with plugin</h2>
+    <p>After  the plugin installation and startup by clicking <img src="/images/statist-12.gif" alt="Окно плагина" width="33" height="33"> button main window will appear: </p>
+    <p><img src="/images/statist-en-01.png" alt="Plugin main window"></img></p>
+    <p>1&nbsp;&mdash; layer selection. Only vector layers are listed.<br>
+    2&nbsp;&mdash; fields selection. By default only numeric fields listed there, but you
+    can use checkbox3 to switch to the text fields<br>
+    3&nbsp;&mdash;  switch between numeric and text fields (this changes contents
+    of 2)<br>
+    4&nbsp;&mdash; statistics output area<br>
+    5&nbsp;&mdash; histogram area<br>
+    6&nbsp;&mdash; navigation toolbar, see Navigation chapter</p>
+    <p>Statistics computation begins immediately after user selects a field from the list, the progress of
+    this operation is showed with progressbar. After computation plugin window will look like this</p>
+    <p><img src="/images/statist-en-02.png" alt="Statistics output"></img></p>
+    <p>Some controls change their state and some new controls appear:</p>
+    <p>1&nbsp;&mdash; Copy button. Copy statistics output to clipboard.<br>
+    2&nbsp;&mdash; fields Xmin, Xmax and button Refresh allow you change limits of X axis, so you will
+    have more detailed view of some interval. To do this enter appropriate values in the field and
+    then press Refresh button<br>
+    3&nbsp;&mdash; show/hide plot grid (see screenshoot above)<br>
+    4&nbsp;&mdash; switch between bar histogram or linear plot representations
+    of your data (see screenshot above)</p>
+    <p><img src="/images/statist-en-03.png" alt="Plot and grid"></p>
+
+    <h2>Navigation</h2>
+    <p>Most of the above explanations are from the matplotlib manual (chapter 4 Interactive navigation).</p>
+    <p>Navigation toolbar is located below the plot area.</p>
+    <p><img src="/images/statist-04.png" alt="Navigation toolbar"></p>
+    <p>You can use it to navigate through the figure. Here is a description of each of these buttons.</p>
+    <table>
+      <tr>
+        <td><img src="/images/statist-05.png" alt="Home button"></td>
+        <td><b>Home</b>. Similar to the web-browser Home buttom. It returns you
+        to the first, default view of your data. Use Pan/Zoom and Zoom-to-rectangle to define new views.</td>
+      </tr>
+      <tr>
+        <td><img src="/images/statist-06.png" alt="Back button"></td>
+        <td><b>Back</b>. Similar to the web-browser Back button. Used to navigate back between
+        previously defined views. Have no meaning unless you have already navigate somewhere else
+        using the pan and/or zoom buttons. This is analogous to trying to click Back in your
+        web-browser before visiting a new page&nbsp;&mdash; nothing happens.</td>
+      </tr>
+      <tr>
+        <td><img src="/images/statist-07.png" alt="Forward button"></td>
+        <td><b>Forward</b>. Similar to the web-browser Forward button. Used to navigate forward
+        between previously defined views. Have no meaning unless you have already navigate somewhere
+        else using the pan and/or zoom buttons.</td>
+      </tr>
+      <tr>
+        <td><img src="/images/statist-08.png" alt="Pan/Zoom button"></td>
+        <td><b>Pan/Zoom</b>. This button has two modes: pan and zoom. Click the toolbar button
+        to activate panning and zooming, then put your mouse somewhere over an axes.<br>
+        Press the left mouse button and hold it to pan the figure, dragging it to a new position.
+        When you release it, the data under the point where you pressed will be moved to the point
+        where you released.<br>
+        Press the right mouse button to zoom, dragging it to a new position. The X axis will be zoomed
+        in proportionate to the rightward movement and zoomed out proportionate to the leftward movement.
+        Ditto for the Y axis and up/down motions.</td>
+      </tr>
+      <tr>
+        <td><img src="/images/statist-09.png" alt="Zoom-to-rectangle button"></td>
+        <td><b>Zoom-to-rectangle</b>. Click this toolbar button to activate this mode. Put
+        your mouse somewhere over and axes and press the left mouse button. Drag the mouse while
+        holding the button to a new location and release. The axes view limits will be zoomed to the
+        rectangle you have defined.<br>
+        There is also an experimental "zoom out to rectangle" in this mode with the right button,
+        which will place your entire axes in the region defined by the zoom out rectangle.</td>
+      </tr>
+      <tr>
+        <td><img src="/images/statist-10.png" alt="Subplot-configuration button"></td>
+        <td><b>Subplot-configuration</b>. Use this to configure the parameters of the subplot: the left,
+        right, top, bottom space, space between the columns and space between the rows.<br>
+        In Statist this button enabled but you don't need to click on it. There are no subplots, so
+        there is nothing to configure. Later I'll completely remove this button.</td>
+      </tr>
+      <tr>
+        <td><img src="/images/statist-11.png" alt="Save button"></td>
+        <td><b>Save</b>. Click this button to launch a file save dialog. You can save plot in
+        following formats: PNG, PS, EPS, SVG and PDF.</td>
+      </tr>
+    </table>
+<span>
+    <!--#include virtual="/scripts/forum-comments-num.php?i=3749"-->
+</span>
+<div class="links">
+				<h2>See also</h2>
+					<ul>
+						<li></li>
+					  </ul>
+			</div>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php?lang=e" -->
+<p class="status"><span>Дата создания: 03.08.2009
+<br>Автор(ы): <a href="forum/memberlist.php?mode=viewprofile&u=5325" target="_blank">Александр Бруй</a>, <a href="/forum/memberlist.php?mode=viewprofile&u=2" target="_blank">Максим Дубинин</a></span></p>
+<!--#include virtual="/inc/footer2-eng.php" -->

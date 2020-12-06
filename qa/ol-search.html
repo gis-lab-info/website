@@ -1,0 +1,654 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Поиск объектов на карте с помощью OpenLayers</title>
+<!--#include virtual="/inc/header2-ol.txt" -->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Вопросы и ответы</a></li>
+</ul>
+<!--Contents start-->
+<script src="http://openlayers.org/api/OpenLayers.js"></script>
+<script src="http://gis-lab.info/programs/js/ol-search.js"></script>
+<h1>Поиск объектов на карте с помощью OpenLayers</h1>
+<p class="ann">Рассмотрен вариант организации поиска и подсветки найденных объектов с помощью OpenLayers.</p>
+<p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=5323"--></span></p>
+
+<p>Поиск объектов по атрибутике и масштабирование на них является распространенной задачей при создании как настольных ГИС, так и веб-сервисов. Эта статья рассмотривает одно из возможных решений для веб-приложения.</p>
+<p><strong>Оглавление</strong></p>
+<ol>
+      <li><a href="#01">Введение</a></li>
+      <li><a href="#02">Настройка WMS сервера</a></li>
+      <li><a href="#03">Размещение основных элементов на странице</a></li>
+      <li><a href="#04">Определение охвата найденных объектов</a></li>
+      <li><a href="#05">Результат</a></li>
+</ol>
+
+<!-- Первый раздел -->
+<h2><strong><a name="01" id="01"></a></strong>1. Введение</h2>
+<p>Предположим, что у нас есть  векторный слой данных, который бы мы хотели опубликовать в Интернет и  предоставить пользователю возможность осуществлять поиск объектов по его атрибутике. Для примера воспользуемся слоем населенных пунктов <strong>settlements</strong> из открытого набора данных <a href="http://gis-lab.info/qa/geosample.html">Geosample</a>, который хранится в базе данных PostGIS. Будем осуществлять поиск объектов по полю &quot;name&quot;.</p>
+<!-- Второй раздел -->
+<h2><strong><a name="02" id="02"></a></strong>2. Настройка WMS сервера</h2>
+<p>OpenLayers не позволяет визуализировать данные непосредственно из PostGIS, выходом из этой ситуации является опубликование слоя в качестве WMS-сервиса. Воспользуемся таким сервисом, созданным в ходе работы над проектом Geosample: <a href="http://gis-lab.info:8180/geoserver/wms">http://gis-lab.info:8180/geoserver/wms</a>, среди слоёв которого присутствует и необходимый нам <strong>settlements</strong>. В нашем примере мы будем использовать его в качестве подложки, также подключенной как WMS, которая изменяться никоим образом не будет. Вы можете использовать свою подложку. </p>
+<p>Для подсветки найденных объектов создадим собственный WMS-сервис на базе MapServer, содержащий один слой, который будет формироваться на основе тех же данных (PostGIS), что и WMS-сервис из геосемпла, но динамически, в ходе выполнения запроса, и содержать контура найденных объектов, обведенные красным цветом.</p>
+<p>Содержимое map-файла <strong>layer.map</strong>:</p>
+<pre>MAP
+  STATUS         ON
+  IMAGETYPE      PNG 
+  EXTENT         82 54 84 56
+  SIZE           400 300
+  FONTSET        "fonts/fonts.list"
+
+  WEB
+    IMAGEPATH "/usr/local/www/gis-lab/data/tmp/"
+    IMAGEURL  "/tmp/"
+    METADATA
+        wms_title                  "OpenLayears search example"
+        wms_abstract               "OpenLayears search example"
+        wms_srs                    "EPSG:4326"
+        wms_feature_info_mime_type "text/html"
+    END
+  END
+  PROJECTION
+      "init=epsg:4326"
+  END
+  
+  LAYER
+      NAME "selected"
+      CONNECTIONTYPE postgis
+      CONNECTION "user=guest password=guest dbname=geosample host=gis-lab.info"
+      DATA "the_geom from (%SQL%) as newtable using unique gid using srid=4326"
+      TYPE POLYGON
+      CLASS
+          STYLE
+              OUTLINECOLOR 255 0 0
+              ANTIALIAS TRUE
+              WIDTH 2
+          END
+      END
+      METADATA
+            wms_srs           "EPSG:4326"
+      END
+  END
+END</pre>
+<p>Более подробное описание работы MapServer c данными PosGIS можно найти в статье <a href="http://gis-lab.info/qa/postgis-mapserver.html">Визуализация данных PostGIS в MapServer</a>.</p>
+<h2> <strong><a name="03" id="023"></a></strong>3. Размещение основных элементов</h2>
+<p>После того, как завершена настройка WMS сервера, переходим к настройке пользовательского интерфейса, представляющего собой HTML-страницу. Возможность выбора атрибута, в нашем случае названия населенного пункта  (поле &quot;name&quot;), может предоставляться пользователю, например, посредством выпадающего списка, организованного следующим образом:</p>
+<pre>&#60;form name='form'&#62;&#60;select name='name'&#62;
+&#60;option value=''&#62;Select one&#60;/option&#62;
+&#60;option value=2200800000200 &#62;Акутиха&#60;/option&#62; 
+&#60;option value=2200000200000 &#62;Алейск&#60;/option&#62; 
+&#60;option value=2200300000100 &#62;Алтайский&#60;/option&#62; 
+&#60;option value=2204700000300 &#62;Алтайское&#60;/option&#62;
+...</pre>
+<p>где &quot;value&quot; - КЛАДР код населенного пункта (поле &quot;code&quot; слоя settlements). Построение подобного списка легко автоматизировать, например, с помощью PHP. После размещения на странице выпадающего списка, добавим кнопку по нажатию которой будет осуществляться поиск и непосредственно карту:</p>
+<pre>&lt;html&gt;<br>&lt;head&gt;
+    &lt;script src="http://openlayers.org/api/OpenLayers.js"&gt;&lt;/script&gt;
+    &lt;script src="http://gis-lab.info/programs/js/ol-search.js"&gt;&lt;/script&gt;
+...
+&lt;/head&gt;<br>&lt;body onLoad=&quot;init()&quot;&gt;
+    &lt;div id=&quot;map&quot;&gt;&lt;/div&gt;
+    &lt;input type=&quot;button&quot; value=&quot;Search&quot; onclick=&quot;getext()&quot;&gt;
+    ...</pre>
+<p><a href="http://openlayers.org/api/OpenLayers.js">http://openlayers.org/api/OpenLayers.js</a> - ссылка на библиотеку OpenLayers, <strong>ol-search.js</strong> -  файл, содержащий 3 функции: </p>
+<ul>
+  <li><strong>init()</strong> -  инициализации карты;</li>
+  <li><strong>init_AJAX() </strong>- создание экземпляра объекта XMLHttpRequest;</li>
+  <li><strong>getext()</strong> - функция, отвечающая за поиск объектов.</li>
+  </ul>
+<p>Содержимое файла <strong>ol-search.js</strong>:
+  
+  <pre>function init() {
+    map = new OpenLayers.Map("map");
+    
+    sel = new OpenLayers.Layer.WMS(
+              "Selected",
+              "http://gis-lab.info/cgi-bin/mapserv?",
+              {map:"/usr/local/www/gis-lab/data/programs/mapserver/ol-search/layer.map",layers: 'selected',sql:"select * from settlements where name='-1'",transparent:"true"},{singleTile:true});
+
+    geosample = new OpenLayers.Layer.WMS(
+              "Selected",
+              "http://gis-lab.info:8180/geoserver/wms",
+              {layers:"geosample:ecoregions,geosample:road-l-osm,geosample:settlements",transparent:"false"});
+    
+    map.addLayers([geosample,sel]);
+    var bounds = new OpenLayers.Bounds.fromString('82,54,84,56');
+    map.zoomToExtent(bounds);
+
+}
+
+function init_AJAX() {
+try { return new ActiveXObject("Msxml2.XMLHTTP");  } catch(e) {} //IE
+try { return new ActiveXObject("Microsoft.XMLHTTP"); } catch(e) {} //IE
+try { return new XMLHttpRequest();          } catch(e) {} //Native Javascript
+alert("XMLHttpRequest not supported");
+return null;
+};
+
+function getext() {
+var req = init_AJAX();
+req.open("GET", "http://gis-lab.info/programs/php/ol-search-getext.php?name="+encodeURIComponent(document.form.name.options[document.form.name.options.selectedIndex].value));
+req.onreadystatechange = function () {
+if (req.readyState==4) {
+      if (req.status==200) {
+           var response = req.responseText.split("|");
+           sel.mergeNewParams({sql:response[0]});
+           var bounds = new OpenLayers.Bounds.fromString(response[1]);
+           map.zoomToExtent(bounds);
+      }
+ }
+};
+req.send(null);
+}</pre>
+<p>Рассмотрим содержимое данного файла более подробно.</p>
+<p><strong>init()</strong></p>
+<p>Создаём экземпляр карты:</p>
+<pre>map = new OpenLayers.Map("map");</pre>
+
+<p>Затем инициализируем слой населенных пунктов (переменная <strong>geosample</strong>) и слой обводки объектов (переменная <strong>sel</strong>) изначально пустой, поскольку в качестве подстановочного поля %SQL% серверу передается выражение &quot;<em>select * from settlements where name='-1'</em>&quot;, которому, очевидно, в таблице <strong>settlements</strong> не удовлетворяет ни одна запись:</p>
+<pre>geosample = new OpenLayers.Layer.WMS(...);
+sel = new OpenLayers.Layer.WMS(...,{...,sql:"select * from settlements where name='-1'"},...);
+</pre>
+<p>Важное замечание: при пересылке параметров серверу OpenLayers переводит все параметры в верхний регистр (map,layers,sql,transparent будут переданы как MAP, LAYERS, SQL, TRANSPARENT), поэтому в качестве подстановочного поля в map-файле используется %SQL%, а не %sql%.</p>
+<p>Добавляем слои на карту и устанавливаем нужный охват:</p>
+<pre>map.addLayers([geosample,sel]);
+var bounds = new OpenLayers.Bounds.fromString('82,54,84,56');
+map.zoomToExtent(bounds);</pre>
+
+<p>&nbsp;</p>
+<p><strong>init_AJAX()</strong></p>
+<p>Данная функция отвечает за создание экземпляра объекта XMLHttpRequest способом, определяемым типом браузера. XMLHttpRequest — набор API,   используемый в языках JavaScript, JScript, VBScript и им подобных для пересылки различных   данных по HTTP-протоколу   между браузером и веб-сервером. Позволяет осуществлять   HTTP-запросы к удаленному серверу без необходимости перезагружать   страницу.</p>
+<p>&nbsp;</p>
+<p><strong>getext()</strong></p>
+<p>Создаём экземпляр объекта XMLHttpRequest:</p>
+<pre>var req = init_AJAX();</pre>
+<p>и передаём асинхронный запрос методом GET сереверному скрипту <strong>getext.php</strong>:</p>
+<pre>req.open("GET", "http://gis-lab.info/programs/php/ol-search-getext.php?name="+encodeURIComponent(document.form.name.options[document.form.name.options.selectedIndex].value));</pre>
+<p>Асинхронность заключается в том, что клиентское приложение не дожидаается ответа от сервера, а продолжает свою работу. Как только с сервера приходит ответ, он заносится в массив <strong>response</strong>. Серверный скрипт написан таким образом, что результатом его выполнения является строка SQL-запроса на поиск выбранного пользователем объекта и пространственный охват этого объекта, разделенные символом &quot;|&quot;:</p>
+<pre>if (req.readyState==4) {
+      if (req.status==200) {
+           var response = req.responseText.split("|");
+...
+      }
+ }
+};</pre>
+<p>После чего слою <strong>sel </strong>передаётся подстановочное поле (которое затем отправляется на WMS сервер, который в свою очередь рендерит слой в соответствии с этим полем, в нашем случае - контура объектов) и устанавливается новый охват, соответствующий охвату найденных объектов:</p>
+<pre>sel.mergeNewParams({sql:response[0]});
+var bounds = new OpenLayers.Bounds.fromString(response[1]);
+map.zoomToExtent(bounds);</pre>
+
+<h2><strong><a name="04" id="0223"></a></strong>4. Поиск объектов и определение охвата</h2>
+<p>Рассмотрим, что из себя представляет серверный скрипт, генерирующий подстановочное поле и вычисляющий охват запрашиваемых объектов <strong>getext.php</strong>:</p>
+<pre>&#60;?php
+
+$dbh = pg_connect("host=gis-lab.info dbname=geosample user=guest password=guest") or
+die("Error in connection: " . pg_last_error());
+
+$code = $_REQUEST['name'];
+
+$str = "SELECT * FROM settlements WHERE code='".$code."'";
+echo $str."|";
+  
+$result = pg_query($dbh, "select ST_XMin(ST_Union(the_geom)) as st_xmin,
+ST_YMin(ST_Union(the_geom)) as st_ymin,ST_XMax(ST_Union(the_geom)) as st_xmax,
+ST_YMax(ST_Union(the_geom)) as st_ymax from ($str) AS foo");  
+$row = pg_fetch_array($result);
+
+if (!empty($row['st_xmin'])&&!empty($row['st_ymin'])&&!empty($row['st_xmax'])&&!empty($row['st_ymax'])){
+    echo $row['st_xmin'].",".$row['st_ymin'].",".$row['st_xmax'].",".$row['st_ymax'];
+}
+else {
+echo "82,54,84,56";
+}
+?&#62;</pre>
+<p>Соединяемся с базой данных и запрашиваем значение переменной из URL:</p>
+<pre>$dbh = pg_connect("host=gis-lab.info dbname=geosample user=guest password=guest") or
+die("Error in connection: " . pg_last_error());
+
+$code = $_REQUEST['name'];</pre>
+<p>В соответствии с названием запрашиваемого объекта генерируем SQL запрос и добавляем после него символ &quot;|&quot;:</p>
+<pre>$str = "SELECT * FROM settlements WHERE code='".$code."'";
+echo $str."|";</pre>
+<p>Используя функции PostGIS ST_XMin,ST_YMin,ST_XMax,ST_YMax, вычисляем охват запрашиваемого объекта:</p>
+<pre>$result = pg_query($dbh, "select ST_XMin(ST_Union(the_geom)) as st_xmin,
+ST_YMin(ST_Union(the_geom)) as st_ymin,ST_XMax(ST_Union(the_geom)) as st_xmax,
+ST_YMax(ST_Union(the_geom)) as st_ymax from ($str) AS foo"); </pre>
+<p>Выводим рассчитанный охват, либо полный охват карты, если не найденны объекты с выбранным именем (например, выбран элемент выпадающего списка Select one):</p>
+<pre>$row = pg_fetch_array($result);
+
+if (!empty($row['st_xmin'])&&!empty($row['st_ymin'])&&!empty($row['st_xmax'])&&!empty($row['st_ymax'])){
+    echo $row['st_xmin'].",".$row['st_ymin'].",".$row['st_xmax'].",".$row['st_ymax'];
+}
+else {
+echo "82,54,84,56";
+}</pre>
+<p>Примеры результата выполнения <strong>getext.php</strong>:</p>
+<pre>SELECT * FROM settlements WHERE code='2200000800000'|83.8799743652344,53.3685569763184,84.0150527954102,53.4700012207031
+SELECT * FROM settlements WHERE code='5400900002500'|78.4868316650391,53.5798873901367,78.5268630981445,53.6058883666992
+SELECT * FROM settlements WHERE code='2202200001200'|82.6611251831055,51.7036590576172,82.7050018310547,51.7301406860352</pre>
+<p>Итак подводя итог всему вышесказанному, представим порядок работы нашего приложения:<ol>
+  <li>Выбираем из выпадающего списка название населенного пункта, который мы хотим найти на карте;</li>
+  <li>Нажимаем кнопку Search, вызывая функцию getext();</li>
+  <li>Функция getext() фоном отправляет запрос серверному скрипту getext.php;</li>
+  <li>При возврате ответа от getext.php найденные объекты выделяются и устанавливается новый  охват.</li>
+</ol>
+<h2><strong><a name="05" id="022"></a></strong>5. Результат</h2>
+<form name="form">
+<table>
+   <tr>
+       <td valign="top">
+         <p><strong>Название населенного пункта:</strong></p>
+         <p>
+           <select name='name'>
+             
+                 <option value=''>Select one</option>
+                 <option value=2200800000200 >Акутиха</option> 
+                 <option value=2200000200000 >Алейск</option> 
+                 <option value=2200300000100 >Алтайский</option> 
+                 <option value=2204700000300 >Алтайское</option> 
+                 <option value=2205300000200 >Андроново</option> 
+                 <option value=4200000200000 >Анжеро-Судженск</option> 
+                 <option value=5401200000700 >Антоновка</option> 
+                 <option value=2204200000300 >Ануйское</option> 
+             
+                 <option value=2200300000200 >Ая</option> 
+                 <option value=5400200000100 >Баган</option> 
+                 <option value=2200400000100 >Баево</option> 
+                 <option value=4200500000400 >Банново</option> 
+                 <option value=5400000400000 >Барабинск</option> 
+                 <option value=4200100000400 >Барановка</option> 
+                 <option value=4200000300200 >Барзас</option> 
+                 <option value=2200000100000 >Барнаул</option> 
+                 <option value=2202900000300 >Бастан</option> 
+             
+                 <option value=4200200100051 >Белово</option> 
+                 <option value=5400900000400 >Белое</option> 
+                 <option value=5400000200000 >Бердск</option> 
+                 <option value=5400100000600 >Береговое</option> 
+                 <option value=4201300000300 >Берикульский</option> 
+                 <option value=2200000400000 >Бийск</option> 
+                 <option value=2200600000100 >Благовещенка</option> 
+                 <option value=5400400100000 >Болотное</option> 
+                 <option value=4201500000700 >Большая Покровка</option> 
+             
+                 <option value=5403000000300 >Большеникольское</option> 
+                 <option value=5401800000600 >Большой Изырак</option> 
+                 <option value=2203400000800 >Боровиха</option> 
+                 <option value=2200200001100 >Боровское</option> 
+                 <option value=5401100000600 >Боярка</option> 
+                 <option value=2205600000400 >Брусенцево</option> 
+                 <option value=2202800000300 >Буканское</option> 
+                 <option value=5401300000200 >Букреево Плесо</option> 
+                 <option value=2201600000300 >Буланиха</option> 
+             
+                 <option value=2201600000400 >Буланиха</option> 
+                 <option value=2200700000100 >Бурла</option> 
+                 <option value=5401300000300 >Быструха</option> 
+                 <option value=2200800000100 >Быстрый Исток</option> 
+                 <option value=2202100000400 >Быстрянка</option> 
+                 <option value=5401600005300 >Васильевка</option> 
+                 <option value=2201900000300 >Васильчуки</option> 
+                 <option value=5402400001300 >Вассино</option> 
+                 <option value=5400500000100 >Венгерово</option> 
+             
+                 <option value=2200800000300 >Верх-Ануйское</option> 
+                 <option value=2202000000400 >Верх-Жилино</option> 
+                 <option value=5402000000600 >Верх-Ирмень</option> 
+                 <option value=2200500000800 >Верх-Катунское</option> 
+                 <option value=5400800000900 >Верх-Коен</option> 
+                 <option value=2200400000200 >Верх-Пайва</option> 
+                 <option value=2204600000100 >Верх-Суетка</option> 
+                 <option value=5400700000700 >Верх-Урюм</option> 
+                 <option value=5402000000700 >Верх-Чик</option> 
+             
+                 <option value=2200400000300 >Верх-Чуманка</option> 
+                 <option value=4200100000800 >Верхотомское</option> 
+                 <option value=2203100000400 >Веселая дубрава</option> 
+                 <option value=2205800000600 >Воеводское</option> 
+                 <option value=2205000000300 >Володарка</option> 
+                 <option value=2200900000100 >Волчиха</option> 
+                 <option value=2202300000600 >Волчно-Бурлинское</option> 
+                 <option value=2206100001100 >Воробьево</option> 
+                 <option value=2203700000500 >Ворониха</option> 
+             
+                 <option value=2200900000400 >Вострово</option> 
+                 <option value=2205300000500 >Вылково</option> 
+                 <option value=5401100001200 >Вьюны</option> 
+                 <option value=2205600000500 >Вяткино</option> 
+                 <option value=2203900000300 >Гилев Лог</option> 
+                 <option value=2201200000400 >Глубокое</option> 
+                 <option value=0400000100000 >Горно-Алтайск</option> 
+                 <option value=2202700100000 >Горняк</option> 
+                 <option value=2203900000499 >Грановка</option> 
+             
+                 <option value=2201300002600 >Гуниха</option> 
+                 <option value=4200300100000 >Гурьевск</option> 
+                 <option value=5400800001000 >Гусельниково</option> 
+                 <option value=5400600000100 >Довольное</option> 
+                 <option value=2202300000700 >Долганка</option> 
+                 <option value=2201800000600 >Дресвянка</option> 
+                 <option value=2203900000600 >Дубровино</option> 
+                 <option value=5401900001000 >Елтышево</option> 
+                 <option value=2200500001000 >Енисейское</option> 
+             
+                 <option value=2203400001300 >Журавлиха</option> 
+                 <option value=2205200001300 >Заводское</option> 
+                 <option value=2201200000100 >Завьялово</option> 
+                 <option value=2204800000900 >Зайцево</option> 
+                 <option value=2203900000800 >Закладное</option> 
+                 <option value=2201300000100 >Залесово</option> 
+                 <option value=2200001100000 >Заринск</option> 
+                 <option value=2206100001600 >Зеркалы</option> 
+                 <option value=2200001300000 >Змеиногорск</option> 
+             
+                 <option value=2204100001400 >Знаменка</option> 
+                 <option value=2201600000100 >Зональное</option> 
+                 <option value=2203300001200 >Зыково</option> 
+                 <option value=2203300001300 >Зятьково</option> 
+                 <option value=4200400100000 >Ижморский</option> 
+                 <option value=4200001500500 >Инской</option> 
+                 <option value=2206000000700 >Иня</option> 
+                 <option value=5400900000600 >Ирбизино</option> 
+                 <option value=5400000500000 >Искитим</option> 
+             
+                 <option value=4201500200000 >Итатский</option> 
+                 <option value=5403000001000 >Кабинетное</option> 
+                 <option value=4201200200000 >Каз</option> 
+                 <option value=5402300002000 >Казачий Мыс</option> 
+                 <option value=2201900000700 >Каип</option> 
+                 <option value=2201700000100 >Калманка</option> 
+                 <option value=2201700000000 >Калманский</option> 
+                 <option value=2203600000700 >Калмыцкие мысы</option> 
+                 <option value=4200000400000 >Калтан</option> 
+             
+                 <option value=2200000700000 >Камень-на-Оби</option> 
+                 <option value=5402600000800 >Камышево</option> 
+                 <option value=4201500001500 >Камышловка</option> 
+                 <option value=5401100001800 >Кандаурово</option> 
+                 <option value=5400900100000 >Карасук</option> 
+                 <option value=5401000100000 >Каргат</option> 
+                 <option value=2202200001200 >Карпово Второе</option> 
+                 <option value=2203200000800 >Касмала</option> 
+                 <option value=2203800000700 >Каяушка</option> 
+             
+                 <option value=0400500000900 >Кебезень</option> 
+                 <option value=4200100100051 >Кемерово</option> 
+                 <option value=5402000000800 >Кирза</option> 
+                 <option value=2205000000900 >Кировский</option> 
+                 <option value=4201700002100 >Кленовка</option> 
+                 <option value=2203600000800 >Клепечиха</option> 
+                 <option value=5402500002100 >Кожурла</option> 
+                 <option value=4201300003899 >Кожух</option> 
+                 <option value=2205000001200 >Колпаково</option> 
+             
+                 <option value=2203200001000 >Колыванское</option> 
+                 <option value=5401100000100 >Колывань</option> 
+                 <option value=5400600001400 >Комарье</option> 
+                 <option value=4201300300000 >Комсомольск</option> 
+                 <option value=2201800001300 >Корнилово</option> 
+                 <option value=2205700001200 >Коротояк</option> 
+                 <option value=2202800001000 >Корчино</option> 
+                 <option value=2202000000100 >Косиха</option> 
+                 <option value=2202800001100 >Костин Лог</option> 
+             
+                 <option value=5401200000100 >Коченево</option> 
+                 <option value=2203800000800 >Кочки</option> 
+                 <option value=5401300000100 >Кочки</option> 
+                 <option value=4200500100000 >Крапивинский</option> 
+                 <option value=4201100002100 >Краснинское</option> 
+                 <option value=4200000000151 >Краснобродский</option> 
+                 <option value=2202100000100 >Красногорское</option> 
+                 <option value=4200600002200 >Красное</option> 
+                 <option value=5401400000100 >Краснозерское</option> 
+             
+                 <option value=2202200000100 >Краснощеково</option> 
+                 <option value=2202800001200 >Крестьянка</option> 
+                 <option value=5401200003000 >Крутологово</option> 
+                 <option value=4200900006200 >Кузедеево</option> 
+                 <option value=5400000600000 >Куйбышев</option> 
+                 <option value=2202400000100 >Кулунда</option> 
+                 <option value=5401600100000 >Купино</option> 
+                 <option value=2206000001000 >Кучук</option> 
+                 <option value=2200300001600 >Куяган</option> 
+             
+                 <option value=2202600000100 >Кытманово</option> 
+                 <option value=5401700000100 >Кыштовка</option> 
+                 <option value=2204800001900 >Ларичиха</option> 
+                 <option value=5400800001700 >Лебедевка</option> 
+                 <option value=5402400006000 >Лебедево</option> 
+                 <option value=4200600100051 >Ленинск-Кузнецкий</option> 
+                 <option value=2200500001400 >Лесное</option> 
+                 <option value=2205000001800 >Листвянка</option> 
+                 <option value=2201800001400 >Луговое</option> 
+             
+                 <option value=0400300000100 >Майма</option> 
+                 <option value=2206000001200 >Макарово</option> 
+                 <option value=2202900000500 >Малиновое Озеро</option> 
+                 <option value=2201200001000 >Малиновский</option> 
+                 <option value=2202300001100 >Маловолчанка</option> 
+                 <option value=2205900001500 >Малый Бащелак</option> 
+                 <option value=2200900000600 >Малышев лог</option> 
+                 <option value=5401100002600 >Мальчиха</option> 
+                 <option value=4200700100000 >Мариинск</option> 
+             
+                 <option value=5401800000100 >Маслянино</option> 
+                 <option value=5401600001600 >Медяково</option> 
+                 <option value=4200001600000 >Междуреченск</option> 
+                 <option value=2203100001000 >Мельниково</option> 
+                 <option value=2202900000100 >Михайловское</option> 
+                 <option value=2200200002700 >Моховское</option> 
+                 <option value=4201200005051 >Мундыбаш</option> 
+                 <option value=2202000001800 >Налобиха</option> 
+                 <option value=2202900000700 >Неводное</option> 
+             
+                 <option value=2204500001500 >Ненинка</option> 
+                 <option value=2200300001900 >Нижнекаменка</option> 
+                 <option value=2205600001500 >Нижнеозерное</option> 
+                 <option value=2200400000700 >Нижнечуманка</option> 
+                 <option value=2200600001700 >Нижний Кучук</option> 
+                 <option value=2205600001600 >Нижняя Гусиха</option> 
+                 <option value=5402300004000 >Николаевка</option> 
+                 <option value=5402300004100 >Никулино</option> 
+                 <option value=2200500001900 >Новиково</option> 
+             
+                 <option value=2203100000100 >Новичиха</option> 
+                 <option value=2204000002700 >Новоалександровка</option> 
+                 <option value=2200700001300 >Новоалексеевка</option> 
+                 <option value=2200000800000 >Новоалтайск</option> 
+                 <option value=2201000000100 >Новоегорьевское</option> 
+                 <option value=2200200002800 >Новоколпаково</option> 
+                 <option value=2200900000700 >Новокормиха</option> 
+                 <option value=5402900002100 >Новокрасное</option> 
+                 <option value=4200900100051 >Новокузнецк</option> 
+             
+                 <option value=5400100005900 >Новолуговое</option> 
+                 <option value=4200300001700 >Новопестерево</option> 
+                 <option value=2200700001500 >Новопесчаное</option> 
+                 <option value=2203400003100 >Новоповалиха</option> 
+                 <option value=4201500002500 >Новоподзорново</option> 
+                 <option value=4200600003500 >Новопокасьма</option> 
+                 <option value=2201700001201 >Новоромановка</option> 
+                 <option value=2204700002800 >Новороссийка</option> 
+                 <option value=5401600002200 >Новоселье</option> 
+             
+                 <option value=5400000100000 >Новосибирск</option> 
+                 <option value=2202200001800 >Новошипуново</option> 
+                 <option value=2201800001900 >Новоярки</option> 
+                 <option value=5400000300000 >Обь</option> 
+                 <option value=2201200001300 >Овечкино</option> 
+                 <option value=2205800001200 >Овсянниково</option> 
+                 <option value=2205500001700 >Огни</option> 
+                 <option value=5400900001600 >Октябрьское</option> 
+                 <option value=4201100002800 >Окунево</option> 
+             
+                 <option value=5402000000100 >Ордынское</option> 
+                 <option value=4200000700000 >Осинники</option> 
+                 <option value=4200900008800 >Осиновое Плесо</option> 
+                 <option value=2200200003100 >Осколково</option> 
+                 <option value=2203200000100 >Павловск</option> 
+                 <option value=2200400000900 >Паклино</option> 
+                 <option value=2203300000100 >Панкрушиха</option> 
+                 <option value=2203700001800 >Паново</option> 
+                 <option value=4200600004200 >Панфилово</option> 
+             
+                 <option value=2205000002200 >Парфеново</option> 
+                 <option value=5403000001800 >Пенек</option> 
+                 <option value=2205100001400 >Первокаменка</option> 
+                 <option value=2203500000100 >Петропавловское</option> 
+                 <option value=5401100003900 >Пихтовка</option> 
+                 <option value=2203300002600 >Подойниково</option> 
+                 <option value=2203000001200 >Подсосново</option> 
+                 <option value=4201300001400 >Полуторник</option> 
+                 <option value=4200600200051 >Полысаево</option> 
+             
+                 <option value=5402800003300 >Посевная</option> 
+                 <option value=2203600000100 >Поспелиха</option> 
+                 <option value=4200001200499 >Притомский</option> 
+                 <option value=4201000100051 >Прокопьевск</option> 
+                 <option value=4201100000151 >Промышленная</option> 
+                 <option value=2202300001700 >Прыганка</option> 
+                 <option value=2203800001400 >Разумовка</option> 
+                 <option value=2203400004100 >Рассказиха</option> 
+                 <option value=2203700000100 >Ребриха</option> 
+             
+                 <option value=5401300001700 >Решеты</option> 
+                 <option value=2203200002400 >Рогозиха</option> 
+                 <option value=5401600002600 >Рождественка</option> 
+                 <option value=2200000900000 >Рубцовск</option> 
+                 <option value=2201500002200 >Саввушка</option> 
+                 <option value=4200300200000 >Салаир</option> 
+                 <option value=4200500002900 >Салтымаково</option> 
+                 <option value=5402100000100 >Северное</option> 
+                 <option value=2200900001200 >Селиверстово</option> 
+             
+                 <option value=4201500004400 >Сертинка</option> 
+                 <option value=2204400002300 >Сибирячиха</option> 
+                 <option value=4200200004700 >Сидоренково</option> 
+                 <option value=2200400001500 >Ситниково</option> 
+                 <option value=2200001000000 >Славгород</option> 
+                 <option value=2204200000100 >Смоленское</option> 
+                 <option value=2204300000100 >Советское</option> 
+                 <option value=2204400000100 >Солонешное</option> 
+                 <option value=2204500000100 >Солтон</option> 
+             
+                 <option value=2200000400500 >Сорокино</option> 
+                 <option value=2200500002800 >Сростки</option> 
+                 <option value=2201000001600 >Сросты</option> 
+                 <option value=5401900003400 >Станционно-Ояшинский</option> 
+                 <option value=4200200004900 >Старобачаты</option> 
+                 <option value=4200100004900 >Старочервово</option> 
+                 <option value=2203800001600 >Степной Кучук</option> 
+                 <option value=5402200000100 >Сузун</option> 
+                 <option value=5401000002000 >Сумы</option> 
+             
+                 <option value=2202800002100 >Суслово</option> 
+                 <option value=2200600002700 >Сухой Ракит</option> 
+                 <option value=2204200002900 >Сычевка</option> 
+                 <option value=0401000000400 >Сёйка</option> 
+                 <option value=4200500003200 >Тараданово</option> 
+                 <option value=4201100004800 >Тарасово</option> 
+                 <option value=5400000700000 >Татарск</option> 
+                 <option value=5401900003700 >Ташара</option> 
+                 <option value=4201200100000 >Таштагол</option> 
+             
+                 <option value=4201200007651 >Темиртау</option> 
+                 <option value=4201000006500 >Терентьевское</option> 
+                 <option value=4201300000151 >Тисуль</option> 
+                 <option value=2201000001700 >Титовка</option> 
+                 <option value=2204900000100 >Тогул</option> 
+                 <option value=5402400100000 >Тогучин</option> 
+                 <option value=4201400100000 >Топки</option> 
+                 <option value=2205000000100 >Топчиха</option> 
+                 <option value=2202800002200 >Травное</option> 
+             
+                 <option value=5400600002500 >Травное</option> 
+                 <option value=4201400004800 >Трещевский</option> 
+                 <option value=5401300002000 >Троицкий</option> 
+                 <option value=2206100004300 >Тугозвоново</option> 
+                 <option value=2205900002700 >Тулата</option> 
+                 <option value=2205300000100 >Тюменцево</option> 
+                 <option value=4201500003900 >Тяжино-Вершинка</option> 
+                 <option value=4201500000151 >Тяжинский</option> 
+                 <option value=5402500000100 >Убинское</option> 
+             
+                 <option value=5403000002200 >Ужаниха</option> 
+                 <option value=2206100004400 >Урлапово</option> 
+                 <option value=4200300002500 >Урск</option> 
+                 <option value=4201300003900 >Усть-Барандат</option> 
+                 <option value=2205500000100 >Усть-Калманка</option> 
+                 <option value=0400700000100 >Усть-Кан</option> 
+                 <option value=0400800000100 >Усть-Кокса</option> 
+                 <option value=2203700002500 >Усть-Мосиха</option> 
+                 <option value=5402600000100 >Усть-Тарка</option> 
+             
+                 <option value=2205600002500 >Усть-Чарыш</option> 
+                 <option value=2205600000100 >Усть-Чарышская Пристань</option> 
+                 <option value=5400800003600 >Усть-Чем</option> 
+                 <option value=5402000002400 >Устюжанино</option> 
+                 <option value=5402000002500 >Филиппово</option> 
+                 <option value=2202200002700 >Харлово</option> 
+                 <option value=4201400005400 >Хорошеборка</option> 
+                 <option value=5400900002500 >Хорошее</option> 
+                 <option value=2205800000100 >Целинное</option> 
+             
+                 <option value=5402700000100 >Чаны</option> 
+                 <option value=2205000003700 >Чаузово</option> 
+                 <option value=2205600002600 >Чеканиха</option> 
+                 <option value=0400900000100 >Чемал</option> 
+                 <option value=5402400010200 >Чемское</option> 
+                 <option value=0401100001400 >Черга</option> 
+                 <option value=2203200003900 >Черемное</option> 
+                 <option value=5402800100000 >Черепаново</option> 
+                 <option value=2202800002400 >Черная Курья</option> 
+             
+                 <option value=5401200006300 >Чик</option> 
+                 <option value=5403000002300 >Чикман</option> 
+                 <option value=2201200002100 >Чистоозерка</option> 
+                 <option value=5402900000100 >Чистоозерное</option> 
+                 <option value=2205000003900 >Чистюнька</option> 
+                 <option value=0401000000100 >Чоя</option> 
+                 <option value=5403000100000 >Чулым</option> 
+                 <option value=4201600003000 >Чумай</option> 
+                 <option value=2205800002200 >Шалап</option> 
+             
+                 <option value=2205300002000 >Шарчино</option> 
+                 <option value=2203200003600 >Шахи</option> 
+                 <option value=5402400010300 >Шахта</option> 
+                 <option value=0401100000100 >Шебалино</option> 
+                 <option value=5402200003900 >Шипуново</option> 
+                 <option value=5402800004600 >Шурыгино</option> 
+                 <option value=2205300002100 >Юдиха</option> 
+                 <option value=4201700100051 >Юрга</option> 
+                 <option value=2204800004500 >Язово</option> 
+             
+                 <option value=0400700002700 >Яконур</option> 
+                 <option value=2203800002100 >Ярославцев Лог</option> 
+                 <option value=4200900013200 >Ячменюха</option> 
+                 <option value=4201900000151 >Яшкино</option> 
+                 <option value=4201800100000 >Яя</option> 
+                      </select>
+           <input type="button" value="Search" onClick="getext()">
+           </p></td>
+       <td><div id="map"  style="width: 400px; height: 300px"></div></td>
+   </tr>
+</table>    
+</form>
+<!-- обсуждение на форуме, цифра изменяется при публикации статьи -->   
+<p class="discuss">
+   <span><!--#include virtual="/scripts/forum-comments-num.php?i=5323"--></span>
+</p>
+<!-- ссылки -->
+<div class="links">
+    <h2>Ссылки по теме</h2>
+        <ul>
+            <li><a href="mapserver-wms.html">Создание WMS-сервиса с помощью Mapserver</a></li>
+            <li><a href="postgis-mapserver.html">Визуализация данных PostGIS в MapServer</a></li>
+            <li><a href="openlayers-begin.html">OpenLayers: начало работы</a></li>
+            <li><a href="ol-load.html">Способы отображения данных с помощью OpenLayers</a></li>
+            <li><a href="https://www.ibm.com/developerworks/ru/library/wa-ajaxintro2/" class="external">Освоение Ajax: Часть 2. Выполнение асинхронных запросов с JavaScript и Ajax</a></li>
+        </ul>
+</div>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<!--#include virtual="/inc/footer2.php" -->

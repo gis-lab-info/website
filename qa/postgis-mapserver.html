@@ -1,0 +1,272 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Визуализация данных PostGIS в MapServer</title>
+<!--#include virtual="/inc/header2.txt" -->
+<!--Contents start-->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Вопросы и ответы</a></li>
+</ul>
+<h1>Визуализация данных PostGIS в MapServer</h1>
+<p class="ann">Рассмотрена работа MapServer с данными PostGIS</p>
+            <p>Среда  визуализации пространственных данных в Веб - <a href="http://mapserver.gis.umn.edu/" class="external">MapServer</a> позволяет в качестве источника пространственных данных  использовать в том числе и базы геоданных, созданные с использованием <a href="http://postgis.refractions.net/" target="_blank" class="external">PostGIS</a>, тем самым обеспечивая возможность их быстрой и удобной  публикации в Сети. В данной статье рассматриваются основные моменты работы MapServer совместно с данными, хранящимися в PostGIS в ОС Windows. На  <a href="http://mapserver.gis.umn.edu/docs/reference/vector_data/postgis" class="external">официальном  сайте</a> MapServer о   его совместном использовании с PostGIS сказано совсем  немного, что и послужило одной из причин написания данной статьи. Начала работы  с PostGIS изложены в статье "<a href="/qa/postgis-work.html">Основы работы с PostGIS</a>", а о  том, как установить PostGIS под Windows, вы можете узнать <a href="/qa/postgis-install.html">отсюда</a>.</p>
+            <p>Здесь  и далее в статье, под «данными PostGIS» понимается  набор данных хранящийся в БД PostgreSQL с  пространственным расширением PostGIS.</p>
+            <p><strong>Оглавление</strong></p>
+            <ol>
+                  <li><a href="#01">Подготовка к работе</a></li>
+                  <li><a href="#02">Создание простейшего map-файла для работы с PostGIS</a><//li>
+                  <li><a href="#03">Фильтры и выражения MapServer</a></li>
+                  <li><a href="#04">MapServer  и  SQL</a></li>
+                  <li><a href="#05">Продвинутое использование MapServer и  SQL</a></li>
+                  </ol>
+
+
+<!-- Первый раздел -->
+            <p><strong><img src="/images/1.gif" alt="1" width="33" height="41" align="left" /><a name="01" id="01"></a>Подготовка к работе</strong></p>
+	    <p>Прежде  чем переходить к вопросу создания map-файла, хотелось  бы дать пару советов по работе с PostgreSQL. </p>
+	    <p>1.  Чтобы избежать ситуаций, связанных с неработающими запросами SQL, необходимо избегать использования двойных кавычек  при создании таблиц, а также использовать в названиях полей только символы  нижнего регистра.  При использовании  двойных кавычек, имя таблицы и колонки (идентификаторы)  сохраняются в <a href="http://www.postgresql.org/docs/current/static/sql-syntax.html#SQL-SYNTAX-IDENTIFIERS" class="external">регистро-зависимом  виде</a>; это означает, что вы должны использовать двойные кавычки, когда  указываете эти имена в запросе. Для тех, кто использует pgAdmin, нужно помнить, что во время создания  таблицы этот интерфейс добавляет двойные кавычки автоматически! </p>
+	    <p>2.  При работе PostGIS совместно с MapServer,  последний требует, чтобы в таблице присутствовал столбец <a href="http://www.postgresql.org/docs/8.3/static/datatype-oid.html" class="external">OID</a>, служащий уникальным  идентификатором записей в PostgreSQL. Для этого запрос  SQL, создающий новую таблицу, предназначенную для  хранения геоданных, должен выглядеть следующим образом:</p>
+	    <p>
+	      <tcode>CREATE TABLE &lt;tablename&gt; (...)<br>
+	        WITH (OIDS=TRUE);</tcode>
+	    </p>
+	    <p>В  pgAdmin при создании новой таблицы можно просто указать  опцию «Имеет OID» и соответствующий код SQL  будет добавлен автоматически:</p>
+	    <p align="center"><img src="../images/postgis-mapserver-01.gif" width="442" height="570"></p>
+	    <p align="center"><img src="../images/postgis-mapserver-02.gif" width="442" height="570"></p>
+	    <p>Также  можно настроить PostgreSQL таким образом,  чтобы вновь создаваемые таблицы посредством клиента psql  автоматически  включали столбец OID. Для этого в  файле <em>postgresql.conf</em>, расположенном  по умолчанию в C:\Program  Files\PostgreSQL\8.3\data\ найдите строку <em>default_with_oids  = on</em>,  раскомментируйте ее и замените на <em>default_with_oids = on</em>. Для того, чтобы PostgreSQL смог обработать поступающий  запрос, кодировка базы данных должна соответствовать кодировке запроса (например, обе должны быть WIN   1251). На этом подготовка завершена, теперь можно  переходить непосредственно к работе с MapServer.</p>
+	    <!-- Второй раздел -->
+            <p><strong><img src="/images/2.gif" alt="2" width="33" height="41" align="left" /><a name="02" id="02"></a>Создание простейшего map-файла для работы с PostGIS</strong></p>
+	    <p>Как  известно, MapServer работает с так называемыми map-файлами, в которых описывается структура  создаваемой карты. Структура map-файла, использующего  данные PostGIS, имеет некоторые особенности.  Рассмотрим пример простейшего map-файла,  содержащего слой данных PostGIS:
+	    	      <pre>MAP
+ IMAGETYPE GIF
+ EXTENT 77.8924 50.6194 87.2278 54.4701
+ SIZE 800 600
+LAYER
+ NAME "boundary"
+ CONNECTIONTYPE postgis
+ CONNECTION "user=postgres password=1234 dbname=city host=localhost"
+ DATA "the_geom from boundary"
+ TYPE POLYGON
+ CLASS
+      COLOR 200 120 123
+ END
+END
+END </pre>
+	      </p>
+	    <div align="center"></div>
+	    <p align="center"><img src="../images/postgis-mapserver-03.gif" width="560" height="247"></p>
+	    <p align="center">Пример  отображения слоя PostGIS</p>
+	    <p>Рассмотрим  параметры соединения по пунктам:</p>
+	    <p><strong>CONNECTIONTYPE</strong><strong> </strong><br>
+	    Тип соединения,  для слоев PostGIS всегда должен иметь значение <em>postgis</em>.</p>
+	    <p><strong>CONNECTION</strong><strong> </strong><br>
+	      Строка  подключения, содержащая набор ключей, необходимых для подключения к базе данных,  а именно: <em>user</em> –пользователь, от имени которого осуществляется  подключение, <em>password</em> -  пароль пользователя, <em>dbname</em> – имя базы  данных, <em>host</em> – DNS-имя узла, на котором находится  сервер PostgreSQL, <em>port</em> – номер порта,  который «слушает» PostgreSQL, по умолчанию  используется порт <em>5432</em>.</p>
+	    <p><strong>DATA</strong><strong> </strong><br>
+	      Данные, которые  необходимо отобразить на карте. Значение этого параметра указываются в виде «<em>&lt;имя столбца&gt; from &lt;имя таблицы&gt;</em>», где <em>имя столбца</em> – столбец в котором хранятся  пространственные данные (по умолчанию <em>the_geom</em>), <em>имя таблицы</em> – таблица,  содержащая данный столбец.</p>
+	    <p>Для  увеличения скорости обработки данных рекомендуется вручную указать <a href="http://en.wikipedia.org/wiki/SRID" class="external">SRID</a> - уникальный  идентификатор, однозначно определяющий систему координат (<em>using srid=&lt;значение&gt;</em>), а  также первичный ключ таблицы (<em>using unique &lt;имя поля&gt;</em>) в противном случае MapServer будет пытаться самостоятельно  обращаться к базе данных для получения этих данных, таким образом снижая  производительность. Это обеспечивается путем небольшого редактирования  параметра <em>DATA</em>:</p>
+	    <p>
+	      <tcode>DATA "the_geom from boundary using unique gid using srid=4326"
+	      </tcode>
+	    </p>
+	    <p>Выражение  <em>using unique gid</em>  сообщает  MapServer о том, что в качестве первичного  ключа следует использовать поле <em>gid</em>  (используемое в PostGIS по умолчанию), выражение <em>using  srid=4326</em> информирует  MapServer о том, что SRID запрашиваемых данных имеет номер <em>4326</em>. Значение SRID для каждой таблицы, содержащей  геоданные, должно хранится в таблице <em>geometry_columns. </em>Если информация  о SRID определенной таблицы отсутствует, это означает что  геоданные не используют SRID, в таком случае  используется значение SRID=-1.</p>
+	    <p>При  использовании нескольких слоев PostGIS, при получении  данных из одной БД, целесообразно объединить их в единый пул подключений. Это  позволит каждому слою не создавать новое подключение заново, а использовать уже  имеющееся. Так, например, если ваша карта содержит 10 слоев PostGIS, то в случае подключения к каждому слою  по отдельности, общие затраты времени на подключение к БД составят 150  миллисекунд (по 15 мс на каждое подключение),  при использовании же единого пула это время сокращается в 10 раз (15 мс требуется на установку первого соединения).  Чтобы установленное единожды подключение больше не разрывалось, необходимо в  конце описания каждого слоя PostGIS добавлять строку:</p>
+	    <p>
+	      <tcode>PROCESSING  &quot;CLOSE_CONNECTION=DEFER&quot;
+          </tcode>
+	    </p>
+	    <p>&nbsp;</p>
+	    <p><strong><img src="/images/3.gif" alt="3" width="33" height="41" align="left" /><a name="03" id="03"></a>Фильтры и выражения MapServer</strong></p>
+	        <p>Использование  фильтров позволяет отображать на карте часть данных, соответствующую определенным  условиям. Пример map-файла,  использующего фильтр:</p>
+	       
+	          <pre>MAP
+ IMAGETYPE GIF
+ EXTENT 77.8924 50.6194 87.2278 54.4701
+ SIZE 800 600
+LAYER
+ NAME "boundary"
+ CONNECTIONTYPE postgis
+ CONNECTION "user=postgres password=1234 dbname=city host=localhost"
+ DATA "the_geom from boundary using unique gid using srid=4326"
+ FILTER "area>2500 and perimeter>400"
+ TYPE POLYGON
+ CLASS
+      COLOR 200 120 123
+ END
+END
+END              </pre>
+	          </p>
+	        <p>В  данном примере <em>area</em> и <em>perimeter</em> – поля таблицы <em>boundary</em> базы данных <em>city</em>.  При работе с PostGIS выражение FILTER  задается  в соответствии с синтаксисом SQL, а не с  синтаксисом MapServer, как это делается при работе с shape-файлами.</p>
+	        <p align="center"><img src="../images/postgis-mapserver-04.gif" width="445" height="257"></p>
+	        <p align="center">Пример использования фильтра, выбраны области с  определенной площадью и периметром</p>
+	        <p>При  использовании выражений также существуют некоторые отличия, характерные для  работы с PostGIS. При использовании shape-файлов атрибуты (названия   полей) в выражениях MapServer набираются в  ВЕРХНЕМ РЕГИСТРЕ, в то время как при использовании PostGIS  – в нижнем.</p>
+	        
+	          <pre>MAP
+ IMAGETYPE GIF
+ EXTENT 77.8924 50.6194 87.2278 54.4701
+ SIZE 800 600
+LAYER
+ NAME "boundary"
+ CONNECTIONTYPE postgis
+ CONNECTION "user=postgres password=1234 dbname=city host=localhost"
+ DATA "the_geom from boundary using unique gid using srid=4326"
+ TYPE POLYGON
+ CLASS
+      COLOR 200 120 123
+	  EXPRESSION ([area]>2500)
+ END
+ CLASS
+      COLOR 100 120 255
+	 EXPRESSION ([area]<2500)
+ END
+END
+END              </pre>
+	     	        <p>В  данном примере полигоны с площадью большей 2500 отображаются одним цветом (коричневым), а с меньшей – другим (синим):</p>
+	        <div align="center"></div>
+	        <p align="center"><img src="../images/postgis-mapserver-05.gif" width="560" height="260"></p>
+	        <p align="center">Пример использования выражений</p>
+	        <p align="left">Более  подробно ознакомиться с работой с фильтров и выражениями MapServer можно <a href="http://gis-lab.info/qa/mapserver-expressions.html">здесь</a>.</p>
+	        <!-- Четвертый раздел -->
+            <p><strong><img src="/images/4.gif" alt="4" width="33" height="41" align="left" /><a name="04" id="04"></a>MapServer и SQL</strong></p>
+	        <p>Часто  информация, которую вы хотите визуализировать, отсутствует в таблице геоданных  непосредственно, но является результатом вычисления или сравнения с другими  данными. В таких случаях вы можете построить запрос SQL,  производящий эти операции, который будет выполнен MapServer.</p>
+	        	          <pre>MAP
+ IMAGETYPE GIF
+ EXTENT 77.8924 50.6194 87.2278 54.4701
+ SIZE 800 600
+LAYER
+ NAME "boundary"
+ CONNECTIONTYPE postgis
+ CONNECTION "user=postgres password=1234 dbname=city host=localhost"
+ DATA "the_geom from 
+ (
+ SELECT the_geom,naselenie,area,gid
+ FROM boundary,population 
+ WHERE population.name=boundary.name and naselenie/area>0.009
+ )
+ AS newtable using unique gid using srid=4326"
+ TYPE POLYGON
+ CLASS
+      COLOR 200 120 123
+ END
+END
+END</pre>
+	       	        <p>В  данном примере мы используем сразу 2 таблицы. Будем отображать только те  полигоны для которых плотность населения превышает 0,009. Данные о населении  хранятся в отдельной таблице <em>population</em> в поле <em>naselenie</em>, связанной с  таблицей <em>boundary</em>  через поле <em>name</em>.  Отметим, что после ключевого слова SELECT необходимо указывать  имена всех идентификаторов, используемых в запросе, а также присваивать  псевдоним представлению (в данном случае <em>newtable</em>).</p>
+	        <p align="center"><img src="../images/postgis-mapserver-06.gif" width="560" height="145"></p>
+	        <p align="center">Карта, построенная на основе SQL-запроса</p>
+	        <p>Рассмотрим  еще один очень интересный пример использования запроса SQL,  в котором MapServer считывает данные о дорогах из таблицы roads,  но отображает на карте только 10 наиболее протяженных из них. </p>
+	       	          <pre>
+MAP
+ IMAGETYPE GIF
+ EXTENT 77.8924 50.6194 87.2278 54.4701
+ SIZE 800 600
+LAYER
+ NAME "roads"
+ CONNECTIONTYPE postgis
+ CONNECTION "user=postgres password=1234 dbname=city host=localhost"
+ DATA "the_geom from 
+ (
+ SELECT road_cod, Sum(Length(the_geom)) AS length, Collect(GeometryN(the_geom,1)) AS the_geom
+ FROM roads
+ GROUP BY road_cod
+ ORDER BY length DESC
+ LIMIT 10
+ )
+ AS newtable using unique road_cod using SRID=4326"
+ TYPE LINE
+ CLASS
+      COLOR 255 120 123
+ END
+END
+END</pre>
+	        	        <p>Суммарная  длина дороги вычисляется функцией <em>Sum()</em>. <em>Length()</em> – это функция PostGIS, рассчитывающая длину линейного  объекта.</p>
+	        <p>Теперь  остановимся подробнее на выражении <em>Collect(GeometryN(the_geom,1))</em>, позволяющем  объединить несколько геометрических объектов в один.  При загрузке данных из шейп-файлов любого  типа, например полигонального (<em>POLYGON</em>),  в PostGIS по умолчанию они будут иметь тип  мультиполигон (<em>MULTIPOLYGON</em>)  даже если состоят из одинарных полигонов. Аналогична ситуация и при загрузке  линейных объектов, которые по умолчанию загружаются как мультилинии. Из-за  этого результат выполнения функции <em>Collect(the_geom)</em>, объединяющей  дороги с одинаковым кодом в один геометрический объект (<em>GROUP BY road_cod</em>), будет иметь  тип <em>GEOMETRYCOLLECTION</em>, вместо необходимого нам <em>MULTILINESTRING</em>,  в качестве параметра функции <em>Collect()</em> мы укажем не <em>the_geom</em>,  а <em>GeometryN(the_geom,1)</em> – функцию,  возвращающую геометрию объекта <em>(the_geom)</em> под соответствующим  номером (1)  из набора  <em>MULTILINESTRING</em> (нумерация   геометрий в <em>GEOMETRYCOLLECTION</em>,   <em>MULTIPOINT</em>,<em> MULTILINESTRING</em> и   <em>MULTIPOLYGON</em> начинается с 1).</p>
+	        <p>Выражение  <em>GROUP BY road_cod</em> говорит о том,  что полученные в результате запроса данные следует группировать по полю <em>road_cod</em>,  <em>ORDER BY length DESC</em>  –  сортировать по полю <em>length</em> по убыванию (<em>DESC</em>).</p>
+	        <p>Выражение  <em>LIMIT 10</em> ограничивает размер выборки.</p>
+	        <p align="center"><img src="../images/postgis-mapserver-07.gif" width="480" height="192"></p>
+	        <p align="center">Результат операции выборки – 10 длиннейших дорог  Алтайского края </p>
+	        <p><strong><img src="/images/5.gif" alt="5" width="33" height="41" align="left" /><a name="05" id="05"></a>Продвинутое использование </strong><strong>MapServer и SQL</strong></p>
+	        <p>Для  выполнения разнообразных операций с данными в MapServer традиционно используют <a href="http://mapserver.gis.umn.edu/cgi-bin/wiki.pl?PHPMapScript" class="external">Mapscript</a>, однако, при помощи  переменных и SQL возможно сделать очень гибкую систему, используя только CGI  программу mapserv и PostGIS. </p>
+		        <p>Рассмотрим  следующий пример:</p>
+		        <pre>MAP
+ IMAGETYPE GIF
+ EXTENT 77.8924 50.6194 87.2278 54.4701
+ SIZE 800 600
+LAYER
+ NAME "roads"
+ CONNECTIONTYPE postgis
+ CONNECTION "user=postgres password=1234 dbname=city host=localhost"
+ DATA "the_geom from (%sql%) as newtable using unique gid using srid=4326"
+ TYPE LINE
+ CLASS
+    COLOR 255 120 123
+ END
+END
+END
+</pre>
+
+        <p>
+          <!-- Конец текста статьи, начало ссылок -->
+        Как  уже было сказано выше, оператор <em>DATA</em>  предназначен для выборки данных, которые  нужно отобразить на карте. Из примера видно, что оператор <em>DATA</em>  в  данном случае довольно прост:</p>
+        <pre>DATA &quot;the_geom  from (%sql%) as newtable using unique gid  using srid=4326&quot;        </pre>
+        <p>На  этапе создания map-файла мы можем  не знать, какие именно данные нам придется запрашивать в базе или возможно эти  запросы будут формироваться автоматически. Переменная sql будет заменена  на SQL запрос путем передачи последнего через URL. Например, в нашем случае введя в строку поиска  браузера следующий URL:</p>
+        <pre>http://localhost/cgi-bin/mapserv.exe?map=/ms4w/apps/mslocal/map/exampleGL.map&layer=roads&<br>sql=select+the_geom+,+oid+,+gid+from+roads&mode=map </pre>
+        <p>мы  получим полную карту дорог, хранящуюся в таблице <em>roads</em>: </p>
+        <p align="center"><img src="../images/postgis-mapserver-08.gif" width="537" height="223"></p>
+        <p align="center">Карта дорог Алтайского края, полученная в  результате выполнения динамического SQL-запроса</p>
+        <p>Рассмотрим  еще один довольно интересный пример, иллюстрирующий использование SQL в MapServer&nbsp;:</p>
+        <pre>LAYER
+
+ <.. пропуск ..>
+
+DATA "the_geom from (SELECT the_geom,gid, distance(the_geom,
+geometryfromtext('POINT(' || (%mx% + %img.x% * %mw% / %iw%) || ' '
+|| (%my% - %img.y% * %mh% / %ih%) || ')',4326)) AS dist FROM
+roads) as newtable using srid=4326 using unique gid"
+
+<.. пропуск ..> 
+
+ TYPE LINE
+ CLASSITEM dist
+ CLASS
+   NAME "Roads < 1 deg from Click"
+   EXPRESSION ([dist] < 1)
+   COLOR 0 255 0
+ END
+ CLASS
+   NAME "Roads > 1 deg from Click"
+   EXPRESSION ([dist] >= 1 AND [dist] < 2)
+   COLOR 255 0 0
+ END
+ CLASS
+   NAME "Roads > 2 deg from Click"
+   EXPRESSION ([dist] >= 2)
+   COLOR 0 0 255
+ END
+ END
+END
+</pre>
+        <p>Суть  данного примера состоит в следующем: при каждом клике мышью на карте переменные  (mx,   my, img.x, img.y и   т.д.), описанные соответствующим образом (в   соответствии с CGI переменными MapServer)  в форме шаблона, передаются CGI программе mapserv и динамически подставляются в  заготовленный map-файл. То есть, каждый раз, когда мы щелкаем по  карте, наша карта будет изменяться. А именно, каждый раз производится расчет  расстояния от места щелчка до всех геометрических объектов карты и в  зависимости от его значения  выбирается  цвет объекта.</p>
+        <ul type="disc">
+          <li><strong>mx</strong><strong>, </strong><strong>my</strong><strong> – </strong>minx       и miny в единицах       измерения карты;<strong></strong></li>
+          <li><strong>mw</strong><strong>, </strong><strong>mh</strong><strong> – </strong>ширина и       высота карты в единицах измерения карты;<strong></strong></li>
+          <li><strong>iw</strong><strong>, </strong><strong>ih</strong><strong> – </strong>ширина и       высота картинки в пикселях;<strong></strong></li>
+          <li><strong>img.x, img.y – </strong>координаты       клика мыши.</li>
+          </ul>
+        <p align="center"><strong><img src="../images/postgis-mapserver-09.gif" width="531" height="230"></strong></p>
+        <p align="center">Карта дорог Алтайского края с классификацией по  признаку удаленности от выбранного места</p>
+		<p class="discuss">
+			<span><!--#include virtual="/scripts/forum-comments-num.php?i=2638"--></span>
+		</p>
+        <div class="links">
+				<h2>Ссылки по теме</h2>
+					<ul>
+						<li><a href="/qa/postgis-install.html">Установка PostgreSQL/PostGIS для Windows</a></li>
+						<li><a href="/qa/postgis-work.html">Основы работы с PostGIS</a><a href="modislandprod.html"></a></li>
+						<li><a href="/qa/mapserver-expressions.html">Выражения в MapServer</a></li>
+						<li><a href="http://mapserver.gis.umn.edu/docs/reference/vector_data/postgis" class="external">Работа Mapserver с PostGIS</a></li>
+					</ul>
+			</div>
+			<!--#include virtual="/scripts/date.php" -->
+<!--Contents end-->
+<!--#include virtual="/inc/footer2.php" -->

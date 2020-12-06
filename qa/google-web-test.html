@@ -1,0 +1,61 @@
+<!--#include virtual="/inc/header02-google.txt" -->
+<title>GIS-Lab: Пример использования Google Maps на своей интернет-странице</title>
+<!--#include virtual="/inc/header2-google.txt" -->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Вопросы и ответы</a></li>
+</ul>
+<!--Contents start-->
+
+      <!-- GOOGLE Part1 START -->
+      <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAAINgesJb4VJ2iYHIcc-gT7hQGhS5yCmtMNZMUBKgpbJFW2uH_cRSd35D9AE7VSWY096Cd7dLkCk3bRA" type="text/javascript" encoding="utf-8"></script>
+      <!-- GOOGLE Part1 END -->
+	  <!-- GOOGLE Part2 START -->
+      <script type="text/javascript">
+      //<![CDATA[
+
+      function load() {
+      if (GBrowserIsCompatible()) {
+	  	/* Создать точку - центр */
+	  	var pntx=37.62039542198181;
+		var pnty=55.75294375419617;
+		var center = new GLatLng(pnty, pntx);
+		/* Создать основной объект карты */
+        var map = new GMap2(document.getElementById("mapgoogle"));
+		/* Создать элементы навигации, масштабную линейку */
+		var map_ctrl=new GLargeMapControl();
+		var map_type_ctrl=new GMapTypeControl();
+		var map_scale_ctrl=new GScaleControl();
+		/* Добавить элементы навигации */
+		map.addControl(map_ctrl);
+		/* Кнопки выбора типа карты*/
+		map.addControl(map_type_ctrl);
+		/* Добавить масштабную линейку */
+		map.addControl(map_scale_ctrl);
+        map.setCenter(center, 17, G_SATELLITE_MAP);
+      }
+    }
+
+    //]]>
+    </script>
+      <!-- GOOGLE Part2 END -->
+	  <h1>Пример использования Google Maps на своей странице</h1>
+            <p class="ann">Пример встроенной карты Google Map
+              <!-- GOOGLE Part3 START -->
+			</p>
+			<p>Подробности - см. исходный код страницы
+			(View\Page source) или <a href="/qa/google-web.html">описание</a>.</p>
+            <div align="center">
+				<div id="mapgoogle" style="width: 90%; height: 500px;"></div>
+			</div>
+			<!-- GOOGLE Part3 END -->
+			<!--#include virtual="/scripts/date.php" -->
+			<p class="discuss">
+							<span><!--#include virtual="/scripts/forum-comments-num.php?i=1191"--></span>
+			</p>
+<!--#include virtual="/scripts/date.php" -->
+<!--Contents end-->
+<!--#include virtual="/inc/footer2.php" -->

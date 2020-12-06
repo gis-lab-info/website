@@ -1,0 +1,271 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Способы отображения данных с помощью OpenLayers</title>
+<!--#include virtual="/inc/header2.txt" -->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Вопросы и ответы</a></li>
+</ul>
+<!--Contents start-->
+<script src="http://openlayers.org/api/OpenLayers.js"></script>
+<h1>Способы отображения данных с помощью OpenLayers</h1>
+<p class="ann">Несколько способов визуализации пространственных данных с помощью OpenLayers, плюсы и минусы. </p>
+<p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=2782"--></span></p>
+<p><a href="http://openlayers.org/" target="_blank" class="external">OpenLayers</a> - свободная библиотека JavaScript для отображения картографических данных на веб-страницах с API сходным с API Google Maps/Virtual Earth. </p>
+            <p>В зависимости от того, как хранятся исходные данные и требований к создаваемому картографическому представлению в веб, возможно несколько подходов к отображению данных на веб-странице. Эта статья иллюстрирует эти подходы и дает примеры программной реализации каждого из них. </p>
+            <p><strong>Оглавление</strong></p>
+            <ol>
+                  <li>Прямое отображение данных</li>
+                  <li>Отображение слоя WMS</li>
+                  <li>Загрузка специализированных данных: WMS и Google</li>
+                  <li>Загрузка специализированных данных: вектор и Google</li>
+            </ol>
+
+
+<!-- Первый раздел -->
+            <h2><strong><a name="01" id="01"></a></strong>1. Прямое отображение данных</h2>
+            <p>Способ самый быстрый в развертывании. Заключается в прямом, без посредников, доступе к пространственным данным. OpenLayers позволяет напрямую показывать ограниченное количество векторных и растровых форматов, что является главным недостатком этого метода. К сожалению, на момент написания статьи невозможно работать напрямую с форматом shape, но можно работать с KML, JSON и некоторыми другими. Вторым большим недостатком является невозможность отображения больших наборов данных. </p>
+	    <p>На следующем примере осуществляется прямое подключение к набору данных (граница Республики Калмыкия) в формате KML, хранящемся на сервере и его визуализация средствами OpenLayers. </p>
+	    <pre>&lt;script type=&quot;text/javascript&quot;&gt;
+map = new OpenLayers.Map('map');
+var bounds = new OpenLayers.Bounds(41, 44, 48, 48);
+var graphic = new OpenLayers.Layer.GML(
+    &quot;OpenLayers KML&quot;,
+    &quot;../other/kalm.kml&quot;,
+    {format: OpenLayers.Format.KML};
+graphic.setIsBaseLayer(true);
+map.addLayers([graphic]);
+map.zoomToExtent(bounds);
+&lt;/script&gt;</pre>
+		
+		<p>Разберем ключевые фрагменты кода. API OpenLayers очень похож по структуре на аналогичный API Google. Для масштабирования карты на определенном фрагменте, зададим охват переменной bounds. Затем создадим новый слой graphics, для которого будут использоваться данные в формате KML, являющегося разновидностью GML, поэтому <a href="http://dev.openlayers.org/docs/files/OpenLayers/Layer/GML-js.html" target="_blank" class="external">OpenLayers.Layer.GML</a>. При отображении данных напрямую, без растровой подложки, нужно указать, что единственный наш слой является базовым (подложкой) - <a href="http://dev.openlayers.org/docs/files/OpenLayers/Layer-js.html#OpenLayers.Layer.setIsBaseLayer" target="_blank" class="external">graphic.setIsBaseLayer</a>(true).</p>
+		<div style="width:400px; height:300px" id="map"></div>
+		<script type="text/javascript">
+		map = new OpenLayers.Map('map');
+		var bounds = new OpenLayers.Bounds(41, 44, 48, 48);
+		var options = {numZoomLevels: 3};
+		var graphic = new OpenLayers.Layer.GML(
+			"OpenLayers KML",
+			"../other/kalm.kml",
+			{format: OpenLayers.Format.KML},
+			options);
+		graphic.setIsBaseLayer(true);
+		map.addLayers([graphic]);
+		map.zoomToExtent(bounds);
+		</script>
+
+<!-- Второй раздел -->
+            <h2><strong><a name="02" id="02"></a></strong>2. Отображение слоя WMS</h2>
+            <p>На следующем примере осуществляется визуализация данных сервиса WMS, запущенного с помощью MapServer, для сервиса WMS используются данные в формате shape (границы стран). Такой способ отображения данных позволяет работать с большим перечнем векторных форматов, не ограниченным XML/JSON представлением данных, позволяет использовать сложные условные обозначения и осуществлять дополнительную конфигурацию картографического представления данных через редакцию map-файла MapServer. Так же, используя такой подход, кэши фрагментов (tilecache) и грамотно построенную детализацию зависящую от масштаба практически нет ограничений на объемы отображаемых данных. </p>
+	    <p>К недостаткам данного способа относится относительная сложность настройки, если загрузку необходимо производить с Вашего же сервера WMS, которая включается установку и запуск MapServer, конфигурацию сервиса и т.д. С другой стороны, настроенный сервер WMS позволяет использовать свои данные любому клиентском ПО, как через специализированное ПО ГИС, так и через браузер, как в этом примере. </p>
+	    <pre>&lt;script type=&quot;text/javascript&quot;&gt;
+var lon = 44;
+var lat = 46;
+var zoom = 5;
+var map, layer;
+map = new OpenLayers.Map('map2');
+layer = new OpenLayers.Layer.WMS(
+			&quot;GIS-Lab Test WMS&quot;,
+			&quot;http://gis-lab.info/cgi-bin/wmsworld?&quot;,
+			{layers: 'world'}
+);
+map.addLayer(layer);
+map.setCenter(new OpenLayers.LonLat(lon, lat), zoom);
+map.addControl(new OpenLayers.Control.LayerSwitcher());
+&lt;/script&gt;</pre>
+		
+		<p>Разберем ключевые фрагменты кода. Новый объект назовем map2, чтобы он не конфликтовал с уже существующим объектом map, созданным в первом примере. В этом случае слой будет образован сервисом WMS <a href="http://dev.openlayers.org/docs/files/OpenLayers/Layer/WMS-js.html" target="_blank" class="external">OpenLayers.Layer.WMS</a>. Используем один из наших сервисов WMS с адресом http://gis-lab.info/cgi-bin/wmsworld?, зададим ему имя &quot;GIS-Lab Test WMS&quot; и перечислим используемые слои, перечень которых нужно узнать предварительно. Добавим так же для демонстрации новый контрол - переключатель слоев, хотя слой у нас только один, с помощью <a href="http://dev.openlayers.org/docs/files/OpenLayers/Control/LayerSwitcher-js.html" target="_blank" class="external">OpenLayers.Control.LayerSwitcher</a>. Показать подобный набор данных помощью способа №1 можно, однако загрузка слоев займет очень большое время. </p>
+		  <div style="width:400px; height:300px" id="map2"></div>
+		<script type="text/javascript">
+        var lon = 44;
+        var lat = 46;
+        var zoom = 5;
+        var map, layer;
+		map = new OpenLayers.Map('map2');
+		layer = new OpenLayers.Layer.WMS("GIS-Lab Test WMS", "http://gis-lab.info/cgi-bin/wmsworld?", {layers: 'world'});
+		map.addLayer(layer);
+	
+		map.setCenter(new OpenLayers.LonLat(lon, lat), zoom);
+		map.addControl(new OpenLayers.Control.LayerSwitcher());
+	    </script>
+
+        <h2><strong><a name="03" id="03"></a></strong>3. Загрузка специализированных данных: WMS и Google </h2>
+        <p>Еще одной возможностью OpenLayers является загрузка данных предоставляемых через свои API различными картографическими сервисами, например OpenStreetMap, Google Maps и многими другими. Так как реализация их протоколов отлична от спецификаций OGC, они выделены в отдельную группу специализированных данных и управляются с помощью семейства объектов <a href="http://dev.openlayers.org/docs/files/OpenLayers/Layer/Google-js.html" target="_blank" class="external">OpenLayers.Layer.Google</a>, <a href="http://dev.openlayers.org/docs/files/OpenLayers/Layer/Yahoo-js.html" target="_blank" class="external">OpenLayers.Layer.Yahoo</a> и т.д. Возможности OpenLayers позволяют загружать такие данные совместно со слоями образованными вышеперечисленными способами, создавая гибридные картографические представления. Отображение слоев из разных источников - одна из главных функций OpenLayers, позволяющего быстро настроить любое их количество. В OpenLayers сделать это гораздо легче, чем скажем напрямую показать слой WMS MapServer в Google Maps (<a href="/qa/ms-gm.html">подробнее</a>). Расплачиваться за это приходится оверхедом на загрузку самого OpenLayers и невозможностью использоваться оригинальный API, заменяемый API OpenLayers. </p>
+        <p>Простейший пример гибридного представления может быть реализован следующим скриптом, использующим в качестве базового слоя данные сервиса Google (топокарту и спутниковые снимки) и слой-оверлей WMS полученный так же, как в пункте 2. </p>
+        <pre>&lt;script src=&quot;http://maps.google.com/maps?file=api&amp;amp;v=2&amp;amp;key=ABQIAAAAINgesJb4VJ2iYHIcc-gT7hQGhS5yCmtMNZMUBKgpbJFW2uH_cRSd35D9AE7VSWY096Cd7dLkCk3bRA&quot; type=&quot;text/javascript&quot; encoding=&quot;utf-8&quot;&gt;&lt;/script&gt;
+&lt;script type=&quot;text/javascript&quot;&gt;
+var lon = 44;
+var lat = 46;
+var zoom = 5;
+map = new OpenLayers.Map('map3');
+map.addControl(new OpenLayers.Control.LayerSwitcher());
+var gmap = new OpenLayers.Layer.Google(
+    &quot;Google Streets&quot;, // the default
+	{numZoomLevels: 20}
+);
+var gsat = new OpenLayers.Layer.Google(
+    &quot;Google Satellite&quot;,
+    {type: G_SATELLITE_MAP, numZoomLevels: 20}
+);
+var wms = new OpenLayers.Layer.WMS(
+    &quot;World Map&quot;,
+    &quot;http://gis-lab.info/cgi-bin/mapserv&quot;,
+	{
+	   map: '/usr/local/www/gis-lab/data/programs/mapserver/wms-world-gmap/wms.map',
+	   transparent: 'TRUE',
+	   layers: 'world'
+	},
+	{'reproject': true}
+);
+map.addLayers([gsat,gmap,wms]);
+map.setCenter(new OpenLayers.LonLat(lon, lat), zoom);
+map.addControl(new OpenLayers.Control.LayerSwitcher());
+&lt;/script&gt;</pre>
+        <p>&nbsp;</p>
+        <div style="width:400px; height:300px" id="map3"></div>
+		<script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAAINgesJb4VJ2iYHIcc-gT7hQGhS5yCmtMNZMUBKgpbJFW2uH_cRSd35D9AE7VSWY096Cd7dLkCk3bRA" type="text/javascript" encoding="utf-8"></script>
+		<script type="text/javascript">
+		var lon = 44;
+        var lat = 46;
+        var zoom = 5;
+        map = new OpenLayers.Map('map3');
+		map.addControl(new OpenLayers.Control.LayerSwitcher());
+		
+		var gmap = new OpenLayers.Layer.Google(
+			"Google Streets", // the default
+			{numZoomLevels: 20}
+		);
+		var gsat = new OpenLayers.Layer.Google(
+			"Google Satellite",
+			{type: G_SATELLITE_MAP, numZoomLevels: 20}
+		);
+		var wms = new OpenLayers.Layer.WMS(
+                "World Map",
+                "http://gis-lab.info/cgi-bin/mapserv",
+                {
+                    map: '/usr/local/www/gis-lab/data/programs/mapserver/wms-world-gmap/wms.map',
+                    transparent: 'TRUE',
+                    layers: 'world'
+                },
+                {'reproject': true}
+            );
+		map.addLayers([gsat,gmap,wms]);
+		map.setCenter(new OpenLayers.LonLat(lon, lat), zoom);
+		map.addControl(new OpenLayers.Control.LayerSwitcher());
+	    </script>
+		<br>
+		<p>Параметр {'reproject': true} в настройки слоя получаемого через WMS необходимо добавить для приведения системы координат данных этого слоя с системой координат сервисов Google (Mercator/Sphere). В противном случае, результат будет выглядеть следующим образом:</p><br>
+		<div style="width:400px; height:300px" id="map4"></div>
+		<script type="text/javascript">
+		var lon = 44;
+        var lat = 46;
+        var zoom = 5;
+        map = new OpenLayers.Map('map4');
+		map.addControl(new OpenLayers.Control.LayerSwitcher());
+		
+		var gmap = new OpenLayers.Layer.Google(
+			"Google Streets", // the default
+			{numZoomLevels: 20}
+		);
+		var gsat = new OpenLayers.Layer.Google(
+			"Google Satellite",
+			{type: G_SATELLITE_MAP, numZoomLevels: 20}
+		);
+		var wms = new OpenLayers.Layer.WMS(
+                "World Map",
+                "http://gis-lab.info/cgi-bin/mapserv",
+                {
+                    map: '/usr/local/www/gis-lab/data/programs/mapserver/wms-world-gmap/wms.map',
+                    transparent: 'TRUE',
+                    layers: 'world'
+                }
+            );
+
+		map.addLayers([gsat,gmap,wms]);
+		map.setCenter(new OpenLayers.LonLat(lon, lat), zoom);
+		map.addControl(new OpenLayers.Control.LayerSwitcher());
+	    </script>
+        <p></p>
+        <h2><strong><a name="04" id="04"></a></strong>4. Загрузка специализированных данных: вектор и Google</h2>
+        <p>Наложение векторных слоев в форматах GML, KML, GeoJSON на данные Virtual Earth и Google имеют свои особенности, связанные в первую очередь с проекционными преобразованиями. Для правильного преобразования, необходимо указать систему координат карты и каждого из слоев.</p>
+        <pre>&lt;script type=&quot;text/javascript&quot;&gt;
+var lon = 135.0658519;
+var lat = 48.466571;
+var zoom = 16;
+var options = {
+	projection: new OpenLayers.Projection(&quot;EPSG:900913&quot;),
+	displayProjection: new OpenLayers.Projection(&quot;EPSG:4326&quot;),
+	maxExtent: new OpenLayers.Bounds(-20037508.34, -20037508.34, 20037508.34, 20037508.34)
+};
+map = new OpenLayers.Map('map5', options);
+
+var layer = new OpenLayers.Layer.Google(
+   &quot;GoogleSoft&quot;, {
+	 type: G_SATELLITE_MAP,
+	 numZoomLevels: 20,
+	 'sphericalMercator': true
+});
+map.addLayer(layer);
+
+var myKML = new OpenLayers.Layer.GML(
+  &quot;KML&quot;,
+  &quot;test.kml&quot;, {
+	format: OpenLayers.Format.KML,
+	projection: map.displayProjection
+});
+map.addLayer(myKML);
+
+var proj = new OpenLayers.Projection(&quot;EPSG:4326&quot;);
+var point = new OpenLayers.LonLat(lon, lat);
+map.setCenter(point.transform(proj, map.getProjectionObject()), zoom);
+&lt;/script&gt;</pre>
+        <p>&nbsp;</p>
+        <br>
+		<div style="width:400px; height:300px" id="map5"></div>
+		<script type="text/javascript">
+		var lon = 135.0658519;
+		var lat = 48.466571;
+		var zoom = 16;
+		var options = {
+				projection: new OpenLayers.Projection("EPSG:900913"),
+				displayProjection: new OpenLayers.Projection("EPSG:4326"),
+				maxExtent: new OpenLayers.Bounds(-20037508.34, -20037508.34, 20037508.34, 20037508.34)
+		};
+		map = new OpenLayers.Map('map5', options);
+		
+		var layer = new OpenLayers.Layer.Google(
+			"GoogleSoft", {
+			 type: G_SATELLITE_MAP,
+			 numZoomLevels: 20,
+			 'sphericalMercator': true
+			  });
+		map.addLayer(layer);
+		
+		var myKML = new OpenLayers.Layer.GML(
+			"KML",
+			"/data/samples/kml-1polygon-wgs.kml", {
+				format: OpenLayers.Format.KML, 
+				projection: map.displayProjection
+			});
+		map.addLayer(myKML);
+		
+		var proj = new OpenLayers.Projection("EPSG:4326");
+		var point = new OpenLayers.LonLat(lon, lat);
+		map.setCenter(point.transform(proj, map.getProjectionObject()), zoom);
+		</script>
+<!--Contents end-->
+<p class="discuss"><span><!--#include virtual="/scripts/forum-comments-num.php?i=2782"--></span></p>
+<div class="links">
+	<h2>Ссылки по теме</h2>
+		<ul>
+			<li><a href="mapserver-wms.html">Создание WMS-сервиса с помощью Mapserver</a></li>
+			<li><a href="openlayers-begin.html">OpenLayers: начало работы</a></li>
+		</ul>
+</div>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<p class="status"><span>Дата создания: 19.02.2009
+<br>Автор(ы): <a href="/forum/memberlist.php?mode=viewprofile&u=2" target="_blank">Максим Дубинин</a></span></p>
+<!--#include virtual="/inc/footer2.php" -->

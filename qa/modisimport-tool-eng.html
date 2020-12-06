@@ -1,0 +1,73 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Import  MODIS data using MODIS-Import-tool</title>
+<!--#include virtual="/inc/header2-eng.txt" -->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Вопросы и ответы</a></li>
+</ul>
+<!--Contents start-->
+<h1>Import  MODIS data using MODIS-Import-tool</h1>
+<p class="ann"> How to import MODIS data and software that can effectively facilitate this process. </p>
+<p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=1312"--></span></p>
+<p><strong>Goal:</strong> Batch convert MODIS 2G, 3, 4 levels data in necessary projection and TIF format with simultaneous mosaicing if needed. </p>
+<p><a href="https://lpdaac.usgs.gov/tools/modis_reprojection_tool">MODIS Reproject Tool (MRT)</a> is the software used for effective reprojection and import of MODIS data. Using MRT can become tedious if trying to use it for large number of files. At the same time, using special commands files it is possible to make MRT run for all of them at once without any human interaction. MODIS-Import-tool can help save time and efforts on creating such files. </p>
+            <p>Basicaly, MODIS-Import-tool is the batch file generator for MRT. MODIS-Import-tool is quite easy to use. If you have dozens of MODIS files in the raw HDF format and MRT, you can use MODIS-Import-tool to generate special file which will include all necessary operations to mosaic, reproject HDF data to TIF formt. Creating such file takes several minutes, after making it, MRT will run and do all steps to generate data you need. </p>
+            <p>The result of the tool work is batch file <strong>!process-modis.bat</strong> or <strong>!process-modis-mosaics.bat</strong> created in working directory, name of the file  depends on if you switch mosaicing on or not. </p>
+            <p>Particular attention during work should be paid to the location of source data. Depending on if need mosaicing or not, there are two options for file locations:</p>
+            <ol>
+              <li>Mosaic and reproject. All the files should be sorted into folders, so that all data for one day should be in the same folder. For example: <br />
+					<pre>c:\work
+	\A2000057
+	\A2000089
+	\A2000105 и т.д.</pre>
+                <br />
+                Besides MODIS HDFs and XMLs there shouldn't be any other data in the folders.  <br />
+                <br />
+              In each folder you can have one or several MODIS tiles <strong>for particular date</strong>. If you have several tiles in each folder and switch on Mosaic then Reproject flag, then MODIS-Import-Tool will ensure mosaicing tiles from each folder together before reprojecting. Working directory in this case is common folder for all folders, for example:  c:\work\. The tool will go through all the folders in the working one, fild all images and mosaic, reproject them using other parameters that you'll set up. Names of the folders usually reflect date when image was taken.<br />
+              <br />
+              For automatic sorting it is convinient to use separate script <a href="/programs/perl/sortmodis.zip">Sort-MODIS</a>. To run it, you will need  <a href="http://www.activestate.com/activeperl/" target="_blank" class="external">Perl interpretator installed in the system</a>. It is not necessary, though convinient to use this script for sorting. <br>
+              <br>
+              Script arguments are inputdir where source HDFs are and outputdir, where output groups will be created and source HDFs will be moved.<br>
+              <br>
+              <pre>sortmodis.pl inputdir outputdir</pre>
+              <br>
+              You can also sort HDFs by hand. </li>
+              <li>Reproject data only - if you have only one MODIS tile per time period they all can reside in one place, not in folders.</li>
+            </ol>
+            <p align="center"><img src="/images/modisimport-tool-01.gif" width="213" height="312" />            </p>
+            <p><strong>Other options: </strong></p>
+            <p><strong>Path to MRT</strong> - Path to the folder in which MODIS Reprojection Tool (MRT) is installed and where files resample.exe and mosaic.exe are. For example: C:\Gis\MRT\bin\</p>
+            <p><strong>HDF files folder</strong> - Folder where MODIS HDFs are located.</p>
+            <p><strong>Geographic/Albers/SIN</strong> - supported projections, Albers projection is supported with the following parameters: central meridian 45, first standard parallerl 52, second standard parallel 64. SIN - sinusoidal projection, sphere based, this projection is used by MODIS products on default. If you choose this projection, data is imported as it is. </p>
+            <p><strong>Set AOI </strong>- define area of interest, if values are set, only portion of the input data is processed and output. Use of MRT 4.0 is recommended for correct interpretation of this parameter.</p>
+            <p><strong>Import/no import bands</strong> - all MODIS products have several bands, each of then representing different thing. It is supposed, that you know which of these bands you need. In order not to import certain bands set corresponding 1 to 0. Total number of bands (number of 0s and 1s) should remain the same. Some of MODIS products have preset number of bands, all switched on (1) by default, if your MODIS product is not in the list, explore the documentation for it and put necessary number of total bands. For example: 1 1 0 0 0 0 0 0 - means import bands 1 and 2 of MODIS HDF which has 8 bands (number of zeroes and ones).</p>
+            <p><strong>Overwrite existing files</strong> - allows not to redo already converted files, if you decided, for example to add another bands for import. Take into consideration, that if MRT was aborted the file which it has been creating at that moment will remain on disk, broken. MODIS-Import-tool will treat it as &quot;existing&quot; and will not overwrite it.</p>
+            <p><strong>Mosaic then Reproject </strong>- first mosaic, then reproject and export data to TIF. All files in each folder will be mosaiced together first before reprojection. You should use this option if you have several tiles per each time period.  </p>
+            <p><strong>MOD Type</strong> - MODIS data product, if you couldn't find your product in the list, pick up a close one or put number of imported and non-imported bands carefully by hand. </p>
+            <p>Some import features: </p>
+            <ol>
+              <li>If number of bands in the source data is changing, selected bands will be keep importing, until number of set up ones will be reached. If you set more bands that there are in the source MODIS HDF, all of bands will be imported and process continues on next file. <br />
+              For example: MOD14A1 product (active fires) usually has 16 bands, 8 of which - daily thermal anomaly masksk and 8 quality assessment (QA) bands. However, sometimes some of day bands are missing and total number of bands is less then 16. In case of import of such file if the import string looks like this: 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0, i.e. import first 8 bands, and 7th and 8th bands are not in place, the import will be shift to the next 2 bands and 2 QA bands will be imported for day 1 and 2.</li>
+              <li>Different data products, for example MOD14A1 and MOD13Q1, shouldn't be mixed together in the same folders. </li>
+            </ol>
+            <p align="center">The tool is under development, while is already being used quite intensively. Comments and bug reports are welcome.</p>
+            <p><span>If you're running this software for the first time, you'll need to <a href="/programs-eng.html#libraries">download and install software libraries for VB </a>.</span></p>
+            <h2><a href="/programs/vb/modis-import-tool.zip">Download MODIS-Import-tool </a></h2>
+            <p class="discuss">
+				<span><!--#include virtual="/scripts/forum-comments-num.php?i=1312&lang=e"--></span>
+			</p>
+			<div class="links">
+			<h2>Ссылки по теме</h2>
+			<ul>
+               <li><a href="modislandprod.html">MODIS - Land products (rus)</a></li>
+               <li><a href="/qa/modisimport.html">Import of MODIS products of 2G, 3, 4 processing level with MRT (rus)</a></li>
+			</ul>
+			</div>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<p class="status"><span>Дата создания: 06.09.2006
+<br>Автор(ы): <a href="/forum/memberlist.php?mode=viewprofile&u=2" target="_blank">Максим Дубинин</a></span></p>
+<!--#include virtual="/inc/footer2.php" -->

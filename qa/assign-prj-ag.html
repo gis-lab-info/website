@@ -1,0 +1,40 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Назначение системы координат слою в ArcGIS</title>
+<!--#include virtual="/inc/header2.txt" -->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Вопросы и ответы</a></li>
+</ul>
+<!--Contents start-->
+<h1>Назначение системы координат слою в ArcGIS</h1>
+<p class="ann">Прописывание системы координат в ArcCatalog с созданием файла prj.</p>
+<p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=784"--></span></p>
+<p>Файлы описаний систем координат хранятся в специальных файлах с расширением <strong>prj</strong>. Эти файлы  используются для обозначения систем координат  для геоданных. </p>
+<p>Эта статья описывает по шагам как &quot;прописать&quot; систему координат слою с помощью ArcCatalog. Результатом прописывания будет являться тот же слой, но к нему добавится файл prj с именем, как у файлов слоя.</p>
+<p>Если вашей системы координат нет в списке готовых, нужно сначала ее создать. То, как это делается описывается в статье &quot;<a href="/qa/addprjag.html">Добавление пользовательских проекций в ArcGIS</a>&quot;. </p>
+<p>Для назначения системы координат слою, необходимо:</p>
+<p>1. Открыть ArcCatalog, найти слой, щелкнуть по нему правой кнопкой мыши и перейти к его свойствам (Properties). </p>
+<p align="center"><img src="/images/assign-prj-ag-03.gif" width="472" height="429"></p>
+<p>2. В окне свойств нужно выбрать закладку XY Coordinate System: </p>
+<p align="center"><img src="/images/assign-prj-ag-01.gif" width="479" height="579"></p>
+<p>3. Собственно выбор назначаемой системы координат может осуществляться тремя способами.</p>
+<p>Можно выбрать систему координат из уже существующих нажав Select. Разумеется, нужно заранее знать в какой системе координат находятся ваши данные, чтобы не назначить неправильную. В появившемся окне нужно выбрать нужную систему координат. </p>
+<p align="center"><img src="/images/assign-prj-ag-02.gif" width="491" height="327"> </p>
+<p>В комплект ArcGIS входит большое количество предустановленных систем координат, географических и спроектированных (прямоугольных). Все они хранятся в виде отдельных файлов prj в специальной папке Coordinate Systems.</p>
+<p>Систему координат слоя можно также импортировать (подхватить) с другого слоя, для котого она уже прописана (Import).</p>
+<p>Если нужной системы координат после нажатия Select не обнаружилось, можно создать ее самому выбрав кнопку New. </p>
+<p>В результате назначения системы координат, закладка свойств слоя ответственная за систему координат будет отражать выбранную систему:</p>
+<p align="center"><img src="/images/assign-prj-ag-04.gif" width="479" height="579"> </p>
+<p>Ту же самую операцию можно выполнить с помощью инструмента Define projection в Arctoolbox:</p>
+<p align="center"><img src="/images/assign-prj-ag-05.gif" width="218" height="473"> </p>
+<p class="discuss">
+				<span><!--#include virtual="/scripts/forum-comments-num.php?i=784"--></span>
+			</p>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<p class="status"><span>Дата создания: 02.12.2008
+<br>Автор(ы): <a href="/forum/memberlist.php?mode=viewprofile&u=2" target="_blank">Максим Дубинин</a></span></p>
+<!--#include virtual="/inc/footer2.php" -->

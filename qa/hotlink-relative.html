@@ -1,0 +1,126 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Относительные ссылки в Hotlink с использованием внешнего вьювера документов</title>
+<!--#include virtual="/inc/header2.txt" -->
+<!--Contents start-->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Вопросы и ответы</a></li>
+</ul>
+<h1>Относительные ссылки в Hotlink с использованием внешнего вьювера документов</h1>
+<p class="ann">Как сделать относительные ссылки на изображения в проектах </p>
+<p>При переносе проекта Arcview на диск для дальнейшего
+распространения, часто встает вопрос, <br />
+как сделать так, чтобы он (проект) открывался не зависимо от того,
+где находится или какой буквой на компьютере пользователя обозначен
+              CD-ROM. Решается эта проблема просто и об этом много написано. С
+              помощью одного из специальных расширений или вручную в любом текстовом
+              редакторе, абсолютные (то есть начинающиеся с буквы дисковода) ссылки в файле проекта (*.apr),
+              например такие, </p>
+            <pre>c:\data\theme1.shp</pre>
+            <p>меняются на относительные, например такие:</p>
+            <pre>theme1.shp</pre>
+            </p>
+            <p>В этих ссылка первая часть
+              опускается, остается только имя файла и (необязательно) каталога. Если у вас все файлы использующиеся
+              в проекте лежат в одной папке с проектом то достаточно имени файла. При открытии проекта
+              пути к файлам автоматически дополняются именем того каталога из которого был запущен
+              проект. </p>
+            <p>Например, если проект запускается из c:\temp\project, путь к данным автоматически расширяется до:</p>
+            <p>
+              <pre>c:\temp\project\theme1.shp</pre>
+            </p>
+            <p>При использовании таких ссылок проект становится переносимым
+              и может быть скопирован (вместе с данными конечно, которые нужно
+              будет скопировать отдельно) в любую директорию с возможностью открытия
+              его без всяких проблем. При перезаписи такого проекта все относительные
+              ссылки будут заменены на абсолютные, так что вам придется заново
+              делать из проекта переносимый путем их редактирования в текстовом
+              редакторе. </p>
+            <h2>Относительные ссылки в hotlink </h2>
+            <p>С хотлинком, который использует встроенные скрипты для открытия, например
+
+              изображений (Link.ImageFile), все работает корректно, если в атрибутивной таблице пути
+
+              относительные, например:</p>
+            <p>
+              <pre>images\photo1.tif</pre>
+            </p>
+            <p> В этом случае при подключения хотлинка и указания в поле <b>Predefined
+                
+                Action - Link to Image File</b> все будет работать.</p>
+            <p>Однако есть более сложная проблема, а что делать с хотлинком на сторонний
+
+              скрипт (например для использования внешнего просмотровщика для картинок)?
+
+              По умолчанию для правильной его работы в таблице должен быть прописан абсолютный
+
+              путь.</p>
+            <p>Проблема решается очень просто. Ссылки в таблице
+
+              остаются относительными как приведено выше.</p>
+            <p>Создаем в проекте, который собираемся записывать на CD новый
+              скрипт следующего содержания (<a href="/programs/scripts/hotlink-relative.ave">загрузить</a>)
+              и переименовываем его в проекте (<b>Project\Rename 'Script1'</b>)
+              в <b>View.Hotlink</b>:</p>
+            <pre>theView = av.GetActiveDoc
+found = false
+p = theView.GetDisplay.ReturnUserPoint
+for each t in theView.GetActiveThemes
+	if ((t.HasAttributes) and (t.GetHotField &lt;&gt; nil)) then
+		recs = t.FindByPoint(p)
+		for each rec in recs
+			theField = t.GetHotField
+			found = true
+			theVal = t.ReturnValueString(theField.GetName, rec)
+			'все изменения системного скрипта в этой строке
+			av.Run(t.GetHotScriptName, FileName.GetCWD.asstring+&quot;\&quot;+theVal)
+		end
+	end
+end
+if (not found) then
+	System.Beep
+end</pre>
+            <h2>Подключение внешнего просмотровщика</h2>
+            <p>Для подключения внешнего просмотровщика скрипт остается прежним (<a href="/programs/scripts/hotlink-irfan.ave">загрузить</a>).              </p>
+            <pre>theVal = SELF
+atoolpath = "c:\Tools\iview\i_view32.exe"
+if (not (theVal.IsNull)) then
+  if (File.Exists(theVal.AsFileName)) then
+    System.Execute(atoolpath++theVal)
+  else
+    MsgBox.Warning("File "+theVal+" not found.","Hot Link")
+  end
+end
+</pre>
+            <p>Не забудьте изменить в нем путь к просмотровщику (переменная atoolpath в самом начале скрипта). Сам вьювер также
+              можно положить на диск с проектом, тогда вместо строки</p>
+            <pre>System.Execute(&quot;c:\Tools\iview\i_view32.exe&quot;++theVal)</pre>
+            <p>нужна будет строка</p>
+            <pre>System.Execute(FileName.GetCWD.asstring + &quot;\&quot; +&quot;i_view32.exe&quot;++theVal)</pre>
+            <p>и вьювер (в нашем случае IrfanView) должен будет лежать на одном уровне
+              с проектом. Если он находится в любой другой папке, например она специально
+              для него создана, просто замените &quot;\&quot; на название этой папки,
+              например &quot;\viewers\&quot;.</p>
+            <p>Результирующий скрипт  должен называться <b>Link.ImageFile</b> (таким образом он заменит стандартный) и подключается через свойства темы.</p>
+            <p>Совет №1: чтобы изображение автоматически не масштабировалось (Set scale
+              был всегда выключен), используйте <a href="/programs/scripts/link.imagefile.ave">этот
+              скрипт</a>. </p>
+            <p align="center"><img src="/images/hotlink-relative-01.gif" width="505" height="284"></p>
+            <h2>Открытие нескольких изображений сразу</h2>
+            <p> Если нужно открывать несколько изображений сразу, то можно записывать их пути и имена в соответствующее поле через точку с запятой &quot;;&quot; и использовать следующую модификацию скрипта: <b>Link.ImageFile</b>:</p>
+            <pre>theVal = SELF<br>theProject = av.GetProject<br>aDir = theProject.GetWorkDir.GetFullName<br>atoolpath = &quot;C:\tools\IrfanView\i_view32.exe&quot;<br>if (not (theVal.IsNull)) then<br>  for each aval in theVal.AsTokens(&quot;;&quot;)<br>    aFullName = aDir.asstring+&quot;\&quot;+aVal <br>    if (File.Exists(aFullName.AsFileName)) then<br>      acommand = atoolpath+&quot; &quot; + aFullName<br>      System.Execute(acommand)<br>    else<br>      MsgBox.Warning(&quot;File &quot;+aFullName+&quot; not found.&quot;,&quot;Hot Link&quot;)<br>    end<br>  end<br>end</pre>
+            </td>
+        </tr>
+      </table>
+	  <p>Каталог с фотографиями должен быть указан как рабочий каталог Arcview (View\File\Set Working Directory). Модифицировать View.Hotlink не нужно.</p>
+	  <p class="discuss">
+		   <span><!--#include virtual="/scripts/forum-comments-num.php?i=2567"--></span>
+	  </p>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<p class="status"><span>Дата создания: 25.11.2002
+<br>Автор(ы): <a href="/forum/memberlist.php?mode=viewprofile&u=2" target="_blank">Максим Дубинин</a></span></p>
+<!--#include virtual="/inc/footer2.php" -->

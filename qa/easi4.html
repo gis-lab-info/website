@@ -1,0 +1,151 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Основы макроязыка EASI (PCI Geomatica) - Примеры автоматизации процессов</title>
+<!--#include virtual="/inc/header2.txt" -->
+<!--Contents start-->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Вопросы и ответы</a></li>
+</ul>
+<h1>Основы макроязыка EASI (PCI Geomatica)<br /> Часть 4. Примеры автоматизации процессов.
+</h1>
+<p class="ann">Четвертая часть серии статей о языке EASI, несколько примеров автоматизации работы с данными.t</p>
+<p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=1663"--></span></p>
+<p><strong>Содержание</strong></p>
+            <ul>
+              <li><a href="#general">Общие подходы к автоматизации процессов в EASI</a></li>
+              <li><a href="#batch">Выполнение операций над набором файлов – скрипт EASI</a></li>
+              <li><a href="#perl">Выполнение операций над набором файлов – запуск скрипта EASI из PERL</a></li>
+              <li><a href="#perl2">Создание и запуск скрипта EASI из PERL</a></li>
+            </ul>
+            <p><strong><a name="general" id="general"></a>Общие подходы к автоматизации процессов в EASI</strong></p>
+            <p>В большинстве случаев автоматизация требуется для выполнения однотипных операций над растровыми данными. В одних случаях это могут быть однотипные растровые данные, которые необходимо одновоременно обработать. В других случаях необходимо создать скрипт для запуска набора операций над файлом по коменде пользователя. Автоматизация потоков операций над растровыми данными с помощью языка EASI может быть выполнена двумя путями:<br />
+              1. С помощью функций самого языка EASI или<br />
+              2. С помощью специальных программ, позволяющих генерировать скрипты на языке EASI и запускать их. В частности, такие программы могут быть легко написаны на языке PERL.
+            В этой статье мы рассмотрим простейшие примеры автоматизации данных с помощью EASI и PERL.</p>
+            <p><strong> <a name="batch" id="batch"></a>Выполнение операций над набором файлов – скрипт EASI</strong></p>
+            <p> Пример простого скрипта для выполнения заданных однотипных операций над всеми файлами *.pix в рабочей директории:</p>
+            <table width="603" border="0" align="center">
+              <tr>
+                <td width="276"><p>sys &quot;dir *.pix /b &gt; dirlist.txt</p>
+                  <p>
+                    local int tfid<br />
+                  local  string ReadLine</p>
+                  <p>
+                    tfid =  TEXTOpen(&quot;dirlist.txt&quot;, &quot;r&quot;)<br />
+                  ReadLine =  TEXTRead(tfid)</p>
+                  <p>While ReadLine &lt;&gt;  &quot;&lt;EOF&gt;&quot;</p>
+                  <p>fili=ReadLine</p>
+                  <p>filo=ReadLine+”_out”<br/>(Здесь помещаем список команд)</p>
+                  <p>ReadLine =  TEXTRead(tfid)<br />
+                  EndWhile</p>
+                  <p>Call TEXTClose(tfid)<br />
+                  sys &quot;del dirlist.txt</p>
+                <td width="317" valign="top"><p>(создаем список фалов)</p>
+                  <p>
+                  (задаем набор переменных)<br />
+                  </p>
+                  <p>
+                    (открываем список файлов)<br />
+                  (читаем первую строку файла)</p>
+                  <p>(начало цикла «до конца файла»)</p>
+                  <p> (задаем прочитанную строку как параметр команды EASI – имя входного файла)</p> <p>создаем имя выходного файла с суффиксом)</p>
+                  <p>(читаем новую строку файла)<br />(конец цикла)                   </p>
+                  <p>(закрываем список файлов...)<br />
+                  (...и удаляем его)</p></td>
+              </tr>
+            </table>
+            <p><strong><a name="perl" id="perl"></a>Выполнение операций над набором файлов – запуск скрипта EASI из PERL</strong></p>
+            <p>Для облегчения автоматизации обработки большого набора файлов их удобно хранить в разных директориях. Наример, все файлы называются однотипно (data.pix) но хранятся в разных директориях (s1, s2, s3 и т.д.). В таком случае для обработки каждого файла вы сможете использрвать один срипт EASI, который должен быть скопирован и запущен в каждой из директорий. Для этого мы используем простой скрипт на PERL.</p>
+            <table width="674" border="0" align="center">
+              <tr>
+                <td width="384"><p>#!/usr/local/bin/perl</p>
+                <p>system(&quot;dir s* /A:D  /O:N /B &gt;dirlist.txt&quot;);<br />
+                open (DAT, &quot;dirlist.txt&quot;);</p>
+                <p>while (&lt;DAT&gt;)<br />{
+                  <br />
+                $line = $_;<br />
+                $line =~ s/\n//;</p>
+                <p>chdir &quot;$line&quot;;<br />
+                system(&quot;copy D:\\xscripts\\myscript.eas script.eas /y&quot;);</p>
+                <p>system(&quot;easi r  script&quot;);<br />
+                system(&quot;del script.eas&quot;);<br />
+                chdir &quot;..&quot;;<br />
+                }</p>
+                <p>close (DAT);<br />
+                system(&quot;del dirlist.txt&quot;); </p></td>
+                <td width="280" valign="top"><p>(начало скрипта)</p>
+                <p>(создаем список директорий)<br />
+                (открываем список директорий)</p>
+                <p>(начало цикла «до конца файла»)<br />
+                (читаем строку файла)<br />
+                (удаляем символ конца строки)</p>
+                <p><br />(переходим в заданную директорию)<br />
+                (копируем скрипт EASI в директорию)</p>
+                <p>(выполняем скрипт EASI)<br />
+                (удаляем скрипт)<br />
+                возврящяемся в корневую директорию)</p>
+                <p>закрываем и удаляем список директорий)</p></td>
+              </tr>
+            </table>
+            <p><strong><a name="perl2" id="perl2"></a>Создание и запуск скрипта EASI из PERL</strong></p>
+            <p> В ряде случаев бывает удобно созадать скрипт EASI из готовых команд с помощью программы на PERL. Приведем пример для импорта набора файлов в формате *.img с записью выходных файлов PCIDSK в разные директории:</p>
+            <table width="594" border="0" align="center">
+              <tr>
+                <td width="320"><p>#!/usr/local/bin/perl</p>
+                <p>system(&quot;dir *.img  /B &gt;dirlist.txt&quot;);<br />
+                open (DAT, &quot;dirlist.txt&quot;);<br />
+                open (OUT, &quot;&gt;script.eas&quot;);</p>
+                <p>while (&lt;DAT&gt;)<br />
+                {<br />
+                $line = $_;<br />
+                $line =~ s/\n//;<br />
+                $line1 =~ s/.img//;</p>
+                <p>print OUT&quot;<br />
+                sys “mkdir $line1”<br />
+                fili=\&quot;$line<br />
+                filo=\&quot;$line1\\img.pix<br />
+                r fimport<br />
+                &quot;;<br />
+                }<br />
+                close (OUT);</p>
+                <p>system(“easi r script”);<br />
+                system(&quot;del script1.eas&quot;);</p></td>
+                <td width="264" valign="top"><p>(начало скрипта)</p>
+                <p>(создаем список файлов)<br />
+                (открываем список файлов)<br />
+                (создаем скрипт EASI)</p>
+                <p>(начало цикла «до конца файла»)<br />
+(читаем строку файла)<br />
+                (удаляем символ конца строки)<br />
+                (удаляем расширение)<br />
+                </p>
+                <p>(запись команд скрипт EASI)<br />
+                (создание директории)</p>
+                <p>(импорт файла)</p>
+                <p>&nbsp;</p>
+                <p>(выполняем скрипт EASI...)<br />
+                (...и удаляем его)</p></td>
+              </tr>
+            </table>
+            <p>&nbsp;</p>
+            <p>&nbsp;   </p>
+            <p class="discuss">
+				<span><!--#include virtual="/scripts/forum-comments-num.php?i=1663"--></span>
+			</p>
+			<div class="links">
+			<h2>Ссылки по теме</h2>
+			<ul>
+               <li><a href="easi1.html">Основы макроязыка EASI (PCI Geomatica). Часть 1. Управление данными</a></li>
+			   <li><a href="easi2.html">Основы макроязыка EASI (PCI Geomatica). Часть 2. Анализ данных</a></li>
+			   <li><a href="easi3.html"">Основы макроязыка EASI (PCI Geomatica). Часть 3. Географическая привязка и проекции</a></li>
+			</ul>
+			</div>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<p class="status"><span>Дата создания: 15.08.2007
+<br>
+Автор(ы): Пётр Потапов</span></p>
+<!--#include virtual="/inc/footer2.php" -->

@@ -1,0 +1,76 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Вырезка фрагмента данных в формате GRID</title>
+<!--#include virtual="/inc/header2.txt" -->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Вопросы и ответы</a></li>
+</ul>
+<!--Contents start-->
+<h1>Вырезка фрагмента данных в формате GRID</h1>
+<p class="ann">Решение задачи для пользователей Arcview 3.x , Arcinfo Workstation и ArcGIS</p>
+<p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=1342"--></span></p>
+
+            <p>Как вырезать фрагмент из данных в формате GRID используя:</p>
+            <ol>
+              <li><a href="#1">Arcview GIS 3.x</a></li>
+              <li><a href="#2">Arcinfo Workstation</a></li>
+              <li><a href="#3">ArcGIS   </a></li>
+            </ol>
+            <p><img src="/images/1.gif" width="33" height="41" align="left" /><span><a name="1" id="1"></a><strong>Вырезание фрагмента GRID'а в Arcview GIS 3.x</strong></span></p>
+            <p><span>В Arcview GIS удобнее всего эту операцию осуществить с помощью специального
+              скрипта входящего в комплектацию Arcview (<a href="/programs/scripts/GrExtrct.ave">скачать
+                скрипт</a>).</span></p>
+            <p>О том, как подключать и использовать скрипты можно прочитать <a href="/qa/addscript.html">здесь</a>.</p>
+            <p>Для работы необходимо в графическом слое поверх GRID'a
+              прямоугольник инструментом Draw Rectangle и запустить скрипт на выполнение.
+              Прямоугольник должен быть при этом выделен.</p>
+            <p align="center"><img src="/images/clipgrid-01.gif" width="53" height="207" /> <img src="/images/clipgrid-02.gif" width="251" height="207" /> </p>
+            <p><img src="/images/2.gif" width="33" height="41" align="left" /><span><a name="2" id="2"></a><strong>Вырезание фрагмента данных в формате GRID в Arcinfo Workstation.</strong> </span></p>
+            <p><span>Подойдет
+              любая версия  Arcinfo Workstation (но не PC Arc\Info).</span></p>
+            <p>Вырезать фрагмент в Arcinfo можно с помощью двух команд:</p>
+            <pre>Arc:</b> GRIDCLIP &lt;in_grid&gt; &lt;out_grid&gt;
+&lt;x1&gt; &lt;y1&gt; &lt;x2&gt; &lt;y2&gt;</pre>
+            <p>Запускается непосредственно из Arcinfo (системная подсказка
+              Arc:), не требует установленного и лицензированного модуля GRID. Вырезка
+              может осуществляться только по прямоугольному фрагменту, путем непосредственного
+              задания координат (в единицах соответствующих единицам данных в формате
+              GRID)</p>
+            <pre>Arc: grid
+Grid:</b> GRIDCLIP &lt;in_grid&gt; &lt;out_grid&gt; COVER &lt;clip_cover&gt;</pre>
+            <p>Запускается из модуля GRID Arcinfo (системная подсказка
+              grid:), требует наличие установленного и лицензированного модуля GRID.
+              Вырезка может осуществляться также и по покрытию произвольной формы
+              (покрытие должно находиться в единицах соответствующих единицам данных
+              в формате GRID и в такой же проекции).</p>
+            <p><img src="/images/3.gif" alt="3" width="33" height="41" align="left" /><a name="3" id="3"></a><strong>Вырезание фрагмента данных в формате GRID в ArcGIS </strong></p>
+            <p>Как и многие другие задачи в ArcGIS, эту также можно решить несколькими способами.</p>
+            <p>Способ 1: Увеличить нужный фрагмент с помощью инструмента Zoom in (Увеличельное стекло) и экспортировать грид в новый слой (Data\Export data...) установив при этом параметр Extent (Географических охват) в значение Data Frame (Current). Грид будет обрезан согласно выбранному охвату фрейма данных и сохранен под новым именем.</p>
+            <p>Главное достоинство данного метода - отсутствие необходимости в Spatial Analyst, недостаток - невозможность вырезать по непрямоугольной форме.</p>
+            <p align="center"><img src="/images/clipgrid-03.gif" alt="обрезка GRID в ArcGIS" width="441" height="399" /> </p>
+            <p>Способ 2: Обрезать используя существующий шейп-файл содержащий объект или объекты по которым будет произведена обрезка. Используя этот метод можно обрезать по любой форме включая непрямоугольные. Для использования этого метода понадобится установленный и лицензированный Spatial Analyst.</p>
+            <ol>
+              <li>Включите Spatial Analyst (Tools\Extensions...) и его панель (View\Toolbars\Spatial Analyst). </li>
+              <li>На панели Spatial Analyst выберите Options...</li>
+              <li>В пункте Analysis Mask (закладка General) укажите шейп-файл содержащий объект(ы) по которому надо обрезать GRID</li>
+              <li>В пункте Analysis Extent (закладка Extent) укажите тот же шейп-файл </li>
+              <li>Нажмите OK и экспортируйте грид в новый слой (Data\Export data...) с установками по умолчанию. Грид будет обрезан согласно выбранным объектам и сохранен под новым именем.</li>
+            </ol>
+            <p>Главное достоинство данного метода - обрезка по любой форме, недостаток - необходим Spatial Analyst.</p>
+            <p class="discuss">
+				<span><!--#include virtual="/scripts/forum-comments-num.php?i=1342"--></span>
+			</p>
+			<div class="links">
+			<h2>Ссылки по теме</h2>
+			<ul>
+               <li><a href="clipraster-freeform.html">Фигурная обрезка растра по заданной форме</a></li>
+			</ul>
+			</div>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<p class="status"><span>Дата создания: 05.03.2004
+<br>Автор(ы): <a href="/forum/memberlist.php?mode=viewprofile&u=2" target="_blank">Максим Дубинин</a></span></p>
+<!--#include virtual="/inc/footer2.php" -->

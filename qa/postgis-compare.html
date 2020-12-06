@@ -1,0 +1,147 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Место PostGIS/PostreSQL среди СУБД с поддержкой пространственных данных </title>
+<!--#include virtual="/inc/header2.txt" -->
+<!--Contents start--><div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Вопросы и ответы</a></li>
+</ul>
+<h1>Место PostGIS/PostgreSQL среди  СУБД с поддержкой пространственных данных</h1>
+<p class="ann">Приведено  сравнение PostGIS с аналогичными решениями для наиболее популярных СУБД</p>
+<p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=2652"--></span></p>
+            <p>PostGIS  представляет собой расширение свободной объектно-реляционной СУБД PostgreSQL,  предназначенное для хранения в базе географических данных (геометрии) и поддерживающее <a href="http://www.opengeospatial.org/standards/sfs" class="external">стандарты OGC</a> (Open Geospatial Consortium).  PostGIS был выпущен в 2001 году компанией <a href="http://postgis.refractions.net/" class="external">Refractions Research</a> и составляет  конкуренцию коммерческим решениям, являясь при этом свободным  программным продуктом с открытым исходным кодом. Основным достоинством PostGIS  является возможность использования языка SQL совместно с пространственными  операторами и функциями. PostGIS довольно активно развивается, по мере  развития самой СУБД PostgreSQL и проекта <a href="http://www.osgeo.org/" class="external">Open Source Geospatial Foundation</a>, вбирая в себя  самое лучшее из этих иннициатив. Так, например, развитие PostgreSQL позволило использовать в  PostGIS такие нововведения, как битмаповые и GiST индексы. От союза с Open Source Geospatial Foundation, PostGIS досталась поддержка возможностей продуктов <a href="http://trac.osgeo.org/geos/" class="external">GEOS</a>, <a href="http://trac.osgeo.org/proj/" class="external">Proj4</a> и <a href="http://www.vividsolutions.com/jts/JTSHome.htm" class="external">JTS</a>. В 2001 году  позволяло просматривать данные PostGIS одно единственное приложение - MapServer. Сейчас помимо MapServer работать с данными PostGIS умеет большинство картографических приложний, как коммерческих, так и  бесплатных. Среди свободного ПО (FOSS, Free and open source software) можно выделить: <a href="http://mapserver.gis.umn.edu/" class="external">MapServer</a>, <a href="http://grass.itc.it/" class="external">GRASS</a>, <a href="http://udig.refractions.net/" class="external">uDig</a>, <a href="http://www.qgis.org/" class="external">QGIS</a>, <a href="http://www.gdal.org/" class="external">GDAL/OGR</a>, <a href="http://featureserver.org/" class="external">FeatureServer</a>, <a href="http://geoserver.org/display/GEOS/Welcome" class="external">GeoServer</a>, <a href="http://www.codeplex.com/SharpMap" class="external">SharpMap</a>, <a href="http://www.gvsig.gva.es/" class="external">gvSIG</a>.</p>
+            <p><strong>Пространственные расширения для свободных СУБД</strong></p>
+            <p>Наряду с PostGIS существуют пространственные расширения и  для других свободных СУБД.</p>
+            <p><strong>PostgreSQL/PostGIS</strong></p>
+        <p><a href="http://postgis.refractions.net/">http://postgis.refractions.net/</a></p>
+        <p>PostgreSQL -<em> </em>самая продвинутая свободная СУБД в мире, иногда не очень  дружественная к пользователю (могут возникнуть проблемы при установке и  первичной настройке), но в то же время являющаяся полнофункциональной <a href="http://ru.wikipedia.org/wiki/ACID" class="external">ACID</a> СУБД. Её расширение PostGIS предоставляет полный набор пространственных возможностей (соответствующих  OGC) и позволяет осуществлять любые виды операций над  геоданными. Если вам действительно нужна полнофункциональная система с  поддержкой пространственных данных и вас не пугает администрирование очень  сложной, но при этом очень мощной СУБД, то ваш выбор – это PostgreSQL+PostGIS.</p>
+        <p><strong>MySQL/</strong><strong>Spatial</strong></p>
+        <p><a href="http://dev.mysql.com/doc/refman/6.0/en/spatial-extensions.html">http://dev.mysql.com/doc/refman/6.0/en/spatial-extensions.html</a></p>
+        <p>MySQL - легкая в использовании, очень быстрая,  относительно простая в управлении СУБД- не удивительно, что она стала очень  популярной среди Web разработчиков. Часто критикуется за не полную  поддержку стандартов SQL. MySQL Spatial позволяет очень эффективно управлять  пространственными данными; к сожалению, возможность создания пространственных  индексов достигается лишь путем использования таблиц <a href="http://ru.wikipedia.org/wiki/MyISAM" class="external">MyISAM</a>, не поддерживающих ни транзакции, ни ACID. Можно работать с пространственными данными через таблицы <a href="http://ru.wikipedia.org/wiki/InnoDB" class="external">InnoDB</a>, обладающие полной поддержкой ACID, но в таком случае исчезает возможность использования пространственных  индексов. Функции пространственного отношения в MySQL реализованы преимущественно для минимальных ограничивающих прямоугольников (<a href="http://en.wikipedia.org/wiki/Minimum_bounding_rectangle" target="_blank" class="external">MBR</a>, minimal bounding rectangles), что это за прямоугольники и каково их предназначение мы уже рассматривали в одной из предыдущих <a href="postgis-work.html#05">статей</a>. Даже в последней версии MySQL 6.0 отсутствует большое количество OGC функций, таких как Intersection и Buffering. Таким образом, если вы ищете пространственную базу данных для публикации геоданных в Web и отсутствие поддержки ACID и большинства фунций OGC не является для вас препятствием, то ваш выбор –  это MySQL Spatial.</p>
+        <p><strong>SQLite/SpatiaLite</strong></p>
+        <p><a href="http://www.gaia-gis.it/">http://www.gaia-gis.it/</a></p>
+        <p>SpatiaLite представляет собой  расширение встраиваемого движка баз данных <a href="http://sqlite.org/" class="external">SQLite</a>, позволяющее загружать, хранить и  управлять пространственными данными в этой СУБД. SpatiaLite поддерживает пространственные индексы, основанные  на R-деревьях, при использовании SQLite версии 3.6.0 и выше. Стоит отметить, что и в SpatiaLite реализована  лишь часть той функциональности, которая предлагается OGC. Однако и этих  возможностей во многих случаях бывает достаточно. К достоинствам  SQLite + SpatiaLite можно отнести:</p>
+<ul type="disc">
+          <li>очень простая процедура установки </li>
+          <li>нет потребности в администраторе баз данных</li>
+          <li>низкие системные требования</li>
+          <li> простота использования</li>
+</ul>
+        <p>Если вы ищите простую в обслуживании пространственную СУБД без излишеств и сложностей для управления небольшим объемом геоданных, то, возможно, ваше решение - это SQLite и SpatiaLite.</p>
+<p><strong>Oracle Spatial, DB2 Spatial Extender, Informix Spatial Blade</strong></p>
+<p><a href="http://www.oracle.com/technology/products/spatial/index.html">http://www.oracle.com/technology/products/spatial/index.html</a></p>
+<p><a href="http://www-01.ibm.com/software/data/spatial/">http://www-01.ibm.com/software/data/spatial/</a></p>
+<p>Сравнивая PostGIS с аналогичными коммерческими решениями,  можно сделать вывод о том, что в PostGIS реализовано значительно больше  функций, чем в коммерческих продуктах, таких как, например, Oracle Spatial, DB2 Spatial Extender, Informix Spatial Blade. По производительности PostGIS немного уступает, однако к основным, недостаткам PostGIS можно отнести отсутствие  дополнительных модулей, присутствующих в коммерческих продуктах. Примером  такого модуля является например Oracle Spatial network topology model. Отметим так же, что  часто бывает так, что стоимость всех дополнительных модулей коммерческого  продукта значительно превосходит стоимость самой СУБД. Многие могут поспорить с  этим, приводя в качестве аргумента,&nbsp;например, то что Oracle предоставляет покупателю расширение Locator бесплатно в стандартной и XE версиях своей СУБД Oracle Database, однако,  как следует из <a href="http://www.spatialdbadvisor.com/oracle_spatial_tips_tricks/55/oracle-locator-vs-enterprise-licensing-the-sdogeom-package" target="_blank" class="external">документации</a>, в Oracle Locator отсутствует большинство основных пространственных  функций, таких как Centroid, Buffering и Intersection. В случае, если вы захотите воспользоваться полной функциональностью  пространственной СУБД, вам необходимо будет приобрести расширение Oracle Spatial и СУБД Oracle Enterprise, обладающие <a href="http://geospatial.nomad-labs.com/2006/07/25/postgis-oracle-spatial-price-comparison/" target="_blank" class="external">заоблачной  стоимостью</a>. </p>
+<p><strong>MS SQL Server 2008 </strong></p>
+<p><a href="http://www.microsoft.com/sqlserver/2008/en/us/spatial-data.aspx">http://www.microsoft.com/sqlserver/2008/en/us/spatial-data.aspx</a></p>
+<p>Еще одна коммерческая СУБД – MS SQL Server 2008. Здесь также реализована поддержка пространственных данных. SQL Server 2008 обладает одним очень важным инструментом,  отсутствующим в PostGIS – это геодезическая поддержка (Geodetic support). Отметим,  что в ближайшем будущем <a href="http://lin-ear-th-inking.blogspot.com/2007/09/geodetic-data-in-postgis-spherical.html" target="_blank" class="external">планируется  включение и в PostGIS геодезической поддержки</a>, а также инструментов сетевой  топологии средствами <a href="http://www.postlbs.org/" target="_blank" class="external">PgRouting</a>.  Препятствием на пути использования SQL Server может стать невозможность его использования на других ОС, отличных от Windows. Однако по соотношению цена/качество именно SQL Server 2008 из всех коммерческих продуктов наиболее близок к PostGIS.  Существующие бесплатные Express версии  коммерческих решений имеют множество ограничений, среди которых основными  являются ограниченный размера базы данных и невозможность работы на компьютере  с более чем одним процессором. Для многих подобные ограничения не приемлемы,  как и стоимость полноценных коммерческих продуктов.</p>
+        <p><strong>ArcSDE</strong></p>
+        <p><a href="http://www.esri.com/software/arcgis/arcsde/">http://www.esri.com/software/arcgis/arcsde/</a></p>
+        <p>Стоит упомянуть еще одно пространственное расширение -  это ArcSDE. ArcSDE (SDE – Spatial Database Engine)  представляет собой серверное программное обеспечение для организации хранения и  управления пространственными данными в СУБД. ArcSDE позволяет управлять географической информацией, хранящейся в таких  коммерческих СУБД как Oracle , Microsoft SQL Server , IBM DB 2 и IBM Informix , начиная с  9.3 – PostgreSQL. Как и PostGIS, ArcSDE полностью  совместим со стандартами OGC, однако минимальная стоимость ArcSDE составляет порядка $15,000.</p>
+        <p><strong>Сравнение доступных пространственных СУБД </strong></p>
+        <p>Приведем несколько более детальное сравнение наиболее  доступных пространственных СУБД. </p>
+        <p>Итак, мы выяснили, что по соотношению цена/функциональность  лидерами среди всех пространственных баз данных являются SQL Server 2008 и PostgreSQL/PostGIS. Отметим, что пространственные возможности и скорость  обработки геоданных в MySQL Spatial значительно уступает соответствующим показателям  вышеназванных систем, однако мы включим эту СУБД в рассмотрение,  поскольку она обладает огромным количеством инсталляций по всему миру и если  данная СУБД выполняет все необходимые пространственные операции и делает это на  достаточной скорости, то отказываться от ее использования нет смысла.</p>
+        <p>Пространственные СУБД, лидирующие по соотношению цена/функциональность </p>
+        <table width="93%" align="center">
+              <tr>
+                <th width="22%"><p align="center"><strong>Характеристика</strong></p></th>
+                <th width="31%"><p align="center"><strong>SQL Server 2008 (RC0)</strong></p></th>
+                <th width="24%"><p align="center"><strong>MySQL 5.1/6</strong></p></th>
+                <th width="23%"><div align="center"><strong>PostgreSQL 8.3/PostGIS 1.3/1.4</strong></div></th>
+              </tr>
+              <tr>
+                <td><p align="left">ОС</p></td>
+                <td><p align="left">Windows  XP, Windows Vista, Windows 2003, Windows 2008</p></td>
+                <td><p align="left">Windows  XP, Windows Vista, (не тестировалась на Windows 2008), Linux, Unix, Mac</p></td>
+                <td><p align="left">Windows 2000+ (включая Vista и 2003, не тестировалась на Windows 2008), Linux, Unix, Mac</p></td>
+              </tr>
+              <tr>
+                <td>Лицензия</td>
+                <td>Коммерческая, закрытый исходный код. Каждая  версия имеет определенную функциональность. Версия Express обладает полной поддержкой пространственных  возможностей, но ограничена размером базы данных и количеством процессоров в  системе (один)</td>
+                <td>Коммерческая  , открытый исходный код (<a href="http://freeopensourcesoftware.org/index.php?title=Commercial_Open_Source_Software" class="external">COSS</a>), некоторые составляющие распространяются под  лицензией <a href="http://ru.wikipedia.org/wiki/GPL" class="external">GPL</a></td>
+                <td><a href="http://ru.wikipedia.org/wiki/FLOSS" class="external">FLOSS</a> (PostgreSQL распространяется под лицензией <a href="http://ru.wikipedia.org/wiki/Лицензия_BSD" class="external">BSD</a>, PostGIS под <a href="http://ru.wikipedia.org/wiki/GPL" class="external">GPL</a>)</td>
+              </tr>
+              <tr>
+                <td>Свободные  загрузчики геоданных</td>
+                <td><a href="http://www.iter.dk/page/SQL-Server-2008-Spatial-Tools.aspx" class="external">Загрузчик  данных shp для SQL Server  2008</a>, не работает в версии RC0</td>
+                <td>OGR2OGR,  shp2mysql.pl </td>
+                <td>shp2pgsql, OGR2OGR, QuantumGIS SPIT, <a href="http://www.sharpgis.net/post/2006/04/Adding-SharpMap-geometry-to-a-PostGIS-database.aspx" class="external">загрузчик  shp для  PostGIS, использующий SharpMap.NET</a> и другие</td>
+              </tr>
+              <tr>
+                <td>Проприетарные  загрузчики геоданных</td>
+                <td>Manifold,  Safe FME Objects, ESRI ArcGIS 9.3 (последний сервис пак)</td>
+                <td>Safe  FME Objects</td>
+                <td>Manifold,  FME Objects, ESRI ArcGIS 9.3</td>
+              </tr>
+              <tr>
+                <td>Драйверы  приложений, реализующие пространственную функциональность</td>
+                <td>? Пока отсутствуют – в конечном счете SharpMap.NET, вероятно встроенный в  ADO.NET 3.5+</td>
+                <td>GDAL  C++, SharpMap через OGR, AutoCAD FDO</td>
+                <td>SharpMap.Net,  JDBC postgis.jar, JTS, GDAL C++, AutoCAD FDO beta</td>
+              </tr>
+              <tr>
+                <td>Свободные <a href="http://ru.wikipedia.org/wiki/ORM" class="external">ORM</a></td>
+                <td><a href="http://ru.wikipedia.org/wiki/NHibernate" class="external">NHibernateSpatial</a></td>
+                <td><a href="http://ru.wikipedia.org/wiki/Hibernate_(библиотека)" class="external">Hibernate Spatial</a> </td>
+                <td>NHibernateSpatial  и HibernateSpatial</td>
+              </tr>
+              <tr>
+                <td>Бесплатные  просмотрщики и редакторы</td>
+                <td>Будет  встроен в SQL Manager, но пока не доступен в RC0</td>
+                <td>gvSIG</td>
+                <td>OpenJump,  QuantumGIS, gvSIG, uDig</td>
+              </tr>
+              <tr>
+                <td>Проприетарные  просмотрщики и редакторы</td>
+                <td>ESRI ArcGIS 9.3 Server SDE в последних сервис паках, Manifold, FME</td>
+                <td>FME</td>
+                <td>ESRI  ArcGIS 9.3 Server, ZigGIS для десктопов, Manifold, FME</td>
+              </tr>
+              <tr>
+                <td>Картографические Web инструменты</td>
+                <td>Manifold, MapDotNet, ArcGIS 9.3 (в последних сервис паках), UMN MapServer, MapGuide Open Source (используется бета-драйвер FDO)</td>
+                <td>UMN MapServer,  GeoServer, MapGuide Open Source</td>
+                <td>Manifold,  MapDotNet, ArcGIS 9.3, UMN MapServer, GeoServer, FeatureServer, MapGuide Open  Source (используется бета-драйвер FDO)</td>
+              </tr>
+              <tr>
+                <td>Функции  для работы с геоданными</td>
+                <td>OGC SFSQL MM и геодезические функции (свыше 70)</td>
+                <td>OGC, большинство только для MBR (bounding box functions), несколько  реальных функций пространственного отношения, только 2D</td>
+                <td>Свыше 300  функций и операторов, геодезические функции отсутствуют, за исключением point-2-point неиндексируемых  функций расстояния, 2D, отчасти 3D</td>
+              </tr>
+              <tr>
+                <td>Пространственные  индексы </td>
+                <td>Основанные  на B-деревьях</td>
+                <td>R-деревья, доступны только для таблиц MyISAM</td>
+                <td>GIST -  вариант R-дерева</td>
+              </tr>
+              <tr>
+                <td>Геодезия  – поддержка вычислений в сферических координатах</td>
+                <td>Да</td>
+                <td>Нет</td>
+                <td>Нет</td>
+              </tr>
+              <tr>
+                <td>Виртуальный  хостинг</td>
+                <td>Множество</td>
+                <td>Множество</td>
+                <td>Много  меньше. Список PostGIS хостеров можно найти <a href="http://trac.osgeo.org/postgis/wiki/UsersWikiPostGISHosters" class="external">здесь</a></td>
+              </tr>
+            </table>
+            <p>Таким образом, подводя итог всему вышесказанному, можно  сделать вывод о том, что на сегодняшний день PostGIS является достойной  альтернативой большинству коммерческих продуктов, предоставляя широкий спектр  инструментов для работы с пространственными данными, а по соотношению  цена/функциональность и вовсе является неоспоримым мировым лидером.</p>
+      <p class="discuss"><span><!--#include virtual="/scripts/forum-comments-num.php?i=2652"--></span></p>
+            <div class="links">
+        <h2>Ссылки по теме</h2>
+          <ul>
+            <li><a href="postgis-install.html">Установка PostgreSQL/PostGIS для Windows</a></li>
+            <li><a href="postgis-work.html">Основы работы с PostGIS</a></li>
+              <li><a href="postgis-mapserver.html">Визуализация данных PostGIS в MapServer</a></li>
+        </ul>
+      </div>
+      <!--#include virtual="/scripts/date.php" -->
+<!--Contents end-->
+<p class="status"><span>Дата создания: 26.11.2008
+<br>Автор(ы): <a href="/forum/memberlist.php?mode=viewprofile&u=6901" target="_blank">Денис Рыков</a></span></p>
+<!--#include virtual="/inc/footer2.php" -->

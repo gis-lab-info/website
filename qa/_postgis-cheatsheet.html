@@ -1,0 +1,42 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Название статьи</title>
+<!--#include virtual="/inc/header2.txt" -->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+	<li class="first"><a href="/">Главная</a></li>
+	<li><a href="/qa.html">Вопросы и ответы</a></li>
+</ul>
+<!--Contents start-->
+<h1>Некоторые команды для работы с БД PostgreSQL/PostGIS </h1>
+<p class="ann">Аннотация</p>
+<pre>
+CREATE DATABASE vmap0 OWNER postgres;</pre>
+<p>&nbsp;</p>
+<pre>sudo -u pgsql createlang plpgsql vmap0
+</pre>
+<p></p>
+<pre>sudo psql -U pgsql -d vmap0 -f /usr/share/pgsql/contrib/lwpostgis.sql
+sudo psql -U pgsql -d vmap0 -f /usr/local/share/postgis/spatial_ref_sys.sql</pre>
+<p></p>
+<pre>psql -U labinfo -d vmap0 -f veg_tree_a.sql</pre>
+<p></p>
+<pre> for map in *sql; do psql -U labinfo -d vmap0 -f $map; done</pre>
+<p>&nbsp;</p>
+<pre>psql -U pgsql vmap0 labinfo</pre>
+<p></p>
+<pre>\i /path/to/file.sql</pre>
+<p></p>
+<pre>CREATE USER gis1 PASSWORD 'gis1';</pre>
+<p></p>
+<pre>GRANT SELECT ON TABLE veg_tree_a TO gis1;</pre>
+<p></p>
+<pre>DROP TABLE veg_tree_a;</pre>
+<p></p>
+<p class="discuss">
+   <span><!--#include virtual="/scripts/forum-comments-num.php?i=852"--></span>
+</p>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<!--#include virtual="/inc/footer2.php" -->

@@ -1,0 +1,175 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Создание слоя поворотных точек</title>
+<!--#include virtual="/inc/header2.txt" -->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Вопросы и ответы</a></li>
+</ul>
+<!--Contents start-->
+<h1>Создание точечного слоя из текстовых данных в QGIS</h1>
+<p class="ann">Описан процесс создания векторного точечного слоя из текстовых данных.</p>
+<p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=4688"--></span></p>
+
+<p>Одна из распространенных задач в ГИС - преобразование наборов координат из различного рода таблиц в векторные слои точечного типа. Разберем эту задачу на примере создания векторного слоя поворотных точек границ субъектов РФ на основе данных Росреестра.</p>
+<p>Для каждой границы двух соседних регионов существует *.doc файл, содержащий описание так называемых поворотных точек, принадлежащих данной границе. Фрагмент одного из таких файлов представлен на следующем рисунке:</p>
+<p align="center"><img src="/images/txt2points-qgis-01.gif"></p>
+<p align="left">Нас будут интересовать первые 3 столбца таблицы, содержащейся в файле описания: <strong>номер точки</strong>, <strong>координата X</strong>, <strong>координата Y</strong>.</p>
+<p>Выделяем эти три столбца и копируем их в любой табличный процессор, например, OO Calc. Удаляем пустые строки и строки, в которых не содержится информации о координатах:</p>
+<p align="center"><img src="/images/txt2points-qgis-02.gif">
+  <!-- Второй раздел -->
+</p>
+<p align="left">В нашем конкретном примере координаты даны в километрах, поэтому  значения координат (x и y) умножаем на 1000. В результате должны получиться значения следующего порядка:</p>
+<div align="center">
+<table width="37%" align="center">
+  <tr>
+    <td width="24%">1</td>
+    <td width="37%">5911000</td>
+    <td width="39%">13693900</td>
+  </tr>
+  <tr>
+    <td>2</td>
+    <td>5918400</td>
+    <td>13695900</td>
+  </tr>
+  <tr>
+    <td>3</td>
+    <td>5922000</td>
+    <td>13697500</td>
+  </tr>
+  <tr>
+    <td>4</td>
+    <td>5928600</td>
+    <td>13694200</td>
+  </tr>
+  <tr>
+    <td>5</td>
+    <td>5927500</td>
+    <td>13405200</td>
+  </tr>
+  <tr>
+    <td>6</td>
+    <td>5931400</td>
+    <td>14305600</td>
+  </tr>
+  <tr>
+    <td>7</td>
+    <td>5933000</td>
+    <td>13696700</td>
+  </tr>
+  <tr>
+    <td><p align="center">...</p></td>
+    <td><p align="center">...</p></td>
+    <td><p align="center">...</p></td>
+  </tr>
+</table>
+</div>
+<p>Далее, используя растровые изображения, необходимо определить номер зоны, к которой принадлежит каждая поворотная точка. Последовательно просматривая каждый растр, находим на нём номер точки из составленной таблицы и определяем номер листа:</p>
+<p align="center"><img src="/images/txt2points-qgis-03.gif" alt=""></p>
+<p>От номера листа отнимаем 30 и получаем номер зоны (другой простой способ определить номер зоны - определить количество миллионов по Y, оно равно номеру зоны). Результат представим в виде следующей таблицы:</p>
+<div align="center">
+  <table width="37%" align="center">
+    <tr>
+      <td width="24%"><strong>№</strong></td>
+      <td width="37%"><strong>X</strong></td>
+      <td width="39%"><strong>Y</strong></td>
+      <td width="39%"><strong>Зона</strong></td>
+    </tr>
+    <tr>
+      <td width="24%">1</td>
+      <td width="37%">5911000</td>
+      <td width="39%">13693900</td>
+      <td>13</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>5918400</td>
+      <td>13695900</td>
+      <td>13</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>5922000</td>
+      <td>13697500</td>
+      <td>13</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>5928600</td>
+      <td>13694200</td>
+      <td>13</td>
+    </tr>
+    <tr>
+      <td>5</td>
+      <td>5927500</td>
+      <td>13405200</td>
+      <td>11</td>
+    </tr>
+    <tr>
+      <td>6</td>
+      <td>5931400</td>
+      <td>14305600</td>
+      <td>14</td>
+    </tr>
+    <tr>
+      <td>7</td>
+      <td>5933000</td>
+      <td>13696700</td>
+      <td>13</td>
+    </tr>
+    <tr>
+      <td><p align="center">...</p></td>
+      <td><p align="center">...</p></td>
+      <td><p align="center">...</p></td>
+      <td>&nbsp;</td>
+    </tr>
+  </table>
+</div>
+<p>После того, как принадлежность к той или иной зоне была установлена для каждой точки, переходим к следующему шагу. Точки, принадлежащие одной зоне выделяем в отдельный csv-файл (в итоге количество csv-файлов должно равняться количеству зон, в которые попадают поворотные точки рассматриваемой границы). csv-файлы должны иметь следующую структуру:</p>
+<pre>N,X,Y
+1,5911000,13693900
+2,5918400,13695900
+…</pre>
+<p>Следующие шаги выполняем для каждого csv-файла. </p>
+<ol>
+  <li>Запускаем QGIS;</li>
+  <li><strong>Модули</strong> → <strong>Текст с разделителями </strong>→ <strong>Добавить слой из текста с разделителями</strong>;</li>
+  <li>Открываем csv-файл и производим следующие манипуляции: в поле <strong>X-поле</strong> указываем Y, в <strong>Y-поле</strong> указываем X и жмем <strong>OK</strong>:
+    <div align="center"><br>
+      <img src="/images/txt2points-qgis-04.gif" alt=""></div>
+  </li>
+  <li>Щелкаем правой кнопкой мыши на имени слоя, выбираем <strong>Свойства</strong> и переходим на вкладку <strong>Общие</strong>. Жмем кнопку <strong>Система координат</strong> и выбираем СК Pulkovo 1942 / Gauss-Kruger, соответствующую зоне. Так для зоны №13 -   СК Pulkovo 1942 / Gauss-Kruger zone 13 (EPSG: 28413):
+    <div align="center"><br>
+      <img src="/images/txt2points-qgis-05.gif" alt=""></div>
+  </li>
+<li>Щелкаем  	правой кнопкой мыши на имени слоя и  	выбираем <strong>Сохранить как </strong><SPAN LANG="en-US"><strong>shape-</strong></SPAN><strong>файл</strong>.  	При сохранении выбираем СК <SPAN LANG="en-US">Pulkovo 1942   	(EPSG: 4284).</SPAN></li>
+  </OL>
+<p align="left">
+  <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+  <HTML>
+  <BODY LINK="#000080" VLINK="#800000" DIR="LTR">
+</p>
+<p LANG="ru-RU">Далее необходимо  склеить все полученные <SPAN LANG="en-US">shape-file </SPAN>в один. Выполним это с помощью утилиты <SPAN LANG="en-US">ogr2ogr. </SPAN>Допустим мы получили  3 <SPAN LANG="en-US">shape-</SPAN>файла: <SPAN LANG="en-US">zone13.shp,  zone14.shp, zone15.shp, </SPAN>тогда для склейки этих  файлов в один необходимо выполнить  команды в следующем порядке:
+<pre>ogr2ogr result.shp zone13.shp
+ogr2ogr -update -append result.shp zone14.shp -nln merged
+ogr2ogr -update -append result.shp zone15.shp -nln merged</pre>
+<p>Проверим  полученный результат. Для этого в любой  ГИС откроем любой растр с фрагментом  границы и получившийся векторный слой  поворотных точек:</p>
+<p align="center"><img src="/images/txt2points-qgis-06.gif" alt=""></p>
+<p>Если точки с одинаковыми номерами совпадают на растре и на векторе, значит все прошло успешно. Если же какие-то точки «улетели», то, возможно, вы ошиблись при выборе зоны. Однако, ошибки могут присутствовать и в исходных данных!</p>
+<p class="discuss">
+   <span><!--#include virtual="/scripts/forum-comments-num.php?i=4688"-->
+   </span></p>
+<!-- ссылки -->
+<div class="links">
+<h2>Ссылки по теме</h2>
+	<ul>
+		   <li><a href="/qa/georef-qgis.html">Географическая привязка данных в QGIS</a></li>
+	</ul>
+</div>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<p class="status"><span>Дата создания: 25.01.2010
+<br>Автор(ы): <a href="/forum/memberlist.php?mode=viewprofile&u=6901" target="_blank">Денис Рыков</a></span></p>
+<!--#include virtual="/inc/footer2.php" -->

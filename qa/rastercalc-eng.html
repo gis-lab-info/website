@@ -1,0 +1,125 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Raster algebra in QGIS with RasterCalc</title>
+<!--#include virtual="/inc/header2-eng.txt" -->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/index-eng.html">Home</a></li>
+   <li><a href="/qa-eng.html">Articles</a></li>
+</ul>
+<!--Contents start-->
+<h1>Raster algebra in QGIS with RasterCalc</h1>
+<p class="ann">Raster algebra in QGIS</p>
+<p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=6302"--></span></p>
+<p>RasterCalc is a simple and powerfull raster calculator that is a plugin
+for free and opensource GIS&nbsp;&mdash; QGIS.</p>
+<p><strong>Contents</strong></p>
+<ol>
+    <li><a href="#01">Installation notes</a></li>
+    <li><a href="#02">How does it work</a></li>
+    <li><a href="#contacts">Contacts</a></li>
+</ol>
+
+<!-- Первый раздел -->
+<h2><strong><a name="01" id="01"></a></strong>1. Installation notes</h2>
+<p>Plugin is available in GIS-Lab <a href="/programs/qgis/qgis-repo.xml">repository</a>.</p>
+<p>The plugin is designed for QGIS version 1.3.0 and higher. You will need
+the following additional Python modules installed: </p>
+<ul>
+  <li>pyparsing&nbsp;&mdash; parsing library</li>
+  <li>osgeo.gdal&nbsp;&mdash; Python bindings for GDAL</li>
+</ul>
+<p>If this modules are not installed in your system, you'll see error message
+on plugin startup, asking for one this modules.</p>
+<p>All necessary packages are available in OSGeo4W installer. You can find
+them in Libs category (pyparsing and gdal-python packages).
+If you use standalone installer you need to download and install
+<a href="http://pyparsing.wikispaces.com" target="_blank" class="external">pyparsing</a>.</p>
+
+<!-- Второй раздел -->
+<h2><strong><a name="02" id="02"></a></strong>2. How does it work</h2>
+<p>After you've installed the plugin and started it by clicking <img src="/images/rastercalc-01.png" alt="Plugin toolbar button"></img> in the main window,
+calculator will appear:
+<p><img src="/images/rastercalc-eng-02.png" alt="Plugin window" width="746" height="458"></img></p>
+<p>Numbers denote: </p>
+<ol>
+  <li>List of rasters. Rasters are grouped by size.</li>
+  <li>Bands list of selected raster. Filled automatically when raster is selected.</li>
+  <li>Buttons for quick functions. Presets
+    dropdown list is also here.</li>
+  <li>Expression area. Your expression is displayed in this area. Copy-paste
+    operations are supported.
+  <li>Message bar. Displays errors, warnings and status messages.</li>
+  <li>Clear button to erase expression area.</li>
+  <li>Output pixel format dropdown list.</li>
+  <li>Output raster filename.</li>
+  <li>Checkbox to load resulting raster in map canvas.</li>
+  <li>Buttons for run calculate and close window.</li>
+</ol>
+<p>Expression format is traditional, same as in mathematics: there is support
+of parentheses and included parentheses. Raster names must be in square brackets
+("[]"), followed by symbol "@" and number which denotes band number.
+It is possible to insert raster name automaticaly by doublecliking on it's name in
+raster list, raster with first band will be inserted.
+Inserting raster name with different band number is possible by doubleclicking
+on the band number in bands list.</p>
+<p>Some common expressions are saved as presets. When preset is selected in dropdown
+list it will be inserted in expression area and sample raster names must be replaced with
+real raster names.</p>
+<p> Plugin does some checking during expression composing. If errors is found a message
+will appear on the message bar and calculate button will be disabled.</p>
+<p>Using quick access buttons you can insert:</p>
+<ol>
+  <li>arithmetics operations (+, -, *, /)</li>
+  <li>trigonometric functions (sin, cos, tan, asin, acos, atan)</li>
+  <li>natural logarithm (log), exponent (exp) and exponentiation (^)</li>
+  <li>parentheses, band number operator</li>
+</ol>
+<p>Also implemented, but not available with quick access buttons (you need
+to enter it manually):</p>
+<ol>
+  <li>comparison operators (&lt;, &gt;, =, !=, &lt;=, &gt;=)</li>
+  <li>conditional statements (lt - less, gt - greater, eq - equal, ne - not equal,
+  le - less or equal, ge - greater or equal)</li>
+</ol>
+<p>Comparison operators allow to perform pixel-wise compare raster band with
+some value or another raster band. The result will be a raster with all pixels
+that match condition set to 1 and all other pixels set to 0.</p>
+<p>Conditional statements are further development of comparison operators.
+Statement has three arguments:</p>
+<ol>
+  <li>raster to compare;</li>
+  <li>value to compare with;</li>
+  <li>value used for replacement.</li>
+</ol>
+<p>A value or any raster band can be used as second and third argument   (in
+this case pixel-wise compare and/replace is used) or expression.</p>
+<p>Consider the use of conditional statements with examples. Statement:</p>
+<pre>le( [relief]@1, 50, 200 )</pre>
+<p>should be read as: all pixels in first band of the relief raster with
+value less or equal then 50, should be replaced with value 200. </p>
+<p>More examples:</p>
+<pre>eq( [relief]@1, [mask]@4, 150 )</pre>
+<p>all pixels in first band of the relief raster with value equal to
+the appropriate pixels in fourth band of the mask raster, should be
+replaced with value 150.</p>
+<pre>gt( [relief]@1, [mask]@4, [base]@2 )</pre>
+<p>all pixels in first band of the relief raster, with value greater or equal
+to the appropriate pixels in fourth band of the mask raster, should be
+replaced with the appropriate pixels from second band of the base raster.</p>
+<h2><strong><a name="contacts" id="contacts"></a></strong>3. Contacts</h2>
+<p>If you found a bug, want to make suggestion for improving RasterCalc or have a
+question about this plugin, contact the <a href="mailto:alexander.bruy@gmail.com">developers</a> (more <a href="/contacts-eng.html">contacts</a>).</p>
+<p class="discuss"><span><!--#include virtual="/scripts/forum-comments-num.php?i=6302"--></span></p>
+
+<div class="links">
+	<h2>See also</h2>
+		<ul><li><a href="/docs/qgis">Документация по QGIS</a></li>
+		</ul>
+</div>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php?lang=e" -->
+<p class="status"><span>Дата создания: 27.01.2010
+<br>Автор(ы): <a href="forum/memberlist.php?mode=viewprofile&u=5325" target="_blank">Александр Бруй</a>, <a href="/forum/memberlist.php?mode=viewprofile&u=2" target="_blank">Максим Дубинин</a></span></p>
+<!--#include virtual="/inc/footer2-eng.php" -->

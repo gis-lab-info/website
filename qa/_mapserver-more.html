@@ -1,0 +1,52 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Дополнительные примеры к Mapserver</title>
+<!--#include virtual="/inc/header2.txt" -->
+<!--Contents start-->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Вопросы и ответы</a></li>
+</ul>
+<h1>Дополнительные примеры к Mapserver</h1>
+<p class="ann">Краткая аннотация</p>
+            <p><strong>Статичная карта </strong></p>
+            <p>1. Один слой, статичная карта <a href="/cgi-bin/mapserv?map=/usr/local/www/gis-lab/data/programs/mapserver/static/example1-1.map&amp;layer=states&amp;mode=map" target="_blank">&gt;&gt;&gt;</a> </p>
+			<pre>http://gis-lab.info/cgi-bin/mapserv?map=/usr/local/www/gis-lab/data/programs/mapserver/static/example1-1.map&layer=states&mode=map</pre>
+            <p>2. Два слоя, статичная карта <a href="/cgi-bin/mapserv?map=/usr/local/www/gis-lab/data/programs/mapserver/static/example1-2.map&amp;layer=states_poly&amp;layer=states_line&amp;mode=map" target="_blank">&gt;&gt;&gt;</a></p>
+            <pre>http://gis-lab.info/cgi-bin/mapserv?map=/usr/local/www/gis-lab/data/programs/mapserver/static/example1-2.map&layer=states_poly&layer=states_line&mode=map</pre>
+            <p>3. Два слоя, один расклассифицирован, статичная карта <a href="/cgi-bin/mapserv?map=/usr/local/www/gis-lab/data/programs/mapserver/static/example1-3.map&amp;layer=states_poly&amp;layer=states_line&amp;mode=map" target="_blank">&gt;&gt;&gt;</a></p>
+            <pre>http://gis-lab.info/cgi-bin/mapserv?map=/usr/local/www/gis-lab/data/programs/mapserver/static/example1-3.map&amp;layer=states_poly&amp;layer=states_line&amp;mode=map</pre>
+            <p>4. Тоже что и 3 + подписи из fonts.list (fonts.list и сами шрифты находятся в той же папке что и map-файл) <a href="/cgi-bin/mapserv?map=/usr/local/www/gis-lab/data/programs/mapserver/static/example1-4.map&amp;layer=states_poly&amp;layer=states_line&amp;mode=map" target="_blank">&gt;&gt;&gt;</a></p>
+            <pre>http://gis-lab.info/cgi-bin/mapserv?map=/usr/local/www/gis-lab/data/programs/mapserver/static/example1-4.map&layer=states_poly&layer=states_line&mode=map</pre>
+            <p><strong>Интерактивная карта</strong></p>
+            <p>1. Два слоя, без инструментов (аналогично статичной карте в примере 3)  <a href="/cgi-bin/mapserv?map=/usr/local/www/gis-lab/data/programs/mapserver/dynamic/example2-1.map&amp;layer=states_poly&amp;layer=states_line&amp;mode=browse" target="_blank">&gt;&gt;&gt;</a> </p>
+            <pre>http://gis-lab.info/cgi-bin/mapserv?map=/usr/local/www/gis-lab/data/programs/mapserver/dynamic/example2-1.map&amp;layer=states_poly&amp;layer=states_line&amp;mode=browse</pre>
+            <p>2. Два слоя, определяющая выборка <a href="/cgi-bin/mapserv?map=/usr/local/www/gis-lab/data/programs/mapserver/defquery/defquery.map&amp;layer=states_poly&amp;layer=states_line&amp;mode=browse" target="_blank">&gt;&gt;&gt;</a></p>
+            <pre>
+http://gis-lab.info/cgi-bin/mapserv?map=/usr/local/www/gis-lab/data/programs/mapserver/defquery/defquery.map&amp;layer=states_poly&amp;layer=states_line&amp;mode=browse</pre>
+            <p>3. Два слоя, инклюды (аналогично статичной карте в примере 3) <a href="/cgi-bin/mapserv?map=/usr/local/www/gis-lab/data/programs/mapserver/includes/inc.map&layer=states_poly&layer=states_line&mode=browse" target="_blank">&gt;&gt;&gt;</a> </p>
+            <pre>http://gis-lab.info/cgi-bin/mapserv?map=/usr/local/www/gis-lab/data/programs/mapserver/includes/inc.map&amp;layer=states_poly&amp;layer=states_line&amp;mode=browse</pre>
+            <p><strong>WMS карта  </strong></p>
+            <p>1. Два слоя, интерактивная <a href="/cgi-bin/mapserv?map=/usr/local/www/gis-lab/data/programs/mapserver/wmstest/wms.map&amp;layer=states_poly&amp;layer=states_line&amp;mode=browse" target="_blank">&gt;&gt;&gt;</a>. </p>
+            <p>Что надо сделать чтобы веб-карта стала также WMS-сервисом, к которому можно было бы подключаться откуда угодно (<a href="http://mapserver.gis.umn.edu/docs/howto/wms_server" target="_blank" class="external">подробнее</a> ) . </p>
+            <pre>
+http://gis-lab.info/cgi-bin/mapserv?map=/usr/local/www/gis-lab/data/programs/mapserver/wmstest/wms.map&layer=states_poly&layer=states_line&mode=browse</pre>
+            <p>2. Карта мира, интерактивная <a href="http://gis-lab.info/cgi-bin/mapserv?map=/usr/local/www/gis-lab/data/programs/mapserver/wms-world-gmap/wms.map&layer=world&mode=browse" target="_blank">&gt;&gt;&gt;</a>. </p>
+            <p>Как использовать WMS Mapserver в Google Maps (в процессе)  (<a href="http://mapserver.gis.umn.edu/docs/howto/wms_server" target="_blank" class="external">подробнее</a> ) . </p>
+            <pre>http://gis-lab.info/cgi-bin/mapserv?map=/usr/local/www/gis-lab/data/programs/mapserver/wms-world-gmap/wms.map&layer=world&mode=browse</pre>
+            <p></p>
+            <p class="discuss">
+				<span><!--#include virtual="/scripts/forum-comments-num.php?i=852"--></span>
+			</p>
+			<div class="links">
+			<h2>Ссылки по теме</h2>
+			<ul>
+               <li><a href="modislandprod.html">Ссылка на дополнительный источник информации внутренняя</a></li>
+               <li><a href="http://lpdaac.usgs.gov/landdaac/tools/modis/about.asp" target="_blank" class="external">Ссылка на дополнительный источник информации внешняя</a></li>
+			</ul>
+			</div>
+   			<!--#include virtual="/scripts/date.php" -->
+<!--Contents end-->
+<!--#include virtual="/inc/footer2.php" -->

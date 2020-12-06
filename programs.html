@@ -1,0 +1,382 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Программы</title>
+<!--#include virtual="/inc/header2.txt" -->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/programs.html">Программы</a></li>
+</ul>
+<!--Contents start-->
+<h1>Программное обеспечение</h1>
+        <h2>Содержание</h2>
+        <ul>
+              <li><a href="#standalone">Самостоятельные программы</a></li>
+              <li><a href="#qgis">Расширения для QGIS</a> </li>
+              <li><a href="#av">Расширения для Arcview GIS</a></li>
+              <li><a href="#avscr">Скрипты для Arcview GIS</a></li>
+              <li><a href="#aml">Arcinfo Workstation AML</a></li>
+              <li><a href="#envi">Подключаемые модули для ENVI</a></li>
+              <li><a href="#other">Другое</a></li>
+            </ul>
+			<h2><a name="standalone"></a>Самостоятельные программы</h2>
+			<p><b><a name="libraries" id="libraries"></a>Библиотеки для программ</b></p>
+            <p> Программы в основном написаны на Visual Basic и часто требуют наличия некоторых внешних библиотек, которые не входят в стандартный комплект операционной системы. Набор необходимых библиотек можно <a href="other/libraries.zip">загрузить здесь</a>. Один раз загрузив библиотеки, обновлять их больше не нужно. 
+              В Windows XP некоторые из этих библиотек уже присутствуют, перезаписывать 
+              их не нужно. Библиотеки необходимо распаковать и скопировать в каталог Windows\System32 (WinXP), Windows\System (Win98).</p>
+            <p>Скачать ПО можно либо по ссылке на названии, либо, если существует описание, то со страницы описания. </p>
+          <table width="90%" align="center">
+              <tr>
+                <th width="27%"><p align="center"><b>Название</b></p>
+                <td><p align="center"><b>Описание</b></p></td>
+                <td width="7%" ><p align="center"><b>Версия</b></p></td>
+              </tr>
+              <tr>
+                <td width="27%" ><p><a href="/programs/vb/tic2tic.zip">Tic2Tic</a></p></td>
+                <td ><p>Конвертация файлов с реперными точками и информацией 
+                    о привязке из одного формата в другой. Поддерживаются следующие 
+                    форматы:<br />
+                    TIC, RSF, GGT, POLY, LND, ESRI world file, TAB, MET, L1G, HDR</p></td>
+                <td width="7%"><p align="center"><b>0.1.38</b></p></td>
+              </tr>
+              <tr>
+                <td width="27%"><p><a href="programs/vb/gt.zip">GT</a></p></td>
+                <td><p>Пакетная перепроектировка превью Landsat, Aster 
+                    и любых других растров с использованием траформационного движка 
+                    Geographic Transformer.<br />
+                    Поддерживаемые проекции: 
+                    Albers Equal-area Conic (Europe, Siberia, FarEast), Lat\Long, Lambert Conformal 
+                    Conic, Gauss-Krueger (<a href="/qa/gt.html">подробнее</a>)</p></td>
+                <td width="7%"><p align="center"><b>0.01.28</b></p></td>
+              </tr>
+              <tr>
+                <td width="27%"><p><a href="/programs/vb/spaceload.zip">SpaceLoad</a></p></td>
+                <td><p>Автоматизация процесса закачки превью Aster c серверов EDC (<a href="/qa/spaceload.html">подробнее</a>)</p></td>
+                <td width="7%"><p align="center"><b>0.1.60</b></p></td>
+              </tr>
+              <tr>
+                <td width="27%"><p><a href="programs/vb/asterrename.zip">AsterRename</a></p></td>
+                <td><p>Пакетное переименовывание Aster полученных через 
+                    EDC в формат ddmmyy_hhmmss (<a href="/qa/aster_rename.html">подробнее</a>)</p></td>
+                <td width="7%"><p align="center"><b>0.1.1</b></p></td>
+              </tr>
+              <tr>
+                <td width="27%" height="19"><p><a href="programs/vb/process-srtm.zip">Process-srtm</a></p></td>
+                <td height="19" valign="middle"><p>Генератор sml-файлов для обработки данных рельефа 
+                    (SRTM) (<a href="/qa/process-srtm.html">подробнее</a>, <a href="/qa/process-srtm-eng.html">more</a>)</p></td>
+                <td width="7%" height="19"><p align="center"><b>1.1.0.3</b></p></td>
+              </tr>
+              <tr>
+                <td width="27%" height="19"><p><a href="/programs/vb/extract-class.zip">Extract-Class</a></p></td>
+                <td height="19" valign="middle"><p>Генератор sml файлов для выделение класса(ов) 
+                    из одинаково индексированных растров (<a href="/qa/extractclass.html">подробнее</a>)</p></td>
+                <td width="7%" height="19"><p align="center"><b>0.1.0</b></p></td>
+              </tr>
+              <tr>
+                <td height="19"><p><a href="/programs/imgimporter/imgimporter0.1.6c.zip">ImgImporter</a></p></td>
+                <td height="19" valign="middle"><p>Импорт данных Ast-07
+                  (<a href="/programs/imgimporter/index-rus.html">подробнее</a>, <a href="/programs/imgimporter">more</a>)</p></td>
+                <td height="19"><p align="center"><b>0.1.6c</b></p></td>
+              </tr>
+              <tr>
+                <td height="19"><p><a href="/programs/vb/modis-import-tool.zip">MODIS-Import-tool</a></p></td>
+                <td height="19" valign="middle"><p>Импорт данных MODIS
+                  (<a href="/qa/modisimport-tool.html">подробнее</a>)</p></td>
+                <td height="19"><p align="center"><b>1.0.0</b></p></td>
+              </tr>
+              <tr>
+                <td height="19"><p><a href="/programs/vb/modis-import-tool.zip">MODIS-Swath-Import-tool</a></p></td>
+                <td height="19" valign="middle"><p>Импорт данных MODIS Swath
+                  (<a href="/qa/modis-l1-import-tool.html">подробнее</a>)</p></td>
+                <td height="19"><p align="center"><b>1.0.0</b></p></td>
+              </tr>
+              <tr>
+                <td height="19"><p><a href="/programs/vb/layerstack.zip">Layerstack</a></p></td>
+                <td height="19" valign="middle"><p>Генерация пакетного файла для ERDAS IMAGINE для пакетного создания композитных изображений. </p></td>
+                <td height="19"><p align="center"><b>0.0.0.17</b></p></td>
+              </tr>
+              <tr>
+                <td width="27%" height="19"><p><a href="/programs/vb/mergeshapes-gdal.zip">Mergeshapes-gdal</a></p></td>
+                <td height="19" valign="middle"><p>Генерация пакетного файла для GDAL/OGR для массовой склейки shape-файлов с одинаковой структурой атрибутики (<a href="/qa/merge-shapes.html">подробнее</a>). </p></td>
+                <td width="7%" height="19"><p align="center"><b>0.0.0.4</b></p></td>
+              </tr>
+              <tr>
+                <td height="19"><p><a href="/programs/vb/layerstack.zip"></a><a href="/programs/osgeo4w/osgeo4w-setup-ru.zip">OSGeo4w-rus</a></p>
+                  <p><a href="/programs/vb/layerstack.zip"></a><a href="/programs/osgeo4w/osgeo4w-setup-ua.zip">OSGeo4w-ua</a></p></td>
+                <td height="19" valign="middle"><p>Русская версия установщика <a href="http://trac.osgeo.org/osgeo4w/" target="_blank" class="external">OSGeo4W</a> (<a href="/programs/osgeo4w/osgeo4w-setup-ru-res_ru.zip">ресурсный файл для переводчиков</a>) (<a href="/qa/qgis-osgeo4w.html">подробнее</a>) </p>
+                  <p>Украинская версия установщика <a href="http://trac.osgeo.org/osgeo4w/" target="_blank" class="external">OSGeo4W</a> (<a href="/programs/osgeo4w/osgeo4w-setup-ua-res_ua.zip">ресурсный файл для переводчиков</a>)</p></td>
+                <td height="19">&nbsp;</td>
+              </tr>
+            </table>
+			
+			<h2 a name="qgis" id="qgis">Расширения для QGIS</h2>
+			<p>Все расширения доступны через репозиторий GIS-Lab, необходимо, чтобы был включен показ экспериментальных расширений. Georeferencer - включен в QGIS (версии 1.5 и выше) и устанавливается вместе с ним.</p>
+			<table width="90%" align="center">
+              <tr>
+                <th width="27%"><p align="center"><b>Название</b></p>
+                    <td><p align="center"><b>Описание</b></p></td>
+                </tr>
+              <tr>
+                <td width="27%" ><p><a href="/programs/vb/mergeshapes-gdal.zip"><img src="/images/new.gif" alt="updated" width="27" height="10" /></a>DPSimplify</p></td>
+                <td ><p>Упрощение линий по методу Дугласа-Пойкера.<br>
+                (<a href="/qa/dpsimplify.html">подробнее</a>, обсудить)</p></td>
+                </tr>
+              <tr>
+                <td ><a href="/programs/vb/mergeshapes-gdal.zip"><img src="/images/new.gif" alt="updated" width="27" height="10" /></a>Photo2shape</td>
+                <td >Создание точечного shape-файла по серии фотографий, имеющих информацию о привязке в EXIF.<br>
+                  (<a href="/qa/photo2shape.html">подробнее</a>, <a href="/forum/viewtopic.php?f=27&t=4735">обсудить</a>)</td>
+                </tr>
+              <tr>
+                <td ><a href="/programs/vb/mergeshapes-gdal.zip"><img src="/images/new.gif" alt="updated" width="27" height="10" /></a>Statist</td>
+                <td >Расчет базовой статистики (мин./макс., среднее, стандартное отклонение и др.) по атрибутивным полям и построение графиков.<br>
+                  (<a href="/qa/statist.html">подробнее</a>, <a href="/forum/viewtopic.php?f=27&t=3554">обсудить</a>)</td>
+              </tr>
+              <tr>
+                <td ><a href="/programs/vb/mergeshapes-gdal.zip"><img src="/images/new.gif" alt="updated" width="27" height="10" /></a>JoinLines</td>
+                <td >Физическое объединение линейных объектов.<br>
+                  (подробнее, обсудить)</td>
+              </tr>
+              <tr>
+                <td ><a href="/programs/vb/mergeshapes-gdal.zip"><img src="/images/new.gif" alt="updated" width="27" height="10" /></a>Georeferencer-GDAL</td>
+                <td >Привязка растровых данных с помощью полиномиальных преобразований.<br>
+                  (<a href="/qa/georef-qgis.html">подробнее</a>, обсудить)</td>
+              </tr>
+              <tr>
+                <td ><a href="/programs/vb/mergeshapes-gdal.zip"><img src="/images/new.gif" alt="updated" width="27" height="10" /></a>RasterCalc</td>
+                <td >Арифметика растров с совпадающими экстентами<br>
+                  (<a href="/qa/rastercalc.html">подробнее</a>, обсудить)</td>
+              </tr>
+            </table>
+			<p>&nbsp;</p>
+			<h2><a name="av" id="av"></a>Расширения для Arcview GIS </h2>
+			<table width="90%" align="center" >
+              <tr>
+                <td width="27%"><p align="center"><b>Название</b></p></td>
+                <td><p align="center"><b>Описание</b></p></td>
+                <td width="7%"><p align="center"><b>Версия</b></p></td>
+              </tr>
+              <tr>
+                <td width="27%"><p><a href="programs/avenue/simtools.zip">SimTools</a></p></td>
+                <td><p>Набор инструментов:<br />
+                    -выделить все темы<br />
+                    -переместить темы в начало TOC<br />
+                    -переместить темы в конец TOC<br />
+                    -создать shp-каталог для растровых данных <br />
+                    -начать\остановить редактирование в одно нажатие <br />
+                    -создание резервная копия темы<br />
+                    -добавление директории для горячей связи к таблице<br />
+                    и другие функции...</p></td>
+                <td width="7%"><p align="center"><b>0.12</b></p></td>
+              </tr>
+              <tr>
+                <td width="27%"><p><a href="programs/avenue/importpoly.zip">ImportPoly</a></p></td>
+                <td><p>Импорт в файл SHP файлов Poly получаемого с помощью 
+                    Tic2Tic, используется для пакетной регистрации снимков</p></td>
+                <td width="7%"><p align="center"><b>0.3</b></p></td>
+              </tr>
+              <tr>
+                <td width="27%"><p>Transparent 
+                    Legend</p></td>
+                <td><p>Управление легендой растровых карт (<a href="/qa/trlegend.html">подробнее</a>)</p></td>
+                <td width="7%"><p align="center"><b>0.3</b></p></td>
+              </tr>
+              <tr>
+                <td width="27%"><p><a href="/programs/avenue/freehand.zip">Sim-Freehand</a></p></td>
+                <td><p>Отрисовка в свободном режиме в shp-файл</p></td>
+                <td width="7%"><p align="center"><b>0.3</b></p></td>
+              </tr>
+              <tr>
+                <td width="27%"><p><a href="programs/avenue/onetic.zip">OneTic</a></p></td>
+                <td><p>Расстановка тиков в Arcview c эскпортом файла 
+                    тиков</p></td>
+                <td width="7%"><p align="center"><b>0.2</b></p></td>
+              </tr>
+              <tr>
+                <td width="27%"><p><a href="programs/avenue/zoomtoscale.zip">ZoomToScale</a></p></td>
+                <td><p>Быстрая смена масштаба</p></td>
+                <td width="7%"><p align="center"><b>0.1</b></p></td>
+              </tr>
+              <tr>
+                <td width="27%"><p>CopyFiles</p></td>
+                <td><p>Копирование и удаление тем из TOC и одновременно 
+                    с диска, удаление работает для векторных и растровых тем
+                    (кроме тем Image Analisys) (<a href="qa/copy-delete.html">подробнее</a>)</p></td>
+                <td width="7%"><p align="center"><b>0.4</b></p></td>
+              </tr>
+              <tr>
+                <td width="27%"><p><a href="programs/avenue/auto_til.zip">Auto-Tile</a></p></td>
+                <td><p>Модифицированное расширение для нарезания вида 
+                    с последующим созданием макетов страниц, для печати больших 
+                    карт на маленьких принтерах. В этой версии можно работать и 
+                    со спроектированными видами и с метровыми планами.</p></td>
+                <td width="7%"><p align="center"><b>0.1</b></p></td>
+              </tr>
+              <tr>
+                <td width="27%"><p>Create-Query</p></td>
+                <td><p>Создание файлов запроса (query) для поиска через 
+                    EDC данных ASTER L1A, L1B, MODIS. (<a href="/qa/createquery.html">подробнее</a>)</p></td>
+                <td width="7%"><p align="center"><b>0.6</b></p></td>
+              </tr>
+              <tr>
+                <td width="27%"><p>ARGOS-Tools</p></td>
+                <td><p>Набор инструментов для импорта и обработки данных 
+                    ARGOS.  (<a href="/programs/argos/index-rus.html">подробнее</a>, <a href="/programs/argos/">more</a>)</p></td>
+                <td width="7%"><p align="center"><b>0.30</b></p></td>
+              </tr>
+              <tr>
+                <td><p><a href="/programs/avenue/clipper-wedmc.zip">ClipAll</a></p></td>
+                <td><p>Разрезание векторных тем шаблоном</p></td>
+                <td><p align="center"><b>0.2</b></p></td>
+              </tr>
+              <tr>
+                <td><p>Get Point</p></td>
+                <td><p>Получение координат точки в разных форматах для вставки в БД, Google Maps и отчеты (<a href="qa/point.html">подробнее</a>). </p></td>
+                <td><p align="center"><b>0.2</b></p></td>
+              </tr>
+              <tr>
+                <td><p>ZonalStats</p></td>
+                <td><p>Зональная статистика  (<a href="/qa/zonalstats.html">подробнее</a>) </p></td>
+                <td><p align="center"><b>0.2</b></p></td>
+              </tr>
+              <tr>
+                <td><p>Extract data </p></td>
+                <td><p>Получение значений по точкам из неограниченного количество GRID (<a href="qa/extract-values-grids.html">подробнее</a>) </p></td>
+                <td><p align="center"><b>0.2</b></p></td>
+              </tr>
+              <tr>
+                <td><p><img src="/images/updated.gif" alt="updated" width="52" height="10" />KML2Shape</p></td>
+                <td><p>Пакетный импорт данных KML в Shape (<a href="/qa/kml2shp.html">подробнее</a>) </p></td>
+                <td><p align="center"><b>0.3</b></p></td>
+              </tr>
+              <tr>
+                <td width="27%"><p><img src="/images/new.gif" alt="updated" width="27" height="10" />OSM2Shape</p></td>
+                <td><p>Импорт данных OSM XML в Shape, получение poly-файлов и анализ тэгов (<a href="qa/osm2shape.html">подробнее</a>). </p></td>
+                <td width="7%"><p align="center"><b>0.4</b></p></td>
+              </tr>
+            </table>
+			<h2><a name="avscr" id="avscr"></a>Скрипты для Arcview GIS</h2>
+			<p>Инструкцию по подключению скриптов 
+              к Arcview можно прочитать <a href="qa/addscript.html">здесь</a>.<br />
+              Инструкцию по назначению подключенным скриптам кнопок - <a href="qa/butscript.html">здесь</a>.</p>
+            <table width="90%" align="center" >
+              <tr>
+                <td width="27%"><p align="center"><b>Название</b></p></td>
+                <td><p align="center"><b>Описание</b></p></td>
+                <td width="7%"><p align="center"><b>Версия</b></p></td>
+              </tr>
+              <tr>
+                <td width="27%"><p><a href="programs/scripts/iahotlink.ave">iahotlink</a></p></td>
+                <td><p>Добавление в TOC тем Image Analisis'a. С shift'ом 
+                    можно выбирать темы из списка.</p></td>
+                <td width="7%"><p align="center"><b>1.2</b></p></td>
+              </tr>
+              <tr>
+                <td width="27%"><p><a href="programs/scripts/hotlink.ave">hotlink</a></p></td>
+                <td><p>Добавление в TOC обычных Image тем. С shift'ом 
+                    можно выбирать темы из списка.</p></td>
+                <td width="7%"><p align="center"><b>1.2</b></p></td>
+              </tr>
+              <tr>
+                <td width="27%"><p><a href="programs/scripts/area.ave">area</a></p></td>
+                <td><p>Расчет площади для спроектированных и не спроектированных 
+                    тем</p></td>
+                <td width="7%"><p align="center"><b>1.1</b></p></td>
+              </tr>
+              <tr>
+                <td width="27%"><p><a href="programs/scripts/dmstodd2.ave">dms2dd</a></p></td>
+                <td><p>Перевод таблицы DBF содержащей значения широты 
+                    долготы в формате DDMMSS в формат DD.DDDDD</p></td>
+                <td width="7%"><p align="center"><b>1.1</b></p></td>
+              </tr>
+              <tr>
+                <td width="27%"><p><a href="qa/hotlink2reg.html" >hotlink2region</a></p></td>
+                <td><p>Горячая связь с областью с возможности интерактивно 
+                    задавать эту область</p></td>
+                <td width="7%"><p align="center"><b>1.2</b></p></td>
+              </tr>
+              <tr>
+                <td width="27%"><p>SetWorkingDirectory</p></td>
+                <td><p>Автоматическая установка рабочей папки (<a href="/qa/av-workdir.html">подробнее</a>)</p></td>
+                <td width="7%" valign="middle"><p align="center"><b>1</b></p></td>
+              </tr>
+              <tr>
+                <td><p>Subtract-Polygons</p></td>
+                <td><p>Прорезание пустых мест с превращением их в полигон 
+                  (<a href="/qa/substract-poly.html">подробнее</a>)</p></td>
+                <td valign="middle"><p align="center"><b>1</b></p></td>
+              </tr>
+              <tr>
+                <td width="27%"><p><img src="/images/new.gif" alt="updated" width="27" height="10" />Remove-duplicates-attr</p></td>
+                <td><p>Поиск атрибутивных дубликатов  
+                    (<a href="/qa/remove-duplicates-attr.html">подробнее</a>)</p></td>
+                <td width="7%" valign="middle"><p align="center"><b>1</b></p></td>
+              </tr>
+            </table></td>
+        </tr>
+        <tr>
+          <td class="tr1"><h2><a name="aml" id="aml"></a>Arcinfo Workstation AML</h2></td>
+        </tr>
+        <tr>
+          <td class="tr2"><table width="90%" align="center" >
+              <tr>
+                <td width="27%"><p align="center"><b>Название</b></p></td>
+                <td><p align="center"><b>Описание</b></p></td>
+                <td width="7%"><p align="center"><b>Версия</b></p></td>
+              </tr>
+              <tr>
+                <td width="27%"><p>process-grids</p></td>
+                <td><p>Пакетный импорт/экспорт и обработка данных GRID:<br />
+                  установка NODATA<br />
+                коррекция неправильных значений<br />
+                переименование<br />
+                обрезка и другое (<a href="/qa/importraster-ai.html">подробнее</a>)
+</p></td>
+                <td width="7%"><p align="center"><b>1.0</b></p></td>
+              </tr>
+
+          </table></td>
+        </tr>
+        <tr>
+          <td class="tr1"><h2><a name="envi" id="envi"></a>Подключаемые модули для ENVI</h2></td>
+        </tr>
+        <tr>
+          <td class="tr2"><p><a href="qa/envi-plugin.html"><b>Инструкция по созданию и подключению дополнительных модулей к ENVI</b></a> </p></td>
+        </tr>
+        <tr>
+          <td class="tr2"><table width="90%" align="center" >
+              <tr>
+                <td width="27%"><p align="center"><b>Название</b></p></td>
+                <td><p align="center"><b>Описание</b></p></td>
+                <td width="7%"><p align="center"><b>Версия</b></p></td>
+              </tr>
+              <tr>
+                <td width="27%"><p><a href="programs/idl/l1a2tiff.zip">L1A2TIFF</a></p></td>
+                <td><p>Пакетный (batch) импорт данных ASTER уровня обработки 
+                    L1A в TIFF. Данные должны иметь расширение <b>*.hdf. </b>Импортируются 
+                    только VNIR каналы.</p></td>
+                <td width="7%"><p align="center"><b>1.0</b></p></td>
+              </tr>
+              <tr>
+                <td width="27%"><p><a href="/programs/idl/import-radiocorr-l1a.zip">L1A2TIFF-r</a></p></td>
+                <td><p>Импорт данных ASTER уровня обработки L1A в формат 
+                    TIFF, с проведением радиометрической коррекции. Данные должны 
+                    иметь расширение <b>*.hdf. </b>Импортируются и корректируются 
+                    только VNIR каналы. Обработка по-файловая, не пакетная (<a href="/qa/aster_radiocorr.html">Описание</a>)</p></td>
+                <td width="7%"><p align="center"><b>1.3</b></p></td>
+              </tr>
+            </table>
+			<h2><a name="other" id="other"></a>Другое</h2>
+			<ul>
+              <li>Файл описаний проекций Albers(3) и Гаусса-Крюгера(1-32 
+                зоны) для установки этих проекций в Arcview - <a href="other/default.zip">default.prj</a></li>
+              <li>Файл описаний проекций Albers(3), GK (все зоны), Google и Geographic для установки этих 
+              проекций в ERDAS - <a href="/other/projections-erdas.zip">projections-erdas.zip</a>.  Формат некоторых проекций для ERDAS 9.0 несколько отличается - <a href="/other/projections-erdas9.zip">projections-erdas9.zip</a>. Описание установки содержится внутри файла.</li>
+              <li>Файл описаний проекций Albers для установки этих 
+                проекций в Geographic Transformer - <a href="other/geocalc.zip">geocalc.dat</a></li>
+              <li>Файлы описаний проекций Albers для ArcGIS - <a href="/qa/addprjag.html">прочитать про установку проекций и скачать набор проекций</a>.</li>
+              <li>Файл описаний проекций Albers(3) для ENVI, необходимо добавить к C:\Gis\ITT\IDL71\products\envi47\map_proj\map_proj.txt (<a href="/other/map_proj_addition.txt">скачать</a>).</li>
+			</ul>
+			<!--#include virtual="/scripts/date.php" -->
+<!--Contents end-->
+<!--#include virtual="/inc/footer2.php" -->

@@ -1,0 +1,333 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Создание WMS-сервиса с помощью Mapserver</title>
+<!--#include virtual="/inc/header2.txt" -->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Вопросы и ответы</a></li>
+</ul>
+<!--Contents start-->
+<h1>Создание WMS-сервиса с помощью Mapserver</h1>
+<p class="ann">О том, как из просто веб-карты сделать WMS-сервис.</p>
+<p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=1978"--></span></p>
+<p>Данная статья, помимо перевода <a href="http://mapserver.gis.umn.edu/docs/howto/wms_server" target="_blank" class="external">соответствующего пункта</a> документации к программному пакету Mapserver, также  ставит целью предоставить конкретный, работающий пример, иллюстрирующий создание WMS сервиса с помощью Mapserver и его дальнейшее использование в ПО умеющем работать с такими сервисами, в нашем случае мы иллюстрируем работу с созданным сервисом в <a href="#qgis">QGIS</a>, <a href="#ag">ArcGIS</a> и <a href="#age">ArcGIS Explorer</a>.</p>
+            <p>В статье подразумевается, что вы уже умеете создавать интернет-карты с помощью Mapserver, в обратном случае, рекомендуем сначала ознакомиться с <a href="mapserver-begin.html">описанием для начинающих</a>. Подразумевается, что у читателя уже есть собранный и работающий проект Mapserver. Дальнейшее описание показывает, как из просто интернет-карты сделать сервис отвечающий <a href="http://www.opengeospatial.org/docs/01-068r2.pdf" target="_blank" class="external">спецификации WMS 1.1.1</a>, позволяющий работать с своими данными в клиентском ПО ГИС. Для создания подобного сервиса необходим Mapserver версии 3.5 и выше. </p>
+            <p><strong>Содержание</strong></p>
+            <ol>
+              <li>Теория
+                <ul>
+                  <li><a href="#check">Проверка поддержки WMS в Mapserver</a></li>
+                  <li><a href="#adapt">Адаптация map-файла для поддержки WMS</a></li>
+                  <li><a href="#verify">Проверка WMS</a> </li>
+                </ul>
+              </li>
+              <li>Практика
+                <ul>
+                  <li><a href="#qgis">QGIS</a></li>
+                  <li><a href="#arcgis">ArcGIS</a></li>
+                  <li><a href="#age">ArcGIS Explorer</a></li>
+                </ul>
+              </li>
+            </ol>
+            <h2>Теория</h2>
+            <p>WMS (или Web Map Server - Сервер картографической информации) помимо просто отображения инфромации с помощью браузера, также позволяет пользователю использовать свои данные в ПО ГИС, в пользовательской ГИС таким образом может быть загружены данные из нескольких WMS, дополнительно к ним могут быть добавлены данные самого пользователя. Mapserver поддеживает спецификацию WMS версии 1.1.1, которая поддерживается <a href="ogc-intro.html">Open Geospatial Consortium</a> (OGC). </p>
+            <p><strong><a name="check" id="check"></a>Проверка поддержки WMS в Mapserver</strong></p>
+            <p>Перед тем как начать работу необходимо убедиться в том, что ваша версия Mapserver поддерживает WMS, для этого необходимо выполнить следующую команду в Windows-версии Mapserver:</p>
+            <tcode>C:apachecgi-bin&gt; mapserv -v </tcode>
+            <p>или такую команду в Unix-версии, находясь в директории cgi-bin веб-сервера: </p>
+            <tcode>$ ./mapserv -v </tcode>
+            <p>Если в результате выполнения команд, в описании Mapserver содержится подстрока SUPPORTS=WMS_SERVER, значит WMS поддерживается. Примерное содержание результата выполнения этих команд такое:</p>
+            <tcode>MapServer version 4.6.1 OUTPUT=GIF OUTPUT=PNG OUTPUT=JPEG OUTPUT=WBMP OUTPUT=PDF OUTPUT=SWF OUTPUT=SVG SUPPORTS=PROJ SUPPORTS=FREETYPE SUPPORTS=WMS_SERVER SUPPORTS=WMS_CLIENT SUPPORTS=WFS_SERVER SUPPORTS=WFS_CLIENT SUPPORTS=WCS_SERVER INPUT=JPEG INPUT=POSTGIS INPUT=OGR INPUT=GDAL INPUT=SHAPEFILE DEBUG=MSDEBUG</tcode>
+            <p><strong><a name="adapt" id="adapt"></a>Адаптация map-файла для поддержки WMS</strong></p>
+            <p>Подразумевается, что некая веб-карта  уже создана и работает, например <a href="http://gis-lab.info/cgi-bin/mapserv?map=/usr/local/www/gis-lab/data/programs/mapserver/wmstest/wms.map&amp;layer=states_poly&amp;layer=states_line&amp;mode=browse" target="_blank">такая</a>. Содержимое соответствующего map-файла для этой карты очень простое:</p>
+         <pre>
+MAP
+  IMAGETYPE        PNG
+  EXTENT            -97.238976 41.619778 -82.122902 49.385620
+  SIZE                 400 300
+  SHAPEPATH      "/usr/local/www/website/data/map/"
+  IMAGECOLOR     255 255 255
+
+  WEB
+    TEMPLATE  "template.html"
+    IMAGEPATH "/usr/local/www/website/data/map/tmp/"
+    IMAGEURL  "/tmp/"
+  END
+
+  LAYER
+    NAME         states_poly
+    DATA         states_ugl
+    STATUS       OFF
+    TYPE         POLYGON
+
+    CLASSITEM    "CLASS"
+
+    CLASS
+      NAME 'States'
+      EXPRESSION 'land' # Показываются только полигоны, где "CLASS" = 'land'.
+
+      STYLE
+        COLOR      232 232 232
+      END
+    END
+    CLASS
+      NAME 'Water'
+      EXPRESSION 'water' # Показываются только полигоны, где CLASS" = 'water'.
+      STYLE
+        COLOR      198 198 255
+      END
+    END
+  END
+
+  LAYER
+    NAME        states_line
+    DATA        states_ugl
+    STATUS     OFF
+    TYPE         LINE
+
+    CLASSITEM    "CLASS"
+    CLASS
+      NAME       'State Boundary'
+      EXPRESSION 'land'
+      STYLE
+        COLOR    32 32 32
+      END
+    END
+  END
+
+END</pre>
+            <p>Для адаптации нашей карты как WMS сервиса, потребуются следующие изменения.</p>
+            <p>1.   Необходимо задать тэг NAME для карты:</p>
+                <pre>
+MAP
+  NAME           "WMS"
+  STATUS         ON
+  IMAGETYPE      PNG
+  ...</pre>
+            <p>2. В группе WEB необходимо создать подгруппу METADATA и задать в ней тэги:</p>
+            <ul>
+              <li> wms_title - название WMS сервиса </li>
+              <li>wms_abstract - краткое описание WMS сервиса </li>
+              <li>wms_onlineresource - полная ссылка (URL), которая будет использоваться, чтобы использовать создаваемый WMS в клиентском ПО, ссылка должна оканчиваться на знак <strong>&amp;</strong>; </li>
+              <li>wms_srs - общая система координат проекта (карты), задать описание системы координат можно <a href="mapserver-begin.html#06">разными способами</a>, в данном случае выбрана просто ссылка на географическую систему координат WGS84 по классификатору EPSG; </li>
+            </ul>
+           <pre class="preoverflowx">
+...
+WEB
+    TEMPLATE  "template.html"
+    IMAGEPATH "/usr/local/www/website/data/tmp/"
+    IMAGEURL  "/tmp/"
+	METADATA
+		wms_title "GIS-LAB Demo"
+		wms_abstract "This is the WMS demo from GIS-Lab"
+		wms_onlineresource "http://gis-lab.info/cgi-bin/mapserv?map=/usr/local/www/website/data/map/wms.map&"
+		wms_srs "EPSG:4326"
+	END
+  END
+  ...</pre>
+            <p>Если слои карты имеют систему координат отличную от системы координат карты, то она должна быть обозначена для каждого слоя. В обратном случае считается, что система координат слоя равна системе координат карты в целом. Если систему координат слоя задать все же необходимо, делается это так:</p>
+         <pre>
+LAYER # States line layer begins here
+...
+	METADATA
+		wms_title "Countries 2"
+		wms_abstract "Countries 2 test"
+        wms_srs "EPSG:4326"
+	END
+...</pre>
+            <p>3.  Необходимо задать группу тэгов PROJECTION карты</p>
+            <pre>
+...
+PROJECTION
+   "proj=latlong"
+   "ellps=WGS84"
+   "datum=WGS84"
+END
+...</pre>
+            <p> Точно также как и параметр wms_srs в группе METADATA наследуются и описания проекций слоя и карты в группе PROJECTION. Спецификацией WMS 1.1.1 рекомендуется указывать описание системы координат отдельных слоев, даже если они совпадают друг с другом и с картой целиком. Также как и для самой карты, PROJECTION указывается для каждого слоя и в метаданных слоя. </p>
+<pre>...
+LAYER
+...
+PROJECTION
+   "proj=latlong"
+   "ellps=WGS84"
+   "datum=WGS84"
+END
+...
+	METADATA
+		wms_title		"Countries 2"
+		wms_abstract	"Countries 2 test"
+		wms_srs			"EPSG:4326"
+	END
+...</pre>
+<p>4. Подобно группе WEB, для каждого слоя также надо создать подгруппу METADATA, где указать тэги wms_title и wms_abstract:</p>
+<pre>LAYER
+...
+   METADATA
+      wms_title &quot;Countries 2&quot;
+      wms_abstract &quot;Countries 2 test&quot;
+   END
+...</pre>
+            <p>5. Добавление возможности запросов к слоям карты</p>
+            <p>Для того, чтобы можно было получить информацию о объектах слоев карты, необходимо слелать две модификации. </p>
+            <p>В секцию METADATA самой карты нужно добавить </p>
+            <ul>
+              <li>wms_featureinfoformat - тип возращаемых данных, обычно используется text/plain, можно также использовать text/html и text/gml; </li>
+              <li>wms_getfeatureinfo - полная ссылка (URL) на сервис; </li>
+            </ul>
+            <pre>
+WEB
+...
+	METADATA
+	...
+        wms_onlineresource         "http://gis-lab.info/cgi-bin/mapserv?map=/usr/local/www/website/map/wms.map&"
+        wms_getfeatureinfo         "http://gis-lab.info/cgi-bin/mapserv?map=/usr/local/www/website/map/wms.map&"
+        wms_featureinfoformat      "text/plain"
+	END
+END</pre>
+            <p>Добавить тэг TEMPLATE сразу после описания типа слоя TYPE, а так же тэга wms_include_items, содержащего перечень полей из которых можно брать информацию в METADATA каждого слоя. Значение &quot;all&quot; этого тэга означает, что будут показываться все атрибуты. </p>
+<pre>LAYER
+   ...
+   TYPE         POLYGON
+   TEMPLATE     "dummy"
+   ...
+   METADATA
+		wms_title         "Countries 1"
+		wms_abstract      "Countries 1 test"
+		wms_srs           "EPSG:4326"
+		wms_include_items "all"
+   END
+...</pre>
+            <p>После этого в ПО ГИС можно будет пользоваться инструментами типа identify для просмотра атрибутивной информации по каждому объекту слоя. </p>
+            <p><strong> <a name="verify" id="verify"></a>Проверка WMS</strong></p>
+            <p>Проверим созданный сервис с помощью <a href="http://gis-lab.info/cgi-bin/wmstest?SERVICE=WMS&amp;VERSION=1.1.1&amp;REQUEST=GetCapabilities" target="_blank">специальной команды</a>, ввести которую нужно в адресную строку браузера:</p>
+              <pre class="preoverflowx">http://gis-lab.info/cgi-bin/wmstest?SERVICE=WMS&amp;VERSION=1.1.1&amp;REQUEST=GetCapabilities</pre>
+            <p>Результатом выполнения этой команды является файл в формате XML, представляющий из себя ответ сервера содержащий описание сервиса. Этот файл также содержит полезную информацию в секциях &lt;!--Warning...--&gt;, где описываются ошибки, возникшие при чтении файла map и не соответствующие спецификации WMS 1.1.1.</p>
+            <p>Результирующий map-файл, после адаптации, должен выглядеть следующим образом:</p>
+              <pre class="preoverflowx">
+MAP
+  NAME           "WMS"
+  STATUS         ON
+  IMAGETYPE      PNG
+  EXTENT         -97.238976 41.619778 -82.122902 49.385620
+  SIZE           400 300
+  SHAPEPATH      "/usr/local/www/gis-lab/data/programs/mapserver/wmstest/"
+  UNITS DD
+  IMAGECOLOR     255 255 255
+
+  WEB
+    TEMPLATE  "template.html"
+    IMAGEPATH "/usr/local/www/gis-lab/data/tmp/"
+    IMAGEURL  "/tmp/"
+	METADATA
+		wms_title                  "GIS-LAB Demo"
+		wms_abstract               "This is the WMS demo from GIS-Lab"
+		wms_onlineresource         "http://gis-lab.info/cgi-bin/mapserv?map=/path/to/wmstest/wms.map&"
+		wms_srs                    "EPSG:4326"
+		wms_getfeatureinfo         "http://gis-lab.info/cgi-bin/mapserv?map=/path/to/wmstest/wms.map&"
+		wms_featureinfoformat      "text/plain"
+	END
+  END
+
+  PROJECTION
+   "proj=latlong"
+   "ellps=WGS84"
+   "datum=WGS84"
+  END
+
+  LAYER # States polygon layer begins here
+    NAME         states_poly
+    DATA         states_ugl
+    STATUS       ON
+    TYPE         POLYGON
+	TEMPLATE     "dummy"
+
+    CLASSITEM    "CLASS"
+    PROJECTION
+		"proj=latlong"
+		"ellps=WGS84"
+		"datum=WGS84"
+    END
+    CLASS
+      NAME "States"
+      EXPRESSION "land" # Only polygons where "CLASS" = "land" will be drawn.
+      STYLE
+        COLOR      232 232 232
+      END
+    END
+    CLASS
+      NAME "Water"
+      EXPRESSION "water" # Only polygons where "CLASS" = "water" will be drawn.
+      STYLE
+        COLOR      198 198 255
+      END
+    END
+	METADATA
+		wms_title         "Countries 1"
+		wms_abstract      "Countries 1 test"
+		wms_srs           "EPSG:4326"
+		wms_include_items "all"
+	END
+  END
+
+  LAYER
+    NAME         states_line
+    DATA         states_ugl
+    STATUS       ON
+    TYPE         LINE
+	PROJECTION
+		"proj=latlong"
+		"ellps=WGS84"
+		"datum=WGS84"
+    END
+    CLASSITEM    "CLASS"
+    CLASS
+      NAME       "State Boundary"
+      EXPRESSION "land"
+      STYLE
+        COLOR    32 32 32
+      END
+    END
+	METADATA
+		wms_title    "Countries 2"
+		wms_abstract "Countries 2 test"
+		wms_srs      "EPSG:4326"
+	END
+  END
+
+END</pre>
+            <h2><a name="wms" id="wms"></a>Работа с WMS в ПО ГИС - Практика</h2>
+            <p>Мы иллюстрируем работу с созданным сервисом в QGIS, ArcGIS и ArcGIS Explorer, в большинстве современных ГИС есть средства загрузки и работы с такими слоями.</p>
+            <p><strong><a name="qgis" id="qgis"></a>QGIS</strong></p>
+            <p>WMS-слой в QGIS подключается с помощью Layer\Add WMS layer. В появившемся окне нужно нажать на кнопку New (новый) и ввести параметры нового соединения. При этом URL должен быть равен значению параметра wms_onlineresource, включая знак &quot;&amp;&quot; в конце строки. </p>
+            <p align="center"><img src="/images/mapserver-wms-01.gif" alt="qgis-wms" /> </p>
+            <p>После установки соединения необходимо выбрать и слои для загрузки.</p>
+            <p align="center"><img src="/images/mapserver-wms-02.gif" alt="qgis-wms" width="608" height="532" /></p>
+            <p><strong><a name="ag" id="ag"></a>ArcGIS</strong></p>
+            <p>В ArcGIS загрузка WMS-слоев производится через добавление темы. После чего в выпадающем списке (Look in) нужно выбрать GIS Servers, нажать на WMS Servers и ввести URL WMS.</p>
+            <p align="center"><img src="/images/mapserver-wms-05.gif" alt="arcgis-wms" width="491" height="327" /> </p>
+            <p>После ввода URL нужно нажать на Get Layers и выбрать загружаемые слои. </p>
+            <p align="center"><img src="/images/mapserver-wms-06.gif" alt="arcgis-wms" width="507" height="578" /></p>
+            <p><strong><a name="age" id="age"></a>ArcGIS Explorer</strong></p>
+            <p>Подключение WMS-слоев, как и любых других данных в ArcGIS Explorer осуществляется через меню File\Open..., в котором нужно переключиться на раздел Servers и выбрать кнопку WMS. В появившееся окно нужно ввести адрес WMS-сервиса в интернет.  </p>
+            <p align="center"><img src="/images/mapserver-wms-03.gif" alt="age-wms" width="667" height="585" /> </p>
+            <p>После нажатия на Ok, будет предложено также выбрать некоторые параметры отображения, такие как растровое разрешение, отображаемые слои и зумирование после загрузки на загруженные слои. </p>
+            <p align="center"><img src="/images/mapserver-wms-04.gif" alt="age-wms" width="521" height="430" /></p>
+            <p>Так как WMS выдает данные в растровом формате, на мелких масштабах может быть заметна пикселизация. </p>
+            <p class="discuss">
+				<span><!--#include virtual="/scripts/forum-comments-num.php?i=1978"--></span>
+			</p>
+			<div class="links">
+			<h2>Ссылки по теме</h2>
+			<ul>
+               <li><a href="mapserver-begin.html">Начало работы с MapServer</a></li>
+			   <li><a href="mapserver.html">Создание картографических сервисов с использованием MapServer. Введение</a></li>
+			</ul>
+			</div>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<p class="status"><span>Дата создания: 04.02.2008
+<br>Автор(ы): <a href="/forum/memberlist.php?mode=viewprofile&u=2" target="_blank">Максим Дубинин</a></span></p>
+<!--#include virtual="/inc/footer2.php" -->

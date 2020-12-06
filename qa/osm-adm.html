@@ -1,0 +1,272 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Границы административно-территориального деления из OpenStreetMap</title>
+<!--#include virtual="/inc/header2.txt" -->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+	<li class="first"><a href="/">Главная</a></li>
+	<li><a href="/qa.html">Вопросы и ответы</a></li>
+</ul>
+<!--Contents start-->
+<h1>Границы административно-территориального деления РФ из OpenStreetMap</h1>
+<p class="ann">Данные по АТД РФ в shape-формате из проекта OSM с атрибутикой из классификаторов</p>
+<p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=7102"--></span></p>
+<p><a href="http://earth-info.nga.mil/gns/html/index.html" class="external">OpenStreetMap (OSM)</a> - вики-карта мира, которую может редактировать каждый . Помимо всего прочего, в базе OSM содержатся и границы административно-территориального деления собранные из различных открытых источников (<a href="/qa/rusbounds-rosreestr.html">например</a>). </p>
+<p> Этот проект ставит перед собой цель предоставить слои границ Административно-территориального деления Российской Федерации (АТД) готовые к работе в ГИС. Уникальной особенностью данных является назначение <a href="/qa/okato.html">кодов ОКАТО</a> и ОКТМО единицам АТД. В данных OSM эта атрибутивная информация пока не присутствует. Коды ОКАТО и ОКТМО берутся из официальных классификаторов.</p>
+<p>Обновление слоёв происходит по мере обновления данных OpenStreetMap БД. Периодичность обновления - ежедневно. </p>
+<p>Лицензия данных: <a href="http://creativecommons.org/licenses/by-sa/2.0/legalcode" target="_blank" class="external">CC-BY-SA</a>. Пожалуйста,
+  ознакомьтесь с правилами использования данных на <a href="http://wiki.openstreetmap.org/wiki/Legal_FAQ#I_would_like_to_use_OpenStreetMap_maps._How_should_I_credit_you.3" target="_blank" class="external">сайте OpenStreetMap</a> </p>
+<h2>Получение данных</h2>
+<table width="90%" border="0">
+  <tr>
+    <th>Код</th>
+    <th>Границы</th>
+    <th>Без обрезки по береговым </th>
+    <th>С обрезкой по береговым </th>
+    <th>Объектов </th>
+  </tr>
+
+  <tr><th colspan="5">Последняя версия</th></tr>
+  <tr>
+    <td>2</td>
+    <td>РФ </td>
+    <td><a href="/data/yav/adm/latest/adm2_country_f.7z">adm2_country_f.7z</a></td>
+    <td><a href="/data/yav/adm/latest/adm2_country.7z">adm2_country.7z</a></td>
+    <td><!--#include virtual="/data/yav/cntrs.php?c=adm/latest/adm2_country_f" --></td>
+  </tr>
+  <tr>
+    <td>3</td>
+    <td>Федеральные округа </td>
+    <td><a href="/data/yav/adm/latest/adm3_federal_f.7z">adm3_federal_f.7z</a></td>
+    <td><a href="/data/yav/adm/latest/adm3_federal.7z">adm3_federal.7z</a></td>
+    <td><!--#include virtual="/data/yav/cntrs.php?c=adm/latest/adm3_federal_f" --></td>
+  </tr>
+  <tr>
+    <td>4</td>
+    <td>Субъекты федерации </td>
+    <td><a href="/data/yav/adm/latest/adm4_region_f.7z">adm4_region_f.7z</a></td>
+    <td><a href="/data/yav/adm/latest/adm4_region.7z">adm4_region.7z</a></td>
+    <td><!--#include virtual="/data/yav/cntrs.php?c=adm/latest/adm4_region_f" --></td>
+  </tr>
+  <tr>
+    <td>6</td>
+    <td>Муниципальные районы и городские округа </td>
+    <td><a href="/data/yav/adm/latest/adm6_district_f.7z">adm6_district_f.7z</a></td>
+    <td><a href="/data/yav/adm/latest/adm6_district.7z">adm6_district.7z</a></td>
+    <td><!--#include virtual="/data/yav/cntrs.php?c=adm/latest/adm6_district_f" --></td>
+  </tr>
+  <tr>
+    <td>8</td>
+    <td>внутригородские муниципальные образования Москвы и Санкт-Петербурга. </td>
+    <td><a href="/data/yav/adm/latest/adm8_municipal_f.7z">adm8_municipal_f.7z</a></td>
+    <td><a href="/data/yav/adm/latest/adm8_municipal.7z">adm8_municipal.7z</a></td>
+    <td><!--#include virtual="/data/yav/cntrs.php?c=adm/latest/adm8_municipal_f" --></td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td>все слои одним архивом</td>
+    <td colspan="2"><a href="/data/yav/adm/latest/adm.7z">adm.7z</a></td>
+    <td>&nbsp;</td>
+  </tr>
+
+  <tr><th colspan="5">"Стабильная" версия (с наибольшим количеством объектов)</th></tr>
+  <tr>
+    <td>2</td>
+    <td>РФ </td>
+    <td><a href="/data/yav/adm/stable/adm2_country_f.7z">adm2_country_f.7z</a></td>
+    <td><a href="/data/yav/adm/stable/adm2_country.7z">adm2_country.7z</a></td>
+    <td><!--#include virtual="/data/yav/cntrs.php?c=adm/stable/adm2_country_f" --></td>
+  </tr>
+  <tr>
+    <td>3</td>
+    <td>Федеральные округа </td>
+    <td><a href="/data/yav/adm/stable/adm3_federal_f.7z">adm3_federal_f.7z</a></td>
+    <td><a href="/data/yav/adm/stable/adm3_federal.7z">adm3_federal.7z</a></td>
+    <td><!--#include virtual="/data/yav/cntrs.php?c=adm/stable/adm3_federal_f" --></td>
+  </tr>
+  <tr>
+    <td>4</td>
+    <td>Субъекты федерации </td>
+    <td><a href="/data/yav/adm/stable/adm4_region_f.7z">adm4_region_f.7z</a></td>
+    <td><a href="/data/yav/adm/stable/adm4_region.7z">adm4_region.7z</a></td>
+    <td><!--#include virtual="/data/yav/cntrs.php?c=adm/stable/adm4_region_f" --></td>
+  </tr>
+  <tr>
+    <td>6</td>
+    <td>Муниципальные районы и городские округа </td>
+    <td><a href="/data/yav/adm/stable/adm6_district_f.7z">adm6_district_f.7z</a></td>
+    <td><a href="/data/yav/adm/stable/adm6_district.7z">adm6_district.7z</a></td>
+    <td><!--#include virtual="/data/yav/cntrs.php?c=adm/stable/adm6_district_f" --></td>
+  </tr>
+  <tr>
+    <td>8</td>
+    <td>внутригородские муниципальные образования Москвы и Санкт-Петербурга. </td>
+    <td><a href="/data/yav/adm/stable/adm8_municipal_f.7z">adm8_municipal_f.7z</a></td>
+    <td><a href="/data/yav/adm/stable/adm8_municipal.7z">adm8_municipal.7z</a></td>
+    <td><!--#include virtual="/data/yav/cntrs.php?c=adm/stable/adm8_municipal_f" --></td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td>все слои одним архивом</td>
+    <td colspan="2"><a href="/data/yav/adm/stable/adm.7z">adm.7z</a></td>
+    <td>&nbsp;</td>
+  </tr>
+
+
+</table>
+
+<p>Слои за другие даты можно посмотреть в <a href="/data/yav/adm">папках с соответствующим названием </a>.
+По ссылке на количество объектов доступны графики, показывающее как количество объектов меняется со временем.</p>
+
+<p>Слои также можно использовать через открытую <a href="/qa/openbase.html">базу PostGIS</a>.</p>
+
+<h2>Атрибутивные поля</h2>
+<table width="90%" border="0" align="center">
+  <tr>
+    <td width="20%"><strong>Поле</strong></td>
+    <td width="63%"><strong>Описание поля</strong></td>
+    <td width="17%"><strong>Тип поля</strong></td>
+    </tr>
+  <tr>
+    <td>ID</td>
+    <td>Служебный универсальный идентификатор</td>
+    <td>Числовой</td>
+    </tr>
+  <tr>
+    <td>OSM_ID</td>
+    <td>Универсальный идентификатор единицы АТД в OSM, отрицателен, если полигон собран из отношения. </td>
+    <td>Числовой</td>
+    </tr>
+  <tr>
+    <td>NAME</td>
+    <td>Название единицы АТД </td>
+    <td>Текстовый</td>
+    </tr>
+  <tr>
+    <td>NAME_EN</td>
+    <td>Английское название единицы АТД (тег name:en)</td>
+    <td>Текстовый</td>
+    </tr>
+  <tr>
+    <td>NAME_LAT</td>
+    <td>Транслитерированное по ГОСТ 7.79-2000 название единицы АТД </td>
+    <td>Текстовый</td>
+    </tr>
+  <tr>
+    <td>AREA</td>
+    <td>Площадь, кв.&nbsp;км</td>
+    <td>Числовой</td>
+    </tr>
+  <tr>
+    <td>OKATO</td>
+    <td>Код ОКАТО </td>
+    <td>Текстовый</td>
+    </tr>
+  <tr>
+    <td>OKATO_NAME</td>
+    <td>Название единицы АТД по ОКАТО </td>
+    <td>Текстовый</td>
+    </tr>
+  <tr>
+    <td>OKTMO</td>
+    <td>Код OKTMO </td>
+    <td>Текстовый</td>
+    </tr>
+  <tr>
+    <td>OKTMO_N</td>
+    <td>Название единицы АТД по OKTMO </td>
+    <td>Текстовый</td>
+    </tr>
+  <tr>
+    <td>ADMX_ID</td>
+    <td>Универсальный идентификатор единицы АТД родительского уровня X в OSM</td>
+    <td>Числовой</td>
+  </tr>
+  <tr>
+    <td>ADMX_NAME</td>
+    <td>Название единицы АТД родительского уровня X </td>
+    <td>Текстовый</td>
+  </tr>
+</table>
+
+<h2>Коды ОКТМО и ОКАТО</h2>
+
+<p>В российском сегменте OSM за основу
+административно-территориального деления РФ принята классификация
+по <a href="http://www.gks.ru/metod/classifiers.html">Общероссийскому
+классификатору территорий муниципальных образований (ОКТМО)</a>,
+которая отражает состояние территориального деления после проведения
+муниципальной реформы 2006-го года и
+принятия <a href="http://www.consultant.ru/popular/selfgovernment/">131-ФЗ
+“Об общих принципах организации местного самоуправления в
+РФ”</a>. Подробнее об уровнях административных границ можно
+почитать <a href="http://wiki.openstreetmap.org/wiki/RU:Key:boundary">в
+вики</a>.</p>
+
+<p>На практике параллельно с классификатором ОКТМО так же используется
+классификатор ОКАТО. Поэтому при подготовке этого набора данных мы
+предприняли попытку сопоставить коды существующие коды ОКТМО с кодами
+ОКАТО.</p>
+
+<p>Для каждого муниципального образования (МО) в классификаторе ОКТМО
+приведен список населенных пунктов (НП), находящихся на территории МО,
+и их коды ОКАТО. Таким образом по количеству совпадений НП в МО по
+ОКТМО и соответствующими группами ОКАТО, можно определить каким
+единицам ОКАТО соответствует то или иное МО.</p>
+
+<p>В этом наборе данных сопоставляются: городские округа (ГО) и
+муниципальные районы (МР) с объектами второго уровня классификации
+ОКАТО (районы, города), а так же субъекты РФ по ОКТМО и ОКАТО. Для
+каждого элемента ОКТМО берется единица ОКАТО, с наибольшим количеством
+совпадений НП. Как правило один код ОКТМО соответствует одному коду
+ОКАТО, но в некоторых случаях разные единицы ОКТМО будут иметь
+одинаковый код ОКАТО. Например, и Ногинский МР и ГО Черноголовка
+Московской области по ОКТМО соответсвуют Ногинскому району по
+ОКАТО.</p>
+
+
+<h2>Обрезка по береговой линии</h2>
+<p>Морская часть полигонов АТД обрезается по полигону полученному из береговой линии. 
+В береговой линии из OSM &quot;закрываются&quot; все проливы и устья рек шириной более 1км.
+Обрезочный полигон обновляется нерегулярно, с периодичностью 1 раз в месяц.</p>
+
+<h2>Недостатки</h2>
+<ul>
+  <li>Это не официальные данные (хотя их точность и полнота, неговоря уже о доступности, может превышать сравнимые источники). </li>
+  <li>В базе возможны пропуски, неправильные границы и другие ошибки. Необходимо помнить, что данные берутся из БД, которую может редактировать каждый.</li>
+  </ul>
+<h2>Что делать, если что-то не так </h2>
+<ul>
+  <li>Если в данных не хватает каких-то районов, неверны границы и т.д. - нужно добавить соответствующие данные в <a href="http://osm.org">OSM</a>;</li>
+  <li>Если граница обозначена в OSM, но ее все равно нет в соответствующих слоях:
+    <ul>
+      <li>Если граница обозначена релейшном, то проверьте его замкнутость, например, 
+      <a href="http://ra.osmsurround.org/analyze.jsp" target="_blank" class="external">этим инструментом</a>.</li>
+      <li>Проверьте правильно ли заполнены теги admin_level, name.</li>
+      <li>Проверьте нет ли топологических ошибок в полигоне.</li>
+      <li>Для МР и ГР: проверьте целиком ли они попадают в соответсвующий субъект, т.е. не имеют
+      общих площадей с другими субъектами.</li>
+    </ul>
+  </li>
+  <li>Если в данных неверный код ОКАТО или ОКТМО - сообщите на форуме. </li>
+</ul>
+<p>Внесенные исправления на следующий день появятся в этой базы.</p>
+<p>Разработка сервиса выполнена NextGIS при идейной и материальной поддержке iFort и КОМКОН.</p>
+<div style="text-align:center;margin:10px 0;"><a href="http://nextgis.ru" target="_blank"><img height="33" width="100" alt="Комания NextGIS: Создание открытого ПО ГИС и реализация проектов" src="http://nextgis.ru/img/nextgis.png" style="margin: 0pt 7px 0pt 0pt; vertical-align: middle;"></a><strong style="font: bold 11px Arial;">Создание открытого ПО ГИС и реализация проектов</strong></div>
+<p class="discuss">
+   <span><!--#include virtual="/scripts/forum-comments-num.php?i=7102"-->
+   </span></p>
+<div class="links">
+  <h2>Ссылки по теме</h2>
+  <ul>
+    <li><a href="/qa/openbase.html">Открытые базы геоданных PostGIS</a></li>
+    <li><a href="http://wiki.openstreetmap.org/wiki/RU:Key:boundary" target="_blank" class="external">Административные уровни (admin_level) в Российской Федерации</a></li>
+    <li> <a href="qa/geooo.html">GeOOo: административное деление РФ в OpenOffice</a></li>
+  </ul>
+</div>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<p class="status"><span>Дата создания: 13.02.2011
+<br>Автор(ы): <a href="/forum/memberlist.php?mode=viewprofile&u=2" target="_blank">Максим Дубинин</a>, <a href="/forum/memberlist.php?mode=viewprofile&u=8983" target="_blank">Александр Дежин</a></span></p>
+<!--#include virtual="/inc/footer2.php" -->

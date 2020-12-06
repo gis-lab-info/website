@@ -1,0 +1,371 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Работа с векторными данными при помощи OGR и Python</title>
+<!--#include virtual="/inc/header2.txt" -->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Вопросы и ответы</a></li>
+</ul>
+<!--Contents start-->
+<h1>Работа с векторными данными при помощи OGR и Python</h1>
+<p class="ann">Руководство по использованию OGR Python API, частично основано на &laquo;OGR API tutorial&raquo;</p>
+<p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=5267"--></span></p>
+
+<p>OGR&nbsp;&mdash; свободная библиотека для работы с векторными данными. Утилиты командной строки,
+входящие в состав библиотеки широко используются для выполнения разнообразных задач (<a href="/qa/ogr2ogr-examples.html">примеры</a>).</p>
+<p>Благодаря наличию развитого API можно работать с функциями OGR из многих языков программирования.
+Эта статья описывает работу с OGR API через Python. При написании статьи использовались материалы
+<a href="http://gdal.org/ogr/ogr_apitut.html">OGR API tutorial</a>.</p>
+<p><strong>Оглавление</strong></p>
+<ol>
+	  <li><a href="#01">Подготовка</a></li>
+	  <li><a href="#02">Открытие файла</a></li>
+	  <li><a href="#03">Работа со слоями</a></li>
+	  <li><a href="#04">Получение информации и работа с объектами</a></li>
+	  <li><a href="#05">Сохранение файла</a></li>
+	  <li><a href="#06">Пример. Выборка по условию и расчет площади</a></li>
+</ol>
+
+<h2><strong><a name="01" id="01"></a></strong>1. Подготовка</h2>
+<p>Будем исходить из того, что все программное обеспечение установлено <a href="/qa/qgis-osgeo4w.html">при помощи установщика OSGeo4W</a>.
+Для использования OGR совместно с Python необходимо наличие соответствующих обёрток для этого языка (bindings).
+В стеке программ OSGeo4W нужный пакет называется gdal-python (для GDAL/OGR 1.5.x) или gdal16-python
+(для GDAL/OGR 1.6.x). Рекомендую использовать версию 1.6.x.</p>
+<p>GDAL Python API состоит из пяти основных модулей и пяти дополнительных (существуют для совместимости со
+старыми версиями):</p>
+<ul>
+  <li>gdal&nbsp;&mdash; Python интерфейс к библиотеке GDAL</li>
+  <li>ogr&nbsp;&mdash; Python интерфейс к библиотеке OGR</li>
+  <li>osr&nbsp;&mdash; работа с системами координат</li>
+  <li>gdal_array&nbsp;&mdash; вспомогательные функции</li>
+  <li>gdalconst&nbsp;&mdash; константы</li>
+</ul>
+<p>Подключить их можно командами:</p>
+<pre>
+# основные
+from osgeo import gdal
+from osgeo import ogr
+from osgeo import osr
+from osgeo import gdal_array
+from osgeo import gdalconst
+
+# версии для совместимости. Будут удалены в версии 2.0
+import gdal
+import ogr
+import osr
+import gdalnumeric
+import gdalconst
+</pre>
+<p>Если используется GDAL/OGR версии 1.5 и выше, рекомендуется использовать "основные" модули.
+А для случаев, когда необходимо использовать код написанный ранее можно сделать проверку</p>
+<pre>
+try:
+  from osgeo import ogr
+except ImportError:
+  import ogr
+</pre>
+<p>В большинстве случаев достаточно подключить только модуль ogr.</p>
+
+<h2><strong><a name="02" id="02"></a></strong>2. Открытие файла</h2>
+<p>Для открытия векторного набора данных используем функцию ogr.Open(). В качестве источника данных
+может выступать файл, база данных, каталог с файлами и даже удаленный web-сервис, все зависит от используемого
+драйвера. В качестве аргументов функция ogr.Open() принимает полный путь к набору данных и
+необзятельную константу, описывающую режим открытия. Если константа опущена, то подразумевается режим только для
+чтения. В случае успеха функция вернет объект OGRDataSource, в противном случае&nbsp;&mdash; None</p>
+<pre>
+import osgeo.ogr as ogr
+ogrData = ogr.Open( "/home/alex/test/points.shp", False )
+# или так
+# ogrData = ogr.Open( "/home/alex/test/points.shp" )
+
+# проверяем все ли в порядке
+if ogrData is None:
+  print "ERROR: open failed"
+  sys.exit( 1 )
+</pre>
+
+<h2><strong><a name="03" id="03"></a></strong>3. Работа со слоями</h2>
+<p>Т.к. с одним набором данных может быть ассоциированно множество слоев, необходимо указать рабочий слой.
+Количество слоев можно узнать при помощи метода GetLayerCount() объекта OGRDataSource. А обратиться к слою
+можно как по индексу (из диапазона 0..GetLayerCount() - 1), так и по имени:</p>
+<pre>
+print "Number of layers", ogrData.GetLayerCount()
+
+# обращаемся к слою по индексу
+layer = ogrData.GetLayer( 0 )
+# или
+layer = ogrData[0]
+# или по имени
+layer = ogrData.GetLayerByName( "points" )
+# или
+layer = ogrData["points"]
+</pre>
+<p>В примере опущена проверка полученного значения, но это не значит, что ее не должно быть. В случае
+ошибки (например, при выходе индекса за допустимые границы) переменная layer будет равна None.</p>
+<p>После получения слоя стоит вызвать функцию ResetReading(), чтобы быть уверенными в том, что мы находимся
+в начале слоя. Но если слой был только что открыт, как в нашем примере, то вызов этой функции можно опустить.</p>
+<pre>
+if layer is None:
+  print "ERROR: can't access layer"
+  sys.exit( 1 )
+layer.ResetReading()
+</pre>
+
+<h2><strong><a name="04" id="04"></a></strong>4. Получение информации и работа с объектами</h2>
+<p>Количество объектов в слое можно узнать при помощи GetFeatureCount(), вызов GetSpatialRef() покажет
+информацию о используемой проекции и системе координат. Охват слоя можно получить при помощи GetExtent(),
+а количество полей&nbsp;&mdash; GetFieldCount(). При получении охвата следует помнить, что в зависимости
+от используемого драйвера значение охвата может зависеть или не зависить от наличия пространственного
+фильтра, поэтому перед вызовом GetExtent() рекомендуется деактивировать прострaнственный фильтр.</p>
+<pre>
+print "Feature count", layer.GetFeatureCount()
+print "Layer SRC", layer.GetSpatialRef()
+print "Layer extent", layer.GetExtent()
+print "Field count", layer.GetFieldCount()
+</pre>
+<p>После указания рабочего слоя можно приступать к чтению объектов. Для доступа к объектам удобно использовать
+цикл и функцию GetNextFeature(), которая ввозвращает следующий объект набора или None если достигнут конец набора.
+Перед получением объектов можно задать пространственный фильтр или фильтр по атрибутам используя
+SetSpatialFilter()/SetSpatialFilterRect() и SetAttributeFilter() соответственно.</p>
+<p></p>
+<pre>
+feat = layer.GetNextFeature()
+while feat is not None:
+  # обрабатываем объект
+</pre>
+<p>Для получения списка полей объекта и их значений используется вот такая конструкция:</p>
+<pre>
+feat = layer.GetNextFeature()
+featDef = layer.GetLayerDefn() # схема (таблица атрибутов) слоя
+while feat is not None:
+  for i in range( featDef.GetFieldCount() ): # проходим по всем полям
+    fieldDef = featDef.GetFieldDefn( i ) # получаем i-тое поле
+    print "Field name", fieldDef.GetNameRef() # и выводим информацию
+    print "Field type", fieldDef.GetType()
+    print "Field value", feat.GetFieldAsString(i)
+  feat = layer.GetNextFeature() # переходим к следующему объекту
+</pre>
+<p>Поля могут иметь разный тип, для каждого типа данных есть соответсвующая функция доступа. Например,
+для типа OFTInteger&nbsp;&mdash; GetFieldAsInteger(), для OFTDateTime&nbsp;&mdash; GetFieldAsDateTime() и т.д.
+Кроме того, адекватное представление значения любого поля можно получить при помощи GetFieldAsString().</p>
+<p>GetGeometryRef() вернет геометрию объекта:</p>
+<pre>
+geom = feat.GetGeometryRef()
+if geom is None:
+  print "Invalid geometry"
+if geom.GetGeometryType() == ogr.wkbPoint:
+  print "%.3f, %.3f" % ( geom.GetX(), geom.GetY() )
+else:
+  print "Non point geometry"
+</pre>
+<p>Используя OGR полученную геометрию можно экспортировать в различные форматы при помощи функций ExportToGML(),
+ExportToJson(), ExportToKML(), ExportToWkb(), ExportToWkt() а также выполнять различные действия над ней:
+ConvexHull(), Buffer(), Difference()...</p>
+<p>После окончания работы нужно освободить ресурсы и закрыть набор данных</p>
+<pre>ogrData.Destroy()</pre>
+
+<h2><strong><a name="05" id="05"></a></strong>5. Сохранение файла</h2>
+<p>Сохранение данных рассмотрим на примере записи в шейп-файл. Прежде всего, надо указать какой драйвер
+использовать для записи</p>
+<pre>
+driverName = "ESRI Shapefile"
+drv = ogr.GetDriverByName( driverName )
+if drv is None:
+    print "%s driver not available.\n" % driverName
+</pre>
+<p>Если драйвер инициализирован успешно, переходим к созданию набора данных. Драйвер шейп-файлов позволяет
+создать как отдельный шейп-файл, так и каталог в котором будет находиться один или несколько файлов. Если
+надо создать один файл, обязательно указываем имя файла с расширением. При необходимости, вторым параметром
+передаются "тонкие" настройки драйвера в виде списка "имя=значение"</p>
+<pre>
+ogrData = drv.CreateDataSource( "/home/alex/point_out.shp" )
+if ogrData is None:
+    print "Creation of output file failed.\n"
+    sys.exit( 1 )
+</pre>
+<p>Далее создаем новый слой. Обязательно нужно указать имя слоя и тип геометрии, система координат
+указываeтся по необходимости</p>
+<pre>
+layer = ogrData.CreateLayer( "point_out", None, ogr.wkbPoint )
+if layer is None:
+    print "Layer creation failed."
+    sys.exit( 1 )
+</pre>
+<p>Слой создан, добавим атрибуты описыващие объекты слоя. Добавлять поля (атрибуты) надо до того как буду вставляться
+объекты. Для каждого поля нужно создать объект OGRField и задать необходимые параметры (имя, тип, точность):</p>
+<pre>
+fieldDef = ogr.FieldDefn( "FileName", ogr.OFTString ) # имя поля и его тип
+fieldDef.SetWidth( 32 ) # длина поля
+
+if layer.CreateField ( fieldDef ) != 0:
+    print "Creating field failed.\n"
+    sys.exit( 1 )
+
+# для чисел с плавающей точкой можно задать не только длину,
+# но и точность
+fieldDef = ogr.FieldDefn( "Area", ogr.OFTReal ) # имя поля и его тип
+fieldDef.SetWidth( 18 ) # длина поля
+fieldDef.SetPrecision( 6 ) # точность
+
+if layer.CreateField ( fieldDef ) != 0:
+    print "Creating field failed.\n"
+    sys.exit( 1 )
+</pre>
+<p>Чтобы записать объект, надо создать OGRFeature, установить атрибуты и присоединить геометрию. Объект
+OGRFeature должен быть связан со слоем:</p>
+<pre>
+name = "/home/alex/test.tif" # значение атрибута
+feat = ogr.Feature( layer.GetLayerDefn() ) # создаем OGRFeature
+feat.SetField( "FileName", name ) # устанавливаем атрибут
+
+pt = ogr.Geometry( ogr.wkbPoint ) # создаем точку
+pt.SetPoint_2D( 0, x, y )
+feat.SetGeometry( pt ) # присоединяем геометрию к OGRFeature
+</pre>
+<p>И наконец, записываем все в файл</p>
+<pre>
+if layer.CreateFeature( feat ) != 0:
+  print "Failed to create feature in shapefile.\n"
+  sys.exit( 1 )
+
+# освобождаем память
+feat.Destroy()
+ogrData.Destroy()
+</pre>
+
+<h2><strong><a name="06" id="06"></a></strong>6. Пример. Выборка по условию и расчет площади</h2>
+<p>Вооружившись этими сведениями попробуем написать простенький скрипт на Python для выборки из объектов
+полигонального шейпа по атрибуту, записи этих объектов в другой файл и вычисления площади полигонов.
+Скрипт принимает четыре параметра: исходный шейп, путь для сохранения результата, имя и значение атрибута
+по которому будет выполняться фильтрация.</p>
+<pre>
+# -*- coding: utf-8 -*-
+
+#!/usr/bin/env python
+
+import sys, os.path
+import osgeo.ogr as ogr
+
+def usage():
+  print "Usage: query_shape.py input_shapefile output_shapefile query_field match_value"
+  sys.exit( 0 )
+
+if __name__ == '__main__':
+  args = sys.argv[ 1: ]
+
+  if len( args ) != 4:
+    usage()
+
+  inPath = os.path.normpath( args[ 0 ] )
+  outPath = os.path.normpath( args[ 1 ] )
+  fieldName = args[ 2 ]
+  fieldValue = args[ 3 ]
+
+  # открываем исходный набор данных
+  inputData = ogr.Open( inPath, False )
+  if inputData is None:
+    print "ERROR: open failed"
+    sys.exit( 1 )
+
+  # в шейп-файле есть только один слой,
+  # делаем его рабочим и переходим на первую запись
+  inputLayer = inputData.GetLayer( 0 )
+  inputLayer.ResetReading()
+
+  # устанавливаем фильтр по атрибутам
+  # (для простоты берем равенство)
+  query = fieldName + '=' + fieldValue
+  inputLayer.SetAttributeFilter( query )
+
+  # подготавливаем все для записи результата
+  # выбираем драйвер
+  driverName = "ESRI Shapefile"
+  drv = ogr.GetDriverByName( driverName )
+  if drv is None:
+    print "%s driver not available." % driverName
+    sys.exit( 1 )
+
+  # создаем выходной набор данных
+  outputData = drv.CreateDataSource( outPath )
+  if outputData is None:
+    print "Creation of output file failed."
+    sys.exit( 1 )
+
+  # и выходной слой
+  layerName = os.path.basename( outPath ).strip( ".shp" )
+  outputLayer = outputData.CreateLayer( layerName, None, ogr.wkbPolygon )
+  if outputLayer is None:
+    print "Layer creation failed."
+    sys.exit( 1 )
+
+  # начинаем просматривать объекты в исходном слое
+  inFeat = inputLayer.GetNextFeature()
+
+  # и сразу же формируем таблицу атрибутов результирущего слоя
+  inFeatDef = inputLayer.GetLayerDefn()
+  # делаем копию всех полей
+  for i in range( inFeatDef.GetFieldCount() ):
+    fieldDef = inFeatDef.GetFieldDefn( i )
+    if outputLayer.CreateField ( fieldDef ) != 0:
+      print "Can't create field %s" % fieldDef.GetNameRef()
+      sys.exit( 1 )
+  # добавлем поле для площади
+  fieldDef = ogr.FieldDefn( "area", ogr.OFTReal )
+  fieldDef.SetWidth( 12 )
+  fieldDef.SetPrecision( 4 )
+  if outputLayer.CreateField ( fieldDef ) != 0:
+    print "Can't create field %s" % fieldDef.GetNameRef()
+    sys.exit( 1 )
+
+  # собственно цикл в котором и перебираем объекты, удовлетворяющие
+  # условию фильтра
+  inFeatDef = inputLayer.GetLayerDefn()
+  while inFeat is not None:
+    outFeat = ogr.Feature( outputLayer.GetLayerDefn() )
+    # копируем атрибуты и геометрию исходного объекта
+    res = outFeat.SetFrom( inFeat )
+    if res != 0:
+      print "Can't copy feature"
+      sys.exit( 1 )
+    # находим площадь полигона
+    geom = inFeat.GetGeometryRef()
+    area = geom.GetArea()
+    # заполняем поле с геометрией
+    outFeat.SetField( "area", area )
+
+    # записываем новый объект в выходной слой
+    if outputLayer.CreateFeature( outFeat ) != 0:
+      print "Failed to create feature in shapefile.\n"
+      sys.exit( 1 )
+
+    # убираем мусор и переходим к следующему объекту
+    outFeat.Destroy()
+    inFeat = inputLayer.GetNextFeature()
+
+  # все объекты обработаны, закрываем наборы данных
+  inputData.Destroy()
+  outputData.Destroy()
+</pre>
+<p>Возьмем в качестве исходного слоя шейп-файл veg.shp из
+<a href="http://gis-lab.info/qa/geosample.html">геосэмпла</a> и попробуем
+с помощью этого скрипта получить новый файл с объектами у которых поле SUBTYPE_L равно 2.
+Строка запуска скрипта будет такой (перед запуском не забудьте выполнить gdal16):</p>
+<pre>python query_shape.py shape/veg.shp out.shp SUBTYPE_L 2<!-- обсуждение на форуме, цифра изменяется при публикации статьи -->
+</pre>
+
+<p class="discuss"><span><!--#include virtual="/scripts/forum-comments-num.php?i=5267"--></span></p>
+<!-- ссылки -->
+<div class="links">
+	<h2>Ссылки по теме</h2>
+		<ul>
+			<li><a href="/qa/gdal-python.html">Работа с растрами при помощи GDAL и Python</a></li>
+			<li><a href="http://gdal.org/ogr/ogr_apitut.html" target="_blank" class="external">OGR API tutorial</a></li>
+			<li><a href="http://gdal.org/ogr/ogr_arch.html" target="_blank" class="external">OGR Architecture</a></li>
+			<li><a href="http://trac.osgeo.org/gdal/wiki/GdalOgrInPython" target="_blank" class="external">GDAL/OGR in Python</a></li>
+		</ul>
+</div>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<!--#include virtual="/inc/footer2.php" -->

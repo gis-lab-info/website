@@ -1,0 +1,434 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Данные по тепловым аномалиям MOD14A1: описание и получение</title>
+<!--#include virtual="/inc/header2.txt" -->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Статьи</a></li>
+</ul>
+<!--Contents start-->
+<h1>Данные по тепловым аномалиям MOD14A1: описание и получение</h1>
+<p class="ann">Описание продукта и получение данных </p>
+<p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=7443"--></span></p>
+
+<h2>Общая информация </h2>
+<p>Продукты MODIS группы Тепловые аномалии/Пожары (Thermal Anomalies/Fire) - MOD14 дают информацию об очагах пожаров, т.е. о локациях горящих в данный конкретный момент (Рис. 1). Принцип детектирования пожаров основан на их сильном излучении в среднем инфракрасном диапазоне. </p>
+<p class="ill">
+<img src="/images/blog/2010-08-16-fire-01.gif" alt="Пример сгоревшей территории " width="355" height="266">
+<span>Рис. 1. Пример сгоревшей территории (черная область) и очагов MOD14A1 (красные залитые полигоны) </span></p>
+<p>Эта серия продуктов производятся на основе данных получаемых в диапазонах 4 микрометра (<a href="../projects/ss/sensor/modis.html">каналы MODIS</a> номер 21 и 22) и 11 микрометров (канал MODIS номер 31) с разрешением 1 км. Для отделения облачности используется вспомогательный диапазон. Стратегия определения пожара основана на абсолютном детектировании пожара (если его сила достаточна для детектирования) и на детектировании относительно фоновых значений (для учета изменчивости температуры поверхности и отражения солнечного света). Для определения ложных срабатываний, таких как солнечные блики или незамаскированные участки береговой линии, а также для маскирования облаков применяются дополнительные каналы 1 и 2 (250 метровые огрубленные до 1 км разрешения, диапазоны 0.65 и 0.68 микрометров), также 500 метровый 7 канал (диапазон 2.1 микрометра) и  канал MODIS номер 32 (разрешение 1 км, диапазон 12 микрометров). Подробнее с алгоритмом детектирования и описанием порогов можно ознакомиться в статье Justice et al., 2002 (см. ниже). </p>
+<p>Terra MODIS получает данные дважды в день (10:30 и 22:30), также как и Aqua MODIS (14:30 PM и 2:30). Эти четыре ежедневных наблюдения камерой MODIS помогают осуществлять глобальный мониторинг процессов горения и помогают изучать влияние пожаров на экосистемы, атмосферу и климат.</p>
+<p>Эти продукты MODIS имеют опосредованное отношение к территории пройденной огнем и, хотя число и площадь пожаров часто коррелируют, определить пройденные огнем территории только по MOD14 невозможно. </p>
+<p>Эта статья дает краткое описание продуктов MOD14 и предоставляет прямой доступ к данным на территорию РФ в форматах HDF, GeoTIFF и shape, произведенных по методике описанной в <a href="mod14a1-import.html">отдельной статье</a>. </p>
+<h2>Продукты пожарной группы </h2>
+<p>Учитывая, что спутника два, доступны следующие продукты (пожарные продукты для климатического моделирования имеющие значительно меньшее разрешение здесь не рассматриваются):</p>
+<p>MOD14: MODIS/Terra Thermal Anomalies/Fire 5-Min L2 Swath 1km V005<br>
+  MOD14A2: MODIS/Terra Thermal Anomalies/Fire Daily L3 Global 1km SIN Grid V005 <br>
+  MOD14A1: MODIS/Terra Thermal Anomalies/Fire 8-Day L3 Global 1km SIN Grid V005</p>
+<p>MYD14: MODIS/Aqua Thermal Anomalies/Fire 5-Min L2 Swath 1km V005<br>
+  MYD14A2: MODIS/Aqua Thermal Anomalies/Fire Daily L3 Global 1km SIN Grid V005 <br>
+  MYD14A1: MODIS/Aqua Thermal Anomalies/Fire 8-Day L3 Global 1km SIN Grid V005</p>
+<h3><span align="left"></span>MOD14</h3>
+<p>Основным продуктом из этой группы являются продукты второго уровня обработки M[O,Y]D14 (<a href="https://lpdaac.usgs.gov/lpdaac/products/modis_products_table/thermal_anomalies_fire/5_min_l2_swath_1km/mod14" target="_blank" class="external">англ</a>).  Продукт содержит: </p>
+<ul>
+  <li>Маску очагов  пожаров и сопутствующие классы (например облачность);</li>
+  <li>Матрицы контроля качества (QA) включающую 19 бит контрольной информации о каждом пикселе;</li>
+  <li>Таблицу сопутствующей информации включающую 19 параметров о радиометрической природе очага и параметров генерируемых алгоритмом по каждому пикселю;</li>
+  <li>обязательные метаданные и метаданные о данном продукте;</li>
+</ul>
+<h3>MOD14A1</h3>
+<p><span align="left">Продукт M[O,Y]D14A1 (<a href="https://lpdaac.usgs.gov/lpdaac/products/modis_products_table/thermal_anomalies_fire/daily_l3_global_1km/mod14a1" target="_blank" class="external">англ</a>) является продуктом третьего уровня и выпускается каждые 8 дней на основе M[O,Y]D14. Его особенность заключается в том, что у него есть три измерения: маска пожаров (1D), максимальная сила излучения пожара (maximum fire-radiative-power) (2D) и они предоставляются каждый день (3D) 8-дневного интервала. Таким образом, маска пожаров содержит восемь последовательных (дневных) изображений. </span>Каждая ячейка объединяет пиксели с очагами детектированными в течение 24 часов.</p>
+<h3>MOD14A2</h3>
+<p>Продукт M[O,Y]D14A2 (<a href="https://lpdaac.usgs.gov/lpdaac/products/modis_products_table/thermal_anomalies_fire/8_day_l3_global_1km/mod14a2" target="_blank" class="external">англ</a>) является значительно упрощенной версией M[O,Y]D14A1. Данные в каждой ячейке объединенны за 8-дневный период. </p>
+<h3><span align="left"> </span><span align="left">Характеристика данных</span></h3>
+<table border="1">
+  <tr>
+    <td>&nbsp;</td>
+    <td>M[O,Y]D14</td>
+    <td>M[O,Y]D14A1</td>
+    <td>M[O,Y]D14A2</td>
+    </tr>
+  <tr>
+    <td><span align="left">Площадь</span></td>
+    <td><span id="Abstract" align="left">~2330 x 1300 км </span></td>
+    <td><span align="left">10 x 10 гр </span></td>
+    <td><span align="left">10 x 10 гр </span></td>
+    </tr>
+  <tr>
+    <td><span align="left">Размер матрицы, рядов/колонок </span></td>
+    <td><span id="Abstract" align="left">2030 x 1354</span></td>
+    <td><span align="left">1200 x 1200</span></td>
+    <td><span align="left">1200 x 1200</span></td>
+    </tr>
+  <tr>
+    <td><span align="left">Размер файла на диске</span></td>
+    <td>~0.4 Мб</td>
+    <td><span align="left">~0.5 Мб</span></td>
+    <td><span align="left">~0.04 Мб</span></td>
+    </tr>
+  <tr>
+    <td><span align="left">Разрешение</span></td>
+    <td><span align="left">1 км </span></td>
+    <td><span align="left">1 км </span></td>
+    <td><span align="left">1 км </span></td>
+    </tr>
+  <tr>
+    <td><span align="left">Проекция</span></td>
+    <td>нет (Swath) </td>
+    <td>Синусоидальная</td>
+    <td>Синусоидальная</td>
+    </tr>
+  <tr>
+    <td><span align="left">Тип данных</span></td>
+    <td>8 бит, без знака</td>
+    <td>8 бит, без знака </td>
+    <td>8 бит, без знака </td>
+    </tr>
+  <tr>
+    <td><span align="left">Формат данных</span></td>
+    <td><span align="left">HDF-EOS </span></td>
+    <td><span align="left">HDF-EOS </span></td>
+    <td><span align="left">HDF-EOS </span></td>
+    </tr>
+  <tr>
+    <td><span align="left">Слоёв SDS HDF</span></td>
+    <td>23</td>
+    <td>4</td>
+    <td>2</td>
+    </tr>
+  <tr>
+    <td>Уровень</td>
+    <td>2</td>
+    <td>3</td>
+    <td>3</td>
+    </tr>
+</table>
+<p><span align="left">  Версия 5 продуктов группы MOD14 прошла валидацию, что означает, что была произведена систематическая оценка ошибок продуктов в диапазоне представительных условий. Хотя это не отменяет появление новых версий, эта версия данных готова к использованию в научных публикациях.</span></p>
+<table>
+  <tr>
+    <td> 0 </td>
+    <td>отсутствует исходная информация </td>
+    <td> missing input data </td>
+  </tr>
+  <tr>
+    <td> 1</td>
+    <td>не обрабатывалось (устарело) </td>
+    <td> not processed (obsolete) </td>
+  </tr>
+  <tr>
+    <td> 2 </td>
+    <td>не обрабатывалось (устарело)</td>
+    <td> not processed (obsolete) </td>
+  </tr>
+  <tr>
+    <td> 3</td>
+    <td>вода</td>
+    <td> water </td>
+  </tr>
+  <tr>
+    <td> 4</td>
+    <td>облако</td>
+    <td> cloud </td>
+  </tr>
+  <tr>
+    <td> 5</td>
+    <td>не пожар </td>
+    <td> non-fire </td>
+  </tr>
+  <tr>
+    <td> 6</td>
+    <td>неизвестно</td>
+    <td> unknown </td>
+  </tr>
+  <tr>
+    <td> 7</td>
+    <td>пожар (низкая достоверность) </td>
+    <td> fire (low confidence) </td>
+  </tr>
+  <tr>
+    <td> 8 </td>
+    <td>пожар (номинальная достоверность) </td>
+    <td> fire (nominal confidence) </td>
+  </tr>
+  <tr>
+    <td> 9</td>
+    <td>пожар (высокая достоверность) </td>
+    <td> fire (high confidence) </td>
+  </tr>
+</table>
+<h2>Получение данных</h2>
+<p>Данные доступны бесплатно. Получить данные можно через систему WIST <SPAN LANG="ru-RU">(Warehouse Inventory </SPAN>Search<SPAN LANG="ru-RU"> </SPAN>Tool). Подробное описание работы с системой можно <a href="wist.html">прочитать здесь</a>. </p>
+<p>Данные без прохождение процедуры регистрации, заказа и ожидания также можно на GIS-Lab. На данный момент доступны для скачивания только данные MOD14A1 (<a href="http://gis-lab.info/data/mod14a1">http</a>) и MYD14A1 (<a href="http://gis-lab.info/data/myd14a1">http</a>). Покрытие доступных данных доступных через наш FTP приведено на иллюстрации ниже. </p>
+<p>&nbsp;</p>
+<p class="ill">
+    <img src="/images/mod14-01.gif" alt="Покрытие тайлов MOD14A1 доступных для скачивания через GIS-Lab" width="750" height="201" border="0">
+    <span>Покрытие тайлов MOD14A1 доступных для скачивания через GIS-Lab (синусоидальная проекция) </span></p>
+<p>Для получения данных необходимо определить фрагмент или фрагменты (так же можно использовать разграфку, которую в разных форматах можно скачать <a href="modis-tiles.html">здесь</a>) и по ссылкам перейти к скачиванию исходных данных (часть за 180 меридианом горит мало и пока для скачивания недоступна):</p>
+<table border="1">
+  <tr>
+    <td>v\h</td>
+    <td>10</td>
+    <td>11</td>
+    <td>12</td>
+    <td class="gray">&nbsp;</td>
+    <td>19</td>
+    <td>20</td>
+    <td>21</td>
+    <td>22</td>
+    <td>23</td>
+    <td>24</td>
+    <td>25</td>
+    <td>26</td>
+    <td>27</td>
+    <td>28</td>
+  </tr>
+  <tr>
+    <td>01</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>MOD<br>
+      MYD</td>
+    <td class="gray">&nbsp;</td>
+    <td><a href="/data/mod14a1/h19v01.7z">MOD</a><br>
+      <a href="/data/myd14a1/h19v01.7z">MYD</a></td>
+    <td><a href="/data/mod14a1/h20v01.7z">MOD</a><br>
+      <a href="/data/myd14a1/h20v01.7z">MYD</a></td>
+    <td><a href="/data/mod14a1/h21v01.7z">MOD</a><br>
+      <a href="/data/myd14a1/h21v01.7z">MYD</a></td>
+    <td><a href="/data/mod14a1/h22v01.7z">MOD</a><br>
+      <a href="/data/myd14a1/h22v01.7z">MYD</a></td>
+    <td><a href="/data/mod14a1/h23v01.7z">MOD</a><br>
+      <a href="/data/myd14a1/h23v01.7z">MYD</a></td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>02</td>
+    <td>MOD<br>
+      MYD</td>
+    <td>MOD<br>
+      MYD</td>
+    <td>&nbsp;</td>
+    <td class="gray">&nbsp;</td>
+    <td><a href="/data/mod14a1/h19v02.7z">MOD</a><br>
+      <a href="/data/myd14a1/h19v02.7z">MYD</a></td>
+    <td><a href="/data/mod14a1/h20v02.7z">MOD</a><br>
+      <a href="/data/myd14a1/h20v02.7z">MYD</a></td>
+    <td><a href="/data/mod14a1/h21v02.7z">MOD</a><br>
+      <a href="/data/myd14a1/h21v02.7z">MYD</a></td>
+    <td><a href="/data/mod14a1/h22v02.7z">MOD</a><br>
+      <a href="/data/myd14a1/h22v02.7z">MYD</a></td>
+    <td><a href="/data/mod14a1/h23v02.7z">MOD</a><br>
+      <a href="/data/myd14a1/h23v02.7z">MYD</a></td>
+    <td><a href="/data/mod14a1/h24v02.7z">MOD</a><br>
+      <a href="/data/myd14a1/h24v02.7z">MYD</a></td>
+    <td><a href="/data/mod14a1/h25v02.7z">MOD</a><br>
+      <a href="/data/myd14a1/h25v02.7z">MYD</a></td>
+    <td><a href="/data/mod14a1/h26v02.7z">MOD</a><br>
+      <a href="/data/myd14a1/h26v02.7z">MYD</a></td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>03</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td class="gray">&nbsp;</td>
+    <td><a href="/data/mod14a1/h19v03.7z">MOD</a><br>
+      <a href="/data/myd14a1/h19v03.7z">MYD</a></td>
+    <td><a href="/data/mod14a1/h20v03.7z">MOD</a><br>
+      <a href="/data/myd14a1/h20v03.7z">MYD</a></td>
+    <td><a href="/data/mod14a1/h21v03.7z">MOD</a><br>
+      <a href="/data/myd14a1/h21v03.7z">MYD</a></td>
+    <td><a href="/data/mod14a1/h22v03.7z">MOD</a><br>
+      <a href="/data/myd14a1/h22v03.7z">MYD</a></td>
+    <td><a href="/data/mod14a1/h23v04.7z">MOD</a><br>
+      <a href="/data/myd14a1/h23v04.7z">MYD</a></td>
+    <td><a href="/data/mod14a1/h24v03.7z">MOD</a><br>
+      <a href="/data/myd14a1/h24v03.7z">MYD</a></td>
+    <td><a href="/data/mod14a1/h25v03.7z">MOD</a><br>
+      <a href="/data/myd14a1/h25v03.7z">MYD</a></td>
+    <td><a href="/data/mod14a1/h26v03.7z">MOD</a><br>
+      <a href="/data/myd14a1/h26v03.7z">MYD</a></td>
+    <td><a href="/data/mod14a1/h27v03.7z">MOD</a><br>
+      <a href="/data/myd14a1/h27v03.7z">MYD</a></td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>04</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td class="gray">&nbsp;</td>
+    <td>&nbsp;</td>
+    <td><a href="/data/mod14a1/h20v04.7z">MOD</a><br>
+      <a href="/data/myd14a1/h20v04.7z">MYD</a></td>
+    <td><a href="/data/mod14a1/h21v04.7z">MOD</a><br>
+      <a href="/data/myd14a1/h21v04.7z">MYD</a></td>
+    <td><a href="/data/mod14a1/h22v04.7z">MOD</a><br>
+      <a href="/data/myd14a1/h22v04.7z">MYD</a></td>
+    <td><a href="/data/mod14a1/h23v04.7z">MOD</a><br>
+      <a href="/data/myd14a1/h23v04.7z">MYD</a></td>
+    <td><a href="/data/mod14a1/h24v04.7z">MOD</a><br>
+      <a href="/data/myd14a1/h24v04.7z">MYD</a></td>
+    <td><a href="/data/mod14a1/h25v04.7z">MOD</a><br>
+      <a href="/data/myd14a1/h25v04.7z">MYD</a></td>
+    <td><a href="/data/mod14a1/h26v04.7z">MOD</a><br>
+      <a href="/data/myd14a1/h26v04.7z">MYD</a></td>
+    <td><a href="/data/mod14a1/h27v04.7z">MOD</a><br>
+      <a href="/data/myd14a1/h27v04.7z">MYD</a></td>
+    <td><a href="/data/mod14a1/h28v04.7z">MOD</a><br>
+      <a href="/data/myd14a1/h28v04.7z">MYD</a></td>
+  </tr>
+</table>
+<p>Shape-файлы (в каждом архиве находятся данные в синусоидальной проекции и lat/long WGS84):</p>
+<table border="1">
+  <tr>
+    <td>v\h</td>
+    <td>10</td>
+    <td>11</td>
+    <td>12</td>
+    <td class="gray">&nbsp;</td>
+    <td>19</td>
+    <td>20</td>
+    <td>21</td>
+    <td>22</td>
+    <td>23</td>
+    <td>24</td>
+    <td>25</td>
+    <td>26</td>
+    <td>27</td>
+    <td>28</td>
+  </tr>
+  <tr>
+    <td>01</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>MOD<br>
+      MYD</td>
+    <td class="gray">&nbsp;</td>
+    <td><a href="/data/mod14a1/h19v01_shp.7z">MOD</a><br>
+      <a href="/data/myd14a1/h19v01_shp.7z">MYD</a></td>
+    <td><a href="/data/mod14a1/h20v01_shp.7z">MOD</a><br>
+      <a href="/data/myd14a1/h20v01_shp.7z">MYD</a></td>
+    <td><a href="/data/mod14a1/h21v01_shp.7z">MOD</a><br>
+      <a href="/data/myd14a1/h21v01_shp.7z">MYD</a></td>
+    <td><a href="/data/mod14a1/h22v01_shp.7z">MOD</a><br>
+      <a href="/data/myd14a1/h22v01_shp.7z">MYD</a></td>
+    <td><a href="/data/mod14a1/h23v01_shp.7z">MOD</a><br>
+      <a href="/data/myd14a1/h23v01_shp.7z">MYD</a></td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>02</td>
+    <td>MOD<br>
+      MYD</td>
+    <td>MOD<br>
+      MYD</td>
+    <td>&nbsp;</td>
+    <td class="gray">&nbsp;</td>
+    <td><a href="/data/mod14a1/h19v02_shp.7z">MOD</a><br>
+      <a href="/data/myd14a1/h19v02_shp.7z">MYD</a></td>
+    <td><a href="/data/mod14a1/h20v02_shp.7z">MOD</a><br>
+      <a href="/data/myd14a1/h20v02_shp.7z">MYD</a></td>
+    <td><a href="/data/mod14a1/h21v02_shp.7z">MOD</a><br>
+      <a href="/data/myd14a1/h21v02_shp.7z">MYD</a></td>
+    <td><a href="/data/mod14a1/h22v02_shp.7z">MOD</a><br>
+      <a href="/data/myd14a1/h22v02_shp.7z">MYD</a></td>
+    <td><a href="/data/mod14a1/h23v02_shp.7z">MOD</a><br>
+      <a href="/data/myd14a1/h23v02_shp.7z">MYD</a></td>
+    <td><a href="/data/mod14a1/h24v02_shp.7z">MOD</a><br>
+      <a href="/data/myd14a1/h24v02_shp.7z">MYD</a></td>
+    <td><a href="/data/mod14a1/h25v02_shp.7z">MOD</a><br>
+      <a href="/data/myd14a1/h25v02_shp.7z">MYD</a></td>
+    <td><a href="/data/mod14a1/h26v02_shp.7z">MOD</a><br>
+      <a href="/data/myd14a1/h26v02_shp.7z">MYD</a></td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>03</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td class="gray">&nbsp;</td>
+    <td><a href="/data/mod14a1/h19v03_shp.7z">MOD</a><br>
+      <a href="/data/myd14a1/h19v03_shp.7z">MYD</a></td>
+    <td><a href="/data/mod14a1/h20v03_shp.7z">MOD</a><br>
+      <a href="/data/myd14a1/h20v03_shp.7z">MYD</a></td>
+    <td><a href="/data/mod14a1/h21v03_shp.7z">MOD</a><br>
+      <a href="/data/myd14a1/h21v03_shp.7z">MYD</a></td>
+    <td><a href="/data/mod14a1/h22v03_shp.7z">MOD</a><br>
+      <a href="/data/myd14a1/h22v03_shp.7z">MYD</a></td>
+    <td><a href="/data/mod14a1/h23v04_shp.7z">MOD</a><br>
+      <a href="/data/myd14a1/h23v04_shp.7z">MYD</a></td>
+    <td><a href="/data/mod14a1/h24v03_shp.7z">MOD</a><br>
+      <a href="/data/myd14a1/h24v03_shp.7z">MYD</a></td>
+    <td><a href="/data/mod14a1/h25v03_shp.7z">MOD</a><br>
+      <a href="/data/myd14a1/h25v03_shp.7z">MYD</a></td>
+    <td><a href="/data/mod14a1/h26v03_shp.7z">MOD</a><br>
+      <a href="/data/myd14a1/h26v03_shp.7z">MYD</a></td>
+    <td><a href="/data/mod14a1/h27v03_shp.7z">MOD</a><br>
+      <a href="/data/myd14a1/h27v03_shp.7z">MYD</a></td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>04</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td class="gray">&nbsp;</td>
+    <td>&nbsp;</td>
+    <td><a href="/data/mod14a1/h20v04_shp.7z">MOD</a><br>
+      <a href="/data/myd14a1/h20v04_shp.7z">MYD</a></td>
+    <td><a href="/data/mod14a1/h21v04_shp.7z">MOD</a><br>
+      <a href="/data/myd14a1/h21v04_shp.7z">MYD</a></td>
+    <td><a href="/data/mod14a1/h22v04_shp.7z">MOD</a><br>
+      <a href="/data/myd14a1/h22v04_shp.7z">MYD</a></td>
+    <td><a href="/data/mod14a1/h23v04_shp.7z">MOD</a><br>
+      <a href="/data/myd14a1/h23v04_shp.7z">MYD</a></td>
+    <td><a href="/data/mod14a1/h24v04_shp.7z">MOD</a><br>
+      <a href="/data/myd14a1/h24v04_shp.7z">MYD</a></td>
+    <td><a href="/data/mod14a1/h25v04_shp.7z">MOD</a><br>
+      <a href="/data/myd14a1/h25v04_shp.7z">MYD</a></td>
+    <td><a href="/data/mod14a1/h26v04_shp.7z">MOD</a><br>
+      <a href="/data/myd14a1/h26v04_shp.7z">MYD</a></td>
+    <td><a href="/data/mod14a1/h27v04_shp.7z">MOD</a><br>
+      <a href="/data/myd14a1/h27v04_shp.7z">MYD</a></td>
+    <td><a href="/data/mod14a1/h28v04_shp.7z">MOD</a><br>
+      <a href="/data/myd14a1/h28v04_shp.7z">MYD</a></td>
+  </tr>
+</table>
+<p>Скачать <a href="/data/mod14a1-myd14a1/mod14a1-myd14a1.7z">все данные</a> одним архивом. </p>
+<h2>
+  <!-- обсуждение на форуме, цифра изменяется при публикации статьи -->Основная литература по продуктам</h2>
+<p>Giglio, L. (2010). MODIS Collection 5 Active Fire Product User's Guide Version 2.4. 18 February 2010. (<a href="/docs/mod14_users_guide_2.4.pdf">скачать</a>) </p>
+<p>Justice, C. O., L. Giglio, et al. (2006). Algorithm Technical Background Document. MODIS fire products. Version 2.3, 1 October 2006 (<a href="/docs/atbd_mod14.pdf">скачать</a>).<br>
+    <br>
+  Justice, C. O., L. Giglio, et al. (2002). &quot;The MODIS fire products.&quot; Remote Sensing of Environment 83(1-2): 244-262 (<a href="/docs/justice02_the_modis_fire_products.pdf">скачать</a>) </p>
+<p class="discuss"><span><!--#include virtual="/scripts/forum-comments-num.php?i=7443"--></span></p>
+<!-- ссылки -->
+<div class="links">
+	<h2>Ссылки по теме</h2>
+		<ul>
+			<li><a href="/qa/mod14a1-import.html">Импорт данных MOD14A1 в shape-формат </a></li>
+			<li><a href="firms.html">Мониторинг пожаров на природных территориях с помощью сервиса FIRMS</a></li>
+			<li><a href="mcd45.html">Данные о сгоревших площадях MCD45: описание и получение</a></li>
+		</ul>
+</div>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<p class="status"><span>Дата создания: 11.03.2011
+<br>
+Автор(ы): <a href="/forum/memberlist.php?mode=viewprofile&u=2" target="_blank">Максим Дубинин</a></span></p>
+<!--#include virtual="/inc/footer2.php" -->

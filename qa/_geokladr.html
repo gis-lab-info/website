@@ -1,0 +1,507 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Русскоязычная база данных по названиям населенных пунктов</title>
+<!--#include virtual="/inc/header2.txt" -->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Вопросы и ответы</a></li>
+</ul>
+<!--Contents start-->
+<h1>Русскоязычная база данных по названиям населенных пунктов на основе KLADR и GNS </h1>
+<p class="ann">Описание набора данных и сами данные для скачивания </p>
+            <p>Это страница результатов <a href="/projects/vmap0-trans/populated-coord.html">коллективного проекта</a> по переводу названий населенных пунктов на основе данных VMap0. </p>
+            <h2>О проекте </h2>
+            <p>Цель проекта: создание полностью открытой расширенной базы данных по населенным пунктам.</p>
+            <p>Принцип реализации проекта:</p>
+            <ol>
+              <li> Использование только открытых источников. Данные не копируются с других карт и баз данных использующих закрытые источники (например geonames), википедии, в той части где указаны другие источники-карты, готовые подобные слои других, как правило коммерческих, организаций и т.п. (<a href="/projects/vmap0-trans/faq.html">подробнее</a>) </li>
+            </ol>
+            <p>Основные этапы проекта:</p>
+            <ol>
+              <li>Автоматическая транслитерация с латиницы на русский язык </li>
+              <li>Автоматическое сравнение результата транслитерации с проверочной БД (КЛАДР), если полного совпадения нет, индикация и предложение ближайших похожих. </li>
+              <li>Ручная доводка результатов по блокам, проверка и исправление с использованием проверочных БД</li>
+              <li>Добавление полей из БД КЛАДР и дополнительных полей. </li>
+              </ol>
+            <h2>Авторы перевода </h2>
+            <a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=6700">Игорь Глушков</a>, <a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=2">Максим Дубинин</a>, <a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=7451">Александра Егорова</a>, <a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=31">Анна Костикова</a>, <a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=7776">Евгений Никулин</a>, <a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=3">Игорь Поспелов</a> (координация), <a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=6901">Денис Рыков</a>, 
+            <a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=7706">Максим
+Филобок</a>, <a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=7246">Артём Попов</a> (artfwo)
+<h2>Исходные и проверочные данные</h2>
+            <p>В качестве исходных используются два слоя VMap0 на территорию РФ:</p>
+            <ul>
+              <li>pop-build-a,  6783 пунктов </li>
+              <li>pop-miscellaneous-population-p,  4695 пунктов</li>
+            </ul>
+            <p>Базы shape-файлов находятся в кодировке Windows-1251.</p>
+            <p>Для проверки информации использовалась <a href="http://www.gnivc.ru/downloads/kladr.aspx" target="_blank" class="external">база КЛАДР</a>и <a href="/qa/cadaster-results.html">материалы</a> кадастровой оценки земель населенных пунктов. </p>
+            <p>Подробнее с процессом создания базы можно ознакомиться на <a href="/projects/vmap0-trans/populated-coord.html">координационной странице</a> и списке <a href="/projects/vmap0-trans/faq.html">ЧаВо</a>. </p>
+            <h2>Участие</h2>
+            <p>Если вы можете исправить или указать на ошибку в результатах проекта, пожалуйста, выберите один из регионов из результатов и сообщите о предлагаемых исправлениях или пришлите  сами исправления. Не забудьте включить идентификатор объекта из поля NewID. </p>
+            <h2>Результаты</h2>
+            <table width="95%" border="0" align="center">
+              <tr>
+                <td><strong>Регион</strong></td>
+                <td><strong>Дата</strong></td>
+                <td><strong>Данные</strong></td>
+                </tr>
+              <tr>
+                <td>Все</td>
+                <td>21.07.2009</td>
+                <td><a href="/data/vmap0-settl-rus/population-gislab.7z">скачать</a></td>
+                </tr>
+              <tr>
+                <td width="34%">Адыгея</td>
+                <td width="12%">28.06.2009</td>
+                <td width="12%"><a href="/data/vmap0-settl-rus/adygeya.7z">скачать</a></td>
+                </tr>
+              <tr>
+                <td>Алтай</td>
+                <td>28.06.2009</td>
+                <td><a href="/data/vmap0-settl-rus/altay.7z">скачать</a></td>
+                </tr>
+              <tr>
+                <td>Алтайский</td>
+                <td>28.06.2009</td>
+                <td><a href="/data/vmap0-settl-rus/altayskiy.7z">скачать</a></td>
+                </tr>
+              <tr>
+                <td>Амурская</td>
+                <td>28.06.2009</td>
+                <td><a href="/data/vmap0-settl-rus/amur.7z">скачать</a></td>
+                </tr>
+              <tr>
+                <td>Архангельская</td>
+                <td>28.06.2009</td>
+                <td><a href="/data/vmap0-settl-rus/arkhan.7z">скачать</a></td>
+                </tr>
+              <tr>
+                <td>Астраханская</td>
+                <td>28.06.2009</td>
+                <td><a href="/data/vmap0-settl-rus/astrakhan.7z">скачать</a></td>
+                </tr>
+              <tr>
+                <td>Башкортостан</td>
+                <td>28.06.2009</td>
+                <td><a href="/data/vmap0-settl-rus/bashkir.7z">скачать</a></td>
+                </tr>
+              <tr>
+                <td>Белгородская</td>
+                <td>28.06.2009</td>
+                <td><a href="/data/vmap0-settl-rus/belgorod.7z">скачать</a></td>
+                </tr>
+              <tr>
+                <td>Брянская</td>
+                <td>28.06.2009</td>
+                <td><a href="/data/vmap0-settl-rus/bryansk.7z">скачать</a></td>
+                </tr>
+              <tr>
+                <td>Бурятия</td>
+                <td>28.06.2009</td>
+                <td><a href="/data/vmap0-settl-rus/buryat.7z">скачать</a></td>
+                </tr>
+              <tr>
+                <td>Владимирская</td>
+                <td>28.06.2009</td>
+                <td><a href="/data/vmap0-settl-rus/vladimir.7z">скачать</a></td>
+                </tr>
+              <tr>
+                <td>Волгоградская</td>
+                <td>28.06.2009</td>
+                <td><a href="/data/vmap0-settl-rus/volgograd.7z">скачать</a></td>
+                </tr>
+              <tr>
+                <td>Вологодская</td>
+                <td>28.06.2009</td>
+                <td><a href="/data/vmap0-settl-rus/vologda.7z">скачать</a></td>
+                </tr>
+              <tr>
+                <td>Воронежская</td>
+                <td>28.06.2009</td>
+                <td><a href="/data/vmap0-settl-rus/voronezh.7z">скачать</a></td>
+                </tr>
+              <tr>
+                <td>Дагестан</td>
+                <td>28.06.2009</td>
+                <td><a href="/data/vmap0-settl-rus/dagestan.7z">скачать</a></td>
+                </tr>
+              <tr>
+                <td>Еврейская</td>
+                <td>28.06.2009</td>
+                <td><a href="/data/vmap0-settl-rus/evrey.7z">скачать</a></td>
+                </tr>
+              <tr>
+                <td>Забайкальский</td>
+                <td>28.06.2009</td>
+                <td><a href="/data/vmap0-settl-rus/aginsk.7z">скачать</a><a href="/data/vmap0-settl-rus/chita.7z"><br>
+                  скачать</a></td>
+                </tr>
+              <tr>
+                <td>Ивановская</td>
+                <td>28.06.2009</td>
+                <td><a href="/data/vmap0-settl-rus/ivanov.7z">скачать</a></td>
+                </tr>
+              <tr>
+                <td>Ингушетия</td>
+                <td>28.06.2009</td>
+                <td><a href="/data/vmap0-settl-rus/ingush.7z">скачать</a></td>
+                </tr>
+              <tr>
+                <td>Иркутская</td>
+                <td>28.06.2009</td>
+                <td><a href="/data/vmap0-settl-rus/irkutsk.7z">скачать</a><br>
+				<a href="/data/vmap0-settl-rus/ustordyn.7z">скачать</a></td>
+                </tr>
+              <tr>
+                <td>Кабардино-Балкарская</td>
+                <td>28.06.2009</td>
+                <td><a href="/data/vmap0-settl-rus/kabardin.7z">скачать</a></td>
+                </tr>
+              <tr>
+                <td>Калининградская</td>
+                <td>28.06.2009</td>
+                <td><a href="/data/vmap0-settl-rus/kalinin.7z">скачать</a></td>
+                </tr>
+              <tr>
+                <td>Калмыкия</td>
+                <td width="12%">21.07.2009</td>
+                <td><a href="/data/vmap0-settl-rus/kalmyk.7z">скачать</a></td>
+                </tr>
+              <tr>
+                <td>Калужская</td>
+                <td>28.06.2009</td>
+                <td><a href="/data/vmap0-settl-rus/kaluzh.7z">скачать</a></td>
+                </tr>
+              <tr>
+                <td>Камчатский</td>
+                <td>28.06.2009</td>
+                <td><a href="/data/vmap0-settl-rus/kamch.7z">скачать</a></td>
+                </tr>
+              <tr>
+                <td>Карачаево-Черкесская</td>
+                <td>28.06.2009</td>
+                <td><a href="/data/vmap0-settl-rus/karach.7z">скачать</a></td>
+                </tr>
+              <tr>
+                <td>Карелия</td>
+                <td>28.06.2009</td>
+                <td><a href="/data/vmap0-settl-rus/karel.7z">скачать</a></td>
+                </tr>
+              <tr>
+                <td>Кемеровская</td>
+                <td>28.06.2009</td>
+                <td><a href="/data/vmap0-settl-rus/kemerovo.7z">скачать</a></td>
+                </tr>
+              <tr>
+                <td>Кировская</td>
+                <td>28.06.2009</td>
+                <td><a href="/data/vmap0-settl-rus/kirov.7z">скачать</a></td>
+                </tr>
+              <tr>
+                <td>Коми</td>
+                <td>28.06.2009</td>
+                <td><a href="/data/vmap0-settl-rus/komi.7z">скачать</a></td>
+                </tr>
+              <tr>
+                <td>Костромская</td>
+                <td>28.06.2009</td>
+                <td><a href="/data/vmap0-settl-rus/kostrom.7z">скачать</a></td>
+                </tr>
+              <tr>
+                <td>Краснодарский</td>
+                <td>28.06.2009</td>
+                <td><a href="/data/vmap0-settl-rus/krasnodar.7z">скачать</a></td>
+                </tr>
+              <tr>
+                <td>Красноярский</td>
+                <td>28.06.2009</td>
+                <td><a href="/data/vmap0-settl-rus/krasnoyarsk.7z">скачать</a></td>
+                </tr>
+              <tr>
+                <td>Курганская</td>
+                <td>28.06.2009</td>
+                <td><a href="/data/vmap0-settl-rus/kurgan.7z">скачать</a></td>
+                </tr>
+              <tr>
+                <td>Курская</td>
+                <td>28.06.2009</td>
+                <td><a href="/data/vmap0-settl-rus/kursk.7z">скачать</a></td>
+                </tr>
+              <tr>
+                <td>Ленинградская</td>
+                <td>28.06.2009</td>
+                <td><a href="/data/vmap0-settl-rus/leningrad.7z">скачать</a></td>
+                </tr>
+              <tr>
+                <td>Липецкая</td>
+                <td>28.06.2009</td>
+                <td><a href="/data/vmap0-settl-rus/lipetsk.7z">скачать</a></td>
+                </tr>
+              <tr>
+                <td>Магаданская</td>
+                <td>28.06.2009</td>
+                <td><a href="/data/vmap0-settl-rus/magadan.7z">скачать</a></td>
+                </tr>
+              <tr>
+                <td>Марий-Эл</td>
+                <td>28.06.2009</td>
+                <td><a href="/data/vmap0-settl-rus/mariyel.7z">скачать</a></td>
+                </tr>
+              <tr>
+                <td>Москва</td>
+                <td>28.06.2009</td>
+                <td><a href="/data/vmap0-settl-rus/moscow.7z">скачать</a></td>
+                </tr>
+              <tr>
+                <td>Московская</td>
+                <td>28.06.2009</td>
+                <td><a href="/data/vmap0-settl-rus/mosobl.7z">скачать</a></td>
+                </tr>
+              <tr>
+                <td>Мордовия</td>
+                <td>28.06.2009</td>
+                <td><a href="/data/vmap0-settl-rus/mordov.7z">скачать</a></td>
+                </tr>
+              <tr>
+                <td>Мурманская</td>
+                <td>28.06.2009</td>
+                <td><a href="/data/vmap0-settl-rus/murmansk.7z">скачать</a></td>
+                </tr>
+              <tr>
+                <td>Ненецкий</td>
+                <td>28.06.2009</td>
+                <td><a href="/data/vmap0-settl-rus/nenec.7z">скачать</a></td>
+                </tr>
+              <tr>
+                <td>Нижегородская</td>
+                <td width="12%">28.06.2009</td>
+                <td><a href="/data/vmap0-settl-rus/nizhegorod.7z">скачать</a></td>
+                </tr>
+              <tr>
+                <td>Новгородская</td>
+                <td>28.06.2009</td>
+                <td><a href="/data/vmap0-settl-rus/novgorod.7z">скачать</a></td>
+                </tr>
+              <tr>
+                <td>Новосибирская</td>
+                <td>28.06.2009</td>
+                <td><a href="/data/vmap0-settl-rus/novosib.7z">скачать</a></td>
+                </tr>
+              <tr>
+                <td>Омская</td>
+                <td>28.06.2009</td>
+                <td><a href="/data/vmap0-settl-rus/omsk.7z">скачать</a></td>
+                </tr>
+              <tr>
+                <td>Оренбургская</td>
+                <td>28.06.2009</td>
+                <td><a href="/data/vmap0-settl-rus/orenburg.7z">скачать</a></td>
+                </tr>
+              <tr>
+                <td>Орловская</td>
+                <td>28.06.2009</td>
+                <td><a href="/data/vmap0-settl-rus/orlovsk.7z">скачать</a></td>
+                </tr>
+              <tr>
+                <td>Пензенская</td>
+                <td>28.06.2009</td>
+                <td><a href="/data/vmap0-settl-rus/penz.7z">скачать</a></td>
+                </tr>
+              <tr>
+                <td>Пермский</td>
+                <td>28.06.2009</td>
+                <td><a href="/data/vmap0-settl-rus/perm.7z">скачать</a></td>
+                </tr>
+              <tr>
+                <td>Приморский</td>
+                <td>28.06.2009</td>
+                <td><a href="/data/vmap0-settl-rus/prim.7z">скачать</a></td>
+                </tr>
+              <tr>
+                <td>Псковская</td>
+                <td>28.06.2009</td>
+                <td><a href="/data/vmap0-settl-rus/pskov.7z">скачать</a></td>
+                </tr>
+              <tr>
+                <td>Ростовская</td>
+                <td>28.06.2009</td>
+                <td><a href="/data/vmap0-settl-rus/rostov.7z">ссылка</a></td>
+                </tr>
+              <tr>
+                <td>Рязанская</td>
+                <td>28.06.2009</td>
+                <td><a href="/data/vmap0-settl-rus/ryazan.7z">скачать</a></td>
+                </tr>
+              <tr>
+                <td>Самарская</td>
+                <td>28.06.2009</td>
+                <td><a href="/data/vmap0-settl-rus/samar.7z">скачать</a></td>
+                </tr>
+              <tr>
+                <td>Санкт-Петербург</td>
+                <td>28.06.2009</td>
+                <td><a href="/data/vmap0-settl-rus/sanktpet.7z">скачать</a></td>
+                </tr>
+              <tr>
+                <td>Саратовская</td>
+                <td>28.06.2009</td>
+                <td><a href="/data/vmap0-settl-rus/saratov.7z">скачать</a></td>
+                </tr>
+              <tr>
+                <td>Саха (Якутия)</td>
+                <td>28.06.2009</td>
+                <td><a href="/data/vmap0-settl-rus/yakut.7z">скачать</a></td>
+                </tr>
+              <tr>
+                <td>Сахалинская</td>
+                <td>28.06.2009</td>
+                <td><a href="/data/vmap0-settl-rus/sakhalin.7z">скачать</a></td>
+                </tr>
+              <tr>
+                <td>Свердловская</td>
+                <td>28.06.2009</td>
+                <td><a href="/data/vmap0-settl-rus/sverdl.7z">скачать</a></td>
+                </tr>
+              <tr>
+                <td>Северная Осетия - Алания </td>
+                <td>28.06.2009</td>
+                <td><a href="/data/vmap0-settl-rus/osetiya.7z">скачать</a></td>
+                </tr>
+              <tr>
+                <td>Смоленская</td>
+                <td>28.06.2009</td>
+                <td><a href="/data/vmap0-settl-rus/smol.7z">скачать</a></td>
+                </tr>
+              <tr>
+                <td>Ставропольский</td>
+                <td>28.06.2009</td>
+                <td><a href="/data/vmap0-settl-rus/stavrop.7z">скачать</a></td>
+                </tr>
+              <tr>
+                <td>Тамбовская</td>
+                <td>28.06.2009</td>
+                <td><a href="/data/vmap0-settl-rus/tambov.7z">скачать</a></td>
+                </tr>
+              <tr>
+                <td>Тверская</td>
+                <td>28.06.2009</td>
+                <td><a href="/data/vmap0-settl-rus/tver.7z">скачать</a></td>
+                </tr>
+              <tr>
+                <td>Татарстан</td>
+                <td>28.06.2009</td>
+                <td><a href="/data/vmap0-settl-rus/tatar.7z">скачать</a></td>
+                </tr>
+              <tr>
+                <td>Томская</td>
+                <td>28.06.2009</td>
+                <td><a href="/data/vmap0-settl-rus/tomsk.7z">скачать</a></td>
+                </tr>
+              <tr>
+                <td>Тульская</td>
+                <td>28.06.2009</td>
+                <td><a href="/data/vmap0-settl-rus/tul.7z">скачать</a></td>
+                </tr>
+              <tr>
+                <td>Тыва (Тува) </td>
+                <td>28.06.2009</td>
+                <td><a href="/data/vmap0-settl-rus/tyva.7z">скачать</a></td>
+                </tr>
+              <tr>
+                <td>Тюменская</td>
+                <td>28.06.2009</td>
+                <td><a href="/data/vmap0-settl-rus/tumen.7z">скачать</a></td>
+                </tr>
+              <tr>
+                <td>Удмуртская</td>
+                <td>28.06.2009</td>
+                <td><a href="/data/vmap0-settl-rus/udmurt.7z">скачать</a></td>
+                </tr>
+              <tr>
+                <td>Ульяновская</td>
+                <td>28.06.2009</td>
+                <td><a href="/data/vmap0-settl-rus/ulyan.7z">скачать</a></td>
+                </tr>
+              <tr>
+                <td>Хабаровский</td>
+                <td>28.06.2009</td>
+                <td><a href="/data/vmap0-settl-rus/khabar.7z">скачать</a></td>
+                </tr>
+              <tr>
+                <td>Хакасия </td>
+                <td>28.06.2009</td>
+                <td><a href="/data/vmap0-settl-rus/khakas.7z">скачать</a></td>
+                </tr>
+              <tr>
+                <td>Ханты-Мансийский</td>
+                <td>28.06.2009</td>
+                <td><a href="/data/vmap0-settl-rus/khanty.7z">скачать</a></td>
+                </tr>
+              <tr>
+                <td>Челябинская</td>
+                <td>28.06.2009</td>
+                <td><a href="/data/vmap0-settl-rus/chel.7z">скачать</a></td>
+                </tr>
+              <tr>
+                <td>Чеченская</td>
+                <td>28.06.2009</td>
+                <td><a href="/data/vmap0-settl-rus/chechen.7z">скачать</a></td>
+                </tr>
+              <tr>
+                <td>Чувашская </td>
+                <td>28.06.2009</td>
+                <td><a href="/data/vmap0-settl-rus/chuvash.7z">скачать</a></td>
+                </tr>
+              <tr>
+                <td>Чукотский</td>
+                <td>28.06.2009</td>
+                <td><a href="/data/vmap0-settl-rus/chukot.7z">скачать</a></td>
+                </tr>
+              <tr>
+                <td>Ямало-Ненецкий</td>
+                <td>28.06.2009</td>
+                <td><a href="/data/vmap0-settl-rus/yamal.7z">скачать</a></td>
+                </tr>
+              <tr>
+                <td>Ярославская</td>
+                <td>28.06.2009</td>
+                <td><a href="/data/vmap0-settl-rus/yarosl.7z">скачать</a></td>
+                </tr>
+            </table>
+            <h2>Структура данных </h2>
+            <p>Атрибутивная информация содержит следующие поля (через косую черту - название поля в точечном слое): </p>
+            <p><strong>Оригинальные поля из VMap0:</strong></p>
+            <ul>
+              <li><strong>Nam/Txt2</strong> – оригинальное англоязычное название пункта из VMap0.</li>
+              </ul>
+            <p><strong>Поля из КЛАДР:</strong></p>
+            <ul>
+              <li><strong>Subject, Rayon</strong> – субъект и административный район субъекта РФ. Берется из БД КЛАДР после точной идентификации объекта.  Частично заполнено для уникальных названий со 100% совпадением с уникальным названием в БД КЛАДР.</li>
+              <li>                  <strong>Тype</strong> – тип населенного пункта. Берется из БД КЛАДР после точной идентификации объекта.</li>
+              <li><strong>Name</strong> - название НП по КЛАДР</li>
+              <li><strong>Code</strong> - код КЛАДР</li>
+              <li><strong>Index</strong> - почтовый индекс</li>
+              <li><strong>Ocatd</strong> - код ОКАТО <br>
+                <strong></strong></li>
+            </ul>
+            <p><strong>Поля добавленные в процессе работы: </strong></p>
+            <ul>
+              <li><strong>Comment</strong> – комментарии, если достоверно известно, что населенный пункт на данный момент не существует, пункт не найден в КЛАДР (НК), неверный район (НР), неверное название в источнике (НТ), другая дополнительная информация.</li>
+              <li>                    <strong>Source</strong> - источник проверочной информации на базе которой было принято решение о названии.</li>
+              <li>                      <strong>Result</strong> - результирующее рускоязычное название НП (регистр - верхний).</li>
+              <li><strong>Lat, Long</strong> - координаты точки или центра полигона, широта/долгота в СК WGS84 </li>
+            </ul>
+            <span>
+              <!--#include virtual="/scripts/forum-comments-num.php?i=3370"-->
+            </span>
+            <div class="links">
+				<h2>Ссылки по теме</h2>
+					<ul>
+						<li><a href="../projects/vmap0-trans/faq.html">Часто задаваемые вопросы по проекту</a> </li>
+				      </ul>
+			</div>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<!--#include virtual="/inc/footer2.php" -->

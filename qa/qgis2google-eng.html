@@ -1,0 +1,71 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Transfer vector features from QGIS to Google Earth</title>
+<!--#include virtual="/inc/header2-eng.txt" -->
+<!--Contents start-->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/index-eng.html">Home</a></li>
+   <li><a href="/qa-eng.html">Articles</a></li>
+</ul>
+<h1>Transfer vector features from QGIS to Google Earth</h1>
+<p class="ann">Instrument description and ways to get it. </p>
+<ol>
+  <li><a href="#01">Introduction</a></li>
+  <li><a href="#02">Installation and source code</a></li>
+  <li><a href="#03">Demo</a></li>
+  </ol>
+<!-- Первый раздел -->
+<h2><strong><a name="01" id="01"></a>1. Introduction </strong></h2>
+<p>This extensions allow running Google Earth and transfer vector objects from QGIS map canvas. Layers opened in GE are stored in temporary folder and removed after QGIS is  closed. Layer symbology can be imported from QGIS layers or set up separately. If attribute table contains populated NAME field, its value is also imported. This tool works only with vector layers.</p>
+<p>This extension is tested and working under Windows, QGIS 1.5 and Google Earth 5 and above. </p>
+<p>Native data CRS should be Geographic (lat/long), WGS 84 (EPSG: 4326),  data can also be in other geographic CRS, but will be treated as 4326. The CRS of the map canvas is not important, if you want you can set the projection to anything you'd like, only native CRS will matter. If after transfering, Google Earth zooms in to the area around 0,0, you need to check native CRS of your data, most probably it is not Geographic, but projected.</p>
+<h3>&quot;Send feature &quot; tool </h3>
+<p><img src="../images/qgis2google-04.png" alt="qgis 2 google maps" width="48" height="48"></p>
+<p>This instrument is used to click on the feature of the active layer. The feature being clicked is converted in KML and transfered in GE.  </p>
+<h3>&quot;Send layer &quot; tool </h3>
+<p><img src="../images/qgis2google-05.png" alt="qgis 2 google earth" width="48" height="48"> </p>
+<p>This instrument transfers the whole active layer. Single symbol or unique value symbology can be imported as well as layer transparency. </p>
+<h3>Settings</h3>
+<p><img src="../images/qgis2google-06.png" alt="qgis 2 google earth" width="48" height="47"></p>
+<p>Configures alternative symbology used if &quot;Override layer's current style settings&quot; is switched on.</p>
+<p align="center"><img src="../images/qgis2google-07.gif" alt="qgis 2 google earth" width="272" height="432"></p>
+<h2><strong><a name="02" id="02"></a></strong>2. Installation and source code</h2>
+<p>To use the tool under  Windows:</p>
+<ol>
+  <li> Download <a href="http://svn.gis-lab.info/qgis2google2/qgis2googleplugin.dll">qgis2google</a> </li>
+  <li>Copy it to  QGIS\Plugins, if you installed QGIS with OSGeo4w, use : C:\Gis\OSGeo4W\apps\qgis\plugins</li>
+  <li>Turn the plugin on using Plugin Manager (<em>Plugins/Plugin manager </em>) </li>
+</ol>
+<p align="center"><img src="/images/qgis2google-06.gif" alt="georef interface" width="559" height="404"></p>
+<p>Source code (C++) is available through SVN.</p>
+<pre>svn checkout http://svn.gis-lab.info/qgis2google2 qgis2google2</pre>
+<p>To compile in Linux: </p>
+<p>1. Check out plugin's source in QGis plugins directory qgis/src/plugins:</p>
+<pre>cd qgis/src/plugins
+svn checkout http://svn.gis-lab.info/qgis2google2 qgis2google2</pre>
+<p>  2. Add name of new plugin's directory in CMakeLists.txt in plugins folder:</p>
+<pre>cd qgis/src/plugins
+nano CMakeLists.txt
+SUBDIRS (qgis2google2)</pre>
+<p>  3. Build QGis as usual:</p>
+<pre>cd qgis/build
+ccmake ..
+make && make install</pre>
+<h2><strong><a name="03" id="03"></a></strong>3. Demo </h2>
+<p>You can also check out the <a href="/images/qgis2google-09.swf">demo</a> (warning: 100 Mb file).</p>
+<p>Sample export of Ecoregions layer from <a href="/qa/geosample.html">Geosample</a>.</p>
+<p align="center"><img src="/images/qgis2google-08.gif" alt="georef interface" width="700" height="470"></p>
+<p class="discuss">
+		   <span><!--#include virtual="/scripts/forum-comments-num-eng.php?i=2615"--></span>
+		</p>
+            <div class="links">
+				<h2>See also </h2>
+					<ul>
+						<li><a href="open-in-google.html">Открытие нужной точки из Arcview GIS в Google Maps/Earth</a></li>
+					  </ul>
+			</div>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php?lang=e" -->
+<!--#include virtual="/inc/footer2-eng.php" -->

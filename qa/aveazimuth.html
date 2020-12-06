@@ -1,0 +1,98 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Вычисление азимута и угла между двумя прямыми для прямоугольных координат</title>
+<!--#include virtual="/inc/header2.txt" -->
+<!--Contents start-->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Вопросы и ответы</a></li>
+</ul>
+<h1>Вычисление азимута и угла между двумя прямыми для прямоугольных координат</h1>
+<p class="ann">Немного геометрии для решения задачи нахождения азимута, используемый код может применяться в других расширениях.</p>
+<p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=189"--></span></p>
+<p align="right"><i>спасибо Алексею Таченкову за помощь
+              с геометрией</i></p>
+            <p><b>Вычисление азимута</b></p>
+            <p>Азимут - взятый из одной точки на другую - есть угол
+              отклонения прямой, полученной соединением <b>двух</b> данных точек
+              (А и B), от прямой проведенной на север из точки номер один, угол
+              считается по часовой стрелке. </p>
+            <p>A {X1,Y1}<img src="/images/azimuth-01.gif" width="250" height="230" align="right" /><br />
+              B {X2,Y2}<br />
+            C {X1,Y2}</p>
+            <p>Расстояние между двумя точками:</p>
+            <p><img src="/images/azimuth-02.gif" width="291" height="44" /></p>
+            <p>Исходя из теоремы косинусов и теоремы Пифагора:</p>
+            <p>BC<sup>2</sup> = AB<sup>2</sup>+AC<sup>2</sup> - 2AB*AC*cos(бета)</p>
+            <p>AB<sup>2</sup> = AC<sup>2</sup>+BC<sup>2</sup> (так как треугольник прямоугольный)</p>
+            <p> бета = arccos(AC/AB)</p>
+            <p>Существует 4 возможных варианта зависящих от взаимного
+              расположения точек A и B, в данном примере мы определяем азимут от точки А на точку B, dX = X1 - X2, dY = Y1 - Y2:</p>
+            <p><b>1.</b> Точка B находится выше и правее точки А, dX &lt; 0, dY &lt; 0 (рис.1).</p>
+            <blockquote>
+              <p>Азимут (альфа) = 90-бета </p>
+            </blockquote>
+            <p> <b>2.</b> Точка B находится ниже и правее точки
+            А,dX &lt; 0, dY &gt; 0 (рис. 2)</p>
+            <blockquote>
+                <p>Азимут (альфа) = 90+бета</p>
+            </blockquote>
+              <p><b>3.</b> Точка B находится ниже и левее точки
+                A, dX &gt; 0, dY &gt; 0 (рис. 3)</p>
+              <blockquote>
+                <p>Азимут (альфа) = 270-бета</p>
+              </blockquote>
+              <p><b>4</b>. Точка B находится выше и левее точки
+                A, dX &gt; 0, dY &lt; 0 (рис. 4) </p>
+              <blockquote>
+                <p>Азимут (альфа) = 270+бета</p>
+              </blockquote>
+            <p align="center"><img src="/images/azimuth-03.gif" width="597" height="178" /></p>
+            <p>Вычислениям приведенным выше соответствует следующий
+              код на языке Avenue (pt2 - точка А, pt1 - точка B):</p>
+<pre>dX = pt2.getx - pt1.getx
+dY = pt2.gety - pt1.gety
+dist = ((dX*dX) + (dY*dY)).sqrt
+dXa = dX.abs
+beta = (dXa / dist).ACos.AsDegrees
+if (dX > 0) then
+	if (dY < 0) then
+    	angle = 270 + beta
+    else
+    	angle = 270 - beta
+    end
+else
+	if (dY < 0) then
+    	angle = 90 - beta
+    else
+    	angle = 90 + beta
+    end
+end</pre>
+            <p><b>Вычисление угла между двумя прямыми (тремя точками)</b></p>
+            <p><img src="/images/azimuth-04.gif" width="230" height="182" align="left" />Из
+              теоремы косинусов: </p>
+            <p><img src="/images/azimuth-05.gif" width="302" height="75" /></p>
+            <p>&nbsp;</p>
+            <p>&nbsp;</p>
+            <p>На Avenue:</p>
+<pre>ab = a.distance(b)
+bc = b.distance(c)
+ac = a.distance(c)
+alpha = (((ab^2)+(ac^2) - (bc^2))/(2*ab*ac)).ACos.AsDegrees</pre>
+              <p class="discuss">
+			  	<span><!--#include virtual="/scripts/forum-comments-num.php?i=189"--></span>
+			</p>
+<div class="links">
+<h2>Ссылки по теме</h2>
+<ul>
+   <li><a href="/qa/great-circles.html">Вычисление расстояний на сфере</a></li>
+   <li><a href="/qa/angles-sphere.html"> Вычисление азимута из одной точки на другую и угла образованного тремя точками на сфере</a></li>
+</ul>
+</div>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<p class="status"><span>Дата создания: 01.03.2003
+<br>Автор(ы): <a href="/forum/memberlist.php?mode=viewprofile&u=2" target="_blank">Максим Дубинин</a></span></p>
+<!--#include virtual="/inc/footer2.php" -->

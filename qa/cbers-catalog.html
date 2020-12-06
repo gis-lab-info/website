@@ -1,0 +1,306 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Создание каталога данных дистанционного зондирования CBERS</title>
+<!--#include virtual="/inc/header2.txt" -->
+<!--Contents start-->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Вопросы и ответы</a></li>
+</ul>
+<h1>Создание каталога данных дистанционного зондирования CBERS</h1>
+<p class="ann">Описание и получение данных </p>
+<p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=1470"--></span></p>
+<p>Каталог космических снимков CBERS-2 (China-Brazil Earth Resources Satellite-2) доступен исключительно онлайн по адресу <a href="http://www.dgi.inpe.br/CDSR/" target="_blank" class="external">http://www.dgi.inpe.br/CDSR/</a>, на португальском и английском языках. На спутнике <a href="/projects/ss/sat/cbers-2.html">CBERS</a> установлены три камеры ДЗЗ: <a href="/projects/ss/sensor/wfi.html">WFI</a>, <a href="/projects/ss/sensor/ccd.html">CCD</a>, <a href="/projects/ss/sensor/irmss.html">IRMSS</a>.</p>
+            <p align="center"><img src="/images/cbers-catalog-01.gif" alt="каталог данных CBERS" width="453" height="539" /></p>
+            <p>Загружаемая (оффлайн) версия каталога, которая незаменима при отборе большого количества снимков - отсутствует. Целью данной статьи является пример того, как можно создать такой каталог, используя несложные манипуляции с его онлайн-версией. Статья иллюстрирует процесс для данных полученных сенсором CCD. Для WFI и IRMSS процедура аналогична.</p>
+            <p>Для создания каталога нам  нужны:</p>
+            <ol>
+              <li>полигоны с  границами, соответствующими отдельным сценам;</li>
+              <li>атрибутивная информация к каждой сцене;</li>
+              <li>превью (по  желанию)<br />
+                можно или скачать их все (что потребует немало трафика) и  впоследствии привязать, получив полностью автономную версию каталога, или  создать в атрибутивной таблице поле с гиперссылкой на превью на официальном сайте.</li>
+            </ol>
+            <p><img src="/images/1.gif" alt="1" width="33" height="41" align="left" /><strong>Получение информации о сцене</strong> </p>
+            <p>Чтобы узнать, какую информацию о снимках можно получить, рассмотрим описание любой сцены в онлайн-каталоге. Каждая сцена имеет свой уникальный идентификатор, для того, чтобы посмотреть сцену с ID = CB2CCD14912420070112 можно воспользоваться следующей ссылкой: </p>
+            <p align="center">http://www.dgi.inpe.br/CDSR/manage.php?INDICE=CB2CCD14912420070112&amp;DONTSHOW=1</p>
+            <p align="center"><img src="/images/cbers-catalog-02.gif" alt="каталог данных CBERS" width="664" height="515" /></p>
+            <table border="0" align="center" cellpadding="0" cellspacing="0">
+              <tr>
+                <td width="189" valign="top"><p>спутник</p></td>
+                <td width="189" valign="top"><p>Satelite</p></td>
+                <td width="189" valign="top"><p>CB2</p></td>
+              </tr>
+              <tr>
+                <td width="189" valign="top"><p>сенсор</p></td>
+                <td width="189" valign="top"><p>Sensor</p></td>
+                <td width="189" valign="top"><p>CCD</p></td>
+              </tr>
+              <tr>
+                <td width="189" valign="top"><p>пролет</p></td>
+                <td width="189" valign="top"><p>Orbita</p></td>
+                <td width="189" valign="top"><p>149</p></td>
+              </tr>
+              <tr>
+                <td width="189" valign="top"><p>ряд</p></td>
+                <td width="189" valign="top"><p>Ponto</p></td>
+                <td width="189" valign="top"><p>124</p></td>
+              </tr>
+              <tr>
+                <td width="189" valign="top"><p>дата съемки</p></td>
+                <td width="189" valign="top"><p>Data de Passagem</p></td>
+                <td width="189" valign="top"><p>2007-01-12</p></td>
+              </tr>
+              <tr>
+                <td width="189" valign="top"><p>виток</p></td>
+                <td width="189" valign="top"><p>Revolucao</p></td>
+                <td width="189" valign="top"><p>16920</p></td>
+              </tr>
+              <tr>
+                <td width="189" valign="top"><p>координаты (широта/долгота)    верхнего правого угла снимка</p></td>
+                <td width="189" valign="top"><p>Latitude Norte<br />
+                  Longitude Oeste</p></td>
+                <td width="189" valign="top"><p>-20.90260<br />
+                  -41.65050</p></td>
+              </tr>
+              <tr>
+                <td width="189" valign="top"><p>координаты (широта/долгота)    левого нижнего угла снимка</p></td>
+                <td width="189" valign="top"><p>Latitude Sul<br />
+                  Longitude Leste</p></td>
+                <td width="189" valign="top"><p>-22.06050<br />
+                  -40.79250</p></td>
+              </tr>
+              <tr>
+                <td width="189" valign="top"><p>время съемки по гринвичу</p></td>
+                <td width="189" valign="top"><p>Tempo Central(GMT)</p></td>
+                <td width="189" valign="top"><p>12:38:23</p></td>
+              </tr>
+              <tr>
+                <td width="189" valign="top"><p>ориентация снимка</p></td>
+                <td width="189" valign="top"><p>Orientacao da Imagem</p></td>
+                <td width="189" valign="top"><p>8.50435</p></td>
+              </tr>
+              <tr>
+                <td width="189" valign="top"><p>надир</p></td>
+                <td width="189" valign="top"><p>Angulo Nadir</p></td>
+                <td width="189" valign="top"><p>25.7263</p></td>
+              </tr>
+              <tr>
+                <td width="189" valign="top"><p>угол солнца </p></td>
+                <td width="189" valign="top"><p>Azimuth Sol</p></td>
+                <td width="189" valign="top"><p>96.7175</p></td>
+              </tr>
+              <tr>
+                <td width="189" valign="top"><p>высота солнца </p></td>
+                <td width="189" valign="top"><p>Elevacao do Sol</p></td>
+                <td width="189" valign="top"><p>59.2737</p></td>
+              </tr>
+              <tr>
+                <td width="189" valign="top"><p>облачность</p></td>
+                <td width="189" valign="top"><p>Q1, Q2, Q3, Q4</p></td>
+                <td width="189" valign="top"><p>10, 10, 10, 10</p></td>
+              </tr>
+            </table>
+            <p><img src="/images/2.gif" alt="1" width="33" height="41" align="left" /><strong>Получение ID сцены</strong> </p>
+            <p>Из вышеприведенной ссылки  понятно, что зная ID всех нужных снимков, можно скачать страницы с метаданными  и превью. Итак, как получить список всех валидных ID?</p>
+            <p> Можно решить задачу &quot;в  лоб&quot;, простым перебором по шаблону СB2CCD&lt;path&gt;&lt;row&gt;YYYYMMDD,  разделяя корректные и ложные ID по размеру возвращаемой сервером страницы. Но  число потенциальных комбинаций  слишком велико.
+              Можно, использовав данные о  периодичности пролета по одному и тому же витку и время последнего пролета над  заданной территорией, отфильтровать заведомо некорректные комбинации. Но тот  факт что спутник в определенный день пролетал над заданной местностью еще не  означает, что соответствующий снимок был сделан, сохранен и присутствует в  каталоге.</p>
+            <p>Другой способ - запросить список ID у сервера, задав нужные критерии поиска. Например, все снимки, сделанные с 1 января 2006 по 1 января 2007 сенсором CCD для территории лежащей между 0N - 10N и 70W – 90W.</p>
+            <p align="center"><img src="/images/cbers-catalog-03.gif" alt="каталог данных CBERS" width="616" height="217" /></p>
+            <p>Как  видно из результата, сервер вернул первую тысячу из N найденных снимков (50 страниц по 20 снимков на каждой (Mostradas apenas as 1000 primeiras imagens - refine sua consulta na ausencia da cena de interesse). Нас интересует запрос, который браузер послал серверу. Т.к. каталог сверстан с применением фреймов - пользователь не видит ссылки в адресной строке браузера, для того чтобы узнать какой именно запрос был послан нужно использовать любой анализатор HTTP трафика (автор использовал встроенный в Proxomitron, <a href="http://www.proxomitron.info" target="_blank" class="external">http://www.proxomitron.info</a>).</p>
+            <p align="center"><img src="/images/cbers-catalog-04.gif" alt="каталог данных CBERS" width="674" height="244" /></p>
+            <p>Браузер, посылая запрос &quot;GET &lt;url&gt; HTTP/1.0&quot;, получает от сервера в ответ страницы с выборкой из каталога. Редактируя передаваемые параметры, можно запросить выборку снимков с произвольными (в пределах здравого смысла) критериями. Огорчает только, что она ограничена одной тысячей снимков.</p>
+            <pre>SELECT * FROM Scene WHERE Deleted=0 AND CloudCoverMethod='M' AND Satellite ='CB2' AND Sensor ='CCD' AND   CenterLatitude &lt;= 10. AND CenterLongitude &gt;= -90. AND CenterLongitude &lt;= -70 AND Date&gt;='2006-01-1 00:00:00' AND   Date&lt;='2007-01-31 23:59:59' ORDER BY Date DESC,Path,Row LIMIT 1000</pre>
+            <p>Это выражение - SQL запрос к базе данных снимков. В строке браузера он выглядит так:</p>
+            <pre>http://www.dgi.inpe.br/CDSR/mantab.php?TAM=G&pagina=1&sql=SELECT%20*%20FROM%20Scene%20WHERE%20Deleted=0%20AND%20CloudCoverMethod='M'%20AND%20%20%20Satellite%20='CB2'%20AND%20%20%20Sensor%20='CCD'%20AND%20%20%20CenterLatitude%20%3C=%2010.%20AND%20%20%20CenterLongitude%20%3E=%20-90.%20AND%20%20%20CenterLongitude%20%3C=%20-70%20AND%20%20%20Date%3E='2006-01-1%2000:00:00'%20AND%20%20%20Date%3C='2007-01-31%2023:59:59'%20ORDER%20BY%20Date%20DESC,Path,Row%20LIMIT%201000</pre>
+            <p>Наиболее интересны для нас  следующие параметры:</p>
+            <ul>
+              <li> pagina=1 позволяет выбрать  нужную страницу с результатами запроса;</li>
+              <li> Date&gt;='2006-01-1 00:00:00'</li>
+              <li> Date&lt;='2007-01-31  23:59:59' позволяют разбить запрос на несколько временных интервалов;</li>
+              <li> LIMIT 1000 позволяет снять  ограничение в 1000 сцен, возвращаемых при поиске, указав число, заведомо  большее чем количество снимков, например 1000000. Конечно, делать это стоит  только совместно с указанием узких временных рамок, поскольку в противном  случае на сервер при таком запросе создается очень большая нагрузка;</li>
+              <li> ORDER BY Date DESC,Path,Row  позволяет отсортировать выдачу сцен по нескольким критериям.</li>
+            </ul>
+            <p> Анализируя код далее, мы  видим уже знакомый нам формат ссылки для запроса страницы с подробной  информацией по выбранной сцене  manage.php?INDICE=CB2CCD18511420070108&amp;DONTSHOW=1.</p>
+            <p><img src="/images/3.gif" alt="1" width="33" height="41" align="left" /><strong>Получение списка ссылок </strong> </p>
+            <p>Теперь нам известно все, что нужно для получения полного списка ID. Чтобы не создавать ссылок руками и ускорить обработку скаченных страниц, применим perl. Первым делом пишем простой скрипт для генерирования ссылок на страницы каталога с выборкой. Будем генерить пакеты ссылок на все снимки, сделанные за месяц. </p>
+            <pre class="preoverflowx">
+#!/usr/local/bin/perl
+
+#задаем переменные, определяющие начальную и конечную даты и количество страниц
+#ради упрощения скрипта будем указывать их непосредственно в его коде
+$date1 = "2006-12-1%2000:00:00";
+$date2 = "2006-12-31%2023:59:59";
+$lastpage = "73";
+
+#открываем файл, куда будем запписывать сгенерированные ссылки
+open (DL1,">_dl1_list.ion");
+
+$p = 1;
+
+#запускаем цикл, в котором создаются ссылки с параметрами, указанными в переменных, и записываем их в файл формата *.ion
+while ($p<=$lastpage) {
+	print DL1 "$p\.htm http\:\/\/www\.dgi\.inpe\.br\/CDSR/mantab.php?TAM\=G&pagina\=${p}&sql\=select\%20\*\%20FROM\%20Scene\%20WHERE\%20Deleted\=0\%20AND\%20CloudCoverMethod\=\'m\'\%20AND\%20\%20\%20Satellite\%20\=\'CB2\'\%20AND\%20\%20\%20CenterLatitude\%20\%3E\=\%20-90\.\%20AND\%20\%20\%20CenterLatitude\%20\%3C\=\%2090\.\%20AND\%20\%20\%20CenterLongitude\%20\%3E\=\%20-90\.\%20AND\%20\%20\%20CenterLongitude\%20\%3C\=\%2090\.\%20AND\%20\%20\%20Date\%3E\=\'$date1\'\%20AND\%20\%20\%20Date\%3C\=\'$date2\'\%20ORDER\%20BY\%20Date\%20DESC\,Path\,Row\%20LIMIT\%2050000\n";
+	$p++;
+}
+
+close DL1;
+
+</pre>
+            <p>Т.к. все страницы (в данном  случае все 73) по умолчанию при сохранении имели бы одинаковое имя, мы создали файл  формата ion, понимаемый ReGet'ом. Формат его &lt;имя  файла&gt;&lt;пробел&gt;&lt;линк на файл&gt;. Использование его позволяет  присвоить каждой скаченной странице заданное автоматически из переменной $p  имя. Сгенерировав файл со ссылками, импортируем в ReGet и скачиваем. Получаем  множество файлов html, из которых нам нужно извлечь ID снимков, а лучше сразу  фрагмент ссылки для скачивания описания сцен.</p>
+            <p> Пишем скрипт, который ищет ID  по шаблону:</p>
+            <pre>#!/usr/local/bin/perl
+#создаем список скаченных  страниц
+@list=glob(&quot;*\.htm&quot;);
+#в цикле ищем ID по шаблону и  все найденные соответствия помещаем в массив @url
+foreach $list (@list) {
+open (TMP, &quot;$list&quot;);
+@tmp = &lt;TMP&gt;;
+foreach $tmp (@tmp) {
+if ($tmp =~  /manage\.php\?INDICE\=CB2CCD[0-9]+\&amp;DONTSHOW\=1/) {
+push @url, (&quot;$&amp;&quot;);
+}
+}
+}
+#открываем файл для записи  списка ID
+open (OUT,  &quot;&gt;_list1.txt&quot;);
+#создаем хеш и отбирая с его  помошью уникальные ID, выкидываем их в файл
+%tmp = ();
+foreach $item (@url) {
+$item =~ s/manage\.php\?INDICE\=//;
+$item =~ s/\&amp;DONTSHOW\=1//;
+print OUT &quot;$item\n&quot; unless $tmp{$item}++;
+}</pre>
+            <p>Итак, мы получили желаемый список. Теперь нужно скачать страницы с метаданными ко всем снимкам и, по желанию, превью. Необходимый для закачки список ссылок нам поможет сделать perl:</p>
+            <pre>#!/usr/local/bin/perl
+open (TMP,  &quot;_list1.txt&quot;);
+@list = &lt;TMP&gt;;
+open (DL2,  &quot;&gt;_dl2_list.ion&quot;);
+foreach $line (@list) {
+$line =~ s/\n//;
+print DL2 &quot;$line\.meta  http\:\/\/www\.dgi\.inpe\.br\/CDSR\/manage\.php\?INDICE\=$line\&amp;DONTSHOW\=1\n&quot;;
+print DL2 &quot;$line\.jpg http\:\/\/www\.dgi\.inpe\.br\/CDSR\/display\.php\?TABELA\=Browse\&amp;PREFIXO\=Cbers\&amp;INDICE\=$line\n&quot;;
+}
+close TMP;
+close DL2;</pre>
+            <p>Скрипт использует полученный выше список ID и создает для каждого снимка две ссылки: для html страницы с метаинформацией и для превью. Сохраняются они под именами *.meta и *.jpg. Полученный список опять загружаем в ReGet и запускаем на закачку. Внимание! Преждем чем закачивать все полученные ссылки, посмотрите что закачивается по первым . Если вы ошиблись при генерации ссылок (или на сервере что-то поменялось, и скрипты генерируют невалидные ссылки), то вместо страницы с мета и превью вы будете получать страницу с ошибкой, а администратор сервера  - оседающие в логах тысячи сообщений об ошибках. Закончиться это может как блокированием вашего IP на сервере, так и изменением структуры запросов на сервере. </p>
+            <p><img src="/images/4.gif" alt="4" width="33" height="41" align="left" /><strong>Создание  каталога </strong> </p>
+            <p>Начнем с извлечения информации о снимках из html файлов, ведь координаты углов нам будут нужны для построения полигонов. Используем тот факт, что все html выглядят однотипно, и будущие значения полей атрибутивной таблицы занимают строки с одним и тем же номером во всех html файлах (Примененный ниже способ извлечения данных из текстовых файлов, а html по сути текстовый файл, не универсален, мы используем его только ради быстроты).</p>
+            <pre>#!/usr/local/bin/perl
+@metafiles =  glob(&quot;*\.meta&quot;);
+#открываем файл и записываем  в него заголовки полей атрибутивной таблицы, закрываем его. Если файл уже  существует его содержимое будет потеряно
+open (META2,  &quot;&gt;_meta2.txt&quot;);
+print META2 &quot;id,sitellite,sensor,path,row,date,time,revolution,orientation,nadir,azimuth,rise,q1,q2,q3,q4,ULY,ULX,LRY,LRX\n&quot;;
+close META2;
+#открываем цикл, в котором  будем построчно обрабатывать все метафайлы
+foreach $file (@metafiles) {
+$file =~ s/\n//;
+open (META1, &quot;$file&quot;);
+@meta = &lt;META1&gt;;
+close META1;
+                      
+open (META2, &quot;&gt;&gt;_meta2.txt&quot;);
+                      
+#очищаем от &quot;мусора&quot; нужные нам значения
+foreach  (@meta) {
+$_ =~ s/\&lt;td\&gt;//;
+$_ =~ s/\&lt;\/td\&gt;//;
+$_ =~ s/\&lt;td align\=\&quot;center\&quot;  nowrap\&gt;Q1\&amp;nbsp\; //;
+$_ =~ s/\&lt;td align\=\&quot;center\&quot;  nowrap\&gt;Q2\&amp;nbsp\ //;
+$_ =~ s/\&lt;td align\=\&quot;center\&quot;  nowrap\&gt;Q3\&amp;nbsp\; //;
+$_ =~ s/\&lt;td align\=\&quot;center\&quot;  nowrap\&gt;Q4\&amp;nbsp\; //;
+$_ =~ s/\n//;
+}
+                      
+$file =~ s/\.meta//;
+                      
+#добавляем в таблицу извлеченную атрибутивную информацию
+print META2  (&quot;$file,$meta[61],$meta[65],$meta[69],$meta[73],$meta[77],
+$meta[101],$meta[81],$meta[105],$meta[110],$meta[114],$meta[118],$meta[124],$meta[125],$meta[128],
+$meta[129],$meta[85],$meta[89],$meta[93],$meta[97]\n&quot;);
+close META2;
+}</pre>
+В отдельном скрипте  рассчитаем координаты углов снимка и создадим файл, автоматизирующий создание  полигонов в ArcView.
+<pre>#!/usr/local/bin/perl
+@files = glob(&quot;*\.txt&quot;);
+open (POLY, &quot;&gt;poly\.txt&quot;);
+print POLY  &quot;id_cbers,UL_Long,UL_Lat,UR_Long,UR_Lat,LR_Long,LR_Lat,LL_Long,LL_Lat\n&quot;;
+close POLY;
+foreach $file (@files) {
+$file =~ s/\.txt//;
+                      
+open (META1,  &quot;&lt;$file\.txt&quot;);
+@meta = &lt;META1&gt;;
+close META1;
+                      
+#удаляем первую строку из считанного файла (с  названиями полей таблицы)
+splice (@meta, 0, 1);
+                      
+$sin = sin  (3.14159*8.50435/180);
+$cos = cos  (3.14159*8.50435/180);
+                      
+foreach (@meta) {
+$_ =~  s/\n//;
+@a =  split(/\,/,$_);
+                      
+#получаем  координаты верхнего левого и правого нижнего углов снимка (или экстента)
+$id = $a[0];
+$ULY =  $a[16];
+$ULX =  $a[17];
+$LRY =  $a[18];
+$LRX =  $a[19];
+                      
+#рассчитываем  координаты четырех углов снимка (пояснения ниже в тексте)
+$x = sqrt (($LRX -  $ULX)^2 + ($ULY - $LRY)^2);
+$cULX =  $ULX;
+$cULY =  $ULY;
+$cLRX =  $LRX;
+$cLRY =  $LRY;
+$cLLX =  $ULX - $x*$sin;
+$cLLY =  $ULY - $x*$cos;
+$cURX =  $LRX + $x*$sin;
+$cURY =  $LRY + $x*$cos;
+                      
+#добавляем координаты углов в файл
+open (POLY,  &quot;&gt;&gt;poly\.txt&quot;);
+print POLY  &quot;$id,$cULX,$cULY,$cURX,$cURY,$cLRX,$cLRY,$cLLX,$cLLY\n&quot;;
+close POLY;
+}
+}</pre>
+            <p>Рассчет координат углов  полигонов производиться исходя из имеющихся данных: координат верхнего левого  и нижнего правого углов и угла наклона орбиты спутника по отношению к экватору.   Строго говоря, неизвестно, координаты ли это углов снимка или углов экстента  (прямоугольника, в который вписан снимок). Будем пока придерживаться первого  предположения.</p>
+            <p> Координаты в  градусах, а рассчеты мы ведем для прямоугольных координат, потому результаты  грубы. Учитывая тот факт, что размеры снимков невелики, погрешность приемлима.</p>
+            <p>Соотношение сторон снимка 1:1. Используя тригонометрические функции,  рассчитаем оставшиеся координаты как результат смещения исходных точек на x * sin a (для долготы) и x * cos a (для широты), где:<br />
+x - расстояние между верхним левым  и нижним правым углами снимка (диагональ квадрата полигона), ее мы вычисляем из  теоремы Пифагора (x = sqrt ((LRX - ULX)^2 + (ULY - LRY)^2))<br />
+a - угол наклона орбиты  спутника к экватору в радианах.<br />
+Тригонометрические функции sin и cos встроены в perl, что облегчает нашу задачу.</p>
+            <p>Для нижнего левого угла:<br />
+              cLLX = ULX - x * sin a<br />
+              cLLY = ULY - x * cos a<br />
+              Для верхнего правого угла:<br />
+              cURX = LRX + x * sin a<br />
+              cURY = LRY + x * cos a</p>
+            <p>Построив полигоны (любым известным способом), остается только присоединить атрибутику и проверить, корректен ли наш каталог. Для этого  подгрузим любой доступный снимок (например, Landsat ETM+) и откроем страницу с превью соответствующего снимка в  онлайн-каталоге.</p>
+            <p>Видно, что границы полигонов  и превью почти совпадают. Отчетливо видно искажения полигонов (получились  скошенные четырехугольники), причина видимо в рассчете координат в градусах как  прямоугольных.</p>
+            <p>В случае необходимости, зная  формат ссылок на страницы с превью и информацией о сценах, мы  можем создать дополнительные поля в атрибутивной таблице со ссылками на  онлайн-каталог. В сгенерированном каталоге имеется поле &quot;preview&quot;, по хотлинку с него можно непосредственно открывать  превьюш или делать список для закачки.</p>
+            <p>В процессе создания каталога  выяснилось, что у некоторых сцен координаты углов указаны неверно, вот их  список:</p>
+            <p>CB2CCD21106720040207<br />
+              CB2CCD21106820040207<br />
+              CB2CCD21206420040925<br />
+              CB2CCD21206520040925<br />
+              CB2CCD02506620040925<br />
+              CB2CCD02506720040925<br />
+              CB2CCD02506920040207<br />
+              CB2CCD02507020040207<br />
+              CB2CCD266620031214</p>
+            <p><img src="/images/5.gif" alt="5" width="33" height="41" align="left" /><strong>Готовый  каталог</strong> </p>
+            <p>Если по той или иной причине невозможно воспользоваться этой инструкцией, можно скачать готовую версию  <a href="/data/cbers/cbers_ccd_2007-01-27.rar">финального каталога</a> актуального на 27 января 2007.</p>
+            <p>&nbsp;</p>
+            <p class="discuss">
+				<span><!--#include virtual="/scripts/forum-comments-num.php?i=1470"--></span>
+			</p>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<p class="status"><span>Дата создания: 15.04.2007
+<br>Автор(ы): <a href="/forum/memberlist.php?mode=viewprofile&u=1394" target="_blank">Александр Маниша</a></span></p>
+<!--#include virtual="/inc/footer2.php" -->

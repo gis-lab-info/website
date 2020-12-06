@@ -1,0 +1,99 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Установка PostgreSQL/PostGIS для Windows</title>
+<!--#include virtual="/inc/header2.txt" -->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Вопросы и ответы</a></li>
+</ul>
+<!--Contents start-->
+<h1>Установка PostgreSQL/PostGIS для Windows </h1>
+<p class="ann">Руководство по установке комплекта пространственной базы данных готового к работе</p>
+<p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=2524"--></span></p>
+<p>PostGIS является расширением объектно-реляционной СУБД PostgreSQL, предназначенным для хранения в базе данных географической информации. PostGIS включает поддержку пространственных индексов R-Tree/GiST, а также функции обработки геоданных. PostGIS и PostgreSQL являются свободным ПО с открытым исходным кодом. В данной статье будет рассмотрен процесс установки PostgreSQL/PostGIS для Windows.</p>
+            <p><strong>Оглавление</strong></p>
+            <ol>
+                  <li><a href="#01">Установка PostgreSQL</a></li>
+              <li><a href="#02">Установка PostGIS</a></li>
+              <li><a href="#03">Создание пространственной базы данных</a>
+                <!-- Первый раздел -->
+              </li>
+            </ol>
+
+
+            <p><strong><img src="/images/1.gif" alt="1" width="33" height="41" align="left" /><a name="01" id="01"></a>Установка PostgreSQL</strong></p>
+	    <p>Последнюю  версию PostgreSQL можно  скачать на сайте <a href="http://www.postgresql.org" target="_blank" class="external">http://www.postgresql.org</a>. На  момент написания статьи последней версией является PostgreSQL  8.4. Для того, чтобы скачать дистрибутив, перейдите на <a href="http://www.enterprisedb.com/products/pgdownload.do#windows" target="_blank" class="external">страницу загрузки</a>, выберите операционную систему и загрузите дистрибутив. После этого запустите установщик.</p>
+	    <p align="center"><img src="../images/postgis-install-23.gif" width="423" height="63" /></p>
+	    <p><strong>Ход установки:</strong></p>
+	    <p>1. Запускаем файл postgresql-8.4.0-1-windows.exe. Первым делом устанавливается Microsoft Visual <br> C++ 2005 Redistributable&nbsp;– рабочие модули  библиотек Visual C++,  необходимые для запуска созданных при помощи этого языка программирования  приложений.</p>
+	    <p align="center"><img src="../images/postgis-install-01.gif" width="386" height="147" /></p>
+	    <p>2. Выбираем куда устанавливать программу и расположение данных:</p>
+	    <p align="center"><img src="../images/postgis-install-24.gif" width="556" height="425" /> </p>
+	    <p>3. Указываем администраторский пароль для базы данных</p>
+	    <p align="center"><img src="../images/postgis-install-25.gif" width="556" height="425" /> </p>
+	    <p>4. Выбираем порт подключения:</p>
+	    <p align="center"><img src="../images/postgis-install-26.gif" width="556" height="425" /> </p>
+	    <p>5. Выбираем локаль </p>
+	    <p align="center"><img src="../images/postgis-install-02.gif" width="556" height="425" /></p>
+	    <p>3. Мастер установки PostgreSQL сообщает о прогрессе установки. </p>
+	    <p align="center"><img src="../images/postgis-install-03.gif" width="556" height="425" /></p>
+	    <p>Жмем «Завершить». На этом  установка PostgreSQL на ваш компьютер завершена!</p>
+	    <p>Если вы хотите установить PostGIS сразу после завершения установки PostgreSQL, поставьте галку на запуске Stack Builder. </p>
+	    <p align="center"><img src="../images/postgis-install-27.gif" width="556" height="425" /></p>
+	    <p><strong><img src="/images/2.gif" alt="2" width="33" height="41" align="left" /><a name="02" id="02"></a>Установка PostGIS</strong></p>
+        <p>Установку PostGIS можно осуществить  полуавтоматически через Stack Builder и непосредственно скачав пакет PostGIS. Способы установки отличаются  лишь методом получения установщика PostGIS. В первом случае Stack Builder запустится сам: «Пуск/PostgreSQL 8.4/Приложение Stack Builder».</p>
+        <p>1. Выберите установленный сервер: </p>
+        <p align="center"><img src="../images/postgis-install-28.gif" width="615" height="412" /></p>
+        <p>2. Из пункта Spatial Extensions выберите PostGIS 1.4:</p>
+        <p align="center"><img src="../images/postgis-install-14.gif" width="615" height="412" /></p>
+        <p>Далее вам осталось только выбрать зеркало загрузки в временную папку, в которую будет загружен дистрибутив. </p>
+        <p>Если  вы решили скачать установщик PostGIS самостоятельно, то последнюю версию PostGIS  можно скачать на сайте <a href="http://postgis.refractions.net" target="_blank">http://postgis.refractions.n<span class="external">e</span>t</a>. Скачиваем последнюю на момент написания  статьи  версию PostGIS  для работы с PostgreSQL 8.4 – PostGIS -1.4 с <a href="http://pgfoundry.org/frs/?group_id=1000256">pgfoundry</a>.</p>
+        <p><strong>Ход установки:</strong></p>
+        <p>1. Запускаем  файл postgis-pg84-setup-1.4.0-2.exe или более свежий: </p>
+        <p align="center"><img src="../images/postgis-install-15.gif" width="503" height="386" /></p>
+        <p>2. Снимаем отметку с пункта «Create spatial database». «Create spatial database»  позволяет создать пространственную базу данных автоматически. Далее мы будем рассматривать процесс  создания такой базы данных вручную, не прибегая к услугам установщика PostGIS, поэтому на данном  этапе мы отметку с этого пункта снимем.</p>
+        <p align="center"><img src="../images/postgis-install-16.gif" width="503" height="386" /></p>
+        <p>3. Выбираем  путь для установки.</p>
+        <p align="center"><img src="../images/postgis-install-17.gif" width="503" height="386" /></p>
+        <p>4. Заполняем  представленные поля:</p>
+        <p align="center"><img src="../images/postgis-install-18.gif" width="503" height="386" /></p>
+        <p>В поле Password вводим пароль указанный выше и жмем «Next» для  завершения установки. На этом установка PostGIS завершена!</p>
+        <p><strong><img src="/images/3.gif" alt="2" width="33" height="41" align="left" /><a name="03" id="022"></a>Создание пространственной базы данных</strong></p>
+        <p>Существует два способа создания пространственной базы данных: с использованием шаблона и без. В данном разделе мы рассмотрим оба этих способа.</p>
+        <p><strong>Создание базы данных с использованием шаблона:</strong></p>
+        <p>1. В меню  Пуск находим PostgreSQL 3 и запускаем pgAdmin III.</p>
+        <p>2. В  браузере объектов дважды щелкаем на «PostgreSQL Database Server 8.3». Будет  предложено ввести пароль суперпользователя для подключения к выбранному серверу, что  мы и делаем.</p>
+        <h6 align="center"><img src="../images/postgis-install-19.gif" width="681" height="543" /></h6>
+        <p>3. В  браузере объектов выбираем «Базы» и открываем «Правка/Новый объект/Новая база  данных…». Устанавливаем имя новой базы данных – «postgis», владелец  – «postgres», шаблон – «template_postgis». Используя шаблон базы данных «template_postgis», мы тем самым создаем базу данных  с пространственным расширением.</p>
+        <p align="center"><img src="../images/postgis-install-20.gif" width="338" height="496" /></p>
+        <p>4. Открываем список таблиц созданной базы данных: «postgis/схемы/public/Таблицы». Вы должны увидеть две стандартные таблицы: «geometry_columns»  и «spatial_ref_sys», созданные PostGIS.</p>
+        <p align="center"><img src="../images/postgis-install-21.gif" width="680" height="543" /></p>
+        <p>На этом процесс создания пространственной базы данных с использованием шаблона закончен.</p>
+        <p><strong>Создание базы данных без использования шаблона:</strong></p>
+        <p>Если ваша база данных не содержит шаблон «template_postgis», то вы можете загрузить PostGIS вручную,  вызвав два скрипта SQL,  которые установят функции и типы PostGIS.</p>
+        <p>1. В pgAdmin откройте окно запросов SQL (щелкнув   на кнопку с изображением карандаша):</p>
+        <p align="center"><img src="../images/postgis-install-22.gif" width="600" height="500" /></p>
+        <p>2. Выберите «Файл/Открыть...» и откройте файл:</p>
+        <p align="center">C:\Program Files\PostgreSQL\8.4\share\contrib\postgis.sql</p>
+        <p>3. Нажмите  кнопку «Выполнить запрос» (кнопка с изображением   зеленого треугольника). Файл lwpostgis.sql будет исполнен - функции и объекты PostGIS будут  загружены в базу данных.</p>
+        <p>4. Выберите «Файл/Открыть...» и откройте файл:</p>
+        <p align="center"> C:\Program  Files\PostgreSQL\8.4\share\contrib\spatial_ref_sys.sql</p>
+        <p>5.  Нажмите кнопку «Выполнить запрос» (кнопка с изображением   зеленого треугольника). Файл spatial_ref_sys.sql будет исполнен, загрузив параметры систем координат в  формате EPSG в таблицу базы  данных.</p>
+        <p>Процесс создания пространственной базы данных без использования шаблона окончен. Таким образом, на данный момент времени мы имеем  пространственную базу данных «postgis», готовую к наполнению данными.</p>
+        <p class="discuss">
+			<span><!--#include virtual="/scripts/forum-comments-num.php?i=2524"--></span>
+		</p>
+		<div class="links">
+		<h2>Ссылки по теме</h2>
+		<ul>
+               <li><a href="/docs/postgis/manual">Руководство пользователя PostGIS 1.3.4</a></li>
+		       <li><a href="postgis-work.html">Основы работы с PostGIS</a></li>
+		</ul>
+		</div>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<p class="status"><span>Дата создания: 06.10.2008
+<br>Автор(ы): <a href="/forum/memberlist.php?mode=viewprofile&u=6901" target="_blank">Денис Рыков</a></span></p>
+<!--#include virtual="/inc/footer2.php" -->

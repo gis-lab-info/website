@@ -1,0 +1,53 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Простой способ изменения системы координат данных в ArcGis</title>
+<!--#include virtual="/inc/header2.txt" -->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Вопросы и ответы</a></li>
+</ul>
+<!--Contents start-->
+<h1>Простой способ изменения системы координат данных в ArcGIS</h1>
+<p class="ann">Один из способов как изменить систему координат данных в ArcGIS</p>
+            <p>Пожалуй, самый простой способ изменить систему координат векторных или растровых данных с созданием нового набора данных с нужной системой координат. </p>
+            <p>1. Открываем ArcCatalog.  В ArcCatalog выбираем файл набора данных (вектор или растр), который требуется перепроецировать  (двойной щелчок или правой кнопкой и Properties). В окне Properties находим раздел Spatial Reference: если система  координат не определена (undefined)  нажимаем Edit и задаём требуемую систему. </p>
+            <p> Наример для данных SRTM, обработанных и представленных в виде грида: <br />
+              Select, из  списка выбрать Geographic Coordinate Systems\World\WGS 1984.prj            </p>
+            <p align="center"><img src="/images/project-ag-04.gif" alt="установка системы координат" width="433" height="52" /> </p>
+            <p> 2. Открываем ArcMap и загружаем наш набор данных (в данном случае растр SRTM) и в свойствах слоя проверяем, что Spatial Reference именно  та, которую мы только что задали. </p>
+            <p align="center"><img src="/images/project-ag-05.gif" alt="установка системы координат" width="432" height="68" /></p>
+            <p>Выбираем правой кнопкой свойства Data Frame (строка над всеми  слоями, объединяющая их в группу, с жёлтым значком и по умолчанию с надписью “Layers”) - Properties. Выбираем  вкладку Coordinate System и в разделе “Select a coordinate System” выбираем ту систему  координат, в которую мы хотели бы перевести наш набор данных. Для SRTM, к примеру, выбираем: </p>
+            <p>Predefined -&gt; Projected Coordinate Systems -&gt; Utm -&gt; Wgs 1984 -&gt; Zone X (нужная зона). Например, зона 36 – Московская область. </p>
+            <p align="center"><img src="/images/project-ag-06.gif" alt="установка системы координат" width="312" height="436" /></p>
+            <p>Данная операция означает, что мы  задали фрейму данных проекцию UTM, все данные будут автоматически трансформированы в новую систему координат, однако эта СК для данных сохраняется только в проекте ArcMap. Для создания нового набора данных в новой системе координат нужно выполнить пересчет слоя. Если после задания новой системы координат изображение пропало, возможно, новая система координат выбрана неверно.</p>
+            <p> 3. Экспортируем набор данных в новой системе координат. Для этого правой кнопкой нажав на нужный слой в списке слоёв выбираем  Data -&gt; Export Data.  В открывшемся окне ставим переключатель в Spatial Reference на Data Frame (Current). Проверяем Name и Location, тип выходных данных и экспортируем растр. </p>
+            <p align="center"><img src="/images/project-ag-01.gif" alt="экспорт данных" width="440" height="406" /></p>
+            <p> Результатом является новый набор данных в необходимой нам системе координат. На приведенном ниже примере показан растр до и после изменения системы координат (системы координат соответствуют приведенным выше).</p>
+            <table border="0" align="center">
+              <tr>
+                <td width="300"><img src="/images/project-ag-02.gif" alt="экспорт данных" width="301" height="301" /></td>
+                <td width="300"><div align="center"><img src="/images/project-ag-03.gif" alt="экспорт данных" width="185" height="311" /></div></td>
+              </tr>
+              <tr>
+                <td><div align="center">
+                  <p><strong>До</strong></p>
+                </div></td>
+                <td><p align="center"><strong>После</strong></p></td>
+              </tr>
+            </table>
+            <p align="center">&nbsp;</p>
+            <p class="discuss">
+				<span><!--#include virtual="/scripts/forum-comments-num.php?i=852"--></span>
+			</p>
+			<div class="links">
+			<h2>Ссылки по теме</h2>
+			<ul>
+               <li><a href="modislandprod.html">Ссылка на дополнительный источник информации внутренняя</a></li>
+               <li><a href="http://lpdaac.usgs.gov/landdaac/tools/modis/about.asp" target="_blank" class="external">Ссылка на дополнительный источник информации внешняя</a></li>
+			</ul>
+			</div>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<!--#include virtual="/inc/footer2.php" -->

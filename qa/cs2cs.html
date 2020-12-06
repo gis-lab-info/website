@@ -1,0 +1,118 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Онлайн-сервис по конвертации систем координат данных</title>
+<!--#include virtual="/inc/header2.txt" -->
+
+<script language="javascript">
+<!--
+
+function addCombo()
+{
+	alert("test");
+}
+
+//-->
+</SCRIPT>
+	  <!--Main table start-->
+      <table class="tab-main">
+        <tr>
+          <td><h1>Онлайн-сервис по конвертации систем координат данных</h1>
+            <p class="ann">Краткая аннотация</p>
+            <p>Данный сервис предназначен для пересчета данных находящихся в одной системе координат, в другую. На данный момент присутствуют только широко распространенные системы координат, с которыми чаще всего приходится сталкиваться. Пересчет осуществляется с помощью <a href="/qa/proj.html">библиотеки Proj</a>, одной из самых развитых и свободно распространяемых систем для пересчета координат. </p>
+            <p>Для того, чтобы перевести ваши значения из одной системы координат в другую, выберите исходную и конечную систему координат, введите ваши данные и нажмите на кнопку <strong>Пересчитать</strong>. </p>
+            <p>Если в списках отсутствует нужная вам система координат, напишите и мы ее добавим.  </p>
+            <table align="center" border="0" width="70%">
+              <tr>
+                <td colspan="4" class="tr1"><p align="center"><strong>Исходная система координат</strong></p></td>
+              </tr>
+              <tr>
+                <td colspan="2" valign="middle" class="tr1"><p>
+                  <input name="optcstype" type="radio" value="radiobutton" checked="checked" onclick="javascript:document.getElementById('cmbinprj').disabled = true;" />
+                Географическая</p></td>
+                <td colspan="2" class="tr1" ><p>
+                    <select name="cmbingeo" size="1" id="cmbingeo">
+                      <option value="wgs84" selected="selected">WGS84</option>
+                      <option value="pulkovo-1942">Pulkovo-1942</option>
+                    </select>
+                </p></td>
+              </tr>
+              <tr>
+                <td colspan="2" valign="middle" class="tr2"><p>
+                  <input name="optcstype" type="radio" value="radiobutton" />
+                Прямоугольная </p></td>
+                <td colspan="2" class="tr2" ><p>
+                    <select name="cmbinprj" size="1" id="incsprj">
+                      <option value="aea">Albers Equal Area</option>
+                      <option value="mecator">Mercator</option>
+                      <option value="utm" selected="selected">UTM</option>
+                      <option value="gk">GK</option>
+                    </select>
+                </p></td>
+              </tr>
+      <form action="/scripts/todo-add.php" method="get">
+      <tr><td colspan="4" class="tr1"><p align="center"><strong>Конечная система координат</strong></p>
+          </td>
+      <tr>
+        <td colspan="2" valign="middle" class="tr1"><p>
+          <input name="radiobutton" type="radio" value="radiobutton" checked="checked" />
+          Географическая</p></td>
+        <td colspan="2" class="tr1" ><p>
+          <select name="select" size="1">
+            <option value="wgs84">WGS84</option>
+            <option value="pulkovo-1942">Pulkovo-1942</option>
+          </select>
+        </p></td>
+      </tr>
+      <tr>
+        <td colspan="2" valign="middle" class="tr2"><p>
+          <input name="radiobutton" type="radio" value="radiobutton" />
+          Прямоугольная </p></td>
+        <td colspan="2" class="tr2" ><p>
+          <select name="select2" size="1">
+            <option value="aea">Albers Equal Area</option>
+            <option value="mecator">Mercator</option>
+            <option value="utm">UTM</option>
+            <option value="gk" selected="selected">GK</option>
+                    </select>
+        </p></td>
+      </tr>
+      <tr>
+        <td class="tr1"><p>Широта</p></td>
+        <td class="tr1"><p>
+            <input name="authors" type="text" id="authors" size="12" />
+        </p></td>
+        <td class="tr1"><p>Координата X</p></td>
+        <td class="tr1"><p>
+            <input name="authors2" type="text" id="authors2" size="12" />
+        </p></td>
+      </tr>
+      <tr>
+        <td class="tr2"><p>Долгота</p></td>
+        <td class="tr2"><p>
+            <input name="datestart" type="text" id="datestart" size="12" />
+        </p></td>
+        <td class="tr2"><p>Координата Y </p></td>
+        <td class="tr2"><p>
+            <input name="datestart2" type="text" id="datestart2" size="12" />
+        </p></td>
+      </tr>
+      <tr><td colspan="4" class="tr1b" ><p align="center">
+        <input type="submit" name="Create" value="Пересчитать" />
+      </p>        </td>
+      <p></tr>
+	  <input type="hidden" name="val" value="add" />
+    </form>
+	<p>
+	</table>
+            <p class="discuss">
+				<span><!--#include virtual="/scripts/forum-comments-num.php?i=852"--></span>
+			</p>
+			<div class="links">
+			<h2>Ссылки по теме</h2>
+			<ul>
+               <li><a href="rspatial.html">Ссылка на дополнительный источник информации внутренняя</a></li>
+               <li><a href="http://cran.r-project.org/web/packages/rgdal/index.html" target="_blank" class="external">Ссылка на дополнительный источник информации внешняя</a></li>
+			</ul>
+			</div>
+            <!--#include virtual="/scripts/date.php" -->
+<!--Contents end-->
+<!--#include virtual="/inc/footer2.php" -->

@@ -1,0 +1,83 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Импорт продуктов MODIS первого уровня обработки</title>
+<!--#include virtual="/inc/header2.txt" -->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Вопросы и ответы</a></li>
+</ul>
+<!--Contents start-->
+<h1>Импорт продуктов MODIS первого уровня обработки </h1>
+<p class="ann"> Описание процесса импорта данных MODIS c помощью MODIS Swath Reprojection Tool </p>
+<p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=2134"--></span></p>
+            <p><strong>Задача:</strong> Перевести имеющиеся данные MODIS продуктов первого уровня обработки в нужную проекцию и формат TIF с одновременным созданием мозаик из граничащих фрагментов.</p>
+            <p>Исходно, данные MODIS, продукты первого уровня обработки распространяются через <a href="http://ladsweb.nascom.nasa.gov/" target="_blank" class="external">LAADS Web </a>(Level 1 and Atmosphere Archive and Distribution System) в формате HDF (<a href="laadsweb.html">описание системы</a> LAADS Web).</p>
+            <p>Для  решения нашей задачи (перевод в TIF и нужную проекцию) можно воспользоваться пакетом <a href="https://lpdaac.usgs.gov/lpdaac/tools/modis_reprojection_tool_swath" target="_blank" class="external">MRT Swath </a> (MODIS Swath Reprojection Tool). Данный пакет очень похоже по принципу работы и набору параметров на своего родственника MRT (Modis Reprojection Tool), преднозначенного для работы с продуктами MODIS <a href="modisimport.html">уровня обработки 2G, 3, 4</a>. Однако, MRT Swath отличается от MRT как рядом важных параметров, так и определенными деталями в синтаксисе параметров, которые, к сожалению, делают невозможным прямое использование для MRT Swath файлов параметров, созданных для MRT. Как и MRT, кроме графического интерфейса, оперировать MRT Swath можно с помощью командной строки. Об этом и пойдет речь дальше.</p>
+            <p>С помощью создания командного файла можно автоматизировать процесс обработки данных. Командная строка для запуска процесса трансформации (перепроектировки и сохранения в формате TIF) выглядит следующим образом. </p>
+            <tcode>swath2grid.exe -pf=paramfile.prm</tcode>
+            <p>где:</p>
+            <p><strong>-pf=paramfile.prm</strong> - имя файла параметров трансформации, обязательный параметр (см. далее) </p>
+            <p>Дополнительные настройки могут быть заданы либо через командную строку, добавлением других параметров (этот вариант в данной статье мы не рассматриваем), либо путем ввода их в файл параметров трансформации, в нашем примере - paramfile.prm. Данный способ представляется более удобным, поскольку файлы параметров можно генерировать и хранить вместе со самими снимками. </p>
+            <p>Файл параметров представляет из себя обычный текстовый файл следующего содержания:</p>
+            <p>Для проекции Albers Equal Area: </p>
+            <tcode>INPUT_FILENAME = D:\MOD02QKM.A2007204.0805.005.2007205121542.hdf<br />
+                  GEOLOCATION_FILENAME = D:\MOD03.A2007204.0805.005.2007205033646.hdf<br />
+                  INPUT_SDS_NAME = EV_250_RefSB, 1, 1<br />
+                  OUTPUT_SPATIAL_SUBSET_TYPE = LAT_LONG<br />
+                  OUTPUT_SPACE_UPPER_LEFT_CORNER (LONG LAT) =  51.8 40.2 <br />
+                  OUTPUT_SPACE_LOWER_RIGHT_CORNER (LONG LAT) = 61.3 30.2<br />
+                  OUTPUT_FILENAME = D:\result<br />
+                  OUTPUT_FILE_FORMAT = GEOTIFF_FMT<br />
+                  KERNEL_TYPE (CC/BI/NN) = NN<br />
+                  OUTPUT_PROJECTION_NUMBER = ALBERS<br />
+                  OUTPUT_PROJECTION_PARAMETER = 0.0 0.0 52.0 64.0 45.0 0.0 8500000.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0<br />
+                  OUTPUT_PROJECTION_SPHERE = 8<br />
+                  OUTPUT_PIXEL_SIZE = 250</tcode>
+            <p>Для географической проекции:</p>
+            <tcode>INPUT_FILENAME = D:\MOD02QKM.A2007204.0805.005.2007205121542.hdf<br />
+                  GEOLOCATION_FILENAME = D:\MOD03.A2007204.0805.005.2007205033646.hdf<br />
+                  INPUT_SDS_NAME = EV_250_RefSB, 1, 1<br />
+                  OUTPUT_SPATIAL_SUBSET_TYPE = LAT_LONG<br />
+                  OUTPUT_SPACE_UPPER_LEFT_CORNER (LONG LAT) =  51.8 40.2 <br />
+                  OUTPUT_SPACE_LOWER_RIGHT_CORNER (LONG LAT) = 61.3 30.2<br />
+                  OUTPUT_FILENAME = D:\result-dd<br />
+                  OUTPUT_FILE_FORMAT = GEOTIFF_FMT<br />
+                  KERNEL_TYPE (CC/BI/NN) = NN<br />
+                  OUTPUT_PROJECTION_NUMBER = GEO<br />
+                  OUTPUT_PROJECTION_PARAMETER = 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0<br />
+                  OUTPUT_PROJECTION_SPHERE = 8<br />
+                  OUTPUT_PIXEL_SIZE = 0.002                  </tcode>
+            <p>где:</p>
+            <p><strong>INPUT_FILENAME</strong> - имя обрабатываемого файла в формате hdf. Необходимо обратить внимание, что для импорта определенных каналов SDS эти каналы включаются/выключаются тут же, в отличие от импорта продуктов MODIS <a href="/qa/modisimport.html">с помощью MRT</a>, где для этого есть специальный параметр SPECTRAL_SUBSET.</p>
+            <p><strong>GEOLOCATION_FILENAME</strong> - имя матрицы привязки (MOD03) поставляемой вместе с продуктом. </p>
+            <p><strong>INPUT_SDS_NAME</strong> - названия массивов данных в HDF, названия являются стандартными (например для MOD02QKM SDS с собственно изображениями называется EV_250_RefSB) и их можно узнать использовав <a href="hdfimport.html">HDF Explorer</a> или любой другой инструмент для просмотра структуры данных в формате HDF. После названия SDS указывается перечень единиц или нулей, в количестве равном количеству элементов SDS (количество каналов). 1 соответствует импортируемому каналу, 0 - пропускаемому. </p>
+            <p><strong>OUTPUT_SPATIAL_SUBSET_TYPE</strong> - тип адресации области интереса (фрагмента изображения). Возможно несколько вариантов адресации, в географических координатах - LAT_LONG, прямоугольных - PROJ_COORDS, пиксельных (ряды колонки - LINE_SAMPLE).</p>
+            <p><strong>OUTPUT_SPACE_UPPER_LEFT_CORNER, OUTPUT_SPACE_LOWER_RIGHT_CORNER</strong> - если в процессе импорта необходимо вырезать фрагмент изображение (область интереса), то эти параметры должны присутствовать и определять эту область посредством географических координат верхнего левого и нижнего правого углов, соответственно. </p>
+            <p><strong>OUTPUT_FILENAME</strong> - имя  выходного файла в формате tif. Расширение при этом не задается, так как данный параметр указывает только первую часть имени выходного файла, вторая часть будет сгенерирована MRT Swath в зависимости от типа данных и импортируемых SDS. Например, в соответствие с примером выше, выходные файлы будут называться следующим образом:</p>
+            <tcode>result-dd_EV_250_RefSB_b0.tif<br />
+                  result-dd_EV_250_RefSB_b1.tif</tcode>
+            <p>&nbsp; </p>
+            <p><strong>OUTPUT_FILE_FORMAT</strong> - выходной формат данных, который также определяет и расширение результирующих файлов. </p>
+            <p><strong>KERNEL_TYPE (CC/BI/NN) </strong>- тип интерполяции используемой при пересчете растра.</p>
+            <p>OUTPUT_PROJECTION_NUMBER<strong> </strong>- тип проекции выходного файла. В данном случае - AEA - Albers Equal Area, так же может понадобится GEO - географическая.</p>
+            <p><strong>OUTPUT_PROJECTION_PARAMETER</strong> - перечень дополнительно параметров проекции, если OUTPUT_PROJECTION_TYPE = GEO, то дополнительные параметры - нули.</p>
+            <p><strong>OUTPUT_PROJECTION_SPHERE </strong>- сфероид, по умолчанию WGS84.</p>
+            <p><strong>OUTPUT_PIXEL_SIZE</strong> - разрешение выходного растра, параметр может быть пропущен, тогда размер будет рассчитан MRT самостоятельно.</p>
+            <p class="discuss">
+				<span><!--#include virtual="/scripts/forum-comments-num.php?i=2134"--></span>
+			</p>
+			<div class="links">
+			<h2>Ссылки по теме</h2>
+			<ul>
+               <li><a href="modislandprod.html">Продукты MODIS - Land</a></li>
+			   <li><a href="modisimport-tool.html">Импорт продуктов MODIS с помощью MODIS-Import-tool</a></li>
+			   <li><a href="modis-l1-import-tool.html">Импорт данных MODIS первого уровня обработки с помощью MODIS-Swath-Import-tool</a></li>
+			</ul>
+			</div>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<p class="status"><span>Дата создания: 04.04.2008
+<br>Автор(ы): <a href="/forum/memberlist.php?mode=viewprofile&u=2" target="_blank">Максим Дубинин</a></span></p>
+<!--#include virtual="/inc/footer2.php" -->

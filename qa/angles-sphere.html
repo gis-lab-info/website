@@ -1,0 +1,58 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Вычисление угла образованного тремя точками на сфере</title>
+<!--#include virtual="/inc/header2.txt" -->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Вопросы и ответы</a></li>
+</ul>
+<!--Contents start-->
+<h1>Вычисление угла образованного тремя точками на сфере</h1>
+<p class="ann">Немного геометрии для решения задачи нахождения  угла для случая сферы, используемый код может применяться в других расширениях.</p>
+<p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=1002"--></span></p>
+<p><img src="/images/angles-sphere-01.gif" width="232" height="232" align="left" /></p>
+<p>Согласно
+  сферической теореме косинусов:
+  косинус одной стороны сферического треугольника равняется произведению косинусов двух других его сторон плюс произведение синусов тех же сторон на косинус угла между ними.</p>
+<p>Одно из отличий сферического треугольника от обычного заключается в том, что сумма его углов  больше 180 градусов. </p>
+              <p>В уравнениях используются угловые длины в радианах.            </p>
+            <p><img src="/images/angles-sphere-02.gif" width="342" height="27" /></p>
+            <p>Отсюда, зная координаты трех точек и вычислив расстояния между ними <a href="/qa/great-circles.html">по формулам вычисления расстояний на сфере</a>, можно получить любой из трех углов, например угол A:</p>
+            <p><img src="/images/angles-sphere-03.gif" alt="формула угла" width="271" height="62" /> </p>
+            <p><a href="/other/calc-sphere-angle.rar">Скачать пример расчета в Excel</a></p>
+            <p>Вычислениям приведенным выше соответствует следующий
+            код на языке Avenue (координаты трех точек и расчеты расстояний передаются отдельно) (<a href="/programs/scripts/sphere-angle.ave">скачать скрипт</a>):</p>
+            <pre>'вычисление расстояний по формулам большого круга,
+'GreatCirclesDist - название скрипта для вычислений
+'расстояний по формулам большого круга в проекте
+pnts = {}
+pnts = pnts.add(a)
+pnts = pnts.add(b)
+ab = av.run(&quot;GreatCirclesDist&quot;, pnts).Get(0)
+pnts = {}
+pnts = pnts.add(b)
+pnts = pnts.add(c)
+bc = av.run(&quot;GreatCirclesDist&quot;, pnts).Get(0)
+pnts = {}
+pnts = pnts.add(a)
+pnts = pnts.add(c)
+ca = av.run(&quot;GreatCirclesDist&quot;, pnts).Get(0)
+A = (((a.cos) - (b.cos*c.cos))/b.sin*c.sin).ACos.AsDegrees</pre>
+			<p class="discuss">
+				<span><!--#include virtual="/scripts/forum-comments-num.php?i=1002"--></span>
+			</p>
+			<div class="links">
+			<h2>Ссылки по теме</h2>
+			<ul>
+               <li><a href="/qa/great-circles.html">Вычисление расстояния и начального азимута между двумя точками на сфере</a></li>
+			   <li><a href="/docs.html">Степанов Н.Н. Сферическая тригонометрия</a></li>
+               <li><a href="http://en.wikipedia.org/wiki/Law_of_cosines_%28spherical%29" target="_blank" class="external"> Law of cosines (spherical)</a></li>
+			</ul>
+			</div>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<p class="status"><span>Дата создания: 06.06.2006
+<br>Автор(ы): <a href="/forum/memberlist.php?mode=viewprofile&u=2" target="_blank">Максим Дубинин</a></span></p>
+<!--#include virtual="/inc/footer2.php" -->

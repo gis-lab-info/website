@@ -1,0 +1,77 @@
+    <link href="/css/style.css" type="text/css" rel="stylesheet">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <!--[if IE]>
+        <link href="/css/style_ie.css" type="text/css" rel="stylesheet"></link>
+    	<script src="/css/iemenu.js"></script>
+    <![endif]-->
+    <!--[if IE 6]>
+        <link href="/css/style_ie6.css" type="text/css" rel="stylesheet"></link>
+    <![endif]-->
+    <meta name="Description" content="Геоинформационные системы (ГИС) и дистанционное зондирование Земли (ДЗЗ), новости, программное обеспечение, журналы, публикации, документация, форум">
+    <meta name="Keywords" content="GIS, ГИС, GIS-LAB, GISLAB, ГИС-Лаб, remote sensing, cartography, mapping, maps, topographic maps, aster, landsat, terra, дистанционное зондирование,  геоинформационные системы, геоинформатика, Arcview, ERDAS, ENVI, данные, data, ArcGIS, FAQ, спутники, инструменты, ДДЗ, ДЗЗ, ДДЗЗ, QGIS, GRASS, MapServer, Openlayers, GeoServer, GPS">
+    <link rel="alternate" href="http://gis-lab.info/news.xml" type="application/rss+xml" title="Новости GIS-Lab.info">
+    <link rel="alternate" href="http://gis-lab.info/forum/rss.php" type="application/rss+xml" title="Форум GIS-Lab.info">
+    <link rel="alternate" href="http://gis-lab.info/blog/feed/" type="application/rss+xml" title="Блог GIS-Lab.info">
+    <link rel="openid.server" href="http://www.livejournal.com/openid/server.bml">
+    <link rel="openid.delegate" href="http://gis-lab.livejournal.com">
+</head>
+
+<body>
+
+<div class="page">
+    <div class="top"><div class="l"><div class="r"></div></div></div>
+    <div class="box"><div class="lbg"><div class="rbg"><div class="l"><div class="r"><div class="lb"><div class="rb">
+        <div class="head"><div class="l"><div class="r">
+        	<!--  menu top -->
+            <ul>
+				<li class="tweet"><a href="http://twitter.com/gislab">Twitter</a></li>
+				<li class="facebook"><a href="http://www.facebook.com/gislab.info">Facebook</a></li>
+				<li class="gplus"><a 
+href="https://plus.google.com/116147435784552557005" rel="publisher">Google+</a></li>
+				<li><a href="/index.html">Русский</a></li>>
+			</ul>
+            <h1><a href="/"><span class="ox"><span>GIS-LAB</span></span></a></h1>
+            <form id="search" name="search" method="get" action="/scripts/search.cgi"><input onBlur="if(value==''){style.backgroundColor='#EEE'}" onFocus="style.backgroundColor='#FFF'" class="text" type="text" name="q"><input type="hidden" name="stpos" value="0"><input type="hidden" name="s" value="R"><input class="button" type="submit" value=""></form>
+            <p>Geographic information systems and Remote sensing</p>
+        </div></div></div>
+        <div class="tnav" id="tnav"><div class="bg">
+        	<!--  menu left -->
+            <ul class="l">
+                <li class="sub"><a href="/qa-eng.html">Articles</a>
+                    <ul>
+                        <li><a href="/qa-eng.html">Articles</a></li>
+                        <li><div class="hr"></div></li>
+                        <li><a href="/qa-eng.html#gis">GIS</a></li>
+
+                        <li><a href="/qa-eng.html#rs">Remote sensing</a></li>
+						<li><div class="hr"></div></li>
+                        <li><a href="/articles-ideas.html">Suggest a topic</a></li>
+                    </ul>
+                </li>
+                <li class="sub"><a href="/docs.html">Documentation</a>
+                    <ul>
+
+                        <li><a href="/docs.html">Documentation</a></li>
+						<li><a href="/journals.html">Journals</a></li>
+						<li><a href="/docs/legislation.html">Legislation</a></li>
+                    </ul>
+                </li>
+                <li><a href="/projects-eng.html">Projects</a></li>
+
+                <li class="sub"><a href="/about-eng.html">About GIS-Lab</a>
+				<ul>
+                        <li><a href="/about-eng.html">About us</a></li>
+						<li><a href="/help.html">Participate</a></li>
+						<li><a href="/contacts-eng.html">Contacts</a></li>
+						<li><a href="/buttons.html">Buttons</a></li>
+						<li><a href="/qa/users.html">Members map</a></li>
+                    </ul></li>
+            </ul>
+        	<!--  menu right -->
+            <ul class="r">
+                <li><a href="/forum">Forum</a></li>
+                <li><a href="/blog">Blog</a></li>
+				<li><a href="/irc.html">IRC</a></li>
+				<li><a href="http://wiki.gis-lab.info">Wiki</a></li>
+            </ul>
+        </div></div>

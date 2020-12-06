@@ -1,0 +1,139 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Служебный интерфейс для добавления новых материалов</title>
+<!--#include virtual="/inc/header2.txt" -->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li>Инструменты</li>
+</ul>
+<!--Contents start-->
+<h1>Служебный интерфейс для добавления новых материалов</h1>
+<p class="ann">Сервисный интерфейс для добавления новостей, создания дайджеста для рассылки по e-mail и обновления XML RSS-ленты </p>
+<h3>Добавление новой статьи</h3>
+<table align="center" border="0" width="70%">
+      <form action="/scripts/news/news_gen.php" method="get">
+      <tr class="tr1">
+	  	<td>Название </td>
+      	<td><input type="text" size="80" name="title" id="title">
+      	  <br>
+      	  Пример: Установка модулей расширения в QGIS</td>
+	  </tr>
+      <tr class="tr1">
+        <td>Название в вики </td>
+        <td><input type="text" size="80" name="titlewiki" id="titlewiki">
+          <br>
+          Пример: Установка_модулей_расширения_в_QGIS</td>
+      </tr>
+      <tr>
+        <td>Обсуждаемая в форуме</td>
+        <td><select name="discuss" id="discuss" size="1">
+				<option selected="selected">ДА</option>
+				<option onselect="document.getElementById('titleforum').disabled=true;">НЕТ</option>
+			</select></td>
+      </tr>
+      <tr class="tr1">
+        <td>ID топика в форуме</td>
+        <td><input name="topicid" type="text" id="topicid" value="нет" size="5" maxlength="5" /></td>
+      </tr>
+      <tr class="tr2">
+        <td>Название  в форуме (60 символов)</td>
+        <td><input type="text" size="60" maxlength="60" name="titleforum" id="titleforum" /></td>
+      </tr>
+      <tr class="tr1">
+        <td>URL (относительный)</td>
+        <td><input type="text" size=80 name="fn">
+          <br>
+          Пример: qgis-install-plugin</td></tr>
+      <tr class="tr1">
+        <td>Автор, имя </td>
+        <td><input type="text" size=80 name="authorname">
+          <br>
+          Пример: Максим Дубинин </td>
+      </tr>
+      <tr class="tr1">
+        <td>Автор, id </td>
+        <td><input type="text" size=80 name="authorid">
+          <br>
+          Пример: 2 </td>
+      </tr>
+      <tr class="tr1">
+        <td>Дата создания </td>
+        <td><input type="text" size=80 name="date">
+          <br>
+          Пример: 23.02.2012 </td>
+      </tr>
+      <tr class="tr2">
+	    <td>Тип новости</td>
+        <td>
+          <input name="type" type="radio" value="Вопросы-ответы,/qa.html" checked>
+          Вопросы-ответы<br>
+  					  <input type="radio" name="type" value="Документация,/docs.html"> Документация<br />
+          			  <input type="radio" name="type" value="Документация-нормативы,/docs/legislation.html" />
+Документация-нормативы<br>
+                      <input type="radio" name="type" value="Проекты,/projects" />
+          Проекты<br>
+                      <input type="radio" name="type" value="Форум,/forum" />
+          Форум<br>
+                      <input type="radio" name="type" value="GIS-Lab, /" />
+          GIS-Lab<br>
+                      <input type="radio" name="type" value="Другое" />
+          Другое (название раздела): 
+          <input type="text" name="namely" size="60" />
+      <tr class="tr1">
+	    <td>Добавить запись в CSV и тему в форум</td>
+        <td><input type="submit" name="Create" value="Go" /></td>
+	  </tr>
+    </form>
+</table>
+   <h3>Выпуск новостей сайта</h3>
+   <table align="center" border="0" width="70%">
+     <tr class="tr2">
+       <form action="/scripts/news/html_gen.php" method="get">
+         <td>Сгенерировать HTML (главная) </td>
+         <td><input type="submit" name="Create" value="Go"></td>
+       </form>
+     </tr>	
+	<tr class="tr2">
+	  <form action="/scripts/news/html_gen_include.php" method="get">
+      	<td>Сгенерировать HTML (инклюд) </td>
+      	<td><input type="submit" name="Create" value="Go"></td>
+      </form>
+	</tr>
+	<form action="scripts/news/letter_gen.php" method="get">
+	<tr class="tr1">
+      <td>Сгенерировать письмо</td>
+      <td>Номер выпуска
+          <input name="issuenum" type="text" id="issuenum" value="100" size="5" maxlength="3" /></td>
+	</tr>
+	<tr>
+      <td>&nbsp;</td>
+	  <td><textarea name="issuetext" id="issuetext" cols="60" onBlur="if(value==''){value='Вводный текст'}" onFocus="if(value=='Вводный текст'){value=''}">Вводный текст</textarea>
+	    <br />
+	    <input type="submit" name="Create" value="Go" />	  </td></tr>
+    </form>
+	<form action="scripts/news/rss_gen.php" method="get">
+	<tr class="tr1">
+      <td>Обновить <a href="http://gis-lab.info/news.xml" target="_blank">RSS</a></td>
+      <td>Номер выпуска
+        <input name="issuenum2" type="text" id="issuenum2" value="100" size="5" maxlength="3" />      </td>
+	</tr>
+	<tr class="tr2">
+      <td>&nbsp;</td>
+	  <td><textarea name="issuetext2" id="issuetext2" cols="60" onBlur="if(value==''){value='Вводный текст'}" onFocus="if(value=='Вводный текст'){value=''}">Вводный текст</textarea>
+          <br />
+          <input type="submit" name="Create2" value="Go" />      </td>
+	  </tr>
+	<tr class="tr1">
+      <td>Написать в блог</td>
+	  <td><a href="http://blog.gis-lab.info/wp-admin/">здесь</a></td>
+	  </tr>
+    </form>
+    </table>
+  <p align="center">
+              <!--#include virtual="/scripts/forum-comments-num.php?i=852"-->
+            </p>
+			<!--#include virtual="/scripts/date.php" -->
+<!--Contents end-->
+<!--#include virtual="/inc/footer2.php" -->

@@ -1,0 +1,37 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Восстановление shape-файлов</title>
+<!--#include virtual="/inc/header2.txt" -->
+
+<!--Contents start-->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Вопросы и ответы</a></li>
+</ul>
+<h1>Восстановление shape-файлов</h1>
+            <p class="ann">Небольшая утилита, которая может спасти работу.</p>
+            <p>В процессе редактирования shape-файлов, особенно в Arcview GIS, есть ситуации при которых они оказываются испорченными. Например это можно произойти при попытке одновременного редактирования одного и того же файла в двух видах (View) одного проекта или двух проектах. Могут быть и другие причины повреждения.</p>
+            <p>Если после этого shape-файл перестает загружаться с появлением следующего сообщения: Number of  shapes does not match number of table records (количество объектов не соответствует числу записей в таблице), то есть шанс восстановить по крайней мере часть проделанной работы. <a href="/other/bad-shape.zip">Пример испорченного shape-файла для экспериментов</a>. </p>
+            <p>Для частичного или полного восстановления shape-файла можно использовать программу <a href="/other/shapechk.zip">Shapechk</a> (автор: Andrew Williamson).</p>
+            <p>Для работы с программой, необходимо после запуска:</p>
+            <ol>
+              <li>Указать shape-файл (Shapefile...) </li>
+              <li>   Построить новый индексный файл - SHX (Build Shx)</li>
+              <li>Осуществить проверку соответствия атрибутивной таблицы количеству геометрических объектов (Check DBF).</li>
+            </ol>
+            <p>В результате работы программы, лишние или недостающие записи в таблице (из-за которых и возникает соответствующее сообщение об ошибке) будут удалены/добавлены и работоспособность shape-файла восстановлена. Однако, если изменения в shape-файле, по той или иной причине, произошли например в середине, то соответственно будет &quot;отрезана&quot; все после нее и потеряна половина информации. К сожалению, эта цена, которую в этом случае придется заплатить за восстановление хотя бы части работы.</p>
+            <p align="center"><img src="/images/repairshape-01.gif" alt="починка shape-файла" width="304" height="300" />  <img src="/images/repairshape-02.gif" alt="починка shape-файла" width="304" height="300" /></p>
+            <p class="discuss">
+				<span><!--#include virtual="/scripts/forum-comments-num.php?i=852"--></span>
+			</p>
+			<div class="links">
+			<h2>Ссылки по теме</h2>
+			<ul>
+               <li><a href="http://lpdaac.usgs.gov/landdaac/tools/modis/about.asp" target="_blank" class="external">Сайт Andrew Williamson'a</a></li>
+			</ul>
+			</div>
+            <!--#include virtual="/scripts/date.php" -->
+<!--Contents end-->
+<!--#include virtual="/inc/footer2.php" -->

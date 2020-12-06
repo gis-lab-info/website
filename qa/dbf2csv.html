@@ -1,0 +1,44 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Конвертация DBF в CSV </title>
+<!--#include virtual="/inc/header2.txt" -->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Вопросы и ответы</a></li>
+</ul>
+<!--Contents start-->
+<h1>Конвертация DBF в CSV </h1>
+<p class="ann">Описание инструмента</p>
+<p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=4521"--></span></p>
+
+<p>При работе с shape-файлами и не только довольно часто встречается задача преобразования файла формата dbf в обычный текстовый файл с разделителями. И хотя програм, производящих такого рода преобразование, достаточно много (например, широко распространенные MSOffice или OOffice), во многих случаях бывает удобно использовать  небольшую специализированную утилиту, вызываемую из командной строки.</p>
+<p>Для преобразования dbf-&gt;csv можно использовать скрипт на языке Python (<a href="/programs/python/dbf2csv.zip">скачать</a> скрипт). </p>
+<p>Скрипт использует библиотеку dbfpy, которая должна быть установлена в системе (скачать <a href="http://dbfpy.sourceforge.net/" target="_blank" class="external">dbf2py</a>).</p>
+<h2>Использование</h2>
+<p>Утилита вызывается из командной строки и принимает несколько параметров:</p>
+<pre>dbf2csv.py --file=DBFfile --out=CSVfile --header=False|True --delim=DELIM --cols=1,4</pre>
+<p>DBFfile - обязательный параметр: имя файла dbf, который требуется преобразовать в файл csv. </p>
+<p>CSVfile - необязательный параметр: имя файла csv, в который будет записано содержимое файла dbf. Если данный параметр не указан, содержимое dbf-файла будет отправлено на стандартый вывод (stdout). </p>
+<p>header - необязательный параметр, может принимать два значения: True (записывать в файл заголовки полей) или False (не писать заголовки полей). По умолчанию он равен True. </p>
+<p>delim - необязательный параметр: указвает строку-разделитель полей в результирующем файле csv. По умолчанию равен запятой (,).</p>
+<p>cols - порядковые номера импортируемых полей (первое поле - 1).</p>
+<p>Примеры:</p>
+<p>Импортировать все в файл data.csv, не добавлять имена полей. </p>
+<pre>dbf2csv.py --file=data.dbf --header=False </pre>
+<p>Импортировать все в файл text.csv, добавлять имена полей, использовать разделитель &amp;. </p>
+<pre>dbf2csv.py --file=data.dbf --out=text.csv --header=True --delim=&quot;&amp;&quot;</pre>
+<p class="discuss"><span><!--#include virtual="/scripts/forum-comments-num.php?i=4521"--></span></p>
+<!-- ссылки -->
+<div class="links">
+	<h2>Ссылки по теме</h2>
+		<ul>
+			<li><a href="/qa/dbf-encode.html">Изменение кодировки DBF файла</a></li>
+			</ul>
+</div>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<p class="status"><span>Дата создания: 12.12.2009
+<br>Автор(ы): <a href="/forum/memberlist.php?mode=viewprofile&u=6597" target="_blank">Дмитрий Колесов</a></span></p>
+<!--#include virtual="/inc/footer2.php" -->

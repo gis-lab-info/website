@@ -1,0 +1,82 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Установка и настройка GeoWebCache</title>
+<!--#include virtual="/inc/header2.txt" -->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Вопросы и ответы</a></li>
+</ul>
+<h1>Установка и настройка GeoWebCache</h1>
+<!--Contents start-->
+<p class="ann">Рассмотрена установка и настройка GeoWebCache</p>
+<p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=3569"--></span></p>
+            <p><strong>Оглавление</strong></p>
+            <ol>
+                  <li><a href="#01">Пролог</a></li>
+                  <li><a href="#02">Установка GeoWebCache</a></li>
+                  <li><a href="#03">Настройка GeoWebCache</a></li>
+                  </ol>
+
+
+<!-- Первый раздел -->
+            <h2><strong><a name="01" id="01"></a></strong>1. Пролог</h2>
+            <p>Одним из распространенных источников данных для OpenLayers являются серверы <a href="http://www.opengeospatial.org/standards/wms" target="_blank" class="external">WMS</a>. Когда появляется необходимость (например, передвинули карту или изменили увеличение) вывести новые данные, OpenLayers отправляет запрос на сервер WMS с указанием региона (&amp;BBOX=100,100,200,200) и масштаба (пересчитывается из разрешения в пикселях, &amp;WIDTH=256&amp;HEIGHT=256). Зачастую, слой на сервере формируется из нескольких источников данных (файлы, базы данных) и, если это векторные данные, требует дополнительного преобразования (rendering) в растровый формат.</p>
+	    <p>Для оптимизации времени подготовки и доставки данных был предложен протокол <a href="http://wiki.osgeo.org/wiki/WMS_Tile_Caching" target="_blank" class="external">WMS Tile Caching</a> (далее по тексту WMS-C). Основные идеи:</p>
+	    <ul>
+	      <li>запрашиваемый регион [&amp;BBOX] должен соответствовать заданной сетке (скажем, весь слой разбит по сетке 1х1 км, и запрашивать можно только по квадратам; в реальности сетка определяется по разрешению и масштабу);</li>
+	      <li>количество уровней увеличения строго ограничено.</li>
+	    </ul>
+	    <p>Теперь можно подготовить карту в заданном масштабе и разрезать по сетке. Кусочек такой карты называется тайл (tile). Как и раньше, OpenLayers обращается к серверу WMS (на самом деле клиент не различает WMS и WMS-C) и получает набор заранее подготовленных тайлов. Не требуется время на выбор, подготовку и преобразование данных. Также, как и любой кэш-сервер, использование собственного сервера WMS-C позволяет значительно сократить время доставки данных от сторонних WMS и сгладить перебои в их работе. Но не забывайте, что воспользоваться протоколом WMS-C клиенты, работающие с произвольными масштабами (все настольные ГИС, фреймворки Chameleon и p.mapper), не смогут.</p>
+	    <p><em><strong>Замечание. </strong></em>По-умолчанию, класс OpenLayers.Layer.WMS расчитан на работу с WMS-C. И поэтому запрашивает у сервера множество мелких кусочков. Для обычного WMS эффективнее запрашивать карту за один раз [параметр 'singleTile: true'].</p>
+	    <p>Существует несколько реализаций протокола WMS-C:</p>
+	    <ul>
+	      <li> GeoWebCache</li>
+	      <li><a href="http://tilecache.org/" target="_blank" class="external"> TileCache</a></li>
+	      <li> GeoJazzy WMSTileCache (<a href="geojazzy.html">описание</a>)</li>
+	      <li> <a href="http://ka-map.ominiverdi.org/wiki/index.php/Pre-caching_system" target="_blank" class="external">ka-Map Cache</a></li>
+	      </ul>
+	    <p>В этой статье рассматривается подготовка к работе GeoWebCache. </p>
+	    <!-- Второй раздел -->
+            <h2><strong><a name="02" id="02"></a></strong>2. Установка GeoWebCache</h2>
+            <p>Рассмотрим установку <a href="http://geowebcache.org/" target="_blank" class="external">GeoWebCache</a> в среде Windows. Для работы в Unix может потребоваться выбор другого сервера сервлетов (см. ниже) и, конечно, изменятся пути к файлам.</p>
+	    <p>Если у вас стоит <a href="http://geoserver.org/" target="_blank" class="external">GeoServer</a>, то он уже содержит установленный GeoWebCache. Можете переходить сразу к настройке.</p>
+	    <p>GeoWebCache - это сервлет, т.е. для работы ему нужен контейнер java-сервлетов (javax.servlet container). Для Windows мы будем использовать <a href="http://jetty.mortbay.com/jetty/" target="_blank" class="external">Jetty</a> (другие варианты - <a href="http://tomcat.apache.org/" target="_blank" class="external">Tomcat</a>, <a href="http://www.jboss.org/" target="_blank" class="external">JBoss</a>, <a href="https://glassfish.dev.java.net/" target="_blank" class="external">GlassFish</a>).</p>
+	    <p>Jetty - это http сервер с контейнером java-сервлетов (используется в Windows-версии GeoServer). Дистрибутив расположен <a href="http://dist.codehaus.org/jetty/" target="_blank" class="external">здесь</a>. Берем свежий релиз из 6-й версии (версия 7 еще не стабильная и - главное - в ней отсутствует скрипт для запуска Jetty в качестве службы). Распаковываем, например в c:\jetty, и запускаем:</p>
+	    <pre>bin\Jetty-Service.exe --install<br>bin\Jetty-Service.exe --start</pre>
+
+        <p>
+          <!-- Конец текста статьи, начало ссылок -->
+        Теперь jetty будет запускаться автоматически. Если все сделано правильно, то сервер станет доступен по адресу: <a href="http://localhost:8080/">http://localhost:8080/</a>.</p>
+        <p>Загружаем <a href="http://sourceforge.net/project/showfiles.php?group_id=215120">дистрибутив</a> GeoWebCache в виде WAR-файла. Создаем папку c:\jetty\webapps\geowebcache\ и кладем в нее содержимое war-файла (по сути, это просто архив zip). Перезапускаем Jetty:</p>
+        <pre>bin\Jetty-Service.exe --stop<br>bin\Jetty-Service.exe --start</pre>
+        <p>Перезапустить Jetty можно также через Мой компьютер &gt; Управление &gt; Службы и приложения.<br>
+          Теперь доступна консоль управления GeoWebCache: <a href="http://localhost:8080/geowebcache/demo">http://localhost:8080/geowebcache/demo</a>.</p>
+        <p align="center"><img src="/images/geoweb-cache-01.gif"></p>
+        <p>Здесь приводится список слоев с подключенных серверов WMS. Можно посмотреть несколько демонстрационных слоев. По ссылке в колонке 'OpenLayers' (если вы используете системы координат отличные от EPSG:4326 и EPSG:900913 то см. колонку 'Custom') автоматически создается карта на базе OpenLayers. Позже, если будете добавлять слои в OpenLayers, можно использовать исходный код этой страницы как справку.</p>
+        <p>Если понадобится пароль, то он хранится в файле WEB-INF\users.properties, стандартный - geowebcache:secured.</p>
+        <h2><strong><a name="03" id="022"></a></strong>3. Настройка GeoWebCache</h2>
+        <p>Добавим свой слой. Окрываем в текстовом редакторе файл WEB-INF\classes\geowebcache.xml (не перепутайте с geowebcache-servlet.xml). По аналогии с демонстрационными слоями создаем свой:</p>
+        <pre>&lt;wmsLayer&gt;<br>  &lt;name&gt;my_cached_wms&lt;/name&gt;<br>  &lt;mimeFormats&gt;<br>    &lt;string&gt;image/png&lt;/string&gt;<br>    &lt;string&gt;image/jpeg&lt;/string&gt;<br>  &lt;/mimeFormats&gt;<br>  &lt;grids&gt;<br>    &lt;entry&gt;<br>      &lt;srs&gt;<br>        &lt;number&gt;28407&lt;/number&gt;<br>      &lt;/srs&gt;<br>      &lt;grid&gt;<br>        &lt;srs&gt;<br>          &lt;number&gt;28407&lt;/number&gt;<br>        &lt;/srs&gt;<br>        &lt;dataBounds&gt;<br>          &lt;coords&gt;<br>            &lt;double&gt;1111111&lt;/double&gt;<br>            &lt;double&gt;2222222&lt;/double&gt;<br>            &lt;double&gt;5555555&lt;/double&gt;<br>            &lt;double&gt;6666666&lt;/double&gt;<br>          &lt;/coords&gt;<br>        &lt;/dataBounds&gt;<br>        &lt;gridBounds&gt;<br>          &lt;coords&gt;<br>            &lt;double&gt;1111111&lt;/double&gt;<br>            &lt;double&gt;2222222&lt;/double&gt;<br>            &lt;double&gt;5555555&lt;/double&gt;<br>            &lt;double&gt;6666666&lt;/double&gt;<br>          &lt;/coords&gt;<br>        &lt;/gridBounds&gt;<br>        &lt;zoomStart&gt;0&lt;/zoomStart&gt;<br>        &lt;zoomStop&gt;10&lt;/zoomStop&gt;<br>      &lt;/grid&gt;<br>    &lt;/entry&gt;<br>  &lt;/grids&gt;<br>  &lt;wmsUrl&gt;<br>    &lt;string&gt;http://localhost/cgi-bin/mapserv.exe?map=d:/work/wms/web.map&amp;amp;&lt;/string&gt;<br>  &lt;/wmsUrl&gt;<br>  &lt;wmsLayers&gt;real_wms_layer_name&lt;/wmsLayers&gt;<br>  &lt;transparent&gt;true&lt;/transparent&gt;<br>&lt;/wmsLayer&gt;</pre>
+        <p>После изменения файла нужно оповестить об этом GeoWebCache. На странице администрирования (<a href="http://localhost:8080/geowebcache/demo">http://localhost:8080/geowebcache/demo</a>) нажмите 'Reload Configuration'.</p>
+        <p>Подключаете слой wms-c в OpenLayers точно также как обычный wms. Было:</p>
+        <pre>var geol_hole = new OpenLayers.Layer.WFS('layer',<br>                       'http://localhost/cgi-bin/mapserv.exe?map=d:/work/wms/web.map&amp;',<br>                       {layers: &quot;real_wms_layer_name&quot;, format: 'image/png'});</pre>
+        <p>Стало: </p>
+        <pre>var topo_yandex = new OpenLayers.Layer.WMS('layer',<br>                       'http://localhost:8080/geowebcache/service/wms',<br>                       {layers: 'my_cached_wms', format: 'image/png'});</pre>
+<p>Теперь при отображении слоя готовые тайлы будут браться из кэша GeoWebCache. А если их там еще нет, то будут запрошены на WMS-сервере и сохранены в кэше. Можно заранее подготовить кэш. Обычно генерируют не все уровни увеличения, а только несколько первых, например 8 из 20. Остальные будут накапливаться в процессе работы. Для этого обратитесь на страницу администрирования в раздел 'Seed this layer' (http://localhost:8080/geowebcache/demo).</p>
+<p>Папка для хранения кэша тайлов задается в файле WEB-INF\web.xml - параметр 'GEOWEBCACHE_CACHE_DIR' (не забудьте раскомментировать).</p>
+<p>  <span>
+    <!--#include virtual="/scripts/forum-comments-num.php?i=3569"-->
+  </span>		</p>
+<div class="links">
+				<h2>Ссылки по теме</h2>
+					<ul>
+						<li><a href="mapserver-wms.html">Создание WMS-сервиса с помощью Mapserver</a></li>
+					  </ul>
+			</div>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<p class="status"><span>Дата создания: 28.07.2009
+<br>Автор(ы): <a href="/forum/memberlist.php?mode=viewprofile&u=6850" target="_blank">Mavka</a></span></p>
+<!--#include virtual="/inc/footer2.php" -->

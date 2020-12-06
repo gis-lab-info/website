@@ -1,0 +1,70 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Интерактивное управление прозрачностью растра в QGIS</title>
+<!--#include virtual="/inc/header2.txt" -->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Вопросы и ответы</a></li>
+</ul>
+<!--Contents start-->
+<h1>Интерактивное управление прозрачностью растра в QGIS</h1>
+<p class="ann">Инструмент для быстрого управления прозрачностью</p>
+<p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=7573"--></span></p>
+
+<p>Raster Transparency&nbsp;&mdash; расширение QGIS, позволяющее интерактивно
+задавать диапазон прозрачных пикселей растра.</p>
+<p><strong>Оглавление</strong></p>
+<ol>
+  <li><a href="#01">Замечания по установке</a></li>
+  <li><a href="#02">Работа с расширением</a></li>
+  <li><a href="#contacts">Контакты</a></li>
+</ol>
+
+<!-- Первый раздел -->
+<h2><strong><a name="01" id="01"></a></strong>1. Замечания по установке</h2>
+<p>Расширение доступно из <a href="/programs/qgis/qgis-repo.xml">репозитория ГИС-Лаб</a>.</p>
+<p>Raster Transparency разработан для QGIS версии 1.5.0 и старше и не имеет
+зависимостей. Расширение будет полезно тем, кто часто работает с
+классифицированными растрами, содержащими непрерывные значения, например 0-100%.</p>
+
+<h2><strong><a name="02" id="02"></a></strong>2. Работа с расширением</h2>
+<p>После активации расширения в левой части окна QGIS появится еще одна
+панель</p>
+
+<p align="center"><img src="/images/raster-transparency-01.png" alt="Панель расширения" width="282" height="142"></img></p>
+
+<p>Пользоваться расширением очень просто:</p>
+<ol>
+  <li>В таблице содержания (TOC) выбираем нужный растровый слой. Если выбран
+  неподдерживаемый тип слоя, панель расширения блокируется.</li>
+  <li>При помощи ползунков задаем диапазоны значений пикселей, которые
+  нужно сделать прозрачными. Верхний ползунок позволяет задавать значения
+  &laquo;снизу&raquo;, начиная с минимального значения, а нижний&nbsp;&mdash;
+  &laquo;сверху&raquo;, начиная с максимального значения.</li>
+  <li>После отпускания ползунка заданный диапазон значений будет трактоваться
+  как прозрачный.</li>
+</ol>
+
+<p align="center"><img src="/images/raster-transparency-02.png" alt="Свойства слоя после изменения прозрачности" width="700" height="544"></img></p>
+
+<p>Еще несколько примеров. Исходный растр со значениями от 0 до 100 раскрашенный стандартной палитрой. </p>
+<p align="center"><img src="/images/raster-transparency-03.png" alt="Без прозрачности" width="576" height="342"></img></p>
+<p>Результат работы расширения, слайдер установлен в значение 23, это означает, что все классы от 0 до 23 будут сделаны прозрачными: </p>
+<p align="center"><img src="/images/raster-transparency-04.png" alt="Задана прозрачность" width="575" height="407"></img></p>
+<p>Небольшое видео, демонстрирующее работу расширения можно посмотреть
+<a href="http://screencast.com/t/K3FvtDlDe">здесь</a>.</p>
+
+<h2><strong><a name="contacts" id="contacts"></a></strong>3. Контакты</h2>
+<p>Если вы нашли ошибку, у вас есть предложения по улучшению плагина или просто вопросы
+по использванию&nbsp;&mdash; напишите <a href="mailto:alexander.bruy@gmail.com">разработчикам</a> (еще <a href="/contacts.html">контакты</a>).</p>
+
+<!-- обсуждение на форуме, цифра изменяется при публикации статьи -->
+<p class="discuss"><span><!--#include virtual="/scripts/forum-comments-num.php?i=7573"--></span></p>
+
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<p class="status"><span>Дата создания: 07.04.2011
+<br>Автор(ы): <a href="forum/memberlist.php?mode=viewprofile&u=5325" target="_blank">Александр Бруй</a></span></p>
+<!--#include virtual="/inc/footer2.php" -->

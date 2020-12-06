@@ -1,0 +1,36 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Открытие нужной точки из Arcview GIS в Google Maps/Earth</title>
+<!--#include virtual="/inc/header2.txt" -->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Вопросы и ответы</a></li>
+</ul>
+<!--Contents start-->
+<h1>Открытие нужной точки из Arcview GIS в Google Maps/Earth </h1>
+<p class="ann">О том как быстро, выбрав нужную точку на карте в Arcview открыть ее в браузере с Google Maps или Google Earth. </p>
+<p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=1471"--></span></p>
+<p>Данное расширение  дает возможность открыть окно Google Maps или запустить Google Earth с фокусом в точке, указанной пользователем в окне вида Arcview GIS. Для работы необходимо загрузить (<a href="/programs/avenue/open-in-google-maps-earth.zip">версия 1</a>, <a href="/programs/avenue/open-in-google-maps-earth-v2.7z">версия 2</a>, <a href="/programs/avenue/open-in-google-maps-earth-v3.7z">версия 3</a> - увеличена числовая разрядность результа) и включить расширение  в списке дополнительных модулей ArcView (File\Extensions...). </p>
+            <p align="center"><img src="/images/open-in-google-01.gif" alt="Открыть в Google Maps/Earth" width="376" height="305" /></p>
+            <p>На панели инструментов появится набор из двух кнопок <img src="/images/open-in-google-04.gif" alt="Открыть в Google Maps/Earth" width="23" height="41" />, позволяющий для выбранной точки запустить по выбору пользователя окно браузера с Google Maps (GM) или запустить Google Earth (GE). При это в GM и GE изображение будет отцентрировано по точке, выбранной в Arcview. </p>
+            <p>Расширение работает как со спроецированным видом, так и в географической системе координат. Для работы нужно выбрать нужный инструмент, и просто щелкнуть в интересующей точке в Виде Arcview GIS. </p>
+            <p>Так как снимки в базе данных Google, весьма разнородны (это и Landsat, и Quickbird, и различные аэрофотоснимки), пользователю предоставляется возможность выбрать уровень детализации (Level of Detail (LOD), или проще говоря увеличение, при котором он хочет увидеть снимок. Однако, при выборе большого увеличения, для данной точки, если подробная съемка отсутствует, Google Maps будет показывать соответствующее сообщение об ошибке и нужно будет уменьшить масштаб. </p>
+            <p><img src="/images/open-in-google-02.gif" alt="Открыть в Google Maps/Earth" width="733" height="399" /></p>
+            <p><img src="/images/open-in-google-03.gif" alt="Открыть в Google Maps/Earth" width="719" height="506" /></p>
+            <p>При выборе инструмента <strong>GE</strong>, в котором увеличение происходит &quot;на лету&quot;, выбирать LOD нет необходимости. Нужно иметь ввиду, что с некоторыми версиями Google Earth программа может работать некорректно или GE может не запускаться. В такой ситуации необходимо в свойствах файла googleearth.exe (Properties\Compatibility\Run this program in compatibility mode) в параметрах совместимости выбрать систему Windows NT (<a href="hotlink-anytype.html">подробнее</a>). Если и это не помогло, то необходимо попробовать, перед использованием расширения открыть Google Earth или браузер. </p>
+            <p class="discuss">
+				<span><!--#include virtual="/scripts/forum-comments-num.php?i=1471"-->
+				</span></p>
+			<div class="links">
+			<h2>Ссылки по теме</h2>
+			<ul>
+               <li><a href="qgis2google.html">Открытие объектов из QGIS в Google Maps/Earth</a></li>
+               </ul>
+			</div>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<p class="status"><span>Дата создания: 15.04.2007
+<br>Автор(ы): <a href="/forum/memberlist.php?mode=viewprofile&u=1394" target="_blank">Александр Маниша</a></span></p>
+<!--#include virtual="/inc/footer2.php" -->

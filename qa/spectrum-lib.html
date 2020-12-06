@@ -1,0 +1,245 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Cпектральные библиотеки - источники данных по спектрам</title>
+<!--#include virtual="/inc/header2.txt" -->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Вопросы и ответы</a></li>
+</ul>
+<!--Contents start-->
+<h1>Cпектральные библиотеки - источники данных по спектрам</h1>
+<p class="ann">Общая информация по основным спектральным библиотекам</p>
+<p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=6162"--></span></p>
+
+<p>Спектральные библиотеки  <SPAN LANG="ru-RU">представляют  собой наборы графиков-кривых спектральной  отражательной способности объектов,  полученные многоканальными спектрометрами  в полевых или лабораторных условиях.  Последний вариант создания библиотек  встречается наиболее часто.</SPAN></p>
+<p>График спектральной кривой (далее  спектральная кривая) представляет из  себя графическое отображение связи  между длинной волны и значениями  коэффициентов отражения у анализируемого  объекта. По оси Х −  значения длин волн,  в которых проводились измерения  коэффициентов отражения, как правило,  указываются в микрометрах или нанометрах.  По оси </SPAN>Y<SPAN LANG="ru-RU"> − значения коэффициентов отражения в  рассматриваемых зонах спектра, измеряемых,  как правило, в долях единицы.</SPAN>
+<p>Рассмотрим график спектральной кривой характерный для любой фотосинтезирующей растительности.
+<p align="center"><img src="/images/spectrum-lib-01.gif" alt="" width="500" height="312">
+<p align="left">Спектральная кривая отражает все характерные черты присущие анализируемому объекту. Главными факторами, влияющим на спектральные характеристики растений являются пигментация, особенности внутреннего строения листьев, общее содержание влаги. В синей и красной зоне спектра отражательная способность растений очень низкая. Обусловлено это тем, что хлорофилл, содержащийся в листе, поглощает большую часть падающей энергии в этих диапазонах длин волн, расположенных приблизительно около 0,44 и 0,66 мкм. В зеленой зоне энергии отражается больше, поэтому мы и видим растительность зеленой. В ближнем инфракрасном диапазоне наблюдаются максимальные значения коэффициентов отражения для растительности. Обусловлены они особенностями внутреннего строения листьев и связанными с ним очень высокой пропускной и отражательной способностью, при очень низком поглощении энергии. Ярусность, многослойность, высокая биомасса приводят к высоким значениям коэффициентов отражения. Низкие значения коэффициентов отражения в синей и красной зонах спектра и высокие в зеленой и ближней ИК являются характерной особенностью спектральных кривых растительности. В среднем инфракрасном диапазоне сильное влияние на форму спектральной кривой оказывают  полосы поглощения воды в длинах волн 1,4, 1,9 и 2,7 мкм. Большая часть падающей энергии поглощается водой, имеющейся в листе, а остальная ее часть отражается.
+<p align="left">Дополнительную информацию по спектральным свойствам различных природных объектов можно найти в:
+<ul>
+  <li> Дейвис Ш.М., Ландгребе Д.А., Филипс Т.Л. и др. Дистанционное зондирование: количественный подход. М.: Недра, 1983, 415 с. (<a href="/docs/books/quant-rs/quant-rs.zip">скачать</a>, TIF, рус., 27Mb);</li>
+  <li>Выгодская И.Н, Горшкова И.И. Теория и эксперимент в дистанционных исследованиях растительности. М.: Гидрометеоиздат, 1987, 246 с. (<a href="/docs/books/vygod/vygod.pdf">скачать</a>, PDF, 72Mb);</li>
+  <li>Jensen J.R. Remote Sensing of the Environment: An Earth Resource Perspective, NJ.,Prentice Hall, 2000, p. 544.</li>
+</ul>
+<p align="left">Основное назначение спектральных библиотек – визуальное или автоматическое сравнение кривых спектральной отражательной способности различных объектов для выявления характерных зон поглощения/отражения энергии и использование полученной информации при проведении спектрального анализа. Такое сравнение может производиться как между спектральными кривыми различных объектов, так и между кривой снятой спектрометром и со снимка.
+<p align="left">Использование данных спектральных библиотек в качестве эталонов при проведении спектрального анализа для выявления объектов на  конкретном снимке требует соблюдения ряда обязательных требований.
+<ol>
+  <li>Одинаковые единицы измерения. Поскольку спектральные библиотеки содержат информацию о значениях коэффициентов отражения на поверхности земли, выражаемых, как правило, в долях единицы, яркости пикселов должны быть приведены к такому же виду. То есть должен быть выполнен пересчет яркостей пикселов в коэффициент отражения (значения 0-1) и устранено влияние атмосферы.</li>
+  <li>Одинаковый спектральный диапазон и разрешение данных. Спектральный диапазон и разрешение библиотек соответствуют характеристикам спектрометра.  Спектральный диапазон большинства библиотек спектров от 0,2-0,4 до 14-25 микрометров с разрешением от 1  до нескольких нанометров. То есть, в библиотеке может содержаться несколько сотен, а то и тысяч точек для построения одной кривой. Спектральное разрешение многозональных съемочных систем не сопоставимо с такими данными. Например, Landsat7/ETM+ 1,2,3,4,5,7 каналы, диапазон 0,45-2,35 микрометра, разрешение 65-270 нанометров. Поэтому необходим пересчет диапазона и разрешения спектральной библиотеки под конкретную съемочную систему. Эту процедуру необходимо выполнять и при работе с гиперспектральными снимками.</li>
+  </ol>
+<p>Прообразом современных спектральных библиотек можно считать Атлас спектральных кривых отражения природных образований, составленный Криновым Л. Е. в 1938 году. Опубликованная в 1947 году работа содержит данные по спектральной отражательной способности  лесных насаждений, кустарников, травяного покрова, мхов,  полевых и  огородных культур, грунтов и почв, искусственных материалов в разных природных зонах (Кринов, Е.Л. Спектральная отражательная способность природных образований. М.-Л. Изд-во АН СССР. 1947 (<a href="/docs/books/krinov47/krinov47.pdf">скачать</a>, PDF, 72Mb)).</p>
+<p>На сегодняшний день существует несколько общедоступных спектральных библиотек:</p>
+<p><strong>USGS Digital Spectral Library</strong></p>
+<p>Библиотека создана в USGS Spectroscopy Lab’s (текущая версия splib06a - сентябрь, 2007). Содержит данные о спектральной отражательной способности минералов, горных пород, грунтов, жидкостей, летучих соединений, замороженных летучих соединений, растительности, искусственных материалов в диапазоне от 0,2 до 150 микрометров. Всего более 1300 спектральных кривых.  Библиотека находится по адресу: <a href="http://speclab.cr.usgs.gov/spectral-lib.html">http://speclab.cr.usgs.gov/spectral-lib.html</a>. Подробное описание библиотеки <a href="http://speclab.cr.usgs.gov/spectral.lib06/ds231/index.html#ASCIID">http://speclab.cr.usgs.gov/spectral.lib06/ds231/index.html#ASCIID</a> и содержание библиотеки <a href="http://speclab.cr.usgs.gov/spectral.lib06/ds231/datatable.html">http://speclab.cr.usgs.gov/spectral.lib06/ds231/datatable.html</a>. Данные могут быть скачены по следующей ссылке: <a href="http://speclab.cr.usgs.gov/spectral.lib06/">http://speclab.cr.usgs.gov/spectral.lib06/</a>.</p>
+<p>Часть библиотеки включена в поставку ENVI:</p>
+<p>\IDL**\products\envi**\spec_lib\usgs_min\<br>
+  \IDL**\products\envi**\spec_lib\veg_lib\</p>
+<table width="85%" align="center">
+  <tr>
+    <th>Название файла</th>
+    <th>Описание</th>
+    <th>Количество спектров</th>
+  </tr>
+  <tr>
+    <td><p align="center">usgs_min.sli</p></td>
+    <td><p align="center">USGS Mineral Spectral Library</p></td>
+    <td><p align="center">481</p></td>
+  </tr>
+    <tr>
+    <td><p align="center">usgs_veg.sli</p></td>
+    <td><p align="center">USGS Vegetation Spectral Library</p></td>
+    <td><p align="center">17</p></td>
+  </tr>
+</table>
+<p></p>
+<p><strong>JPL (Jet Propulsion Lab) spectral library</strong></p>
+<p>Библиотека включает в себя кривые спектральной отражательной способности для 160 минералов в диапазоне от 0.4 до 2.5 микрометров. Для 135 минералов выполнены измерения при разных размерах зерна минерала (размер частиц минерала)  – 125-500 микрометров, 45-125 микрометров и &lt; 45 микрометров. Основное назначение библиотеки – показать влияние размера зерна на спектрально отражательную способность минералов.</p>
+<p>Описание библиотеки находится по адресу: <a href="http://speclib.jpl.nasa.gov/documents/jpl_desc">http://speclib.jpl.nasa.gov/documents/jpl_desc</a>.</p>
+<p>Библиотека включена в поставку ENVI:</p>
+<p> \IDL**\products\envi**\spec_lib\jpl_lib\</p>
+<table width="85%" align="center">
+  <tr>
+    <th>Название файла</th>
+    <th>Описание</th>
+    <th>Количество спектров</th>
+  </tr>
+  <tr>
+    <td><p align="center">jpl1.sli</p></td>
+    <td><p align="center">JPL Mineral Spectral library with &lt;45 micrometers grainsize</p></td>
+    <td><p align="center">160</p></td>
+  </tr>
+  <tr>
+    <td><p align="center">jpl2.sli</p></td>
+    <td><p align="center">JPL Mineral Spectral library with 45-125 micrometers grainsize</p></td>
+    <td><p align="center">135</p></td>
+  </tr>
+    <tr>
+    <td><p align="center">jpl3.sli</p></td>
+    <td><p align="center">JPL Mineral Spectral library with 125-500 micrometers grainsize</p></td>
+    <td><p align="center">135</p></td>
+  </tr>
+</table>
+<p><strong>Johns Hopkins University Spectral Library</strong></p>
+<p>Была создана под руководством John W. (Jack) Salisbury в университете Джона Хопкинса. Библиотека включает в себя кривые спектральной отражательной способности для минералов, горных пород, почв, метеоритов, лунного грунта, искусственных материалов, снега, льда, растительности в диапазоне от 0.4 до 14 микрометров. Описание библиотеки находится по адресу: <a href="http://speclib.jpl.nasa.gov/documents/jhu_desc">http://speclib.jpl.nasa.gov/documents/jhu_desc</a>.</p>
+<p>Библиотека включена в поставку ENVI:  </p>
+<p>\IDL**\products\envi**\spec_lib\jhu_lib\</p>
+<table width="85%" align="center">
+  <tr>
+    <th>Название файла</th>
+    <th>Описание</th>
+    <th>Количество спектров</th>
+  </tr>
+  <tr>
+    <td><p align="center">ign_crs.sli</p></td>
+    <td><p align="center">Igneous Rocks - Coarse (0.4-14 micrometers)</p></td>
+    <td><p align="center">34</p></td>
+  </tr>
+  <tr>
+    <td><p align="center">ign_fn.sli</p></td>
+    <td><p align="center">Igneous Rocks - Fine (0.4-14 micrometers)</p></td>
+    <td><p align="center">33</p></td>
+  </tr>
+    <tr>
+    <td><p align="center">lunar.sli</p></td>
+    <td><p align="center">Lunar Materials (2.08-14 micrometers)</p></td>
+    <td><p align="center">17</p></td>
+  </tr>
+    <tr>
+    <td><p align="center">manmade1.sli</p></td>
+    <td><p align="center">Man Made Materials (0.42-14 micrometers)</p></td>
+    <td><p align="center">14</p></td>
+  </tr>
+    <tr>
+    <td><p align="center">manmade2.sli</p></td>
+    <td><p align="center">Man Made Materials (0.3-12.5 micrometers)</p></td>
+    <td><p align="center">19</p></td>
+  </tr>
+    <tr>
+    <td><p align="center">meta_crs.sli</p></td>
+    <td><p align="center">Metamorphic Rocks - Coarse (0.4-14.98 micrometers)</p></td>
+    <td><p align="center">25</p></td>
+  </tr>
+    <tr>
+    <td><p align="center">meta_fn.sli</p></td>
+    <td><p align="center">Metamorphic Rocks - Fine (0.4-14.98 micrometers) </p></td>
+    <td><p align="center">29</p></td>
+  </tr>
+    <tr>
+    <td><p align="center">meteor.sli</p></td>
+    <td><p align="center">Meteorites (2.08-25 micrometers)</p></td>
+    <td><p align="center">59</p></td>
+  </tr>
+    <tr>
+    <td><p align="center">minerals.sli</p></td>
+    <td><p align="center">Minerals (2.08-25 micrometers)</p></td>
+    <td><p align="center">324</p></td>
+  </tr>
+    <tr>
+    <td><p align="center">sed_crs.sli</p></td>
+    <td><p align="center">Sedimentary Rocks - Coarse (0.4-14 micrometers)</p></td>
+    <td><p align="center">15</p></td>
+  </tr>
+    <tr>
+    <td><p align="center">sed_fn.sli</p></td>
+    <td><p align="center">Sedimentary Rocks - Fine (0.4-14.98 micrometers)</p></td>
+    <td><p align="center">13</p></td>
+  </tr>
+    <tr>
+    <td><p align="center">snow.sli</p></td>
+    <td><p align="center">Snow (0.3-14 micrometers)</p></td>
+    <td><p align="center">4</p></td>
+  </tr>
+    <tr>
+    <td><p align="center">soils.sli</p></td>
+    <td><p align="center">Soils (0.42-14 micrometers)</p></td>
+    <td><p align="center">25</p></td>
+  </tr>
+    <tr>
+    <td><p align="center">veg.sli</p></td>
+    <td><p align="center">Vegetation (0.3-14 micrometers)</p></td>
+    <td><p align="center">3</p></td>
+  </tr>
+    <tr>
+    <td><p align="center">water.sli</p></td>
+    <td><p align="center">Water (2.08-14 micrometers)</p></td>
+    <td><p align="center">3</p></td>
+  </tr>
+</table>
+<p><strong>ASTER spectral library </strong></p>
+<p>ASTER spectral library (текущая версия 2.0 - декабрь, 2008) была создана для поддержки использования снимков Terra/ASTER и содержит данные из перечисленных выше спектральных библиотек. Всего в ней содержится более 2400 спектральных кривых естественных и искусственных материалов в диапазоне от 0,4 до 15,4 микрометров. Библиотека находится по адресу: <a href="http://speclib.jpl.nasa.gov/search-1">http://speclib.jpl.nasa.gov/search-1</a>. Описание библиотеки: <a href="http://speclib.jpl.nasa.gov/downloads/RSE_D_08_00553.pdf">http://speclib.jpl.nasa.gov/downloads/RSE_D_08_00553.pdf</a>.</p>
+<p><strong>IGCP264 Spectral Library </strong></p>
+<p>Спектральная библиотека была создана в 1990 году в рамках проекта IGCP 264. Она включает в себя измерения 5 различных спектрометров для 27 хорошо изученных минералов. Основное назначение библиотеки – показать влияние спектрального разрешения и спектрального диапазона при изучении спектральной кривой.</p>
+<p>Библиотека включена в поставку ENVI:</p>
+<p>\IDL**\products\envi**\spec_lib\ igcp264\</p>
+<table width="85%" align="center">
+  <tr>
+    <th>Название файла</th>
+    <th>Спектрометр</th>
+    <th>Количество спектров</th>
+  </tr>
+  <tr>
+    <td><p align="center">IGCP-1.SLI</p></td>
+    <td><p align="center">CSES Beckman Spectrometer</p></td>
+    <td><p align="center">27</p></td>
+  </tr>
+  <tr>
+    <td><p align="center">IGCP-2.SLI</p></td>
+    <td><p align="center">Brown University Relab Spectrometer</p></td>
+    <td><p align="center">27</p></td>
+  </tr>
+  <tr>
+    <td><p align="center">IGCP-3.SLI</p></td>
+    <td><p align="center">CSES SIRIS (GER) Spectrometer</p></td>
+    <td><p align="center">27</p></td>
+  </tr>
+    <tr>
+    <td><p align="center">IGCP-4.SLI</p></td>
+    <td><p align="center">USGS Denver Beckman Spectrometer</p></td>
+    <td><p align="center">27</p></td>
+  </tr>
+    <tr>
+    <td><p align="center">IGCP-5.SLI</p></td>
+    <td><p align="center">CSES PIMA Spectrometer</p></td>
+    <td><p align="center">27</p></td>
+  </tr>
+</table>
+<p>Кроме этого в ENVI включены 2 спектральные библиотеки, содержащие информацию о спектральной отражательной способности растительности. Их автор - Chris Elvidge:</p>
+<p>\IDL**\products\envi**\spec_lib\veg_lib\</p>
+<table width="85%" align="center">
+  <tr>
+    <th>Название файла</th>
+    <th>Описание</th>
+    <th>Количество спектров</th>
+  </tr>
+  <tr>
+    <td><p align="center">veg_1dry.sli</p></td>
+    <td><p align="center">Published Dry Plant Material Spectra </p></td>
+    <td><p align="center">74</p></td>
+  </tr>
+  <tr>
+    <td><p align="center">veg_2grn.sli</p></td>
+    <td><p align="center">Jasper Ridge Spectral Library for Green Vegetation, Dry Vegetation, and Rocks Jasper Ridge Biological Reserve</p></td>
+    <td><p align="center">25</p></td>
+  </tr>
+</table>
+<p>Как видим, существующие библиотеки содержат, в основном, кривые для различных минералов и горных пород и применяются они для картирования минералов, горных пород поиска месторождений.   Отсутствие подробных общедоступных спектральных библиотек для растительности связано не столько с их ненужностью, сколько со сложностью их создания. Главная причина возникновения этой сложности – изменение спектральной отражательной способности растительности как в пространстве, так и во времени. Изменение спектральной отражательной способности во времени обусловлено тем, что растительность постоянно изменяется. На протяжении вегетационного периода меняется содержания хлорофилла, изменятся структура листа, увеличивается биомасса и т.д. Эти изменения для одного и того же вида растений могут произойти в разное время в зависимости от метеорологических условий района произрастания (то есть в зависимости от их географического положения). Всё это приводит к необходимости иметь в библиотеке множество кривых для одного и того же объекта.</p>
+
+<!-- обсуждение на форуме, цифра изменяется при публикации статьи -->   
+<p class="discuss">
+   <span><!--#include virtual="/scripts/forum-comments-num.php?i=6162"--></span>
+</p>
+<!-- ссылки -->
+<div class="links">
+	<h2>Ссылки по теме</h2>
+		<ul>
+			<li><a href="/projects/spectra">Спектры отражения природных объектов - база данных</a></li>
+			</ul>
+</div>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<p class="status"><span>Дата создания: 27.08.2009
+<br>Автор(ы): <a href="/forum/memberlist.php?mode=viewprofile&u=2611" target="_blank">Александр Черепанов</a></span></p>
+<!--#include virtual="/inc/footer2.php" -->

@@ -1,0 +1,106 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Добавление пользовательских проекций в Arcview GIS</title>
+<!--#include virtual="/inc/header2.txt" -->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Вопросы и ответы</a></li>
+</ul>
+<!--Contents start-->
+<h1>Добавление пользовательских проекций в Arcview GIS</h1>
+<p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=1277"--></span></p>
+<p>Для того, чтобы Arcview добавил к своему списку стандартных проекций
+              используемые вами, нужно создать и запустить скрипт, в котором прописать
+              какие проекции вы хотели бы видеть в Arcview. Естественно, те же проекции
+              вы можете получить и настроив проекцию через <b>View\Properties\Projection\Custom</b>,
+              но если вам наконец это надоело, то пора научить Arcview автоматически
+              добавлять в стандартные проекции проекции с вашими параметрами. </p>
+            <p><b>1. Создание файла с пользовательскими проекциями</b></p>
+            <p>Готовый набор проекций, включающий проекции Albers'a, Gauss-Krueger 3-28 зоны и другие можно скачать вот здесь <b>  <a href="/other/default.zip">default.prj</a><br />
+              </b>Список проекций добавляемых в Arcview при использовании файла <a href="/other/default.zip">default.prj</a>:</p>
+            <ul>
+              <li>Gauss-Krueger: zone 3 - zone 32 </li>
+              <li>Albers Equal Area Conic: Romania, Europe, Siberia, FarEast</li>
+              <li>Lambert Conformal Conic с официальными параметрами для Канады </li>
+            </ul>
+            <p><a href="/other/albers-gk.ave">Готовый скрипт</a> создающий
+              default.prj для выше перечисленных проекций.</p>
+            <p>Если вам достаточно проекций прописанных в файле доступном для скачки,
+            переходите сразу к <a href="#2">пункту 2</a>. Если Вы хотите создать свой собственный набор проекций нужно проделать следующие шаги: </p>
+            <pre>'создать группу проекций и задать им название
+c = CoordSys.Make
+c.SetName(&quot;My Projections&quot;)
+projections = c.GetProjections
+'создать проекцию Albers'a с пользовательскими параметрами
+r = Rect.Make(103@&quot;-56&quot;.AsNumber,164@&quot;-7&quot;.AsNumber)
+projection1 = Albers.Make(r)
+projection1.SetDescription(&quot;Albers - Europe&quot;)
+projection1.SetCentralMeridian(45)
+projection1.SetReferenceLatitude(0)
+projection1.SetLowerStandardParallel(52)
+projection1.SetUpperStandardParallel(64)
+projection1.SetFalseEasting(8500000)
+projection1.SetFalseNorthing(0)
+projection1.SetSpheroid(#SPHEROID_KRASOVSKY)
+'Добавить проекцию в список
+projections.Add(p1)
+'Создать файл default.prj с дополнительными проекциями
+defprj = ODB.Make(&quot;$HOME/default.prj&quot;.AsFilename)
+defprj.Add(c)
+defprj.Add(c2)
+defprj.Commit</pre>
+            <p>Если нужно добавить проекцию Гаусса-Крюгера, то это можно сделать
+            так:</p>
+            <pre>'создать группу проекций и задать им название<br />
+c = CoordSys.Make<br />
+c.SetName(&quot;My Projections&quot;)
+projections = c.GetProjections
+'создать проекцию Gauss-Krueger с пользовательскими параметрами (зона 24)
+r = Rect.Make(103@&quot;-56&quot;.AsNumber,164@&quot;-7&quot;.AsNumber)
+p20 = TransverseMercator.Make(r)
+p20.SetDescription(&quot;GK Zone 24&quot;)
+p20.SetCentralMeridian(141)
+p20.SetReferenceLatitude(0)
+p20.SetScale(1)
+p20.SetFalseEasting(24500000)
+p20.SetFalseNorthing(0)
+p20.SetSpheroid(#SPHEROID_KRASOVSKY)
+'Добавить проекцию в список
+projections.Add(p1)
+'Создать файл default.prj с дополнительными проекциями
+defprj = ODB.Make(&quot;$HOME/default.prj&quot;.AsFilename)
+defprj.Add(c)
+defprj.Add(c2)
+defprj.Commit</pre>
+            <hr width="85%" size="1" />
+            <p><b>2. <a name="2" id="2"></a>Настройка среды Windows для понимания Arcview файла
+              привязки <a href="/other/default.zip">default.prj</a></b></p>
+            <p>Для того, чтобы Arview нашел файл с дополнительными проекциями в определенной
+              директории (например c:\GIS\Arcivew3\), нужно прописать переменную окружения
+              Windows, называется она - <b>HOME</b>.</p>
+            <p>Для этого нужно, в зависимости от установленной операционной системы:</p>
+            <p><b>Windows 95/98</b><br />
+              В файл <b>config.sys</b> прописать следующую строку</p>
+            <p><b>set HOME=C:\Gis\ArcView3\</b> - путем в данном случае является папка
+              в которую был установлен Arcview </p>
+            <p><b>Windows 2000\XP</b><br />
+              Пуск (Start) - Настройка (Settings) - Панель управления (Control Panel) - Система - Дополнительно (Advanced)-Переменные
+              среды (Environmental Variables) - Системные переменные (System Variables). Создать переменную (New):<br />
+              Имя переменной: <b>HOME</b><br />
+              Значение переменной: <b>C:\Gis\ArcView3\</b> - путем в данном случае является
+              папка в которую был установлен Arcview</p>
+            <p>3. В эту же папку переписать файл <b><a href="/other/default.zip">default.prj</a></b></p>
+            <p>4. Перегрузить компьютер для обновления информации о системных переменных </p>
+            <p> В данном файле <a href="/other/default.zip"><b>default.prj</b></a> прописаны
+              3 проекции Albers'а и 18 проекций GK, от 5 до 27 зоны включительно. В
+              случае правильного подключения файла с проекциями при вызове окна Projection
+              Properties (<b>View\Properties\Projection</b>) в группе <b>Standart</b> появляются 2 новые категории (category) <b>BCC Projections</b> и <b>Gauss-Krueger</b>.</p>
+            <p align="center"><img src="/images/addprjav-02.gif" width="412" height="315" alt="Проекции Гаусса-Крюгера" />            </p>
+<p class="discuss"><span><!--#include virtual="/scripts/forum-comments-num.php?i=1277"--></span></p>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<p class="status"><span>Дата создания: 08.04.2002
+<br>Автор(ы): <a href="/forum/memberlist.php?mode=viewprofile&u=2" target="_blank">Максим Дубинин</a></span></p>
+<!--#include virtual="/inc/footer2.php" -->

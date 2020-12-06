@@ -1,0 +1,317 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Начало работы с OpenLayers</title>
+<!--#include virtual="/inc/header2.txt" -->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Вопросы и ответы</a></li>
+</ul>
+<!--Contents start-->
+<h1>OpenLayers: начало работы</h1>
+<p class="ann">OpenLayers -  JavaScript библиотека с открытым исходным кодом, предназначенная для создания карт на основе программного интерфейса (API), подобного GoogleMap API или MSN Virtual Earth API.</p>
+<p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=2014"--></span></p>
+<p><strong>Введение</strong></p>
+	    <p>Библиотека OpenLayers позволяет очень быстро и легко создать web-интерфейс для отображения картографических материалов, представленных в различных форматах и расположенных на различных серверах. Благодаря OpenLayers разработчик имеет возможность создать, к примеру, собственную карту, включающую слои, предоставляемые WMS (и WFS) серверами, <a href="mapserver-wms.html">такими как Mapserver</a>, ArcIMS или Geoserver, и данными картографических сервисов Google. Библиотека является разработкой с открытым исходным кодом и разрабатывается при спонсорской поддержке <a href="http://www.metacarta.com/ " target="_blank" class="external">проекта MetaCarta</a>, который использует OpenLayers в своих разработках. Тем не менее, OpenLayers является независимым свободнораспространяемым продуктом. Данная статья представляет собой перевод различной документации, доступной на <a href="http://openlayers.org/" target="_blank" class="external">сайте OpenLayers</a>.</p>
+	    <p>Помимо собственно визуализации WMS и WFS слоев на единой web-карте, а также редактирования  предоставляемых данных (только для WFS-T серверов) OpenLayers обладает следующими возможностями:</p>
+	    <ul>
+		<li>Добавления на карту панели навигации (включена по умолчанию). На панели находятся кнопки сдвига карты (север-юг, запад-восток), увеличения и уменьшения масштаба;</li>
+                <li>Сдвига карты при помощи мыши;</li>
+                <li>Изменения масштаба карты при прокрутке среднего колеса мыши;</li>
+		        <li>Получения координат точки, над которой находятся указатель мыши;</li>
+		        <li>Добавления панели управления видимостью/невидимостью слоев карты;</li>
+		        <li>Выбора произвольного объекта и получения атрибутивной информации о нем;</li>
+		        <li>Управления прозрачностью используемых слоев карты;</li>
+		        <li>Добавления к карте определяемых пользователем элементов (точек, линий, полигонов);</li>
+		<li>Множество других возможностей OpenLayers, которые, вместе с примерами их использования и документаций доступны <a href="http://openlayers.org/dev/examples/" target="_blank" class="external">на официальном сайте</a>.</li>
+            </ul>
+            <p><strong>Оглавление</strong></p>
+                <ol>
+		  <li><a href="#01">Установка OpenLayers</a></li>
+                  <li><a href="#02">Создание простейшей карты</a></li>
+                  <li><a href="#03">Дополнительные примеры</a></li>
+                </ol>
+
+
+<!-- Первый раздел -->
+	    <h2><strong><a name="01" id="01"></a></strong>1. Установка OpenLayers</h2>
+	    <p>Так как OpenLayers является набором скриптов, написанных на JavaScript,  эта библиотека не требует установки в привычном смысле слова. Поэтому для того, чтобы начать работать с OpenLayers, достаточно <a href="http://trac.openlayers.org/wiki/HowToDownload/" target="_blank" class="external">скачать библиотеку</a> и распаковать ее в свой домашний каталог. Хотя с библиотекой поставляется множество дополнительных материалов (документация, примеры и т.п.), для начала работы понадобится далеко не все. Для нормальной работы достаточно скопировать в каталог, в котором хранится ваш проект, файл build/OpenLayers.js и каталоги theme и img, на этом установка завершена.</p>
+	    <!-- If you want to use the multiple-file version of OpenLayers (for, say,
+debugging or development purposes), copy the lib/ directory up to your
+webserver in the same directory you put the img/ folder. -->
+
+
+
+<!-- Второй раздел -->
+            <h2><strong><a name="02" id="02"></a></strong>2. Создание простейшей карты</h2>
+            <p>В  OpenLayers API есть два основополагающих понятия, идентичных аналогичным предложениям Mapserver: это объекты Map и Layer. Map хранит информацию о проекции, географическому охвату, единицах измерения и других параметрах карты в целом. Внутри карты (Map) данные задаются посредством одного или нескольких объектов Layer. Layer содержит информацию о слоях данных, которые будут помещены на карту, и о том, как каждый из этих слоев должен отображаться на карте.</p>
+	        <p><strong>Заготовка для карты</strong></p>
+	    <p>Сначала нужно подготовить исходный файл, в который будет встроен объект OpenLayers, отвечающий за отображение карт (OpenLayers поддерживает встраивание карт в любой блочный элемент html-кода). Кроме этого, в текст странички нужно вставить тег со ссылкой на скрипт из библиотеки OpenLayers:</p>
+		        <pre>&lt;html&gt;
+&lt;head&gt;
+  &lt;title&gt;OpenLayers Example&lt;/title&gt;
+    &lt;script src=&quot;OpenLayers.js&quot;&gt;&lt;/script&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+      &lt;div style=&quot;width:100%; height:100%&quot; id=&quot;map&quot;&gt;&lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+			</pre>
+	    <p><strong>Создание объекта, отображающего карту</strong></p>
+	    <p>Понятно, что предыдущего примера еще не достаточно,  чтобы отобразить карту на страничке. Нужно создать еще объект, который будет отвечать за отображение карты:</p>
+	    <tcode>
+var map = new OpenLayers.Map('map')
+                    </tcode>
+	    <p>В конструкторе объекта map используется один аргумент - название элемента html, связанного с картой, или ID этого элемента.</p>
+	    <p>Следующим шагом будет добавление слоев к объекту map. OpenLayers поддерживает множество различных форматов, в этом примере мы рассмотрим слой WMS предоставляемый ресурсом MetaCarta:</p>
+		        <pre>var wms = new OpenLayers.Layer.WMS(
+  &quot;http://labs.metacarta.com/wms/vmap0&quot;,
+  {'layers':'basic'} );
+map.addLayer(wms);</pre>
+	    <p>Здесь первый параметр в конструкторе - адрес WMS сервера. Второй аргумент - объект, хранящий параметры для добавления их к строке WMS-запроса.</p>
+	    <p>Наконец, для того, чтобы вывести карту, нужно указать ее центр и масштаб (zoom). В нашем примере мы разместим карту на всей площади окна (точнее,элемента &quot;map&quot;), для этого воспользуемся функцией zoomToMaxExtent. В итоге должен получиться следующий файл:</p>
+		        <pre>&lt;html&gt;
+&lt;head&gt;
+  &lt;title&gt;OpenLayers Example&lt;/title&gt;
+    &lt;script
+    src=&quot;http://openlayers.org/api/OpenLayers.js&quot;&gt;&lt;/script&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+      &lt;div style=&quot;width:100%; height:100%&quot; id=&quot;map&quot;&gt;&lt;/div&gt;
+      &lt;script defer=&quot;defer&quot; type=&quot;text/javascript&quot;&gt;
+        var map = new OpenLayers.Map('map');
+        var wms = new OpenLayers.Layer.WMS( &quot;OpenLayers WMS&quot;,
+            &quot;http://labs.metacarta.com/wms/vmap0&quot;, {layers: 'basic'} );
+        map.addLayer(wms);
+        map.zoomToMaxExtent();
+      &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+	    <p>А вот <a href="openlayers-example1.html">что из этого получилось</a>.</p>
+
+	    <p><strong>Добавление еще одного слоя</strong></p>
+	    <p>К только что созданной карте можно добавить еще один слой, который будет отображаться совместно с первым (<a href="openlayers-example2.html">посмотреть можно здесь</a>):</p>
+		        <pre>&lt;html&gt;
+&lt;head&gt;
+  &lt;title&gt;OpenLayers Example&lt;/title&gt;
+    &lt;script
+    src=&quot;http://openlayers.org/api/OpenLayers.js&quot;&gt;&lt;/script&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+      &lt;div style=&quot;width:100%; height:100%&quot; id=&quot;map&quot;&gt;&lt;/div&gt;
+      &lt;script defer=&quot;defer&quot; type=&quot;text/javascript&quot;&gt;
+        var map = new OpenLayers.Map('map');
+        var wms = new OpenLayers.Layer.WMS( &quot;OpenLayers WMS&quot;,
+            &quot;http://labs.metacarta.com/wms/vmap0&quot;, {layers: 'basic'} );
+	var twms = new OpenLayers.Layer.WMS( &quot;GIS-Lab Test WMS&quot;,
+        &quot;http://gis-lab.info/cgi-bin/wmsworld?&quot;,
+        { transparent: 'true', layers: 'world',
+        format: 'png'} );
+	map.addLayers([twms,wms]);
+    map.zoomToMaxExtent();
+      &lt;/script&gt;
+&lt;/body&gt;&lt;script type=&quot;text/javascript&quot;&gt;
+        var lon = 35;
+        var lat = 59;
+        var zoom = 0;
+        var map, layer;
+
+        function init(){
+            OpenLayers.DOTS_PER_INCH = 72;
+            var options = {
+
+// Несколько возможностей указать разрешение: [1.40625,0.703125,0.3515625,0.17578125,0.087890625,0.0439453125,0.02197265625,0.010986328125,0.0054931640625,0.00274658203125,0.00137329101],
+//                          scales: [50000000, 10000000],
+//                          maxResolution: 0.17578125,
+//                          minResolution: 0.0439453125,
+//                          maxScale: 10000000,
+//                          minScale: 50000000,
+//                          numZoomLevels: 5,
+//		        units: &quot;dd&quot;,
+                            minResolution: &quot;auto&quot;,
+                            minExtent: new OpenLayers.Bounds(-1, -1, 1, 1),
+                            maxResolution: &quot;auto&quot;,
+                            maxExtent: new OpenLayers.Bounds(-180, -90, 180, 90),
+                            controls: [new OpenLayers.Control.MouseDefaults()]
+                          };
+
+            map = new OpenLayers.Map( 'map' , options);
+            map.addControl(new OpenLayers.Control.PanZoomBar());
+            layer = new OpenLayers.Layer.WMS( &quot;OpenLayers WMS&quot;,
+                    &quot;http://labs.metacarta.com/wms/vmap0&quot;, {layers: 'basic'});
+            map.addLayer(layer);
+            map.setCenter(new OpenLayers.LonLat(lon, lat), zoom);
+        }
+&lt;/script&gt;
+&lt;/html&gt;</pre>
+		        <pre>&lt;script type=&quot;text/javascript&quot;&gt;
+        var lat = 900863;
+        var lon = 235829;
+        var zoom = 6;
+        var map, layer;
+
+        function init(){
+            map = new OpenLayers.Map( 'map' );
+            var basemap = new OpenLayers.Layer.WMS( &quot;Boston&quot;,
+                &quot;http://boston.freemap.in/cgi-bin/mapserv?&quot;,
+                {
+                 map: '/www/freemap.in/boston/map/gmaps.map',
+                 layers: 'border,water,roads,rapid_transit,buildings',
+                 format: 'png',
+                 transparent: 'off'
+                },
+		//Очень важные моменты при создании карты не в проекции epsg-4326:
+		//обязательно нужно указать Maxextent (прямоугольник, ограничивающий карту),
+		//maxResolution  и, собственно, код самой проекции
+                {
+                  maxExtent: new OpenLayers.Bounds(33861, 717605, 330846, 1019656),
+                  maxResolution: 296985/1024, // Можно также указать &quot;auto&quot; - автоматически
+                                              // растянуть карту
+                  projection:&quot;EPSG:2805&quot;,     // Код будет использоваться в запросах к WMS/WFS серверу.
+                  units: &quot;m&quot;                  // Нужно для работаты с масштабами.
+                  } );
+
+            map.addLayer(basemap);
+            map.setCenter(new OpenLayers.LonLat(lon, lat), zoom);
+            map.addControl(new OpenLayers.Control.LayerSwitcher());
+        }
+    &lt;/script&gt;</pre>
+		        <!-- Третий раздел -->
+                <h2><strong><a name="03" id="03"></a></strong>3. Дополнительные примеры</h2>
+                <p>Предыдущих примеров достаточно, чтобы отобразить на собственной карте слои, поставляемые различными WMS серверами. Ниже будут рассмотрены еще несколько скриптов, использующих OpenLayers, все эти примеры идут <a href="http://openlayers.org/dev/examples/" target="_blank" class="external">вместе с пакетом OpenLayers</a>.</p>
+	            <p><strong>Настройка масштаба и центра карты</strong></p>
+	    <p>Можно заранее указать несколько уровней масштаба (разрешение карты), которые впоследствии будут использоваться на панели навигации. Также можно задать максимальный и минимальный допустимый масштаб и число уровней масштабов между ними. Однако есть одна особенность, о которой нужно помнить - умолчанию единицы измерения на карте - дюймы. Ниже приводится пример скрипта:</p>
+	    <pre>
+&lt;script type=&quot;text/javascript&quot;&gt;
+	var lon = 35;
+	var lat = 59;
+	var zoom = 0;
+	var map, layer;
+
+	function init(){
+		OpenLayers.DOTS_PER_INCH = 72;
+		var options = {
+
+		// Несколько возможностей указать разрешение: [1.40625,0.703125,0.3515625,0.17578125,0.087890625,0.0439453125,0.02197265625,
+		//0.010986328125,0.0054931640625,0.00274658203125,0.00137329101],
+		//scales: [50000000, 10000000],
+		//maxResolution: 0.17578125,
+		//minResolution: 0.0439453125,
+		//maxScale: 10000000,
+		//minScale: 50000000,
+		//numZoomLevels: 5,
+		//units: &quot;dd&quot;,
+		minResolution: &quot;auto&quot;,
+		minExtent: new OpenLayers.Bounds(-1, -1, 1, 1),
+		maxResolution: &quot;auto&quot;,
+		maxExtent: new OpenLayers.Bounds(-180, -90, 180, 90),
+		controls: [new OpenLayers.Control.MouseDefaults()]
+        };
+
+		map = new OpenLayers.Map( 'map' , options);
+		map.addControl(new OpenLayers.Control.PanZoomBar());
+		layer = new OpenLayers.Layer.WMS( &quot;OpenLayers WMS&quot;,
+			&quot;http://labs.metacarta.com/wms/vmap0&quot;, {layers: 'basic'});
+		map.addLayer(layer);
+		map.setCenter(new OpenLayers.LonLat(lon, lat), zoom);
+	}
+&lt;/script&gt;</pre>
+	    <p><strong>Проекции</strong></p>
+	    <p>При создании карты подразумевается, что все данные хранятся (приходят) в формате широта/долгота (epsg-код: 4326). Однако можно прямо указать,  что следует работать в другой проекции:</p>
+<pre>
+&lt;script type=&quot;text/javascript&quot;&gt;
+	var lat = 900863; 
+	var lon = 235829;
+	var zoom = 6;
+	var map, layer;
+
+	function init(){
+		map = new OpenLayers.Map( 'map' );
+		var basemap = new OpenLayers.Layer.WMS( &quot;Boston&quot;, 
+			&quot;http://boston.freemap.in/cgi-bin/mapserv?&quot;,
+			{
+				map: '/www/freemap.in/boston/map/gmaps.map', 
+				layers: 'border,water,roads,rapid_transit,buildings', 
+				format: 'png', 
+				transparent: 'off'
+			},
+		//Очень важные моменты при создании карты не в проекции epsg-4326:
+		//обязательно нужно указать Maxextent (прямоугольник, ограничивающий карту),
+		//maxResolution  и, собственно, код самой проекции
+		{
+			maxExtent: new OpenLayers.Bounds(33861, 717605, 330846, 1019656), 
+			maxResolution: 296985/1024, // Можно также указать &quot;auto&quot; - автоматически растянуть карту
+			projection:&quot;EPSG:2805&quot;,     // Код будет использоваться в запросах к WMS/WFS серверу.
+			units: &quot;m&quot;                  // Нужно для работаты с масштабами.
+		} );                
+			map.addLayer(basemap);
+			map.setCenter(new OpenLayers.LonLat(lon, lat), zoom);
+			map.addControl(new OpenLayers.Control.LayerSwitcher());
+        }
+&lt;/script&gt;</pre>
+		        <p><strong>Дополнительные элементы управления</strong></p>
+	    <p>Примеры использования дополнительных элементов управления можно посмотреть в следующем скрипте:</p>
+		        <pre>&lt;script type=&quot;text/javascript&quot;&gt;
+      var map;
+      function init(){
+          map = new OpenLayers.Map('map', { controls: [] });
+
+      // шкала для выбора заранее настроенного масштаба
+	  map.addControl(new OpenLayers.Control.PanZoomBar());
+
+      // панель инструментов (сдвиг и масштабирование)
+	  map.addControl(new OpenLayers.Control.MouseToolbar());
+
+	  // переключатель видимости слоев
+      map.addControl(new OpenLayers.Control.LayerSwitcher({'ascending':false}));
+
+	  // ссылка внизу карты на текущее положение/масштаб
+      map.addControl(new OpenLayers.Control.Permalink());
+	  map.addControl(new OpenLayers.Control.Permalink('permalink'));
+
+      // координаты текущего положения мыши
+      map.addControl(new OpenLayers.Control.MousePosition());
+
+	  // обзорная карта
+      map.addControl(new OpenLayers.Control.OverviewMap());
+
+   	  // горячие клавиши
+      map.addControl(new OpenLayers.Control.KeyboardDefaults());
+
+
+      var ol_wms = new OpenLayers.Layer.WMS(&quot;OpenLayers WMS&quot;,
+             &quot;http://labs.metacarta.com/wms/vmap0&quot;,
+             {layers: 'basic'} );
+      var jpl_wms = new OpenLayers.Layer.WMS(&quot;NASA Global Mosaic&quot;,
+              &quot;http://t1.hypercube.telascience.org/cgi-bin/landsat7&quot;,
+              {layers: &quot;landsat7&quot;});
+      var dm_wms = new OpenLayers.Layer.WMS(&quot;DM Solutions Demo&quot;,
+              &quot;http://www2.dmsolutions.ca/cgi-bin/mswms_gmap&quot;,
+              {layers: &quot;bathymetry,land_fn,park,drain_fn,drainage,&quot; +
+              &quot;prov_bound,fedlimit,rail,road,popplace&quot;,
+              transparent: &quot;true&quot;, format: &quot;image/png&quot; });
+
+      jpl_wms.setVisibility(false);
+      dm_wms.setVisibility(false);
+
+      map.addLayers([ol_wms, jpl_wms, dm_wms]);
+      if (!map.getCenter()) map.zoomToMaxExtent();
+      }
+&lt;/script&gt;</pre>
+
+<!-- Конец текста статьи, начало ссылок -->
+<p class="discuss"><span><!--#include virtual="/scripts/forum-comments-num.php?i=2014"--></span></p>
+<div class="links">
+<h2>Ссылки по теме</h2>
+<ul>
+   <li><a href="ol-load.html">Способы отображения данных с помощью OpenLayers</a></li>
+   <li><a href="mapserver-wms.html">Создание WMS-сервиса с помощью Mapserver</a></li>
+   <li><a href="http://openlayers.org/" target="_blank" class="external">Сайт OpenLayers</a></li>
+</ul>
+</div>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<p class="status"><span>Дата создания: 04.01.2008
+<br>Автор(ы): <a href="/forum/memberlist.php?mode=viewprofile&u=6597" target="_blank">Дмитрий Колесов</a></span></p>
+<!--#include virtual="/inc/footer2.php" -->

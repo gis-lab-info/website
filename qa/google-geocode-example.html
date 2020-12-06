@@ -1,0 +1,53 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Пример GClientGeocoder</title>
+<!--#include virtual="/inc/header-google.txt" -->
+      <!-- GOOGLE Part1 START -->
+        <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAAcxaLeNvSZAM8_X6SDd1_fhQGhS5yCmtMNZMUBKgpbJFW2uH_cRTXeqK2vtaYYO0RO5wSqEbfPoLmDw" type="text/javascript"></script>
+      <!-- GOOGLE Part1 END -->
+	  <!-- GOOGLE Part2 START -->
+      <script type="text/javascript">
+
+    var map = null;
+    var geocoder = null;
+
+    function load() {
+      if (GBrowserIsCompatible()) {
+        map = new GMap2(document.getElementById("map"));
+        map.setCenter(new GLatLng(37.4419, -122.1419), 13);
+        geocoder = new GClientGeocoder();
+		address="Moscow";
+		showAddress(address);
+      }
+    }
+
+    function showAddress(address) {
+      if (geocoder) {
+        geocoder.getLatLng(
+          address,
+          function(point) {
+            if (!point) {
+              alert(address + " not found");
+            } else {
+              map.setCenter(point, 13);
+		  	  alert(point);
+            }
+          }
+        );
+      }
+    }
+    </script>
+      <!-- GOOGLE Part2 END -->
+	  <!--Main table start-->
+      <table class="tab-main">
+        <tr>
+          <td><h1>Пример GClientGeocoder</h1>
+            <p class="ann">Подробности - см. исходный код страницы</p>
+            <!-- GOOGLE Part3 START -->
+			<div align="center"><div id="map" style="width: 90%; height: 500px;"></div></div>
+			<!-- GOOGLE Part3 END -->
+			<!--#include virtual="/scripts/date.php" -->
+			<p class="discuss">
+				<span><!--#include virtual="/scripts/forum-comments-num.php?i=1191"--></span>
+			</p>
+<!--Contents end-->
+<!--#include virtual="/inc/footer2.php" -->

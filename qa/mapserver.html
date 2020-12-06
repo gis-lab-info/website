@@ -1,0 +1,74 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Создание картографических сервисов с использованием MapServer. Введение</title>
+<!--#include virtual="/inc/header2.txt" -->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Вопросы и ответы</a></li>
+</ul>
+<!--Contents start-->
+<h1>Создание картографических сервисов с использованием MapServer. Введение</h1>
+<p class="ann">В статье приводиться обзор MapServer как среды разработки картографических web-приложений</p>
+<p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=1218"--></span></p>
+<p>На сегодняшний день <a href="http://mapserver.gis.umn.edu/" target="_blank" class="external">MapServer</a> является одной из самых популярных сред создания <a href="/qa/ogc-intro.html">картографических web-сервисов</a> с открытым кодом. Исходно, MapServer разрабатывался Университетом Миннесоты совместно с Департаментом Природных Ресурсов Штата Миннесота и NASA, а в настоящее время поддерживается как один из проектов <a href="http://osgeo.org">ассоциации OSGeo</a>. Возможность работы MapServer практически на любых платформах (в том числе Windows, Linux, Mac OS, Solaris), широчайшие функциональные возможности, легкость интеграции с различными СУБД и открытость кодов предопределила популярность программы. Cтрого говоря, MapServer позиционируется не как конечное приложение, а как среда разработки (development environment/platform). Так, <a href="http://www.maptools.org/ms4w/" target="_blank" class="external">для платформы Windows, MapServer</a> поставляется сконфигурированным серверным комплектом, включающим следующие компоненты: </p>
+            <ul>
+              <li>Apache HTTP серверная версия 2.0.58 </li>
+              <li>PHP версии 5.1.4 or 4.4.3-dev </li>
+              <li>MapServer CGI 4.8.4 </li>
+              <li> MapScript 4.8.4 (C#, Java, PHP, Python) </li>
+              <li>Поддержка данных Oracle 10 g, и SDE 9.1 (при наличие соответствующих клиентов/ dlls) </li>
+              <li>Поддержка формата MrSID  </li>
+              <li>GDAL/OGR утилиты </li>
+              <li>MapServer утилиты </li>
+              <li>PROJ утилита </li>
+              <li>Shapelib утилиты </li>
+              <li>Shp2tile утилита</li>
+              <li>OGR/PHP расширение 1.0.0 </li>
+              <li>OWTChart 1.2.0 </li>
+            </ul>
+            <p>MapServer является очень мощным инструментом создания картографических web-сервисов и по своей функциональности не уступает платному ПО, а по части легкости переконфигурирования и интеграции с СУБД превосходит многие из них. </p>
+            <p>К основным достоинства программы можно отнести следующие: </p>
+            <ol>
+              <li>Возможность работы на практически любых платформах </li>
+              <li>Поддержка большого числа растровых и векторных форматов данных </li>
+              <li>Полное соответствие стандартам разработанными OpenGIS Consortium в отношении web mapping services (поддержка  <a href="/qa/ogc-intro.html">WMS, WFS, WCS стандартов</a>)</li>
+              <li>Возможность переконфигурирования и программирования с использованием Perl, PHP, Java, C, Python и др. </li>
+              <li>Возможность интеграции с Oracle, Sybase, MySQL, PostgreSQL и другими СУБД </li>
+              <li> Cоздание высококачественного картографического результата (поддержка TrueType шрифтов, масштабируемых подписей, раскрасок, экспорт в png , tiff , gif , jpeg форматы) </li>
+              <li>Полностью открытый бесплатный компилируемый код на C и мощная пользовательская поддержка </li>
+            </ol>
+            <p>Тем не менее, нельзя сказать, что MapServer является простой средой разработки. Для создания полнофункционального сайта, потребуются знания одного или нескольких перечисленных выше языков программирования. Однако, существует несколько возможностей обойти необходимость программирования интерфейса картографического сервиса “с нуля”. Для этого можно использовать уже написанные открытые библиотеки кодов на PHP , Java или других языках. Такие библиотеки по сути представляют из себя наборы написанных кодов и скриптов для создания инструментов и функций картографических сервисов. </p>
+            <p>Наиболее простыми в использование, на наш взгляд являются, «надстройки» <a href="http://chameleon.maptools.org/index.phtml?page=home.html" target="_blank" class="external">Chameleon</a> и <a href="http://www.pmapper.net/" target="_blank" class="external">P.mapper</a>. Кроме того, существует и ряд других, не менее полезных ресурсов: </p>
+            <ul>
+              <li><a href="http://mapbender.org/" target="_blank" class="external">MapBender</a></li>
+              <li><a href="http://cartoweb.org/" target="_blank" class="external">CartoWeb</a></li>
+              <li><a href="http://ka-map.maptools.org/" target="_blank" class="external">ka-Map</a></li>
+              <li><a href="http://datashare.gis.unbc.ca/fist/index.php" target="_blank" class="external">Flexible Internet Spatial Template (FIST)</a></li>
+            </ul>
+            <p>Об установке MapServer+Chameleon и MapServer+P.mapper и создании WMS с их помощью можно будет прочитать в следующих статьях на сайте GIS-Lab. На настоящий момент на нашем сайте доступно описание процесса <a href="mapserver-install.html">установки MapServer для Windows</a> и <a href="mapserver-begin.html">начала работы с MapServer</a>.</p>
+            <p>Ниже мы приводим  несколько примеров сервисов, разработанных в таких связках - обратите внимание, что на создание таких приложений требуется всего несколько дней (<a href="http://mapserver.gis.umn.edu/gallery" target="_blank" class="external">полный список примеров</a>):</p>
+            <ul>
+              <li><a href="http://www.mapsherpa.com/hawaii2/" target="_blank" class="external">http://www.mapsherpa.com/hawaii2</a></li>
+              <li><a href="http://www.pmapper.net/demo.shtml" target="_blank" class="external">http://www.pmapper.net/demo.shtml</a></li>
+              <li><a href="http://geo.maunsell.com/chameleondemo/index.phtml" target="_blank" class="external">http://geo.maunsell.com/chameleondemo/index.phtml</a></li>
+            </ul>
+<p class="discuss">
+	<span><!--#include virtual="/scripts/forum-comments-num.php?i=1218"--></span>
+</p>
+			<div class="links">
+			<h2>Ссылки по теме</h2>
+			<ul>
+               <li><a href="arcims.html">Создание картографических сервисов с использованием ArcIMS. Введение</a></li>
+			   <li><a href="svg.html">Создание картографических web-сервисов с использованием SVG формата</a></li>
+			   <li><a href="ogc-intro.html">Классификация картографических веб-сервисов OGC</a></li>
+			   <li><a href="mapserver-begin.html">Начало работы с MapServer</a></li>
+			   <li><a href="mapserver-install.html">Установка MapServer для Windows</a></li>
+			</ul>
+			</div>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<p class="status"><span>Дата создания: 15.10.2006
+<br>Автор(ы): <a href="/forum/memberlist.php?mode=viewprofile&u=31" target="_blank">Анна</a></span></p>
+<!--#include virtual="/inc/footer2.php" -->

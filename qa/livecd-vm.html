@@ -1,0 +1,139 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Список программного обеспечения для LiveCD/VM</title>
+<!--#include virtual="/inc/header2.txt" -->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Вопросы и ответы</a></li>
+</ul>
+<!--Contents start-->
+<h1>Список программного обеспечения для LiveCD/VM</h1>
+<p class="ann">Список ПО для установки на Linux LiveCD</p>
+<p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=3393"--></span></p>
+            <p>Цель этой страницы - собрать исчерпывающий список основного открытого ПО ГИС доступного на данный момент для подготовки LiveCD/LiveDVD, а также, виртуальной машины.</p>
+            <p>LiveCD - операционная система, загружающаяся со сменного носителя (CD, DVD, USB-накопитель и т. д.), не требующая для своего функционирования установки на жёсткий диск. Позволяет быстро начать работу с компьютером, избегая длительного процесса установки операционной системы в постоянную память компьютера — жесткий диск. (<a href="http://ru.wikipedia.org/wiki/LiveCD" target="_blank" class="external">Wikipedia</a>).</p>
+            <p>VM -  образ операционной системы с предустановленным ПО, данными, документацией в виде файла для системы виртуализации, например VirtualBox. </p>
+            <p><strong>Оглавление</strong></p>
+            <ol>
+                  <li><a href="#01">Общие соображения </a></li>
+                  <li><a href="#02">Географические информационные системы</a></li>
+                  <li><a href="#03">Общее ПО </a></li>
+                  <li><a href="#04">Данные</a></li>
+                  <li><a href="#05">Рускоязычная документация</a></li>
+            </ol>
+
+
+<!-- Первый раздел -->
+<h2><a name="01"></a>1. Общие соображения</h2>
+<ul>
+  <li>Логотип GIS-Lab при загрузке </li>
+  <li>Обои с около-гисовской тематикой и логотип GIS-Lab </li>
+  <li>Ярлыки на рабочем столе ведущий на описание диска (название &quot;О диске&quot;)</li>
+  <li>Ярлыки для всех ключевых программ, документации и примеров геоданных прямо на рабочем столе </li>
+  <li>Удаляем языковые пакеты для всех языков, кроме английского и ставим русские.</li>
+  <li>Домашняя страница для Firefox http://gis-lab.info и небольшой структированный набор ссылок. </li>
+  <li>Переводы документации неплохо бы интегрировать в систему справки, если это возможно.</li>
+  <li>Возможность переключения на русский и английский языки</li>
+  <li>Явным образом указанный администраторский пароль (в описании диска) или отсутствие такового. </li>
+</ul>
+<h2><a name="02"></a>2. Географические информационные системы </h2>
+<h3>GEOS</h3>
+            <p><a href="http://trac.osgeo.org/geos/" target="_blank" class="external">GEOS</a> - (Geometry Engine - Open Source) порт на язык C++ пакета топологии Java - Java Topology Suite (JTS). GEOS предоставляет доступ к функциональности JTS с помощью C++. Это включает пространственные функции операторы определенные спецификацией OpenGIS Simple Features для SQL, а также специфические функции работы с топологией JTS.            </p>
+            <p>Рекомендуемая версия:   3.0.3.</p>
+            <h3>Proj</h3>
+            <p><a href="http://trac.osgeo.org/proj/" target="_blank" class="external">Proj</a> - свободная библиотека и набор инструментов, являющихся де-факто стандартом в области трансформации координат и проекционных преобразований.</p>
+            <p>Рекомендуемая версия:  4.6.1.  <a href="http://download.osgeo.org/proj/proj-4.6.1.tar.gz" target="_blank" class="external">Загрузить</a>.</p>
+            <h3>GDAL/OGR </h3>
+            <p><a href="http://www.gdal.org/" target="_blank" class="external">GDAL</a> - библиотека трансляции растровых форматов геоданных, библиотека представляет единую абстрактную модель данных для всех поддерживаемых форматов. Пакет также включает набор полезных консольных утилит.</p>
+            <p>Рекомендуемая версия:  1.7.2.</p>
+            <p>Также необходимо установить:</p>
+            <ul>
+              <li><a href="http://trac.osgeo.org/gdal/wiki/GdalOgrInPython" target="_blank" class="external">gdal-python</a> - bindings для языка Python, необходимы для многих скриптов и модулей QGIS.</li>
+            </ul>
+            <h3>SpatiaLite</h3>
+            <p><a href="http://www.gaia-gis.it/spatialite/" target="_blank" class="external">SpatiaLite</a> - расширение для SQLite осуществляющее поддержку пространственных данных в соответствие со спецификациями OpenGis.</p>
+            <p>Рекомендуемая версия: 2.3. <a href="http://www.gaia-gis.it/spatialite/sources.html" target="_blank" class="external">Загрузить</a>.</p>
+            <h3>MapServer 5.6.3</h3>
+            <p> http://mapserver.org/download.html#download</p>
+            <h3>PostGIS 1.5.0</h3>
+            <p> http://postgis.refractions.net/download/</p>
+            <h3>QGIS 1.5</h3>
+            <p><a href="http://cmake.org/HTML/index.html" target="_blank" class="external">QGIS</a> - динамично развивающаяся свободная настольная ГИС.</p>
+            <p><a href="http://www.qgis.org/en/download.html" target="_blank" class="external">Загрузить</a></p>
+            <h3>GRASS 6.4RC4</h3>
+            <p><a href="http://grass.osgeo.org/" target="_blank" class="external">GRASS</a> - одна из самых мощных свободных ГИС. Имеет собственный растровый и векторный топологический формат. Построена с использованием модульной архитектуры, на данный момент насчитывается более 300 модулей. Хорошо интегрирована с QGIS. </p>
+            <p><a href="http://trac.osgeo.org/grass/wiki/Release/6.4.0RC4-News" target="_blank" class="external">Загрузить</a></p>
+            <h3>gvSIG 1.9</h3>
+            <p><a href="http://www.gvsig.gva.es/index.php?id=1729&L=2&K=1">http://www.gvsig.gva.es/index.php?id=1729&L=2&K=1</a>              </p>
+            <p>Также необходимо установить:</p>
+            <ul>
+              <li><a href="http://www.gvsig.org/web/plugins/downloads/extshalom" target="_blank" class="external">extShalom 1.1</a> - чтение в разных кодировках</li>
+              <li><a href="https://gvsig.org/web/projects/gvsig-de ... anguage=en" target="_blank" class="external">Перевод</a> интерфейса на русский              </li>
+            </ul>
+            <h3>uDig 1.1.1</h3>
+            <p> http://udig.refractions.net/download/</p>
+            <h3>GeoServer 2.0.1</h3>
+            <p> http://geoserver.org/display/GEOS/Stable</p>
+            <h3>Kosmo 1.2.1</h3>
+            <p> http://www.opengis.es/</p>
+            <h3>OpenJUMP 1.3 </h3>
+            <p> http://openjump.org/wiki/show/HomePage</p>
+            <h3>OSSIM 1.7.15</h3>
+            <p> http://www.ossim.org/OSSIM/Downloads.html</p>
+            <h3>JOSM</h3>
+            <p> http://josm.openstreetmap.de/josm-latest.jar</p>
+            <h3>R</h3>
+            <p> <a href="http://www.r-project.org/" target="_blank" class="external">R</a> - свободная программная среда для статистических вычислений и графики.</p>
+            <p>Также необходимо установить (модули устанавливаются из менеджера пакетов R):</p>
+            <ul>
+              <li>rgdal</li>
+              <li>gstat</li>
+              <li>sp </li>
+            </ul>
+            <h3>GPSBabel 1.4 </h3>
+            <p><a href="http://www.gpsbabel.org/" target="_blank" class="external">GPSBabel</a> - программное обеспечение для работы с GPS, получением и конвертацией информации.</p>
+            <p><a href="http://www.gpsbabel.org/download.html" target="_blank" class="external">Загрузить</a></p>
+            <h2><a name="03"></a>3. Общее программное обеспечение </h2>
+            <p>GNOME<br>
+              OpenOffice 3.1 </p>
+            <h3> Python 2.6</h3>
+            <p><a href="http://www.python.org/" target="_blank" class="external">Python</a> - объектно-ориентированный язык программирования.</p>
+            <h3>SIP</h3>
+            <p><a href="http://www.riverbankcomputing.com/software/sip/intro" target="_blank" class="external">SIP</a> - инструмент, который облегчает процесс создания bindings для библиотек C и C++ для Python.</p>
+            <p>Apache<br>
+              PostgreSQL 8.4<br>
+              MySQL<br>
+              PHP<br>
+              Ruby<br>
+              Java<br>
+            Firefox<br>
+            Pidgin</p>
+            <h3>SQLite</h3>
+            <p><a href="http://www.sqlite.org" target="_blank" class="external">SQLite</a> - открытая реляционная база данных SQLite не требующая сервера и конфигурации.</p>
+            <h3>QT</h3>
+            <p><a href="http://trolltech.com/products/qt/" target="_blank" class="external">QT</a> - кросс-платформенный пакет разработки для настольных и внедренных приложений. Включает интуитивный API и богатую библиотеку классов для C++, интегрированный инструментарий для разработки графического пользовательского интерфейса и интернационализации, поддерживает разработку на Java и C++.</p>
+            <h3>PyQT</h3>
+            <p><a href="http://www.riverbankcomputing.com/software/pyqt/intro" target="_blank" class="external">PyQt</a> - мультиплатформенный набор bindings с пакетом разработки приложений Qt для языка Python.</p>
+            <h2><a name="04"></a>4. Данные</h2>
+            <p>Geosample</p>
+            <p>VMap0 - shape-файлы, вариант загруженный в PostGIS</p>
+            <p>Пример проекта на базе OSM </p>
+            <p>Примеры космосъемки </p>
+            <h3><a name="05"></a>5. Рускоязычная документация</h3>
+            <p>Руководство по gvSIG</p>
+            <p>Руководство по PostGIS</p>
+            <p>Руководство по GRASS</p>
+<div class="links">
+	<h2>Ссылки по теме</h2>
+	<ul>
+		<li><a href="http://wiki.osgeo.org/wiki/Live_GIS_Disc_Packages" target="_blank" class="external">Live GIS Disc Packages</a></li>
+	</ul>
+</div>
+<p class="discuss">
+   <span><!--#include virtual="/scripts/forum-comments-num.php?i=3393"--></span>
+</p>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<!--#include virtual="/inc/footer2.php" -->
