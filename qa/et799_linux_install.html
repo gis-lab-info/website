@@ -93,10 +93,10 @@
                       Например, в&nbsp;Ubuntu воспользуйтесь <i>Synaptic </i>или введите в
                       командной строке:</p>
                     <pre>$ sudo aptitude install winetricks</pre>
-                    <p>После того, как <span style="font-style: italic;">winetricks</span> установлен, можно просто выполнить команду <strong>winetricks</strong> в&nbsp;консоли. Если winetricks запущен без дополнительных параметров,
+                    <p>В случае, если <span style="font-style: italic;">winetricks</span> был установлен из репозиториев дистрибутива, нужно выполнить команду <strong>winetricks</strong> в&nbsp;консоли, если загружен отдельно, то <strong>sh ./winetricks</strong> из того каталога, куда он был загружен. Когда winetricks запущен без дополнительных параметров,
                       открывается
                       графический интерфейс со&nbsp;списком доступных пакетов. В&nbsp;нашем
-                      случае необходимо выбрать gdiplus, ole2, vb6run, vcrun6, allfonts и&nbsp;нажать ОК.</p>
+                      случае необходимо выбрать gdiplus, ole2, vb6run, vcrun6, allfonts, winxp и&nbsp;нажать ОК.</p>
                     <p><img src="../images/et799_linux_install-02.png" alt=""
  style="width: 523px; height: 396px;"><br>
                         <br>
@@ -104,7 +104,7 @@
                       параметров
                       для команды winetricks, и&nbsp;программа
                       немедленно начнёт их&nbsp;установку.                      </p>
-                    <pre>$ sh winetricks gdiplus ole2 vb6run vcrun6 allfonts</pre>
+                    <pre>$ sh winetricks winxp gdiplus ole2 vb6run vcrun6 allfonts</pre>
                     <br>
                     В&nbsp;процессе установки иногда могут появляться стандартные
                     Windows-установщики.<br>
@@ -174,11 +174,13 @@
                       полного пути к&nbsp;исполняемому файлу <span
  style="font-style: italic;">et.exe</span>):<br>
                     </p>
-                    <pre>$ alias easytrace='wine /home/user/.wine/drive_c/Program\ Files/Easy\ Trace\ Group/Easy\ Trace\ 7.99\ Pro\ \(FREE\)/et.exe'</pre>
+                    <pre>$ alias easytrace='wine ~/.wine/drive_c/Program\ Files/Easy\ Trace\ Group/Easy\ Trace\ 7.99\ Pro\ \(FREE\)/et.exe'</pre>
                     <p>После этого можно запускать Easy Trace из&nbsp;консоли, набрав easytrace</span>. Для постоянного
                       использования следует прописать эту&nbsp;же строку в&nbsp;файл ~/.bashrc</span> (в&nbsp;котором хранятся
                       настройки командной оболочки bash).<br>
                       <br>
+ <p>  <i><b>Совет</b>: если при первом запуске программа не реагирует на мышь, надо в следующий раз после появления заставки нажать клавишу Enter 1-2 раза. </i> </p>  <br>
+
                       Всё, Easy Trace готов к&nbsp;векторизации в&nbsp;связке
                       со&nbsp;свободными ГИС!<br>
                       <br>

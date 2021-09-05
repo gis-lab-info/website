@@ -7,6 +7,7 @@ function init(){
 
     set_user_class = new OpenLayers.Control.Button({
         title:"Выбор категории участников",
+        text_default: "Активные участники",
         text_all_users: "Все участники",
         text_active_users: "Активные участники",
         textSpan: document.createElement('span'),
@@ -25,18 +26,29 @@ function init(){
             }
         }
     });
+
+    create_new_user = new OpenLayers.Control.Button({
+        title:"Зарегистрироваться",
+        textSpan: document.createElement('span'),
+        button: document.createElement('button'),
+        text_default: "Добавить себя на карту",
+        type: OpenLayers.Control.TYPE_BUTTON,
+        trigger: function() {
+            window.open('http://gis-lab.info/forum/ucp.php?i=164', '_top');
+        }
+    }); 
     
     var panel = new OpenLayers.Control.Panel({
         displayClass: 'customPanel',
         createControlMarkup: function (control) {
-            control.button.setAttribute('class', 'setUserClass');
-            control.textSpan.innerHTML = control.text_active_users;
+            control.button.setAttribute('class', 'btn');
+            control.textSpan.innerHTML = control.text_default;
             control.button.appendChild(control.textSpan);
             return control.button;
         }
     });
 
-    panel.addControls([set_user_class]);
+    panel.addControls([set_user_class, create_new_user]);
     
     map = new OpenLayers.Map('map', {
         units: 'm',
@@ -56,14 +68,15 @@ function init(){
     //var lay_osm = new OpenLayers.Layer.OSM;
     lay_osm = new OpenLayers.Layer.XYZ(
 		"MapBox Streets",
-			[
-			"http://a.tiles.mapbox.com/v3/jcsanford.map-xu5k4lii/${z}/${x}/${y}.png",
-			"http://b.tiles.mapbox.com/v3/jcsanford.map-xu5k4lii/${z}/${x}/${y}.png",
-			"http://c.tiles.mapbox.com/v3/jcsanford.map-xu5k4lii/${z}/${x}/${y}.png",
-			"http://d.tiles.mapbox.com/v3/jcsanford.map-xu5k4lii/${z}/${x}/${y}.png"
-		], {
+			[ 
+    "http://a.tiles.mapbox.com/v3/mapbox.natural-earth-1/${z}/${x}/${y}.png",
+    "http://b.tiles.mapbox.com/v3/mapbox.natural-earth-1/${z}/${x}/${y}.png",
+    "http://c.tiles.mapbox.com/v3/mapbox.natural-earth-1/${z}/${x}/${y}.png",
+    "http://d.tiles.mapbox.com/v3/mapbox.natural-earth-1/${z}/${x}/${y}.png"
+
+], {
 			attribution: "Тайлы &copy; <a href='http://mapbox.com/'>MapBox</a> | " + 
-				"Данные &copy; <a href='http://www.openstreetmap.org/'>OpenStreetMap</a> " + "и участники, CC-BY-SA",
+				"&copy; Участники <a href='http://www.openstreetmap.org/copyright'>OpenStreetMap</a> ",
 			sphericalMercator: true,
 			wrapDateLine: true,
 			transitionEffect: "resize",
@@ -71,15 +84,17 @@ function init(){
 			numZoomLevels: 17	
 		}
 	);
-	style = new OpenLayers.Style({ 
-		"pointRadius": 12,
-		"externalGraphic": "../images/amenity_library2.glow.24.png"
-	});
+	
+    sm = new OpenLayers.StyleMap({
+        "default": {"pointRadius": 12, "externalGraphic": "../images/amenity_library2.glow.24.png"},
+        "select": {"pointRadius": 16, "externalGraphic": "../images/amenity_library2.glow.32.png"}
+    })
+
 	
 	var cluster_strategy = new OpenLayers.Strategy.Cluster({distance: 15, threshold: 3});
 	
     users_all = new OpenLayers.Layer.Vector("GeoJSON", {
-        styleMap: new OpenLayers.StyleMap(style),
+        styleMap: sm,
         //renderers: renderer,
         projection: epsg4326,
         visibility: false,
@@ -91,7 +106,7 @@ function init(){
     });
     
     users = new OpenLayers.Layer.Vector("GeoJSON", {
-        styleMap: new OpenLayers.StyleMap(style),
+        styleMap: sm,
         //renderers: renderer,
         projection: epsg4326,
         strategies: [new OpenLayers.Strategy.Fixed()],
@@ -108,10 +123,36 @@ function init(){
             onUnselect: onFeatureUnselect
         }
     );
+
+    highlight = new OpenLayers.Control.SelectFeature(
+        [users, users_all], {
+            hover: true,
+            highlightOnly: true,
+            eventListeners : {
+                'featurehighlighted': function(e) {
+                    var city = e.feature.attributes.city;
+                    tooltip = new OpenLayers.Popup("chicken", 
+                                 e.feature.geometry.getBounds().getCenterLonLat(),
+                                 new OpenLayers.Size(70, 35),
+                                 city,
+                                 null, false);
+                    e.feature.tooltip = tooltip;
+                    tooltip.autoSize = true;
+                    map.addPopup(tooltip);
+                },
+                'featureunhighlighted': function(e) {
+                    if(e.feature.tooltip) {
+                        map.removePopup(e.feature.tooltip);
+                        e.feature.tooltip.destroy();
+                        delete e.feature.tooltip;
+                    }
+                }
+            }
+        }
+    );
     
-    map.addControl(select);
-    map.addControl(panel);
-    select.activate();   
+    map.addControls([select, highlight, panel]);
+    select.activate();
     map.setCenter(new OpenLayers.LonLat(lon, lat).transform(epsg4326, epsg900913), zoom);
 }
 function onPopupClose(evt) {
@@ -140,6 +181,7 @@ function onFeatureSelect(feature) {
                              content,
                              null, true, onPopupClose);
     popup.autoSize  = true;
+    popup.keepInMap = true;
     feature.popup = popup;
     map.addPopup(popup);
 }

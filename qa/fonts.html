@@ -1,5 +1,5 @@
 <!--#include virtual="/inc/header02.txt" -->
-<title>GIS-lab: Проблема корректного отображения шрифтов при работе с ПО ESRI</title>
+<title>GIS-Lab: Проблема корректного отображения шрифтов при работе с ПО ESRI</title>
 <!--#include virtual="/inc/header2.txt" -->
 <div class="cont">
 <div class="col1">
@@ -9,70 +9,8 @@
    <li><a href="/qa.html">Вопросы и ответы</a></li>
 </ul>
 <!--Contents start-->
-<h1>Корректная работа с русскими шрифтами в ПО ESRI</h1>
-<p class="ann">Отображение шрифтов при экспорте графических данных, отображение элементов управления и другое</p>
-<p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=720"--></span></p>
-<p>Вопрос корректного отображения русских шрифтов при работе с программными продуктами линейки ESRI, к сожалению, до сих пор остается очень актуальным. </p>
-<p>Вот лишь некоторые примеры некорректного отображения шрифтов:</p>
-            <ol>
-              <li>Экспорт данных в кривых вместо текста из ArcGIS 8,9.х (форматы eps, ai и другие);</li>
-              <li>Некорректное отображение палитры символов (маркеров) и их экспорт в ArcView 3.x;</li>
-              <li>Некорректное отображение подсказок к кнопкам и прочим элементам управления в ArcView 3.x;</li>
-              <li>Некорректное отображение символьных данных при импорте таблиц dbf в ArcView 3.x;</li>
-              <li>Неправильное отображение аннотаций при импорте данных из AutoCad и т.д. </li>
-            </ol>
-            <table width="95%"  border="0" align="center">
-              <tr>
-                <td><p align="center"><img src="/images/fonts-01.gif" border="1" /></p>
-                  <p align="center"><em>рис.1 Корректное отображение подписи </em></p></td>
-                <td><p align="center"><img src="/images/fonts-02.gif" border="1" /></p>
-                  <p align="center"><em>рис.2 Некорректное отображение подписи</em></p></td>
-              </tr>
-            </table>
-            <p>Для решения этих проблем можно использовать несколько методов. Большая часть из них неоднократно обсуждалась на форумах, поэтому здесь приводится лишь краткое техническое описание последовательных шагов (рекомендуем выполнять их именно в предложенной ниже последовательности) для Windows 2000, XP, NT. </p>
-            <p align="center"><strong>Прежде чем вносить изменения создайте резервную копию реестра!*</strong></p>
-            <p><em>*В принципе, все изложенные ниже методы не должны повредить работе компьютера и были протестированы на ряде персональных компьютеров, но безопасность есть безопасность. Для создания копии реестра воспользуйтесь бесплатной программой <a href="http://www.larshederer.homepage.t-online.de/erunt/" target="_blank" class="external">Erunt</a></em>или ей подобной. </p>
-            <p><strong>&lt;ArcGIS&gt;</strong> - каталог установки ArcGIS </p>
-            <ol>
-              <li>Задание русских региональных настроек:<strong> Старт - Настройки - Языки и Стандарты - Дополнительно - Русский Язык</strong></li>
-              <li>Изменение параметра 1252 в кодовой странице:</li>
-              <ul>
-                <li> путь в реестр <strong>HKEY_LOCAL_MACHINE\System\CurrentControlSet\control\Nls\Codepage</strong></strong>. </li>
-                <li> изменить значение параметра <strong>1252</strong> с <strong>c_1252.nls</strong> на <strong>c_1251.nls</strong>. </li>
-                <li> изменения вступят после перезагрузки </li>
-              </ul>
-              <li> Изменение правила подстановки шрифтов через реестр:</li>
-              <ul>
-                <li> путь в реестре : <strong>HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\FontSubstitutes</strong> </li>
-                <li> в этом разделе необходимо добавить следующие строковые переменные: </li>
-                <ol>
-                  <li><em><strong>Arial,0=Arial,204 </strong></em></li>
-                  <li><em><strong> Tahoma,0=Tahoma,204 </strong></em></li>
-                  <li><strong><em> Trebuchet MS,0=Trebuchet MS,204 </em></strong></li>
-                </ol>
-                <li> изменения вступят после перезагрузки </li>
-              </ul>
-              <li>Установка продуктов от Adobe (Photoshop, Illustrator) <strong>после</strong> установки ПО от ESRI</li>
-              <li> Импорт аннотаций AutoCAD (без дополнительной конвертации в dxf-формат): </li>
-              <ul>
-                <li>Аннотации в CAD должны быть в <strong>кодировке windows-1251</strong>. </li>
-                <li> Файл <strong>&lt;ArcGIS&gt;\locale\codepage\88595.txt</strong> переименовываете на <strong>&lt;ArcGIS&gt;\locale\codepage\88595.txt_old</strong>. </li>
-                <li> Находите файл <strong>&lt;ArcGIS&gt;\locale\codepage\1251.txt</strong> и копируете в<strong> &lt;ArcGIS&gt;\locale\codepage\88595.tx</strong>t </li>
-                <li> Обязательно <strong>перезапустите ArcGIS</strong> для того, чтобы изменения вступили в силу. </li>
-              </ul>
-              <li>Импорт данныx в формате dbf (в том числе из БД MS Access): </li>
-              <ul>
-                <li>путь в реестре: <strong>HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Jet\4.0\Engines\Xbase</strong></li>
-                <li>в переменной <strong>DataCodePage</strong> заменить значение <strong>OEM</strong> на <strong>ANSI </strong></li>
-                <li>изменения вступят после перезагрузки </li>
-              </ul>
-            </ol>
-            <p>Если у Вас есть замечания, предложения или иные пути решения обсуждаемых проблем - будем рады добавить недостающую информацию к этой статье. Вы можете отправить свои комментарии используя форму или адрес электронной почты приведенные ниже. </p>
-            <p class="discuss">
-							<span><!--#include virtual="/scripts/forum-comments-num.php?i=720"--></span>
-			</p>
+<!--#include virtual="/inc/wiki.php?page=Корректная_работа_с_русскими_шрифтами_в_ПО_ESRI&thread=720" -->
 <!--Contents end-->
-<!--#include virtual="/scripts/date.php" -->
 <p class="status"><span>Дата создания: 04.12.2005
-<br>Автор(ы): <a href="/forum/memberlist.php?mode=viewprofile&u=31" target="_blank">Анна</a></span></p>
+<br>Автор(ы): <a href="/forum/memberlist.php?mode=viewprofile&u=31" target="_blank">Анна Костикова</a></span></p>
 <!--#include virtual="/inc/footer2.php" -->

@@ -1,0 +1,45 @@
+﻿<!--#include virtual="/inc/header02.txt" -->
+<title>Gis-lab: Карта участников GIS-Lab</title>
+<!--#include virtual="/inc/header2.txt" -->
+
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Вопросы и ответы</a></li>
+</ul>
+
+<h1 id="title">Карта участников GIS-Lab</h1>
+<p class="ann">Эта карты показывает откуда участники GIS-Lab</p>
+<p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=9782"--></span></p>
+<p>С помощью этой карты вы можете определить сколько участников GIS-Lab находятся поблизости с вами. Принадлежность участника определяется по заполнению им поля "откуда" в профиле на форуме. Если вы не нашли на карте себя - заполните <a href="/forum/ucp.php?i=164" target="_blank" class="external">это поле</a>, указав город, откуда вы.</p>
+<h2>Карта пользователей</h2>
+<p>Каждый человечек представляет населенный пункт, в котором есть один или больше участников. Нажмите на человечка, чтобы увидеть список участников GIS-Lab в этом населенном пункте. </p>
+<script src="http://openlayers.org/dev/OpenLayers.js"></script>
+<script type="text/javascript">
+	var map;
+</script>
+<script src="users.js"></script>
+<div id="map" class="map" style="width:730px; height:500px"></div>
+<script type="text/javascript">
+	init();
+</script>
+<p><a href="users.log">Лог</a> изменения количества геокодированных пользователей и их населенных пунктов.</p>
+<p>Иконка - <a href="http://www.sjjb.co.uk/mapicons/contactsheet" target="_blank" class="external">SJJB</a> </p>
+<!-- ссылки -->
+<div class="links">
+	<h2>Ссылки по теме</h2>
+		<ul>
+			<li><a href="http://gis-lab.info/forum/ucp.php?i=164">Личный профиль на форуме GIS-Lab</a></li>
+			</ul>
+</div>
+<p class="discuss">
+   <span><!--#include virtual="/scripts/forum-comments-num.php?i=9782"--></span>
+</p>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<p class="status"><span>Дата создания: 01.09.2012
+<br>
+Автор(ы): <a href="/forum/memberlist.php?mode=viewprofile&u=2" target="_blank">Максим Дубинин</a></span></p>
+<!--#include virtual="/inc/footer2.php" -->

@@ -9,63 +9,8 @@
    <li><a href="/qa.html">Вопросы и ответы</a></li>
 </ul>
 <!--Contents start-->
-<h1>Создание картографических сервисов с использованием ArcIMS. Введение</h1>
-<p class="ann">В статье дается краткий обзор программного продукта ArcIMS</p>
-<p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=1219"--></span></p>
-<p>Программное обеспечение ArcIMS (продукт компании <a href="http://www.esri.com/">ESRI</a>) является одной из наиболее популярных коммерческих систем создания <a href="/qa/ogc-intro.html">картографических web-сервисов</a>. Порядка 50% картографических web-сервисов в Интернет создано с его помощью, большая часть этих сервисов, благодаря широким возможностям модификации имеет разной степенью адаптации под конкретные задачи и следовательно функциональность. </p>
-            <p>Сложность сервиса пропорциональна потраченному на его создание времени. Например, для создания <a href="http://www.icn.pt/website/PTZPE0012/viewer.htm" target="_blank" class="external">достаточно простого сервиса</a> вам потребуется порядка часа  времени (с учетом того, что ArcIMS уже установлен и функционирует). <a href="http://megisims.state.me.us/whalesightings/" target="_blank" class="external">Более сложные варианты</a> могут потребовать достаточно серьезного дополнительного программирования. Для того, чтобы установить ArcIMS необходимы Web-сервер и servlet engine. Остальные системные требования зависят от выбора платформы и конфигурации Web-сервера.   <a href="http://support.esri.com/index.cfm?fa=knowledgebase.systemRequirements.matrix&pName=ArcIMS&ProductID=16&pvName=9.0&PID=16&versionID=38&PVID=150">Полный список возможных вариантов</a>.</p>
-            <p>К основным достоинствам программы можно отнести следующие: </p>
-            <ol>
-              <li>Легкость создания картографического сервиса даже для не-программистов и не-администраторов;</li>
-              <li>Поддержка очень большого числа растровых и векторных форматов данных (значительно большего чем, например, <a href="/qa/mapserver.html">для MapServer</a>);</li>
-              <li>Полное соответствие стандартам разработанными OpenGIS Consortium в отношении web mapping services (поддержка WMS, WFS, WCS стандартов – <a href="/qa/ogc-intro.html">подробнее о стандартах OGC</a>);</li>
-              <li>Конфигурирование и программирование c использованием ASP, JSP, .NET;</li>
-              <li>Интеграция с Oracle и другими СУБД через ArcSDE;</li>
-              <li>Создание высококачественного картографического результата;</li>
-              <li>Возможность публикации проектов ArcGIS &quot;как есть&quot;.</li>
-            </ol>
-            <p>Тем не менее,  не смотря на очень большую популярность ArcIMS как программного продукта позволяющего создавать картографические сервисы, у него есть и существенные недостатки: </p>
-            <ol>
-              <li>Невозможность работы с СУБД напрямую – только через ArcSDE;</li>
-              <li>Ресурсоемкость и относительная нестабильность;</li>
-              <li>Более медленная скорость обработки запросов (по сравнению, например, с MapServer);</li>
-              <li>Закрытость кода;</li>
-              <li>Цена.</li>
-            </ol>
-            <p>В данной статье мы не  вдаемся в детали создания картографического сервиса с использованием ArcIMS , однако приведем статистику в отношении скорости обработки запросов – на <a href="/qa/mapserver.html">примере MapServer</a> и ArcIMS.</p>
-            <p align="center"> <strong>ArcIMS vs. MapServer</strong> (по материалам <a href="http://thepcnews.blogspot.com/2006/02/arcims-vs-mapserver-some-hard-data.html">The Programming Consultant Newsletter</a>)</p>
-            <p>MapServer и ArcIMS были установлены на серверах одинаковой конфигурации ( Windows 2000 server) и для тестирования использовался одинаковый набор векторных данных (200 мб, shape-файлы). MapServer был разработан с использованием С#/ .Net таким образом чтобы полностью воспроизвести интерфейс ArcIMS в стандартной конфигурации HTML-вьювера. Тестировочное приложение симулировало обращение 6 пользователей одновременно, которые запрашивали по 500 слоев каждый (общий объем 3000 слоев). </p>
-            <p>Некоторые результаты проведенных тестов: </p>
-            <p align="center"><strong> MapServer </strong></p>
-            <ul>
-              <li>Общее время обработки запроса: 7.47 min (467 sec 0.1566 sec/map (image), 385 maps/min) </li>
-              <li>Max время задержки для перерисовки слоя: 2.93 sec </li>
-              <li>Min время задержки для перерисовки слоя: 0.14 sec </li>
-              <li>Среднее время задержки для перерисовки слоя (6 пользователей одновременно): 0.96 sec </li>
-            </ul>
-            <p align="center"><strong> ArcIMS </strong></p>
-            <ul>
-              <li>Общее время обработки запроса: 12.08 min (728 sec 0.2426 sec/map (image), 247 maps/min) </li>
-              <li>Max время задержки для перерисовки слоя: 3.94sec </li>
-              <li>Min время задержки для перерисовки слоя: 0.12 sec </li>
-              <li>Среднее время задержки для перерисовки слоя (6 пользователей одновременно: 1.49 sec </li>
-            </ul>
-            <p>Несмотря на некоторую медлительность, ArcIMS остается одним из самых удобных и быстрых инструментов для создания качественного картографического web-сервиса. На сегодняшний день создано <a href="http://www.esri.com/software/internetmaps/index.html" target="_blank">большое количество карт</a> на базе ArcIMS, исследовав которые можно получить представление о возможностях ArcIMS.</p>
-            <p class="discuss">
-				<span><!--#include virtual="/scripts/forum-comments-num.php?i=1219"--></span>
-			</p>
-			<div class="links">
-			<h2>Ссылки по теме</h2>
-			<ul>
-               <li><a href="mapserver.html">Создание картографических сервисов с использованием MapServer. Введение</a></li>
-			   <li><a href="svg.html">Создание картографических web-сервисов с использованием SVG формата</a></li>
-			   <li><a href="ogc-intro.html">Классификация картографических веб-сервисов OGC</a></li>
-               <li><a href="http://www.dataplus.ru/Soft/ESRI/ArcIMS/Index.htm" target="_blank" class="external">Описание возможностей ArcIMS на сайте Дата+</a></li>
-			   <li><a href="http://esri.com/software/arcgis/arcims/index.html" target="_blank" class="external">Описание возможностей ArcIMS на сайте ESRI</a></li>
-			</ul>
-			</div>
+<!--#include virtual="/inc/wiki.php?page=Создание_картографических_сервисов_с_использованием_ArcIMS._Введение&thread=1219" -->
 <!--Contents end-->
-<!--#include virtual="/scripts/date.php" -->
 <p class="status"><span>Дата создания: 15.10.2006
-<br>Автор(ы): <a href="/forum/memberlist.php?mode=viewprofile&u=31" target="_blank">Анна</a></span></p>
+<br>Автор(ы): <a href="/forum/memberlist.php?mode=viewprofile&u=31" target="_blank">Анна Костикова</a></span></p>
 <!--#include virtual="/inc/footer2.php" -->

@@ -1,8 +1,59 @@
-﻿<script src="http://openlayers.org/dev/OpenLayers.js"></script>
+﻿<style>
+    .olControlAttribution { font-family: Arial; font-size: 8px; bottom: 0px!important; }
+    .olControlMousePosition { bottom: 30px!important; }
+    .customPanel {
+        top: 10px;
+        right: 20px;
+        float: right;
+        position: absolute;
+      }
+
+      .customPanel .btn {
+        font-family: arial;
+        font-size:20px;
+        color:#000;
+        text-decoration:none;
+        display:block;
+        width:270px;
+        padding:10px;
+        border:1px solid #DDD;
+        text-align:center;
+        cursor: pointer;
+        position:relaive;
+
+        -moz-border-radius:5px;
+        -webkit-border-radius:5px;
+        -o-border-radius:5px;
+        border-radius:5px;
+
+        background:#FFFFFF;
+        background:-webkit-gradient(linear, 0% 0%, 0% 100%, from(#FFFFFF), to(#EEE));
+        background:-moz-linear-gradient(0% 90% 90deg, #EEE, #FFF);
+      }
+
+      .customPanel .btn:hover {
+        color:#fff;
+        border-color:#3278BE;
+        background:#4195DD;
+        background:-webkit-gradient(linear, 0% 0%, 0% 100%, from(#4195DD), to(#003C82));
+        background:-moz-linear-gradient(0% 90% 90deg, #003C82, #4195DD);
+      }
+
+      .olPopup {
+        border-radius:10px;
+        padding:5px;
+        font-family: arial;
+        font-size:14px;
+        color:#000;
+        text-decoration:none;
+      }
+</style>
+<script src="//cdnjs.cloudflare.com/ajax/libs/openlayers/2.13.1/OpenLayers.js"></script>
 <script type="text/javascript">
 	var map;
 </script>
 <script src="users.js"></script>
+<div id="panel"></div>
 <div id="map" class="map" style="width:730px; height:500px"></div>
 <script type="text/javascript">
 	init();

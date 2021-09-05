@@ -1,6 +1,6 @@
 <!--#include virtual="/inc/header02.txt" -->
 <title>GIS-Lab: Extract raster values at vector points location with Python/GDAL</title>
-<!--#include virtual="/inc/header2-eng.txt" -->
+<!--#include virtual="/inc/header2.txt" -->
 <div class="cont">
 <div class="col1">
 
@@ -9,116 +9,8 @@
    <li><a href="/qa.html">Articles</a></li>
 </ul>
 <!--Contents start-->
-<h1>Extract raster values at vector points location with Python/GDAL</h1>
-<p class="ann">Script to extract raster values at points</p>
-<p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=8242"--></span></p>
-
-<p>Extracting data from a single raster (or several rasters) using a set of vector 
-point objects is a fairly common task. This is necessary when we want to
-construct the spectral profiles, quantify the accuracy of raster data,
-inspect changes or prepare training datasets for classification,
-etc.</p>
-
-<p align="center"><img src="/images/extract-pixel-data-02.gif" alt="Extract pixel values in points" width="400" height="389" /></p>
-
-<p>There is already a <a href="/qa/extract-pixel-data.html">similar tool</a>, on
-our website, but it was developed for ArcView and has several limitations.</p>
-
-<p><strong>Contents</strong></p>
-<ol>
-  <li><a href="#01">Preparation</a></li>
-  <li><a href="#02">Usage</a></li>
-</ol>
-
-<!-- Первый раздел -->
-<h2><strong><a name="01" id="01"></a></strong>1. Preparation</h2>
-<p>To use this tool you need <a href="/programs/python/extract-values.7z">our python script</a>,
-Python 2.5 or higher and GDAL library with Python bindings. </p>
-<p>The simplest way to get all necessary components under OS Windows is to use
-OSGeo4W installer:</p>
-<ol>
-  <li><a href="http://download.osgeo.org/osgeo4w/osgeo4w-setup.exe" target="_blank" class="external">Download</a> installer.
-  If the previous link is not accessible, there is an alternative link
-  <a href="http://download2.osgeo.org/osgeo4w/osgeo4w-setup-it.exe" target="_blank" class="external">on a mirror website</a>
-  </a></li>
-  <li>Run the installer</li>
-  <li>Select &laquo;Advanced install&raquo; and press &laquo;Next&raquo;</li>
-  <li>Select gdal and gdal-python packages (under Libs category), then press
-  &laquo;Next&raquo;</li>
-  <li>Wait while requested packages and their dependencies are installed</li>
-</ol>
-<p>If you run Linux, then install all necessary packages using your package
-manager. In Ubuntu/Debian you need to install python-gdal package. </p>
-<p>Extract the <a href="/programs/python/extract-values.7z">script</a> from archieve and copy extract_values.py into any directory
-in your PATH (for example, into C:\Tools\GIS or ~/bin). To run the script under Windows, you need to open OSGeo4W shell and run the script from the shell.</p>
-
-<h2><strong><a name="02" id="02"></a></strong>2. Usage</h2>
-<p>There is no graphical interface for the script and it runs in console mode at the moment. It takes several arguments as input and output</p>
-<pre>extract_values.py [-c] [-r] point_shapefile [raster_file(s)] [-d directory_with_rasters]</pre>
-<ul>
-  <li>point_shapefile&nbsp;&mdash; vector point in ESRI shapefile format. Raster values will be extracted at these locations</li>
-  <li>raster_file(s)&nbsp;&mdash; raster(s) from which values will be extracted.
-  If rasters and script located in different directories, <strong>full
-  path</strong> should be specified. Use space to separate multiple rasters</li>
-  <li>-c&nbsp;&mdash; write data into external file. A CSV file (with same
-  name as shapefile) will be created within the input shapefile folder, in this file
-  all attributes and extracted data will be written. In this mode input shapefile
-  remains unchanged</li>
-  <li>-r&nbsp;&mdash; use this switch to reproject points into raster CRS,
-  when rasters and vector are in different CRS</li>
-  <li>-d&nbsp;&mdash; directory processing mode. After this switch a path
-  to directory with rasters should be specified. Data will be extarcted
-  from all rasters in this directory</li>
-</ul>
-<p>The script works with single- and multiband raster in all GDAL-compatible
-formats. For each single-band raster in point shapefile, a new field will be
-created. The name of this field is is identical to raster name. For multiband
-rasters the field name in DBF file will consists of raster name and band number.</p>
-<strong>Important!</strong> You must remember that the field name in the
-DBF format is limited to 10 characters, hence long names will be truncated.</p>
-<p>Here is result of the data extraction from 6-bands Landsat fragment
-(raster data type is Byte, raster filename&nbsp;&mdash; clearcuts_174016.tiff),
-opened in QGIS. For the initial two fields (id, taxon) new fields clearcut_1
-- clearcut_6 (see, that filed names are truncated due to the
-DBF format limitations) with corresponding values were added.</p>
-<p align="center"><img src="/images/extract-values-rasters-01.png" alt="Extract values result" width="860" height="508" /></p>
-
-<p><strong>Examples</strong></p>
-<p>Extract values from raster after.tiff using points from shapefile poi.shp
-(script and files are in the same directory)</p>
-<pre>extract_values.py poi.shp after.tiff</pre>
-
-<p>Extract values from raster after.tiff using points from shapefile poi2.shp
-and write result into external file</p>
-<pre>extract_values.py -с poi2.shp after.tiff</pre>
-
-<p>Extract values from raster after.tiff using points from shapefile poi2.shp,
-raster and vector are in different CRS (so we use -r switch to enable
-reprojection)</p>
-<pre>extract_values.py -r poi2.shp after.tiff</pre>
-
-<p>Extract values from rasters before.tiff and after.tiff using points from
-shapefile points.shp</p>
-<pre>extract_values.py points.shp before.tiff after.tiff</pre>
-
-<p>Extact values from all rasters in directory using points from shapefile
-points.shp</p>
-<pre>extract_values.py points.shp -d D:\data\rasters_veg</pre>
-
-<!-- обсуждение на форуме, цифра изменяется при публикации статьи -->
-<p class="discuss"><span><!--#include virtual="/scripts/forum-comments-num.php?i=8242"--></span></p>
-
-<div class="links">
-<h2>Links</h2>
-<ul>
-   <li><a href="/qa/extract-values-grids.html">Получение данных по точечным профилям из серий растровых данных</a></li>
-   <li><a href="/qa/gdal-python.html">Работа с растрами при помощи GDAL и Python</a></li>
-   <li><a href="/qa/ogr-python.html">Работа с векторными данными при помощи OGR и Python</a></li>
-</ul>
-</div>
-
+<!--#include virtual="/inc/wiki.php?page=Extract_raster_values_at_vector_points_location_with_Python/GDAL&thread=8242" -->
 <!--Contents end-->
-<!--#include virtual="/scripts/date.php" -->
-<p class="status"><span>Creation date: 13.07.2011
-<br>Author(s): <a href="/forum/memberlist.php?mode=viewprofile&u=5325" target="_blank">Alexander Bruy</a></span></p>
-<!--#include virtual="/inc/footer2-eng.php" -->
+<p class="status"><span>Дата создания: 13.07.2011
+<br>Автор(ы): <a href="/forum/memberlist.php?mode=viewprofile&u=5325" target="_blank">Александр Бруй</a>, <a href="/forum/memberlist.php?mode=viewprofile&u=2" target="_blank">Максим Дубинин</a></span></p>
+<!--#include virtual="/inc/footer2.php" -->

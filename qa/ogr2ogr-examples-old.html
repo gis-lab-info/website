@@ -1,0 +1,132 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Примеры использования ogr2ogr</title>
+<!--#include virtual="/inc/header2.txt" -->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Вопросы и ответы</a></li>
+</ul>
+<!--Contents start-->
+<h1>Примеры использования  ogr2ogr</h1>
+<p class="ann">Перечь примеров для справки </p>
+<p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=3158"--></span></p>
+<p>С библиотекой gdal поставляется утилита ogr2ogr, предназначнная для конвертации векторных данных. В данной статье приводятся примеры использования этой утилиты.</p>
+<p><a href="http://www.gdal.org/index.html" target="_blank" class="external">GDAL/OGR</a> - библиотека для работы с географическими форматами данных. GDAL представляет собой набор утилит для обработки растровых данных, в то время, как  OGR предназначена для работы с векторными форматами. В статье рассматриваются некоторые практические примеры применения одной из утилит  этой библиотеки: программы ogr2ogr.</p>
+            <p><strong>Оглавление</strong></p>
+            <ol>
+                  <li><a href="#01">Общие сведения.</a></li>
+                  <li><a href="#02">Примеры конвертации</a></li>
+				  <li><a href="#03">Конвертация с перепроецированием</a></li>
+				  <li><a href="#04">Работа с PostreSQL/PostGIS</a></li>
+            </ol>
+
+
+<!-- Первый раздел -->
+            <p><a name="01" id="01"></a><h2>1. Общие сведения</h2></p>
+	    <p>Программа ogr2ogr предназначена для конвертации векторных данных из одного формата в другой. Поддерживаемые форматы и используемые ключи  можно узнать просто набрав в коммандной строке</p>
+	    <pre>ogr2ogr</pre>
+		<p>В результате будет получена справка по использованию этой программы:</p>
+		<pre>
+ogr2ogr [--help-general] [-skipfailures] [-append] [-update] [-gt n]
+               [-select field_list] [-where restricted_where]
+               [-sql <sql statement>]
+               [-spat xmin ymin xmax ymax] [-preserve_fid] [-fid FID]
+               [-a_srs srs_def] [-t_srs srs_def] [-s_srs srs_def]
+               [-f format_name] [-overwrite] [[-dsco NAME=VALUE] ...]
+               [-segmentize max_dist]
+               dst_datasource_name src_datasource_name
+               [-lco NAME=VALUE] [-nln name] [-nlt type] [layer [layer ...]]
+		</pre>
+		<p>А также список поддерживаемых форматов (список может отличаться как в большую, так и в меньшую сторону, поскольку зависит от того, были ли подключены/отключены соответствующие модули при компиляции программы):</p>
+        <ul>
+          <li>ESRI Shapefile            </li>
+          <li>MapInfo File            </li>
+          <li>TIGER            </li>
+          <li>S57            </li>
+          <li>DGN            </li>
+          <li>Memory            </li>
+          <li>BNA            </li>
+          <li>CSV            </li>
+          <li>GML            </li>
+          <li>GPX            </li>
+          <li>KML            </li>
+          <li>GeoJSON            </li>
+          <li>Interlis 1            </li>
+          <li>Interlis 2            </li>
+          <li>GMT            </li>
+          <li>SQLite            </li>
+          <li>ODBC            </li>
+          <li>PostgreSQL            </li>
+          <li>MySQL            </li>
+          <li>Geoconcept
+            <!-- Второй раздел -->
+          </li>
+        </ul>
+        <p><a name="02" id="02"></a><h2>2. Примеры конвертации</h2></p>
+        <p>Конвертировать ESRI Shapefile в MapInfo tab можно следующим образом:</p>
+				<pre>ogr2ogr -f "MapInfo File" topo2km-rus.tab topo2km-rus.shp</pre>
+		<p>В результате в текущем каталоге появится 4 файла topo2km-rus.* - результат конвертации.</p>
+
+		<p>Теперь конвертируем только некоторые объекты из файла topo2km-rus (в поле ZONE которых содержится строка "s"):</p>
+				<pre>ogr2ogr -f "MapInfo File" -where "ZONE=s"  topo2km-rus.tab topo2km-rus.shp</pre>
+<p>Можно построить и более сложное условие, для этого нужно использовать параметр -sql. При помощи этого параметра можно задать
+выражение sql, которое необходимо выполнить для того, чтобы произвести выборку данных:</p>
+				<pre>ogr2ogr -f "MapInfo File" -sql "SELECT * FROM topo2km-rus WHERE ZONE='PERVOMAYSK'" topo2km-rus.tab topo2km-rus.shp</pre>
+		        <p>Аналогично можно воспользоваться параметрами:		          </p>
+		        <ol>
+		 <li>-select для выбора определенных полей таблицы атрибутов</li>
+                  <li>-spat для выбора объектов, лежащих в определенных пространственных границах</li>
+                  </ol>
+
+
+                <p>Конвертация из CSV в shape-файл и обратно подробно рассмотрена в <a href="/qa/csv2shp.html">отдельной статье</a>.</p>
+                <!-- Третий раздел -->
+               <p><a name="03" id="03"></a><h2>3. Конвертация с перепроецированием</h2></p>
+            <p>Программа ogr2ogr позволяет не только конвертировать данные из одного формата в другой, но и одновременно произветси перепроецирование данных из одной системы координат в другую. Для этого используются параметры:</p>
+		    <ol>
+                  <li>-a_srs используется для указания системы координат для данных</li>
+				  <li>-s_srs используется для перезаписи информации о системе координат</li>
+                  <li>-t_srs перепроецирования данных в требуемую ситсему координат</li>
+        </ol>
+		<p>Например, мы знаем, что файл topo2km-rus.shp содержит данные в географической системе координат Пулково 1942, но в комплекте с topo2km-rus.shp нет файла описания проекции (*.prj). Мы можем сгенерировать этот файл, воспользовавшись командой:</p>
+				<pre>ogr2ogr -a_srs "EPSG:4284" -f "ESRI ShapeFile" topo2km-rus2.shp topo2km-rus.shp</pre>
+		<p>Команда:</p>
+		<pre>ogr2ogr -s_srs "EPSG:4326" -t_srs &quot;EPSG:900913&quot; -f "ESRI ShapeFile" topo2km-rus3.shp topo2km-rus2.shp</pre>
+		<p>берет созданный на предыдущем этапе файл topo2km-rus2.shp и перепроецирует его в систему Google Mercator (epsg 900913), при этом опция -s_srs "epsg:4326" говорит о том, что при перепроецировании не нужно обращать внимания на исходную проекцию файла topo2km-rus2.shp, т.е. вести себя так, будто проекция источника - широта/долгота WGS84 (epsg 4326).</p>
+		<p>В приведенных примерах система координат указвалась на основе кодов epsg, но ее можно указывать и непосредственно в формате WKT или же передавать имя файла, в котором хранится ее описание. Например, если необходимо использовать описания систем координат, хранящихся в файлах input.prj и output.prj, то нужно использовать следующую конструкцию:</p>
+		<pre>ogr2ogr -s_srs ESRI::Input.prj -t_srs ESRI::output.prj  shapeout.shp shapein.shp</pre>
+		<p><a name="04" id="04"></a><h2>4. Работа с PostreSQL/PostGIS </h2></p>
+		<p>Вставка (добавление) записей в таблицу PostgreSQL данных из файла data.shp. Таблица должна существовать и иметь такие же поля, как и shp-файл.</p>
+		<pre>ogr2ogr -append  -t_srs "+init=epsg:4326" -f PostgreSQL PG:"host=адрес user=имя_пользователя dbname=имя_базы" data.shp</pre>
+
+			<p>Перезаписывает test таблицу PostgreSQL данными из файла test.tab Таблица не обязана существовать.</p>
+
+		<pre>ogr2ogr -append -overwrite -s_srs "+init=epsg:4326" -f PostgreSQL PG:"host=адрес user=имя_пользователя dbname=имя_базы" test.tab</pre>
+
+			<p>Перезаписывает данные из файла data в таблицу PostgreSQL. Таблица будет носить имя не data, а test1. Таблица test1 не обязана существовать.</p>
+		    <pre>ogr2ogr -append -overwrite -t_srs "+init=epsg:4326" -f "PostgreSQL"  PG:"host=адрес user=имя_пользователя dbname=test" data.shp -nln test1</pre>
+		<p>Наоборот: из таблицы PostgreSQL "adm" базы ipc конвертирует в allei.tab формата MapInfo.</p>
+
+		<pre>ogr2ogr -f "MapInfo File" allei.tab  PG:"host=адрес user=пользователь dbname=ipc" "adm"</pre>
+		<p>
+		  <!-- Конец текста статьи, начало ссылок -->
+        Из таблицы PostgreSQL "adm" базы ipc конвертирует в shape-файл с использованием выражения sql.</p>
+		<pre>ogr2ogr -f "ESRi Shapefile" output.shp PG:"host=адрес user=пользователь dbname=ipc" -sql "SELECT * from adm"</pre>
+		<p>&nbsp;</p>
+		<p class="discuss">
+		   <span><!--#include virtual="/scripts/forum-comments-num.php?i=3158"--></span>
+		</p>
+            <div class="links">
+				<h2>Ссылки по теме</h2>
+					<ul>
+						<li><a href="csv2shp.html">Конвертация данных из .csv в .shp и обратно</a></li>
+                        <li><a href="http://www.gdal.org/index.html" target="_blank" class="external">Библиотеки GDAL/OGR</a></li>
+					</ul>
+			</div>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<p class="status"><span>Дата создания: 27.04.2009
+<br>Автор(ы): <a href="/forum/memberlist.php?mode=viewprofile&u=6597" target="_blank">Дмитрий Колесов</a>, <a href="/forum/memberlist.php?mode=viewprofile&u=2" target="_blank">Максим Дубинин</a></span></p>
+<!--#include virtual="/inc/footer2.php" -->

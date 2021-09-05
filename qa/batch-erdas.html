@@ -1,7 +1,6 @@
 <!--#include virtual="/inc/header02.txt" -->
 <title>GIS-Lab: Автоматизация выполнения моделей в ERDAS IMAGINE</title>
 <!--#include virtual="/inc/header2.txt" -->
-<!--Contents start-->
 <div class="cont">
 <div class="col1">
 
@@ -9,86 +8,9 @@
    <li class="first"><a href="/">Главная</a></li>
    <li><a href="/qa.html">Вопросы и ответы</a></li>
 </ul>
-<h1>Автоматизация выполнения моделей в ERDAS IMAGINE</h1>
-<p class="ann">Экономим время при сохранении четкой логики процесса обработки групп изображений</p>
-<p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=1934"--></span></p>
-<p>Допустим есть модель, которую мы хотим автоматизировать. Допустим что эта модель использует 2 файла на входе, назовем их A и B и один - на выходе С. Схематично операция будет выглядеть так:</p>
-            <p align="center">A + B + ... = C </p>
-            <p>Исходные растры A и B   могут быть исходными данными для сколь угодно сложных вычислений, которые можно реализовать в инструменте моделирования ERDAS. Более того, исходных растров может быть больше чем 2. Проиллюстрируем процесс на простом сложении двух растров, для простоты объяснения использовать будем только их первые каналы.</p>
-            <p>Наша задача состоит в том, чтобы используя эту модель преобразовать наборы файлов A и набор файлов B в результат - набор файлов C. </p>
-            <p>Продемонстрируем по шагам выполнение данной автоматизации:</p>
-            <p><img src="/images/1.gif" alt="1" width="33" height="41" align="left" /><strong>Экспортируем модель (файл с расширением gmd) в скрипт (файл с расширением mdl).</strong></p>
-            <p>Для этого, открываем модель в Model Maker и выбираем Process\Generate script...Содержание подобного скрипта может выглядеть например вот так:</p>
-            <pre>COMMENT &quot;Generated from graphical model: c:/temp/test.gmd&quot;;
-SET CELLSIZE MIN;
-SET WINDOW UNION;
-SET AOI NONE;
-#
-# declarations
-#
-Integer RASTER n1 FILE OLD NEAREST NEIGHBOR AOI NONE &quot;c:/temp/imageA.img&quot;;
-Integer RASTER n2 FILE OLD NEAREST NEIGHBOR AOI NONE &quot;c:/temp/imageB.img&quot;;
-Integer RASTER result FILE DELETE_IF_EXISTING IGNORE 0 ATHEMATIC 16 BIT SIGNED INTEGER &quot;c:/temp/imageC.img&quot;;
-#
-# function definitions
-#
-#
-define func Integer($n1(1) + $n2(1))
-result = func;
-QUIT; </pre>
-            <p>Изучим содержимое скрипта, не обращая внимания на то, что именно он делает, но попытаемся разобраться как происходит адресация файлов с которыми он работает. Как можно видеть из примера - файлы указываются в явном виде в виде полного к ним пути. Выполнить такой скрипт легко можно с помощью Model Librarian, однако он выполнит операцию только для той пары файлов, которая указана в содержимом скрипта. К сожалению, возможности создать массив из имен новых файлов в таком скрипте нет. Да если бы и была, при новом наборе файлов для обработки пришлось бы переписывать их имена заново в этот массив.</p>
-            <p><img src="/images/2.gif" alt="2" width="33" height="41" align="left" /><strong>Заменим меняющиеся параметры в модели (имена файлов) на аргументы</strong></p>
-            <p>Аргументы - специальные кодовые слова, которые сможет использовать   пакетный процессор ERDAS. Наш файл приобрете следующий вид, имена файлов замененные на аргументы выделены жирным:</p>
-            <pre>COMMENT &quot;Generated from graphical model: c:/temp/test.gmd&quot;;
-SET CELLSIZE MIN;
-SET WINDOW UNION;
-SET AOI NONE;
-#
-# declarations
-#
-Integer RASTER n1 FILE OLD NEAREST NEIGHBOR AOI NONE <strong>ARG1</strong>;
-Integer RASTER n2 FILE OLD NEAREST NEIGHBOR AOI NONE <strong>ARG2</strong>;
-Integer RASTER result FILE DELETE_IF_EXISTING IGNORE 0 ATHEMATIC 16 BIT SIGNED INTEGER <strong>ARG3</strong>;
-#
-# function definitions
-#
-#
-define func Integer($n1(1) + $n2(1))
-result = func;
-QUIT; </pre>
-            <p>Уже лучше, теперь нужно найти способ подставить в эти аргументы наши имена файлов.</p>
-            <p><img src="/images/3.gif" alt="3" width="33" height="41" align="left" /><strong>Используем пакетный процессор для запуска модели с аргументами</strong></p>
-            <p>Перед этим создадим batch-файл (test.bcf), который будет запускать модель, такого содержания:</p>
-            <pre>modeler c:/temp/test.mdl c:\temp\imageA.img c:\temp\imageB.img c:\temp\imageC.img</pre>
-            <p>Как видно из содержания, процесс запуска модели состоит из передачи таких параметров как имя модели и трех аргументов специальной программе - modeler'у.</p>
-            <p>Уже лучше, так как нам не нужно хранить файлы в самой модели, однако все еще не очень хорошо, так как теперь вместо того, чтобы генерировать 100 моделей для 100 пар исходных файлов, надо генерировать 100 записей в bcf файл с разными аргументами. </p>
-            <p>Обращаем внимание, что возможности подстановки параметров в bcf в пакетном процессоре присутствует, это видно например <a href="batch-cs-erdas.html">из этого примера</a>, jднако в нашем случае ничего в полях параметров выбрать нельзя, потому что параметры нужно определить еще и в bcf-файле.</p>
-            <p align="center"><img src="/images/batch-erdas-01.gif" alt="batch-01" width="558" height="331" /> </p>
-            <p>Идем дальше.</p>
-            <p><img src="/images/4.gif" alt="4" width="33" height="41" align="left" /><strong>Видоизменим bcf-файл введя параметры и туда</strong></p>
-            <p>Новый bcf будет выглядеть таким образом: </p>
-            <pre>variable Input User;
-variable Input1 User;
-variable Output Auto &quot;c:/temp//$(Input.root).img&quot; Delete_Before;
-modeler c:/temp/test.mdl '$(Input)' '$(Input1)'  '$(Output)'  -meter -state</pre>
-            <p>Загрузим bcf-файл в пакетный процессор, отметим, что появилась возможность выбора параметров (ими в нашем случае будут имена файлов).</p>
-            <p align="center"><img src="/images/batch-erdas-02.gif" alt="batch-02" width="558" height="331" /> </p>
-            <p><img src="/images/5.gif" alt="5" width="33" height="41" align="left" /><strong>Выберем обрабатываемые изображения</strong></p>
-            <p>Последним шагом нашей автоматизации будет выбор собственно изображений, для этого нажмем Next и появившемся окне сначала выберем группу изображений в качестве ImageA и группу в качестве ImageB, не забывая менять название параметра которому мы подставляем исходные растры. </p>
-            <p>Удобным способом выбора будет сначала выбрать в параметрах Input и выбрать с помощью кнопки <img src="/images/batch-cs-erdas-04.gif" alt="batch" width="19" height="20" /> (select files to add)  серию первых исходных растров (imageA), а затем выбрать в параметрах Input1, выделить колонку Input1 и выбрать с помощью той же кнопки серию вторых исходных растров (imageB).</p>
-            <p align="center"><img src="/images/batch-erdas-03.gif" alt="batch-03" width="558" height="331" /> </p>
-            <p>Автоматизация завершена, осталось только выполнить пакет - Finish.</p>
-            <p class="discuss">
-				<span><!--#include virtual="/scripts/forum-comments-num.php?i=1934"--></span>
-			</p>
-			<div class="links">
-			<h2>Ссылки по теме</h2>
-			<ul>
-               <li><a href="batch-cs-erdas.html">Назначение системы координат в пакетном режиме в ERDAS IMAGINE</a></li>
-			</ul>
-			</div>
+<!--Contents start-->
+<!--#include virtual="/inc/wiki.php?page=Автоматизация_выполнения_моделей_в_ERDAS_IMAGINE&thread=1934" -->
 <!--Contents end-->
-<!--#include virtual="/scripts/date.php" -->
 <p class="status"><span>Дата создания: 08.12.2007
 <br>Автор(ы): <a href="/forum/memberlist.php?mode=viewprofile&u=2" target="_blank">Максим Дубинин</a></span></p>
 <!--#include virtual="/inc/footer2.php" -->

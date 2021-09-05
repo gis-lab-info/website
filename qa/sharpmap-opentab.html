@@ -1,7 +1,6 @@
 <!--#include virtual="/inc/header02.txt" -->
 <title>GIS-Lab: Создание приложения .NET на базе GDAL/OGR: загрузка слоя</title>
 <!--#include virtual="/inc/header2.txt" -->
-<!--Contents start-->
 <div class="cont">
 <div class="col1">
 
@@ -9,94 +8,9 @@
    <li class="first"><a href="/">Главная</a></li>
    <li><a href="/qa.html">Вопросы и ответы</a></li>
 </ul>
-<h1>Создание приложения .NET на базе GDAL/OGR: загрузка слоя</h1>
-<p class="ann">Пример кода на примере данных Mapinfo TAB </p>
-<p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=2620"--></span></p>
-            <p>Рассмотрим пример приложения .NET, использующего GDAL/ORG для доступа к данным Mapinfo TAB. </p>
-            <p>Файлы таблиц MapInfo часто распространяются в формате *.TAB. Здесь и далее, под форматом TAB понимается целый набор  файлов с расширениями *.TAB,  *.MAP, *.DAT и  *.ID. Если с первым из  них можно посмотреть в блокноте и при желании разобраться что к чему, то с  остальными тремя это не пройдёт, поскольку они двоичные. А разобраться с  двоичными файлами невероятно сложно. Таким образом, вариант с написанием кода  обработки этих файлов вручную отпадает. На помощь приходит GDAL/OGR.</p>
-            <p>Библиотека абстракций <a href="http://www.gdal.org/" target="_blank" class="external">GDAL/OGR</a>позволяет  открывать и модифицировать большое количество различных форматов.  Распространяется она под лицензией <a href="http://ru.wikipedia.org/wiki/MIT_License" target="_blank" class="external">MIT</a>. Это  означает, что вы можете без каких-либо ограничений использовать её в своих  проектах. Запрещено лишь использование доброго имени держателя авторских  прав в рекламе. </p>
-            <p> Следует отметить, что если вы большой поклонник .NET, то, скорее всего,  отделаться малой кровью у вас не получится, поскольку в состав GDAL/OGR входят  лишь <a href="http://ru.wikipedia.org/wiki/Управляемый_код" target="_blank" class="external">unmanaged dll</a>,  которые содержат обычный машинный код. Это чревато тем, что вам придётся иметь  дело с <a href="http://ru.wikipedia.org/wiki/Маршалинг" target="_blank" class="external">маршалингом</a> для  вызова неуправляемого (unmanaged)  кода в ваших управляемых (managed)  .NET-сборках. Всё это выливается в написание дополнительного кода. В идеале хочется,  чтобы после добавления ссылок на все необходимые библиотеки слой открывался  одной строчкой, например, так:</p>
-            <p>
-              <tcode>mapComponent.Map = MapOpener.Open(@"C:\Layer.TAB");</tcode>
-            </p>
-            <p>Решение вышеобозначенной проблемы - <a href="http://www.codeplex.com/SharpMap" target="_blank" class="external">SharpMap</a>. SharpMap – фреймворк для .NET, который  является надстройкой над GDAL/OGR и некоторыми другими библиотеками для работы с данными ГИС. Он позволяет открывать большое  количество форматов файлов, содержащих ГИС-данные. Распространяется SharpMap по  лицензии <a href="http://ru.wikipedia.org/wiki/LGPL" target="_blank" class="external">LGPL</a>, поэтому если вы  ничего не собираетесь менять в исходном коде, то можете быть спокойны,  ограничения лицензии не должны вас коснуться.<br>
-Перейдём от слов к делу и по шагам опишем, что нужно  сделать для того, чтобы получить на форме вашего приложения изображение карты,  имея в распоряжении установленную Visual Studio 2005/2008 и несколько TAB-файлов:</p>
-            <ol>
-              <li>Загружаем  <a href="http://home.gdal.org/fwtools" target="_blank" class="external">FWTools</a> (текущая версия на момент написания статьи 2.2.8). GDAL/OGR входит в этот набор  программ. Устанавливаем.</li>
-              <li>Загружаем <a href="http://www.codeplex.com/SharpMap/SourceControl/ListDownloadableCommits.aspx" target="_blank" class="external">последний change set</a>  (набор изменений) проекта <a href="http://www.codeplex.com/SharpMap">SharpMap</a> (на данный момент  последним является change set №40903). Откройте файл *.sln из скачанного архива и посмотрите на  структуру решения. Изучите его и попытайтесь скомпилировать.</li>
-              <li>Создаём в  Visual Studio пустой Solution (Blank Solution).</li>
-              <li>Копируем папки с  проектами SharpMap,  SharpMap.UI, SharpMap.Extensions и папку ExternalReferences  в папку свежесозданного Solution. После чего добавляем их в  среде Visual Studio.  Попробуйте всё скомпилировать – должно получиться.</li>
-              <li>Создайте в Solution новый Window Forms проект.  И добавьте в него ссылки (References)  на проекты SharpMap, SharpMap.UI и SharpMap.Extensions. Сделайте Build. После билда в режиме дизайнера  главной формы приложения откройте тулбокс – там должны появиться компоненты MapImage и FeatureDataSet. Расположите MapImage на  форме.</li>
-              <li>Скопируйте все dll-файлы из папки bin, где вы  установили <a href="http://en.wikipedia.org/wiki/FWTools">FWTools</a>, в папку  bin/Debug (или bin/Release) вашего решения. Их там около 30Мб. Возможно, что  нужны не все, но лучше перестраховаться и скопировать полный набор.</li>
-              <li>Исследуйте скачанный change set фреймворка <a href="http://www.codeplex.com/SharpMap">SharpMap</a> на предмет наличия примеров кода по открытию TAB-файлов. Используйте их в  своём приложении.</li>
-            </ol>
-            <p>Вот и всё. Осталось лишь показать работающий код.              </p>
-            <pre>public class MapOpener
-{
-    public static Map InitializeMap(params string[] layerFileNames)
-    {
-        Map map = new Map();
-
-        foreach (string fileName in layerFileNames)
-        {
-            string layerName;
-
-            Ogr ogr = new Ogr(fileName, out layerName);
-            VectorLayer layer = new VectorLayer(layerName, ogr);
-
-            map.Layers.Add(layer);
-        }
-
-        map.BackColor = Color.White;
-        map.ZoomToExtents();
-
-        return map;
-    }
-}
-
-public partial class PsmForm : Form
-{
-    public PsmForm()
-    {
-        InitializeComponent();
-    }
-
-    private void OpenMap()
-    {
-        try
-        {
-            if (openFileDialog.ShowDialog() == DialogResult.OK)
-            {
-                mapImage.Map = MapOpener.InitializeMap(openFileDialog.FileNames);
-            }
-        }
-        catch (Exception e)
-        {
-            MessageBox.Show(this, e.Message, "Ошибка");
-        }
-    }
-
-    private void btnOpen_Click(object sender, EventArgs e)
-    {
-        OpenMap();
-    }
-}
-</pre>
-            </p>
-            <p>Результирующее приложение может выглядить например таким образом: </p>
-            <p align="center"><img src="/images/sharpmap-opentab-01.gif" width="632" height="482"></p>
-            <p class="discuss">
-		   <span><!--#include virtual="/scripts/forum-comments-num.php?i=2620"--></span>
-		</p>
-            <div class="links">
-				<h2>Ссылки по теме</h2>
-					<ul>
-						<li><a href="http://www.codeplex.com/SharpMap" target="_blank" class="external">SharpMap - Geospatial application framework for the CLR</a></li>
-					  </ul>
-			</div>
-<!--Contents end-->
-<!--#include virtual="/scripts/date.php" -->
+<!--Contents start-->
+<!--#include virtual="/inc/wiki.php?page=Создание_приложения_.NET_на_базе_GDAL/OGR:_загрузка_слоя&thread=2620" -->
 <p class="status"><span>Дата создания: 12.11.2008
-<br>
 Автор(ы): <a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&amp;u=7243">s1ay3r</a> </span></p>
+<!--Contents end-->
 <!--#include virtual="/inc/footer2.php" -->

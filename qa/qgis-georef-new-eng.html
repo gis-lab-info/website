@@ -1,0 +1,59 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Georeferencing raster data in QGIS using polynomials</title>
+<!--#include virtual="/inc/header2-eng.txt" -->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Home</a></li>
+   <li><a href="/qa.html">Questions and answers</a></li>
+</ul>
+<!--Contents start-->
+<h1>Georeferencing raster data in QGIS using polynomials</h1>
+<p class="ann">Description and latests news about development of enhanced Georeferencer plugin.</p>
+<p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=2602"--></span></p>
+<p>Important: this page is outdated and left for historical purposes. Georeferencing module is included in QGIS core and does not require separate installation anymore. The process of georeferencing is described in details in &quot;<a href="/qa/georef-qgis.html">Geographic referencing of the data with QGIS</a>&quot; (article available only in Russian).</p>
+<p><strong>Contents</strong></p>
+            <ol>
+                  <li><a href="#01">Description</a></li>
+                  <li><a href="#02">Download</a></li>
+                  <li><a href="#3">Install</a></li>
+            </ol>
+
+<!-- Первый раздел -->
+            <h2><strong><a name="01" id="01"></a></strong>1. Description</h2>
+            <p>Georeferencing of raster data in QGIS is accomplished using Georeferencer plugin (<a href="georef-qgis.html">more</a> in Russian). However this module allows transforming rasters using so called Helmert transformation, which is shifting and translating rasters. Obviously, this is not enough to georeference distorted materials, like scanned ones.  </p>
+	        <p>It is possible to use other software, such as GDAL (<a href="georef-gdal.html">more</a> in Russian), which allows to use more appropriate polynomial transformations (<a href="polynom.html">more</a> in Russian). As QGIS includes GDAL functions, it is possible to use them to enhance Georeferencer functionality using them.</p>
+	        <p>Enhanced Georeferencer can perform 1st, 2nd, 3rd order polynomial and thin plate splines transformation.</p>
+	        <!-- Второй раздел -->
+            <h2><strong><a name="02" id="02"></a></strong>2. Download</h2>
+            <p>Source code for the enhanced Georeferencer module can be obtained from SVN.		          </p>
+		        <pre>svn checkout http://svn.gis-lab.info/qgis-gdal-georef/trunk/ georeferencer</pre>
+		        </p>
+		        <p>Or get separate binary dll for Windows  (<a href="http://svn.gis-lab.info/qgis-gdal-georef/libs/georefplugin_latest.dll">latest trunk</a>).</p>
+		        <h2><strong><a name="03" id="03"></a></strong>3. Install</h2>
+		        <p>To install on Windows, copy dll to C:\OSGeo4W\apps\qgis-dev\plugins\</p>
+		        <p>To install this plugin from source code, it is necessary to first install from source codes QGIS itself (<a href="http://blog.gis-lab.info/2008-11/install-qgisubuntu/">more in Russian</a>), after the plugin is installed like that:</p>
+		        <pre>cd build
+rm -rfv src/plugins/georeferencer
+cd ../src/plugins/
+rm -rvf georeferencer
+svn co http://svn.gis-lab.info/qgis-gdal-georef/trunk georeferencer
+cd -
+make georefplugin
+make install</pre>
+		        </p>
+		        <p>Installed plugin replaces current Georeferencer. Plugin is tested in OSGeo4W QGIS-1.5 and under Mandriva Linux.</p>
+		        <p align="center"><img src="/images/qgis-georef-new-03.gif" alt="georef interface" width="592" height="705"></p>
+		        <p><span>
+          <!--#include virtual="/scripts/forum-comments-num.php?i=2602"-->
+        </span>		</p>
+        <div class="links">
+				<h2>See also </h2>
+					<ul>
+						<li><a href="georef-qgis.html">Географическая привязка данных с помощью QGIS</a></li>
+					  </ul>
+			</div>
+			<!--#include virtual="/scripts/date.php?lang=e" -->
+<!--Contents end-->
+<!--#include virtual="/inc/footer2-eng.php" -->

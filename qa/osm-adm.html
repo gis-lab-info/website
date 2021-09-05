@@ -13,113 +13,19 @@
 <p class="ann">Данные по АТД РФ в shape-формате из проекта OSM с атрибутикой из классификаторов</p>
 <p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=7102"--></span></p>
 <p><a href="http://earth-info.nga.mil/gns/html/index.html" class="external">OpenStreetMap (OSM)</a> - вики-карта мира, которую может редактировать каждый . Помимо всего прочего, в базе OSM содержатся и границы административно-территориального деления собранные из различных открытых источников (<a href="/qa/rusbounds-rosreestr.html">например</a>). </p>
+
+<p class="note"><strong>Внимание:</strong> обновление данных в рамках данного проекта прекращено.<br/>
+Обновленные данные в форматах Shape лучше заказывать на <a href="http://data.nextgis.com">data.nextgis.com</a>.
+</p>
+
 <p> Этот проект ставит перед собой цель предоставить слои границ Административно-территориального деления Российской Федерации (АТД) готовые к работе в ГИС. Уникальной особенностью данных является назначение <a href="/qa/okato.html">кодов ОКАТО</a> и ОКТМО единицам АТД. В данных OSM эта атрибутивная информация пока не присутствует. Коды ОКАТО и ОКТМО берутся из официальных классификаторов.</p>
 <p>Обновление слоёв происходит по мере обновления данных OpenStreetMap БД. Периодичность обновления - ежедневно. </p>
 <p>Лицензия данных: <a href="http://creativecommons.org/licenses/by-sa/2.0/legalcode" target="_blank" class="external">CC-BY-SA</a>. Пожалуйста,
   ознакомьтесь с правилами использования данных на <a href="http://wiki.openstreetmap.org/wiki/Legal_FAQ#I_would_like_to_use_OpenStreetMap_maps._How_should_I_credit_you.3" target="_blank" class="external">сайте OpenStreetMap</a> </p>
+<br>
+<p><b>Атрибутивные данные имеют кодировку текста UTF-8.</b> </p> 
 <h2>Получение данных</h2>
-<table width="90%" border="0">
-  <tr>
-    <th>Код</th>
-    <th>Границы</th>
-    <th>Без обрезки по береговым </th>
-    <th>С обрезкой по береговым </th>
-    <th>Объектов </th>
-  </tr>
-
-  <tr><th colspan="5">Последняя версия</th></tr>
-  <tr>
-    <td>2</td>
-    <td>РФ </td>
-    <td><a href="/data/yav/adm/latest/adm2_country_f.7z">adm2_country_f.7z</a></td>
-    <td><a href="/data/yav/adm/latest/adm2_country.7z">adm2_country.7z</a></td>
-    <td><!--#include virtual="/data/yav/cntrs.php?c=adm/latest/adm2_country_f" --></td>
-  </tr>
-  <tr>
-    <td>3</td>
-    <td>Федеральные округа </td>
-    <td><a href="/data/yav/adm/latest/adm3_federal_f.7z">adm3_federal_f.7z</a></td>
-    <td><a href="/data/yav/adm/latest/adm3_federal.7z">adm3_federal.7z</a></td>
-    <td><!--#include virtual="/data/yav/cntrs.php?c=adm/latest/adm3_federal_f" --></td>
-  </tr>
-  <tr>
-    <td>4</td>
-    <td>Субъекты федерации </td>
-    <td><a href="/data/yav/adm/latest/adm4_region_f.7z">adm4_region_f.7z</a></td>
-    <td><a href="/data/yav/adm/latest/adm4_region.7z">adm4_region.7z</a></td>
-    <td><!--#include virtual="/data/yav/cntrs.php?c=adm/latest/adm4_region_f" --></td>
-  </tr>
-  <tr>
-    <td>6</td>
-    <td>Муниципальные районы и городские округа </td>
-    <td><a href="/data/yav/adm/latest/adm6_district_f.7z">adm6_district_f.7z</a></td>
-    <td><a href="/data/yav/adm/latest/adm6_district.7z">adm6_district.7z</a></td>
-    <td><!--#include virtual="/data/yav/cntrs.php?c=adm/latest/adm6_district_f" --></td>
-  </tr>
-  <tr>
-    <td>8</td>
-    <td>внутригородские муниципальные образования Москвы и Санкт-Петербурга. </td>
-    <td><a href="/data/yav/adm/latest/adm8_municipal_f.7z">adm8_municipal_f.7z</a></td>
-    <td><a href="/data/yav/adm/latest/adm8_municipal.7z">adm8_municipal.7z</a></td>
-    <td><!--#include virtual="/data/yav/cntrs.php?c=adm/latest/adm8_municipal_f" --></td>
-  </tr>
-  <tr>
-    <td>&nbsp;</td>
-    <td>все слои одним архивом</td>
-    <td colspan="2"><a href="/data/yav/adm/latest/adm.7z">adm.7z</a></td>
-    <td>&nbsp;</td>
-  </tr>
-
-  <tr><th colspan="5">"Стабильная" версия (с наибольшим количеством объектов)</th></tr>
-  <tr>
-    <td>2</td>
-    <td>РФ </td>
-    <td><a href="/data/yav/adm/stable/adm2_country_f.7z">adm2_country_f.7z</a></td>
-    <td><a href="/data/yav/adm/stable/adm2_country.7z">adm2_country.7z</a></td>
-    <td><!--#include virtual="/data/yav/cntrs.php?c=adm/stable/adm2_country_f" --></td>
-  </tr>
-  <tr>
-    <td>3</td>
-    <td>Федеральные округа </td>
-    <td><a href="/data/yav/adm/stable/adm3_federal_f.7z">adm3_federal_f.7z</a></td>
-    <td><a href="/data/yav/adm/stable/adm3_federal.7z">adm3_federal.7z</a></td>
-    <td><!--#include virtual="/data/yav/cntrs.php?c=adm/stable/adm3_federal_f" --></td>
-  </tr>
-  <tr>
-    <td>4</td>
-    <td>Субъекты федерации </td>
-    <td><a href="/data/yav/adm/stable/adm4_region_f.7z">adm4_region_f.7z</a></td>
-    <td><a href="/data/yav/adm/stable/adm4_region.7z">adm4_region.7z</a></td>
-    <td><!--#include virtual="/data/yav/cntrs.php?c=adm/stable/adm4_region_f" --></td>
-  </tr>
-  <tr>
-    <td>6</td>
-    <td>Муниципальные районы и городские округа </td>
-    <td><a href="/data/yav/adm/stable/adm6_district_f.7z">adm6_district_f.7z</a></td>
-    <td><a href="/data/yav/adm/stable/adm6_district.7z">adm6_district.7z</a></td>
-    <td><!--#include virtual="/data/yav/cntrs.php?c=adm/stable/adm6_district_f" --></td>
-  </tr>
-  <tr>
-    <td>8</td>
-    <td>внутригородские муниципальные образования Москвы и Санкт-Петербурга. </td>
-    <td><a href="/data/yav/adm/stable/adm8_municipal_f.7z">adm8_municipal_f.7z</a></td>
-    <td><a href="/data/yav/adm/stable/adm8_municipal.7z">adm8_municipal.7z</a></td>
-    <td><!--#include virtual="/data/yav/cntrs.php?c=adm/stable/adm8_municipal_f" --></td>
-  </tr>
-  <tr>
-    <td>&nbsp;</td>
-    <td>все слои одним архивом</td>
-    <td colspan="2"><a href="/data/yav/adm/stable/adm.7z">adm.7z</a></td>
-    <td>&nbsp;</td>
-  </tr>
-
-
-</table>
-
-<p>Слои за другие даты можно посмотреть в <a href="/data/yav/adm">папках с соответствующим названием </a>.
-По ссылке на количество объектов доступны графики, показывающее как количество объектов меняется со временем.</p>
-
-<p>Слои также можно использовать через открытую <a href="/qa/openbase.html">базу PostGIS</a>.</p>
+См. выше
 
 <h2>Атрибутивные поля</h2>
 <table width="90%" border="0" align="center">

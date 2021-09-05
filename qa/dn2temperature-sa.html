@@ -9,44 +9,8 @@
    <li><a href="/qa.html">Вопросы и ответы</a></li>
 </ul>
 <!--Contents start-->
-<h1>Конвертация данных Landsat TM/ETM+ в значения температуры - Практика</h1>
-<p class="ann">Пример того как можно провести пересчет для данных ETM+ с использованием Arcview Spatial Analyst</p>
-<p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=265"--></span></p>
-<p>1. Откройте новый проект ArcView. Подключите два дополнительных модуля – Image Analysis и Spatial Analyst (File – Extensions… ) и установите рабочий каталог в меню Вида (File – Set Working Directory….). Это важно сделать вначале, иначе результаты обработки будут по умолчанию сохраняться в папку c:\windows\temp</p>
-            <p> 2. Загрузите оба тепловых канала (полученных в режиме работы high gain и low gain) в Вид ArcView (при загрузке Data source type необходимо указать Image Analyst Data Source)</p>
-            <p> 3. Поочередно сконвертируйте изображения в гриды. Для этого в главном меню Вида выберите Theme – Save Image As.. и укажите List Files of Type – GRID. Когда AV предложит добавить созданный только что грид в Вид, необходимо нажать No (так как, по умолчанию он будет загружать новую тему не как грид, а как image analyst изображение).</p>
-            <p> 4. Теперь необходимо загрузить созданные гриды в Вид. Для это в главном меню выбираете View – Add Theme … Не забудьте указать тип загружаемых данных как Grid Data source.</p>
-            <p> 5. Выберите одно из конвертированных изображений, откройте его атрибутивную таблицу, включите режим редактирования таблицы (Table- Start Editing), добавьте новое поле (Edit- Add Field). Укажите поле Name – Temperature, Type – Number, Width – 16, Decimal Place- 2. Нажмите OK.</p>
-            <p> 6. Далее выберите кнопку Field Calculator и наберите в нем такое выражение:<br>
-              <br>
-              Для <strong>High Gain:</strong> (1282.71/((666.09/ ((((12.65-3.2)/<em>Qcal</em>) *[Value]) +3.2) )+1 ).ln) - 273<br>
-            Для <strong>Low Gain:</strong> (1282.71/((666.09/ ((((17.04)/<em>Qcal</em>) *[Value])))+1 ).ln) - 273 </p>
-            <p>Qcal = Qcalmax - Qcalmin = 254, если Qcalmin = 1 (предобработка LPGS)<br>
-            Qcal = Qcalmax - Qcalmin = 255, если Qcalmin = 0 (предобработка NLAPS). <br>
-            Значения параметров необходимо <a href="/qa/dn2radiance.html">уточнить в метаданных</a> сцены. <a href="http://landsat.usgs.gov/technical_details/image_processing/lpgs_vs_NLAPS.php#radiometric" target="_blank" class="external">Подробнее о разнице между LPGS и NLAPS</a>. </p>
-            <p>*Если съемка произведена в период с 24.11.1999 по 8.12.1999, то результаты вычисления для High Gain и Low Gain необходимо поменять местами, т.е. High Gain в этот период = Low Gain, и наоборот. </p>
-            <p>7. Нажмите ОК. Таким образом, в новом столбце Temperature значения DN будут пересчитаны в значения температуры в градусах Цельсия.</p>
-            <p>8. Сохраните результат Table – Stop Editing…  </p>
-            <p>9. Теперь в Виде в редакторе легенды (Legend Editor) укажите новое поле классификации (Classification Field) – Temperature. Нажмите применить - Apply.</p>
-            <p> Обратите внимание, что </p>
-            <ol>
-              <li>Эта формула применима для данных полученных со спутника Landsat-7, после 20 декабря 2000 года </li>
-              <li> Результатом будут являться значения температуры, выраженные в градусах Цельсия. Чтобы получить значения в градусах Кельвина - не пишите в конце выражения (–273).</li>
-            </ol>
-            <p> Подробную информацию о том, какие параметры необходимы для конвертации данных Landsat 4 и 5 в значения температур, можно найти <a href="/qa/dn2temperature.html">здесь</a>.            </p>
-			<p class="discuss">
-				<span><!--#include virtual="/scripts/forum-comments-num.php?i=265"--></span>
-			</p>
-			<div class="links">
-			<h2>Ссылки по теме</h2>
-			<ul>
-               <li><a href="/qa/thermal.html">Дистанционное геотермическое картографирование</a></li>
-			   <li><a href="/qa/dn2radiance.html">Конвертация данных TM, ETM+ в показатели излучения на сенсоре</a></li>
-               <li><a href="http://ltpwww.gsfc.nasa.gov/IAS/handbook/handbook_htmls/chapter11/chapter11.html" target="_blank" class="external">Landsat Science Data Users Handbook. Data Products</a></li>
-			</ul>
-			</div>
+<!--#include virtual="/inc/wiki.php?page=Конвертация_данных_Landsat_TM/ETM%2B_в_значения_температуры_-_Практика&thread=265" -->
 <!--Contents end-->
-<!--#include virtual="/scripts/date.php" -->
 <p class="status"><span>Дата создания: 15.02.2005
 <br>Автор(ы): <a href="/forum/memberlist.php?mode=viewprofile&u=31" target="_blank">Анна Костикова</a></span></p>
 <!--#include virtual="/inc/footer2.php" -->

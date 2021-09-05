@@ -11,6 +11,7 @@
 </ul>
 <h1>Визуализация данных PostGIS в MapServer</h1>
 <p class="ann">Рассмотрена работа MapServer с данными PostGIS</p>
+<p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=2638"--></span></p>
             <p>Среда  визуализации пространственных данных в Веб - <a href="http://mapserver.gis.umn.edu/" class="external">MapServer</a> позволяет в качестве источника пространственных данных  использовать в том числе и базы геоданных, созданные с использованием <a href="http://postgis.refractions.net/" target="_blank" class="external">PostGIS</a>, тем самым обеспечивая возможность их быстрой и удобной  публикации в Сети. В данной статье рассматриваются основные моменты работы MapServer совместно с данными, хранящимися в PostGIS в ОС Windows. На  <a href="http://mapserver.gis.umn.edu/docs/reference/vector_data/postgis" class="external">официальном  сайте</a> MapServer о   его совместном использовании с PostGIS сказано совсем  немного, что и послужило одной из причин написания данной статьи. Начала работы  с PostGIS изложены в статье "<a href="/qa/postgis-work.html">Основы работы с PostGIS</a>", а о  том, как установить PostGIS под Windows, вы можете узнать <a href="/qa/postgis-install.html">отсюда</a>.</p>
             <p>Здесь  и далее в статье, под «данными PostGIS» понимается  набор данных хранящийся в БД PostgreSQL с  пространственным расширением PostGIS.</p>
             <p><strong>Оглавление</strong></p>
@@ -79,7 +80,7 @@ END </pre>
 	    <p>&nbsp;</p>
 	    <p><strong><img src="/images/3.gif" alt="3" width="33" height="41" align="left" /><a name="03" id="03"></a>Фильтры и выражения MapServer</strong></p>
 	        <p>Использование  фильтров позволяет отображать на карте часть данных, соответствующую определенным  условиям. Пример map-файла,  использующего фильтр:</p>
-	       
+
 	          <pre>MAP
  IMAGETYPE GIF
  EXTENT 77.8924 50.6194 87.2278 54.4701
@@ -101,7 +102,7 @@ END              </pre>
 	        <p align="center"><img src="../images/postgis-mapserver-04.gif" width="445" height="257"></p>
 	        <p align="center">Пример использования фильтра, выбраны области с  определенной площадью и периметром</p>
 	        <p>При  использовании выражений также существуют некоторые отличия, характерные для  работы с PostGIS. При использовании shape-файлов атрибуты (названия   полей) в выражениях MapServer набираются в  ВЕРХНЕМ РЕГИСТРЕ, в то время как при использовании PostGIS  – в нижнем.</p>
-	        
+
 	          <pre>MAP
  IMAGETYPE GIF
  EXTENT 77.8924 50.6194 87.2278 54.4701
@@ -138,10 +139,10 @@ LAYER
  NAME "boundary"
  CONNECTIONTYPE postgis
  CONNECTION "user=postgres password=1234 dbname=city host=localhost"
- DATA "the_geom from 
+ DATA "the_geom from
  (
  SELECT the_geom,naselenie,area,gid
- FROM boundary,population 
+ FROM boundary,population
  WHERE population.name=boundary.name and naselenie/area>0.009
  )
  AS newtable using unique gid using srid=4326"
@@ -164,7 +165,7 @@ LAYER
  NAME "roads"
  CONNECTIONTYPE postgis
  CONNECTION "user=postgres password=1234 dbname=city host=localhost"
- DATA "the_geom from 
+ DATA "the_geom from
  (
  SELECT road_cod, Sum(Length(the_geom)) AS length, Collect(GeometryN(the_geom,1)) AS the_geom
  FROM roads
@@ -224,7 +225,7 @@ geometryfromtext('POINT(' || (%mx% + %img.x% * %mw% / %iw%) || ' '
 || (%my% - %img.y% * %mh% / %ih%) || ')',4326)) AS dist FROM
 roads) as newtable using srid=4326 using unique gid"
 
-<.. пропуск ..> 
+<.. пропуск ..>
 
  TYPE LINE
  CLASSITEM dist
@@ -269,4 +270,6 @@ END
 			</div>
 			<!--#include virtual="/scripts/date.php" -->
 <!--Contents end-->
+<p class="status"><span>Дата создания: 20.11.2008
+<br>Автор(ы): <a href="/forum/memberlist.php?mode=viewprofile&u=6901" target="_blank">Денис Рыков</a></span></p>
 <!--#include virtual="/inc/footer2.php" -->

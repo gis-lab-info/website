@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<script src="http://maps.google.com/maps/api/js?v=3.6&amp;sensor=false"></script>
+    <script src="http://openlayers.org/dev/OpenLayers.js"></script>
+    <script type="text/javascript">
+        var lon = 90,
+            lat = 60,
+            zoom = 3,
+            epsg4326 = new OpenLayers.Projection('EPSG:4326'),
+            epsg900913 = new OpenLayers.Projection('EPSG:900913');
+
+        function init(){
+            map = new OpenLayers.Map('map', {
+                units: 'm',
+                numZoomLevels: 19,
+                controls: [
+                    new OpenLayers.Control.Navigation(),
+                    new OpenLayers.Control.ScaleLine(),
+                    new OpenLayers.Control.MousePosition(),
+                    new OpenLayers.Control.LayerSwitcher()
+                ],
+                projection: epsg900913,
+                displayProjection: epsg4326 //Is used for displaying coordinates in appropriate CRS by MousePosition control
+            });
+
+            var lay_osm = new OpenLayers.Layer.OSM;
+
+            users = new OpenLayers.Layer.Vector("GeoJSON", {
+                projection: epsg4326,
+                strategies: [new OpenLayers.Strategy.Fixed()],
+                protocol: new OpenLayers.Protocol.HTTP({
+                    url: "users.json",
+                    format: new OpenLayers.Format.GeoJSON({extractAttributes: true})
+                })
+            });
+       
+            map.addLayers([lay_osm, users]);
+            select = new OpenLayers.Control.SelectFeature(users);
+            
+            users.events.on({
+                "featureselected": onFeatureSelect,
+                "featureunselected": onFeatureUnselect
+            });
+            map.addControl(select);
+            select.activate();   
+            map.setCenter(new OpenLayers.LonLat(lon, lat).transform(epsg4326, epsg900913), zoom);
+        }
+        function onPopupClose(evt) {
+            select.unselectAll();
+        }
+        function onFeatureSelect(event) {
+            var content = '';
+            var feature = event.feature;
+            // Since KML is user-generated, do naive protection against
+            // Javascript.
+            content += "Это: "+feature.attributes.city + "<br>";
+            content += "Здесь живет: "+feature.attributes.count+" участников GIS-Lab<br>";
+            if (content.search("<script") != -1) {
+                content = "Content contained Javascript! Escaped content below.<br>" + content.replace(/</g, "&lt;");
+            }
+            var ids = feature.attributes.id;
+            var names = feature.attributes.names;
+
+            for (var i = 0; i < ids.length; i++) {
+              content += "<a href=\"http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u="+ids[i] + "\">"+names[i]+"</a>, ";
+            }
+
+            popup = new OpenLayers.Popup.FramedCloud("chicken", 
+                                     feature.geometry.getBounds().getCenterLonLat(),
+                                     new OpenLayers.Size(100,100),
+                                     content,
+                                     null, true, onPopupClose);
+            feature.popup = popup;
+            map.addPopup(popup);
+        }
+        function onFeatureUnselect(event) {
+            var feature = event.feature;
+            if(feature.popup) {
+                map.removePopup(feature.popup);
+                feature.popup.destroy();
+                delete feature.popup;
+            }
+        }
+    </script>
+  </head>
+  <body onload="init()">
+    <div id="map" style="position: absolute; right: 0px; top: 0px; width: 100%; height: 100%"></div>
+  </body>
+</html>

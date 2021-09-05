@@ -1,0 +1,60 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Привязка растровых данных в QGIS с помощью полиномиальных преобразований</title>
+<!--#include virtual="/inc/header2.txt" -->
+<!--Contents start-->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Вопросы и ответы</a></li>
+</ul>
+<h1>Привязка растровых данных в QGIS с помощью полиномиальных преобразований </h1>
+<p class="ann">Описания и последние новости от разработчиков модуля привязки </p>
+<p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=2602"--></span></p>
+            <p>Внимание - эта статья устарела и оставлена для истории. Модуль привязки включен в ядро QGIS и не требует отдельной установки. Описание процесса привязки см. в статье &quot;<a href="/qa/georef-qgis.html">Географическая привязка данных с помощью QGIS</a>&quot;.</p>
+            <p><strong>Оглавление</strong></p>
+            <ol>
+                  <li><a href="#01">Описание</a></li>
+                  <li><a href="#02">Загрузить</a></li>
+                  <li><a href="#3">Установить</a></li>
+            </ol>
+
+
+<!-- Первый раздел -->
+            <h2><strong><a name="01" id="01"></a></strong>1. Описание</h2>
+            <p>Географическая привязка растровых данных в QGIS с помощью осуществляется с помощью модуля Georeferencer (<a href="georef-qgis.html">подробнее</a>), разработанного для QGIS Lars Luthman. Однако, этот модуль позволяет трансформировать данные только с помощью так называемого преобразования Helmert'a, которое позволяет осуществить только сдвиг и поворот растра. Разумеется, этого недостаточно для нормально привязки сканированных материалов, искажения которых невозможно исправить простым поворотом. </p>
+	        <p>В другом программном обеспечении, например GDAL (<a href="georef-gdal.html">подробнее</a>), для привязки можно использовать полиномиальные преобразования, которые подходят для решения этой задачи гораздно лучше (<a href="polynom.html">подробнее</a>). Так как пакет QGIS включает функциональность GDAL, развитием модуля Georeferencer является включение в него возможности трансформации с помощью этих функций.</p>
+	        <p>Расширенный модуль Georeferencer может использовать для привяки полиномиальные преобразования 1, 2, 3 порядков и thin plate splines. </p>
+	        <!-- Второй раздел -->
+            <h2><strong><a name="02" id="02"></a></strong>2. Загрузка</h2>
+            <p>Исходный код модуля можно загрузить из SVN </p>
+		        <pre>svn checkout http://svn.gis-lab.info/qgis-gdal-georef/ georeferencer</pre>
+		        <p>Для Windows можно устанавить это расширение через OSGeo4W (рекомендуется):</p>
+		        <p align="center"><img src="/images/qgis-georef-new-02.gif" alt="georef interface" width="505" height="388"> </p>
+		        <p>Так же можно скачать версию самостоятельного расширения для Windows  (<a href="/programs/qgis/georeferencer-win.7z">экспериментальная</a>).</p>
+		        <h2><strong><a name="03" id="03"></a>3. Установка для Linux</strong></h2>
+		        <p>Для установки модуля из исходных кодов необходимо предварительно установить из исходного кода сам QGIS (<a href="http://blog.gis-lab.info/2008-11/install-qgisubuntu/">подробнее</a>). Установка в Ubuntu выглядит следующим образом: </p>
+		        <p>
+		          <tcode>rm -rfv src/plugins/georeferencer<br>
+		            cd ../src/plugins/<br>
+		            rm -rvf georeferencer<br>
+		            svn co http://svn.gis-lab.info/qgis-gdal-georef/ georeferencer<br>
+		            cd -<br>
+		            make georefplugin<br>
+		            rm ~/apps/lib/qgis/libgeorefplugin.so<br>
+		            cp -v src/plugins/georeferencer/libgeorefplugin.so $HOME/apps/lib/qgis/</tcode></p>
+		        <p>Установленный модуль является заменой существующего модуля Georeferencer. Модуль проверен в QGIS-1.0.0-Preview2 в Ubuntu 8.10.</p>
+		        <p align="center"><img src="/images/qgis-georef-new-01.gif" alt="georef interface" width="570" height="683"></p>
+		        <p><span>
+          <!--#include virtual="/scripts/forum-comments-num.php?i=2602"-->
+        </span>		</p>
+        <div class="links">
+				<h2>Ссылки по теме</h2>
+					<ul>
+						<li><a href="georef-qgis.html">Географическая привязка данных с помощью QGIS</a></li>
+		  </ul>
+</div>
+			<!--#include virtual="/scripts/date.php" -->
+<!--Contents end-->
+<!--#include virtual="/inc/footer2.php" -->

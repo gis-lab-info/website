@@ -1,0 +1,743 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Руководство по сборке Quantum GIS и GRASS для Windows</title>
+<!--#include virtual="/inc/header2.txt" -->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Вопросы и ответы</a></li>
+</ul>
+<!--Contents start-->
+<h1>Руководство по сборке Quantum GIS и GRASS для Windows</h1>
+<p class="ann">Как и что собирать</p>
+            <p>Это руководство основано на значительной работе проделанной <a href="http://www.webalice.it/marco.pasetti/qgis+grass/BuildFromSource.html" target="_blank" class="external">Marco Pasetti</a> и расширено краткими описаниями компонентов, а также некоторой дополнительной информацией к сборке. </p>
+            <p><strong>Оглавление</strong></p>
+            <ol>
+                  <li><a href="#MSYS">MSYS</a></li>
+                      <li><a href="#MinGW">MinGW</a></li>
+                      <li><a href="#Flex">Flex</a></li>
+                      <li><a href="#Bison">Bison</a></li>
+                      <li><a href="#Zlib">Zlib</a></li>
+                      <li><a href="#Libpng">Libpng</a></li>
+                      <li><a href="#Libjpeg">Libjpeg</a></li>
+                      <li><a href="#Libtiff">Libtiff</a></li>
+                      <li><a href="#Xdr">Xdr</a></li>
+                      <li><a href="#Freetype">Freetype</a></li>
+                      <li><a href="#FFTW">FFTW</a></li>
+                      <li><a href="#PDCurses">PDCurses</a></li>
+                      <li><a href="#PROJ.4">PROJ.4</a></li>
+                      <li><a href="#GEOS">GEOS</a></li>
+                      <li><a href="#GSL">GSL</a></li>
+                      <li><a href="#Expat">Expat</a></li>
+                      <li><a href="#PostgreSQL">PostgreSQL</a></li>
+                      <li><a href="#SQLite">SQLite</a></li>
+                      <li><a href="#GDAL1">GDAL - Step One</a></li>
+                      <li><a href="#AVCE00">AVCE00</a></li>
+                      <li><a href="#E00compr">E00compr</a></li>
+                      <li><a href="#GPSBabel">GPSBabel</a></li>
+                      <li><a href="#Tcl/Tk">Tcl/Tk</a></li>
+                      <li><a href="#GRASS">GRASS</a></li>
+                      <li><a href="#GDAL2">GDAL - Step Two</a></li>
+                      <li><a href="#Qt">Qt Open Source</a></li>
+                      <li><a href="#Python">Python</a></li>
+                      <li><a href="#SIP">SIP</a></li>
+                      <li><a href="#PyQt">PyQt</a></li>
+                      <li><a href="#CMake">CMake</a></li>
+                      <li><a href="#QGIS">Quantum GIS</a></li>
+            </ol>
+
+
+            <h3>Введение</h3>
+            <p>Этот документ является простым руководством по сборке Windows-версий GRASS и Quantum GIS.  Он основан на следующих источниках:</p>
+            <ul>
+              <li><a target="_blank" href="http://wiki.qgis.org/qgiswiki/BuildingFromSource">Quantum GIS Wiki - BuildingFromSource</a></li>
+              <li><a target="_blank" href="http://grass.gdf-hannover.de/wiki/WinGRASS_Current_Status">WinGRASS Current Status</a></li>
+              <li><a target="_blank" href="http://grass.itc.it/grass63/source/INSTALL">GRASS 6.3 Install</a></li>
+              <li><a target="_blank" href="http://grass.itc.it/grass63/source/REQUIREMENTS.html">GRASS 6.3 Requirements</a></li>
+              <li><a target="_blank" href="http://geog-pc40.ulb.ac.be/grass/wingrass/README.extralibs">Paul Kelly's  winGRASS Extralibs Documentation</a></li>
+            </ul>
+            <p>Документ расчитан на начинающих и пытается свести все предыдущие к единому, включающему все необходимые части. </p>
+            <p>Предполагается что библиотеки использованные в этом руководстве имеют последнюю стабильную версию. Иначе, в замечаниях указывается, почему последняя версия не была использована.</p>
+            <p>Чтобы избежать ошибок, прежде чем приступать к активным действиям рекомендуется сначала прочитать параграф. Очень важно выполнять каждый шаг в той последовательности, которая указана в данном руководстве.</p>
+            <p> Это руководство было успешно протестировано для операционных систем Windwows XP и Windows Vista. Для установки компонентов необходим доступ к интернет, так как некоторые из них получают инсталляционные файлы из веб. </p>
+            <!-- Первый раздел -->
+            <p><strong><img src="/images/1.gif" alt="1" width="33" height="41" align="left" /><a name="MSYS" id="MSYS"></a>MSYS (1.0.11)</strong></p>
+	    <p><a href="http://www.mingw.org/" target="_blank" class="external">MSYS</a> - Minimal SYStem. Предоставляет POSIX-совместимую среду-оболочку Bourne, а также набор инструментов UNIX выполняемых из командой строки. MSYS была разработана для запуска скриптов конфигурации и сборки (Makefiles) используемых для компиляции обеспечения с открытым программным кодом, другим использованием MSYS является замена интерфейса командной строки Windows cmd.exe</p>
+	    <p>Загрузите <a target="_blank" href="http://prdownloads.sourceforge.net/mingw/MSYS-1.0.11-2004.04.30-1.exe">MSYS installer</a></p>
+	    <p>Установите в c:\msys </p>
+	    <p>После установки, в появившемся окне, на вопрос: Do you wish to continue with the post install? введите n (нет) и enter.</p>
+	    <ul>
+	      <li>MSYS предоставляет набор инструментов из UNIX для использования в Windows; этот <a href="http://en.wikipedia.org/wiki/List_of_Unix_utilities" target="_blank" class="external">документ</a> дает дополнительную информацию о командах UNIX;</li>
+	      <li>Если вам нужно получить экранный вывод MSYS, щелкните правой кнопкой мыши на области вывода MSYS которую вы выбрали и этот текст будет скопирован в буфер обмена Windows; теперь его можно вставлять в другие документы используя CRTL+V.</li>
+	      </ul>
+	    <p>Загрузите пакет <a href="http://downloads.sourceforge.net/mingw/coreutils-5.97-MSYS-1.0.11-snapshot.tar.bz2" target="_blank" class="external">MSYS coreutils</a> (требуется для некоторых модулей и скриптов GRASS).</p>
+	    <p>Распакуйте во временную папку и скопируйте содержимое папки coreutils-5.97 в c:\msys (перезаписывая существующие файлы)</p>
+	    <pre>Пример кода программы/html и т.п.</pre>
+
+<!-- Второй раздел -->
+            <p><strong><img src="/images/2.gif" alt="2" width="33" height="41" align="left" /><a name="MinGW" id="MinGW"></a>MinGW (5.1.4)</strong></p>
+            <p>MinGW - Minimalist GNU for Windows, бывший mingw32, порт компилятора GNU Compiler Collection (GCC) для Microsoft Windows включающий набор свободных библиотек и заголовочных файлов для Windows API. MinGW позволят разработчикам создавать приложения Microsoft Windows. В MinGW включены расширения для Microsoft Visual C++ runtime library поддерживающие C99 (современный диалект C).</p>
+            <p>Загрузите <a href="http://downloads.sourceforge.net/mingw/MinGW-5.1.4.exe" target="_blank" class="external">MinGW</a></p>
+	        <p>Выберите &quot;Download and Install&quot; (Загрузить и установить), &quot;Current Version&quot; (Текущую версию);</p>
+	        <p>Устанавливайте только &quot;g++ compiler&quot; и &quot;MinGW Make&quot;;</p>
+	        <p>Папка установки: c:\msys\mingw</p>
+	        <p><strong><img src="/images/3.gif" alt="3" width="33" height="41" align="left" /><a name="Flex" id="Flex"></a>Flex (2.5.4a-1)</strong></p>
+	        <p><a href="http://flex.sourceforge.net/" target="_blank" class="external">Flex</a> - быстрый лексический анализатор-генератор. Flex является инструментом для разработки программ осуществляющих поиск по шаблонам текста. Существует множется применений Flex, включая написание компиляторов совместно с Bison. </p>
+	        <p>Загрузите  <a target="_blank" href="http://downloads.sourceforge.net/gnuwin32/flex-2.5.4a-1-bin.zip">скомпилированный Flex</a></p>
+	        <p>Распакуйте в  c:\msys\local</p>
+	        <p>Последний релиз  Flex (2.5.34) все еще не портирован <a href="http://gnuwin32.sourceforge.net/packages/flex.htm" target="_blank" class="external">для Windows</a>.</p>
+	        <p><strong><img src="/images/4.gif" alt="4" width="33" height="41" align="left" /><a name="Bison" id="Bison"></a>Bison (2.1)</strong></p>
+	        <p><a href="http://www.gnu.org/software/bison/bison.html" target="_blank" class="external">Bison</a> - парсер-генератор общего пользования, конвертирующий аннотированную контекстно-независимое содержание в LALR(1) или GLR парсер для этого содержания. Bison может использоваться для широкого круга языковых парсеров, начиная с простых для настольных калькуляторов и заканчивая языками программирования.</p>
+	        <p>Загрузите следующие архивы: </p>
+	        <ul>
+	          <li><a href="http://downloads.sourceforge.net/gnuwin32/bison-2.1-bin.zip" target="_blank" class="external">скомпилированный Bison</a></li>
+	          <li><a href="http://downloads.sourceforge.net/gnuwin32/bison-2.1-dep.zip" target="_blank" class="external">скомпилированные зависимости Bison</a></li>
+            </ul>
+	        <p>Распакуйте в c:\msys\local с перезаписью, если она предлагается.</p>
+	        <p>Последний релиз Bison (2.3) все еще не портирован <a href="http://gnuwin32.sourceforge.net/packages/bison.htm" target="_blank" class="external">для Windows</a>.</p>
+	        <p><strong><img src="/images/5.gif" alt="5" width="33" height="41" align="left" /><a name="Zlib" id="Zlib"></a>Zlib (1.2.3)</strong></p>
+	        <p><a href="http://www.zlib.net/" target="_blank" class="external">Zlib</a> - свободно распространяемая библиотека компрессии. </p>
+	        <p>Распакуйте в  c:\msys\local\src</p>
+	        <p>Откройте c:\msys\local\src\zlib-1.2.3\win32\Makefile.gcc</p>
+	        <p>Замените строку  102:</p>
+	        <pre># INCLUDE_PATH and LIBRARY_PATH must be set.</pre>
+            <p>на</p>
+            <pre>INCLUDE_PATH=/usr/local/include
+LIBRARY_PATH=/usr/local/lib
+SHARED_LIBRARY_PATH=/usr/local/bin</pre>
+            <p>Удалите строки  109-110:</p>
+            <pre> -@if not exist $(INCLUDE_PATH)/nul mkdir $(INCLUDE_PATH)
+-@if not exist $(LIBRARY_PATH)/nul mkdir $(LIBRARY_PATH)</pre>
+            <p>После строки 111 добавьте:</p>
+            <pre> -$(INSTALL) $(SHAREDLIB) $(SHARED_LIBRARY_PATH)</pre>
+            <p>После строки 118 добавьте:</p>
+            <pre> -$(RM) $(SHARED_LIBRARY_PATH)/$(SHAREDLIB)</pre>
+            <p>Откройте консоль MSYS (используя иконку MSYS десктопа или из меню пуск) и введите:</p>
+            <pre>cd /usr/local/src/zlib-1.2.3
+make -f win32/Makefile.gcc <br />
+make install -f win32/Makefile.gcc</pre>
+            <p>****ошибки?</p>
+            <p>$ make install -f win32/Makefile.gcc <br />
+              /bin/sh.exe: -c: line 2: syntax error: unexpected end of file<br />
+              make: [install] Error 2 (ignored)<br />
+              /bin/sh.exe: -c: line 2: syntax error: unexpected end of file<br />
+              make: [install] Error 2 (ignored)<br />
+              cp -fp zlib.h /usr/local/include<br />
+              cp -fp zlib1.dll /usr/local/bin<br />
+              cp -fp zconf.h /usr/local/include<br />
+              cp -fp libz.a /usr/local/lib<br />
+              cp -fp libzdll.a /usr/local/lib<br />
+            </p>
+            <p>По каким-то причинам информация о zlib1.dll показывает версию 1.2.2.0, хотя на самом деле она 1.2.3.</p>
+            <p>&nbsp;</p>
+            <p><strong><img src="/images/6.gif" alt="6" width="33" height="41" align="left" /><a name="Libpng" id="Libpng"></a>Libpng (1.2.29)</strong></p>
+            <p><a href="http://www.libpng.org/pub/png/libpng.html" target="_blank" class="external">Libpng</a> - свободно распространяемая библиотека для работы с форматом PNG. Требует наличия zlib. </p>
+            <p>Загрузите <a target="_blank" href="http://downloads.sourceforge.net/libpng/libpng-1.2.29.tar.gz">исходный код Libpng</a> </p>
+            <p>Распакуйте в c:\msys\local\src</p>
+            <p>Откройте c:\msys\local\src\libpng-1.2.29\scripts\makefile.mingw</p>
+            <p>После строки 40 добавьте:</p>
+            <pre> prefix=/usr/local</pre>
+            <p>Отредактируйте строки 52-53:</p>
+            <pre>ZLIBLIB=/usr/local/lib
+ZLIBINC=/usr/local/include</pre>
+            <p>В консоли MSYS введите:</p>
+            <pre>cd /usr/local/src/libpng-1.2.29
+cp scripts/makefile.mingw ./Makefile
+make</pre>
+            <p>Так как эта процедура не срабатывает, нужно провести установку вручную. Простой способ выполнить эту процедуру скопировать следующий набор команд и вставить его в новый текстовый документ, например install-libpng.sh который нужно сохранить в директорию с исходным кодом Libpng; Замет в консоли MSYS нужно выполнить команду: install-libpng.sh</p>
+            <pre>mkdir /usr/local/lib/pkgconfig
+mkdir /usr/local/man/man3
+mkdir /usr/local/man/man5
+install -m 644 libpng.a /usr/local/lib
+install -m 644 libpng.dll.a /usr/local/lib
+install -s -m 755 libpng12.dll /usr/local/bin
+install -m 644 libpng.pc /usr/local/lib/pkgconfig
+install -m 644 pCOMOBJECTS="jcomapi.o jutils.o jerror.o jmemmgr.o jmemnobs.o"
+CLIBOBJECTS="jcapimin.o jcapistd.o jctrans.o jcparam.o \
+jdatadst.o jcinit.o jcmaster.o jcmarker.o jcmainct.o \
+jcprepct.o jccoefct.o jccolor.o jcsample.o jchuff.o \
+jcphuff.o jcdctmgr.o jfdctfst.o jfdctflt.o jfdctint.o"
+DLIBOBJECTS="jdapimin.o jdapistd.o jdtrans.o jdatasrc.o \
+jdmaster.o jdinput.o jdmarker.o jdhuff.o jdphuff.o \
+jdmainct.o jdcoefct.o jdpostct.o jddctmgr.o \
+jidctfst.o jidctflt.o jidctint.o jidctred.o \
+jdsample.o jdcolor.o jquant1.o jquant2.o jdmerge.o"
+LIBOBJECTS="$CLIBOBJECTS $DLIBOBJECTS $COMOBJECTS"
+COBJECTS="cjpeg.o rdppm.o rdgif.o rdtarga.o rdrle.o rdbmp.o rdswitch.o cdjpeg.o"
+DOBJECTS="djpeg.o wrppm.o wrgif.o wrtarga.o wrrle.o wrbmp.o rdcolmap.o cdjpeg.o"
+TROBJECTS="jpegtran.o rdswitch.o cdjpeg.o transupp.o"
+for i in *.exe ; do rm /usr/local/bin/$i ; done
+rm *.exe
+cd .libs
+rm libjpeg.a
+rm /usr/local/lib/libjpeg.a
+cd ..
+gcc -shared -s -o ./.libs/libjpeg.dll -lm -Wl,--out-implib,./.libs/libjpeg.a  $LIBOBJECTS
+gcc -s -g -O2 -o cjpeg.exe $COBJECTS -L./.libs/ -ljpeg
+gcc -s -g -O2 -o djpeg.exe $DOBJECTS -L./.libs/ -ljpeg
+gcc -s -g -O2 -o jpegtran.exe $TROBJECTS -L./.libs/ -ljpeg
+gcc -s -g -O2 -o rdjpgcom.exe rdjpgcom.o -L./.libs/ -ljpeg
+gcc -s -g -O2 -o wrjpgcom.exe wrjpgcom.o -L./.libs/ -ljpeg
+cd .libs
+install libjpeg.a /usr/local/lib
+install libjpeg.dll /usr/local/bin
+cd ..
+for i in *.exe ; do install $i /usr/local/bin ; doneng.h pngconf.h /usr/local/include
+install -m 644 libpngpf.3 libpng.3 /usr/local/man/man3
+install -m 644 png.5 /usr/local/man/man5
+cp libpng-config /usr/local/bin
+chmod 755 /usr/local/bin/libpng-config</pre>
+            <p><strong><img src="/images/7.gif" alt="7" width="33" height="41" align="left" /><a name="Libjpeg" id="Libjpeg"></a>Libjpeg (6b)</strong></p>
+            <p><a href="http://www.ijg.org/" target="_blank" class="external">Libjpeg</a> - свободно распространяемая библиотека для работы с форматом JPEG, компрессией и распаковкой. </p>
+            <p>Загрузите <a target="_blank" href="http://www.ijg.org/files/jpegsrc.v6b.tar.gz">исходный код Libjpeg</a> </p>
+            <p>Распакуйте в c:\msys\local\src</p>
+            <p>В консоли MSYS введите:</p>
+            <pre> cd /usr/local/src/jpeg-6b
+./configure --prefix=/usr/local --enable-shared
+make
+mkdir /usr/local/man/man1
+make install</pre>
+            <p>Так как процедура make не создает библиотеку (даже если она включена с помощью configure), необходимо собрать ее вручную:</p>
+            <p>Согласно документации MinGW и GCC (<a target="_blank" href="http://www.mingw.org/docs.shtml#compilingandbuilding">Компиляция и сборка в MinGW</a> и <a target="_blank" href="http://gcc.gnu.org/onlinedocs/gcc/Link-Options.html#Link-Options"> Командные опции GCC  - Опции для связывания</a>), правильная проценду для сборки разделяемых библиотек (и исполняемых файлов, которые их используют) с помощью MinGW/MSYS должна быть следующей:</p>
+            <p>Сначала необходимо удалить статическую библиотеку импорта собранную стандартной процедурой make , и все исполняемые файлы связанные со статическими библиеотками. После этого нужно собрать разделяемую библиотеку со связанной статической библиотекой импорта,  а затем все исполняемые файлы, которые будут связаны с новой разделяемой библиотекой.</p>
+            <p><strong><img src="/images/8.gif" alt="8" width="33" height="41" align="left" /><a name="Libtiff" id="Libtiff"></a>Libtiff (3.8.2)</strong></p>
+            <p><a href="http://www.libtiff.org/" target="_blank" class="external">Libtiff</a> - свободно распространяемая библиотека для работы с чтением и записью формата Tag Image File Format (TIFF), включающая набор инструментов. </p>
+            <p>Загрузите <a target="_blank" href="ftp://ftp.remotesensing.org/pub/libtiff/tiff-3.8.2.tar.gz">исходный код Libtiff</a> </p>
+            <p>Распакуйте в c:\msys\local\src</p>
+            <p>В консоли MSYS введите:</p>
+            <pre>cd /usr/local/src/tiff-3.8.2
+./configure --prefix=/usr/local \
+--with-zlib-lib-dir=/usr/local/lib \
+--with-zlib-include-dir=/usr/local/include \
+--with-jpeg-lib-dir=/usr/local/bin \
+--with-jpeg-include-dir=/usr/local/include</pre>
+            <p>Библиотека должна быть сконфигурирована следующим образом:</p>
+            <pre>Libtiff is now configured for i686-pc-mingw32
+
+  Installation directory:             /usr/local
+  Documentation directory:       ${prefix}/share/doc/tiff-3.8.2
+  C compiler:                             gcc -g -O2 -Wall -W
+  C++ compiler:                         g++ -g -O2
+  Enable runtime linker paths:                no
+  Support Microsoft Document Imaging: yes
+
+ Support for internal codecs:
+  CCITT Group 3 & 4 algorithms:            yes
+  Macintosh PackBits algorithm:             yes
+  LZW algorithm:                                    yes
+  ThunderScan 4-bit RLE algorithm:        yes
+  NeXT 2-bit RLE algorithm:                    yes
+  LogLuv high dynamic range encoding: yes
+
+ Support for external codecs:
+  ZLIB support:                                       yes
+  Pixar log-format algorithm:                  yes
+  JPEG support:                                      yes
+  Old JPEG support:                                 no
+
+  C++ support:                                       yes
+
+  OpenGL support:                                  no</pre>
+            <p>И наконец сборка:</p>
+            <pre>make  <br />make install</pre>
+            <p><strong><img src="/images/9.gif" alt="9" width="33" height="41" align="left" /><a name="Xdr" id="Xdr"></a>Xdr (4.0)</strong></p>
+            <p><a href="http://en.wikipedia.org/wiki/External_Data_Representation" target="_blank" class="external">Xdr</a> - библиотека eXternal Data Representation (XDR) включающая процедуры позволяющие создавать код на языке C и создавать процедуры XDR определеяющие другие типы данных. XDR позволяет данные между компьютерами по разному хранящих данные. </p>
+            <p>Загрузите <a href="http://wiki.qgis.org/qgiswiki/BuildingWindowsBinaryOnLinux?action=AttachFile&amp;do=get&amp;target=xdr-4.0-mingw2.tar.gz" target="_blank" class="external">исходный код Xdr (специальная версия с убранным сетевым кодом)</a> </p>
+            <p>Распакуйте в c:\msys\local\src</p>
+            <p>В консоли MSYS введите:</p>
+            <pre>cd /usr/local/src/xdr-4.0-mingw2
+./configure --prefix=/usr/local --build=i686-pc-mingw32
+make
+make install</pre>
+            <p>Эту библиотеку необходимо компилировать как статическую, GRASS работает с разделяемой неправильно!</p>
+            <p><strong><img src="/images/10.gif" alt="10" width="55" height="41" align="left" /><a name="Freetype" id="Freetype"></a>Freetype (2.3.5)</strong></p>
+            <p><a href="http://www.freetype.org/" target="_blank" class="external">Freetype</a> - библиотека написаная на языке C и реализующая механизм растеризации шрифтов. Она используется для растеризации символов в битмэпы и предоставляет поддержку для других операций со шрифтами. </p>
+            <p>Загрузите <a href="http://download.savannah.gnu.org/releases/freetype/freetype-2.3.5.tar.gz" target="_blank" class="external">исходный код Freetype</a> </p>
+            <p>Распакуйте в c:\msys\local\src</p>
+            <p>В консоли MSYS введите:</p>
+            <pre>cd /usr/local/src/freetype-2.3.5
+./configure --prefix=/usr/local
+make
+make install</pre>
+            <p>Для завершения установки:</p>
+            <pre>cd /usr/local/include
+mkdir freetype
+mkdir ./freetype/config
+cd ./freetype2/freetype/config
+mv * /usr/local/include/freetype/config
+cd ..
+rmdir config
+mv * /usr/local/include/freetype
+cd ..
+rmdir freetype
+cd ..
+rmdir freetype2</pre>
+            <p>Откройте c:\msys\local\lib\pkgconfig\freetype2.pc </p>
+            <pre>Cflags: -I${includedir}/freetype2 -I${includedir}</pre>
+            <p>на</p>
+            <pre>Cflags: -I${includedir}</pre>
+            <p><strong><img src="/images/11.gif" alt="11" width="42" height="41" align="left" /><a name="FFTW" id="FFTW"></a>FFTW (3.1.2)</strong></p>
+            <p><a href="http://www.fftw.org/" target="_blank" class="external">FFTW</a> - библиотека написаная на языке C и служащая для расчета преобразований Фурье в одном или более измерениях на основе нормальных или комплексных исходных данных.</p>
+            <p>Загрузите <a href="http://www.fftw.org/fftw-3.1.2.tar.gz" target="_blank" class="external">исходный код FFTW</a> </p>
+            <p>Распакуйте в c:\msys\local\src</p>
+            <p>В консоли MSYS введите:</p>
+            <pre>cd /usr/local/src/fftw-3.1.2
+./configure --prefix=/usr/local \
+--disable-fortran \
+--with-our-malloc16 \
+--enable-shared \
+--disable-static \
+--enable-threads \
+--with-combined-threads \
+--enable-portable-binary \
+--enable-sse2
+make
+make install</pre>
+            <p><strong><img src="/images/12.gif" alt="12" width="53" height="41" align="left" /><a name="PDCurses" id="PDCurses"></a>PDCurses (3.3)</strong></p>
+            <p><a href="http://pdcurses.sourceforge.net/" target="_blank" class="external">PDCurses</a> - свободная библиотека функций управления окнами для DOS,  OS/2, Win32, X11 и SDL, реализующая большинство функций доступных в X/Open и System V R4 и поддерживающая компиляторы для этих платформ. </p>
+            <p>Загрузите <a href="http://downloads.sourceforge.net/pdcurses/PDCurses-3.3.tar.gz" target="_blank" class="external">исходный код PDCurses</a> </p>
+            <p>Распакуйте в c:\msys\local\src</p>
+            <p>Откройте c:\msys\local\src\PDCurses-3.3\win32\mingwin32.mak</p>
+            <p>Отредактируйте строку  80 заменив:</p>
+            <pre>-copy pdcurses.a panel.a</pre>
+            <p>на</p>
+            <pre>-cp pdcurses.a panel.acd src
+for i in *.exe ; do rm /usr/local/bin/$i ; done
+rm /usr/local/bin/invgeod.exe
+rm /usr/local/bin/invproj.exe
+rm *.exe
+cd .libs
+rm libproj.a
+rm /usr/local/lib/libproj.a
+gcc -shared -s -o libproj.dll -lm -Wl,--out-implib,libproj.a *.o
+cd ..
+gcc -s -g -O2 -o cs2cs.exe cs2cs.o gen_cheb.o p_series.o .libs/emess.o -L./.libs/ -lproj
+gcc -s -g -O2 -o geod.exe geod.o geod_set.o geod_for.o geod_inv.o .libs/emess.o -L./.libs/ -lproj
+gcc -s -g -O2 -o nad2bin.exe nad2bin.o -L./.libs/ -lproj
+gcc -s -g -O2 -o nad2nad.exe nad2nad.o .libs/emess.o -L./.libs/ -lproj
+gcc -s -g -O2 -o proj.exe proj.o gen_cheb.o p_series.o .libs/emess.o -L./.libs/ -lproj
+cp proj.exe invproj.exe
+cp geod.exe invgeod.exe
+cd .libs
+install libproj.a /usr/local/lib
+install libproj.dll /usr/local/bin
+cd ..
+for i in *.exe ; do install $i /usr/local/bin ; done</pre>
+            <p>В консоли MSYS введите:</p>
+            <pre>cd /usr/local/src/PDCurses-3.3
+cd win32
+make -f mingwin32.mak DLL=Y all
+cp pdcurses.a libcurses.a
+install libcurses.a /usr/local/lib
+install pdcurses.dll /usr/local/bin
+cd ..
+install -m 644 curses.h /usr/local/include</pre>
+            <p><strong><img src="/images/13.gif" alt="13" width="53" height="41" align="left" /><a name="PROJ.4" id="PROJ.4"></a>PROJ.4 (4.6.0)</strong></p>
+            <p><a href="http://trac.osgeo.org/proj/" target="_blank" class="external">Proj</a> - свободная библиотека и набор инструментов, являющихся де-факто стандартом в области трансформации координат и проекционных преобразований. </p>
+            <p>Загрузите <a href="ftp://ftp.remotesensing.org/proj/proj-4.6.0.tar.gz" target="_blank" class="external">исходный код PROJ.4</a> </p>
+            <p>Распакуйте в c:\msys\local\src</p>
+            <p>Загрузите <a href="ftp://ftp.remotesensing.org/proj/proj-datumgrid-1.3.zip" target="_blank" class="external">сетки трансформации датума для США, Канады и Новой Зеландии</a> </p>
+            <p>Распакуйте в c:\msys\local\src\proj-4.6.0\nad</p>
+            <p>В консоли MSYS введите:</p>
+            <pre>cd /usr/local/src/proj-4.6.0
+./configure --prefix=/usr/local --enable-shared --disable-static
+make
+make install</pre>
+            <p>Так как эта процедура не создает разделяемую библиотеку, несмотря на использование соответствующего параметра configure, необходимо повторить операцию вручную:</p>
+            <p><strong><img src="/images/14.gif" alt="14" width="53" height="41" align="left" /><a name="GEOS" id="GEOS"></a>GEOS (3.0.0)</strong></p>
+            <p><a href="http://trac.osgeo.org/geos/" target="_blank" class="external">GEOS</a> - (Geometry Engine - Open Source) порт на язык C++ пакета топологии Java - Java Topology Suite (JTS). GEOS предоставляет доступ к функциональности JTS с помощью C++. Это включает пространственные функции операторы определенные спецификацией OpenGIS Simple Features для SQL, а также специфические функции работы с топологией JTS.</p>
+            <p>Загрузите <a href="http://geos.refractions.net/downloads/geos-3.0.0.tar.bz2" target="_blank" class="external">исходный код GEOS</a> </p>
+            <p>Распакуйте в c:\msys\local\src</p>
+            <p>В консоли MSYS введите:</p>
+            <pre>cd /usr/local/src/geos-3.0.0 <br />./configure --prefix=/usr/local <br />make <br />make install</pre>
+            <p><strong><img src="/images/15.gif" alt="15" width="53" height="41" align="left" /><a name="GSL" id="GSL"></a>GSL (1.11)</strong></p>
+            <p><a href="http://www.gnu.org/software/gsl/" target="_blank" class="external">GSL</a> - GNU Scientific Library библиотека математических операций для языков C и C++. Библиотека предоставляет широкий набор математических процедур, таких как генераторы случайных чисел, специальные функции и методы апроксимации. Библиотека включает более 1000 функций и мощный набор тестов.</p>
+            <p>Загрузите <a href="ftp://ftp.gnu.org/gnu/gsl/gsl-1.11.tar.gz" target="_blank" class="external">исходный код GSL</a> </p>
+            <p>Распакуйте в c:\msys\local\src</p>
+            <p>В консоли MSYS введите:</p>
+            <pre>cd /usr/local/src/gsl-1.11 <br />./configure --prefix=/usr/local <br />make <br />make install</pre>
+            <p><strong><img src="/images/16.gif" alt="16" width="53" height="41" align="left" /><a name="Expat" id="Expat"></a>Expat (2.0.1)</strong></p>
+            <p><a href="http://expat.sourceforge.net/" target="_blank" class="external">Expat</a> - библиотека потоковой обработки XML написанная на языке C. </p>
+            <p>Загрузите <a href="http://dfn.dl.sourceforge.net/sourceforge/expat/expat-2.0.1.tar.gz" target="_blank" class="external">исходный код Expat</a> </p>
+            <p>Распакуйте в c:\msys\local\src</p>
+            <p>В консоли MSYS введите:</p>
+            <pre>cd /usr/local/src/expat-2.0.1<br />./configure --prefix=/usr/local <br />make <br />make install</pre>
+            <p><strong><img src="/images/17.gif" alt="17" width="53" height="41" align="left" /><a name="PostreSQL" id="PostreSQL"></a>PostgreSQL (8.3.1)</strong></p>
+            <p><a href="http://www.postgresql.org/" target="_blank" class="external">PostgreSQL</a> - открытая реляционная база данных. </p>
+            <p>Загрузите <a href="http://ftp2.it.postgresql.org/mirrors/postgres/source/v8.3.1/postgresql-8.3.1.tar.gz" target="_blank" class="external">исходный код PostgreSQL</a> </p>
+            <p>Распакуйте в c:\msys\local\src</p>
+            <p>В консоли MSYS введите:</p>
+            <pre>cd /usr/local/src/postgresql-8.3.1 <br />./configure --prefix=/usr/local/pgsql \ <br />--with-includes=/usr/local/include \ <br />--with-libraries=/usr/local/lib \ <br />--without-readline  <br />make <br />make install</pre>
+            <p>Уже собранные бинарные файлы PostgreSQL для Windows, создают проблемы со сборкой GDAL. Это происходит потому, что версия PostgreSQL для Windows собрана используя Visual Studio, MinGW (а особенно GDAL собранный с MinGW) не может связаться с библиотеками собранными с помощью VS.</p>
+            <p><strong><img src="/images/18.gif" alt="18" width="53" height="41" align="left" /><a name="SQLite" id="SQLite"></a>SQLite (3.5.9)</strong></p>
+            <p><a href="http://www.sqlite.org" target="_blank" class="external">SQLite</a> - открытая реляционная база данных SQLite не требующая сервера и конфигурации. </p>
+            <p>Загрузите <a href="http://www.sqlite.org/sqlite-amalgamation-3.5.9.tar.gz" target="_blank" class="external">исходный код SQLite</a> </p>
+            <p>Распакуйте в c:\msys\local\src</p>
+            <p>В консоли MSYS введите:</p>
+            <pre>cd /usr/local/src/sqlite-amalgamation-3.5.9<br />./configure --prefix=/usr/local/sqlite<br />make<br />make install</pre>
+            <p><strong><img src="/images/19.gif" alt="19" width="53" height="41" align="left" /><a name="GDAL1" id="GDAL1"></a>GDAL (1.5.2) - шаг первый </strong></p>
+            <p><a href="http://www.gdal.org/" target="_blank" class="external">GDAL</a> - библиотека трансляции растровых форматов геоданных, библиотека представляет единую абстрактную модель данных для всех поддерживаемых форматов. Пакет также включает набор полезных консольных утилит. </p>
+            <p>Так как Quantum GIS необходим GDAL с поддержкой GRASS, нужно сделать следующее:</p>
+            <ol>
+              <li>Собрать и установить GDAL без поддержки GRASS</li>
+              <li>Собрать и установить GRASS</li>
+              <li>Пересоубрать и установить GDAL с поддержкой GRASS</li>
+            </ol>
+            <p>Сначала выполним пункт 1, соберем и установим GDAL без поддержки GRASS:</p>
+            <p>Загрузите <a href="http://download.osgeo.org/gdal/gdal-1.5.2.tar.gz" target="_blank" class="external">исходный код GDAL</a></p>
+            <p>Распакуйте в c:\msys\local\src</p>
+            <p>Open c:\msys\local\src\gdal-1.5.2\configure</p>
+            <p>В строке  23832 замените:</p>
+            <pre>expat_lib_flags=&quot;-L$expat_prefix/lib -lexpat&quot;</pre>
+            <p>на</p>
+            <pre>LIBS=&quot;$LIBS -L$expat_prefix/lib -lexpat&quot;</pre>
+            <p>В консоли MSYS введите:</p>
+            <pre>cd /usr/local/src/gdal-1.5.2 ./configure <br />--prefix=/usr/local \ <br />--without-grass \ <br />--with-sqlite3=/usr/local/sqlite \ <br />--with-pg=/usr/local/pgsql/bin/pg_config.exe</pre>
+            <p>После завершения, вы должны увидеть следующий результат:</p>
+            <pre>GDAL is now configured for i686-pc-mingw32
+
+  Installation directory:    	/usr/local
+  C compiler:                	gcc -g -O2
+  C++ compiler:              	g++ -g -O2
+
+  LIBTOOL support:           	yes
+
+  LIBZ support:              	internal
+  GRASS support:             	no
+  CFITSIO support:           	no
+  PCRaster support:          	internal
+  NetCDF support:            	no
+  LIBPNG support:            	internal
+  LIBTIFF support:           	internal (BigTIFF=yes)
+  LIBGEOTIFF support:        	internal
+  LIBJPEG support:           	internal
+  LIBGIF support:            	internal
+  OGDI support:              	no
+  HDF4 support:              	no
+  HDF5 support:              	no
+  Kakadu support:            	no
+  JasPer support:            	no
+  ECW support:               	no
+  MrSID support:             	no
+  GRIB support:              	no
+  cURL support (wms/wcs/...):	no
+  PostgreSQL support:        	yes
+  MySQL support:             	no
+  Xerces-C support:          	no
+  Expat support:             	yes
+  ODBC support:              	no
+  PGeo support:              	no
+  OCI support:               	no
+  SDE support:               	no
+  DODS support:              	no
+  SQLite support:            	yes
+  DWGdirect support          	no
+  PANORAMA GIS support:      	no
+  INFORMIX DataBlade support:	no
+  GEOS support:              	yes
+
+  Old-gen python          	no
+  SWIG Bindings:          	no
+
+  Statically link PROJ.4:    	no
+  enable OGR building:       	yes
+  enable pthread support:    	no
+  hide internal symbols:     	no</pre>
+            <p>Откройте c:\msys\local\src\gdal-1.5.2\GNUmakefile </p>
+            <p>После строки 4 добавьте:</p>
+            GDAL_ROOT=.
+            <p>Наконец соберите и установите GDAL:</p>
+            <pre>make
+make install</pre>
+            <ul>
+              <li>Включение внешней поддержки Zlib, Libpng, Libjpeg и Libtiff приводит к тому, что сборка GDAL заканчивается неудачно;</li>
+              <li>Распределенные бинарные файлы Python для Windows собраны с использованием Visual Studio, GDAL (если он собирается MinGW) требует версию Python собранную MinGW; это означает, что если вы хотите включить поддержку Python в GDAL, вам понадобится также собрать Python из исходников с помощью MinGW;</li>
+              <li>Тоже самое касается и поддержки OGDI.</li>
+            </ul>
+            <p><strong><img src="/images/20.gif" alt="20" width="63" height="41" align="left" /><a name="AVCE00" id="AVCE00"></a>AVCE00 (2.0.0)</strong></p>
+            <p><a href="http://avce00.maptools.org/avce00/" target="_blank" class="external">AVCE00</a> - свободная библиотека на ANSI-C которая помогает переводить бинарные векторные покрытия Arc/Info в формат E00. Она помогает читать и записывать покрытия как если бы они были файлами E00. </p>
+            <p>Загрузите <a href="http://avce00.maptools.org/dl/avce00-2.0.0.tar.gz" target="_blank" class="external">исходный код AVCE00</a> </p>
+            <p>Распакуйте в c:\msys\local\src</p>
+            <p>В консоли MSYS введите:</p>
+            <pre>cd /usr/local/src/avce00-2.0.0 <br />make <br />install avcexport.exe /usr/local/bin <br />install avcimport.exe /usr/local/bin</pre>
+            <p><strong><img src="/images/21.gif" alt="21" width="63" height="41" align="left" /><a name="E00compr" id="E00compr"></a>E00compr (1.0.0)</strong></p>
+            <p><a href="http://avce00.maptools.org/e00compr/index.html" target="_blank" class="external">E00compr</a> - свободная библиотека на ANSI-C для чтения и записи файлов E00. </p>
+            <p>Загрузите <a href="http://avce00.maptools.org/dl/e00compr-1.0.0.tar.gz" target="_blank" class="external">исходный код E00compr</a> </p>
+            <p>Распакуйте в c:\msys\local\src</p>
+            <p>В консоли MSYS введите:</p>
+            <pre>cd /usr/local/src/e00compr-1.0.0 <br />make cd /usr/local/src/tk8.5.2/win <br />./configure --prefix=/usr/local/tcl-tk --with-tcl=/usr/local/src/tcl8.5.2/win --enable-shared <br />make <br />make install <br />cd /usr/local/tcl-tk/bin <br />mv wish85.exe wish.exe<br />install e00conv.exe /usr/local/bin</pre>
+            <p><strong><img src="/images/22.gif" alt="22" width="63" height="41" align="left" /><a name="GPSBabel" id="GPSBabel"></a>GPSBabel (1.3.5)</strong></p>
+            <p><a href="http://www.gpsbabel.org/" target="_blank" class="external">GPSBabel</a> - программное обеспечение для работы с GPS, получением и конвертацией информации. </p>
+            <p>Загрузите <a href="http://www.gpsbabel.org/plan9.php?dl=gpsbabel-1.3.5.zip" target="_blank" class="external">бинарные файлы GPSBabel</a> </p>
+            <p>Распакуйте в c:\msys\local\gpsbabel</p>
+            <p><strong><img src="/images/23.gif" alt="23" width="63" height="41" align="left" /><a name="Tcl/Tk" id="Tcl/Tk"></a>Tcl/Tk (8.5.2)</strong></p>
+            <p><a href="http://avce00.maptools.org/e00compr/index.html" target="_blank" class="external">Tcl/Tk
+			</a> - Tool Command Language, мощный но простой в изучении динамический язык программирования, подходящий для широкого спектра задач, включающего веб, настольные приложения, работу с сетью, адинистрацией и тестированием. Tk - набор инструментов для работки графического пользовательского интерфейса. Tk является стандартным GUI для Tcl.</p>
+            <p>Загрузите <a href="http://prdownloads.sourceforge.net/tcl/tcl8.5.2-src.tar.gz" target="_blank" class="external">исходный код Tcl</a> </p>
+            <p>Распакуйте в c:\msys\local\src</p>
+            <p>В консоли MSYS введите:</p>
+            <pre>cd /usr/local/srcd /usr/local/src/grass-6.3.0
+./configure \
+--prefix=/usr/local \
+--with-includes=/usr/local/include \
+--with-libs=/usr/local/lib \
+--disable-x11 \
+--without-x \
+--with-cxx \
+--enable-shared \
+--enable-largefile \
+--with-opengl=windows \
+--with-fftw \
+--with-freetype \
+--with-proj-share=/usr/local/share/proj \
+--with-gdal=/usr/local/bin/gdal-config \
+--with-tcltk --with-tcltk-includes=/usr/local/tcl-tk/include --with-tcltk-libs=/usr/local/tcl-tk/bin \
+--with-sqlite --with-sqlite-includes=/usr/local/sqlite/include --with-sqlite-libs=/usr/local/sqlite/lib \
+--with-postgres --with-postgres-includes=/usr/local/pgsql/include --with-postgres-libs=/usr/local/pgsql/libc/tcl8.5.2/win <br />./configure --prefix=/usr/local/tcl-tk --enable-shared <br />make <br />make install <br />cd /usr/local/tcl-tk/bin <br />mv tclsh85.exe tclsh.exe</pre>
+            <p>Загрузите <a href="http://prdownloads.sourceforge.net/tcl/tk8.5.2-src.tar.gz" target="_blank" class="external">исходный код Tk</a></p>
+            <p>Распакуйте в c:\msys\local\src</p>
+            <p>В консоли MSYS введите:</p>
+            <p>&nbsp;</p>
+            <p><strong><img src="/images/24.gif" alt="24" width="63" height="41" align="left" /><a name="GRASS" id="GRASS"></a>GRASS (6.3.0)</strong></p>
+            <p><a href="http://grass.osgeo.org/" target="_blank" class="external">GRASS</a> - одна из самых мощных свободных ГИС. </p>
+            <p>Загрузите <a href="http://grass.osgeo.org/grass63/source/grass-6.3.0.tar.gz" target="_blank" class="external">исходный код GRASS</a> </p>
+            <p>Распакуйте в c:\msys\local\src</p>
+            <p>Откройте c:\msys\local\src\grass-6.3.0\man\Makefile</p>
+            <p>В строке  13, замените:</p>
+            <pre>default: $(MANPAGES)</pre>
+            <p>на</p>
+            <pre>default:</pre>
+            <p>В консоли MSYS введите:</p>
+            <p>После завершения, вы должны увидеть следующий результат:</p>
+            <pre>GRASS is now configured for:  i686-pc-mingw32
+
+ Source directory:            /usr/local/src/grass-6.3.0
+ Build directory:             /usr/local/src/grass-6.3.0
+ Installation directory:      ${prefix}/grass-6.3.0
+ Startup script in directory: ${exec_prefix}/bin
+ C compiler:                  gcc -g -O2
+ C++ compiler:                c++ -g -O2
+ Building shared libraries:   yes
+ 64bit support:               no
+ OpenGL platform:             Windows
+
+  NVIZ:                       yes
+
+  BLAS support:               no
+  C++ support:                yes
+  DWG support:                no
+  FFMPEG support:             no
+  FFTW support:               yes
+  FreeType support:           yes
+  GDAL support:               yes
+  GLw support:                no
+  JPEG support:               yes
+  LAPACK support:             no
+  Large File Support (LFS):   yes
+  Motif support:              no
+  MySQL support:              no
+  NLS support:                no
+  ODBC support:               no
+  OGR support:                yes
+  OpenGL support:             yes
+  PNG support:                yes
+  PostgreSQL support:         yes
+  Python support:             no
+  Readline support:           no
+  SQLite support:             yes
+  Tcl/Tk support:             yes
+  wxWidgets support:          no
+  TIFF support:               yes
+  X11 support:                no
+  MacOSX application:         no</pre>
+            <p>После успешной конфигурации GRASS, теперь можно его собрать: </p>
+            <pre>export PATH="/usr/local/bin:/usr/local/tcl-tk/bin:/usr/local/sqlite/bin:/usr/local/pgsql/lib:$PATH"
+make</pre>
+            <p>По окончанию, лог компиляции должен выглядеть следующим образом:</p>
+            <pre>GRASS GIS compilation log
+-------------------------
+Started compilation: Mon Jun 16 09:08:19 GMT 2008
+--
+Errors in:
+/usr/local/src/grass-6.3.0/raster/r.li/r.li.daemon
+/usr/local/src/grass-6.3.0/raster/r.li/r.li.edgedensity
+/usr/local/src/grass-6.3.0/raster/r.li/r.li.patchdensity
+/usr/local/src/grass-6.3.0/raster/r.li/r.li.patchnum
+/usr/local/src/grass-6.3.0/raster/r.li/r.li.shape
+/usr/local/src/grass-6.3.0/raster/r.li/r.li.simpson
+/usr/local/src/grass-6.3.0/raster/r.li/r.li.shannon
+/usr/local/src/grass-6.3.0/raster/r.li/r.li.mps
+/usr/local/src/grass-6.3.0/raster/r.li/r.li.mpa
+/usr/local/src/grass-6.3.0/raster/r.li/r.li.padcv
+/usr/local/src/grass-6.3.0/raster/r.li/r.li.padsd
+/usr/local/src/grass-6.3.0/raster/r.li/r.li.padrange
+/usr/local/src/grass-6.3.0/raster/r.li/r.li.cwed
+/usr/local/src/grass-6.3.0/raster/r.li/r.li.richness
+/usr/local/src/grass-6.3.0/raster/r.li/r.li.dominance
+--
+In case of errors please change into the directory with error and run 'make'.
+If you get multiple errors, you need to deal with them in the order they
+appear in the error log. If you get an error building a library, you will
+also get errors from anything which uses the library.
+--
+Finished compilation: Mon Jun 16 10:11:17 GMT 2008
+make: *** [default] Error 1</pre>
+            <p>Лучший способ проверить лог, открыть его c:\msys\local\src\grass-6.3.0\error.log. </p>
+            <p>Теперь, устанавливаем GRASS:</p>
+            <pre>make install</pre>
+            <p>Теперь GRASS установлен в c:\msys\local\grass-6.3.0</p>
+            <p><strong><img src="/images/25.gif" alt="25" width="63" height="41" align="left" /><a name="GDAL2" id="GDAL2"></a>GDAL (1.5.2) - шаг второй </strong></p>
+            <p>В консоли MSYS введите:</p>
+            <pre>cd /usr/local/src/gdal-1.5.2
+./configure --prefix=/usr/local \
+--with-local=/usr/local \
+--with-libz=internal \
+--with-png=internal \
+--with-libtiff=internal \
+--with-jpeg=internal \
+--with-grass=/usr/local/grass-6.3.0 \
+--with-sqlite3=/usr/local/sqlite \
+--with-pg=/usr/local/pgsql/bin/pg_config.exe</pre>
+            <p>После завершения, вы должны увидеть следующий результат:</p>
+            <pre>GDAL is now configured for i686-pc-mingw32
+
+  Installation directory:    	/usr/local
+  C compiler:                	gcc -g -O2
+  C++ compiler:              	g++ -g -O2
+
+  LIBTOOL support:           	yes
+
+  LIBZ support:              	internal
+  GRASS support:             	grass57+
+  CFITSIO support:           	no
+  PCRaster support:          	internal
+  NetCDF support:            	no
+  LIBPNG support:            	internal
+  LIBTIFF support:           	internal (BigTIFF=yes)
+  LIBGEOTIFF support:        	internal
+  LIBJPEG support:           	internal
+  LIBGIF support:            	internal
+  OGDI support:              	no
+  HDF4 support:              	no
+  HDF5 support:              	no
+  Kakadu support:            	no
+  JasPer support:            	no
+  ECW support:               	no
+  MrSID support:             	no
+  GRIB support:              	no
+  cURL support (wms/wcs/...):	no
+  PostgreSQL support:        	yes
+  MySQL support:             	no
+  Xerces-C support:          	no
+  Expat support:             	yes
+  ODBC support:              	no
+  PGeo support:              	no
+  OCI support:               	no
+  SDE support:               	no
+  DODS support:              	no
+  SQLite support:            	yes
+  DWGdirect support          	no
+  PANORAMA GIS support:      	no
+  INFORMIX DataBlade support:	no
+  GEOS support:              	yes
+
+
+  Old-gen python          	no
+  SWIG Bindings:          	no
+
+  Statically link PROJ.4:    	no
+  enable OGR building:       	yes
+  enable pthread support:    	no
+  hide internal symbols:     	no</pre>
+            <p>Теперь соберем и установим GDAL:</p>
+            <pre>make
+make install</pre>
+            <p>&nbsp;</p>
+            <p><strong><img src="/images/26.gif" alt="26" width="63" height="41" align="left" /><a name="QT" id="QT"></a>Qt OpenSource (4.4.0)</strong></p>
+            <p><a href="http://trolltech.com/products/qt/" target="_blank" class="external">QT</a> - кросс-платформенный пакет разработки для настольных и внедренных приложений. Включает интуитивный API и богатую библиотеку классов для C++, интегрированный инструментарий для разработки графического пользовательского интерфейса и интернационализации, поддерживает разработку на Java и C++.</p>
+            <p>Загрузите <a href="ftp://ftp.trolltech.com/qt/source/qt-win-opensource-4.4.0-mingw.exe" target="_blank" class="external">инсталлятор Qt OpenSource</a> </p>
+            <p>Установите в C:\DevTools\Qt-OpenSource</p>
+            <p>Когда инсталлятор спросит про MinGW, не нужно его загружать и устанавливать, просто укажите путь c:\msys\mingw</p>
+            <p>При появлении сообщения &quot;The installer could not found a valid c:\msys\mingw\include\w32api.h&quot;, нажмите &quot;Yes&quot; и продолжите.</p>
+            <p>После установки Qt, отредактируйте C:\DevTools\Qt-OpenSource\bin\qtvars.bat и добавьте следующее:</p>
+            <p>В строке  8 замените:</p>
+            <pre>echo -- PATH set to C:\DevTools\Qt-OpenSource\bin</pre>
+            <p>на</p>
+            <pre>echo -- Adding MSYS environment directories to PATH</pre>
+            <p>В строке  14 замените:</p>
+            <pre>set PATH=C:\DevTools\Qt-OpenSource\bin</pre>
+            <p>на</p>
+            <pre>set PATH=%PATH%;c:\msys\local\bin;c:\msys\local\sqlite\bin;c:\msys\local\pgsql\lib</pre>
+            <p>Наконец, добавьте путь C:\DevTools\Qt-OpenSource\bin к своей переменной PATH.</p>
+            <p><strong><img src="/images/27.gif" alt="27" width="63" height="41" align="left" /><a name="Python" id="Python"></a>Python (2.5.2)</strong></p>
+            <p><a href="http://www.python.org/" target="_blank" class="external">Python</a> - объектно-ориентированный язык программирования.</p>
+            <p>Загрузите <a href="http://www.python.org/ftp/python/2.5.2/python-2.5.2.msi" target="_blank" class="external">инсталлятор Python</a> </p>
+            <p>Установите в C:\DevTools\Python</p>
+            <p>Добавьте C:\DevTools\Python к своей системной переменной PATH.</p>
+            <p><strong><img src="/images/28.gif" alt="28" width="63" height="41" align="left" /><a name="SIP" id="SIP"></a>SIP (4.7.7)</strong></p>
+            <p><a href="http://www.riverbankcomputing.com/software/sip/intro" target="_blank" class="external">SIP</a> - инструмент, который облегчает процесс создания bindings для библиотек C и C++ для Python.</p>
+            <p>Загрузите <a href="http://www.riverbankcomputing.com/static/Downloads/sip4/sip-4.7.7.zip" target="_blank" class="external">исходный код SIP</a> </p>
+            <p>Установите в C:\msys\local\src</p>
+            <p>Откройте консоль Windows и введите:</p>
+            <pre>cd c:\msys\local\src\sip-4.7.7
+qtvars
+python configure.py -p win32-g++
+make
+make install</pre>
+            <p><strong><img src="/images/29.gif" alt="29" width="63" height="41" align="left" /><a name="PyQt" id="PyQt"></a>PyQt (4.4.3)</strong></p>
+            <p><a href="http://www.riverbankcomputing.com/software/pyqt/intro" target="_blank" class="external">PyQt</a> - мультиплатформенный набор bindings с пакетом разработки приложений Qt для языка Python.</p>
+            <p>Загрузите <a href="http://www.riverbankcomputing.com/static/Downloads/PyQt4/PyQt-win-gpl-4.4.3.zip" target="_blank" class="external">исходный код PyQT</a> </p>
+            <p>Установите в C:\msys\local\src</p>
+            <p>Откройте консоль Windows и введите:</p>
+            <pre>cd c:\msys\local\src\PyQt-win-gpl-4.4.3
+qtvars
+python configure.py
+</pre>
+            <p>Зайдите в c:\msys\local\src\PyQt-win-gpl-4.4.3\QtGui, переименуйте все файлы заменив подстроку названия &quot;sipQtGui&quot; на &quot;sQG&quot;. Откройте на редактирование Makefile, произведите такую же замену. Откройте на редактирование QtGui.sbf, произведите такую же замену. Если этого не сделать, в процессе сборки будет выдана ошибка The input line is too long (<a href="http://www.forum.crossplatform.ru/index.php?showtopic=578&st=0&p=3352&#entry3352" target="_blank" class="external">подробнее</a>).</p>
+            <pre>
+make
+make install</pre>
+            <p>&nbsp;</p>
+            <p><strong><img src="/images/30.gif" alt="30" width="63" height="41" align="left" /><a name="CMake" id="CMake"></a>CMake (2.6.0)</strong></p>
+            <p><a href="http://cmake.org/HTML/index.html" target="_blank" class="external">CMake</a> - кросс-платформенный система сборки (make).</p>
+            <p>Загрузите <a href="http://www.cmake.org/files/v2.6/cmake-2.6.0-win32-x86.exe" target="_blank" class="external">инсталлятор CMake</a> </p>
+            <p>Запустите инсталлятор CMake и выберите  &quot;Add CMake to the system PATH for all users&quot;.</p>
+            <p>Установите в C:\DevTools\CMake</p>
+            <p><strong><img src="/images/31.gif" alt="31" width="63" height="41" align="left" /><a name="QGIS" id="QGIS"></a>Quantum GIS (0.11.0)</strong></p>
+            <p><a href="http://cmake.org/HTML/index.html" target="_blank" class="external">QGIS</a> - динамично развивающаяся свободная настольная ГИС.</p>
+            <p>Загрузите <a href="http://download.osgeo.org/qgis/src/qgis_0.11.0.tar.gz" target="_blank" class="external">исходный код QGIS</a> </p>
+            <p>Распакуйте в C:\msys\local\src</p>
+            <p>Откройте консоль Windows и введите:</p>
+            <pre>cd c:\msys\local\src\qgis_0.11.0
+md build
+cd build
+qtvars
+cmakesetup ..</pre>
+            <p>В утилите CMake Setup выберите &quot;Configure&quot; и, когда спросит, выберите &quot;MinGW Makefiles&quot; как генератор.</p>
+            <p>CMake Setup предупредит о наличие отсутствующих связанных библиотек, игнорируйте это, нажмите OK и продолжить.</p>
+            <p>По завершению , выберите &quot;Show Advanced Values&quot;.</p>
+            <p>Для каждого пункта перечисленного ниже, выберите соответствующий пункт в утилите CMake Setup, введите соответствующее значение и нажмите enter  (мы осуществим ввод &quot;снизу-вверх&quot;, редактируя последние значения в списке CMake Setup первыми):</p>
+            <pre>SQLITE3_LIBRARY = c:/msys/local/sqlite/bin/libsqlite3-0.dll
+SQLITE3_INCLUDE_DIR = c:/msys/local/sqlite/include
+POSTGRES_INCLUDE_DIR = c:/msys/local/pgsql/include
+GRASS_PREFIX = c:/msys/local/grass-6.3.0
+CMAKE_INSTALL_PREFIX = c:/msys/local/qgis-0.11.0
+CMAKE_CXX_FLAGS = -DGEOS_INLINE
+CMAKE_BUILD_TYPE = Release</pre>
+            <p>После окончания ввода, нажмите OK.</p>
+            <p>Наконец, в том же окне консоли введите:</p>
+            <pre>make <br />make install</pre>
+            <p class="discuss">
+				<span><!--#include virtual="/scripts/forum-comments-num.php?i=852"--></span>
+			</p>
+			<div class="links">
+			<h2>Ссылки по теме</h2>
+			<ul>
+               <li><a href="http://www.webalice.it/marco.pasetti/qgis+grass/BuildFromSource.html" target="_blank" class="external">Quantum GIS + GRASS Windows Native Binary Building Guide</a></li>
+			</ul>
+			</div>
+            <!--#include virtual="/scripts/date.php" -->
+<!--Contents end-->
+<!--#include virtual="/inc/footer2.php" -->
+

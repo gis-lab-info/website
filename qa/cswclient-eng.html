@@ -1,107 +1,16 @@
 <!--#include virtual="/inc/header02.txt" -->
 <title>GIS-Lab: Searching in catalogs with QGIS and CSWClient</title>
-<!--#include virtual="/inc/header2-eng.txt" -->
+<!--#include virtual="/inc/header2.txt" -->
 <div class="cont">
 <div class="col1">
 
 <ul class="path">
-   <li class="first"><a href="/index-eng.html">Home</a></li>
-   <li><a href="/qa-eng.html">Articles</a></li>
+   <li class="first"><a href="/">Home</a></li>
+   <li><a href="/qa.html">Articles</a></li>
 </ul>
 <!--Contents start-->
-<h1>Searching in catalogs with QGIS and CSWclient</h1>
-<p class="ann">How to work with catalog services in QGIS</p>
-<p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=2490"--></span></p>
-<p>CSW (Catalogue Service for Web) is an OGC (Open Geospatial Consortium)
-specification, that defines common interfaces to discover, browse, and
-query metadata about data, services, and other potential resources.</p>
-
-<p>CSWclient plugin for QGIS provides userfriendly interface for this services.</p>
-<p>Development of CSWclient was sponsored by Linifiniti Consulting.</p>
-<p><strong>Contents</strong></p>
-<ol>
-    <li><a href="#01">Installation notes</a></li>
-    <li><a href="#02">How to work</a></li>
-    <li><a href="#contacts">Contacts</a></li>
-</ol>
-
-<!-- Первый раздел -->
-<h2><strong><a name="01" id="01"></a></strong>1. Installation notes</h2>
-<p>Plugin is available via GIS-Lab <a href="/programs/qgis/qgis-repo.xml">repository</a>.</p>
-<p>CSWClient is designed for QGIS version 1.5.0 and higher. There are no
-dependencies, all necessary files (owslib) are included in package.</p>
-
-<!-- Второй раздел -->
-<h2><strong><a name="02" id="02"></a></strong>2. How to work</h2>
-<p>After plugin installation and startup by clicking
-<img src="/images/cswclient-01.png" alt="Plugin button" width="32" height="32"></img>
-main window with two tabs will appear.</p>
-
-<p><img src="/images/cswclient-eng-02.png" alt="Main plugin window (Servers tab)" width="742" height="460"></img></p>
-<h3><img src="/images/cswclient-eng-03.png" alt="Main plugin window (Search tab)" width="742" height="460">Server list management </h3>
-<p>The &laquo;Servers&raquo; tab is used for managing the list of available
-  servers. Plugin is shipped with small default list of servers, which you can add by
-  pressing &laquo;Add default servers&raquo; button. You can also add new
-  servers, edit or delete existing ones with &laquo;New&raquo;, &laquo;Edit&raquo;
-  and &laquo;Delete&raquo; buttons respectively.</p>
-<p>Besides this it is possible to share your list of servers with others by saving server list in file with &laquo;Save&raquo;
-button and load them from file with &laquo;Load&raquo; button. Before saving
-or loading you can select whichever servers you'd like to share. This is useful when you need
-to share settings between  computers and people.</p>
-
-<p>&laquo;Server info&raquo; will display available information about server
-in the text area. Button &laquo;Metadata&raquo; has same purpose, but displayed
-information in separate window as XML document.</p>
-
-<h3>Searching for data </h3>
-<p>&laquo;Search&raquo; tab has everything you need to set up search parameters and
-  view results.</p>
-<p>First of all you need to enter search keyword (or comma separated
-list of keywords) and geographic boundaries to search in. By default, canvas bounding
-box is used. If necessary, you can enter values in fields manually. &laquo;From map canvas&raquo;
-and &laquo;Set global&raquo; buttons allow to set up canvas bbox and global
-bbox in one click.</p>
-
-<p>Results are displayed in list. It is possible to sort them by clicking
-on column title. When record is selected &laquo;Abstract&raquo; field is
-filled, and if available dataset URL is displayed. &laquo;Metadata&raquo; button
- also becomes active. Pressing on this button will display record metadata.
-When &laquo;Show XML&raquo; is clicked  a window will appear with server
-response in XML format.</p>
-
-<p>You can navigate through search results with &laquo;First&raquo;,
-&laquo;Last&raquo;, &laquo;Next&raquo; and &laquo;Prev&raquo; buttons.</p>
-<h3>Accessing data </h3>
-<p>If record has type &laquo;downloadableData&raquo; and there is a link
-in their metadata, button &laquo;Open URL&raquo; will be active. Pressing
-this button will  open the link in the default browser.</p>
-
-<p>If record has type &laquo;liveData&raquo; and there is a link in their
-metadata, &laquo;Add to WMS list&raquo; button will be enabled. When this
-button is pressed plugin will try to verify if this WMS server is valid. On success you will be asked for name for this server and it will be
-added to the QGIS WMS servers list. You can connect for this server
-as usual using Layer\Add WMS layer.</p>
-
-<p><strong>Note</strong>. Current test for WMS URL's
-validity is very simple. So in some cases this test will return wrong results and server
-will not be added to the QGIS WMS list. In this case you can copy URL and
-add it manually. We'd also welcome report on that.</p>
-
-<h2><strong><a name="contacts" id="contacts"></a></strong>3. Contacts</h2>
-<p>If you found a bug, want to make suggestion for improving CSWClient or
-have a question about this plugin, contact the
-<a href="mailto:alexander.bruy@gmail.com">developers</a> (more
-<a href="/contacts-eng.html">contacts</a>).</p>
-<p>&nbsp;</p>
-<div class="links">
-  <h2>Links</h2>
-    <ul>
-      <li><a href="http://www.opengeospatial.org/standards/cat" target="_blank" class="external">OGC Catalogue Service specification</a></li>
-    </ul>
-</div>
+<!--#include virtual="/inc/wiki.php?page=Searching_in_catalogs_with_QGIS_and_CSWClient&thread=6854" -->
 <!--Contents end-->
-
-<!--#include virtual="/scripts/date.php" -->
 <p class="status"><span>Дата создания: 14.10.2010
-<br>Автор(ы): <a href="forum/memberlist.php?mode=viewprofile&u=5325" target="_blank">Alexander Bruy</a></span></p>
-<!--#include virtual="/inc/footer2-eng.php" -->
+<br>Автор(ы): <a href="/forum/memberlist.php?mode=viewprofile&u=5325" target="_blank">Александр Бруй</a></span></p>
+<!--#include virtual="/inc/footer2.php" -->

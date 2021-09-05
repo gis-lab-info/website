@@ -1,7 +1,6 @@
 <!--#include virtual="/inc/header02.txt" -->
 <title>GIS-Lab: Назначение системы координат в пакетном режиме в ERDAS IMAGINE</title>
 <!--#include virtual="/inc/header2.txt" -->
-<!--Contents start-->
 <div class="cont">
 <div class="col1">
 
@@ -9,45 +8,9 @@
    <li class="first"><a href="/">Главная</a></li>
    <li><a href="/qa.html">Вопросы и ответы</a></li>
 </ul>
-<h1>Назначение системы координат в пакетном режиме в ERDAS IMAGINE</h1>
-<p class="ann">Пример работы с пакетным процессором ERDAS IMAGINE</p>
-<p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=1761"--></span></p>
-<p>Интерфейс пакетных операций ERDAS IMAGINE предоставляет достаточно удобный и производительный способ осуществления некоторых операций. </p>
-            <p>В этой  статье, на примере данных ASTER\Terralook мы демонстрируем каким образом осуществляется автоматизация в ERDAS IMAGINE с помощью интерфейса пакетных операций. В данной статье мы решаем задачу назначения (&quot;прописывания&quot;) системы координат данным, в которых по-умолчанию она не прописана, что не позволяет, например, пакетно <a href="reproject.html">перепроектировать данные в ERDAS IMAGINE </a>в другую систему координат. По аналогии с демонстрированным примером можно автоматизировать и множество других задач в ERDAS IMAGINE, точнее все другие задачи, имеющие в интерфейсе кнопку Batch, а так же скрипты инструмента моделирования и многое другое (об этом в других статьях).</p>
-            <p>Итак, для начала, пропишем необходимую систему координат одному из снимков, для этого вызовем окно Image command: Tools\Image command tool и откроем один из файлов для которых нужно прописать систему координат.</p>
-            <p>Дальше, укажем необходимые параметры: </p>
-            <p>Change map model\Options, Projection: Geographic (Lat/Lon), Units: Degrees (точнее они выберутся сами автоматически).</p>
-            <p align="center"><img src="/images/batch-cs-erdas-05.gif" alt="batch" width="468" height="194" /></p>
-            <p>Change map projection\Options, Categories: Geographic,
-            Projection: Lat/Lon (WGS 1984)</p>
-            <p align="center"><img src="/images/batch-cs-erdas-06.gif" alt="batch" width="381" height="115" /></p>
-            <p>После того, как все параметры указаны, можно нажать Ok, но тогда операция будет выполнена только для конкретного файла, мы же хотим выполнить ее для сотен других, поэтому нажимаем Batch.</p>
-            <p>В появившемся окне  Batch command выбираем Modify commands automatically, так как опция по умолчанию (Use commands as they are) не позволит нам внести необходимые изменения и выполнит команды как они есть. После нажатия next появится интерфейс для модификации нашей пакетной команды: </p>
-            <p align="center"><img src="/images/batch-cs-erdas-01.gif" alt="batch" width="558" height="331" /></p>
-            <p>Появится следующее выражение команды для пакетного процесса:  </p>
-            <pre>imagecommand '$(Input)' -map <strong>4.6664583370726461e+001</strong> <strong>4.7056636014961327e+001</strong> 1.9686899999999999e-004 1.3500000000000000e-004 degrees 'Geographic (Lat/Lon)' -projection c:/gis/arcview3/.imagine900/projections/geographic.plb 'Lat/Lon (WGS 84)' -meter imagecommand</pre>
-            <p>Обратите внимание на цифры выделенные жирным, они соответствуют широте и долготе верхнего левого угла снимка, который был использован в качестве образца, само собой разумеется, что эти параметры нельзя использовать для всех снимков, так как координаты верхних левых углов у них все время разные, чтобы обойти это ограничение, заменим эти константы на переменные.</p>
-            <p>Для этого, в окне Batch commands выделяем первую константу (долготу)  с помощью мыши и выбираем в списке после списка со значением Input переменную Ulx, и нажимаем на кнопку заменить <img src="/images/batch-cs-erdas-02.gif" alt="batch" width="21" height="20" /> (Replace current argument with the variable) тоже самое делаем для второй константы (широта), заменяем ее на Uly. Выражение должно принять следующий вид:</p>
-            <pre>imagecommand '$(Input)' -map <strong>$(Input.Ulx) $(Input.Uly)</strong>1.9686899999999999e-004 1.3500000000000000e-004 degrees 'Geographic (Lat/Lon)' -projection c:/gis/arcview3/.imagine900/projections/geographic.plb 'Lat/Lon (WGS 84)' -meter imagecommand</pre>
-            <p>Если используются изображения с разным разрешением, то также можно заменить на переменные и его, сделав выражение еще более универсальным, для этого нам понадобятся переменные CellWidth и CellHeight соответственно:</p>
-            <pre>imagecommand '$(Input)' -map <strong>$(Input.Ulx) $(Input.Uly) $(Input.CellWidth) $(Input.CellHeight)</strong> degrees 'Geographic (Lat/Lon)' -projection c:/gis/arcview3/.imagine900/projections/geographic.plb 'Lat/Lon (WGS 84)' -meter imagecommand </pre>
-            <p>Важно, чтобы переменные были отделены друг от друга и других параметров пробелами, иначе операция выполнена не будет. </p>
-            <p>После того, как выражение приняло универсальный вид, можно перейти на следующую страницу окна Batch commands (Next &gt;) и нажав на кнопку <img src="/images/batch-cs-erdas-04.gif" alt="batch" width="19" height="20" /> (select files to add) добавить остальные файлы, по маске (закладка Multiple file selection) или по одиночке. </p>
-            <p align="center"><img src="/images/batch-cs-erdas-03.gif" alt="batch" width="558" height="331" /></p>
-            <p>В следующем окне выбираем немедленное выполнение процесса (Start processing Now) и нажимаем на кнопку Finish.</p>
-            <p>Естественным вопросом будет &quot;как использовать эту операцию еще раз?&quot;. Можно повторить все шаги перечисленные выше, но проще всего - сохранить  окончательную пакетную команду в текстовый файл с расширением *.bcf с помощью кнопки Save commands to a file... В следующий раз нужно будет просто загрузить его с помощью опции меню Sessions\Open Batch command file... и указать новый набор файлов для обработки (<a href="../other/batch-cs-erdas.bcf">пример подобного файла</a>). Имейте в виду, что для корректной работы этого скрипта путь к файлу plb, содержащего описание систем координат, должен быть правильным. </p>
-            <p class="discuss">
-				<span><!--#include virtual="/scripts/forum-comments-num.php?i=1761"--></span>
-			</p>
-			<div class="links">
-			<h2>Ссылки по теме</h2>
-			<ul>
-               <li><a href="reproject.html">Перепроектирование растровых данных в ERDAS IMAGINE</a></li>
-			   <li><a href="batch-erdas.html">Автоматизация выполнения моделей в ERDAS IMAGINE</a></li>
-			</ul>
-			</div>
+<!--Contents start-->
+<!--#include virtual="/inc/wiki.php?page=Назначение_системы_координат_в_пакетном_режиме_в_ERDAS_IMAGINE&thread=1761" -->
 <!--Contents end-->
-<!--#include virtual="/scripts/date.php" -->
 <p class="status"><span>Дата создания: 08.12.2007
 <br>Автор(ы): <a href="/forum/memberlist.php?mode=viewprofile&u=2" target="_blank">Максим Дубинин</a></span></p>
 <!--#include virtual="/inc/footer2.php" -->

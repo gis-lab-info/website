@@ -9,82 +9,8 @@
    <li><a href="/qa.html">Вопросы и ответы</a></li>
 </ul>
 <!--Contents start-->
-<h1>Установка ГИС GRASS 6.2.3 для Windows</h1>
-<p class="ann">Описание процесса установки GRASS для Windows</p>
-<p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=1964"--></span></p>
-<p>Так как текущая версия GRASS работает только из среды Unix, сначала необходимо установить Linux-подобную оболочку для Windows - Cygwin.  Данное описание касается текущей версии GRASS - 6.2.3. Если вы используете Windows рекомендуем устанавливать версию GRASS 6.3, не требующую эмуляторов, бинарные файлы можно скачать на <a href="http://grass.gis-lab.info">официальном зеркале GRASS</a>.</p>
-            <p>Объем данных, которые придется загрузить из Web, при данном типе установки: с зеркала grass: 23 684 Kb, с зеркала cygwin: 143 995 Kb, итого: 167 679 Kb. Размер демонстрационной базы данных Spearfish: 20 000 Kb. Итого после распаковки и установки полный комплект занимает на диске: 561 215 Kb.</p>
-            <p>Описание состоит из трех частей:</p>
-            <ol>
-              <li><a href="#installgrass">Установка GRASS</a></li>
-              <li><a href="#label">Создание ярлыка для быстрого запуска GRASS</a></li>
-              <li><a href="#installdemo">Установка демонстрационной базы данных</a>    </li>
-            </ol>
-            <h2><a name="installgrass" id="installgrass"></a>Установка GRASS </h2>
-            <p>Загрузить дистрибутив Cygwin с <a href="http://www.cygwin.com/">официального сайта</a>. Инсталлятор Cygwin позволяет осуществить загрузку и инсталляцию Cygwin прямо из интернет, все что необходимо - скачать <a href="http://www.cygwin.com/setup.exe" target="_blank" class="external">небольшой файл инсталлятора</a>. </p>
-            <p align="center"><img src="/images/grass-install-02.gif" alt="установка с интернет" width="505" height="388" /></p>
-            <p>Cygwin нельзя устанавливать в папки с пробелами в названии, например с C:\Program Files\Cygwin. Можно установить Cygwin в корень диска или любую другую папку в названии которой не содержится пробелов. </p>
-            <p>При установке в пункте Default text file type необходимо выбрать Unix/binary.</p>
-            <p align="center"><img src="/images/grass-install-03.gif" alt="папка установки и тип текстовых файлов" width="505" height="388" /></p>
-            <p>При варианте установки, при котором все загружается инсталлятором из интернет, будет предложено выбрать один из многочисленных серверов, с которых будет осуществлена загрузка. На этом этапе необходимо в строку ... добавить адрес http://grass.ibiblio.org/grass62/binary/mswindows/, с которого будут загружены модули GRASS.</p>
-            <p align="center"><img src="/images/grass-install-04.gif" alt="адрес с модулями GRASS" width="505" height="388" /></p>
-            <p>При выборе зеркала необходимо, чтобы выделены были <strong>обе</strong> строки, одна с адресом наиболее близким к вам (из соображения скорости скачивания) и вторая - новая, с которой будут загружены библиотеки GRASS. Выделить две строки можно с помощью CTRL+левая кнопка мыши. </p>
-            <p align="center"><img src="/images/grass-install-05.gif" alt="два адреса загрузки" width="505" height="388" /></p>
-            <p>После появления окна с перечнем библиотек необходимо зайти в пункт Database и включить пункт GRASS, который по умолчанию пропускается (skip).  </p>
-            <p align="center"><img src="/images/grass-install-06.gif" alt="два адреса загрузки" width="505" height="388" /></p>
-            <p>Далее, необходимо включить все пункты в списке X11. </p>
-            <p align="center"><img src="/images/grass-install-07.gif" alt="библиотеки X11" width="505" height="388" /></p>
-            <p>Переключатель Curr соответствует настройке когда загружаются только стабильные пакеты Cygwin.</p>
-            <p>После выбора пакетов будет произведена их загрузка и установка.</p>
-            <p align="center"><img src="/images/grass-install-08.gif" alt="библиотеки X11" width="505" height="388" /></p>
-            <p>После установки, необходимо запустить Cygwin. Появится следующее окно с системной подсказкой:</p>
-            <p align="center"><img src="/images/grass-install-01.gif" alt="bash" width="668" height="331" /></p>
-            <p>В командную строку необходимо ввести:</p>
-            <pre>startx</pre>
-            <p>Запустится окно X-window со своей системной подсказкой, куда нужно будет ввести:</p>
-            <pre>grass62 </pre>
-            <p>или ввести grass и дважды нажать на TAB.</p>
-            <p align="center"><img src="/images/grass-install-09.gif" alt="bash" width="492" height="343" /></p>
-            <p>Если все было уставновлено согласно этой инструкции, запустится GRASS и появится следующее окно:</p>
-            <p align="center"><img src="/images/grass-install-10.gif" alt="bash" width="492" height="343" /> </p>
-            <p>После нажатия ENTER, наконец запустится графический интерфейс (GUI) GRASS:</p>
-            <p align="center"><img src="/images/grass-install-11.gif" alt="bash" width="550" height="584" /> </p>
-            <p>Если необходимо запустить GRASS в текстовом режиме, то из Cygwin нужно также запустить grass62 напрямую, без предварительной загрузки X-window. </p>
-            <h2><a name="label" id="label"></a>Создание ярлыка для быстрого запуска GRASS</h2>
-            <p>Для того, чтобы запускать GRASS также, как запускается любая другая программа Windows, необходимо сделать следующее:</p>
-            <p>1. Создать файл запуска GRASS, назовем его grass.bat, со следующим содержанием:</p>
-            <pre>@echo off
-C:  
-chdir C:\cygwin\bin
-set GRASS_AUTOSTART=1  
-bash --login -i -c startx</pre>
-            <p>где C: и C:\cygwin\bin необходимо заменить на нужный путь к директории, куда был установлен cygwin.</p>
-            <p>2. Теперь нужно найти в домашей директории пользователя найти файл .bashrc и добавить в его конец следующие строки:</p>
-<pre>##################
-Start GRASS
-if [ -n &quot;$DISPLAY&quot; ] &amp;&amp; [ -n &quot;$GRASS_AUTOSTART&quot; ] ;
-then
-unset GRASS_AUTOSTART
-exec grass62
-fi
-#################</pre>
-            <p>Домашняя директория пользователя обычно находится в поддиректории    home директории куда был установлен cygwin, полный путь может выглядеть например так: <strong>c:\cygwin\home\mdubinin\.bashrc</strong></p>
-            <p>Если все сделано правильно, теперь, после запуска файла grass.bat будет запущен cygwin, оконный интерфейс и сам grass. </p>
-            <p>3. Файлу grass.bat можно назначить стандатную иконку GRASS (<a href="http://freegis.org/cgi-bin/viewcvs.cgi/*checkout*/grass6/lib/init/grass.ico?rev=HEAD" target="_blank" class="external">скачать</a>)</p>
-            <h2><a name="installdemo" id="installdemo"></a>Установка демонстрационной базы данных</h2>
-            <p>Для начала работы с GRASS можно <a href="http://grass.itc.it/download/data6.php" target="_blank" class="external">загрузить демонстрационный набор данных</a> Spearfish, содержащий растровые и векторные данные в формате GRASS. </p>
-            <p>В домашней директории пользователя нужно создать директорию <strong>grassdata</strong> в которую распаковать скачанные данные. Теперь с этими данными можно работать в GRASS, либо через текстовый, либо через графический интерфейс. </p>
-            <p class="discuss">
-				<span><!--#include virtual="/scripts/forum-comments-num.php?i=1964"--></span>
-			</p>
-			<div class="links">
-			<h2>Ссылки по теме</h2>
-			<ul>
-               <li><a href="/docs/grass/index.html">Документация по ГИС GRASS</a></li>
-			</ul>
-			</div>
-<!--Contents end-->
-<!--#include virtual="/scripts/date.php" -->
+<!--#include virtual="/inc/wiki.php?page=Установка_ГИС_GRASS_6.2.3_для_Windows&thread=1964" -->
 <p class="status"><span>Дата создания: 24.12.2007
 <br>Автор(ы): <a href="/forum/memberlist.php?mode=viewprofile&u=2" target="_blank">Максим Дубинин</a></span></p>
+<!--Contents end-->
 <!--#include virtual="/inc/footer2.php" -->
