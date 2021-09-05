@@ -173,9 +173,10 @@ hr { border:0; background-color:#DDD; height:1px; margin-bottom:10px; margin-top
 
 
 /* wiki */
-div.gl-mw-include span.editsection { display: none; }
+div.gl-mw-include span.editsection { float: right; font-size: 70%; font-weight: normal;  }
 
-/* div.gl-mw-include table.toc { display: none; } */
+div.gl-mw-include table.toc h2 { margin-top: 0; }
+div.gl-mw-include table.toc tr td { border: none; }
 div.gl-mw-include .wiki-only { display: none; }
 
 div.gl-mw-include div.center { text-align:center; }
@@ -184,6 +185,10 @@ div.gl-mw-include div div.thumb { display:inline-block; }
 div.gl-mw-include .thumbcaption .magnify a.internal { margin-top:3px;  float:left; }
 div.gl-mw-include div.thumbinner {  margin-bottom:10px; padding-bottom:4px; background-color:#ddd; }
 div.gl-mw-include .thumbinner .thumbcaption {  font-size:90%; }
+
+div.mw-geshi { background-color: #F9F9F9; border: 1px dashed #2F6FAB; color: black; line-height: 1.1em; padding: 1em; }
+div.mw-geshi pre { overflow-x: auto; overflow-y: hidden; width: 100%; }
+div.gl-mw-include .smwttpersist { display: none; }
 
 /* */
 .note {
