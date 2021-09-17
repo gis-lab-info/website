@@ -1,68 +1,6 @@
-<div align="right" class="addthis_toolbox addthis_default_style">
-	<a class="addthis_button_vk"></a> 
-    <a class="addthis_button_email"></a>
-	<a class="addthis_button_google_plusone"></a>
-    <a class="addthis_button_tweet"></a>
-    <a class="addthis_button_facebook_like"></a>
-    <a class="addthis_button_facebook_send"></a>
-	<span class="addthis_separator"> </span>
-	<a href="http://addthis.com/bookmark.php?v=300" class="addthis_button_compact">Поделиться</a>
-</div>
 <div align="right"><p class="up"><a href="#top">Наверх</a></p></div>
             </div>
             <div class="col2">
-                <!--<div class="block">
-                  <h3>Открытые проекты</h3>
-                  <p class="project">
-                    <a href="http://uikgeo.ru"><img src="/images/project_uikgeo.jpg" alt="Данные по Москве width="183" height="87"><br>
-                        УИК ГЕО</a>
-                    <a href="/forum/viewtopic.php?t=14285"><img src="/images/forumq.gif" alt="обсудить в форуме" border="0" /></a>
-                  </p>
-                  <p class="project">
-                    <a href="/qa/data-mos.html"><img src="/images/project_datamosru.png" alt="Данные по Москве width="167" height="55"><br>
-                        Нормализованные данные с портала ОД г. Москвы</a>
-                    <a href="/forum/viewtopic.php?t=12882"><img src="/images/forumq.gif" alt="обсудить в форуме" border="0" /></a> 
-                  </p>
-                </div>-->
-
-               	<!--<script type="text/javascript">
-               	function clean(A){var B=A.previousSibling;if(B){A.onblur=function(){if(!A.value){B.style.top=""}};B.style.top="-9999px";}}
-               	function cleanLogin(){
-               		var A=document.getElementById("username");
-               		var C=document.getElementById("password");
-               		var B=function(){if(A.value){clean(A)}if(C.value){clean(C)}};
-               		setInterval(B,100)
-               		};
-               	</script>
-
-                <div class="block">
-                    <h3>Вход</h3>
-                    <form id="login" name="login" action="/forum/ucp.php?mode=login" method="post">
-                        <div style="position:relative;height:25px;">
-                        	<label style="width:150px;" onclick="this.nextSibling.focus()" for="username">логин</label><input type="text" style="position:absolute;width:150px;" class="text" id="username" name="username" onfocus="clean(this);" value="">
-                        </div>
-                        <div style="position:relative;height:25px;">
-                        	<label style="width:150px;" onclick="this.nextSibling.focus()" for="password">пароль</label><input type="password" style="position:absolute;width:150px;" class="text" id="password" name="password" onfocus="clean(this);" value="">
-                        </div>
-                        <div><input name="login" class="blogin" type="submit" value=""></div>
-                    </form>
-                    <ul>
-                        <li><a href="/forum/ucp.php?mode=register">Регистрация</a></li>
-                        <li><a href="/forum/ucp.php?mode=sendpassword">Забыли пароль?</a></li>
-                    </ul>
-                </div>
-                <script type="text/javascript">cleanLogin();</script>-->
-				<div class="block">
-					<div id="google_translate_element"></div>
-					<script>
-						function googleTranslateElementInit() {
-						  new google.translate.TranslateElement({
-							pageLanguage: 'ru',
-							includedLanguages: 'en,be,nl,ka,es,it,zh-TW,zh-CN,lv,lt,de,pl,ro,sr,sk,sl,tr,uk,fr,hr,cs,sv,et,ja'
-						  }, 'google_translate_element');
-						}
-						</script>
-				</div>
                 <div class="block">
                     <a href="http://gis-lab.info/qa/donate.html"><img src="/images/gis-lab-donate-sq.png" width="190" height="189" border="0" alt="Donate"></a>
                 </div>
