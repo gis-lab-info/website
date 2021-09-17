@@ -112,6 +112,7 @@
     </div>
 
     </div>
+</div>
 <script src="/scripts/send_error.js" type="text/javascript"></script>
 <script src="http://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 <!-- Google Analytics counter -->
