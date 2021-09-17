@@ -132,5 +132,6 @@
 <noscript><div><img src="//mc.yandex.ru/watch/22083943" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
 <!-- /Yandex.Metrika counter -->
 </div>
+</div>
 </body>
 </html>
