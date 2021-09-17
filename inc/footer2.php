@@ -88,17 +88,14 @@
         <div class="l">
             <div class="r">
                 <ul>
-                    <li class="first"><a href="/index-eng.html">English</a></li>
                     <li><a href="/about.html">О GIS-Lab</a></li>
                     <li><a href="/qa.html">Статьи</a></li>
                     <li><a href="/docs.html">Документация</a></li>
                     <li><a href="/contacts.html">Контакты</a></li>
                     <li><a href="/help.html">Участие</a></li>
                     <li><a href="/forum">Форум</a></li>
-                    <li><a href="http://wiki.gis-lab.info">Вики</a></li>
+                    <li><a href="https://wiki.gis-lab.info">Вики</a></li>
                     <li><a href="/blog">Блог</a></li>
-                    <li><a href="/irc.html">IRC</a></li>
-                    <li><strong><a href="/adv.html">Реклама на сайте</a></strong></li>
                 </ul>
                 <p>Если Вы обнаружили на сайте ошибку, выберите фрагмент текста и нажмите Ctrl+Enter</p>
              </div>
@@ -116,8 +113,6 @@
     </div>
 
     </div>
-
-</div>
 <script src="/scripts/send_error.js" type="text/javascript"></script>
 <script src="http://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 <!-- Google Analytics counter -->
