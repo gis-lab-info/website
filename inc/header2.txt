@@ -64,7 +64,7 @@
             </ul>
         	<!--  menu right -->
             <ul class="r">
-                <li><a href="http://gis-lab.info/forum">Форум</a></li>
+                <li><a href="https://gis-lab.info/forum">Форум</a></li>
                 <li><a href="/blog">Блог</a></li>
                 <li class="hilite"><a href="/adv.html">Реклама</a></li>
             </ul>

@@ -2,19 +2,19 @@
             </div>
             <div class="col2">
                 <div class="block">
-                    <a href="http://gis-lab.info/qa/donate.html"><img src="/images/gis-lab-donate-sq.png" width="190" height="189" border="0" alt="Donate"></a>
+                    <a href="https://gis-lab.info/qa/donate.html"><img src="/images/gis-lab-donate-sq.png" width="190" height="189" border="0" alt="Donate"></a>
                 </div>
                 <div>
-                    <h3>Что нового <a href="http://gis-lab.info/news.xml"><img src="/images/rss.png" width="20" height="13" border="0" alt="RSS"></a></h3>
-                    <p><a href="http://gis-lab.info/qa/sphere-geodesic-invert-problem.html">Решение задач на сфере: обратная геодезическая задача</a> <a href="http://gis-lab.info/forum/viewtopic.php?t=16118"><img src="/images/forumq.gif" alt="обсудить в форуме"></a></p>
-                    <p><a href="http://gis-lab.info/qa/sphere-geodesic-direct-problem.html">Решение задач на сфере: прямая геодезическая задача</a> <a href="http://gis-lab.info/forum/viewtopic.php?t=16118"><img src="/images/forumq.gif" alt="обсудить в форуме"></a></p>
-                    <p><a href="http://gis-lab.info/qa/sphere-geodesic-angular-resection.html">Решение задач на сфере: угловая засечка</a> <a href="http://gis-lab.info/forum/viewtopic.php?t=16118"><img src="/images/forumq.gif" alt="обсудить в форуме"></a></p>
-                    <p><a href="http://gis-lab.info/qa/sphere-geodesic-linear-resection.html">Задачи на сфере: линейная засечка</a> <a href="http://gis-lab.info/forum/viewtopic.php?t=16118"><img src="/images/forumq.gif" alt="обсудить в форуме"></a></p>
+                    <h3>Что нового <a href="https://gis-lab.info/news.xml"><img src="/images/rss.png" width="20" height="13" border="0" alt="RSS"></a></h3>
+                    <p><a href="https://gis-lab.info/qa/sphere-geodesic-direct-problem.html">Решение задач на сфере: прямая геодезическая задача</a> <a href="https://gis-lab.info/forum/viewtopic.php?t=16118"><img src="/images/forumq.gif" alt="обсудить в форуме"></a></p>
+                    <p><a href="https://gis-lab.info/qa/sphere-geodesic-angular-resection.html">Решение задач на сфере: угловая засечка</a> <a href="https://gis-lab.info/forum/viewtopic.php?t=16118"><img src="/images/forumq.gif" alt="обсудить в форуме"></a></p>
+                    <p><a href="https://gis-lab.info/qa/sphere-geodesic-linear-resection.html">Задачи на сфере: линейная засечка</a> <a href="https://gis-lab.info/forum/viewtopic.php?t=16118"><img src="/images/forumq.gif" alt="обсудить в форуме"></a></p>
+                    <p><a href="https://gis-lab.info/qa/sphere-geodesic-invert-problem.html">Решение задач на сфере: обратная геодезическая задача</a> <a href="https://gis-lab.info/forum/viewtopic.php?t=16118"><img src="/images/forumq.gif" alt="обсудить в форуме"></a></p>
                 </div>
                 <div class="block last">
-                    <h3>Новое на форуме<a href="http://gis-lab.info/forum/app.php/feed"><img src="/images/rss.png" alt="RSS"></a></h3>
+                    <h3>Новое на форуме<a href="https://gis-lab.info/forum/app.php/feed"><img src="/images/rss.png" alt="RSS"></a></h3>
                     <div id="forum_recent_posts"></div>
-                    <script type="text/javascript" src="http://gis-lab.info/forum/recent.php"></script>
+                    <script type="text/javascript" src="https://gis-lab.info/forum/recent.php">&#xA0;</script>
 					<ul><li><a href="/forum">Все темы форума</a></li></ul>
                 </div>
             <div class="stopfloat"></div>
@@ -51,8 +51,8 @@
 
     </div>
 </div>
-<script src="/scripts/send_error.js" type="text/javascript"></script>
-<script src="http://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+<script src="/scripts/send_error.js" type="text/javascript">&#xA0;</script>
+<script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit">&#xA0;</script>
 <!-- Google Analytics counter -->
 <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -66,8 +66,8 @@
 </script>
 <!-- Google Analytics counter -->
 <!-- Yandex.Metrika counter -->
-<script src="/scripts/yandex-metrica.js" type="text/javascript"></script>
-<noscript><div><img src="//mc.yandex.ru/watch/22083943" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<script src="/scripts/yandex-metrica.js" type="text/javascript">&#xA0;</script>
+<noscript><div><img src="//mc.yandex.ru/watch/22083943" style="position:absolute; left:-9999px;" alt=""></div></noscript>
 <!-- /Yandex.Metrika counter -->
 </div>
 </div>
