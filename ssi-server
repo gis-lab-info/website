@@ -76,7 +76,7 @@ def static(path=''):
         content = get_included_content(path)
         return content
     else:
-        with open(fullpath) as f:
+        with open(fullpath,"rb") as f:
             content = f.read()
             response.set_header('Etag', etag)
         return content
