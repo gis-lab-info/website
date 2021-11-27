@@ -18,6 +18,7 @@ $ python -m http.server
 or
 
 ```
+$ sudo apt install php-cgi php-xml
 $ virtualenv -p python2 env
 $ source env/bin/activate
 $ pip install bottle eventlet
