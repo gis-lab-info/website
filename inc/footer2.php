@@ -17,10 +17,13 @@
                     <script type="text/javascript" src="http://gis-lab.info/forum/recent.php"></script>
 					<ul><li><a href="/forum">Все темы форума</a></li></ul>
                 </div>
+</div>
             <div class="stopfloat"></div>
+</div>
         </div>
-    <div class="foot">
-    <iframe src="https://money.yandex.ru/quickpay/shop-widget?writer=seller&targets=GIS-Lab%20%D0%BD%D1%83%D0%B6%D0%BD%D1%8B%20%D0%B4%D0%B5%D0%BD%D1%8C%D0%B3%D0%B8%20%D0%BD%D0%B0%20%D1%85%D0%BE%D1%81%D1%82%D0%B8%D0%BD%D0%B3%2C%20%D0%B0%D0%B4%D0%BC%D0%B8%D0%BD%D0%B8%D1%81%D1%82%D1%80%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5%2C%20%D1%80%D0%B0%D0%B7%D0%B2%D0%B8%D1%82%D0%B8%D0%B5&targets-hint=&default-sum=300&button-text=11&comment=on&hint=%D0%97%D0%B4%D0%B5%D1%81%D1%8C%20%D0%BC%D0%BE%D0%B6%D0%BD%D0%BE%20%D0%BE%D1%81%D1%82%D0%B0%D0%B2%D0%B8%D1%82%D1%8C%20%D0%BA%D0%BE%D0%BC%D0%BC%D0%B5%D0%BD%D1%82%D0%B0%D1%80%D0%B8%D0%B9&successURL=&quickpay=shop&account=410011586105267" width="510" height="341" frameborder="0" allowtransparency="true" scrolling="no"></iframe>
+        <div class="foot-cont">
+        <div class="foot">
+    <iframe src="https://money.yandex.ru/quickpay/shop-widget?writer=seller&targets=GIS-Lab%20%D0%BD%D1%83%D0%B6%D0%BD%D1%8B%20%D0%B4%D0%B5%D0%BD%D1%8C%D0%B3%D0%B8%20%D0%BD%D0%B0%20%D1%85%D0%BE%D1%81%D1%82%D0%B8%D0%BD%D0%B3%2C%20%D0%B0%D0%B4%D0%BC%D0%B8%D0%BD%D0%B8%D1%81%D1%82%D1%80%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5%2C%20%D1%80%D0%B0%D0%B7%D0%B2%D0%B8%D1%82%D0%B8%D0%B5&targets-hint=&default-sum=300&button-text=11&comment=on&hint=%D0%97%D0%B4%D0%B5%D1%81%D1%8C%20%D0%BC%D0%BE%D0%B6%D0%BD%D0%BE%20%D0%BE%D1%81%D1%82%D0%B0%D0%B2%D0%B8%D1%82%D1%8C%20%D0%BA%D0%BE%D0%BC%D0%BC%D0%B5%D0%BD%D1%82%D0%B0%D1%80%D0%B8%D0%B9&successURL=&quickpay=shop&account=410011586105267" width="423" height="250" frameborder="0" allowtransparency="true" scrolling="no"></iframe>
     </div>
     <div class="foot">
         <div class="l">
@@ -38,6 +41,7 @@
              </div>
        </div>
     </div>
+        </div>
     
     </div></div></div></div></div>
 
