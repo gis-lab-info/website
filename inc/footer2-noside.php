@@ -59,7 +59,7 @@
                 <div class="block last">
                     <h3>Новое на форуме<a href="http://gis-lab.info/forum/app.php/feed"><img src="/images/rss.png" alt="RSS"></a></h3>
                     <div id="forum_recent_posts"></div>
-                    <script type="text/javascript" src="http://gis-lab.info/forum/recent.php"></script>
+                    <script type="text/javascript" src="https://gis-lab.info/forum/recent.php"></script>
 					<ul><li><a href="/forum">Все темы форума</a></li></ul>
                 </div>
             </div>
