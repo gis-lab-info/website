@@ -1,0 +1,332 @@
+<!-- MapServer Template -->
+<SCRIPT language=JavaScript type=text/javascript>
+<!--
+  function zoomin(){
+    document.mapserv.zoom.value = 2; 
+    document.mapserv.mode.value="browse";
+    //on_submit_form();
+  }
+  function zoomout(){
+    document.mapserv.zoom.value = -2; 
+    document.mapserv.mode.value="browse";
+    //on_submit_form();
+  }
+  function info(){
+    document.mapserv.zoom.value = 0; 
+    document.mapserv.mode.value="itemnquery"
+    on_submit_form();
+  }
+
+
+  function pan(direction) {
+    var x, y;
+    var pansize = 0.75;
+
+    if(direction == 'n') {
+      x = ([mapwidth]-1)/2.0;
+      y = 0 - ([mapheight] * pansize)/2.0;
+    } else if(direction == 'nw') {
+      x = 0 - ([mapwidth] * pansize)/2.0;
+      y = 0 - ([mapheight] * pansize)/2.0;
+    } else if(direction == 'ne') {
+      x = ([mapwidth]-1) + ([mapwidth] * pansize)/2.0;
+      y = 0 - ([mapheight] * pansize)/2.0;
+    } else if(direction == 's') {
+      x = ([mapwidth]-1)/2.0;
+      y = ([mapheight]-1) + ([mapheight] * pansize)/2.0;
+    } else if(direction == 'sw') {
+      x = 0 - ([mapwidth] * pansize)/2.0;
+      y = ([mapheight]-1) + ([mapheight] * pansize)/2.0;
+    } else if(direction == 'se') {
+      x = ([mapwidth]-1) + ([mapwidth] * pansize)/2.0;
+      y = ([mapheight]-1) + ([mapheight] * pansize)/2.0;
+    } else if(direction == 'e') {
+      x = ([mapwidth]-1) + ([mapwidth] * pansize)/2.0;
+      y = ([mapheight]-1)/2.0;
+    } else if(direction == 'w') {
+      x = 0 - ([mapwidth] * pansize)/2.0;
+      y = ([mapheight]-1)/2.0;
+    }
+
+    document.mapserv.zoom.value = 0; 
+    document.mapserv.mode.value ="browse"; 
+    document.mapserv.imgxy.value = x + " " + y;
+    on_submit_form()
+    //document.mapserv.submit();
+  }
+
+  function create_query(form) {
+
+    vid=form.vid.value;          //вид птицы
+    c_ret=form.c_ret.value;      //страна возврата
+    c_rings=form.c_rings.value;  //страна кольцевания
+   // form.map_rings_rings_expression.value="'[TYPE]'=='RING'";
+   // form.map_rings_returns_expression.value="'[TYPE]'=='RETURN'";
+
+
+    query_vid="";   // текст запросов, связанных с видом
+    query_rings=""; // текст запросов, связанных с кольцеванием
+    query_ret="";   // текст запросов, связанных с возвратами
+    query="";       // итоговый запрос - объединение трех первых
+
+    
+    // формируем query_vid
+    if (vid !="ALL") {
+      query_vid="'[NAME_L]'=='"+vid+"'";
+    }
+    // формируем query_rings
+    if (c_rings != "ALL"){
+      query_rings="'[C_RING]'=='"+c_rings+"'"
+    };
+    // формируем query_ret
+    if (c_ret != "ALL"){
+      query_ret="'[C_RETURN]'=='"+c_ret+"'";
+    };
+
+    // формируем конечный запрос: query="("+query_vid+" and "+query_rings+" and "+query_ret+")"
+    // а если какой-либо из частных подзапросов пуст, то связку "and" - убрать
+    query=query_vid;
+    
+    if (query!="" && query_rings !="") {
+      query=query+" and "+query_rings } 
+    else query=query+query_rings;
+
+    if (query!="" && query_ret !="") {
+      query=query+" and "+query_ret } 
+    else query=query+query_ret;
+
+    if (query != "") {
+      query="("+query+")" 
+      form.qstring.value=query;
+//      form.map_rings_rings_expression.value=form.map_rings_rings_expression.value+ "and"+query;
+//      form.map_rings_returns_expression.value=form.map_rings_returns_expression.value+ "and"+query;
+    };
+//    form.map_rings_rings_expression.value="("+form.map_rings_rings_expression.value+")";
+//    form.map_rings_returns_expression.value="("+form.map_rings_returns_expression.value+")";
+    //form.map_layer[rings]_class[rings]_expression[0].value="("+form.map_rings_rings_expression.value+")"
+  }
+
+  function on_submit_form(){
+     create_query(document.mapserv);
+     if (document.mapserv.mode.value=="itemnquery") {
+       if (document.mapserv.qstring.value !=""){
+         //document.mapserv.target = "query_frame";
+         document.mapserv.target = "_self";
+         document.mapserv.submit();
+       } else alert("Форма запроса пуста. Сначала нужно указать параметры запроса.");
+     } else { 
+       document.mapserv.mode.value="browse"
+       document.mapserv.target = "_self";
+       document.mapserv.submit();       
+     }
+
+  }
+
+
+  // -->
+</SCRIPT>
+
+
+
+<html>
+  <head>
+    <title>Пример карты</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <script type="text/javascript" src="linkedselect.js"></script>
+  </head>
+<body>
+  <form method="GET" action="/cgi-bin/mapserv" name="mapserv" onSubmit="on_submit_form()">
+
+    <input type="hidden" name="map" value="[map]">
+    <input type="hidden" name="imgext" value="[mapext]">
+    <input type="hidden" name="imgxy" value="[center]">
+    <input type="hidden" name="mode" value="[mode]">
+    <input type="hidden" name="zoom" value="0">
+    <input type="hidden" name="qstring" value="">
+                                             
+    <input type="hidden" name="layer" value="Rastmap">
+    <input type="hidden" name="layer" value="rings">
+    <input type="hidden" name="qlayer" value="rings">
+    <input type="hidden" name="qitem" value="TYPE">
+    <input type="hidden" name="layer" value="countr">
+<!--    <input type="hidden" name="savequery" value="true">
+    <input type="hidden" name="map_rings_returns_expression" value="[map_rings_returns_expression]">
+    <input type="hidden" name="map_rings_rings_expression" value="[map_rings_rings_expression]">
+-->
+
+<!--    <input type="hidden" name="map_layer[rings]_class[rings]_expression[0]" value="[map_rings_rings_expression]"> -->
+
+    <table align="center" width="610" border="0">
+     <tr> 
+       <td>&nbsp;</td>
+       <td align="center">
+         <a href="javascript:zoomin()"><img src="/projects/returns/graphics/icon_zoomin.gif" alt="приблизить"></a>
+         <a href="javascript:zoomout()"><img src="/projects/returns/graphics/icon_zoomout.gif" alt="отдалить"></a>
+         <a href="/cgi-bin/mapserv?map=/usr/local/www/gis-lab/data/projects/returns/returns.map&layers=all&mode=browse&zoom=0"><img src="/projects/returns/graphics/icon_fullextent.gif" alt="показать все"></a>
+         <a href="javascript:info()"><img src="/projects/returns/graphics/icon_query1.gif" alt="Запрос"></a>
+         <a href="help.html" target="_blank"><img src="/projects/returns/graphics/icon_info.gif" alt="помощь"></a>       </td>
+       <td>&nbsp;</td>
+     </tr>
+     <tr bgcolor="#666666">
+       <td align="right" width="18"><a href="javascript:pan('nw')"><img src="/projects/returns/graphics/nw.gif" width="18" height="18" border="0" alt="pan northwest"></a></td>
+       <td align="center"><a href="javascript:pan('n')"><img src="/projects/returns/graphics/n.gif" width="23" height="18" border="0" alt="pan north"></a></td>
+       <td align="left" width="18"><a href="javascript:pan('ne')"><img src="/projects/returns/graphics/ne.gif" width="18" height="18" border="0" alt="pan northeast"></a></td>
+     </tr>
+     <tr bgcolor="#666666">
+       <td align="right" width="18"><a href="javascript:pan('w')"><img src="/projects/returns/graphics/w.gif" width="18" height="23" border="0" alt="pan west"></a></td>
+       <td align="center"><input type="image" name="img" src="[img]" width="[mapwidth]" height="[mapheight]" border="0" alt="Карта"></td>
+       <td align="left" width="18"><a href="javascript:pan('e')"><img src="/projects/returns/graphics/e.gif" width="18" height="23" border="0" alt="pan east"></a></td>
+     </tr>
+     <tr bgcolor="#666666">
+       <td align="right" width="18"><a href="javascript:pan('sw')"><img src="/projects/returns/graphics/sw.gif" width="18" height="18" border="0" alt="pan southwest"></a></td>
+       <td align="center"><a href="javascript:pan('s')"><img src="/projects/returns/graphics/s.gif" width="23" height="18" border="0" alt="pan south"></a></td>
+       <td align="left" width="18"><a href="javascript:pan('se')"><img src="/projects/returns/graphics/se.gif" width="18" height="18" border="0" alt="pan southeast"></a></td>
+     </tr>
+     <tr>
+       <td>&nbsp;</td>
+       <td align="center"><img src="[scalebar]"></td>
+       <td align="center" valign="top"><p>Легенда:<br>
+         <img name="legend" src="[legend]"></p>       </td>
+     </tr>
+     <tr align="center">
+       <td>Вид птицы:<br>
+          <select name="vid">
+            <option value="ALL"></option>
+            <option value="ANSER ALBIFRONS">ANSER ALBIFRONS</option>
+            <option value="ANSER ANSER">ANSER ANSER</option>
+            <option value="ANSER F. ROSSICUS">ANSER F. ROSSICUS</option>
+            <option value="ANSER FABALIS">ANSER FABALIS</option>
+          </select>       </td>
+       <td>Страна кольцевания:<br>
+          <select name="c_rings">
+            <option value="ALL"></option>
+            <option value="BELARUS">BELARUS</option>
+            <option value="ESTONIA">ESTONIA</option>
+            <option value="FINLAND">FINLAND</option>
+            <option value="GERMANY">GERMANY</option>
+            <option value="GREAT BRITAIN">GREAT BRITAIN</option>
+            <option value="HUNGARY">HUNGARY</option>
+            <option value="LITHHUANIA">LITHHUANIA</option>
+            <option value="NETHERLANDS">NETHERLANDS</option>
+            <option value="RUSSIA">RUSSIA</option>
+          </select>               </td>
+       <td>Страна возврата :<br>
+          <select name="c_ret">
+            <option value="ALL"></option>
+            <option value="ALGERIA">ALGERIA</option>
+            <option value="AUSTRIA">AUSTRIA</option>
+            <option value="BELARUS">BELARUS</option>
+            <option value="ESTONIA">ESTONIA</option>
+            <option value="GERMANY">GERMANY</option>
+            <option value="HUNGARY">HUNGARY</option>
+            <option value="LATVIA">LATVIA</option>
+            <option value="LITHHUANIA">LITHHUANIA</option>
+            <option value="POLAND">POLAND</option>
+            <option value="RUSSIA">RUSSIA</option>
+            <option value="SWEDEN">SWEDEN</option>
+            <option value="TUNISIA">TUNISIA</option>
+         </select>       </td>
+     </tr>
+     <tr align="center">
+       <td>&nbsp;</td>
+       <td>Страна кольцевания (тест): <br>
+         <select name="c_ret2" id="c_ret2">
+            <option value="ALL"></option>
+            <option value="ALGERIA">ALGERIA</option>
+            <option value="AUSTRIA">AUSTRIA</option>
+            <option value="BELARUS">BELARUS</option>
+            <option value="ESTONIA">ESTONIA</option>
+            <option value="GERMANY">GERMANY</option>
+            <option value="HUNGARY">HUNGARY</option>
+            <option value="LATVIA">LATVIA</option>
+            <option value="LITHHUANIA">LITHHUANIA</option>
+            <option value="POLAND">POLAND</option>
+            <option value="RUSSIA">RUSSIA</option>
+            <option value="SWEDEN">SWEDEN</option>
+            <option value="TUNISIA">TUNISIA</option>
+       </select></td>
+       <td>Регион кольцевания (тест): <br>
+         <select name="r_ret2" id="r_ret2"></select></td>
+		<script type="text/javascript">
+		var syncList1 = new syncList;
+		syncList1.dataList = {
+		  'ALL':{
+			  'all_all':'ALL',
+		  },		  
+		  'ALGERIA':{
+			  'all_all':'ALL'
+		  },
+		  'AUSTRIA':{
+			  'all_all':'ALL'
+		  },
+		  'BELARUS':{
+			  'all_all':'ALL'
+		  },
+		  'ESTONIA':{
+			  'all_all':'ALL'
+		  },
+		  'GERMANY':{
+			  'all_all':'ALL'
+		  },
+		  'HUNGARY':{
+			  'all_all':'ALL'
+		  },
+		  'LATVIA':{
+			  'all_all':'ALL'
+		  },
+		  'LITHHUANIA':{
+			  'all_all':'ALL'
+		  },
+		  'POLAND':{
+			  'all_all':'ALL'
+		  },
+		  'RUSSIA':{
+			  'ru_all':'ALL',
+			  'ru_altai':'АЛТАЙСКИЙ КРАЙ',
+			  'ru_amur':'АМУРСКАЯ ОБЛ.',
+			  'ru_arkh':'АРХАНГЕЛЬСКАЯ ОБЛ.',
+			  'ru_astr':'АСТРАХАНСКАЯ ОБЛ.',
+			  'ru_bashkir':'БАШКИРИЯ',
+			  'ru_belgor':'БЕЛГОРОДСКАЯ ОБЛ.',
+			  'ru_bryansk':'БРЯНСКАЯ ОБЛ.',
+			  'ru_buryat':'БУРЯТИЯ',
+			  'ru_vladimir':'ВЛАДИМИРСКАЯ ОБЛ.',
+			  'ru_volg':'ВОЛГОГРАДСКАЯ ОБЛ.',
+			  'ru_volog':'ВОЛОГОДСКАЯ ОБЛ.',
+			  'ru_voronezh':'ВОРОНЕЖСКАЯ ОБЛ.',
+			  'ru_gornalt':'ГОРНО-АЛТАЙСКАЯ А.О.',
+			  'ru_gorkov':'ГОРЬКОВСКАЯ ОБЛ.',
+			  'ru_dag':'ДАГЕСТАН'
+		  },
+		  'SWEDEN':{
+			  'all_all':'ALL'
+		  },
+	      'TUNISIA':{
+			  'all_all':'ALL'
+		  }
+		};
+		syncList1.sync("c_ret2","r_ret2");
+		</script>
+     </tr> 
+    </table>
+  </form>
+
+
+<!--
+
+</body>
+</html>
+-->
+
+        <b>Результаты запроса [qstring]: </b>
+          <p>
+          <table cellpadding=5 cellspacing=2 border=0 align="center">
+            <tr bgcolor=#CCCCCC>
+              <td bgcolor=#ffffff> </td>
+              <th>NN</th>
+              <th>ТИП</th>
+              <th>Русское название</th>
+              <th>Латинское название</th>
+              <th>Страна кольцевания</th>
+              <th>Страна возврата</th>
+            </tr>

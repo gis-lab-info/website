@@ -1,0 +1,42 @@
+﻿<!--#include virtual="/inc/header02.txt" -->
+<title>Gis-lab: Где топологические ошибки в OpenStreetMap?</title>
+<!--#include virtual="/inc/header2.txt" -->
+
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Вопросы и ответы</a></li>
+</ul>
+
+<h1 id="title">Где топологические ошибки в OpenStreetMap?</h1>
+<p class="ann">Показывает где находятся топологические ошибки в OSM</p>
+<p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=3728"--></span></p>
+<p>С помощью этой карты вы можете определить где находятся топологические ошибки в данных OSM по России и быстро перейти к их исправлению в JOSM или Potlatch. Обновление ежедневное. Для связи с JOSM нужен установленный модуль Remote Control.</p>
+<p>Для идентификации ошибки, увеличьте (shift+окно) до любого красного квадрата и нажмите на него. </p>
+<h2>Карта:</h2>
+<script src="http://openlayers.org/api/OpenLayers.js"></script>
+<script src="http://www.openstreetmap.org/openlayers/OpenStreetMap.js"></script>
+<script type="text/javascript">
+	var map;
+</script>
+<script src="./osm-topoerrors2.js"></script>
+<div id="map" class="map" style="width:730px; height:500px"></div>
+<script type="text/javascript">
+	init_map();
+</script>
+<p>Если вы хотите поделиться с кем-то ошибкой, нажмите правой кнопкой на "Редактировать в JOSM/Potlatch", скопируйте ссылку и передавайте ссылку.</p>
+<!-- ссылки -->
+<div class="links">
+	<h2>Ссылки по теме</h2>
+		<ul>
+			<li><a href="/qa/josm-start.html">Основы редактирования данных OpenStreetMap в JOSM</a></li>
+			</ul>
+</div>
+<p class="discuss">
+   <span><!--#include virtual="/scripts/forum-comments-num.php?i=852"--></span>
+</p>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<!--#include virtual="/inc/footer2.php" -->

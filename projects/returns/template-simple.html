@@ -1,0 +1,30 @@
+<!-- MapServer Template -->
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/transitional.dtd">
+<html>
+  <head>
+    <title>Пример интерактивной карты MapServer</title>
+  </head>
+  <body>
+    Пример интерактивной карты MapServer: Нажмите мышкой чтобы отцентрировать<br>
+    <!-- The central form the application is based on. -->  
+	  <form name="mapserv" method="GET" action="/cgi-bin/mapserv">
+          <!-- HIDDEN MAPSERVER CGI VARIABLES -->
+          <input type="hidden" name="map" value="[map]">
+		  <input type="hidden" name="imgext" value="[mapext]">
+		  <input type="hidden" name="imgxy" value="[center]">
+		  <input type="hidden" name="zoom" value="0">
+		  <input type="hidden" name="mode" value="browse">
+  		  <input type="hidden" name="layer" value="Rastmap">
+      <!-- A table for minimal page formatting. -->
+      <table border=0 cellpadding=5>
+      <tr>
+        <!-- First column: Map and scale bar -->
+        <td align=center>
+          <!-- The map -->
+          <input type="image" name="img" src="[img]" width="[mapwidth]" height="[mapheight]" border="0" alt="Карта">
+        </td>
+      </tr>
+      </table>
+    </form>
+  </body>
+</html>

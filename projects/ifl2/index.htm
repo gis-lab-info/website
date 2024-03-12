@@ -1,0 +1,59 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=windows-1251"/>
+    <title>Google Maps JavaScript API Example</title>
+    <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAAINgesJb4VJ2iYHIcc-gT7hQGhS5yCmtMNZMUBKgpbJFW2uH_cRSd35D9AE7VSWY096Cd7dLkCk3bRA"
+      type="text/javascript" encoding="utf-8"></script>
+    <script type="text/javascript">
+
+    //<![CDATA[
+
+    function load() {
+      if (GBrowserIsCompatible()) {
+        var map = new GMap2(document.getElementById("map"));
+        map.setCenter(new GLatLng(39.4419, 0), 2);
+      }
+    }
+
+    //]]>
+    </script>
+  </head>
+<style>
+body { margin:0; padding:0; }
+#map { margin:15px 25px; }
+#head { margin:25px 25px 10px 25px; }
+#gislab { margin:25px 25px 10px 25px; }
+#head h1 { font:bold 33px Arial; margin-bottom:0; }
+#head p { font:bold 15px Arial; margin-top:0; }
+#menu { font:bold 15px Arial; margin:10px 25px; }
+#menu a { margin-right:10px; }
+#bottom { font:11px Arial; color:#999; margin:0 25px 25px 25px; }
+#bottom a { color:#999; }
+</style>
+  <body onload="load()" onunload="GUnload()">
+
+<div id="head">
+	<h1>openIFL</h1>
+	<p>open Intact Forest Landscapes</p>
+</div>
+
+<div id="menu">
+	<a href="#">Add your comment</a> 
+	<a href="#">Recent changes</a> 
+	<a href="#">Blog</a>
+</div>
+
+<div id="map" style="width: 800px; height: 500px"></div>
+
+<div id="bottom">
+	<a href="#">About project</a> |
+	<a href="#">Terms of use</a>
+</div>
+<div id="gislab">
+	<p align="right">Created in <a href="http://gis-lab.info"><img src="/images/gis-lab-button.gif" alt="GIS-Lab" width="88" height="31" align="right" /></a></p>
+</div>
+
+  </body>
+</html>

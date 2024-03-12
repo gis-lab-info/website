@@ -1,0 +1,2492 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Границы субъектов РФ - координационная страница</title>
+<!--#include virtual="/inc/header2.txt" -->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Вопросы и ответы</a></li>
+</ul>
+<!--Contents start-->
+<h1>Границы субъектов РФ - координационная страница </h1>
+<p class="ann">Здесь можно подписаться на участие в проекте и почитать о чем он. </p>
+<p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=4703"--></span></p>
+<p>Это координационная страница коллективного проекта по созданию открытого слоя границ субъектов Российской Федерации на основе <a href="http://www.rosreestr.ru/cadastre/ground_cadastre/border/" target="_blank" class="external">публичных данных Росреестра</a>. Здесь можно найти промежуточные результаты и полный список ссылок на все источники. Окончательные результаты можно найти на <a href="/qa/rusbounds-rosreestr.html">специальной странице</a>. </p>
+            <h2>О проекте </h2>
+            <p>На момент начала этого проекта открытый слой границ субъектов РФ отсутствовал. Ряд существующих источников не отвечал одному или нескольким из условий открытости и качества: </p>
+            <ul>
+              <li>Имеют неясное правообладание или нечетко описанные права использования данных (Data+, ESRI); </li>
+              <li>Имеют неизвестный источник (GADM);</li>
+              <li>Запрещены для коммерческого использование (GADM);</li>
+              <li>Недостаточно хорошего качества (OSM); </li>
+            </ul>
+            <h2>Схема работы</h2>
+            <p>Для участия в проекте, вам понадобится: 1) желание, 2) <a href="/forum/ucp.php?mode=register" target="_blank">регистрация</a> в форуме, 3) средней мощности компьютер и периодический доступ к интернет. Дальше: </h2>
+            <ol>
+              <li> Выберите незанятый регион или одну из его границ и записаться на форуме, ваше имя (ник на форуме) будет добавлено в таблицу, ваш участок   будет помечен как <span class="red">занятый</span>;</li>
+              <li>Скачайте растровые данные и описания границ;</li>
+              <li>Привяжите растры  (<a href="/qa/georef-qgis-rosreestr.html">как это сделать</a>);</li>
+              <li>Если в колонке &quot;Поворотные точки&quot; файла еще нет - создайте файл поворотных точек из описания (<a href="/qa/txt2points-qgis.html">как это сделать</a>);</li>
+              <li>Оцифруйте границу с растров используя поворотные точки в качестве проверочного набора;</li>
+              <li>Пришлите результаты координатору проекта <a href="/forum/memberlist.php?mode=viewprofile&u=7619">через форум</a> или по <a href="mailto:riabovvv@gmail.com">электронной почте</a>, ваш участок   будет помечен как <span class="green">сделанный</span>. <br>
+                <br>
+                Результаты должны включать: <br>
+                а) фрагмент границы (линейный shape-файл), и, желательно: <br>
+                б) поворотные точки (точечный shape-файл), если вы его делали; <br>
+                в) привязанные растры (GeoTIFF, рекомендуется LZW сжатие и интерполяция Nearest Neighbor)<br>
+              г) точки привязки использованные для привязки растров. </li>
+              <li>Повторите 1-6. </li>
+              </ol>
+            <p><strong>Внимание: </strong>мы призываем не использовать другие источники о границах при работе над этим проектом, это касается любых топографических карт и коммерческих картографических систем.</p>
+            <h2>Советы по работе </h2>
+            <ol>
+              <li>Обязательно сохраняйте и присылайте файлы точек привязки (GCP), создаваемые при привязке растров.</li>
+              <li>При создании векторной темы, указывайте СК +proj=longlat +ellps=krass +no_defs EPSG:4284. </li>
+              <li>Если при оцифровке полилиния разрывается, то части полилинии, которую вы рисуете, в местах разрывов должны либо пересекаться на небольшую величину, либо &quot;прилипать&quot;. Но не &quot;висеть&quot; отдельно друг от друга. Тоже самое касается фрагментов границы субъекта из разных наборов. </li>
+              <li>Цифруйте границу от точки 1 до точки с последним номером, фрагменты  других границ, попадающих и отмеченных на растре не трогайте, т.к. они  будут полностью оцифровываться по другим растрам.</li>
+              <li>Умеренно генерализуйте линию при оцифровке, излишняя подробность не нужна.</li>
+            </ol>
+            <h2>Координационная таблица</h2>
+            <p>Готово: <span class="green">204</span>, Занято: <span class="red">0</span>, Свободно: 0. На иллюстрации зеленый - готовые наборы, серый - остальные.</p>
+            <p align="center"><img src="/images/rusbounds-rosreestr-01.gif" width="742" height="441"></p>
+            <table width="95%" border="0" align="center">
+              <tr>
+                <th>№</h>
+                <th>Кадастровые номера и наименования смежных кадастровых округов</th>
+                <th>Данные</th>
+                <th>Описание границы</th>
+                <th>Привязанные растры</th>
+                <th>Пов. точки</th>
+                <th>Результат (прислан) </th>
+                <th>Результат <br>
+                  (редакция) </th>
+                <th>Автор</th>
+              </tr>
+              <tr>
+                <td class="green">1</td>
+                <td class="green">01 Адыгейский<br>
+                  23 Краснодарский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/001.7z">скачать</a>                  </td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript001.doc">скачать</a><a href="/data/rusbounds-rosreestr/source/001.7z"></a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/001-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/001-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/001-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/001-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&amp;u=8430">amuriy</a></td>
+              </tr>
+              <tr>
+                <td width="7%" class="green">2</td>
+                <td width="25%" class="green">02 Башкирский<br>
+                  16 Татарский</td>
+                <td width="10%" class="green"><a href="/data/rusbounds-rosreestr/source/002.7z">скачать</a><br></td>
+                <td width="13%" class="green"><a href="/data/rusbounds-rosreestr/docs/descript002.doc">скачать</a><a href="/data/rusbounds-rosreestr/source/001.7z"></a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/002-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/002-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/002-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/002-bound.7z">+</a></td>
+                <td width="8%" class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=9066">Lileo</a></td>
+              </tr>
+              <tr>
+                <td class="green">3</td>
+                <td class="green">02 Башкирский<br>
+                  18 Удмуртский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/003.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript003.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/003-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/003-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/003-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/003-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=9066">Lileo</a></td>
+              </tr>
+              <tr>
+                <td class="green">4</td>
+                <td class="green">02 Башкирский<br>
+                  56 Оренбургский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/004.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript004.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/004-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/004-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/004-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/004-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=9066">Lileo</a></td>
+              </tr>
+              <tr>
+                <td class="green">5</td>
+                <td class="green">03 Бурятский<br>
+                  75 Читинский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/005.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript005.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/005-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/005-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/005-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/005-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=9066">Lileo</a></td>
+              </tr>
+              <tr>
+                <td class="green">6</td>
+                <td class="green">02 Башкирский<br>
+                  66 Свердловский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/006.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript006.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/006-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/006-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/006-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/006-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=9066">Lileo</a></td>
+              </tr>
+              <tr>
+                <td class="green">7</td>
+                <td class="green">02 Башкирский<br>
+                  74 Челябинский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/007.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript007.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/007-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/007-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/007-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/007-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=9066">Lileo</a></td>
+              </tr>
+              <tr>
+                <td class="green">8</td>
+                <td class="green">03 Бурятский<br>
+                  17 Тувинский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/008.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript008.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/008-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/008-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/008-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/008-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&amp;u=8430">amuriy</a></td>
+              </tr>
+              <tr>
+                <td class="green">9</td>
+                <td class="green">03 Бурятский<br>
+                  38 Иркутский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/009.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript009.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/009-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/009-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/009-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/009-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&amp;u=8430">amuriy</a></td>
+              </tr>
+              <tr>
+                <td class="green">10</td>
+                <td class="green">03 Бурятский<br>
+                  75 Читинский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/010.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript0910.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/010-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/010-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/010-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/010-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&amp;u=8430">amuriy</a></td>
+              </tr>
+              <tr>
+                <td class="green">11</td>
+                <td class="green">04 Алтайский республиканский<br>
+                  17 Тувинский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/011.7z">скачать</a> </td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript011.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/011-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/011-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/011-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/011-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&amp;u=8430">amuriy</a></td>
+              </tr>
+              <tr>
+                <td class="green">12</td>
+                <td class="green">04 Алтайский республиканский<br>
+                  19 Хакасский</td>
+                <td class="green" width="10%"><a href="/data/rusbounds-rosreestr/source/012.7z">скачать</a><br></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript012.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/012-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/012-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/012-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/012-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&amp;u=8430">amuriy</a></td>
+              </tr>
+              <tr>
+                <td class="green">13</td>
+                <td class="green">04 Алтайский республиканский<br>
+                  22 Алтайский краевой</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/013.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript013.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/013-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/013-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/013-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/013-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=6901">_DR_</a></td>
+              </tr>
+              <tr>
+                <td class="green">14</td>
+                <td class="green">04 Алтайский республиканский<br>
+                  42 Кемеровский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/014.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript014.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/014-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/014-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/014-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/014-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=6901">_DR_</a></td>
+              </tr>
+              <tr>
+                <td class="green">15</td>
+                <td class="green">05 Дагестанский<br>
+                  8 Калмыцкий</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/015.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript015.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/015-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/015-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/015-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/015-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&amp;u=2">sim</a></td>
+              </tr>
+              <tr>
+                <td class="green">16</td>
+                <td class="green">05 Дагестанский<br>
+                  20 Чеченский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/016.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript016.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/016-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/016-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/016-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/016-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=7705">Minos</a></td>
+              </tr>
+              <tr>
+                <td class="green">17</td>
+                <td class="green">05 Дагестанский<br>
+                  26 Ставропольский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/017.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript017.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/017-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/017-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/017-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/017-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=7705">Minos</a></td>
+              </tr>
+              <tr>
+                <td class="green">18</td>
+                <td class="green">06 Ингушский<br>
+                  15 Северо-Осетинский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/018.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript018.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/018-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/018-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/018-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/018-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=7705">Minos</a></td>
+              </tr>
+              <tr>
+                <td class="green">20</td>
+                <td class="green">07 Кабардино-Балкарский<br>
+                  9 Карачаево-Черкесский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/020.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript020.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/020-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/020-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/020-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/020-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=7705">Minos</a></td>
+              </tr>
+              <tr>
+                <td class="green">21</td>
+                <td class="green">07 Кабардино-Балкарский<br>
+                  15 Северо-Осетинский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/021.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript021.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/021-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/021-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/021-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/021-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=7705">Minos</a></td>
+              </tr>
+              <tr>
+                <td class="green">22</td>
+                <td class="green">07 Кабардино-Балкарский<br>
+                  26 Ставропольский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/022.7z">скачать</a> </td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript022.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/022-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/022-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/022-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/022-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=7705">Minos</a></td>
+              </tr>
+              <tr>
+                <td class="green">23</td>
+                <td class="green">08 Калмыцкий<br>
+                  26 Ставропольский</td>
+                <td width="10%" class="green"><a href="/data/rusbounds-rosreestr/source/023.7z">скачать</a><br></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript023.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/023-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/023-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/023-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/023-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&amp;u=2">sim</a></td>
+              </tr>
+              <tr>
+                <td class="green">24</td>
+                <td class="green">08 Калмыцкий<br>
+                  30 Астраханский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/024.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript024.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/024-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/024-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/024-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/024-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&amp;u=2">sim</a></td>
+              </tr>
+              <tr>
+                <td class="green">25</td>
+                <td width="25%" class="green">08 Калмыцкий<br>
+                  34 Волгоградский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/025.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript025.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/025-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/025-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/025-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/025-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&amp;u=2">sim</a></td>
+              </tr>
+              <tr>
+                <td class="green">26</td>
+                <td class="green">08 Калмыцкий<br>
+                  61 Ростовский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/026.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript026.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/026-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/026-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/026-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/026-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&amp;u=2">sim</a></td>
+              </tr>
+              <tr>
+                <td class="green">27</td>
+                <td class="green">09 Карачаево-Черкесский<br>
+                  23 Краснодарский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/027.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript027.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/027-georef.7z">+</a>(нт)</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/027-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/027-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/027-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&amp;u=8430">amuriy</a></td>
+              </tr>
+              <tr>
+                <td class="green">28</td>
+                <td class="green">09 Карачаево-Черкесский<br>
+                  26 Ставропольский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/028.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript028.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/028-georef.7z">+</a>(нт)</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/028-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/028-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/028-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=54">outmaker</a></td>
+              </tr>
+              <tr>
+                <td class="green">29</td>
+                <td class="green">10 Карельский<br>
+                  29 Архангельский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/029.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript029.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/029-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/029-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/029-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/029-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=54">outmaker</a></td>
+              </tr>
+              <tr>
+                <td class="green">30</td>
+                <td class="green">10 Карельский<br>
+                  35 Вологодский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/030.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript030.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/030-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/030-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/030-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/030-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=6901">_DR_</a></td>
+              </tr>
+              <tr>
+                <td class="green">31</td>
+                <td class="green">10 Карельский<br>
+                  47 Ленинградский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/031.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript031.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/031-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/031-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/031-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/031-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=7619">SS_Rebelious</a></td>
+              </tr>
+              <tr>
+                <td class="green">32</td>
+                <td class="green">10 Карельский<br>
+                  51 Мурманский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/032.7z">скачать</a> </td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript032.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/032-georef.7z">+</a>(нт)</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/032-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/032-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/032-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=54">outmaker</a></td>
+              </tr>
+              <tr>
+                <td class="green">33</td>
+                <td class="green">11 Коми<br>
+                  29 Архангельский</td>
+                <td width="10%" class="green"><a href="/data/rusbounds-rosreestr/source/033.7z">скачать</a><br></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript033.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/033-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/033-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/033-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/033-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=8933">old_Bibigon</a></td>
+              </tr>
+              <tr>
+                <td class="green">34</td>
+                <td class="green">11 Коми<br>
+                  43 Кировский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/034.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript034.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/034-georef.7z">+</a>(нт)</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/034-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/034-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/034-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=8933">old_Bibigon</a></td>
+              </tr>
+              <tr>
+                <td class="green">35</td>
+                <td class="green">11 Коми<br>
+                  59 Пермский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/035.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript035.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/035-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/035-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/035-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/035-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=6901">_DR_</a></td>
+              </tr>
+              <tr>
+                <td class="green">36</td>
+                <td class="green">11 Коми<br>
+                  66 Свердловский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/036.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript036.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/036-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/036-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/036-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/036-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=6901">_DR_</a></td>
+              </tr>
+              <tr>
+                <td class="green">37</td>
+                <td class="green">11 Коми<br>
+                  81 Коми-Пермяцкий</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/037.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript037.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/037-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/037-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/037-bound.7z">+</a></td>                
+                <td class="green"><a href="/data/rusbounds-rosreestr/037-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=8933">old_Bibigon</a></td>
+              </tr>
+              <tr>
+                <td class="green">38</td>
+                <td class="green">11 Коми<br>
+                  83 Ненецкий</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/038.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript038.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/038-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/038-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/038-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/038-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=8933">old_Bibigon</a></td>
+              </tr>
+              <tr>
+                <td class="green">39</td>
+                <td class="green">11 Коми<br>
+                  86 Ханты-Мансийский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/039.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript039.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/039-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/039-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/039-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/039-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=8981">kabanin</a><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=8933"></a></td>
+              </tr>
+              <tr>
+                <td class="green">40</td>
+                <td class="green">11 Коми<br>
+                  89 Ямало-Ненецкий</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/040.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript040.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/040-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/040-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/040-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/040-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=8981">kabanin</a></td>
+              </tr>
+              <tr>
+                <td class="green">41</td>
+                <td class="green">12 Марийский<br>
+                  16 Татарский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/041.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript041.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/041-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/041-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/041-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/041-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=6597">KolesovDmitry</a></td>
+              </tr>
+              <tr>
+                <td class="green">42</td>
+                <td class="green">12 Марийский<br>
+                  21 Чувашский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/042.7z">скачать</a> </td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript042.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/042-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/042-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/042-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/042-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&amp;u=2">sim</a></td>
+              </tr>
+              <tr>
+                <td class="green">43</td>
+                <td class="green">12 Марийский<br>
+                  43 Кировский</td>
+                <td width="10%" class="green"><a href="/data/rusbounds-rosreestr/source/043.7z">скачать</a><br></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript043.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/043-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/043-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/043-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/043-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=8933">old_Bibigon</a></td>
+              </tr>
+              <tr>
+                <td class="green">44</td>
+                <td class="green">12 Марийский<br>
+                  52 Нижегородский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/044.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript044.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/044-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/044-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/044-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/044-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&amp;u=2">sim</a></td>
+              </tr>
+              <tr>
+                <td class="green">45</td>
+                <td class="green">                  13 Мордовский<br>
+                  21 Чувашский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/045.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript045.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/045-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/045-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/045-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/045-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=6901">_DR_</a></td>
+              </tr>
+              <tr>
+                <td class="green">46</td>
+                <td class="green">13 Мордовский<br>
+                  52 Нижегородск</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/046.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript046.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/046-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/046-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/046-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/046-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&amp;u=2">sim</a></td>
+              </tr>
+              <tr>
+                <td class="green">47</td>
+                <td width="25%" class="green">13 Мордовский<br>
+                  58 Пензенский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/047.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript047.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/047-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/047-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/047-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/047-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&amp;u=2">sim</a></td>
+              </tr>
+              <tr>
+                <td class="green">48</td>
+                <td class="green">13 Мордовский<br>
+                  62 Рязанский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/048.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript048.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/048-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/048-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/048-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/048-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&amp;u=2">sim</a></td>
+              </tr>
+              <tr>
+                <td class="green">49</td>
+                <td class="green">13 Мордовский<br>
+                  73 Ульяновский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/049.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript049.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/049-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/049-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/049-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/049-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&amp;u=2">sim</a></td>
+              </tr>
+              <tr class="green">
+                <td class="green">50</td>
+                <td class="green">14 Якутский<br>
+                  27 Хабаровский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/050.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript050.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/050-georef.7z">+</a>(нт)</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/050-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/050-bound.7z">+</a></td>
+                <td><a href="/data/rusbounds-rosreestr/050-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=3">taimyr</a></td>
+              </tr>
+              <tr>
+                <td class="green">51</td>
+                <td class="green">14 Якутский<br>
+                  28 Амурский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/051.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript051.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/051-georef.7z">+</a>(нт)</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/051-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/051-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/051-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=3">taimyr</a></td>
+              </tr>
+              <tr>
+                <td class="green">52</td>
+                <td class="green">14 Якутский<br>
+                  38 Иркутский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/052.7z">скачать</a> </td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript052.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/052-georef.7z">+</a>(нт)</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/052-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/052-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/052-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=3">taimyr</a></td>
+              </tr>
+              <tr>
+                <td class="green">53</td>
+                <td class="green">14 Якутский<br>
+                  49 Магаданский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/053.7z">скачать</a><br></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript053.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/053-georef.7z">+</a>(нт)</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/053-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/053-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/053-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=3">taimyr</a></td>
+              </tr>
+              <tr>
+                <td class="green">54</td>
+                <td class="green">14 Якутский<br>
+                  75 Читинский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/054.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript054.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/054-georef.7z">+</a>(нт)</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/054-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/054-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/054-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=3">taimyr</a></td>
+              </tr>
+              <tr>
+                <td class="green">55</td>
+                <td class="green">14 Якутский<br>
+                  84 Таймырский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/055.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript055.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/055-georef.7z">+</a>(нт)</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/055-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/055-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/055-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=3">taimyr</a></td>
+              </tr>
+              <tr>
+                <td class="green">56</td>
+                <td class="green">14 Якутский<br>
+                  87 Чукотский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/056.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript056.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/056-georef.7z">+</a>(нт)</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/056-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/056-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/056-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=3">taimyr</a></td>
+              </tr>
+              <tr>
+                <td class="green">57</td>
+                <td class="green">14 Якутский<br>
+                  88 Эвенкийский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/057.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript057.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/057-georef.7z">+</a>(нт)</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/057-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/057-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/057-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=3">taimyr</a></td>
+              </tr>
+              <tr>
+                <td class="green">58</td>
+                <td class="green">15 Северо-Осетинский<br>
+                  20 Чеченский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/058.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript058.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/058-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/058-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/058-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/058-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=7705">Minos</a></td>
+              </tr>
+              <tr>
+                <td class="green">59</td>
+                <td class="green">15 Северо-Осетинский<br>
+                  26 Ставропольский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/059.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript059.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/059-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/059-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/059-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/059-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=7705">Minos</a></td>
+              </tr>
+              <tr>
+                <td class="green">60</td>
+                <td class="green">16 Татарский<br>
+                  18 Удмуртский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/060.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript060.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/060-georef.7z">+</a>(нт)</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/060-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/060-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/060-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=9169">Nikolaich</a><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=6597"></a></td>
+              </tr>
+              <tr>
+                <td class="green">61</td>
+                <td class="green">16 Татарский<br>
+                  18 Удмуртский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/061.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript061.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/061-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/061-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/061-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/061-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=6597">KolesovDmitry</a></td>
+              </tr>
+              <tr>
+                <td class="green">62</td>
+                <td class="green">16 Татарский<br>
+                  43 Кировский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/062.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript062.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/062-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/062-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/062-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/062-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=8933">old_Bibigon</a></td>
+              </tr>
+              <tr>
+                <td class="green">63</td>
+                <td class="green">16 Татарский<br>
+                  56 Оренбургский                  </td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/063.7z">скачать</a><br></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript063.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/063-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/063-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/063-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/063-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=6901">_DR_</a></td>
+              </tr>
+              <tr>
+                <td class="green">64</td>
+                <td class="green">16 Татарский<br>
+                  63 Самарский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/064.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript064.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/064-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/064-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/064-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/064-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=7580">AkMeR</a></td>
+              </tr>
+              <tr>
+                <td class="green">65</td>
+                <td class="green">16 Татарский<br>
+                  73 Ульяновский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/065.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript065.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/065-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/065-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/065-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/065-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=6597">KolesovDmitry</a></td>
+              </tr>
+              <tr>
+                <td class="green">66</td>
+                <td class="green">17 Тувинский<br>
+                  19 Хакасский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/066.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript066.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/066-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/066-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/066-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/066-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=8981">kabanin</a><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=8933"></a></span></td>
+              </tr>
+              <tr>
+                <td class="green">67</td>
+                <td class="green">17 Тувинский<br>
+                  24 Красноярский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/067.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript067.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/067-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/067-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/067-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/067-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&amp;u=8430">amuriy</a></td>
+              </tr>
+              <tr>
+                <td class="green">68</td>
+                <td class="green">17 Тувинский<br>
+                  38 Иркутский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/068.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript068.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/068-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/068-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/068-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/068-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=9076">toxa</a></td>
+              </tr>
+              <tr>
+                <td class="green">69</td>
+                <td class="green">18 Удмуртский<br>
+                  43 Кировский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/069.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript069.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/069-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/069-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/069-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/069-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=8933">old_Bibigon</a></td>
+              </tr>
+              <tr>
+                <td class="green">70</td>
+                <td class="green">18 Удмуртский<br>
+                  59 Пермский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/070.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript070.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/070-georef.7z">+</a>(нт)</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/070-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/070-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/070-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=9169">Nikolaich</a></td>
+              </tr>
+              <tr>
+                <td class="green">71</td>
+                <td class="green">19 Хакасский<br>
+                  24 Красноярский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/071.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript071.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/071-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/071-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/071-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/071-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=8504">Trace</a></td>
+              </tr>
+              <tr>
+                <td class="green">72</td>
+                <td class="green">19 Хакасский<br>
+                  42 Кемеровский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/072.7z">скачать</a>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript072.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/072-georef.7z">+</a>(нт)</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/072-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/072-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/072-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=3">taimyr</a></td>
+              </tr>
+              <tr>
+                <td class="green">73</td>
+                <td class="green">20 Чеченский<br>
+                  26 Ставропольский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/073.7z">скачать</a><br></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript073.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/073-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/073-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/073-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/073-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=6901">_DR_</a></td>
+              </tr>
+              <tr>
+                <td class="green">74</td>
+                <td class="green">21 Чувашский<br>
+                  52 Нижегородский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/074.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript074.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/074-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/074-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/074-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/074-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=6901">_DR_</a></td>
+              </tr>
+              <tr>
+                <td class="green">75</td>
+                <td class="green">21 Чувашский<br>
+                  73 Ульяновский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/075.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript075.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/075-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/075-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/075-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/075-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=6901">_DR_</a></td>
+              </tr>
+              <tr>
+                <td class="green">76</td>
+                <td class="green">22 Алтайский краевой<br>
+                  42 Кемеровский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/076.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript076.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/076-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/076-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/076-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/076-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=6901">_DR_</a></td>
+              </tr>
+              <tr>
+                <td class="green">77</td>
+                <td class="green">22 Алтайский краевой<br>
+                  54 Новосибирский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/077.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript077.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/077-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/077-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/077-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/077-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=6901">_DR_</a></td>
+              </tr>
+              <tr>
+                <td class="green">78</td>
+                <td class="green">23 Краснодарский<br>
+                  26 Ставропольский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/078.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript078.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/078-georef.7z">+</a>(нт)</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/078-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/078-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/078-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&amp;u=8430">amuriy</a></td>
+              </tr>
+              <tr>
+                <td class="green">79</td>
+                <td class="green">23 Краснодарский<br>
+                  61 Ростовский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/079.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript079.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/079-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/079-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/079-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/079-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&amp;u=8430">amuriy</a></td>
+              </tr>
+              <tr>
+                <td class="green">80</td>
+                <td class="green">24 Красноярский<br>
+                  38 Иркутский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/080.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript080.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/080-georef.7z">+</a>(нт)</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/080-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/080-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/080-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=3">taimyr</a></td>
+              </tr>
+              <tr>
+                <td class="green">81</td>
+                <td class="green">24 Красноярский<br>
+                  42 Кемеровский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/081.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript081.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/081-georef.7z">+</a>(нт)</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/081-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/081-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/081-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=3">taimyr</a></td>
+              </tr>
+              <tr>
+                <td class="green">82</td>
+                <td class="green">24 Красноярский<br>
+                  70 Томский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/082.7z">скачать</a> </td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript082.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/082-georef.7z">+</a>(нт)</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/082-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/082-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/082-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=3">taimyr</a></td>
+              </tr>
+              <tr>
+                <td class="green">83</td>
+                <td class="green">24 Красноярский<br>
+                  84 Таймырский</td>
+                <td width="10%" class="green"><a href="/data/rusbounds-rosreestr/source/083.7z">скачать</a><br></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript083.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/083-georef.7z">+</a>(нт)</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/083-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/083-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/083-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=3">taimyr</a></td>
+              </tr>
+              <tr>
+                <td class="green">84</td>
+                <td class="green">24 Красноярский<br>
+                  86 Ханты-Мансийский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/084.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript084.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/084-georef.7z">+</a>(нт)</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/084-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/084-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/084-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=3">taimyr</a></td>
+              </tr>
+              <tr>
+                <td class="green">85</td>
+                <td class="green">24 Красноярский<br>
+                  88 Эвенкийский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/085.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript085.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/085-georef.7z">+</a>(нт)</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/085-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/085-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/085-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=3">taimyr</a></td>
+              </tr>
+              <tr>
+                <td class="green">86</td>
+                <td class="green">24 Красноярский край<br>
+                  89 Ямало-Ненецкий</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/086.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript086.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/086-georef.7z">+</a>(нт)</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/086-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/086-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/086-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=3">taimyr</a></td>
+              </tr>
+              <tr>
+                <td class="green">87</td>
+                <td class="green">25 Приморский<br>
+                  27 Хабаровский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/087.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript087.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/087-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/087-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/087-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/087-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=6700">Igg</a></td>
+              </tr>
+              <tr>
+                <td class="green">88</td>
+                <td class="green">26 Ставропольский<br>
+                  61 Ростовский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/088.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript088.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/088-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/088-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/088-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/088-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=6901">_DR_</a></td>
+              </tr>
+              <tr>
+                <td class="green">89</td>
+                <td class="green">27 Хабаровский<br>
+                  28 Амурский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/089.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript089.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/089-georef.7z">+</a>(нт)</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/089-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/089-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/089-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&amp;u=3">taimyr</a></td>
+              </tr>
+              <tr>
+                <td class="green">90</td>
+                <td class="green">27 Хабаровский<br>
+                  49 Магаданский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/090.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript090.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/090-georef.7z">+</a>(нт)</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/090-points.7z"></a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/090-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/090-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=3">taimyr</a></td>
+              </tr>
+              <tr>
+                <td class="green">91</td>
+                <td class="green">27 Хабаровский<br>
+                  79 Еврейский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/091.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript091.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/091-georef.7z">+</a>(нт)</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/091-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/091-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/091-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&amp;u=3">taimyr</a></td>
+              </tr>
+              <tr>
+                <td class="green">92</td>
+                <td class="green">28 Амурский<br>
+                  75 Читинский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/092.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript092.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/092-georef.7z">+</a>(нт)</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/092-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/092-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/092-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&amp;u=3">taimyr</a></td>
+              </tr>
+              <tr>
+                <td class="green">93</td>
+                <td class="green">28 Амурский<br>
+                  79 Еврейский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/093.7z">скачать</a><br></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript093.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/093-georef.7z">+</a>(нт)</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/093-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/093-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/093-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&amp;u=3">taimyr</a></td>
+              </tr>
+              <tr>
+                <td class="green">94</td>
+                <td class="green">29 Архангельский<br>
+                  35 Вологодский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/094.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript094.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/094-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/094-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/094-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/094-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=8933">old_Bibigon</a></td>
+              </tr>
+              <tr>
+                <td class="green">95</td>
+                <td class="green">29 Архангельский<br>
+                  43 Кировский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/095.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript095.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/095-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/095-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/095-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/095-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=8933">old_Bibigon</a></td>
+              </tr>
+              <tr>
+                <td class="green">96</td>
+                <td class="green">29 Архангельский<br>
+                  83 Ненецкий</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/096.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript096.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/096-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/096-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/096-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/096-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=8933">old_Bibigon</a></td>
+              </tr>
+              <tr>
+                <td class="green">97</td>
+                <td class="green">30 Астраханский<br>
+                  34 Волгоградский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/097.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript097.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/097-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/097-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/097-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/097-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&amp;u=2">sim</a></td>
+              </tr>
+              <tr>
+                <td class="green">98</td>
+                <td class="green">31 Белгородский<br>
+                  36 Воронежский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/098.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript098.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/098-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/098-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/098-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/098-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=6901">_DR_</a></td>
+              </tr>
+              <tr>
+                <td class="green">99</td>
+                <td class="green">31 Белгородский<br>
+                  46 Курский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/099.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript099.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/099-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/099-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/099-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/099-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=6901">_DR_</a></td>
+              </tr>
+              <tr>
+                <td class="green">100</td>
+                <td class="green">32 Брянский<br>
+                  40 Калужский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/100.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript100.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/100-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/100-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/100-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/100-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=6730">prial78</a></td>
+              </tr>
+              <tr>
+                <td class="green">101</td>
+                <td class="green">32 Брянский<br>
+                  46 Курский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/101.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript101.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/101-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/101-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/101-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/101-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=6901">_DR_</a></td>
+              </tr>
+              <tr>
+                <td class="green">102</td>
+                <td class="green">32 Брянский<br>
+                  57 Орловский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/102.7z">скачать</a> </td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript102.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/102-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/102-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/102-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/102-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=6901">_DR_</a></td>
+              </tr>
+              <tr>
+                <td class="green">103</td>
+                <td class="green">32 Брянский<br>
+                  67 Смоленский</td>
+                <td width="10%" class="green"><a href="/data/rusbounds-rosreestr/source/103.7z">скачать</a><br></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript103.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/103-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/103-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/103-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/103-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=6730">prial78</a></td>
+              </tr>
+              <tr>
+                <td class="green">104</td>
+                <td class="green">33 Владимирский<br>
+                  37 Ивановский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/104.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript104.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/104-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/104-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/104-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/104-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=6730">prial78</a></td>
+              </tr>
+              <tr>
+                <td class="green">105</td>
+                <td class="green">33 Владимирский<br>
+                  50 Московский областной</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/105.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript105.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/105-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/105-points.7z"></a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/105-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/105-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=6730">prial78</a></td>
+              </tr>
+              <tr>
+                <td class="green">106</td>
+                <td class="green">33 Владимирский<br>
+                  52 Нижегородский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/106.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript106.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/106-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/106-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/106-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/106-georef.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=6730">prial78</a></td>
+              </tr>
+              <tr>
+                <td class="green">107</td>
+                <td class="green">33 Владимирский<br>
+                  62 Рязанский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/107.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript107.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/107-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/107-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/107-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/107-georef.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=6730">prial78</a></td>
+              </tr>
+              <tr>
+                <td class="green">108</td>
+                <td class="green">33 Владимирский<br>
+                  76 Ярославский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/108.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript108.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/108-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/108-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/108-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/108-georef.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=6730">prial78</a></td>
+              </tr>
+              <tr>
+                <td class="green">109</td>
+                <td class="green">34 Волгоградский<br>
+                  36 Воронежский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/109.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript109.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/109-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/109-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/109-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/109-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&amp;u=2">sim</a></td>
+              </tr>
+              <tr>
+                <td class="green">110</td>
+                <td class="green">34 Волгоградский<br>
+                  61 Ростовский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/110.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript110.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/110-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/110-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/110-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/110-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&amp;u=2">sim</a></td>
+              </tr>
+              <tr>
+                <td class="green">111</td>
+                <td class="green">34 Волгоградский<br>
+                  64 Саратовский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/111.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript111.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/111-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/111-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/111-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/111-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&amp;u=2">sim</a></td>
+              </tr>
+              <tr>
+                <td class="green">112</td>
+                <td class="green">35 Вологодский<br>
+                  43 Кировский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/112.7z">скачать</a> </td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript112.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/112-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/112-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/112-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/112-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=8933">old_Bibigon</a></td>
+              </tr>
+              <tr>
+                <td class="green">113</td>
+                <td class="green">35 Вологодский<br>
+                  44 Костромский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/113.7z">скачать</a><br></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript113.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/113-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/113-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/113-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/113-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=8616">saxa-tortile</a></td>
+              </tr>
+              <tr>
+                <td class="green">114</td>
+                <td class="green">35 Вологодский<br>
+                  47 Ленинградский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/114.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript114.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/114-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/114-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/114-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/114-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=7619">SS_Rebelious</a></td>
+              </tr>
+              <tr>
+                <td class="green">115</td>
+                <td class="green">35 Вологодский<br>
+                  53 Новгородский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/115.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript115.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/115-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/115-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/115-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/115-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=8616">saxa-tortile</a></td>
+              </tr>
+              <tr>
+                <td class="green">116</td>
+                <td class="green">35 Вологодский<br>
+                  69 Тверской</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/116.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript116.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/116-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/116-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/116-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/116-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=8616">saxa-tortile</a></td>
+              </tr>
+              <tr>
+                <td class="green">117</td>
+                <td class="green">35 Вологодский<br>
+                  76 Ярославский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/117.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript117.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/117-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/117-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/117-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/117-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=8616">saxa-tortile</a></td>
+              </tr>
+              <tr>
+                <td class="green">118</td>
+                <td class="green">36 Воронежский<br>
+                  44 Курский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/118.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript118.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/118-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/118-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/118-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/118-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=6901">_DR_</a></td>
+              </tr>
+              <tr>
+                <td class="green">119</td>
+                <td class="green">36 Воронежский<br>
+                  48 Липецкий</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/119.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript119.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/119-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/119-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/119-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/119-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=6901">_DR_</a></td>
+              </tr>
+              <tr>
+                <td class="green">120</td>
+                <td class="green">36 Воронежский<br>
+                  61 Ростовский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/120.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript120.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/120-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/120-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/120-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/120-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=6901">_DR_</a></td>
+              </tr>
+              <tr>
+                <td class="green">121</td>
+                <td class="green">36 Воронежский<br>
+                  64 Саратовский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/121.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript121.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/121-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/121-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/121-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/121-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=7975">vveco</a></td>
+              </tr>
+              <tr>
+                <td class="green">122</td>
+                <td class="green">36 Воронежский<br>
+                  68 Тамбовский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/122.7z">скачать</a>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript122.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/122-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/122-points.7z"></a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/122-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/122-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=6901">_DR_</a></td>
+              </tr>
+              <tr>
+                <td class="green">123</td>
+                <td class="green">37 Ивановский<br>
+                  44 Костромской</td>
+                <td width="10%" class="green"><a href="/data/rusbounds-rosreestr/source/123.7z">скачать</a><br></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript123.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/123-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/123-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/123-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/123-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=7705">Minos</a></td>
+              </tr>
+              <tr>
+                <td class="green">124</td>
+                <td class="green">37 Ивановский<br>
+                  52 Нижегородский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/124.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript124.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/124-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/124-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/124-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/124-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=6901">_DR_</a></td>
+              </tr>
+              <tr>
+                <td class="green">125</td>
+                <td class="green">37 Ивановский<br>
+                  76 Ярославский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/125.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript125.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/125-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/125-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/125-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/125-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=6901">_DR_</a></td>
+              </tr>
+              <tr>
+                <td class="green">126</td>
+                <td class="green">38 Иркутский<br>
+                  75 Читинский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/126.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript126.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/126-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/126-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/126-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/126-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=9076">toxa</a></td>
+              </tr>
+              <tr>
+                <td class="green">127</td>
+                <td class="green">38 Иркутский<br>
+                  85 Усть-Ордынский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/127.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript127.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/127-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/127-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/127-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/127-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=9076">toxa</a></td>
+              </tr>
+              <tr>
+                <td class="green">128</td>
+                <td class="green">38 Иркутский<br>
+                  88 Эвенкийский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/128.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript128.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/128-georef.7z">+</a>(нт)</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/128-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/128-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/128-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=3">taimyr</a></td>
+              </tr>
+              <tr>
+                <td class="green">129</td>
+                <td class="green">40 Калужский<br>
+                  50 Московский областной</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/129.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript129.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/129-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/129-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/129-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/129-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=9066">Lileo</a></td>
+              </tr>
+              <tr>
+                <td class="green">130</td>
+                <td class="green">40 Калужский<br>
+                  57 Орловский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/130.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript130.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/130-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/130-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/130-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/130-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=6901">_DR_</a></td>
+              </tr>
+              <tr>
+                <td class="green">131</td>
+                <td class="green">40 Калужский<br>
+                  67 Смоленский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/131.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript131.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/131-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/131-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/131-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/131-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=9066">Lileo</a></td>
+              </tr>
+              <tr>
+                <td class="green">132</td>
+                <td class="green">40 Калужский<br>
+                  71 Тульский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/132.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript132.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/132-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/132-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/132-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/132-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=9066">Lileo</a></td>
+              </tr>
+              <tr>
+                <td class="green">133</td>
+                <td class="green">41 Камчатский<br>
+                  82 Корякский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/133.7z">скачать</a><br></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript133.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/133-georef.7z">+</a>(нт)</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/133-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/133-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/133-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=3">taimyr</a></td>
+              </tr>
+              <tr>
+                <td class="green">134</td>
+                <td class="green">
+                  42 Кемеровский<br>
+                  54 Новосибирский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/134.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript134.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/134-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/134-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/134-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/134-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=9066">Lileo</a></td>
+              </tr>
+              <tr>
+                <td class="green">135</td>
+                <td class="green">42 Кемеровский<br>
+                  70 Томский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/135.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript135.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/135-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/135-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/135-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/135-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=9066">Lileo</a></td>
+              </tr>
+              <tr>
+                <td class="green">136</td>
+                <td class="green">43 Кировский<br>
+                  44 Костромской</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/136.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript136.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/136-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/136-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/136-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/136-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=8933">old_Bibigon</a></td>
+              </tr>
+              <tr>
+                <td class="green">137</td>
+                <td class="green">43 Кировский<br>
+                  52 Нижегородский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/137.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript137.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/137-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/137-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/137-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/137-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=8933">old_Bibigon</a></td>
+              </tr>
+              <tr>
+                <td class="green">138</td>
+                <td class="green">43 Кировский<br>
+                  59 Пермский </td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/138.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript138.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/138-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/138-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/138-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/138-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=8933">old_Bibigon</a></td>
+              </tr>
+              <tr>
+                <td class="green">139</td>
+                <td class="green">43 Кировский<br>
+                  81 Коми-Пермяцкий</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/139.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript139.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/139-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/139-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/139-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/139-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=8933">old_Bibigon</a></td>
+              </tr>
+              <tr>
+                <td class="green">140</td>
+                <td class="green">44 Костромской<br>
+                  52 Нижегородский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/140.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript140.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/140-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/140-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/140-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/140-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=9153">lzhl</a></td>
+              </tr>
+              <tr>
+                <td class="green">141</td>
+                <td class="green">44 Костромской<br>
+                  76 Ярославский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/141.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript141.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/141-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/141-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/141-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/141-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=7705">Minos</a></td>
+              </tr>
+              <tr>
+                <td class="green">142</td>
+                <td class="green">45 Курганский<br>
+                  66 Свердловский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/142.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript142.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/142-georef.7z">+</a>(нт)</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/142-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/142-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/142-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=2611">alexandr cherepanov</a></td>
+              </tr>
+              <tr>
+                <td class="green">143</td>
+                <td class="green">45 Курганский<br>
+                  72 Тюменский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/143.7z">скачать</a><br></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript143.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/143-georef.7z">+</a>(нт)</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/143-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/143-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/143-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=2611">alexandr cherepanov</a></td>
+              </tr>
+              <tr>
+                <td class="green">144</td>
+                <td class="green">45 Курганский<br>
+                  74 Челябинский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/144.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript144.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/144-georef.7z">+</a>(нт)</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/144-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/144-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/144-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=2611">alexandr cherepanov</a></td>
+              </tr>
+              <tr>
+                <td class="green">145</td>
+                <td class="green">46 Курский<br>
+                  48 Липецкий</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/145.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript145.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/145-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/145-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/145-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/145-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=6901">_DR_</a></td>
+              </tr>
+              <tr>
+                <td class="green">146</td>
+                <td class="green">46 Курский<br>
+                  57 Орловский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/146.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript146.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/146-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/146-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/146-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/146-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&amp;u=8430">amuriy</a></td>
+              </tr>
+              <tr>
+                <td class="green">147</td>
+                <td class="green">47 Ленинградский<br>
+                  53 Новгородский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/147.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript147.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/147-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/147-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/147-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/147-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=7619">SS_Rebelious</a></td>
+              </tr>
+              <tr>
+                <td class="green">148</td>
+                <td class="green">47 Ленинградский<br>
+                  60 Псковский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/148.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript148.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/148-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/148-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/148-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/148-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=7619">SS_Rebelious</a></td>
+              </tr>
+              <tr>
+                <td class="green">150</td>
+                <td class="green">48 Липецкий<br>
+                  57 Орловский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/150.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript150.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/150-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/150-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/150-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/150-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=6901">_DR_</a></td>
+              </tr>
+              <tr>
+                <td class="green">151</td>
+                <td class="green">48 Липецкий<br>
+                  62 Рязанский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/151.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript151.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/151-georef.7z">+</a>(нт)</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/151-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/151-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/151-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=9169">Nikolaich</a></td>
+              </tr>
+              <tr>
+                <td class="green">152</td>
+                <td class="green">48 Липецкий<br>
+                  68 Тамбовский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/152.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript152.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/152-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/152-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/152-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/152-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=8616">saxa-tortile</a></td>
+              </tr>
+              <tr>
+                <td class="green">153</td>
+                <td class="green">48 Липецкий<br>
+                  71 Тульский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/153.7z">скачать</a> </td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript153.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/153-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/153-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/153-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/153-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=6901">_DR_</a></td>
+              </tr>
+              <tr>
+                <td class="green">154</td>
+                <td class="green">49 Магаданский<br>
+                  82 Корякский</td>
+                <td class="green" width="10%"><a href="/data/rusbounds-rosreestr/source/154.7z">скачать</a><br></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript154.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/154-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/154-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/154-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/154-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&amp;u=8430">amuriy</a></td>
+              </tr>
+              <tr>
+                <td class="green">155</td>
+                <td class="green">49 Магаданский<br>
+                  87 Чукотский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/155.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript155.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/155-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/155-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/155-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/155-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&amp;u=8430">amuriy</a></td>
+              </tr>
+              <tr>
+                <td class="green">156</td>
+                <td class="green">50 Московский областной<br>
+                  62 Рязанский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/156.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript156.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/156-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/156-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/156-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/156-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=6901">_DR_</a></td>
+              </tr>
+              <tr>
+                <td class="green">157</td>
+                <td class="green">50 Московский областной<br>
+                  67 Смоленский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/157.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript157.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/157-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/157-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/157-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/157-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=7534">bim2010</a></td>
+              </tr>
+              <tr>
+                <td class="green">158</td>
+                <td class="green">
+                  50 Московский областной<br>
+                  69 Тверской</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/158.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript158.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/158-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/158-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/158-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/158-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=8616">saxa-tortile</a></td>
+              </tr>
+              <tr>
+                <td class="green">159</td>
+                <td class="green">
+                  50 Московский областной<br>
+                  69 Тульский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/159.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript159.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/159-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/159-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/159-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/159-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=8616">saxa-tortile</a></td>
+              </tr>
+              <tr>
+                <td class="green">160</td>
+                <td class="green">50 Московский областной<br>
+                  76 Ярославский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/160.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript160.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/160-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/160-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/160-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/160-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=6901">_DR_</a></td>
+              </tr>
+              <tr>
+                <td class="green">162</td>
+                <td class="green">52 Нижегородский<br>
+                  62 Рязанский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/162.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript162.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/162-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/162-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/162-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/162-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=6901">_DR_</a></td>
+              </tr>
+              <tr>
+                <td class="green">163</td>
+                <td class="green">53 Новгородский<br>
+                  60 Псковский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/163.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript163.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/163-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/163-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/163-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/163-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&amp;u=8430">amuriy</a></td>
+              </tr>
+              <tr>
+                <td class="green">164</td>
+                <td class="green">53 Новгородский<br>
+                  69 Тверской</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/164.7z">скачать</a> </td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript164.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/164-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/164-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/164-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/164-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&amp;u=8430">amuriy</a></td>
+              </tr>
+              <tr>
+                <td class="green">165</td>
+                <td class="green">54 Новосибирский<br>
+                  55 Омский                  </td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/165.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript165.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/165-georef.7z">+</a>(нт)</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/165-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/165-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/165-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=7451">esasha_</a></td>
+              </tr>
+              <tr>
+                <td class="green">166</td>
+                <td class="green">54 Новосибирский<br>
+                  70 Томский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/166.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript166.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/166-georef.7z">+</a>(нт)</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/166-points.7z"></a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/166-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/166-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=7451">esasha_</a></td>
+              </tr>
+              <tr>
+                <td class="green">167</td>
+                <td class="green">55 Омский<br>
+                  70 Томский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/167.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript167.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/167-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/167-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/167-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/167-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=8981">kabanin</a></td>
+              </tr>
+              <tr>
+                <td class="green">168</td>
+                <td class="green">55 Омский<br>
+                  72 Тюменский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/168.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript168.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/168-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/168-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/168-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/168-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=8981">kabanin</a></td>
+              </tr>
+              <tr>
+                <td class="green">169</td>
+                <td class="green">56 Оренбургский<br>
+                  63 Самарский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/169.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript169.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/169-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/169-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/169-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/169-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=7580">AkMeR</a></td>
+              </tr>
+              <tr>
+                <td class="green">170</td>
+                <td class="green">56 Оренбургский<br>
+                  74 Челябинский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/170.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript170.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/170-georef.7z">+</a>(нт)</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/170-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/170-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/170-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=9169">Nikolaich</a></td>
+              </tr>
+              <tr>
+                <td class="green">171</td>
+                <td class="green">57 Орловский<br>
+                  71 Тульский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/171.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript171.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/171-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/171-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/171-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/171-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&amp;u=8430">amuriy</a></td>
+              </tr>
+              <tr>
+                <td class="green">172</td>
+                <td class="green">58 Пензенский<br>
+                  62 Рязанский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/172.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript172.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/172-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/172-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/172-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/172-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=6901">_DR_</a></td>
+              </tr>
+              <tr>
+                <td class="green">173</td>
+                <td class="green">58 Пензенский<br>
+                  64 Саратовский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/173.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript173.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/173-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/173-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/173-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/173-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=7975">vveco</a></td>
+              </tr>
+              <tr>
+                <td class="green">174</td>
+                <td class="green">58 Пензенский<br>
+                  68 Тамбовский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/174.7z">скачать</a> </td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript174.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/174-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/174-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/174-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/174-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&amp;u=2">sim</a></td>
+              </tr>
+              <tr>
+                <td class="green">175</td>
+                <td class="green">58 Пензенский<br>
+                  73 Ульяновский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/175.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript175.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/175-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/175-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/175-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/175-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&amp;u=2">sim</a></td>
+              </tr>
+              <tr>
+                <td class="green">176</td>
+                <td class="green">59 Пермский<br>
+                  66 Свердловский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/176.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript176.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/176-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/176-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/176-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/176-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&amp;u=2">sim</a></td>
+              </tr>
+              <tr>
+                <td class="green">177</td>
+                <td class="green">59 Пермский<br>
+                  81 Коми-Пермяцкий</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/177.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript177.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/177-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/177-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/177-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/177-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&amp;u=2">sim</a></td>
+              </tr>
+              <tr>
+                <td class="green">178</td>
+                <td class="green">60 Псковский<br>
+                  67 Смоленский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/178.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript178.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/178-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/178-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/178-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/178-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=6901">_DR_</a></td>
+              </tr>
+              <tr>
+                <td class="green">179</td>
+                <td class="green">60 Псковский<br>
+                  69 Тверской</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/179.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript179.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/179-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/179-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/179-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/179-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=6901">_DR_</a></td>
+              </tr>
+              <tr>
+                <td class="green">180</td>
+                <td class="green">62 Рязанский<br>
+                  68 Тамбовский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/180.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript180.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/180-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/180-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/180-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/180-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=7705">Minos</a></td>
+              </tr>
+              <tr>
+                <td class="green">181</td>
+                <td class="green">62 Рязанский<br>
+                  71 Тульский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/181.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript181.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/181-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/181-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/181-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/181-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=6901">_DR_</a></td>
+              </tr>
+              <tr>
+                <td class="green">182</td>
+                <td class="green">63 Самарский<br>
+                  64 Саратовский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/182.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript182.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/182-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/182-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/182-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/182-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=7580">AkMeR</a></td>
+              </tr>
+              <tr>
+                <td class="green">183</td>
+                <td class="green">63 Самарский<br>
+                  73 Ульяновский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/183.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript183.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/183-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/183-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/183-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/183-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=7580">AkMeR</a></td>
+              </tr>
+              <tr>
+                <td class="green">184</td>
+                <td class="green">64 Саратовский<br>
+                  68 Тамбовский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/184.7z">скачать</a> </td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript184.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/184-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/184-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/184-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/184-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=7975">vveco</a></td>
+              </tr>
+              <tr>
+                <td class="green">185</td>
+                <td class="green">64 Саратовский<br>
+                  73 Ульяновский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/185.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript185.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/185-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/185-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/185-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/185-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=7975">vveco</a></td>
+              </tr>
+              <tr>
+                <td class="green">186</td>
+                <td class="green">66 Свердловский<br>
+                  72 Тюменский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/186.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript186.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/186-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/186-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/186-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/186-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=8981">kabanin</a></td>
+              </tr>
+              <tr>
+                <td class="green">187</td>
+                <td class="green">66 Свердловский<br>
+                  74 Челябинский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/187.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript187.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/187-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/187-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/187-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/187-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=8981">kabanin</a></td>
+              </tr>
+              <tr>
+                <td class="green">188</td>
+                <td class="green">                  66 Свердловский<br>
+                  86 Ханты-Мансийский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/188.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript188.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/188-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/188-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/188-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/188-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=8981">kabanin</a></td>
+              </tr>
+              <tr>
+                <td class="green">189</td>
+                <td class="green">67 Смоленский<br>
+                  69 Тверской</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/189.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript189.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/189-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/189-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/189-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/189-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=7534">bim2010</a></td>
+              </tr>
+              <tr>
+                <td class="green">190</td>
+                <td class="green">69 Тверской<br>
+                  76 Ярославский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/190.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript190.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/190-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/190-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/190-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/190-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=6901">_DR_</a></td>
+              </tr>
+              <tr>
+                <td class="green">191</td>
+                <td class="green">70 Томский<br>
+                  72 Тюменский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/191.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript191.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/191-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/191-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/191-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/191-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=6901">_DR_</a></td>
+              </tr>
+              <tr>
+                <td class="green">192</td>
+                <td class="green">70 Томский<br>
+                  86 Ханты-Мансийский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/192.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript192.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/192-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/192-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/192-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/192-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=8981">kabanin</a><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=1394"></a></td>
+              </tr>
+              <tr>
+                <td class="green">193</td>
+                <td class="green">72 Тюменский<br>
+                  86 Ханты-Мансийский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/193.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript193.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/193-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/193-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/193-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/193-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=8981">kabanin</a><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=1394"></a></td>
+              </tr>
+              <tr>
+                <td class="green">194</td>
+                <td class="green">75 Читинский<br>
+                  80 Агинский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/194.7z">скачать</a> </td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript194.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/194-georef.7z">+</a>(нт)</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/194-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/194-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/194-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=3">taimyr</a></td>
+              </tr>
+              <tr>
+                <td class="green">195</td>
+                <td class="green">82 Корякский<br>
+                  87 Чукотский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/195.7z">скачать</a><br></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript195.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/195-georef.7z">+</a>(нт)</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/195-points.7z"></a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/195-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/195-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=3">taimyr</a></td>
+              </tr>
+              <tr>
+                <td class="green">196</td>
+                <td class="green">83 Ненецкий<br>
+                  89 Ямало-Ненецкий</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/196.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript196.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/196-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/196-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/196-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/196-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=8981">kabanin</a></td>
+              </tr>
+              <tr>
+                <td class="green">197</td>
+                <td class="green">84 Таймырский<br>
+                  88 Эвенкийский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/197.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript197.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/197-georef.7z">+</a>(нт)</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/197-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/197-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/197-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=3">taimyr</a></td>
+              </tr>
+              <tr>
+                <td class="green">198</td>
+                <td class="green">84 Таймырский<br>
+                  89 Ямало-Ненецкий</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/198.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript198.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/198-georef.7z">+</a>(нт)</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/198-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/198-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/198-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=3">taimyr</a></td>
+              </tr>
+              <tr>
+                <td class="green">199</td>
+                <td class="green">86 Ханты-Мансийский<br>
+                  89 Ямало-Ненецкий</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/199.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript199.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/199-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/199-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/199-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/199-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=8981">kabanin</a></td>
+              </tr>
+              <tr>
+                <td class="green">149</td>
+                <td class="green">47 Ленинградский<br>
+                  78 Санкт-Петербургский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/200.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript149.doc">скачать</a></td>
+                <td class="green">&nbsp;</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/200-points.7z"></a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/149-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/149-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=7619">SS_Rebelious</a></td>
+              </tr>
+              <tr>
+                <td class="green">200</td>
+                <td class="green">27 Хабаровский<br>
+                  65 Сахалинский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/200_.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript200.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/200-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/200-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/200-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/200-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=6901">_DR_</a></td>
+              </tr>
+              <tr>
+                <td class="green">201</td>
+                <td class="green">29 Архангельский (Новая Земля)<br>
+                  51 Мурманский</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/201.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript201.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/201-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/201-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/201-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/201-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&amp;u=8430">amuriy</a></td>
+              </tr>
+              <tr>
+                <td class="green">202</td>
+                <td class="green">29 Архангельский<br>
+                  83 Ненецкий</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/202.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript202.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/202-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/202-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/202-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/202-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=6901">_DR_</a></td>
+              </tr>
+              <tr>
+                <td class="green">203</td>
+                <td class="green">41 Камчатский<br>
+                  65 Сахалинский (Курильские острова)</td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/source/203.7z">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/docs/descript203.doc">скачать</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/georef/203-georef.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/points/203-points.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/203-bound.7z">+</a></td>
+                <td class="green"><a href="/data/rusbounds-rosreestr/203-bound.7z">+</a></td>
+                <td class="green"><a href="http://gis-lab.info/forum/memberlist.php?mode=viewprofile&u=6901">_DR_</a></td>
+              </tr>
+            </table>
+<p class="discuss"><span><!--#include virtual="/scripts/forum-comments-num.php?i=4703"--></span></p>
+
+<div class="links">
+	<h2>Ссылки по теме</h2>
+		<ul>
+			<li> <a href="/qa/vmap0-settl-rus.html">Русскоязычная база данных по названиям населенных пунктов</a> </li>
+		  </ul>
+</div>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<!--#include virtual="/inc/footer2.php" -->

@@ -1,0 +1,157 @@
+#
+#  Export all point shapes
+#
+
+setup :Shp do
+    point :place_p do
+        name 'place_p'
+		string :Id, 20
+        string :Type, 20
+        string :Name, 100
+        string :Int_namr, 20
+        string :place, 20
+		string :Is_in, 100
+    end
+	point :highway_p do
+        name 'highway_p'
+		string :Id, 20
+        string :Type, 20
+        string :Name, 100
+        string :Junction, 20
+        number :Highway, 20
+		string :Direction, 20
+    end
+	point :railway_p do
+        name 'railway_p'
+		string :Id, 20
+        string :Type, 20
+        string :Name, 100
+    end
+	point :aeroway_p do
+        name 'aeroway_p'
+		string :Id, 20
+        string :Type, 20
+        string :Name, 100
+        string :Int_name, 20
+        string :Iata, 20
+		string :Icao, 20
+    end
+	point :aerialway_p do
+        name 'aerialway_p'
+		string :Id, 20
+        string :Type, 20
+        string :Name, 100
+        string :Int_name, 20
+    end
+	point :power_p do
+        name 'power_p'
+		string :Id, 20
+        string :Type, 20
+        string :Ref, 100
+        string :Voltages, 20
+		string :Operator, 20
+    end
+	point :man_made_p do
+        name 'man_made_p'
+		string :Id, 20
+        string :Type, 20
+        string :Name, 100
+    end
+	point :leisure_p do
+        name 'leisure_p'
+		string :Id, 20
+        string :Type, 20
+        string :Name, 100
+    end
+	point :amenity_p do
+        name 'amenity_p'
+		string :Id, 20
+        string :Type, 20
+        string :Name, 100
+    end
+	point :shop_p do
+        name 'shop_p'
+		string :Id, 20
+        string :Type, 20
+        string :Name, 100
+    end
+	point :tourism_p do
+        name 'tourism_p'
+		string :Id, 20
+        string :Type, 20
+        string :Name, 100
+    end
+	point :historic_p do
+        name 'historic_p'
+		string :Id, 20
+        string :Type, 20
+        string :Name, 100
+    end
+	point :landuse_p do
+        name 'landuse_p'
+		string :Id, 20
+        string :Type, 20
+        string :Name, 100
+    end
+	point :military_p do
+        name 'military_p'
+		string :Id, 20
+        string :Type, 20
+        string :Name, 100
+    end
+	point :natural_p do
+        name 'natural_p'
+		string :Id, 20
+        string :Type, 20
+        string :Name, 100
+    end
+end
+
+nodes do
+    if place
+        :place_p << {:Id => id, :Type => type, :Name => name, :Is_in => is_in, :place => place}
+    end
+	if highway
+        :highway_p << {:Id => id, :Type => type, :Name => name, :Junction => junction, :Highway => highway, :Direction => direction}
+    end
+	if railway
+        :railway_p << {:Id => id, :Type => type, :Name => name}
+    end
+	if aeroway
+        :aeroway_p << {:Id => id, :Type => type, :Name => name, :Int_name => int_name, :Iata => iata, :Icao => icao}
+    end
+	if aerialway
+        :aerialway_p << {:Id => id, :Type => type, :Name => name, :Int_name => int_name}
+    end
+	if power
+        :power_p << {:Id => id, :Type => type, :Ref => ref, :Voltages => voltages, :Operator => operator}
+    end
+	if man_made
+        :man_made_p << {:Id => id, :Type => type, :Name => name}
+    end
+	if leisure
+        :leisure_p << {:Id => id, :Type => type, :Name => name}
+    end
+	if amenity
+        :amenity_p << {:Id => id, :Type => type, :Name => name}
+    end
+	if shop
+        :shop_p << {:Id => id, :Type => type, :Name => name}
+    end
+	if tourism
+        :tourism_p << {:Id => id, :Type => type, :Name => name}
+    end
+	if historic
+        :historic_p << {:Id => id, :Type => type, :Name => name}
+    end
+	if landuse
+        :landuse_p << {:Id => id, :Type => type, :Name => name}
+    end
+	if military
+        :military_p << {:Id => id, :Type => type, :Name => name}
+    end
+	if natural
+        :natural_p << {:Id => id, :Type => type, :Name => name}
+    end
+end
+

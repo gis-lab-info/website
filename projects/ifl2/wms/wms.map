@@ -1,0 +1,58 @@
+MAP
+  NAME           "WMS"
+  STATUS         ON
+  IMAGETYPE      PNG24
+  EXTENT         -172.703 -55.3215 178.239 69.6353
+  SIZE           400 300
+  SHAPEPATH      "/usr/local/www/gis-lab/data/projects/ifl2/wms/"
+  UNITS DD
+  IMAGECOLOR     255 255 255
+	
+  WEB
+    TEMPLATE  "template.html"
+    IMAGEPATH "/usr/local/www/gis-lab/data/tmp/" 
+    IMAGEURL  "/tmp/"
+	METADATA
+		wms_title                  "GIS-LAB openIFL"
+		wms_abstract               "This is the openIFL WMS"
+		wms_onlineresource         "http://gis-lab.info/cgi-bin/mapserv?map=/usr/local/www/gis-lab/data/projects/ifl2/wms/wms.map&"
+		wms_srs                    "EPSG:4326 EPSG:900913 EPSG:54004 EPSG:54006"
+		wms_getfeatureinfo         "http://gis-lab.info/cgi-bin/mapserv?map=/usr/local/www/gis-lab/data/projects/ifl2/wms/wms.map&"
+		wms_featureinfoformat      "text/plain"
+	END
+  END
+  
+  PROJECTION
+   "proj=latlong"
+   "ellps=WGS84"
+   "datum=WGS84"
+  END
+  
+  LAYER # States polygon layer begins here
+    NAME         world_ifl
+    DATA         world_ifl
+    STATUS       ON
+    TYPE         LINE	
+	TEMPLATE 'dummy'
+	
+    CLASSITEM    "GRIDCODE"
+    PROJECTION
+		"proj=latlong"
+		"ellps=WGS84"
+		"datum=WGS84"
+    END
+    CLASS
+      NAME 'GRIDCODE'
+      EXPRESSION '1' # Only polygons where "GRIDCODE" = 1
+      STYLE
+        COLOR      255 0 0
+      END
+    END
+	METADATA
+		wms_title "IFL"
+		wms_abstract "IFL test"
+		wms_srs "EPSG:4326 EPSG:900913 EPSG:54004 EPSG:54006"
+		wms_include_items "all"
+	END
+  END
+END

@@ -1,0 +1,62 @@
+dropdb -U pgsql -W osm
+createdb -U pgsql -E utf8 osm
+createlang -U pgsql plpgsql osm
+
+psql -U pgsql -d osm -f /usr/local/share/postgis/contrib/postgis.sql
+psql -U pgsql -d osm -f /usr/local/share/postgis/contrib/spatial_ref_sys.sql
+
+#выполнить _int.sql <-- установка intarray
+psql -U pgsql -d osm -f /usr/local/share/postgresql/contrib/_int.sql
+
+cd ../bin/osm2pgsql/
+#./osm2pgsql -U pgsql -d osm -p osm -l -s -C 1024 -b 19.2,41.8,180,82.2 ../../data/rus.osm
+#./osm2pgsql -U pgsql -d osm -p osm -l -s -C 1024 ../../data/rus.osm
+./bin/osm2pgsql/osm2pgsql -U pgsql -d osm -p osm -l -s -S bin/osm2pgsql/default.style -C 1024 data/rus.osm
+./bin/osm2pgsql/osm2pgsql -U pgsql -a -d osm -p osm -l -s -S bin/osm2pgsql/default.style -C 1024 data/kaliningrad-rus.osm
+./bin/osm2pgsql/osm2pgsql -U pgsql -a -d osm -p osm -l -s -S bin/osm2pgsql/default.style -C 1024 data/chukotka-rus.osm
+
+
+#shp2pgsql -i -D -s 4326 ~/gl/data/vmap0/bnd-a-osm.shp russia_bound > bnd-a-osm.sql
+psql -U pgsql -f ~/gl/data/vmap0/bnd-a-osm.sql -d osm
+
+psql -U pgsql -d osm -c "CREATE INDEX "russia_bound_index" ON "russia_bound" USING GIST (the_geom)"
+
+#./osm2pgsql -U pgsql -d osm -p osm -a -s -l -C 1024 -b 19.2,41.8,180,82.2 20090909-20090910.osc.gz
+./bin/osm2pgsql/osm2pgsql -U pgsql -d osm -p osm -a -s -S bin/osm2pgsql/default.style -l -C 1024 -b 26.8,41.8,180,82.2 data/updates/20090909-20090910.osc.gz
+psql -U pgsql -f cr.sql -d osm
+psql -U pgsql -f views.sql -d osm
+
+psql -U pgsql -d osm -c "VACUUM ANALYZE"
+python db2shp.py & python db2shp2.py
+
+#Download main file
+cd ~/gl/projects/osmrus/data/
+wget http://planet.openstreetmap.org/planet-latest.osm.bz2
+bzip2 -d planet-091021.osm.bz2
+cd ..
+
+#Export main area + kaliningrad + chukotka
+bin/osmosis/bin/osmosis --rx data/planet-091021.osm --bb top=82.2 left=26.8 bottom=41.8 right=180 --wx file=data/rus.osm
+
+bin/osmosis/bin/osmosis --rx data/planet-091021.osm --bb top=55.3 left=19.6 bottom=54.3 right=23 --wx file=data/kalningrad-rus.osm
+
+bin/osmosis/bin/osmosis --rx data/planet-091021.osm --bb top=71.6 left=-180 bottom=64.2 right=-169 --wx file=data/chukotka-rus.osm
+
+#update
+bin/osmosis/bin/osmosis --rxc file="data/updates/20091021-20091022.osc.gz" --rx file="data/rus.osm" --ac --wx file="data/rus-new.osm"
+rm data/rus.osm
+mv data/rus-new.osm data/rus.osm
+
+#Clip again
+bin/osmosis/bin/osmosis --rx data/rus.osm --bb top=82.2 left=26.8 bottom=41.8 right=180 --wx file=data/rus-new.osm
+rm data/rus.osm
+mv data/rus-new.osm data/rus.osm
+
+#Extract regions with surroundings
+bin/osmosis/bin/osmosis --rx file="data/rus.osm" --bp file="poly/adygeya.poly" completeWays="yes" --wx file="adygeya.osm"
+
+#Extract regions without surroundings
+bin/osmosis/bin/osmosis --rx file="data/rus.osm" --bp file="poly/adygeya.poly" --wx file="adygeya-complete.osm"
+
+#Other approach
+#Once clip out all regions with completeWays. Then apply daily diff to all of them and them clip them back with completeWays

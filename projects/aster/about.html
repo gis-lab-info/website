@@ -1,0 +1,97 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Новый источник доступных данных ASTER</title>
+<!--#include virtual="/inc/header2.txt" -->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/projects.html">Проекты</a></li>
+</ul>
+<!--Contents start-->
+<h1>Новый источник доступных  данных ASTER </h1>
+<p class="ann">Описание данных и их получение </p>
+<p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=8015"--></span></p>
+
+<h2>О данных </h2>
+<p>В рамках это проекта свободно распространяются данные дистанционного зондирования полученные камерой <a href="../ss/sensor/aster.html">ASTER</a> спутника <a href="../ss/sat/terra.html">TERRA</a>. Уровень обработки в основном L1A, небольшое количество L1B и AST07/09.</p>
+<p>Данные представлены в оригинальном формате HDF и получены из EROS Data Center в период 2001-2003 гг на DVD дисках по почте. В отличие от данных <a href="/qa/terralook.html">ASTER Terralook</a> данные не сжаты JPEG-ом и представлены всеми 14 каналами. </p>
+<p>Массив данных был собран в период 2001-2003 г. ГИС-отделом Центра Охраны Дикой Природы и Международного Социально-Экологического Союза для картирования малонарушенных лесных территорий бореальной зоны, включая территории <a href="http://www.forest.ru/rus/publications/intact/" target="_blank" class="external">РФ</a> и <a href="http://www.intactforests.org/" target="_blank" class="external">Канады</a>. Далее он хранился в архиве организации Прозрачный мир.</p>
+<h2>Условия распространения</h2>
+<p>На текущий момент, аналогичные данные ASTER распространяются за плату, <a href="https://lpdaac.usgs.gov/lpdaac/about/news_archive/monday_august_01_2005_aster_pricing_announcement" target="_blank" class="external">80$</a> за сцену. Однако,  данные представленные здесь на сайте были получены в период до того, как данные стали платными, до мая 2003 г. и поэтому, согласно разъяснениям LPDAAC/USGS являются общественным достоянием (public domain).</p>
+<p>Официальное письмо от представителя LPDAAC с разъяснениями: </p>
+<pre>The LP DAAC has two Redistribution Policies that pertain to how the data was acquired. 
+
+
+ASTER Policies 
+https://lpdaac.usgs.gov/lpdaac/products/aster_policies 
+
+<b>Redistribution Policy for ASTER Data Purchased from LP DAAC 
+ASTER data and products purchased through the LP DAAC have no restrictions on subsequent 
+use, sale, or redistribution regardless of the date of purchase. </b>
+
+
+Please find below the Redistribution Policy 
+Redistribution Policy for ASTER No Cost Data 
+Redistribution of ASTER data obtained through the NASA no cost agreement is limited by 
+certain restrictions. Researchers and educators may only redistribute these data to other 
+researchers and educators. These data may not be redistributed to the general public or 
+others not fitting the criteria stated above. Users not complying with this policy will be 
+billed for all data received at no cost and will be subject to loss of their privilege to 
+obtain any additional ASTER data at no cost. 
+
+
+<b>However, if the data was downloaded prior to the charging of getting the data, the user 
+can redistribute the data with no restrictions.</b>
+
+
+Acknowledgement: 
+Data available from the Land Processes Distributed Active Archive Center (LP DAAC). 
+
+
+Please let us know if you have any further questions. 
+
+Best regards, 
+Janice Wilson 
+
+NASA Land Processes Distributed Active Archive Center User Services
+USGS Earth Resources Observation and Science (EROS)
+47914 252nd Street
+Sioux Falls, SD   57198-0001
+Voice:        605-594-6116
+Toll Free:    866-573-3222
+Fax:          605-594-6963
+E-mail:       LPDAAC@eos.nasa.gov
+Web:          https://LPDAAC.usgs.gov</pre>
+<p>
+  <!-- обсуждение на форуме, цифра изменяется при публикации статьи -->  С другими вариантами получения данных ASTER можно ознакомиться на <a href="../../qa/getaster.html">специальной странице</a>.</p>
+<h2>Схема покрытия</h2>
+<p>Схему покрытия данных  можно скачать в виде <a href="/other/aster.rar">shape-файла</a>. Обращаем внимание, что в покрытие чуть больше сцен, чем есть в архиве, разница объясняется полной деградацией некоторых носителей и соответственно потерей данных без возможности восстановления.</p>
+<p><img src="/images/aster-coverage-02.gif" width="750" height="488"></p>
+<h2>Получение данных</h2>
+<p>Для отбора и получения данных - используйте <a href="index.html">веб-интерфейс</a>.</p>
+<p>Небольшая инструкция по использованию интерфейса.</p>
+<p>1. Используйте кнопки навигации, а также SHIFT+мышь для увеличения нужного района</p>
+<p>2. Используйте кнопку <img src="aster-interface-01.gif" width="26" height="24"> для выбора нужной сцены или сцен, этот инструмент работает и для выделения сразу нескольких сцен - растягиванием окна выделения</p>
+<p>3. Справа в списке появятся выделенные сцены, где можно посмотреть дату, облачность и ссылку для скачивания.</p>
+<p>4. Используйте кнопки  <img src="aster-interface-02.gif" width="298" height="24"> для соответственно очистки списка, получения ссылок списком (для загрузки с помощью wget, reget и т.п.) и получения помощи. </p>
+<h2>У вас тоже есть данные ASTER L1A/L1B? </h2>
+<p>После покупки данных ASTER через LP DAAC вы получаете на них полные права, включая права на передачу, перепродажу и тому подобные другими словами, вы можете делать с ними все что захотите (см. первое выделение в письме выше). Если данные с этого ресурса оказались для вас полезными, пожалуйста, подумайте о том, чтобы поделиться и своими данными. Пришлите их нам и мы добавим их в каталог. </p>
+<h2>Быстрый импорт</h2>
+<p>Импорт данных в формат GeoTIFF удобно делать в GDAL (<a href="/qa/qgis-osgeo4w.html">установка</a>) с помощью следующих команд (замените 110601_081441.hdf на название своей сцены).</p>
+<pre>gdalwarp HDF4_EOS:EOS_SWATH:&quot;110601_081441.hdf&quot;:VNIR_Band1:ImageData b1.tif
+gdalwarp HDF4_EOS:EOS_SWATH:&quot;110601_081441.hdf&quot;:VNIR_Band2:ImageData b2.tif
+gdalwarp HDF4_EOS:EOS_SWATH:&quot;110601_081441.hdf&quot;:VNIR_Band3N:ImageData b3.tif
+gdal_merge.bat -separate b1.tif b2.tif b3.tif </pre>
+<p class="discuss"><span><!--#include virtual="/scripts/forum-comments-num.php?i=8015"--></span></p>
+<div class="links">
+  <h2>Ссылки по теме</h2>
+  <ul>
+    <li><a href="/qa/getaster.html">Получение и распространение космической съемки Terra/ASTER</a><a href="http://lpdaac.usgs.gov/landdaac/tools/modis/about.asp" target="_blank" class="external"></a></li>
+    </ul>
+</div>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<p class="status"><span>Дата создания: 20.05.2011
+<br>Автор(ы): <a href="/forum/memberlist.php?mode=viewprofile&u=2" target="_blank">Максим Дубинин</a>, <a href="/forum/memberlist.php?mode=viewprofile&u=6850" target="_blank">Mavka</a></span></p>
+<!--#include virtual="/inc/footer2.php" -->

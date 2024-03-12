@@ -1,0 +1,50 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Спектры отражения природных объектов - база данных</title>
+<!--#include virtual="/inc/header2.txt" -->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/projects.html">Проекты</a></li>
+   <li><a href="/projects/spectra">Спектры</a></li>
+</ul>
+<!--Contents start--><script type="text/javascript">
+	  function clearCheckboxes()
+	  {
+		for (i=0;i<document.spectra.elements.length;i++)
+		{
+			if (document.spectra.elements[i].name == 'check[]')
+			{
+				document.spectra.elements[i].checked = false;
+			}
+		}
+	  }
+	  </script>
+<h1>Спектры отражения природных объектов - база данных </h1>
+<p class="ann">База данных по спектрам природных объектов</p>
+<p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=6151"--></span></p>
+<p>Для поиска в базе выберите из одного или нескольких списков. Например: тип - растительность, подтип - деревья, зона - тундры. </p>
+<p>База спектров составлена по многочисленным литературным источникам (см. ссылку источник для каждой кривой) путём оцифровки графиков КСЯ (коэффициентов спектральной яркости). Доступны как графики, так и исходные данные для графиков. Некоторые источники, например Кринов, 1947 доступны в оригинале в разделе &quot;Документация&quot;. </p>
+<p>Другие спектральные библиотеки (<a href="/qa/spectrum-lib.html">подробнее</a>):</p>
+<ul>
+  <li><a href="http://speclib.jpl.nasa.gov/" target="_blank" class="external">ASTER Spectral Library</a> </li>
+  <li><a href="http://speclab.cr.usgs.gov/spectral.lib06/" target="_blank" class="external">USGS Digital Spectral Library 06</a></li>
+  <li><a href="http://spectrallibrary.utep.edu/" target="_blank" class="external">Vegetation Spectral Library</a></li>
+</ul>
+<p align="center" class="text">
+	<!--#include virtual="/scripts/spectra/list.php"-->
+</p>
+<p class="discuss"><span><!--#include virtual="/scripts/forum-comments-num.php?i=6151"--></span></p>
+<div class="links">
+    <h2>Ссылки по теме</h2>
+    <ul>
+      <li><a href="/qa/spectrum-lib.html">Cпектральные библиотеки - источники данных по спектрам</a></li>
+      <li><a href="/qa/spectrum-lib-import.html">Импорт спектральной библиотеки GIS-LAB в ENVI</a></li>
+    </ul>
+</div>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<p class="status"><span>Дата создания: 04.02.2009
+<br>Автор(ы): <a href="/forum/memberlist.php?mode=viewprofile&u=2" target="_blank">Максим Дубинин</a></span></p>
+<!--#include virtual="/inc/footer2.php" -->

@@ -1,0 +1,41 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Изученность России с точки зрения изменения землепользования</title>
+<!--#include virtual="/inc/header2.txt" -->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/projects.html">Проекты</a></li>
+   <li><a href="/projects/spectra">Спектры</a></li>
+</ul>
+<!--Contents start--><script type="text/javascript">
+	  function clearCheckboxes()
+	  {
+		for (i=0;i<document.spectra.elements.length;i++)
+		{
+			if (document.spectra.elements[i].name == 'check[]')
+			{
+				document.spectra.elements[i].checked = false;
+			}
+		}
+	  }
+	  </script>
+<h1>Изученность России с точки зрения изменения землепользования</h1>
+<p class="ann">База данных по спектрам природных объектов</p>
+            <p align="center" class="text">
+              <!--#include virtual="/scripts/lulcrus/list.php"-->
+            </p>
+<p class="discuss">
+	<!--#include virtual="/scripts/forum-comments-num.php?i=54"-->
+</p>
+<div class="links">
+    <h2>Ссылки по теме</h2>
+    <ul>
+		<li><a href="../spectra/gps-onlinenav.html">Онлайн-навигация в Arcview GIS/ArcGIS с помощью DNRGarmin</a></li>
+		<li><a href="http://blog.gis-lab.info/2008-09/khatanga/">Особенности национального использования геотехнологий в полевых условиях – Крайний Север</a></li>
+    </ul>
+</div>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<!--#include virtual="/inc/footer2.php" -->

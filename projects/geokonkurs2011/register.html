@@ -1,0 +1,84 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-LAB: Геоконкурс: Мониторинг природных пожаров</title>
+<!--#include virtual="/inc/header2.txt" -->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+  <li class="first"><a href="/">Главная</a></li>
+  <li><a href="/projects.html">Проекты</a></li>
+  <li><a href="/projects/fires.html">Пожары</a></li>
+</ul>
+<!--Contents start-->
+<h1>Регистрация на Геоконкурс: Мониторинг природных пожаров</h1>
+<p>Здесь вы можете зарегистрировать свое участие в геоконкурсе до <strong>12 августа 2011 г.</strong></p>
+<p><a href="index.html">Общая информация о конкурсе</a>. </p>
+<p>Ваша информация строго конфиденциальна и не распространяется/публикуется без отдельного согласования. </p>
+<p>Регистрация не обязывает вас к обязательной сдаче отчета, а регистрирует намерение и даёт нам возможность вести учёт участников заинтересованных в конкурсе. </p>
+            <form method="post" action="/scripts/send-geokonkurs.php">
+              <table align="center" class="fo" >
+                <tr class="tr1">
+                  <td><p><b>Е-mail:</b> </p></td>
+                  <td><input name="address" type="text" class="fo" size="40" />
+                    <br>
+                    (Контактный e-mail, один)</td>
+                </tr>
+                <tr class="tr2">
+                  <td><p><strong>Участник(и): </strong></p></td>
+                  <td><input name="name" type="text" class="fo" size="70" maxlength="45" /> 
+                    <br />
+                  (ФИО участника или участников, разделитель - точка с запятой)</td>
+                </tr>
+                <tr class="tr1">
+                  <td><p><b>Организация: </b> </p></td>
+                  <td><input name="org" type="text" class="fo" size="70" />
+                      <br />
+                    (Организация или организации участников, если есть)</td>
+                </tr>
+                <tr class="tr1">
+                  <td><p><b>Тема: </b> </p></td>
+                  <td><input name="topic" type="text" class="fo" size="70" />
+                  <br />
+                  (Ориентировочное название темы, может меняться в будущем)</td>
+                </tr>
+                <tr class="tr1">
+                  <td ><p><b>Направление</b></p></td>
+                  <td><select name="section" size="1">
+                      <option selected="selected"></option>
+                      <option>Алгоритмическое</option>
+					  <option>Тематическое</option>
+					  <option>Смешанное</option>
+                    </select>                  </td>
+                </tr>
+                <tr>
+                  <td><p><b>Комментарии: </b></p></td>
+                  <td><textarea name="comments" cols="70" rows="10" class="fo"></textarea>                  </td>
+                </tr>
+                <tr>
+                  <td><p><b>Введите 3-х значный код</b></p></td>
+                  <td><img src="/scripts/image-code.php" alt="Введите 3 цифры с картинки в поле" />
+				  <input type="text" name="secretcode" value="" size="15" class="fo" />
+				  <br>
+				  (введите код с картинки) </td>
+                </tr>
+                <tr align="center" class="tr1">
+                  <td valign="middle" colspan="2">&nbsp;
+                    <input type="submit" value="Отправить информацию"  name="submit" class="go" />                  </td>
+                </tr>
+              </table>
+              <p>
+                <input type="hidden" name="fName[1]" value="E-mail: " />
+                <input type="hidden" name="fName[2]" value="Участник(и): " />
+                <input type="hidden" name="fName[3]" value="Организация: " />
+                <input type="hidden" name="fName[4]" value="Тема: " />
+                <input type="hidden" name="fName[5]" value="Направление: " />
+				<input type="hidden" name="fName[6]" value="Комментарии: " />
+                <input type="hidden" name="fTitle" value="Потенциальный участник конкурса" />
+                <input type="hidden" name="fCount" value="6" />
+                <input type="hidden" name="fOk" value="/projects/geokonkus2011/thanks.html" />
+                <input type="hidden" name="fBad" value="/error.html" />
+              </p>
+            </form>
+			<!--#include virtual="/scripts/date.php" -->
+<!--Contents end-->
+<!--#include virtual="/inc/footer2.php" -->

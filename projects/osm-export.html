@@ -1,0 +1,886 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Данные OpenStreetMap по регионам РФ в форматах shape и OSM XML</title>
+<!--#include virtual="/inc/header2.txt" -->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/projects.html">Проекты</a></li>
+</ul>
+<!--Contents start-->
+
+<h1>Данные OpenStreetMap по регионам РФ в форматах shape и OSM XML</h1>
+<p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=4135"--></span></p>
+<p class="ann">Здесь можно скачать данные на любой регион РФ в различных форматах </p>
+<h2>Описание данных</h2>
+<p>Данные наборы представляет собой совокупность слоёв в формате shape и OSM XML, созданных на основе данных проекта <a href="http://www.openstreetmap.org/" target="_blank" class="external">OpenStreetMap</a> и разбитых в соответствии с административным делением Российской Федерации и по странам.  Условие попадания данных в определенный слой см. в разделе <a href="#descript">Описание слоёв</a>.</p>
+
+<p class="note"><strong>Внимание:</strong> обновление данных в рамках данного проекта прекращено.<br/>
+Регулярно обновляемые данные в форматах OSM XML, PBF, ESRI Shape, Mapinfo и многих други форматах доступны тут <a href="https://data.nextgis.com">https://data.nextgis.com</a>.<br/>
+Ссылки на этой странице работать не будут.
+</p>
+
+<p>Границы субъектов РФ - <a href="/qa/vmap0.html">VMap0</a> + 20 км зона вокруг. Используется ключ <a href="http://wiki.openstreetmap.org/wiki/Osmosis/Detailed_Usage" target="_blank" class="external">completeways=yes</a>сохраняющий целостность выходящих за границы обрезки объектов. </p>
+<p>Для обрезки используются файлы обрезки POLY (<a href="/qa/osm-poly.html">скачать</a>). Карты готовые к использованию в приборах Garmin на основе этих вырезок можно скачать <a href="http://gis-lab.info/data/mp/">здесь</a>. Как изменяется число объектов по конкретной области или стране можно увидеть на <a href="/projects/osm-stats.html">странице статистики</a>. Универсальный идентификатор полигонального объекта в OSM, если он есть, отрицателен, если полигон собран из отношения. </p>
+<p>Альтернативные источники: <a href="http://download.geofabrik.de/osm/europe/" target="_blank" class="external">Geofabrik</a> (Беларусь, Украина, Казахстан), <a href="http://downloads.cloudmade.com/" target="_blank" class="external">CloudMade</a> (все страны). Отличаются от представленных здесь более редким (еженедельным) обновлением, упрощенной атрибутивной информацией, отсутствием режима completeways, отсутствием некоторых слоев в shape-файлах.</p>
+<p>Перед использование данных в своих проектах, рекомендуем внимательно ознакомиться с лицензией данных OSM: <a href="http://creativecommons.org/licenses/by-sa/2.0/legalcode" target="_blank" class="external">CC-BY-SA</a>и тем, как <a href="http://wiki.openstreetmap.org/wiki/Legal_FAQ#I_would_like_to_use_OpenStreetMap_maps._How_should_I_credit_you.3F" target="_blank" class="external">необходимо цитировать</a> эти данные.</p>
+<p>В полный комплект входит <a href="/qa/osm-qgis-projects.html">готовый проект для QGIS</a> по региону с настроенными слоями и условными обозначениями.</p>
+
+<!-- 
+  <h2>Регулярность обновления</h2>
+  <p>Данные обновляются <em><strong>ежедневно</strong></em>. Время начала обновления приблизительно 8:00 утра по Москве (<a href="/projects/osmrus/osmlog.txt">лог</a>).</p>
+-->
+
+<h2>Получение данных</h2>
+<div align="center">
+  <table width="85%" align="center">
+    <tr>
+      <th>Регион</th>
+	    <th>Полный набор (shp) </th>
+	    <th>Слои (shp) </th>
+	    <!-- <th>Регион <br> (osm xml) </th> -->
+	    <th>Динамика роста </th>
+    </tr>
+<!--
+    <tr>
+      <td>Единый дамп (все данные) </td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td><a href="/data/osm/full.osm.bz2">скачать</a></td>
+      <td>&nbsp;</td>
+    </tr>
+ -->
+    <tr>
+      <td><strong>Страны целиком</strong> </td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <!-- <td>&nbsp;</td> -->
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>Российская Федерация</td>
+	    <td><a href="/data/osm/russia/russia.7z">скачать</a></td>
+	    <td><a href="/data/osm/russia">список</a></td>
+	    <!-- <td><a href="/data/osm/russia/rus.osm.bz2">скачать</a><br>
+	      <a href="/data/osm/osc/">diff-osc</a></td> -->
+	    <td><a href="/projects/osm-stats.html?region=russia&layer=">смотреть</a></td>
+    </tr>
+    <tr>
+      <td><a href="/data/osm/belarus.osm.bz2"></a> Беларусь </td>
+      <td><a href="/data/osm/belarus/belarus.7z">скачать</a></td>
+      <td><a href="/data/osm/belarus/">список</a></td>
+      <!-- <td><a href="/data/osm/belarus/belarus.osm.bz2">скачать</a></td> -->
+      <td><a href="/projects/osm-stats.html?region=belarus&layer=">смотреть</a></td>
+    </tr>
+    <tr>
+      <td><a href="/data/osm/belarus.osm.bz2"></a>Казахстан </td>
+      <td><a href="/data/osm/kazakhstan/kazakhstan.7z">скачать</a></td>
+      <td><a href="/data/osm/kazakhstan/">список</a></td>
+      <!-- <td><a href="/data/osm/kazakhstan/kazakhstan.osm.bz2">скачать</a></td> -->
+      <td><a href="/projects/osm-stats.html?region=kazakhstan&layer=">смотреть</a></td>
+    </tr>
+    <tr>
+      <td><a href="/data/osm/belarus.osm.bz2"></a>Киргизия</td>
+      <td><a href="/data/osm/kyrgyzstan/kyrgyzstan.7z">скачать</a></td>
+      <td><a href="/data/osm/kyrgyzstan/">список</a></td>
+      <!-- <td><a href="/data/osm/kyrgyzstan/kyrgyzstan.osm.bz2">скачать</a></td> -->
+      <td><a href="/projects/osm-stats.html?region=kyrgyzstan&layer=">смотреть</a></td>
+    </tr>
+    <tr>
+      <td><a href="/data/osm/belarus.osm.bz2"></a>Таджикистан </td>
+      <td><a href="/data/osm/tajikistan/tajikistan.7z">скачать</a></td>
+      <td><a href="/data/osm/tajikistan/">список</a></td>
+      <!-- <td><a href="/data/osm/tajikistan/tajikistan.osm.bz2">скачать</a></td> -->
+      <td><a href="/projects/osm-stats.html?region=tajikistan&layer=">смотреть</a></td>
+    </tr>
+    <tr>
+      <td><a href="/data/osm/belarus.osm.bz2"></a>Узбекистан </td>
+      <td><a href="/data/osm/uzbekistan/uzbekistan.7z">скачать</a></td>
+      <td><a href="/data/osm/uzbekistan/">список</a></td>
+      <!-- <td><a href="/data/osm/uzbekistan/uzbekistan.osm.bz2">скачать</a></td> -->
+      <td><a href="/projects/osm-stats.html?region=uzbekistan&layer=">смотреть</a></td>
+    </tr>
+    <tr>
+      <td>Грузия</td>
+      <td><a href="/data/osm/georgia/georgia.7z">скачать</a></td>
+      <td><a href="/data/osm/georgia/">список</a></td>
+      <!-- <td><a href="/data/osm/georgia/georgia.osm.bz2">скачать</a></td> -->
+      <td><a href="/projects/osm-stats.html?region=georgia&layer=">смотреть</a></td>
+    </tr>
+    <tr>
+      <td>Армения</td>
+      <td><a href="/data/osm/armenia/armenia.7z">скачать</a></td>
+      <td><a href="/data/osm/armenia/">список</a></td>
+      <!-- <td><a href="/data/osm/armenia/armenia.osm.bz2">скачать</a></td> -->
+      <td><a href="/projects/osm-stats.html?region=armenia&layer=">смотреть</a></td>
+    </tr>
+    <tr>
+      <td>Азербайджан</td>
+      <td><a href="/data/osm/azerbaijan/azerbaijan.7z">скачать</a></td>
+      <td><a href="/data/osm/azerbaijan/">список</a></td>
+      <!-- <td><a href="/data/osm/azerbaijan/azerbaijan.osm.bz2">скачать</a></td> -->
+      <td><a href="/projects/osm-stats.html?region=azerbaijan&layer=">смотреть</a></td>
+    </tr>
+    <tr>
+      <td>Украина</td>
+      <td><a href="/data/osm/ukraine/ukraine.7z">скачать</a></td>
+      <td><a href="/data/osm/ukraine/">список</a></td>
+      <!-- <td><a href="/data/osm/ukraine/ukraine.osm.bz2">скачать</a></td> -->
+      <td><a href="/projects/osm-stats.html?region=ukraine&layer=">смотреть</a></td>
+    </tr>
+    <tr>
+      <td><a href="/data/osm/belarus.osm.bz2"></a>Туркменистан </td>
+      <td><a href="/data/osm/turkmenistan/turkmenistan.7z">скачать</a></td>
+      <td><a href="/data/osm/turkmenistan/">список</a></td>
+      <!-- <td><a href="/data/osm/turkmenistan/turkmenistan.osm.bz2">скачать</a></td> -->
+      <td><a href="/projects/osm-stats.html?region=turkmenistan&layer=">смотреть</a></td>
+    </tr>
+    <tr>
+      <td><strong>Субъекты РФ</strong></td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <!-- <td>&nbsp;</td> -->
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>Алтайский край</td>
+      <td><a href="/data/osm/altayskiy/altayskiy.7z">скачать</a></td>
+      <td><a href="/data/osm/altayskiy">список</a></td>
+      <!-- <td><a href="/data/osm/altayskiy/altayskiy.osm.bz2">скачать</a></td> -->
+	    <td><a href="/projects/osm-stats.html?region=altayskiy&layer=">смотреть</a></td>
+    </tr>
+    <tr>
+      <td>Амурская область</td>
+        <td><a href="/data/osm/amur/amur.7z">скачать</a></td>
+        <td><a href="/data/osm/amur">список</a></td>
+        <!-- <td><a href="/data/osm/amur/amur.osm.bz2">скачать</a></td> -->
+	    <td><a href="/projects/osm-stats.html?region=amur&layer=">смотреть</a></td>
+    </tr>
+    <tr>
+      <td>Архангельская область</td>
+        <td><a href="/data/osm/arkhan/arkhan.7z">скачать</a></td>
+        <td><a href="/data/osm/arkhan">список</a></td>
+        <!-- <td><a href="/data/osm/arkhan/arkhan.osm.bz2">скачать</a></td> -->
+	    <td><a href="/projects/osm-stats.html?region=arkhan&layer=">смотреть</a></td>
+    </tr>
+    <tr>
+      <td>Астраханская область</td>
+        <td><a href="/data/osm/astrakhan/astrakhan.7z">скачать</a></td>
+        <td><a href="/data/osm/astrakhan/">список</a></td>
+        <!-- <td><a href="/data/osm/astrakhan/astrakhan.osm.bz2">скачать</a></td> -->
+	    <td><a href="/projects/osm-stats.html?region=astrakhan&layer=">смотреть</a></td>
+    </tr>
+    <tr>
+      <td>Белгородская область</td>
+        <td><a href="/data/osm/belgorod/belgorod.7z">скачать</a></td>
+        <td><a href="/data/osm/belgorod/">список</a></td>
+        <!-- <td><a href="/data/osm/belgorod/belgorod.osm.bz2">скачать</a></td> -->
+	    <td><a href="/projects/osm-stats.html?region=belgorod&layer=">смотреть</a></td>
+    </tr>
+    <tr>
+      <td>Брянская область</td>
+        <td><a href="/data/osm/bryansk/bryansk.7z">скачать</a></td>
+        <td><a href="/data/osm/bryansk">список</a></td>
+        <!-- <td><a href="/data/osm/bryansk/bryansk.osm.bz2">скачать</a></td> -->
+	    <td><a href="/projects/osm-stats.html?region=bryansk&layer=">смотреть</a></td>
+    </tr>
+    <tr>
+      <td>Владимирская область</td>
+        <td><a href="/data/osm/vladimir/vladimir.7z">скачать</a></td>
+        <td><a href="/data/osm/vladimir">список</a></td>
+        <!-- <td><a href="/data/osm/vladimir/vladimir.osm.bz2">скачать</a></td> -->
+	    <td><a href="/projects/osm-stats.html?region=vladimir&layer=">смотреть</a></td>
+    </tr>
+    <tr>
+      <td>Волгоградская область</td>
+        <td><a href="/data/osm/volgograd/volgograd.7z">скачать</a></td>
+        <td><a href="/data/osm/volgograd">список</a></td>
+        <!-- <td><a href="/data/osm/volgograd/volgograd.osm.bz2">скачать</a></td> -->
+	    <td><a href="/projects/osm-stats.html?region=volgograd&layer=">смотреть</a></td>
+    </tr>
+    <tr>
+      <td>Вологодская область</td>
+        <td><a href="/data/osm/vologda/vologda.7z">скачать</a></td>
+        <td><a href="/data/osm/vologda">список</a></td>
+        <!-- <td><a href="/data/osm/vologda/vologda.osm.bz2">скачать</a></td> -->
+	    <td><a href="/projects/osm-stats.html?region=vologda&layer=">смотреть</a></td>
+    </tr>
+    <tr>
+      <td>Воронежская область</td>
+        <td><a href="/data/osm/voronezh/voronezh.7z">скачать</a></td>
+        <td><a href="/data/osm/voronezh">список</a></td>
+        <!-- <td><a href="/data/osm/voronezh/voronezh.osm.bz2">скачать</a></td> -->
+	    <td><a href="/projects/osm-stats.html?region=voronezh&layer=">смотреть</a></td>
+    </tr>
+    <tr>
+      <td>Еврейская автономная область</td>
+        <td><a href="/data/osm/evrey/evrey.7z">скачать</a></td>
+        <td><a href="/data/osm/evrey">список</a></td>
+        <!-- <td><a href="/data/osm/evrey/evrey.osm.bz2">скачать</a></td> -->
+	    <td><a href="/projects/osm-stats.html?region=evrey&layer=">смотреть</a></td>
+    </tr>
+    <tr>
+      <td>Забайкалький край </td>
+      <td><a href="/data/osm/zabaikal/zabaikal.7z">скачать</a></td>
+      <td><a href="/data/osm/zabaikal">список</a></td>
+      <!-- <td><a href="/data/osm/zabaikal/zabaikal.osm.bz2">скачать</a></td> -->
+      <td><a href="/projects/osm-stats.html?region=zabaikal&layer=">смотреть</a></td>
+    </tr>
+    <tr>
+      <td>Ивановская область</td>
+        <td><a href="/data/osm/ivanov/ivanov.7z">скачать</a></td>
+        <td><a href="/data/osm/ivanov">список</a></td>
+        <!-- <td><a href="/data/osm/ivanov/ivanov.osm.bz2">скачать</a></td> -->
+	    <td><a href="/projects/osm-stats.html?region=ivanov&layer=">смотреть</a></td>
+    </tr>
+    <tr>
+      <td>Иркутская область</td>
+        <td><a href="/data/osm/irkutsk/irkutsk.7z">скачать</a></td>
+        <td><a href="/data/osm/irkutsk">список</a></td>
+        <!-- <td><a href="/data/osm/irkutsk/irkutsk.osm.bz2">скачать</a></td> -->
+	    <td><a href="/projects/osm-stats.html?region=irkutsk&layer=">смотреть</a></td>
+    </tr>
+    <tr>
+      <td>Кабардино-Балкарская Республика</td>
+        <td><a href="/data/osm/kabardin/kabardin.7z">скачать</a></td>
+        <td><a href="/data/osm/kabardin">список</a></td>
+        <!-- <td><a href="/data/osm/kabardin/kabardin.osm.bz2">скачать</a></td> -->
+	    <td><a href="/projects/osm-stats.html?region=kabardin&layer=">смотреть</a></td>
+    </tr>
+    <tr>
+      <td>Калининградская область</td>
+        <td><a href="/data/osm/kalinin/kalinin.7z">скачать</a></td>
+        <td><a href="/data/osm/kalinin">список</a></td>
+        <!-- <td><a href="/data/osm/kalinin/kalinin.osm.bz2">скачать</a></td> -->
+        <td><a href="/projects/osm-stats.html?region=kalinin&layer=">смотреть</a></td>
+    </tr>
+    <tr>
+      <td>Калужская область</td>
+        <td><a href="/data/osm/kaluzh/kaluzh.7z">скачать</a></td>
+        <td><a href="/data/osm/kaluzh">список</a></td>
+        <!-- <td><a href="/data/osm/kaluzh/kaluzh.osm.bz2">скачать</a></td> -->
+	    <td><a href="/projects/osm-stats.html?region=kaluzh&layer=">смотреть</a></td>
+    </tr>
+    <tr>
+      <td>Камчатский край</td>
+        <td><a href="/data/osm/kamch/kamch.7z">скачать</a></td>
+        <td><a href="/data/osm/kamch">список</a></td>
+        <!-- <td><a href="/data/osm/kamch/kamch.osm.bz2">скачать</a></td> -->
+	    <td><a href="/projects/osm-stats.html?region=kamch&layer=">смотреть</a></td>
+    </tr>
+    <tr>
+      <td>Карачаево-Черкесская Республика</td>
+        <td><a href="/data/osm/karach/karach.7z">скачать</a></td>
+        <td><a href="/data/osm/karach">список</a></td>
+        <!-- <td><a href="/data/osm/karach/karach.osm.bz2">скачать</a></td> -->
+	    <td><a href="/projects/osm-stats.html?region=karach&layer=">смотреть</a></td>
+    </tr>
+    <tr>
+      <td>Кемеровская область</td>
+        <td><a href="/data/osm/kemerovo/kemerovo.7z">скачать</a></td>
+        <td><a href="/data/osm/kemerovo">список</a></td>
+        <!-- <td><a href="/data/osm/kemerovo/kemerovo.osm.bz2">скачать</a></td> -->
+	    <td><a href="/projects/osm-stats.html?region=kemerovo&layer=">смотреть</a></td>
+    </tr>
+    <tr>
+      <td>Кировская область</td>
+        <td><a href="/data/osm/kirov/kirov.7z">скачать</a></td>
+        <td><a href="/data/osm/kirov">список</a></td>
+        <!-- <td><a href="/data/osm/kirov/kirov.osm.bz2">скачать</a></td> -->
+	    <td><a href="/projects/osm-stats.html?region=kirov&layer=">смотреть</a></td>
+    </tr>
+    <tr>
+      <td>Костромская область</td>
+        <td><a href="/data/osm/kostrom/kostrom.7z">скачать</a></td>
+        <td><a href="/data/osm/kostrom/">список</a></td>
+        <!-- <td><a href="/data/osm/kostrom/kostrom.osm.bz2">скачать</a></td> -->
+	    <td><a href="/projects/osm-stats.html?region=kostrom&layer=">смотреть</a></td>
+    </tr>
+    <tr>
+      <td>Краснодарский край</td>
+        <td><a href="/data/osm/krasnodar/krasnodar.7z">скачать</a></td>
+        <td><a href="/data/osm/krasnodar">список</a></td>
+        <!-- <td><a href="/data/osm/krasnodar/krasnodar.osm.bz2">скачать</a></td> -->
+	    <td><a href="/projects/osm-stats.html?region=krasnodar&layer=">смотреть</a></td>
+    </tr>
+    <tr>
+      <td>Красноярский край</td>
+        <td><a href="/data/osm/krasnoyarsk/krasnoyarsk.7z">скачать</a></td>
+        <td><a href="/data/osm/krasnoyarsk">список</a></td>
+        <!-- <td><a href="/data/osm/krasnoyarsk/krasnoyarsk.osm.bz2">скачать</a></td> -->
+	    <td><a href="/projects/osm-stats.html?region=krasnoyarsk&layer=">смотреть</a></td>
+    </tr>
+    <tr>
+      <td>Курганская область</td>
+        <td><a href="/data/osm/kurgan/kurgan.7z">скачать</a></td>
+        <td><a href="/data/osm/kurgan">список</a></td>
+        <!-- <td><a href="/data/osm/kurgan/kurgan.osm.bz2">скачать</a></td> -->
+	    <td><a href="/projects/osm-stats.html?region=kurgan&layer=">смотреть</a></td>
+    </tr>
+    <tr>
+      <td>Курская область</td>
+        <td><a href="/data/osm/kursk/kursk.7z">скачать</a></td>
+        <td><a href="/data/osm/kursk">список</a></td>
+        <!-- <td><a href="/data/osm/kursk/kursk.osm.bz2">скачать</a></td> -->
+	    <td><a href="/projects/osm-stats.html?region=kursk&layer=">смотреть</a></td>
+    </tr>
+    <tr>
+      <td>Ленинградская область</td>
+        <td><a href="/data/osm/leningrad/leningrad.7z">скачать</a></td>
+        <td><a href="/data/osm/leningrad">список</a></td>
+        <!-- <td><a href="/data/osm/leningrad/leningrad.osm.bz2">скачать</a></td> -->
+	    <td><a href="/projects/osm-stats.html?region=leningrad&layer=">смотреть</a></td>
+    </tr>
+      <td>Санкт-Петербург</td>
+        <td><a href="/data/osm/stpeter/stpeter.7z">скачать</a></td>
+        <td><a href="/data/osm/stpeter">список</a></td>
+        <!-- <td><a href="/data/osm/stpeter/stpeter.osm.bz2">скачать</a></td> -->
+	    <td><a href="/projects/osm-stats.html?region=stpeter&layer=">смотреть</a></td>
+    </tr>
+    <tr>
+      <td>Липецкая область</td>
+        <td><a href="/data/osm/lipetsk/lipetsk.7z">скачать</a></td>
+        <td><a href="/data/osm/lipetsk">список</a></td>
+        <!-- <td><a href="/data/osm/lipetsk/lipetsk.osm.bz2">скачать</a></td> -->
+	    <td><a href="/projects/osm-stats.html?region=lipetsk&layer=">смотреть</a></td>
+    </tr>
+    <tr>
+      <td>Магаданская область</td>
+        <td><a href="/data/osm/magadan/magadan.7z">скачать</a></td>
+        <td><a href="/data/osm/magadan">список</a></td>
+        <!-- <td><a href="/data/osm/magadan/magadan.osm.bz2">скачать</a></td> -->
+	    <td><a href="/projects/osm-stats.html?region=magadan&layer=">смотреть</a></td>
+    </tr>
+    <tr>
+      <td>Московская область</td>
+        <td><a href="/data/osm/mosobl/mosobl.7z">скачать</a></td>
+        <td><a href="/data/osm/mosobl">список</a></td>
+        <!-- <td><a href="/data/osm/mosobl/mosobl.osm.bz2">скачать</a></td> -->
+	    <td><a href="/projects/osm-stats.html?region=mosobl&layer=">смотреть</a></td>
+    </tr>
+      <td>Москва</td>
+        <td><a href="/data/osm/moscow/moscow.7z">скачать</a></td>
+        <td><a href="/data/osm/moscow">список</a></td>
+        <!-- <td><a href="/data/osm/moscow/moscow.osm.bz2">скачать</a></td> -->
+	    <td><a href="/projects/osm-stats.html?region=moscow&layer=">смотреть</a></td>
+    </tr>
+    <tr>
+      <td>Мурманская область</td>
+        <td><a href="/data/osm/murmansk/murmansk.7z">скачать</a></td>
+        <td><a href="/data/osm/murmansk">список</a></td>
+        <!-- <td><a href="/data/osm/murmansk/murmansk.osm.bz2">скачать</a></td> -->
+	    <td><a href="/projects/osm-stats.html?region=murmansk&layer=">смотреть</a></td>
+    </tr>
+    <tr>
+      <td>Ненецкий автономный округ</td>
+        <td><a href="/data/osm/nenec/nenec.7z">скачать</a></td>
+        <td><a href="/data/osm/nenec">список</a></td>
+        <!-- <td><a href="/data/osm/nenec/nenec.osm.bz2">скачать</a></td> -->
+	    <td><a href="/projects/osm-stats.html?region=nenec&layer=">смотреть</a></td>
+    </tr>
+    <tr>
+      <td>Нижегородская область</td>
+        <td><a href="/data/osm/nizhegorod/nizhegorod.7z">скачать</a></td>
+        <td><a href="/data/osm/nizhegorod">список</a></td>
+        <!-- <td><a href="/data/osm/nizhegorod/nizhegorod.osm.bz2">скачать</a></td> -->
+	    <td><a href="/projects/osm-stats.html?region=nizhegorod&layer=">смотреть</a></td>
+    </tr>
+    <tr>
+      <td>Новгородская область</td>
+        <td><a href="/data/osm/novgorod/novgorod.7z">скачать</a></td>
+        <td><a href="/data/osm/novgorod">список</a></td>
+        <!-- <td><a href="/data/osm/novgorod/novgorod.osm.bz2">скачать</a></td> -->
+	    <td><a href="/projects/osm-stats.html?region=novgorod&layer=">смотреть</a></td>
+    </tr>
+    <tr>
+      <td>Новосибирская область</td>
+        <td><a href="/data/osm/novosib/novosib.7z">скачать</a></td>
+        <td><a href="/data/osm/novosib">список</a></td>
+        <!-- <td><a href="/data/osm/novosib/novosib.osm.bz2">скачать</a></td> -->
+	    <td><a href="/projects/osm-stats.html?region=novosib&layer=">смотреть</a></td>
+    </tr>
+    <tr>
+      <td>Омская область</td>
+        <td><a href="/data/osm/omsk/omsk.7z">скачать</a></td>
+        <td><a href="/data/osm/omsk">список</a></td>
+        <!-- <td><a href="/data/osm/omsk/omsk.osm.bz2">скачать</a></td> -->
+	    <td><a href="/projects/osm-stats.html?region=omsk&layer=">смотреть</a></td>
+    </tr>
+    <tr>
+      <td>Оренбургская область</td>
+        <td><a href="/data/osm/orenburg/orenburg.7z">скачать</a></td>
+        <td><a href="/data/osm/orenburg">список</a></td>
+        <!-- <td><a href="/data/osm/orenburg/orenburg.osm.bz2">скачать</a></td> -->
+	    <td><a href="/projects/osm-stats.html?region=orenburg&layer=">смотреть</a></td>
+    </tr>
+    <tr>
+      <td>Орловская область</td>
+        <td><a href="/data/osm/orlovsk/orlovsk.7z">скачать</a></td>
+        <td><a href="/data/osm/orlovsk">список</a></td>
+        <!-- <td><a href="/data/osm/orlovsk/orlovsk.osm.bz2">скачать</a></td> -->
+	    <td><a href="/projects/osm-stats.html?region=orlovsk&layer=">смотреть</a></td>
+    </tr>
+    <tr>
+      <td>Пензенская область</td>
+        <td><a href="/data/osm/penz/penz.7z">скачать</a></td>
+        <td><a href="/data/osm/penz">список</a></td>
+        <!-- <td><a href="/data/osm/penz/penz.osm.bz2">скачать</a></td> -->
+	    <td><a href="/projects/osm-stats.html?region=penz&layer=">смотреть</a></td>
+    </tr>
+    <tr>
+      <td>Пермский край</td>
+        <td><a href="/data/osm/perm/perm.7z">скачать</a></td>
+        <td><a href="/data/osm/perm">список</a></td>
+        <!-- <td><a href="/data/osm/perm/perm.osm.bz2">скачать</a></td> -->
+	    <td><a href="/projects/osm-stats.html?region=perm&layer=">смотреть</a></td>
+    </tr>
+    <tr>
+      <td>Приморский край</td>
+        <td><a href="/data/osm/prim/prim.7z">скачать</a></td>
+        <td><a href="/data/osm/prim">список</a></td>
+        <!-- <td><a href="/data/osm/prim/prim.osm.bz2">скачать</a></td> -->
+	    <td><a href="/projects/osm-stats.html?region=pskov&layer=">смотреть</a></td>
+    </tr>
+    <tr>
+      <td>Псковская область</td>
+        <td><a href="/data/osm/pskov/pskov.7z">скачать</a></td>
+        <td><a href="/data/osm/pskov">список</a></td>
+        <!-- <td><a href="/data/osm/pskov/pskov.osm.bz2">скачать</a></td> -->
+	    <td><a href="/projects/osm-stats.html?region=pskov&layer=">смотреть</a></td>
+    </tr>
+    <tr>
+      <td>Республика Адыгея</td>
+        <td><a href="/data/osm/adygeya/adygeya.7z">скачать</a></td>
+        <td><a href="/data/osm/adygeya">список</a></td>
+        <!-- <td><a href="/data/osm/adygeya/adygeya.osm.bz2">скачать</a></td> -->
+	    <td><a href="/projects/osm-stats.html?region=adygeya&layer=">смотреть</a></td>
+    </tr>
+    <tr>
+      <td>Республика Алтай</td>
+        <td><a href="/data/osm/altay/altay.7z">скачать</a></td>
+        <td><a href="/data/osm/altay">список</a></td>
+        <!-- <td><a href="/data/osm/altay/altay.osm.bz2">скачать</a></td> -->
+	    <td><a href="/projects/osm-stats.html?region=altay&layer=">смотреть</a></td>
+    </tr>
+    <tr>
+      <td>Республика Башкортостан</td>
+        <td><a href="/data/osm/bashkir/bashkir.7z">скачать</a></td>
+        <td><a href="/data/osm/bashkir">список</a></td>
+        <!-- <td><a href="/data/osm/bashkir/bashkir.osm.bz2">скачать</a></td> -->
+	    <td><a href="/projects/osm-stats.html?region=bashkir&layer=">смотреть</a></td>
+    </tr>
+    <tr>
+      <td>Республика Бурятия</td>
+        <td><a href="/data/osm/buryat/buryat.7z">скачать</a></td>
+        <td><a href="/data/osm/buryat">список</a></td>
+        <!-- <td><a href="/data/osm/buryat/buryat.osm.bz2">скачать</a></td> -->
+	    <td><a href="/projects/osm-stats.html?region=buryat&layer=">смотреть</a></td>
+    </tr>
+    <tr>
+      <td>Республика Дагестан</td>
+        <td><a href="/data/osm/dagestan/dagestan.7z">скачать</a></td>
+        <td><a href="/data/osm/dagestan">список</a></td>
+        <!-- <td><a href="/data/osm/dagestan/dagestan.osm.bz2">скачать</a></td> -->
+	    <td><a href="/projects/osm-stats.html?region=dagestan&layer=">смотреть</a></td>
+    </tr>
+    <tr>
+      <td>Республика Ингушетия</td>
+        <td><a href="/data/osm/ingush/ingush.7z">скачать</a></td>
+        <td><a href="/data/osm/ingush">список</a></td>
+        <!-- <td><a href="/data/osm/ingush/ingush.osm.bz2">скачать</a></td> -->
+	    <td><a href="/projects/osm-stats.html?region=ingush&layer=">смотреть</a></td>
+    </tr>
+    <tr>
+      <td>Республика Калмыкия</td>
+        <td><a href="/data/osm/kalmyk/kalmyk.7z">скачать</a></td>
+        <td><a href="/data/osm/kalmyk">список</a></td>
+        <!-- <td><a href="/data/osm/kalmyk/kalmyk.osm.bz2">скачать</a></td> -->
+	    <td><a href="/projects/osm-stats.html?region=kalmyk&layer=">смотреть</a></td>
+    </tr>
+    <tr>
+      <td>Республика Карелия</td>
+        <td><a href="/data/osm/karel/karel.7z">скачать</a></td>
+        <td><a href="/data/osm/karel">список</a></td>
+        <!-- <td><a href="/data/osm/karel/karel.osm.bz2">скачать</a></td> -->
+	    <td><a href="/projects/osm-stats.html?region=karel&layer=">смотреть</a></td>
+    </tr>
+    <tr>
+      <td>Республика Коми</td>
+        <td><a href="/data/osm/komi/komi.7z">скачать</a></td>
+        <td><a href="/data/osm/komi">список</a></td>
+        <!-- <td><a href="/data/osm/komi/komi.osm.bz2">скачать</a></td> -->
+	    <td><a href="/projects/osm-stats.html?region=komi&layer=">смотреть</a></td>
+    </tr>
+    <tr>
+      <td>Республика Марий Эл</td>
+        <td><a href="/data/osm/mariyel/mariyel.7z">скачать</a></td>
+        <td><a href="/data/osm/mariyel">список</a></td>
+        <!-- <td><a href="/data/osm/mariyel/mariyel.osm.bz2">скачать</a></td> -->
+	    <td><a href="/projects/osm-stats.html?region=mariyel&layer=">смотреть</a></td>
+    </tr>
+    <tr>
+      <td>Республика Мордовия</td>
+        <td><a href="/data/osm/mordov/mordov.7z">скачать</a></td>
+        <td><a href="/data/osm/mordov">список</a></td>
+        <!-- <td><a href="/data/osm/mordov/mordov.osm.bz2">скачать</a></td> -->
+	    <td><a href="/projects/osm-stats.html?region=mordov&layer=">смотреть</a></td>
+    </tr>
+    <tr>
+      <td>Республика Саха (Якутия)</td>
+        <td><a href="/data/osm/yakut/yakut.7z">скачать</a></td>
+        <td><a href="/data/osm/yakut">список</a></td>
+        <!-- <td><a href="/data/osm/yakut/yakut.osm.bz2">скачать</a></td> -->
+	    <td><a href="/projects/osm-stats.html?region=yakut&layer=">смотреть</a></td>
+    </tr>
+    <tr>
+      <td>Республика Северная Осетия - Алания</td>
+        <td><a href="/data/osm/osetiya/osetiya.7z">скачать</a></td>
+        <td><a href="/data/osm/osetiya">список</a></td>
+        <!-- <td><a href="/data/osm/osetiya/osetiya.osm.bz2">скачать</a></td> -->
+	    <td><a href="/projects/osm-stats.html?region=osetiya&layer=">смотреть</a></td>
+    </tr>
+    <tr>
+      <td>Республика Татарстан</td>
+        <td><a href="/data/osm/tatar/tatar.7z">скачать</a></td>
+        <td><a href="/data/osm/tatar">список</a></td>
+        <!-- <td><a href="/data/osm/tatar/tatar.osm.bz2">скачать</a></td> -->
+	    <td><a href="/projects/osm-stats.html?region=tatar&layer=">смотреть</a></td>
+    </tr>
+    <tr>
+      <td>Республика Тыва</td>
+        <td><a href="/data/osm/tyva/tyva.7z">скачать</a></td>
+        <td><a href="/data/osm/tyva">список</a></td>
+        <!-- <td><a href="/data/osm/tyva/tyva.osm.bz2">скачать</a></td> -->
+	    <td><a href="/projects/osm-stats.html?region=tyva&layer=">смотреть</a></td>
+    </tr>
+    <tr>
+      <td>Республика Хакасия</td>
+        <td><a href="/data/osm/khakas/khakas.7z">скачать</a></td>
+        <td><a href="/data/osm/khakas">список</a></td>
+        <!-- <td><a href="/data/osm/khakas/khakas.osm.bz2">скачать</a></td> -->
+	    <td><a href="/projects/osm-stats.html?region=khakas&layer=">смотреть</a></td>
+    </tr>
+    <tr>
+      <td>Ростовская область</td>
+        <td><a href="/data/osm/rostov/rostov.7z">скачать</a></td>
+        <td><a href="/data/osm/rostov">список</a></td>
+        <!-- <td><a href="/data/osm/rostov/rostov.osm.bz2">скачать</a></td> -->
+	    <td><a href="/projects/osm-stats.html?region=rostov&layer=">смотреть</a></td>
+    </tr>
+    <tr>
+      <td>Рязанская область</td>
+        <td><a href="/data/osm/ryazan/ryazan.7z">скачать</a></td>
+        <td><a href="/data/osm/ryazan">список</a></td>
+        <!-- <td><a href="/data/osm/ryazan/ryazan.osm.bz2">скачать</a></td> -->
+	    <td><a href="/projects/osm-stats.html?region=ryazan&layer=">смотреть</a></td>
+    </tr>
+    <tr>
+      <td>Самарская область</td>
+        <td><a href="/data/osm/samar/samar.7z">скачать</a></td>
+        <td><a href="/data/osm/samar">список</a></td>
+        <!-- <td><a href="/data/osm/samar/samar.osm.bz2">скачать</a></td> -->
+	    <td><a href="/projects/osm-stats.html?region=samar&layer=">смотреть</a></td>
+    </tr>
+    <tr>
+      <td>Саратовская область</td>
+        <td><a href="/data/osm/saratov/saratov.7z">скачать</a></td>
+        <td><a href="/data/osm/saratov">список</a></td>
+        <!-- <td><a href="/data/osm/saratov/saratov.osm.bz2">скачать</a></td> -->
+	    <td><a href="/projects/osm-stats.html?region=saratov&layer=">смотреть</a></td>
+    </tr>
+    <tr>
+      <td>Сахалинская область</td>
+        <td><a href="/data/osm/sakhalin/sakhalin.7z">скачать</a></td>
+        <td><a href="/data/osm/sakhalin">список</a></td>
+        <!-- <td><a href="/data/osm/sakhalin/sakhalin.osm.bz2">скачать</a></td> -->
+	    <td><a href="/projects/osm-stats.html?region=sakhalin&layer=">смотреть</a></td>
+    </tr>
+    <tr>
+      <td>Свердловская область</td>
+        <td><a href="/data/osm/sverdl/sverdl.7z">скачать</a></td>
+        <td><a href="/data/osm/sverdl">список</a></td>
+        <!-- <td><a href="/data/osm/sverdl/sverdl.osm.bz2">скачать</a></td> -->
+	    <td><a href="/projects/osm-stats.html?region=sverdl&layer=">смотреть</a></td>
+    </tr>
+    <tr>
+      <td>Смоленская область</td>
+        <td><a href="/data/osm/smol/smol.7z">скачать</a></td>
+        <td><a href="/data/osm/smol">список</a></td>
+        <!-- <td><a href="/data/osm/smol/smol.osm.bz2">скачать</a></td> -->
+	    <td><a href="/projects/osm-stats.html?region=smol&layer=">смотреть</a></td>
+    </tr>
+    <tr>
+      <td>Ставропольский край</td>
+        <td><a href="/data/osm/stavrop/stavrop.7z">скачать</a></td>
+        <td><a href="/data/osm/stavrop">список</a></td>
+        <!-- <td><a href="/data/osm/stavrop/stavrop.osm.bz2">скачать</a></td> -->
+	    <td><a href="/projects/osm-stats.html?region=stavrop&layer=">смотреть</a></td>
+    </tr>
+    <tr>
+      <td>Тамбовская область</td>
+        <td><a href="/data/osm/tambov/tambov.7z">скачать</a></td>
+        <td><a href="/data/osm/tambov">список</a></td>
+        <!-- <td><a href="/data/osm/tambov/tambov.osm.bz2">скачать</a></td> -->
+	    <td><a href="/projects/osm-stats.html?region=tambov&layer=">смотреть</a></td>
+    </tr>
+    <tr>
+      <td>Тверская область</td>
+        <td><a href="/data/osm/tver/tver.7z">скачать</a></td>
+        <td><a href="/data/osm/tver">список</a></td>
+        <!-- <td><a href="/data/osm/tver/tver.osm.bz2">скачать</a></td> -->
+	    <td><a href="/projects/osm-stats.html?region=tver&layer=">смотреть</a></td>
+    </tr>
+    <tr>
+      <td>Томская область</td>
+        <td><a href="/data/osm/tomsk/tomsk.7z">скачать</a></td>
+        <td><a href="/data/osm/tomsk">список</a></td>
+        <!-- <td><a href="/data/osm/tomsk/tomsk.osm.bz2">скачать</a></td> -->
+	    <td><a href="/projects/osm-stats.html?region=tomsk&layer=">смотреть</a></td>
+    </tr>
+    <tr>
+      <td>Тульская область</td>
+        <td><a href="/data/osm/tul/tul.7z">скачать</a></td>
+        <td><a href="/data/osm/tul">список</a></td>
+        <!-- <td><a href="/data/osm/tul/tul.osm.bz2">скачать</a></td> -->
+	    <td><a href="/projects/osm-stats.html?region=tul&layer=">смотреть</a></td>
+    </tr>
+    <tr>
+      <td>Тюменская область</td>
+        <td><a href="/data/osm/tumen/tumen.7z">скачать</a></td>
+        <td><a href="/data/osm/tumen">список</a></td>
+        <!-- <td><a href="/data/osm/tumen/tumen.osm.bz2">скачать</a></td> -->
+	    <td><a href="/projects/osm-stats.html?region=tumen&layer=">смотреть</a></td>
+    </tr>
+    <tr>
+      <td>Удмуртская Республика</td>
+        <td><a href="/data/osm/udmurt/udmurt.7z">скачать</a></td>
+        <td><a href="/data/osm/udmurt">список</a></td>
+        <!-- <td><a href="/data/osm/udmurt/udmurt.osm.bz2">скачать</a></td> -->
+	    <td><a href="/projects/osm-stats.html?region=udmurt&layer=">смотреть</a></td>
+    </tr>
+    <tr>
+      <td>Ульяновская область</td>
+        <td><a href="/data/osm/ulyan/ulyan.7z">скачать</a></td>
+        <td><a href="/data/osm/ulyan">список</a></td>
+        <!-- <td><a href="/data/osm/ulyan/ulyan.osm.bz2">скачать</a></td> -->
+	    <td><a href="/projects/osm-stats.html?region=ulyan&layer=">смотреть</a></td>
+    </tr>
+    <tr>
+      <td>Хабаровский край</td>
+        <td><a href="/data/osm/khabar/khabar.7z">скачать</a></td>
+        <td><a href="/data/osm/khabar">список</a></td>
+        <!-- <td><a href="/data/osm/khabar/khabar.osm.bz2">скачать</a></td> -->
+	    <td><a href="/projects/osm-stats.html?region=khabar&layer=">смотреть</a></td>
+    </tr>
+    <tr>
+      <td>Ханты-Мансийский автономный округ</td>
+        <td><a href="/data/osm/khanty/khanty.7z">скачать</a></td>
+        <td><a href="/data/osm/khanty">список</a></td>
+        <!-- <td><a href="/data/osm/khanty/khanty.osm.bz2">скачать</a></td> -->
+	    <td><a href="/projects/osm-stats.html?region=khanty&layer=">смотреть</a></td>
+    </tr>
+    <tr>
+      <td>Челябинская область</td>
+        <td><a href="/data/osm/chel/chel.7z">скачать</a></td>
+        <td><a href="/data/osm/chel">список</a></td>
+        <!-- <td><a href="/data/osm/chel/chel.osm.bz2">скачать</a></td> -->
+	    <td><a href="/projects/osm-stats.html?region=chel&layer=">смотреть</a></td>
+    </tr>
+    <tr>
+      <td>Чеченская Республика</td>
+        <td><a href="/data/osm/chechen/chechen.7z">скачать</a></td>
+        <td><a href="/data/osm/chechen">список</a></td>
+        <!-- <td><a href="/data/osm/chechen/chechen.osm.bz2">скачать</a></td> -->
+	    <td><a href="/projects/osm-stats.html?region=chechen&layer=">смотреть</a></td>
+    </tr>
+    <tr>
+      <td>Чувашская Республика</td>
+        <td><a href="/data/osm/chuvash/chuvash.7z">скачать</a></td>
+        <td><a href="/data/osm/chuvash">список</a></td>
+        <!-- <td><a href="/data/osm/chuvash/chuvash.osm.bz2">скачать</a></td> -->
+	    <td><a href="/projects/osm-stats.html?region=chuvash&layer=">смотреть</a></td>
+    </tr>
+    <tr>
+      <td>Чукотский автономный округ</td>
+        <td><a href="/data/osm/chukot/chukot.7z">скачать</a></td>
+        <td><a href="/data/osm/chukot">список</a></td>
+        <!-- <td><a href="/data/osm/chukot/chukot.osm.bz2">скачать</a></td> -->
+	    <td><a href="/projects/osm-stats.html?region=chukot&layer=">смотреть</a></td>
+    </tr>
+    <tr>
+      <td>Ямало-Ненецкий автономный округ</td>
+        <td><a href="/data/osm/yamal/yamal.7z">скачать</a></td>
+        <td><a href="/data/osm/yamal">список</a></td>
+        <!-- <td><a href="/data/osm/yamal/yamal.osm.bz2">скачать</a></td> -->
+	    <td><a href="/projects/osm-stats.html?region=yamal&layer=">смотреть</a></td>
+    </tr>
+    <tr>
+      <td>Ярославская область</td>
+        <td><a href="/data/osm/yarosl/yarosl.7z">скачать</a></td>
+        <td><a href="/data/osm/yarosl">список</a></td>
+        <!-- <td><a href="/data/osm/yarosl/yarosl.osm.bz2">скачать</a></td> -->
+	    <td><a href="/projects/osm-stats.html?region=yarosl&layer=">смотреть</a></td>
+    </tr>
+  </table>
+</div>
+<h3>PostGIS</h3>
+<p>Подключить все слои можно из базы данных PostGIS: сервер: gis-lab.info, БД: osm, имя/пароль: guest/guest (<a href="/qa/openbase.html">подробнее</a>).</p>
+<h2><a name="layers"></a>Слои</h2>
+<p>На текущий момент данные в формате shape разбиты на 20 слоёв. Каждый слой создается согласно своему условию и содержит объекты определённого типа (см. описание слоёв ниже). В случае, если для региона тот или иной слой не содержит ни одного объекта, удовлетворяющего заданным условиям, то shape-файл не создается, если для выбранного региона нет определенного слоя, это означает, что на данный момент времени эти данные отсутствуют в OSM.</p>
+<p>Полное описание текущей структуры импорта БД из OSM XML см. файл <a href="/projects/osmrus/default.style">default.style</a></p>
+<h2><a name="descript"></a>Описание слоёв</h2>
+<p><strong>Административные границы</strong></p>
+<ul>
+  <li>Тип слоя: <em>полигональный</em></li>
+  <li>Префикс: <em>-admin-a</em></li>
+  <li>Поля OSM:<em> osm_id</em>,<em> name</em>,<em>admin_level</em>,<em>border_type,source</em></li>
+  <li>Условие выбора: <em>boundary='administrative'</em></li>
+</ul>
+<p><strong>Административные границы</strong></p>
+<ul>
+  <li>Тип слоя: <em>линейный</em></li>
+  <li>Префикс: <em>-admin-l</em></li>
+  <li>Поля OSM:<em> osm_id</em>,<em> name</em>,<em>admin_level</em>,<em>border_type</em>,<em>source</em></li>
+  <li>Условие выбора: <em>boundary='administrative'</em></li>
+</ul>
+<p><strong>Автобусные остановки</strong></p>
+<ul>
+  <li>Тип слоя: <em>точечный</em></li>
+  <li>Префикс: <em>-bus_stop-p</em></li>
+  <li>Поля OSM:<em> osm_id</em>,<em> name</em>,<em>source</em></li>
+  <li>Условие выбора: <em>highway='bus_stop'</em></li>
+</ul>
+<p><strong>Береговая линия (линии)</strong></p>
+<ul>
+  <li>Тип слоя: <em>линейный</em></li>
+  <li>Префикс: <em>-coastline-l</em></li>
+  <li>Поля OSM:<em> osm_id</em>,<em> name</em>,<em> source</em></li>
+  <li>Условие выбора: <em>natural='coastline'</em></li>
+</ul>
+<p><strong>Береговая линия</strong> <strong>(полигоны)</strong></p>
+<ul>
+  <li>Тип слоя: <em>полигональный</em></li>
+  <li>Префикс: <em>-coastline-a</em></li>
+  <li>Поля OSM:<em> osm_id</em>,<em> name,source</em></li>
+  <li>Условие выбора: <em>natural='coastline'</em></li>
+</ul>
+<p><strong>Водные объекты</strong></p>
+<ul>
+  <li>Тип слоя: <em>полигональный</em></li>
+  <li>Префикс: <em>-water-a</em></li>
+  <li>Поля OSM: <em>osm_id, name</em>,<em> waterway,landuse,source</em></li>
+  <li>Условие выбора: <em>waterway&lt;&gt;''</em> или natural='water'</li>
+  </ul>
+<p><strong>Города (точки)</strong></p>
+<ul>
+  <li>Тип слоя:<em> точечный</em></li>
+  </ul>
+<ul><li>Префикс: <em>-city-p</em></li>
+  <li>Поля OSM:<em> osm_id, name, place, addr:street, addr:postcode, cladr:code, cladr:name, cladr:suffix, addr:country, addr:region, addr:district,source</em></li>
+  <li>Условие выбора: <em>place='city' </em>или<em> place='town' </em>или<em> place='village' </em>или<em> place='hamlet' </em>или<em> place='locality'</em></li>
+  </ul>
+<p><strong>Города (полигоны)</strong></p>
+<ul>
+  <li>Тип слоя: <em>полигональный</em></li>
+  <li>Префикс: <em>-city-a</em></li>
+  <li>Поля OSM:<em> osm_id, name, place, addr:street, addr:postcode, cladr:code, cladr:name, cladr:suffix, addr:country, addr:region, addr:district, source</em></li>
+  <li>Условие выбора: <em>place='city' </em>или<em> place='town' </em>или<em> place='village' </em>или<em> place='hamlet' </em>или<em> place='locality'</em></li>
+</ul>
+<p><strong>Дороги</strong></p>
+<ul>
+  <li>Тип слоя: <em>линейный</em></li>
+  <li>Префикс: <em>-roads-l</em></li>
+  <li>Поля OSM: <em>name</em>,<em> highway</em>,<em> oneway</em>,<em> railway</em>,<em> ref</em>, <em>addr:street</em>, <em>addr:postcode</em>, <em>cladr:code</em>, <em>cladr:name</em>, <em>cladr:suffix</em>, <em>addr:country</em>, <em>addr:region</em>, <em>addr:district,source</em></li>
+  <li>Условие выбора: <em>highway&lt;&gt;''</em><em></em></li>
+</ul>
+<p><strong>Железная дорога</strong></p>
+<ul>
+  <li>Тип слоя: <em>линейный</em></li>
+  <li>Префикс: <em>-railway-l</em></li>
+  <li>Поля OSM: <em>osm_id, name, railway, source</em></li>
+  <li>Условие выбора: <em>railway&lt;&gt;''</em><em></em></li>
+</ul>
+<p><strong>Здания</strong></p>
+<ul>
+  <li>Тип слоя: <em>полигональный</em></li>
+  <li>Префикс: <em>-buildings-a</em></li>
+  <li>Поля OSM: <em>osm_id, addr:street, addr:housenumber, amenity, landuse, name, addr:postcode, cladr:code, cladr:name, cladr:suffix, addr:country, addr:region, addr:district,source</em></li>
+  <li>Условие выбора: <em>building&lt;&gt;''</em></li>
+</ul>
+<p><strong>Землепользование (полигоны)</strong></p>
+<ul>
+  <li>Тип слоя:<em> полигональный</em></li>
+  <li>Префикс: <em>-landuse-a</em></li>
+  <li>Поля OSM: <em>osm_id, name,landuse,source</em></li>
+  <li>Условие выбора: <em>landuse&lt;&gt;''</em></li>
+</ul>
+<p><strong>Леса</strong></p>
+<ul>
+  <li>Тип слоя: <em>полигональный</em></li>
+  <li>Префикс: <em>-forest-a</em></li>
+  <li>Поля OSM: <em>osm_id, name,source</em></li>
+  <li>Условие выбора: <em>landuse='forest'</em> или <em>natural='wood'</em></li>
+  </ul>
+<p><strong>Остановки</strong></p>
+<ul>
+  <li>Тип слоя: <em>точечный</em></li>
+  <li>Префикс: <em>-stops-p</em></li>
+  <li>Поля OSM: <em>osm_id,name,railway,highway,aeroway,source,name:ru,alt_name,alt_name:ru"</em></li>
+  <li>Условие выбора: <em>railway='station'</em> или <em>railway='tram_stop'</em> или <em>railway='halt'</em> или <em>aeroway='aerodrome'</em> или <em>aeroway='helipad'</em> или <em>highway='bus_stop'</em></li>
+  </ul>
+<p><strong>Пожары</strong></p>
+<ul>
+  <li>Тип слоя: <em>полигональный</em></li>
+  <li>Префикс: <em>-fire-a</em></li>
+  <li>Поля OSM: <em>osm_id</em>,<em>landuse,source,burnt</em></li>
+  <li>Условие выбора: <em>burnt<>''</em></li>
+  </ul>
+<p><strong>Развлечения (точки)</strong></p>
+<ul>
+  <li>Тип слоя: <em>точечный</em></li>
+  <li>Префикс: <em>-entertainment-p</em></li>
+  <li>Поля OSM: <em>osm_id</em>, <em>name,tourism,leisure,sport,source</em></li>
+  <li>Условие выбора: <em>tourism&lt;&gt;'' </em>или<em> leisure&lt;&gt;'' </em>или<em> sport&lt;&gt;''</em></li>
+  </ul>
+<p><strong>Развлечения (линии)</strong></p>
+<ul>
+  <li>Тип слоя: <em>линейный</em></li>
+  <li>Префикс: <em>-entertainment-l</em></li>
+  <li>Поля OSM: <em>osm_id,name,tourism,leisure,sport,source</em></li>
+  <li>Условие выбора: <em>tourism&lt;&gt;'' </em>или<em> leisure&lt;&gt;'' </em>или<em> sport&lt;&gt;''</em></li>
+  </ul>
+<p><strong>Развлечения (полигоны)</strong></p>
+<ul>
+  <li>Тип слоя:<em> полигональный</em></li>
+  <li>Префикс: <em>-entertainment-a</em></li>
+  <li>Поля OSM: <em>osm_id, name</em></li>
+  <li>Условие выбора: <em>tourism&lt;&gt;'' </em>или<em> leisure&lt;&gt;'' </em>или<em> sport&lt;&gt;''</em></li>
+</ul>
+<p><strong>Реки</strong></p>
+<ul>
+  <li>Тип слоя: <em>линейный</em></li>
+  <li>Префикс: <em>-rivers-l</em></li>
+  <li>Поля OSM: <em>osm_id, name, source</em><em></em></li>
+  <li>Условие выбора:<em> waterway='river' </em>или<em> waterway='stream'</em> или <em>natural='water'</em></li>
+</ul>
+<p><strong>POI</strong></p>
+<ul>
+  <li>Тип слоя: <em>точечный</em></li>
+  <li>Префикс: <em>-poi-p</em></li>
+  <li>Поля OSM:<em> osm_id</em>,<em> amenity</em>,<em> highway</em>, <em>name</em>, <em>addr:street</em>, <em>addr:postcode</em>, <em>cladr:code</em>, <em>cladr:name</em>, <em>cladr:suffix</em>, <em>addr:country</em>, <em>addr:region</em>, <em>addr:district</em>,<em>source</em></li>
+  <li>Условие выбора:<em> весь точечный набор данных OSM</em></li>
+</ul>
+<p class="discuss"><span><!--#include virtual="/scripts/forum-comments-num.php?i=4135"--></span></p>
+<!-- ссылки -->
+<div class="links">
+	<h2>Ссылки по теме</h2>
+		<ul>
+			<li><a href="http://osm.org" target="_blank" class="external">OpenStreetMap</a></li>
+			<li><a href="http://gis-lab.info/data/mp/">Карты для приборов Garmin</a></li>
+		    <li><a href="/qa/osm-qgis-projects.html">Готовые проекты QGIS на базе данных OSM по странам и регионам</a></li>
+		</ul>
+</div>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<!--#include virtual="/inc/footer2.php" -->

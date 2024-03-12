@@ -1,0 +1,92 @@
+#
+#  Export all polyline shapes
+#
+
+setup :Shp do
+    polyline :highway_l do
+        name 'highway_l'
+	string :Id, 20
+        string :Type, 20
+        string :Name, 100
+        string :Oneway, 8
+        number :Maxspeed, 4
+	number :Minspeed, 4
+	string :Ref, 4
+	string :Lanes, 4
+	string :Bridge, 10
+	string :Tunnel, 10
+	string :Tracktype, 10
+	string :Cycletype, 10
+    end
+    polyline :railway_l do
+	name 'railway_l'
+	string :Id, 20
+        string :Type, 20
+    end
+    polyline :waterway_l do
+	name 'waterway_l'
+	string :Id, 20
+	string :Boat, 4
+	string :Int_name, 20
+	string :Name, 20
+    end
+    polyline :coastline_l do
+	name 'coastline_l'
+	string :Id, 20
+	string :Source, 20
+	string :Converted, 20
+	string :Created_by, 20
+	string :Ref, 100
+    end
+    polyline :aeroway_l do
+	name 'aeroway_l'
+	string :Id, 20
+	string :Type, 20
+    end
+    polyline :aerialway_l do
+	name 'aerialway_l'
+	string :Id, 20
+        string :Type, 20
+    end
+    polyline :power_l do
+	name 'power_l'
+	string :Id, 20
+        string :Type, 20
+	string :Ref, 100
+        string :Voltages, 20
+	string :Operator, 20
+    end
+    polyline :man_made_l do
+	name 'man_made_l'
+	string :Id, 20
+        string :Type, 20
+	string :Ref, 100
+    end
+end
+
+ways do
+    if highway
+        :highway_l << {:Id => id, :Type => highway, :Name => name, :Oneway => oneway, :Maxspeed => maxspeed, :Ref => ref, :Lanes => lanes, :Bridge => bridge, :Tunnel => tunnel, :Loc_name => loc_name, :Tracktype => tracktype, :Cycletype => cycletype}
+    end
+    if railway
+        :railway_l << {:Id => id, :Type => railway, :Name => name}
+    end
+    if waterway
+        :waterway_l << {:Id => id, :Type => waterway, :Name => name, :Int_name => int_name, :Boat => boat}
+    end
+    if aeroway
+        :aeroway_l << {:Id => id, :Type => aeroway, :Name => name}
+    end
+    if aerialway
+        :aerialway_l << {:Id => id, :Type => aerialway, :Name => name}
+    end
+    if power
+        :power_l << {:Id => id, :Type => power, :Name => name, :Ref => ref, :Voltages => voltages, :Operator => operator}
+    end
+    if man_made
+        :man_made_l << {:Id => id, :Type => power, :Name => name, :Ref => ref}
+    end
+    if natural == "coastline"
+        :coastline_l << {:Id => id, :Type => coastline, :Source => source, :Converted => converted_by, :Created_by => created_by, :Ref => ref}
+    end
+end

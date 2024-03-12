@@ -1,0 +1,759 @@
+<script language="JavaScript" type="text/javascript">
+function check() 
+{
+    if (poster.address.value=="") 
+    {
+    alert("You forgot to enter E-mail, form not sent!"); 
+    poster.address.focus();
+    }
+	else if (poster.lastname.value=="")
+	{
+	alert("You forgot to enter your Last name, form not sent!"); 
+	poster.lastname.focus();
+	}
+    else poster.submit();
+}
+</script>
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: SCGIS-Russia</title>
+<!--#include virtual="/inc/header2.txt" -->
+<div class="cont">
+<div class="col1">	  
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/projects.html">Проекты</a></li>
+</ul>
+<!--Contents start-->
+<h1>Society for Conservation GIS -  Online Application Form </h1></td>
+              </tr>
+            </table></td>
+        </tr>
+        <tr>
+          <td width="100%" class="tr2" ><p class="text">To submit your SCGIS scholarship application, please fill the form below. When you hit the button 'Send' at the bottom of the form, a standard SCGIS application will be automatically generated and emailed to the SCGIS International Committee and to the address that you indicate in the field <strong>'Your direct email address</strong>' (this field <strong>MUST</strong> be filled). We will use this address to get back to you shortly after receiving your application, and to communicate in the future.</p>
+            <p class="text">Some fields are supplied with comments, however, before filling and submitting the form please read <a href="/projects/scgis/application.html">the instructions</a> completely.</p>
+            <p class="text"> The information that you provide here will not be distributed in any way. However, if you are granted a scholarship, non-confidential information may be posted on the <a href="http://www.scgis.org">Society for Conservation GIS website</a>, or reprinted in the SCGIS newsletter.</p>
+            <p class="text"><strong>Please note that the deadline for application submittions has been extended to February 15th, 2005.</strong></p>
+            <form action="/scripts/send-scgis-application.php" method="post" name="poster" id="poster">
+              <table width="100%" align="center" class="fo" >
+                <tr class="tr1">
+                  <td><p class="text">Today's Date:</p></td>
+                  <td><input type="text" name="fData[1]" class="fo" size="50" />
+                  </td>
+                </tr>
+                <tr>
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr>
+                  <td colspan="2" class="tr3"><p align="center" class="text"><strong>SPECIFIC REQUEST</strong></p></td>
+                </tr>
+                <tr>
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr class="tr1">
+                  <td><p class="text">Airfare from your nearest Intl Airport to Los Angeles CA in August:<br />
+                      <font size="-2" color="#006600">Enter the TOTAL airfare from YOUR nearest International Airport to LOS ANGELES, California USA. Please research and provide airfares</font> </p></td>
+                  <td><input type="text" name="fData[2]"  class="fo" size="50" />
+                  </td>
+                </tr>
+                <tr>
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr class="tr2">
+                  <td><p class="text">Airfare amount requested:<br />
+                      <font size="-2" color="#006600">Enter the dollar amount you want to request to help you afford the airfare to the USA.</font> </p></td>
+                  <td><input name="fData[3]" type="text" class="fo" size="50" />
+                  </td>
+                </tr>
+                <tr>
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr class="tr1">
+                  <td><p class="text">Airfare amount YOU can pay yourself:<br />
+                      <font size="-2" color="#006600">Enter the amount you expect to be able to raise locally by yourself. If you are granted a partial scholarship, SCGIS will also send you a formal letter, that you can use to help raise funds locally.</font> </p></td>
+                  <td><input name="fData[4]" type="text" class="fo" size="50" />
+                  </td>
+                </tr>
+                <tr>
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr class="tr2">
+                  <td><p class="text">Do you need an SCGIS Conference Registration Fee waiver?<br />
+                      <font size="-2" color="#006600">Enter &quot;YES&quot; if you wish to apply for a registration fee waiver of the SCGIS conference, which is about US $80.00</font> </p></td>
+                  <td valign="top"><select name="fData[5]" size="1" class="fo">
+                      <option selected="selected">Yes</option>
+                      <option>No</option>
+                    </select>
+                  </td>
+                </tr>
+                <tr>
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr class="tr1">
+                  <td><p class="text">Do you need an ESRI User Conference Registration Fee waiver?<br />
+                      <font size="-2" color="#006600">Enter &quot;YES&quot; if you wish to apply for a registration fee waiver of the ESRI International User Conference, which is about US $1200.00</font> </p></td>
+                  <td valign="top"><select name="fData[6]" size="1" class="fo">
+                      <option selected="selected">Yes</option>
+                      <option>No</option>
+                    </select>
+                  </td>
+                </tr>
+                <tr>
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr class="tr2">
+                  <td><p class="text">Do you need ESRI GIS Training?<br />
+                      <font size="-2" color="#006600">Enter &quot;YES&quot; if you wish to receive GIS training. Courses covering the most current versions of ArcView and ArcGIS/ArcInfo, and conservation GIS mapping (maybe) will be offered in the two weeks preceding, and during weeks after the SCGIS &amp; ESRI Conferences.</font> </p></td>
+                  <td valign="top" ><select name="fData[7]" size="1" class="fo">
+                      <option selected="selected">Yes</option>
+                      <option>No</option>
+                    </select>
+                  </td>
+                </tr>
+                <tr>
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr class="tr1">
+                  <td><p class="text">Would you like help with Accommodations?<br />
+                      <font size="-2" color="#006600">Enter &quot;YES&quot; if you need help finding or paying for accommodations, and approximately which days. Please know that some or most of the accommodation we are able to arrange for you will be at people's homes, shared dormitories and occasionally camping. If for some reason you are not able to or willing to accept such accommodations please give details about the kind of accommodation you are not able to accept and why. Enter &quot;NO&quot; if you will arrange for your own accommodation.</font> </p></td>
+                  <td valign="top" ><select name="fData[8]" size="1" class="fo">
+                      <option selected="selected">Yes</option>
+                      <option>No</option>
+                    </select>
+                  </td>
+                </tr>
+                <tr>
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr class="tr2">
+                  <td><p class="text">Accommodation/Local Transport costs that YOU can pay:<br />
+                      <font size="-2" color="#006600">The total cost of LOCAL TRANSPORT (between conferences and trainings), ACCOMMODATION and FOOD for 4 weeks amounts to about $1000.00. You should let us know how much YOU can afford to pay from this amount.</font> </p></td>
+                  <td><input name="fData[9]" type="text" class="fo" size="50" />
+                  </td>
+                </tr>
+                <tr>
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr class="tr1">
+                  <td><p class="text">Will you share a private home?</p></td>
+                  <td><select name="fData[10]" size="1" class="fo">
+                      <option selected="selected">Yes</option>
+                      <option>No</option>
+                    </select>
+                  </td>
+                </tr>
+                <tr>
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr class="tr2">
+                  <td><p class="text">Will you share a motel room?</p></td>
+                  <td><select name="fData[11]" size="1" class="fo">
+                      <option selected="selected">Yes</option>
+                      <option>No</option>
+                    </select>
+                  </td>
+                </tr>
+                <tr>
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr class="tr1">
+                  <td><p class="text">Will you Camp?</p></td>
+                  <td><select name="fData[12]" size="1" class="fo" id="fData[12]">
+                      <option selected="selected">Yes</option>
+                      <option>No</option>
+                    </select>
+                  </td>
+                </tr>
+                <tr>
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr class="tr2">
+                  <td><p class="text">Do you need to borrow camping equipment?</p></td>
+                  <td><select name="fData[13]" size="1" class="fo" id="fData[13]">
+                      <option selected="selected">Yes</option>
+                      <option>No</option>
+                    </select>
+                  </td>
+                </tr>
+                <tr>
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr class="tr1">
+                  <td><p class="text">Comments: Any special notes or comments:</p></td>
+                  <td><textarea name="fData[14]" cols="50" rows="5" class="fo" id="fData[14]"></textarea>
+                  </td>
+                </tr>
+                <tr>
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr>
+                  <td colspan="2" class="tr3"><p align="center" class="text"><strong>ORGANIZATION DATA</strong></p></td>
+                </tr>
+                <tr>
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr>
+                  <td colspan="2"><p class="text"><font size="-2" color="#006600">Please fill in the general contact information for your organization. If applying as an individual, you can enter your own name here, but you must still complete the contact data section in full.</font></p></td>
+                </tr>
+                <tr>
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr class="tr1">
+                  <td><p class="text">Organization Name:</p></td>
+                  <td><input name="fData[15]" type="text" class="fo" id="fData[15]" size="50" />
+                  </td>
+                </tr>
+                <tr class="tr1">
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr class="tr2">
+                  <td><p class="text">Street/Fedex address:</p></td>
+                  <td><input name="fData[16]" type="text" class="fo" id="fData[16]" size="50" />
+                  </td>
+                </tr>
+                <tr class="tr1">
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr class="tr1">
+                  <td><p class="text">Street Address line 2:</p></td>
+                  <td><input name="fData[17]" type="text" class="fo" id="fData[17]" size="50" />
+                  </td>
+                </tr>
+                <tr class="tr1">
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr class="tr2">
+                  <td><p class="text">Mailing Address:</p></td>
+                  <td><input name="fData[18]" type="text" class="fo" id="fData[18]" size="50" />
+                  </td>
+                </tr>
+                <tr class="tr1">
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr class="tr1">
+                  <td><p class="text">City:</p></td>
+                  <td><input name="fData[19]" type="text" class="fo" id="fData[19]" size="50" />
+                  </td>
+                </tr>
+                <tr class="tr1">
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr class="tr2">
+                  <td><p class="text">State (2-letter code):</p></td>
+                  <td><input name="fData[20]" type="text" class="fo" id="fData[20]" size="50" />
+                  </td>
+                </tr>
+                <tr class="tr1">
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr class="tr1">
+                  <td><p class="text">Zip or Postal code:</p></td>
+                  <td><input name="fData[21]" type="text" class="fo" id="fData[21]" size="50" />
+                  </td>
+                </tr>
+                <tr class="tr1">
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr class="tr2">
+                  <td><p class="text">Province (if any):</p></td>
+                  <td><input name="fData[22]" type="text" class="fo" id="fData[22]" size="50" />
+                  </td>
+                </tr>
+                <tr class="tr1">
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr class="tr1">
+                  <td><p class="text">Country (i.e. USA):</p></td>
+                  <td><input name="fData[23]" type="text" class="fo" id="fData[23]" size="50" />
+                  </td>
+                </tr>
+                <tr class="tr1">
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr class="tr2">
+                  <td><p class="text">Work phone with area code:</p></td>
+                  <td><input name="fData[24]" type="text" class="fo" id="fData[24]" size="50" />
+                  </td>
+                </tr>
+                <tr class="tr1">
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr class="tr1">
+                  <td><p class="text">Work fax with area code:</p></td>
+                  <td><input name="fData[25]" type="text" class="fo" id="fData[25]" size="50" />
+                  </td>
+                </tr>
+                <tr class="tr1">
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr class="tr2">
+                  <td><p class="text">Main email:</p></td>
+                  <td><input name="fData[26]" type="text" class="fo" id="fData[26]" size="50" />
+                  </td>
+                </tr>
+                <tr class="tr1">
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr class="tr1">
+                  <td><p class="text">Org Web site URL if any:</p></td>
+                  <td><input name="fData[27]" type="text" class="fo" id="fData[27]" size="50" />
+                  </td>
+                </tr>
+                <tr class="tr1">
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr class="tr2">
+                  <td><p class="text">Org subject keywords:</p></td>
+                  <td><input name="fData[28]" type="text" class="fo" id="fData[28]" size="50" />
+                  </td>
+                </tr>
+                <tr>
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr class="tr1">
+                  <td><p class="text">Your Organization's last year total budget:</p></td>
+                  <td><input name="fData[29]" type="text" class="fo" id="fData[29]" size="50" />
+                  </td>
+                </tr>
+                <tr class="tr1">
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr class="tr2">
+                  <td><p class="text">Your last year's total GIS program budget:<br />
+                      <font size="-2" color="#006600">Please enter your best estimates of your last year total organizational budget, and your best estimate of last year's total GIS budget including hardware, software, salaries and maintenance.</font> </p></td>
+                  <td><input name="fData[30]" type="text" class="fo" id="fData[30]" size="50" />
+                  </td>
+                </tr>
+                <tr>
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr>
+                  <td colspan="2" class="tr3"><p align="center" class="text"><strong>REQUIRED APPLICANT/STUDENT DATA</strong></p></td>
+                </tr>
+                <tr>
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr class="tr2">
+                  <td><p class="text">Your full name and any initials:</p></td>
+                  <td><input name="fData[31]" type="text" class="fo" id="fData[31]" size="50" />
+                  </td>
+                </tr>
+                <tr class="tr1">
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr class="tr1">
+                  <td><p class="text">Your last name:<br />
+                      <font size="-2" color="#006600">Enter only your last name here. For e-mail subject generation. </font></p></td>
+                  <td><input name="lastname" type="text" class="fo" size="50" />
+                  </td>
+                </tr>
+                <tr class="tr1">
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr class="tr2">
+                  <td><p class="text">Your honorific (i.e. Dr., Mr. Ms.):</p></td>
+                  <td><input name="fData[32]" type="text" class="fo" id="fData[32]" size="50" />
+                  </td>
+                </tr>
+                <tr class="tr1">
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr class="tr1">
+                  <td><p class="text">Your prefered first name or informal name:<br />
+                      <font size="-2" color="#006600">Because naming traditions and order of a person's names are different in different regions of the world, please indicate the name that can be used in situations when full names are unnecessary - this will help us to avoid confusions during communication.</font> </p></td>
+                  <td><input name="fData[33]" type="text" class="fo" id="fData[33]" size="50" />
+                  </td>
+                </tr>
+                <tr>
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr class="tr2">
+                  <td><p class="text">Your direct address if different:</p></td>
+                  <td><input name="fData[34]" type="text" class="fo" id="fData[34]" size="50" />
+                  </td>
+                </tr>
+                <tr class="tr1">
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr class="tr1">
+                  <td><p class="text">Your direct phone number:</p></td>
+                  <td><input name="fData[35]" type="text" class="fo" id="fData[35]" size="50" />
+                  </td>
+                </tr>
+                <tr class="tr1">
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr class="tr2">
+                  <td><p class="text"><font color="#FF0000"><b>Your direct email address:</b></font></p></td>
+                  <td><input name="address" type="text" class="fo" size="50" />
+                  </td>
+                </tr>
+                <tr class="tr1">
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr class="tr1">
+                  <td><p class="text">Your job title or role:</p></td>
+                  <td><input name="fData[37]" type="text" class="fo" size="50" /></td>
+                </tr>
+                <tr class="tr1">
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr class="tr2">
+                  <td><p class="text">Your own interest keywords from appendix 1:</p></td>
+                  <td><input name="fData[38]" type="text" class="fo" id="fData[38]" size="50" />
+                  </td>
+                </tr>
+                <tr class="tr1">
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr class="tr1">
+                  <td><p class="text">Alternate contact full name and any initials:<br />
+                      <font size="-2" color="#006600">Fill out the details of a person who can be contacted to convey important information in your absence.</font> </p></td>
+                  <td><input name="fData[39]" type="text" class="fo" id="fData[39]" size="50" />
+                  </td>
+                </tr>
+                <tr>
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr class="tr2">
+                  <td><p class="text">Alternate honorific (i.e. Dr., Mr. Ms.):</p></td>
+                  <td><input name="fData[40]" type="text" class="fo" id="fData[40]" size="50" />
+                  </td>
+                </tr>
+                <tr class="tr1">
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr class="tr1">
+                  <td><p class="text">Alternate contact direct phone number:</p></td>
+                  <td><input name="fData[41]" type="text" class="fo" id="fData[41]" size="50" />
+                  </td>
+                </tr>
+                <tr class="tr1">
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr class="tr2">
+                  <td><p class="text">Alternate contact direct email address:</p></td>
+                  <td><input name="fData[42]" type="text" class="fo" id="fData[42]" size="50" />
+                  </td>
+                </tr>
+                <tr class="tr1">
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr class="tr1">
+                  <td><p class="text">Alternate contact job title or role:</p></td>
+                  <td><input name="fData[43]" type="text" class="fo" id="fData[43]" size="50" />
+                  </td>
+                </tr>
+                <tr>
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr>
+                  <td colspan="2" class="tr3"><p align="center" class="text"><strong>MENTOR/SHIP DATA</strong></p></td>
+                </tr>
+                <tr>
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr>
+                  <td colspan="2"><p class="text"><font size="-2" color="#006600">Please describe (if any) the main Mentor or international organization that sponsors and/or supports your work.</font></p></td>
+                </tr>
+                <tr>
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr class="tr1">
+                  <td><p class="text">Mentor Name </p></td>
+                  <td><input name="fData[44]" type="text" class="fo" id="fData[44]" size="50" />
+                  </td>
+                </tr>
+                <tr class="tr1">
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr class="tr2">
+                  <td><p class="text">Mentor Organization Name:</p></td>
+                  <td><input name="fData[45]" type="text" class="fo" id="fData[45]" size="50" />
+                  </td>
+                </tr>
+                <tr class="tr1">
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr class="tr1">
+                  <td><p class="text">FedEx address:</p></td>
+                  <td><input name="fData[46]" type="text" class="fo" id="fData[46]" size="50" />
+                  </td>
+                </tr>
+                <tr class="tr1">
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr class="tr2">
+                  <td><p class="text">Shipping Address line 2:</p></td>
+                  <td><input name="fData[47]" type="text" class="fo" id="fData[47]" size="50" />
+                  </td>
+                </tr>
+                <tr class="tr1">
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr class="tr1">
+                  <td><p class="text">City:</p></td>
+                  <td><input name="fData[48]" type="text" class="fo" id="fData[48]" size="50" />
+                  </td>
+                </tr>
+                <tr class="tr1">
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr class="tr2">
+                  <td><p class="text">State (2-letter code):</p></td>
+                  <td><input name="fData[49]" type="text" class="fo" id="fData[49]" size="50" />
+                  </td>
+                </tr>
+                <tr class="tr1">
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr class="tr1">
+                  <td><p class="text">Zip or Postcode:</p></td>
+                  <td><input name="fData[50]" type="text" class="fo" id="fData[50]" size="50" />
+                  </td>
+                </tr>
+                <tr class="tr1">
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr class="tr2">
+                  <td><p class="text">Province (if any):</p></td>
+                  <td><input name="fData[51]" type="text" class="fo" id="fData[51]" size="50" />
+                  </td>
+                </tr>
+                <tr class="tr1">
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr class="tr1">
+                  <td><p class="text">Country (i.e. USA):</p></td>
+                  <td><input name="fData[52]" type="text" class="fo" id="fData[52]" size="50" />
+                  </td>
+                </tr>
+                <tr>
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr>
+                  <td colspan="2" class="tr3"><p align="center" class="text"><strong>GIS EXPERTISE LEVEL / COURSES</strong></p></td>
+                </tr>
+                <tr>
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr class="tr1">
+                  <td><p class="text">Briefly describe your GIS capability/expertise:<br />
+                      <font size="-2" color="#006600">Please briefly explain your &quot;GIS expertise / capability level&quot; - BEGINNER, MEDIUM or ADVANCED. <br />
+                      BEGINNER - Know about basic concepts of GIS and have used ArcExplorer or similar level of GIS software.<br />
+                      MEDIUM - Know about the analysis concepts of GIS and have used ArcView 3x or similar level of GIS software<br />
+                      ADVANCED - Have been a GIS user for many years and have used the Advanced ArcView or ArcGIS/ArcInfo or similar level of GIS software.</font> </p></td>
+                  <td><textarea name="fData[53]" cols="50" rows="5" class="fo" id="fData[53]"></textarea>
+                  </td>
+                </tr>
+                <tr class="tr1">
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr class="tr2">
+                  <td><p class="text">What GIS software (if any) have you used:</p></td>
+                  <td><textarea name="fData[54]" cols="50" rows="5" class="fo" id="fData[54]"></textarea>
+                  </td>
+                </tr>
+                <tr class="tr1">
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr class="tr1">
+                  <td><p class="text">What GIS courses you are interested in:<br />
+                      <font size="-2" color="#006600">Please go through the list of courses and descriptions at <a href="http://www.esri.com/training/" target="_blank">http://www.esri.com/training/</a> and identify the courses that you would like to take, listing them in the order of priority. Although typically we can provide you seats in only 3-4 courses during the training, you can list as many courses as you want. Not all requests may be available at the actual time of training; however, we will try our best to accommodate your needs.</font> </p></td>
+                  <td><textarea name="fData[55]" cols="50" rows="5" class="fo" id="fData[55]"></textarea>
+                  </td>
+                </tr>
+                <tr>
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr class="tr2">
+                  <td><p class="text">Please explain your programming experience (if any):<br />
+                      <font size="-2" color="#006600">Please note that knowledge of programming is not necessary for using GIS.</font> </p></td>
+                  <td><textarea name="fData[56]" cols="50" rows="5" class="fo" id="fData[56]"></textarea>
+                  </td>
+                </tr>
+                <tr>
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr>
+                  <td colspan="2" class="tr3"><p align="center" class="text"><strong>REQUIRED JUSTIFICATION (CONFIDENTIAL)</strong></p></td>
+                </tr>
+                <tr>
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr class="tr1">
+                  <td><p class="text">Essay justification of why you require a grant:</p></td>
+                  <td><textarea name="fData[57]" cols="50" rows="5" class="fo" id="fData[57]"></textarea>
+                  </td>
+                </tr>
+                <tr>
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr>
+                  <td colspan="2" class="tr3"><p align="center" class="text"><strong>REQUIRED PAPER that you will present at the conference</strong></p></td>
+                </tr>
+                <tr>
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr class="tr1">
+                  <td><p class="text">Title of the paper you will present:</p></td>
+                  <td><input name="fData[58]" type="text" class="fo" id="fData[58]" size="50" />
+                  </td>
+                </tr>
+                <tr>
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr class="tr2">
+                  <td><p class="text">Short abstract/summary of the paper you will present:</p></td>
+                  <td><textarea name="fData[59]" cols="50" rows="5" class="fo" id="fData[59]"></textarea>
+                  </td>
+                </tr>
+                <tr>
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr>
+                  <td colspan="2" class="tr3"><p align="center" class="text"><strong>REQUIRED BACKGROUND data for all requests</strong></p></td>
+                </tr>
+                <tr>
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr class="tr1">
+                  <td><p class="text">Please describe the history of your local work in conservation and GIS:</p></td>
+                  <td><textarea name="fData[60]" cols="50" rows="5" class="fo" id="fData[60]"></textarea>
+                  </td>
+                </tr>
+                <tr class="tr1">
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr class="tr2">
+                  <td><p class="text">Please describe how your work is supported by your local community:</p></td>
+                  <td><textarea name="fData[61]" cols="50" rows="5" class="fo" id="fData[61]"></textarea>
+                  </td>
+                </tr>
+                <tr class="tr1">
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr class="tr1">
+                  <td><p class="text">Please describe how your work is supported by any international groups who work with you:</p></td>
+                  <td><textarea name="fData[62]" cols="50" rows="5" class="fo" id="fData[62]"></textarea>
+                  </td>
+                </tr>
+                <tr class="tr1">
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr class="tr2">
+                  <td><p class="text">Please describe the local non-profit and non-government groups who you support, and how you help them to learn about conservation and GIS:</p></td>
+                  <td><textarea name="fData[63]" cols="50" rows="5" class="fo" id="fData[63]"></textarea>
+                  </td>
+                </tr>
+                <tr class="tr1">
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr class="tr1">
+                  <td><p class="text">Please describe what is the most unique and the most challenging about the conservation/GIS work that you do:</p></td>
+                  <td><textarea name="fData[64]" cols="50" rows="5" class="fo" id="fData[64]"></textarea>
+                  </td>
+                </tr>
+                <tr>
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr class="tr2">
+                  <td><p class="text">Please provide a 1-year plan for how you hope to apply the skills you will learn under the SCGIS scholarship, and what you expect to be able to achieve in your conservation GIS work over the next year:</p></td>
+                  <td><textarea name="fData[65]" cols="50" rows="5" class="fo" id="fData[65]"></textarea>
+                  </td>
+                </tr>
+                <tr class="tr1">
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr class="tr1">
+                  <td><p class="text">Please provide an executive summary of your request, and include any special statements about your work that you would like to make at this time:</p></td>
+                  <td><textarea name="fData[66]" cols="50" rows="5" class="fo" id="fData[66]"></textarea>
+                  </td>
+                </tr>
+                <tr>
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr align="center">
+                  <td valign="middle" colspan="2" >&nbsp;
+                    <input type="button" value="Send" name="submitButton" class="go" onclick="check();" />
+                    <input type="reset" value="Clear" name="reset" class="go" />
+                  </td>
+                </tr>
+              </table>
+              <p>
+                <input type="hidden" name="fName[1]" value="*Today's Date?:" />
+                <input type="hidden" name="fName[2]" value="*Airfare from your nearest Intl Airport to Los Angeles CA in August [RFARETOT1]?:" />
+                <input type="hidden" name="fName[3]" value="*Airfare amount requested [RFARE]?:" />
+                <input type="hidden" name="fName[4]" value="*Airfare amount YOU can pay yourself [RLOCAL]?:" />
+                <input type="hidden" name="fName[5]" value="*Do you need an SCGIS Conference Registration Fee waiver [RSCGIS]?:" />
+                <input type="hidden" name="fName[6]" value="*Do you need an ESRI User Conference Registration Fee waiver [RESRI]?:" />
+                <input type="hidden" name="fName[7]" value="*Do you need ESRI GIS Training [RETRAIN]?:" />
+                <input type="hidden" name="fName[8]" value="*Would you like help with Accommodations [RHOUSING]?:" />
+                <input type="hidden" name="fName[9]" value="*Accommodation/Local Transport costs that YOU can pay [RACCOTRANSP]?:" />
+                <input type="hidden" name="fName[10]" value="*Will you share a private home? [RHOME]?:" />
+                <input type="hidden" name="fName[11]" value="*Will you share a motel room? [RSHARE]?:" />
+                <input type="hidden" name="fName[12]" value="*Will you Camp? [RCAMP]?:" />
+                <input type="hidden" name="fName[13]" value="*Do you need to borrow camping equipment? [RCLOAN]?:" />
+                <input type="hidden" name="fName[14]" value="*Comments: Any special notes or comments? [RNOTES]?:" />
+                <input type="hidden" name="fName[15]" value="*Organization Name [ORGNAME]?:" />
+                <input type="hidden" name="fName[16]" value="*Street/Fedex address [OADDR1]?:" />
+                <input type="hidden" name="fName[17]" value="*Street Address line 2 [OADDR2]?:" />
+                <input type="hidden" name="fName[18]" value="*Mailing Address [OADDRM]?:" />
+                <input type="hidden" name="fName[19]" value="*City [OCITY]?:" />
+                <input type="hidden" name="fName[20]" value="*State (2-letter code) [OSTATE]?:" />
+                <input type="hidden" name="fName[21]" value="*Zip or Postal code [OZIP]?:" />
+                <input type="hidden" name="fName[22]" value="*Province (if any) [OPROV]?:" />
+                <input type="hidden" name="fName[23]" value="*Country (i.e. USA) [OCNTRY]?:" />
+                <input type="hidden" name="fName[24]" value="*Work phone with area code [OTEL]?:" />
+                <input type="hidden" name="fName[25]" value="*Work fax with area code [OFAX]?:" />
+                <input type="hidden" name="fName[26]" value="*Main email [OEMAIL]?:" />
+                <input type="hidden" name="fName[27]" value="*Org Web site URL if any [OWEB]?:" />
+                <input type="hidden" name="fName[28]" value="*Org subject keywords [OKEYWORD]?:" />
+                <input type="hidden" name="fName[29]" value="*Your Organization's last year total budget [OBUD]?:" />
+                <input type="hidden" name="fName[30]" value="*Your last year's total GIS program budget [OGISBUD]?:" />
+                <input type="hidden" name="fName[31]" value="*Your full name and any initials [CFIRST]?:" />
+                <input type="hidden" name="fName[32]" value="*Your honorific (i.e. Dr., Mr. Ms.) [CPREFIX]?:" />
+                <input type="hidden" name="fName[33]" value="*Your prefered first name or informal name [CSHORT]?:" />
+                <input type="hidden" name="fName[34]" value="*Your direct address if different [CADDR]?:" />
+                <input type="hidden" name="fName[35]" value="*Your direct phone number [CTEL]?:" />
+                <input type="hidden" name="fName[36]" value="*Your direct email address [CEMAIL]?:" />
+                <input type="hidden" name="fName[37]" value="*Your job title or role [CROLE]?:" />
+                <input type="hidden" name="fName[38]" value="*Your own interest keywords from appendix 1 [CKEYWORD]?:" />
+                <input type="hidden" name="fName[39]" value="*Alternate contact full name and any initials [CLAST]?:" />
+                <input type="hidden" name="fName[40]" value="*Alternate honorific (i.e. Dr., Mr. Ms.) [CPREFIX]?:" />
+                <input type="hidden" name="fName[41]" value="*Alternate contact direct phone number [CTEL]?:" />
+                <input type="hidden" name="fName[42]" value="*Alternate contact direct email address [CEMAIL]?:" />
+                <input type="hidden" name="fName[43]" value="*Alternate contact job title or role [CROLE]?:" />
+                <input type="hidden" name="fName[44]" value="*Status: Mentor" />
+                <input type="hidden" name="fName[45]" value="*Mentor Organization Name [MORGNAME]?:" />
+                <input type="hidden" name="fName[46]" value="*FedEx address [MOADDR1]?:" />
+                <input type="hidden" name="fName[47]" value="*Shipping Address line 2 [MOADDR2]?:" />
+                <input type="hidden" name="fName[48]" value="*City [MOCITY]?:" />
+                <input type="hidden" name="fName[49]" value="*State (2-letter code) [MOSTATE]?:" />
+                <input type="hidden" name="fName[50]" value="*Zip or Postcode [MOZIP]?:" />
+                <input type="hidden" name="fName[51]" value="*Province (if any) [MOPROV]?:" />
+                <input type="hidden" name="fName[52]" value="*Country (i.e. USA) [MOCNTRY]?:" />
+                <input type="hidden" name="fName[53]" value="*Briefly describe your GIS capability/expertise [GGISCAP]?:" />
+                <input type="hidden" name="fName[54]" value="*What GIS software (if any) have you used [GGISSOFT]?:" />
+                <input type="hidden" name="fName[55]" value="*What GIS courses you are interested in [GGISCOURSE]?:" />
+                <input type="hidden" name="fName[56]" value="*Please explain your programming experience (if any) [GPROG]?:" />
+                <input type="hidden" name="fName[57]" value="Essay justification of why you require a grant [OWHY]?:" />
+                <input type="hidden" name="fName[58]" value="*TITLE: Title of the paper you will present [PTITLE]?:" />
+                <input type="hidden" name="fName[59]" value="*ABSTRACT: Short abstract/summary of the paper you will present[PABSTRACT]?:" />
+                <input type="hidden" name="fName[60]" value="*HISTORY: Please describe the history of your local work in conservation and GIS [SHIST]?:" />
+                <input type="hidden" name="fName[61]" value="*SUPPORTERS: Please describe how your work is supported by your local community [SCOMM]?:" />
+                <input type="hidden" name="fName[62]" value="*INTERNATIONAL: Please describe how your work is supported by any international groups who work with you [SINTL]?:" />
+                <input type="hidden" name="fName[63]" value="*TEACHING: Please describe the local non-profit and non-government groups who you support, and how you help them to learn about conservation and GIS [SLOCAL]?:" />
+                <input type="hidden" name="fName[64]" value="*UNIQUE: Please describe what is the most unique and the most challenging about the conservation/GIS work that you do [SUNIQ]?:" />
+                <input type="hidden" name="fName[65]" value="*PLAN: Please provide a 1-year plan for how you hope to apply the skills you will learn under the SCGIS scholarship, and what you expect to be able to achieve in your conservation GIS work over the next year [SPLAN]?:" />
+                <input type="hidden" name="fName[66]" value="*SUMMARY: Please provide an executive summary of your request, and include any special statements about your work that you would like to make at this time: [SEXEC]?:" />
+                <input type="hidden" name="fTitle" value="Подписка на e-mail конференцию GIS-LAB" />
+                <input type="hidden" name="fCount" value="66" />
+                <input type="hidden" name="fOk" value="/projects/scgis/thanks-formsent.html" />
+              </p>
+            </form>
+            <p align="center" class="text">
+              <!--#include virtual="/scripts/forum-comments-num.php?i=184"-->
+            </p>
+<!--Contents end-->
+<!--#include virtual="/scripts/date.php" -->
+<!--#include virtual="/inc/footer2.php" -->
