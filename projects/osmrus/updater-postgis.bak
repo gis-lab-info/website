@@ -1,0 +1,96 @@
+#!/usr/local/bin/bash
+
+dir_osm=/usr/local/www/gis-lab/data/projects/osmrus
+dir_update=$dir_osm/data/updates/
+dir_output=/usr/local/www/gis-lab/data/data/osm
+try=0
+max_try=20
+
+cd $dir_osm
+
+y_day=$(date -v-1d +%Y%m%d)
+n_day=$(date +%Y%m%d)
+new=$y_day-$n_day.osc.gz
+osc=$y_day-$n_day.osc
+until wget -P $dir_update -c http://planet.openstreetmap.org/daily/$new
+do
+     try=$(($try+1))
+     #echo `date` "Try: $try"
+     [ $try -gt $max_try ] && break
+     sleep 600
+done
+
+#wget -nc http://planet.openstreetmap.org/daily
+#new=$(cat index.html |awk '{print $6}' | awk 'BEGIN{FS="\""}{print $3}' |sed 's/>//g'| sed 's/<\/a//g'|sort -n | tail -n 1)
+#osc=$(echo $new | sed -e "s/.gz//")
+
+echo $new `date "+DATE: %Y-%m-%d, TIME: %H-%M-%S"` >> osmlog.txt
+#echo "Downloading change file ..., " `date "+DATE: %Y-%m-%d, TIME: %H-%M-%S"` > status
+#cd data/updates/
+#wget -nc http://planet.openstreetmap.org/daily/$new
+#cd ../../
+#echo "Change file downloaded " `date "+TIME: %H-%M-%S"` >> osmlog.txt
+
+echo "Applying diff ..., " `date "+DATE: %Y-%m-%d, TIME: %H-%M-%S"` > status
+./bin/osm2pgsql/osm2pgsql -U pgsql -d osm -p osm -a -s -S bin/osm2pgsql/default.style -l -C 1024 -b 26.8,41.8,180,82.2 data/updates/$new
+echo "Diff applied " `date "+TIME: %H-%M-%S"` >> osmlog.txt
+
+echo "Updating database..., " `date "+DATE: %Y-%m-%d, TIME: %H-%M-%S"` > status
+psql -U pgsql -d osm -c "VACUUM ANALYZE"
+echo "Database updated " `date "+TIME: %H-%M-%S"` >> osmlog.txt
+
+rm index.html
+
+psql -U pgsql -d osm -c "UPDATE osm_polygon SET valid=ST_IsValid(osm_polygon.way)"
+
+echo "Creating tables..., " `date "+DATE: %Y-%m-%d, TIME: %H-%M-%S"`> status
+cd $dir_osm
+#psql -U pgsql -f views1.sql -d osm & psql -U pgsql -f views2.sql -d osm
+for i in 1 2 4 5 6
+do
+nohup python views.py $i.lst > /dev/null &
+done
+python views.py 3.lst > /dev/null
+echo "Regions tables created " `date "+TIME: %H-%M-%S"` >> osmlog.txt
+
+echo "Generating errors layer..., " `date "+DATE: %Y-%m-%d, TIME: %H-%M-%S"` > status
+cd /usr/local/www/gis-lab/data/projects/osmrus/errors-wms
+python gen-osm-errors.py
+echo "Error layer updated " `date "+TIME: %H-%M-%S"` >> osmlog.txt
+
+echo "Exporting shapefiles..., " `date "+DATE: %Y-%m-%d, TIME: %H-%M-%S"`> status
+cd /usr/local/www/gis-lab/data/projects/osmrus
+python osm-export-shp.py regions.lst log.txt
+echo "Export completed " `date "+TIME: %H-%M-%S"` >> osmlog.txt
+
+echo "Updating OSM XML file..., " `date "+DATE: %Y-%m-%d, TIME: %H-%M-%S"` > status
+bin/osmosis/bin/osmosis --read-xml-change file="data/updates/$new" --read-xml file="data/rus.osm" --apply-change --write-xml file="data/rus-new.osm"
+echo "OSM XML updated " `date "+TIME: %H-%M-%S"` >> osmlog.txt
+
+echo "Clipping back OSM XML file..., " `date "+DATE: %Y-%m-%d, TIME: %H-%M-%S"` > status
+bin/osmosis/bin/osmosis --read-xml data/rus-new.osm --bounding-box top=82.2 left=26.8 bottom=41.8 right=180 --write-xml file="data/rus2.osm"
+rm data/rus-new.osm
+echo "OSM XML clipped back " `date "+TIME: %H-%M-%S"` >> osmlog.txt
+
+echo "Deriving OSM change file..., " `date "+DATE: %Y-%m-%d, TIME: %H-%M-%S"` > status
+bin/osmosis/bin/osmosis --read-xml data/rus2.osm --read-xml data/rus.osm --derive-change --write-xml-change compressionMethod=bzip2 file="/usr/local/www/gis-lab/data/data/osm/osc/russia-latest.osc.bz2"
+cp $dir_output/osc/russia-latest.osc.bz2 $dir_output/osc/russia_`date +%Y%m%d`.osc.bz2
+rm data/rus.osm
+mv data/rus2.osm data/rus.osm
+echo "OSM change file created " `date "+TIME: %H-%M-%S"` >> osmlog.txt
+
+echo "Compressing Russia OSM XML file..., " `date "+DATE: %Y-%m-%d, TIME: %H-%M-%S"` > status
+bzip2 -k -f -z data/rus.osm
+rm data/rus-new.osm
+mv data/rus.osm.bz2 $dir_output/rus.osm.bz2
+echo "OSM XML for Russia compressed " `date "+TIME: %H-%M-%S"` >> osmlog.txt
+
+echo "Extracting regions..., " `date "+DATE: %Y-%m-%d, TIME: %H-%M-%S"` > status
+for i in 1 2 4 5 6
+do
+nohup python osm-clipper.py $i.lst > /dev/null &
+done
+python osm-clipper.py 3.lst > /dev/null
+echo "OSM XML regions created " `date "+TIME: %H-%M-%S"` >> osmlog.txt
+echo "All done" > status
+echo "---" >> osmlog.txt

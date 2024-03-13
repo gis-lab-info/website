@@ -1,0 +1,43 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Онлайн-конвертер OSM в Shape</title>
+<!--#include virtual="/inc/header2.txt" -->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/qa.html">Вопросы и ответы</a></li>
+</ul>
+<!--Contents start-->
+<h1>Онлайн-конвертер OSM в Shape</h1>
+<p class="ann">Краткая аннотация</p>
+<p>Эта страница предназначена для тестирования нового онлайн-конвертера из формата OpenStreetMap XML в ESRI Shape. Так как структура атрибутивных данных OSM приниципиально другая, то процесс построения конвертера итеративный. От того, какой отклик мы получим от пользователей зависит, появятся ли в результате нужные вам слои и атрибуты, присутствующие в OSM, но отсутствующие на данный момент в shape-файлах. </p>
+<p><strong>Как получить набор данных OSM </strong></p>
+<p>1. Зайти на сайт проекта <a href="http://openstreetmap.org" target="_blank" class="external">OpenStreetMap</a> </p>
+<p>2. Найти на карте нужный участок</p>
+<p>3. Выбрать Export</p>
+<p>4. Увеличить до того момента, пока не станет активным пункт OpenStreetMap XML Data</p>
+<p>5. Переключиться на него и нажать Export.</p>
+<p><strong>Что нужно сделать с полученными данными OSM </strong></p>
+<p>1. Использовать форму внизу, что сконвертировать результат в shape-файлы</p>
+<p>2. Изучить полученные shape-файлы и данные в OSM и сообщить  чего не хватает (каких слоев и каких атрибутов в слоях). </p>
+<p>&nbsp;</p>
+<p>Загрузите файл osm не более 3 мегабайт. Через некоторое время будет возвращен результат в виде архива с shape-файлами.</p>
+<form enctype="multipart/form-data" action="testupload.php" method="post">
+ <input type="hidden" name="MAX_FILE_SIZE" value="3000000" />
+ Преобразуемый  файл: 
+ <input name="userfile" type="file" />
+ <input type="submit" value="Отправить" />
+</form>
+        <p class="discuss">
+		   <span><!--#include virtual="/scripts/forum-comments-num.php?i=852"--></span>
+		</p>
+            <div class="links">
+				<h2>Ссылки по теме</h2>
+					<ul>
+						<li><a href="osm2shape.html">Импорт данных OSM в shape-формат</a></li>
+					  </ul>
+			</div>
+<!--#include virtual="/scripts/date.php" -->
+<!--Contents end-->
+<!--#include virtual="/inc/footer2.php" -->

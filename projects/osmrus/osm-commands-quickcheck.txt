@@ -1,0 +1,14 @@
+dropdb -U pgsql -W osm
+createdb -U pgsql -E utf8 osmcheck
+createlang -U pgsql plpgsql osmcheck
+
+psql -U pgsql -d osmcheck -f /usr/local/share/postgis/contrib/postgis.sql
+psql -U pgsql -d osmcheck -f /usr/local/share/postgis/contrib/spatial_ref_sys.sql
+
+cd ../bin/osm2pgsql/
+./bin/osm2pgsql/osm2pgsql -U pgsql -d osmcheck -p osmcheck -l -s -S bin/osm2pgsql/default.style -C 1024 data.osm
+
+psql -U pgsql -f cr.sql -d osm
+
+psql -U pgsql -d osm -c "VACUUM ANALYZE"
+python db2shp.py & python db2shp2.py

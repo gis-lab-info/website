@@ -1,0 +1,175 @@
+MAP
+  NAME           "WMS"
+  STATUS         ON
+  IMAGETYPE      GIF
+  EXTENT         10 30 180 80
+  SIZE           400 300
+  SHAPEPATH      "/usr/local/www/gis-lab/data/projects/osmrus/errors-wms/"
+  UNITS DD
+  IMAGECOLOR     255 255 255
+	
+  WEB
+    TEMPLATE  "template.html"
+    IMAGEPATH "/usr/local/www/gis-lab/data/tmp/" 
+    IMAGEURL  "/tmp/"
+	METADATA
+		wms_title                  "WMS OSM Errors"
+		wms_abstract               "This is the WMS for OSM Errors"
+		wms_onlineresource         "http://gis-lab.info/cgi-bin/mapserv?map=/usr/local/www/gis-lab/data/projects/osmrus/errors-wms/wms.map&"
+		wms_srs                    "EPSG:4326"
+		wms_getfeatureinfo         "http://gis-lab.info/cgi-bin/mapserv?map=/usr/local/www/gis-lab/data/projects/osmrus/errors-wms/wms.map&"
+		#wms_featureinfoformat      "text/plain"
+		#wms_feature_info_mime_type "text/html"
+	END
+  END
+  
+  SYMBOL 
+    NAME "quadrat"
+    TYPE VECTOR
+    POINTS
+        0 0
+        0 1
+        1 1
+        1 0
+        0 0
+    END
+    FILLED TRUE
+  END
+  
+  PROJECTION
+   "proj=latlong"
+   "ellps=WGS84"
+   "datum=WGS84"
+  END
+  
+  LEGEND
+	  STATUS ON
+	  KEYSIZE 18 12
+	  # LABEL object
+	  LABEL
+		TYPE BITMAP
+		SIZE MEDIUM
+		COLOR 0 0 89
+	  END
+  END
+
+  
+  LAYER # States polygon layer begins here
+    NAME        osm-errors
+    TYPE        POINT
+    STATUS      ON
+    DATA        osm-errors
+    TEMPLATE 'dummy'
+	DUMP		TRUE
+	CLASSITEM    "Descript"
+	
+    CLASS
+		NAME       "Self-intersection"
+	    EXPRESSION 'Self-intersection'
+        STYLE
+            SYMBOL "quadrat"
+            SIZE 8
+            COLOR 255 0 0
+            OUTLINECOLOR 0 0 0
+        END
+    END
+	CLASS
+		NAME       "Ring Self-intersection"
+	    EXPRESSION 'Ring Self-intersection'
+        STYLE
+            SYMBOL "quadrat"
+            SIZE 8
+            COLOR 0 255 0
+            OUTLINECOLOR 0 0 0
+        END
+    END
+	CLASS
+		NAME       "Nested holes"
+	    EXPRESSION 'Holes are nested'
+        STYLE
+            SYMBOL "quadrat"
+            SIZE 8
+            COLOR 0 0 255
+            OUTLINECOLOR 0 0 0
+        END
+    END
+	CLASS
+		NAME       "Holes outside shell"
+	    EXPRESSION 'Hole lies outside shell'
+        STYLE
+            SYMBOL "quadrat"
+            SIZE 8
+            COLOR 0 255 255
+            OUTLINECOLOR 0 0 0
+        END
+    END
+
+    PROJECTION
+		"proj=latlong"
+		"ellps=WGS84"
+		"datum=WGS84"
+    END
+	METADATA
+		wms_title "OSM errors"
+		wms_abstract "OSM errors"
+		wms_srs "EPSG:4326 EPSG:54004 EPSG:900913"
+		wms_include_items "all"
+		gml_include_items "all"
+	END
+  END
+  
+  LAYER
+    NAME landuse-l
+	CONNECTIONTYPE postgis
+	CONNECTION "user=labinfo password=incognito dbname=osm host=localhost"
+	DATA "way from osm_line using unique osm_id using srid=4326"
+    FILTER "landuse<>''"
+	TYPE LINE
+	
+	CLASS
+	    STYLE
+            COLOR 255 0 0
+			WIDTH 2
+        END
+    END
+	
+	PROJECTION
+		"init=epsg:4326"
+    END
+	METADATA
+		wms_title "landuse-l"
+		wms_abstract "landuse-l"
+		wms_srs "EPSG:4326 EPSG:54004 EPSG:900913"
+		wms_include_items "all"
+		gml_include_items "all"
+	END
+  END
+  
+  LAYER
+    NAME city-l
+	CONNECTIONTYPE postgis
+	CONNECTION "user=labinfo password=incognito dbname=osm host=localhost"
+	DATA "way from osm_line using unique osm_id using srid=4326"
+    FILTER "place='city' or place='town' or place='village' or place='hamlet' or place='locality'"
+	TYPE LINE
+	
+	CLASS
+	    STYLE
+            COLOR 0 0 255
+			WIDTH 2
+        END
+    END
+	
+	PROJECTION
+		"init=epsg:4326"
+    END
+	METADATA
+		wms_title "city-l"
+		wms_abstract "city-l"
+		wms_srs "EPSG:4326 EPSG:54004 EPSG:900913"
+		wms_include_items "all"
+		gml_include_items "all"
+	END
+  END
+
+END

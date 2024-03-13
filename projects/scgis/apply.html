@@ -1,0 +1,622 @@
+<!--#include virtual="/inc/header0.txt" -->
+<title>GIS-Lab: SCGIS-Russia</title>
+<script language="JavaScript" type="text/javascript">
+function check() 
+{
+	if (document.poster.address.value=="")
+    {
+    	alert("You forgot to enter E-mail, form was not sent!"); 
+    	document.poster.address.focus();
+    }
+    else 
+	{
+		document.poster.submit();
+	}
+}
+</script>
+<!--#include virtual="/inc/header-eng.txt" -->
+      <!--Main table start-->
+      <table class="tab-main">
+        <tr>
+          <td width="100%" class="tr1" ><h1>Society for Conservation GIS - Online Application Form</h1></td>
+        </tr>
+        <tr>
+          <td width="100%" class="tr2" ><p class="text"><a href="english/">SCGIS 2007 Announcement</a></p>
+            <p class="text"><a href="/projects/scgis/application.html">Detailed information and guidelines</a> (or <a href="application_2007.doc">download as MS Word</a>) </p>
+            <p class="text"><strong>Applications deadline is January 31, 2007!</strong></p>
+            <p class="text">To submit your SCGIS scholarship application, please fill the form below. When you hit the button 'Send' at the bottom of the form, a standard SCGIS application will be automatically generated and emailed to the SCGIS International Committee and to the address that you indicate in the field <strong>'Your direct email address</strong>' (this field <strong>MUST</strong> be filled). We will use this address to get back to you shortly after receiving your application, and to communicate in the future.</p>
+            <p class="text">Some fields are supplied with comments, however, before filling and submitting the form please read <a href="/projects/scgis/application.html">the instructions</a> completely.</p>
+            <p class="text"> The information that you provide here will not be distributed in any way. However, if you are granted a scholarship, non-confidential information may be posted on the <a href="http://www.scgis.org" target="_blank" class="external">Society for Conservation GIS website</a>, or reprinted in the SCGIS newsletter.</p>
+            <p class="text">After you submit the form below, please remember to supply all other required materials (<a href="application.html#require">please see the instructions</a>).</p>
+            <form action="/scripts/send-scgis-application.php" method="post" name="poster" id="poster">
+              <table width="100%" align="center" class="fo" >
+                <tr>
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr>
+                  <td colspan="2" class="tr3"><p align="center" class="text"><strong>ORGANIZATION DATA</strong></p></td>
+                </tr>
+                <tr>
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr>
+                  <td colspan="2"><p class="text"><font size="-2" color="#006600">Please provide information about the organization or conservation project you are affiliated with. If applying as an individual, you can enter your own name here, but you must still complete the contact data section in full. 
+                        <br />
+                      Address formats are different in many countries. Please fill out the address fields in the format that you see appropriate. There are two separate fields for address. Mailing address may be different if your organization prefers P.O. Box delivery. However, we need your actual street address as well.
+This information may be shared with a third party only if we ask for and receive your special permission.</font></p></td>
+                </tr>
+                <tr>
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr class="tr1">
+                  <td><p class="text">Organization name:</p></td>
+                  <td><input name="fData[1]" type="text" class="fo" id="fData[1]" size="50" />                  </td>
+                </tr>
+                <tr class="tr1">
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr class="tr2">
+                  <td><p class="text">Organization full street address (in your local  format):</p></td>
+                  <td><textarea name="fData[2]" cols="50" rows="5" class="fo" id="fData[2]"></textarea></td>
+                </tr>
+                <tr class="tr1">
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr class="tr1">
+                  <td><p class="text">Organization full mailing address, if different:</p></td>
+                  <td><textarea name="fData[3]" cols="50" rows="5" class="fo" id="fData[3]"></textarea></td>
+                </tr>
+                <tr class="tr1">
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr class="tr2">
+                  <td><p class="text">Country:</p></td>
+                  <td><input name="fData[4]" type="text" class="fo" id="fData[4]" size="50" />                  </td>
+                </tr>
+                <tr class="tr1">
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr class="tr1">
+                  <td><p class="text">Work phone with country and area code:</p></td>
+                  <td><input name="fData[5]" type="text" class="fo" id="fData[5]" size="50" />                  </td>
+                </tr>
+                <tr class="tr1">
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr class="tr2">
+                  <td><p class="text">Work fax with country and area code:</p></td>
+                  <td><input name="fData[6]" type="text" class="fo" id="fData[6]" size="50" />                  </td>
+                </tr>
+                <tr class="tr1">
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr class="tr1">
+                  <td><p class="text">Main email:</p></td>
+                  <td><input name="fData[7]" type="text" class="fo" id="fData[7]" size="50" />                  </td>
+                </tr>
+                <tr class="tr1">
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr class="tr2">
+                  <td><p class="text">Organization Web site URL if any:</p></td>
+                  <td><input name="fData[8]" type="text" class="fo" id="fData[8]" size="50" />                  </td>
+                </tr>
+                <tr class="tr1">
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr class="tr1">
+                  <td><p class="text"><a name="keywords" id="keywords"></a>Organization subject keywords:<br />
+                      <span class="text10px-scgis">Please use any of the following keywords to characterize your  organization. Please also feel free to add any other keywords relevant to the  organization activities!<br />
+                  admin, advocacy, agriculture, air quality, alternate energy, analysis,  anthropology, aquatic, archeology, biodiversity, biology, birds, botanic  garden, botany, caves karst, climate, climate change, coast, conservation,  core-corridor, critical sites, database design, data center, data integration, data  source, desertification, ecology, education, emergency, envir education, envir  justice, envir law, epidemiology, fire, first nations, fish, forest, GAP  analysis, geology, greenways, haz mat, health, herptiles, history, hydrology,  insects, inventory, invertebrates, landscape analysis, land trust, mammals,  marine, mediation, mitigation, modeling, monitoring, museum, parks, planning  policy, pollution, populations, protected areas, open space, ranch, recreation,  recycling, remote sensing, restoration, river, soil, species, statistics,  sustainable development, trails, tribal, vegetation, water, water quality,  watersheds, web, wetlands, wildlife,   wilderness, youth.</span> </p>                  </td>
+                  <td><textarea name="fData[9]" cols="50" rows="5" class="fo" id="fData[9]"></textarea></td>
+                </tr>
+                <tr class="tr1">
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr class="tr2">
+                  <td><p class="text">Confidential: your organization's last year total  budget:</p></td>
+                  <td><input name="fData[10]" type="text" class="fo" id="fData[10]" size="50" />                  </td>
+                </tr>
+                <tr class="tr1">
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr class="tr1">
+                  <td><p class="text">Confidential: your last year's total GIS program  budget:<br />
+                      <span class="text10px-scgis">Please enter your best estimates of your last year total organizational  budget, and your best estimate of last year's total GIS budget including  hardware, software, salaries and maintenance. Please feel free to include any  comments if you think they will help us better understand your situation.</span> </p></td>
+                  <td><input name="fData[11]" type="text" class="fo" id="fData[11]" size="50" />                  </td>
+                </tr>
+                <tr>
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr>
+                  <td colspan="2" class="tr3"><p align="center" class="text"><strong>APPLICANT</strong></p></td>
+                </tr>
+                <tr>
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr class="tr2">
+                  <td colspan="2" class="text10px-scgis">Please provide your personal information similarly to the organization information. This information may be shared to a third party only if we ask for and  receive your special permission.</td>
+                </tr>
+                <tr class="tr1">
+                  <td><p class="text">Your full name:<br />
+                    <span class="text10px-scgis">You can provide your full name to any extent that you find appropriate. The format is completely flexible, and it does not have to be exactly ‘full’ in official terms.</span> </p></td>
+                  <td><input name="fData[12]" type="text" class="fo" id="fData[12]" size="50" />                  </td>
+                </tr>
+                <tr class="tr1">
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr class="tr2">
+                  <td><p class="text">Your honorific (e.g. Mr., Ms., Dr.): </p></td>
+                  <td><input name="fData[13]" type="text" class="fo" id="fData[13]" size="50" />                  </td>
+                </tr>
+                <tr class="tr1">
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+				<tr class="tr1">
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr class="tr2">
+                  <td><p class="text">Your preferred informal name:<br />
+                    <span class="text10px-scgis">You can help us better understand you if you provide your preferred “informal” name for cases where using full name is redundant. The format for the “informal” name is completely open to your discretion. You may leave this field blank if you want.</span></p></td>
+                  <td><input name="fData[14]" type="text" class="fo" id="fData[14]" size="50" />                  </td>
+                </tr>
+                <tr class="tr1">
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr class="tr1">
+                  <td><p class="text">Your direct address if different:</p></td>
+                  <td><textarea name="fData[15]" cols="50" rows="5" class="fo" id="fData[15]"></textarea></td>
+                </tr>
+                <tr>
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr class="tr2">
+                  <td><p class="text">Your direct phone number(s):</p></td>
+                  <td><input name="fData[16]" type="text" class="fo" id="fData[16]" size="50" />                  </td>
+                </tr>
+                <tr class="tr1">
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr class="tr2">
+                  <td class="tr1"><p class="text"><font color="#FF0000"><b>Your direct email address(es):</b></font></p></td>
+                  <td class="tr1"><input name="address" type="text" class="fo" size="50" />                  </td>
+                </tr>
+                <tr class="tr1">
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr class="tr2">
+                  <td><p class="text">Your job title or role in the organization:</p></td>
+                  <td><input name="fData[17]" type="text" class="fo" id="fData[17]" size="50" /></td>
+                </tr>
+                <tr class="tr1">
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr class="tr1">
+                  <td><p class="text">Your own interest keywords:<br />
+                      <span class="text10px-scgis">For your interest keywords, please use the list of keywords above (<a href="#keywords">see  ORGANIZATION section</a>), plus any missing keywords that you would like to  include.</span></p></td>
+                  <td><input name="fData[18]" type="text" class="fo" id="fData[18]" size="50" />                  </td>
+                </tr>
+                <tr class="tr1">
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr class="tr2">
+                  <td><p class="text">Alternate contact full name:<br />
+                    <span class="text10px-scgis">Please provide contact details for an alternate contact person. We may  ask this person to convey important information to you when you are in the  field or out of contact for some other reason. These contact details will not  be used for any other purpose, and will not be shared with any third party.</span></p></td>
+                  <td><input name="fData[19]" type="text" class="fo" id="fData[19]" size="50" />                  </td>
+                </tr>
+                <tr>
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr class="tr1">
+                  <td><p class="text">Alternate honorific (i.e. Mr., Ms., Dr.):</p></td>
+                  <td><input name="fData[20]" type="text" class="fo" id="fData[20]" size="50" />                  </td>
+                </tr>
+                <tr class="tr1">
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr class="tr2">
+                  <td><p class="text">Alternate contact direct phone number(s):</p></td>
+                  <td><input name="fData[21]" type="text" class="fo" id="fData[21]" size="50" />                  </td>
+                </tr>
+                <tr class="tr1">
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr class="tr1">
+                  <td><p class="text">Alternate contact direct email address(es):</p></td>
+                  <td><input name="fData[22]" type="text" class="fo" id="fData[22]" size="50" />                  </td>
+                </tr>
+                <tr class="tr1">
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr class="tr2">
+                  <td><p class="text">Alternate contact job title or role:</p></td>
+                  <td><input name="fData[23]" type="text" class="fo" id="fData[43]" size="50" />                  </td>
+                </tr>
+                <tr>
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr>
+                  <td colspan="2" class="tr3"><p align="center" class="text"><strong>TRANSPORTATION</strong></p></td>
+                </tr>
+                <tr>
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr class="tr2">
+                  <td><p class="text">Your departure airport to travel to the U.S.:<br />
+                    <span class="text10px-scgis">Please let us know what airport you will be flying from if you travel to California, USA (the FIRST airport in your entire trip). This helps us better understand your actual travel needs. If possible, please provide the 3-letter international code for your airport.</span></p></td>
+                  <td><input type="text" name="fData[24]"  class="fo" size="50" />                  </td>
+                </tr>
+                <tr>
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr class="tr1">
+                  <td><p class="text">Total ROUNDTRIP airfare (in U.S. Dollars) to travel to Los Angeles, CA (LAX), or to Ontario, CA (ONT) in June:<br />
+                    <span class="text10px-scgis">Please research the round-trip airfares from your local airport to the airports indicated in these two questions.</span></p></td>
+                  <td><input name="fData[25]" type="text" class="fo" size="50" />                  </td>
+                </tr>
+                <tr>
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr class="tr2">
+                  <td><p class="text">Airfare amount you can pay yourself (in U.S. Dollars): </p></td>
+                  <td><input name="fData[26]" type="text" class="fo" id="fData[26]" size="50" />                  </td>
+                </tr>
+				<tr>
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr class="tr1">
+                  <td><p class="text">Airfare amount requested from SCGIS (in U.S. Dollars):<br />
+                      <span class="text10px-scgis">Typically we expect our applicants to cover a part of their travel costs, through additional fundraising or other resources. In very rare cases we provide a full airfare, but to be eligible you must provide a thorough explanation in the justification section (below).</span><br />
+                  </p></td>
+                  <td><input name="fData[27]" type="text" class="fo" id="fData[27]" size="50" />                  </td>
+                </tr>
+                <tr>
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr>
+                  <td colspan="2" class="tr3"><p align="center" class="text"><strong>ACCOMMODATION</strong></p></td>
+                </tr>
+                <tr class="tr2">
+                  <td><p class="text">Accommodation/Food/Local Transport costs that you can pay (in U.S. Dollars):<br />
+                      <span class="text10px-scgis">If you are awarded a SCGIS scholarship, you will come to the U.S. for 4 weeks. Typically, this may cost over $5,000. SCGIS volunteers work hard to reduce costs through finding discounts, ride sharing, cooking options etc. This allows us to reduce these per person costs to $2,000 on average.</span> </p></td>
+                  <td><input name="fData[28]" type="text" class="fo" id="fData[28]" size="50" />                  </td>
+                </tr>
+				<tr>
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr class="tr1">
+                  <td><p class="text">Will you share a private home?</p></td>
+                  <td><select name="fData[29]" size="1" class="fo" id="fData[29]">
+                      <option selected="selected">Yes</option>
+                      <option>No</option>
+                    </select>                  </td>
+                </tr>
+                <tr>
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr class="tr2">
+                  <td><p class="text">Will you share a motel room?</p></td>
+                  <td><select name="fData[30]" size="1" class="fo" id="fData[30]">
+                      <option selected="selected">Yes</option>
+                      <option>No</option>
+                    </select>                  </td>
+                </tr>
+                <tr>
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr class="tr1">
+                  <td><p class="text">Will you Camp?</p></td>
+                  <td><select name="fData[31]" size="1" class="fo" id="fData[31]">
+                      <option selected="selected">Yes</option>
+                      <option>No</option>
+                    </select>                  </td>
+                </tr>
+                <tr>
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr class="tr2">
+                  <td><p class="text">Do you need to borrow camping equipment?<br />
+                    <span class="text10px-scgis">One of the ways for us to reduce lodging costs is to provide accommodation at SCGIS activists’ homes, sharing hotel and dorm rooms, or sometimes even tents where conditions permit. Please let us know your accommodation preference/flexibility. If you can bring your own sleeping bag and pad, please also indicate here.</span></p></td>
+                  <td><select name="fData[32]" size="1" class="fo" id="fData[32]">
+                      <option selected="selected">Yes</option>
+                      <option>No</option>
+                    </select>                  </td>
+                </tr>
+                <tr>
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr class="tr1">
+                  <td><p class="text">Any special notes regarding Accommodation/Food/Local Transport in California:<br />
+                    <span class="text10px-scgis">If you have any health or other conditions that require special food or lodging please let us know. Also, please feel free to tell us anything regarding local accommodation or food or transport arrangements in California that you think we should know about.</span></p></td>
+                  <td><textarea name="fData[33]" cols="50" rows="5" class="fo" id="fData[33]"></textarea>                  </td>
+                </tr>
+				<tr>
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr>
+                  <td colspan="2" class="tr3"><p align="center" class="text"><strong>GIS EXPERTISE LEVEL / COURSES</strong></p></td>
+                </tr>
+                <tr>
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr class="tr2">
+                  <td><p class="text">Briefly describe your GIS capability/expertise:<span class="text10px-scgis"><br />
+                    Please briefly explain your GIS expertise / capability level - BEGINNER, MEDIUM or ADVANCED. Please feel free to comment in open format.</span></p></td>
+                  <td><textarea name="fData[34]" cols="50" rows="5" class="fo" id="fData[34]"></textarea></td>
+                </tr>
+                <tr class="tr1">
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr class="tr1">
+                  <td><p class="text">What GIS software (if any) have you used?:<br />
+                    <span class="text10px-scgis">Please provide details on what GIS software have you used, and briefly describe operations that you have implemented in your GIS work.</span></p></td>
+                  <td><textarea name="fData[35]" cols="50" rows="5" class="fo" id="fData[35]"></textarea>                  </td>
+                </tr>
+                <tr class="tr1">
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr class="tr2">
+                  <td><p class="text">Please describe your programming experience (if any):<br />
+                      <span class="text10px-scgis">Please note that knowledge of programming is not necessary for using GIS. However, today’s GIS software products allow users to extend the functionality through writing scripts in programming languages such as Visual Basic, Python, C++, etc. If you have any programming experience, please mention, this will help us to better understand your level of skills.</span><br />
+</p></td>
+                  <td><textarea name="fData[36]" cols="50" rows="5" class="fo" id="fData[36]"></textarea>                  </td>
+                </tr>
+                <tr>
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr class="tr1">
+                  <td><p class="text">What organization or individual helps you learn GIS (your mentor)?<br />
+                    <span class="text10px-scgis">Learning GIS is challenging! There are advanced international groups or  individuals who support developing grass-root organizations in building GIS  capacity through providing software, hardware, training, and general mentorship  until the GIS program reaches maturity in the organization. If you have such a  mentor, please give us their contact details. We may contact the mentor to  better learn about your GIS program. We will not use the contact information in  any other way.</span></p></td>
+                  <td><textarea name="fData[37]" cols="50" rows="5" class="fo" id="fData[37]"></textarea></td>
+                </tr>
+				<tr>
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr class="tr2">
+                  <td><p class="text">Your mentor’s email address:</p></td>
+                  <td><input name="fData[38]" type="text" class="fo" id="fData[38]" size="50" />                  </td>
+                </tr>
+				<tr>
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr class="tr1">
+                  <td><p class="text">Your mentor’s phone number:</p></td>
+                  <td><input name="fData[39]" type="text" class="fo" id="fData[39]" size="50" />                  </td>
+                </tr>
+				<tr>
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr class="tr2">
+                  <td><p class="text">What GIS courses are you interested in? <br />
+                      <a href="application.html#courses"><span class="text10px-scgis">PLEASE SEE INSTRUCTIONS!</span></a></p></td>
+                  <td><textarea name="fData[40]" cols="50" rows="5" class="fo" id="fData[40]"></textarea>                  </td>
+                </tr>
+				<tr>
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr>
+                  <td colspan="2" class="tr3"><p align="center" class="text"><strong>HARDWARE REQUEST</strong></p></td>
+                </tr>
+                <tr>
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr>
+                  <td colspan="2"><p class="text10px-scgis">Please arrange the hardware items on this list in the order of priority for your GIS needs. Please feel free to erase any items that you do not need, or to add any important items that are missing on the list.</p></td>
+                </tr>
+                <tr>
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr class="tr1">
+                  <td><p class="text">What GIS hardware do you most critically need (please arrange list in order of priority)?<br />
+                  <br />
+                  </p></td>
+                  <td><textarea name="fData[41]" cols="50" rows="5" class="fo" id="fData[41]">Moderate laptop capable of GIS
+External hard drive 100gb or more
+GPS with strong sensitivity under trees
+PDA with moderate GPS sensitivity but capable to run ArcPad
+Desktop computer capable of GIS
+Other (please describe)</textarea></td>
+                </tr>
+                <tr class="tr1">
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr>
+                  <td colspan="2" class="tr3"><p align="center" class="text"><strong>REQUIRED JUSTIFICATION (CONFIDENTIAL)</strong></p></td>
+                </tr>
+                <tr>
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr class="tr2">
+                  <td><p class="text">Essay justification of why you require a grant:<br />
+                    <span class="text10px-scgis">This is a VERY IMPORTANT section! Please explain us why you would like to join the SCGIS training and attend the conferences, and why you need a scholarship grant for that. Justification cannot be as short as “I need to improve my skills, and I can’t afford the trip”. We need to know in detail why you need new contacts, new skills and so on, and a detailed justification why you are asking for financial assistance.</span></p></td>
+                  <td><textarea name="fData[42]" cols="50" rows="5" class="fo" id="fData[42]"></textarea>                  </td>
+                </tr>
+                <tr>
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr>
+                  <td colspan="2" class="tr3"><p align="center" class="text"><strong>REQUIRED PAPER that you will present at the conference</strong></p></td>
+                </tr>
+                <tr>
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr class="tr2">
+                  <td><p class="text">Title of the paper you will present:</p></td>
+                  <td><input name="fData[43]" type="text" class="fo" id="fData[43]" size="50" />                  </td>
+                </tr>
+                <tr>
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr class="tr1">
+                  <td><p class="text">Abstract/summary of the paper you will present:<br />
+                    <span class="text10px-scgis">Please provide the information about the paper you will present if awarded a scholarship. You do not have to have the whole paper finalized a this point, we just need a one paragraph abstract. If selected as a scholar, you will be contacted by the papers coordinator for details about your paper (final title and abstract text, full list of authors, etc.). </span></p></td>
+                  <td><textarea name="fData[44]" cols="50" rows="5" class="fo" id="fData[44]"></textarea>                  </td>
+                </tr>
+                <tr>
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr>
+                  <td colspan="2" class="tr3"><p align="center" class="text"><strong>REQUIRED BACKGROUND DATA</strong></p></td>
+                </tr>
+                <tr>
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr class="tr2">
+                  <td colspan="2"><p class="text10px-scgis">This is a VERY IMPORTANT section! In the following sub-sections, please try to be as detailed as possible. Remember, we can only make an award decision if we clearly understand the role that your organization and you play in the field of conservation, and if we understand the role of the GIS component in your work!<br /> 
+                  In this section you might be using abbreviations and landmark names – please remember to explain these carefully, as suggested in the General Application Instructions. <a href="application.html#background">PLEASE SEE MORE INSTRUCTIONS!</a></p></td>
+                </tr>
+				<tr>
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr class="tr1">
+                  <td><p class="text">HISTORY: Please describe the history of your local work in conservation and GIS:<span class="text10px-scgis"><br />
+                  It’s important for us to know the history of your work – your personal history of involvement in conservation, or your organization’s history and your role in the organization’s projects. <br />
+                  Please do not hesitate to explain how long you have been involved in conservation and GIS, what projects or actions you have worked in, your motivation for working in conservation, and anything else that you think is relevant here.</span></p></td>
+                  <td><textarea name="fData[45]" cols="50" rows="5" class="fo" id="fData[45]"></textarea>                  </td>
+                </tr>
+                <tr class="tr1">
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr class="tr2">
+                  <td><p class="text">LOCAL INVOLVEMENT: Please describe how you work in your local conservation community:<br />
+                    <span class="text10px-scgis">If you and your organization work with other local NGO's or institutions, please elaborate and please provide full contact information for at least one of them.</span></p></td>
+                  <td><textarea name="fData[46]" cols="50" rows="5" class="fo" id="fData[46]"></textarea>                  </td>
+                </tr>
+                <tr class="tr1">
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr class="tr1">
+                  <td><p class="text">INTERNATIONAL: Please describe how your work involves cooperation with any international groups:<br />
+                    <span class="text10px-scgis">If cooperation with international groups is an important component of your work, please provide details here. Such cooperation may be in the form of support coming from these groups, or in the form of involvement in international conservation projects, networks etc. If applicable, please provide full contact information for at least one person qualified to comment on this work.</span></p></td>
+                  <td><textarea name="fData[47]" cols="50" rows="5" class="fo" id="fData[47]"></textarea>                  </td>
+                </tr>
+                <tr class="tr1">
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr class="tr2">
+                  <td><p class="text">UNIQUE: Please describe what is the most unique and the most challenging about the conservation/GIS work that you do:<br />
+                    <span class="text10px-scgis">In this section, please tell us about the most exciting and the most difficult parts of your work. You can tell us about the obstacles you’re having in running your GIS projects. Also, please tell us anything you want about uniqueness of the area where you work – remember, your reviewers may not be aware about the beauty of the region you are from, and about the threats to this region.</span></p></td>
+                  <td><textarea name="fData[48]" cols="50" rows="5" class="fo" id="fData[48]"></textarea>                  </td>
+                </tr>
+                <tr class="tr1">
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr class="tr1">
+                  <td><p class="text">PLAN: Please provide a 1-year plan for how you hope to apply the skills you will learn under the SCGIS scholarship, and what you expect to be able to achieve in your conservation GIS work over the next year:<br />
+                    <span class="text10px-scgis">This is a very important part! Your plan for future work is the key for application reviewers to know what outreach the SCGIS Scholarship Program may expect, and what research or action the Scholarship Program is going to be contributing to. You are not restricted to one year, please feel free to provide a longer term plan if you can.</span></p></td>
+                  <td><textarea name="fData[49]" cols="50" rows="5" class="fo" id="fData[49]"></textarea>                  </td>
+                </tr>
+                <tr>
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr>
+                  <td colspan="2" class="tr3"><p align="center" class="text"><strong>RETURNING SCHOLAR STATUS REPORT</strong></p></td>
+                </tr>
+                <tr>
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr class="tr2">
+                  <td colspan="2"><p class="text10px-scgis">If you received the SCGIS Scholarship Award before, please fill in this section, otherwise skip. Our requirements to returning scholars are stricter compared to first-time applicants. We need a strong justification to provide an award to somebody who received it before. Please use this section to tell us about your work since your last visit. While, of course, we would like to see certain progress and achievements, please do not hesitate to tell us about difficulties that may have prevented you from accomplishing something. We need to know about your problems to understand your need for help! <br />
+                  Please remember that the scholarship applications are reviewed by a panel of reviewers, and even though you might have updated some members of the SCGIS International Program, it is a good idea to use this section to provide a detailed report for the reviewers who are not familiar with your work.</p></td>
+                </tr>
+				<tr>
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr class="tr1">
+                  <td><p class="text">RETURNING SCHOLARS: Please provide a report about your progress and achievements since your last visit:</p></td>
+                  <td><textarea name="fData[50]" cols="50" rows="5" class="fo" id="fData[50]"></textarea>                  </td>
+                </tr>
+				<tr>
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr>
+                  <td colspan="2" class="tr3"><p align="center" class="text"><strong>EXECUTIVE SUMMARY</strong></p></td>
+                </tr>
+                <tr>
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr class="tr2">
+                  <td><p class="text">SUMMARY: Please provide an executive summary of your request, and include any special statements about your work that you would like to make at this time:<br />
+                      <span class="text10px-scgis">Please summarize your request in this section. Also, feel free to include any comments or statements that you did not find an appropriate section for!</span></p></td>
+                  <td><textarea name="fData[51]" cols="50" rows="5" class="fo" id="fData[51]"></textarea>                  </td>
+                </tr>
+                <tr class="tr1">
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr>
+                  <td background="/images/back.jpg" colspan="2" valign="top"></td>
+                </tr>
+                <tr align="center">
+                  <td valign="middle" colspan="2" >&nbsp;
+                    <input type="button" value="Send application" name="submitButton" class="go" onclick="check()" /> 
+                    <input type="reset" value="Clear" name="reset" class="go" />                  </td>
+                </tr>
+              </table>
+              <p>
+                <input type="hidden" name="fName[1]" value="*-Organization name:" />
+                <input type="hidden" name="fName[2]" value="*-Organization full street address (in your local format):" />
+                <input type="hidden" name="fName[3]" value="*-Organization full mailing address, if different:" />
+                <input type="hidden" name="fName[4]" value="*-Country:" />
+                <input type="hidden" name="fName[5]" value="*-Work phone with country and area code:" />
+                <input type="hidden" name="fName[6]" value="*-Work fax with country and area code:" />
+                <input type="hidden" name="fName[7]" value="*-Main email:" />
+                <input type="hidden" name="fName[8]" value="*-Organization Web site URL if any:" />
+                <input type="hidden" name="fName[9]" value="*-Organization subject keywords (please see instructions):" />
+                <input type="hidden" name="fName[10]" value="*-Confidential: your organization's last year total budget:" />
+                <input type="hidden" name="fName[11]" value="*-Confidential: your last year's total GIS program budget:" />
+                <input type="hidden" name="fName[12]" value="*-Your full name:" />
+                <input type="hidden" name="fName[13]" value="*-Your honorific (e.g. Mr., Ms., Dr.):" />
+                <input type="hidden" name="fName[14]" value="*-Your preferred informal name:" />
+                <input type="hidden" name="fName[15]" value="*-Your direct address if different:" />
+                <input type="hidden" name="fName[16]" value="*-Your direct phone number(s):" />
+                <input type="hidden" name="fName[17]" value="*-Your job title or role in the organization:" />
+                <input type="hidden" name="fName[18]" value="*-Your own interest keywords (please see instructions):" />
+                <input type="hidden" name="fName[19]" value="*-Alternate contact full name:" />
+                <input type="hidden" name="fName[20]" value="*-Alternate honorific (i.e. Mr., Ms., Dr.):" />
+                <input type="hidden" name="fName[21]" value="*-Alternate contact direct phone number(s):" />
+                <input type="hidden" name="fName[22]" value="*-Alternate contact direct email address(es):" />
+                <input type="hidden" name="fName[23]" value="*-Alternate contact job title or role:" />
+                <input type="hidden" name="fName[24]" value="*-Your departure airport to travel to the U.S.:" />
+                <input type="hidden" name="fName[25]" value="*-Total ROUNDTRIP airfare (in U.S. Dollars) to travel to Los Angeles, CA (LAX), or to Ontario, CA (ONT) in June:" />
+                <input type="hidden" name="fName[26]" value="*-Airfare amount you can pay yourself (in U.S. Dollars):" />
+                <input type="hidden" name="fName[27]" value="*-Airfare amount requested from SCGIS (in U.S. Dollars):" />
+                <input type="hidden" name="fName[28]" value="*-Accommodation/Food/Local Transport costs that you can pay (in U.S. Dollars):" />
+                <input type="hidden" name="fName[29]" value="*-Will you share a private home?" />
+                <input type="hidden" name="fName[30]" value="*-Will you share a motel room?" />
+                <input type="hidden" name="fName[31]" value="*-Will you camp?" />
+                <input type="hidden" name="fName[32]" value="*-Do you need to borrow camping equipment?" />
+                <input type="hidden" name="fName[33]" value="*-Any special notes regarding Accommodation/Food/Local Transport in California:" />
+                <input type="hidden" name="fName[34]" value="*-Briefly describe your GIS capability/expertise:" />
+                <input type="hidden" name="fName[35]" value="*-What GIS software (if any) have you used?:" />
+                <input type="hidden" name="fName[36]" value="*-Please describe your programming experience (if any):" />
+                <input type="hidden" name="fName[37]" value="*-What organization or individual helps you learn GIS (your mentor)?" />
+                <input type="hidden" name="fName[38]" value="*-Your mentor’s email address:" />
+                <input type="hidden" name="fName[39]" value="*-Your mentor’s phone number:" />
+                <input type="hidden" name="fName[40]" value="*-What GIS courses are you interested in? (PLEASE SEE INSTRUCTIONS!):" />
+                <input type="hidden" name="fName[41]" value="*-What GIS hardware do you most critically need (please arrange list in order of priority)?:" />
+                <input type="hidden" name="fName[42]" value="*-Essay justification of why you require a grant:" />
+                <input type="hidden" name="fName[43]" value="*-Title of the paper you will present:" />
+                <input type="hidden" name="fName[44]" value="*-Abstract/summary of the paper you will present:" />
+                <input type="hidden" name="fName[45]" value="*-HISTORY: Please describe the history of your local work in conservation and GIS:" />
+                <input type="hidden" name="fName[46]" value="*-LOCAL INVOLVEMENT: Please describe how you work in your local conservation community:" />
+                <input type="hidden" name="fName[47]" value="*-INTERNATIONAL: Please describe how your work involves cooperation with any international groups:" />
+                <input type="hidden" name="fName[48]" value="*-UNIQUE:  Please describe what is the most unique and the most challenging about the conservation/GIS work that you do:" />
+                <input type="hidden" name="fName[49]" value="*-PLAN: Please provide a 1-year plan for how you hope to apply the skills you will learn under the SCGIS scholarship, and what you expect to be able to achieve in your conservation GIS work over the next year:" />
+                <input type="hidden" name="fName[50]" value="*-RETURNING SCHOLARS: Please provide a report about your progress and achievements since your last visit:" />
+                <input type="hidden" name="fName[51]" value="*-SUMMARY: Please provide an executive summary of your request, and include any special statements about your work that you would like to make at this time:" />
+                <input type="hidden" name="fTitle" value="Ïîäïèñêà íà e-mail êîíôåðåíöèþ GIS-LAB" />
+                <input type="hidden" name="fCount" value="51" />
+                <input type="hidden" name="fOk" value="/projects/scgis/thanks-formsent.html" />
+              </p>
+            </form>
+            <p align="center" class="text">
+              <!--#include virtual="/scripts/forum-comments-num.php?i=1295&lang=e" -->
+            </p>
+            <!--#include virtual="/scripts/date.php?lang=e" -->
+		  </td>
+        </tr>
+      </table>
+      <!--Head table end-->
+      <!--#include virtual="/inc/footer-eng.php" -->
+</body>
+</html>

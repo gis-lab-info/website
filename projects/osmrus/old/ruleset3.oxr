@@ -1,0 +1,26 @@
+#
+#  Export all polygonal shapes
+#
+
+setup :Shp do
+    polygon :water_a do
+		name 'water_a'
+		string :Id, 20
+		string :descript, 255
+	end
+	polygon :land_a do
+		name 'land_a'
+		string :Id, 20
+		string :descript, 255
+	end
+end
+
+ways do
+    if natural == "water"
+		:water_a << {:Id => id, :descript => description}
+    end
+	if natural == "land"
+		:land_a << {:Id => id, :descript => description}
+    end
+end
+

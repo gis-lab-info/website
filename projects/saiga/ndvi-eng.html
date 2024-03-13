@@ -1,0 +1,222 @@
+<html>
+<head>
+<title>GIS-LAB: Projects: Comparative study of Saiga tatarica pastures using NDVI</title>
+<!--#include virtual="/inc/header.txt" -->
+<!--Main table start-->
+<table class="tab-main">
+              <tr>
+                <td width="100%" class="tr1" > 
+                  <p class="texthead">Comparative study of Saiga tatarica pastures using NDVI</a></p></td>
+              </tr>
+              <tr> 
+                <td  class="text"> 
+                  <p align="right" class="text"><em>The description is under development</em></p>
+                  <p class="text">MOD13 based study aimed at comparison of Kalmykia (Russia) and Betpaqdala (Kazakhstan) pastures used by Saiga antelope. </p>
+                  <p class="text">Contents:</p>
+                  <ol><li> <a href="#1">Some history</a></li>
+                    <li><a href="#2">Idea</a></li>
+                    <li><a href="#3">Methodology</a></li>
+                    <li><a href="#4">Species of interest</a></li>
+                    <li><a href="#5">Area of interest</a></li>
+                    <li><a href="#6">Data and processing</a></li>
+                    <li><a href="#7">Results</a></li>
+                    <li><a href="#8">Conclusions</a></li>
+                    <li><a href="#9">Future study</a></li>
+                  </ol>
+                  <p class="text"><strong><img src="/images/1.gif" alt="1" width="33" height="41" align="left"><a name="1"></a> Some history</strong></p>
+                  <p class="text">  <em>Megaloceros giganteus</em> or Megaceros, is an extinct deer that lived in Eurasia, from Ireland to China, during the Pliocene, Pleistocene, and Holocene epochs. It is famous for its formidable size (about two meters (6?') at the shoulders), and in particular for having the largest antlers of any known cervid (a maximum of 13 feet or 4 meters from tip to tip).  </p>
+                  <p class="text">The size of the Irish Elk's antlers is remarkable and they do seem to have played a role in the animal's eventual extinction. Recent research has determined that due to the high amounts of calcium and phosphate compounds required to form these massive structures, the Irish Elk males had to deplete these compounds partly from their bones, replenishing them from foodplants when the antlers were grown. Thus, in the growth phase, males were suffering from a condition similar to osteoporosis. When the climate changed at the end of the last Ice Age, the vegetation in the animal's habitat also changed towards species that could not deliver sufficient amounts of the required minerals. Thus, the delicate balance between the animal and its environment was broken, the probable cause of this animal's extinction. Some have suggested hunting by man is a contributing factor in the demise of Megaloceros giganteus, but most paleontologists now believe that the last animal died off about 10,600 years ago, over a millennium before the first humans arrived. </p>
+                  <table width="200" border="0" align="center">
+                    <tr>
+                      <td><img src="/images/saiga-ndvi-01.jpg" width="336" height="485"></td>
+                    </tr>
+                    <tr>
+                      <td bgcolor="#CCCCCC"><p align="center" class="text"><strong>Fig. 1. Giant Irish Elk (<em>Megaloceros giganteus</em>)</strong></p></td>
+                    </tr>
+                  </table>
+                  <p class="text"><img src="/images/2.gif" alt="2" width="33" height="41" align="left"><strong><a name="2"></a> Idea</strong></p>
+                  <p class="text">This example shows, that the surroundings are sometimes of critical importance to welfare of animals and that the sizes of animal dimensions are related to the environment. Is there a connection between body size (allometric parameters) and the surroundings it lives? Can the amount of green biomass in the landscapes be related to average body size?</p>
+                  <p class="text"><img src="/images/3.gif" alt="3" width="33" height="41" align="left">	<a name="3"></a> <strong>Methodology</strong></p>
+                  <p class="text">To answer these questions, or at least generate some potential reasons for deviations in the body mass, Normalized Difference Vegetation Index (NDVI) can be used as a convenient source of data about status and biomass of vegetation in the animals home range.</p>
+                  <p class="text">NDVI calculation is based on this formula: 
+  &nbsp;</p>
+                  <p align="center" class="text"><img src="/images/saiga-ndvi-02.gif"></p>
+                  <p align="left" class="text">And it reflects the generic vegetation reflectance curve, which most of the vegetation types follow. Using differences in Red and Near-Infrared bands of the sensor vegetation and its status can be easily distinguished from other objects.&nbsp;</p>
+                  <table width="200" border="0" align="center">
+                    <tr>
+                      <td><img src="/images/saiga-ndvi-03.gif" width="507" height="366"></td>
+                    </tr>
+                    <tr>
+                      <td bgcolor="#CCCCCC"><div align="center">
+                        <p class="text"><strong>Fig.2. Typical vegetation curve overlaid with MODIS bands used for NDVI calculations.</strong></p>
+                      </div></td>
+                    </tr>
+                  </table>
+                  <p align="left" class="text">To generate the idea we can use information about body sizes difference of one species and try to compare the ranges of that species using NDVI index.</p>
+                  <p align="left" class="text"> To use NDVI for the specific area, we need to sum all the values of it in this area during the year. This index is called cumulative NDVI and has been shown in recent studies to correlate well with seasonal changes in vegetation and its biomass and condition. I.e. bigger values of cumulative NDVI show healthier and more productive communities of the same or different ecosystems.</p>
+                  <p align="left" class="text"> <strong><img src="/images/4.gif" alt="4" width="33" height="41" align="left"><a name="4"></a> Species of interest</strong>&nbsp;</p>
+                  <p align="left" class="text"><em>Saiga tatarica tatarica</em> Linnaeus, 1766 (Bannikov 1989)</p>
+                  <p align="left" class="text"> Once abundant, now critical endangered species, population of which has strongly declined in its range due to several reasons, including overhunting and habitat degradation. Saiga inhabits plains, sometimes undulates, with or without snow, occupied by graa-wormwood and grass semi shrubs steppes and semi-deserts.
+                    
+  &nbsp;</p>
+                  <p class="text"><strong><img src="/images/5.gif" alt="5" width="33" height="41" align="left"><a name="5"></a> Area of interest&nbsp;</strong></p>
+                  <p class="text">Currently population of Saiga is constrained to several patches, linked with occasional migrations (Fig. 3). These parts are:&nbsp;</p>
+                  <p class="text">1.	Kalmykia population (Russian Federation)</p>
+                  <p class="text">2.	Betpaqdala population (Kazakhstan)</p>
+                  <p class="text">3.	Volga-Ural population (Kazakhstan)</p>
+                  <p class="text">4.	Usturt population (Kazakhstan)</p>
+                  <p class="text">5.	Two smaller Mongolian populations</p>
+                  <p class="text">As literature data shows (Table 1), there is a distinct difference between average body size between Kalmykia (Russia) and Betpaqdala populations (Kazakhstan).
+
+&nbsp;</p>
+                  <table width="200" border="0" align="center">
+                    <tr>
+                      <td><div align="center"><img src="/images/saiga-ndvi-04.gif" width="330" height="92"></div></td>
+                    </tr>
+                    <tr>
+                      <td bgcolor="#CCCCCC">
+                        <p align="center" class="text"><strong>Table 1. Differences in body mass between two populations</strong></p>                      </td>
+                    </tr>
+                  </table>
+                  <p class="text">Basing on this difference, it is of interest to compare pastures productivity on two areas:</p>
+                  <p class="text"><strong>Kalmykia population</strong> (Russian Federation) – the last area of free-ranging saiga herds, pretty constrained in boundaries.                  </p>
+                  <p class="text"><strong>Bekpaqdala population</strong> (Kazakhstan) – the biggest range of the species. 10 times larger than space occupied by Kalmykian population. Real, long-distance patterns migrations preserved.                    </p>
+                  <table width="200" border="0" align="center">
+                    <tr>
+                      <td><img src="/images/saiga-ndvi-05.gif" width="418" height="242"></td>
+                    </tr>
+                    <tr>
+                      <td bgcolor="#CCCCCC"><p align="center" class="text"><strong>Fig. 3. Current ranges of Saiga antelope population and ranges selected for further study site selection</strong></p></td>
+                    </tr>
+                  </table>
+                  <p align="left" class="text">To identify Inside this ranges, location and ranges data from the literature and field were used to define equal size circle, for which cumulative NDVI was calculated (Fig. 4).</p>
+                  <table width="200" border="0" align="center">
+                    <tr>
+                      <td><img src="/images/saiga-ndvi-06.jpg" width="551" height="346"></td>
+                    </tr>
+                    <tr>
+                      <td bgcolor="#CCCCCC"><p align="center" class="text"><strong>Fig.4. Red circles – selected study areas for which actual calculation were carried out. Image overlay: Landsat ETM+ scene</strong></p></td>
+                    </tr>
+                  </table><p align="left" class="text"><strong><img src="/images/6.gif" alt="6" width="33" height="41" align="left">	<a name="6"></a> Data and processing&nbsp;</strong></p>
+                  <p align="left" class="text"><strong>Data description</strong></p>
+                  <p align="left" class="text"> For the calculation of NDVI MOD13Q1 – 16 days composites of MODIS NDVI/EVI product was used.</p>
+                  <p align="left" class="text"> Time span of the data: Jan, 2000 – Dec, 2005</p>
+                  <p align="left" class="text"> Data range of the data: -2000..10000, i.e. -0.2..1 values of NDVI scaled by 10000</p>
+                  <p align="left" class="text"><strong> Downloading the data</strong></p>
+                  <p align="left" class="text"> The data was obtained from Earth Observing System Data Gateway. Each year contains 17 tiles, 204 tiles were downloaded for the first site and 102 tiles for the second. Around 550 Mb per unprocessed tile, 180 Mb per processed tile.                  </p>
+                  <p align="left" class="text">Data was merged, projected and clipped into Albers Equal Area Projection using MODIS Reprojection tool. Special software written on Visual Basic was created for generation of special batch and parameters file to automate this operation. The result of this operation was creation of raster file in TIF format for each time slice.                  </p>
+                  <p align="left" class="text"><strong>Converting the data</strong></p>
+                  <p align="left" class="text"> Each resulting tile was converted into ARC/INFO GRID format and numbers were recalculated to handle for ARC/INFO bug with importing signed 16 bit data.                  </p>
+                  <p align="left" class="text"><strong>Getting values</strong></p>
+                  <p align="left" class="text"> Arcview GIS software with specially written Avenue script was used to extract DN representing NDVI value for the selected areas and sum them to get cumulative NDVI numbers per area measured. All the GRID files were loaded into Arcview table of contents and the script was executed to created a table showing sums of NDVI values (Fig. 5.)
+                    &nbsp;</p>
+                  <table width="200" border="0" align="center">
+                    <tr>
+                      <td><img src="/images/saiga-ndvi-07.gif" width="618" height="65"></td>
+                    </tr>
+                    <tr>
+                      <td bgcolor="#CCCCCC">
+                        <p class="text" align="center"><strong>Fig. 5. Sample showing DBF file with calculated cumulative NDVI values</strong>
+                          </div>
+                        </p>                      </td>
+                    </tr>
+                  </table>
+                  <p class="text"><strong><img src="/images/7.gif" alt="7" width="33" height="41" align="left">	<a name="7"></a> Results&nbsp;</strong></p>
+                  <p class="text"><em>Phenological</em> curves for both sites shows prominent difference in the summer season, Kazakhstan site is more productive then Russian one in the spring-summer season (vegetation period) (Fig. 6.) </p>
+                  <table width="200" border="0" align="center">
+                    <tr>
+                      <td><img src="/images/saiga-ndvi-08.gif" width="435" height="342"></td>
+                    </tr>
+                    <tr>
+                      <td><img src="/images/saiga-ndvi-09.gif" width="434" height="296"></td>
+                    </tr>
+                    <tr>
+                      <td><img src="/images/saiga-ndvi-10.gif" width="434" height="300"></td>
+                    </tr>
+                    <tr>
+                      <td><img src="/images/saiga-ndvi-11.gif" width="435" height="304"></td>
+                    </tr>
+                    <tr>
+                      <td bgcolor="#CCCCCC"><p class="text" align="center"><strong>Fig. 6. Comparison of cumulative NDVI through the year for two sites, one in Kazakhstan and one in Russia</strong></p></td>
+                    </tr>
+                  </table>
+                  <p align="left" class="text">At the same time, almost any comparison graph shows also that in the very beginning and end of the year (January, February, November, December) cumulative NDVI is bigger in Russian site than that in Kazakhstan (Fig. 6.). This is related to the amount of snow cover, which is bigger in Kazakhstan, than in Russia. The Kazakhstan population as mentioned above is a true migratory one, so it doesn’t use the territory of the study site in winter, but only as a summer grounds.&nbsp;</p>
+                  <table width="200" border="0" align="center">
+                    <tr>
+                      <td><img src="/images/saiga-ndvi-12.gif" width="451" height="399"></td>
+                    </tr>
+                    <tr>
+                      <td bgcolor="#CCCCCC">
+                        <p class="text" align="center"><strong>Fig. 7. Comparison of cumulative NDVI for 6 years, for all the year, for two sites, one in Kazakhstan and one in Russia</strong>
+                          </div>
+                        </p>
+                      </td>
+                    </tr>
+                  </table>
+                  <p>&nbsp;</p>
+                  <table width="200" border="0" align="center">
+                    <tr>
+                      <td><img src="/images/saiga-ndvi-13.gif" width="390" height="336"></td>
+                    </tr>
+                    <tr>
+                      <td bgcolor="#CCCCCC">
+                        <p class="text" align="center"><strong>Fig. 8. Comparison of cumulative NDVI for 6 years, only for spring-summer period, for two sites, one in Kazakhstan and one in Russia</strong></p>
+                      </td>
+                    </tr>
+                  </table>
+                  <p class="text">If cumulative NDVI for the sites are compared as values through all the year (Fig. 7), than Russian site has definitely bigger values than Kazakhstan one and this is important from the ecological point of view, as population, inhabiting this region doesn’t migrate a lot, due to human constraints. From the other hand, if only spring and summer vegetation productivity are compared, than the result is opposite.&nbsp;</p>
+                  <p class="text">Another important question to study is to what kind of pastures saiga was pushed when it’s range was contracted in the end of the 20th century (Fig. 9). Continuing overexploitation and disturbance of saiga herds in the last 25 years, resulted in 90% decline of saiga populations in Russia and their range contracted by 60-70%. Study of vegetation productivity shows also, that previous lambing grounds were more productive in terms of vegetation than current ones and this definitely is not good for overall population performance (Fig. 10).&nbsp;</p>
+ 
+                  <table width="200" border="0" align="center">
+                    <tr>
+                      <td><img src="/images/saiga-ndvi-14.jpg" width="384" height="464"></td>
+                    </tr>
+                    <tr>
+                      <td bgcolor="#CCCCCC">
+                        <p class="text" align="center"><strong>Fig. 9. Russian population range contractions and lambing grounds shift since 1957 till 1994</strong></p>
+					</td>
+                    </tr>
+                  </table>
+                  <p>&nbsp;</p>
+                  <table width="200" border="0" align="center">
+                    <tr>
+                      <td><img src="/images/saiga-ndvi-15.gif" width="493" height="345"></td>
+                    </tr>
+                    <tr>
+                      <td bgcolor="#CCCCCC">
+                        <p class="text" align="center"><strong>Fig. 10. Comparison of cumulative NDVI for two lambing sites</strong></p>
+                      </td>
+                    </tr>
+                  </table>
+                  <p class="text"><strong><img src="/images/8.gif" alt="8" width="33" height="41" align="left"><a name="8"></a>	Conclusions</strong>&nbsp;</p>
+                  <p class="text">NDVI gives important tool for quantitative assessment of vegetation parameters. The results mentioned above shows, that this areas have distinctive difference in phenology and productivity in vegetation. These differences are well related to the ecology of the species, migratory Kazakhstan population uses study site only in the summer and this is supported by big cumulative NDVI values in this period, and Russian population while not really migratory have more vegetation resources in their disposal in general.</p>
+                  <p class="text"> Recent trends in range contractions of Russian population show overall decrease in productivity of the sites, i.e. Saiga is pushed toward less productive pastures. This and previous conclusion can be used as a indicator of high difference between environment in which populations are situated and potential reason for difference in body mass. While more direct comparison of body mass/productivity should be carried out to prove this hypothesis.                  </p>
+                  <p class="text">From the point of view of software, neither of the off-the-shelf packages aimed to work with raster data, are not ready to work with such huge datasets without considerable amount of additional scripting/programming. Created software can be easily reused for future research.                    </p>
+                  <p class="text"><strong><img src="/images/9.gif" alt="9" width="33" height="41" align="left">	<a name="9"></a> Future study</strong></p>
+                  <p class="text">Carried analysis proved to be good for pastures comparisons and more ideas can be explored using this methodology.</p>
+                  <p class="text">These experiments can include:</p>
+                  <p class="text"> 1.	Verify the performance of MODIS NDVI versus other NDVI products.                  </p>
+                  <p class="text">2.	Compare performance of NDVI with EVI indexes.</p>
+                  <p class="text"> 3.	Correlate NDVI data with body mass differences over the year for different sites                  </p>
+                  <p class="text">4.	Correlate NDVI data with body mass for different years for the same site.
+                    &nbsp;</p>
+                  <p class="text"><strong>References</strong></p>
+                  <ol>
+                    <li><a name="ref1"></a>Bannikov, A.G., Zhirnov, L.V., Lebedeva, L.S., &amp; Fandeev, L.S. 1961. The biology of the Saiga [Biologiya saigaka]. 336p, 6 maps (in Russian).</li>
+                  </ol>                  
+                  <p class="text"><strong>Download the presentation </strong></p>
+                  <p class="text">Click on the picture below to download PDF presentation, 2.5 Mb. </p>
+                  <p align="center" class="text"><a href="/docs/saiga/saiga-ndvi.pdf"><img src="/images/saiga-ndvi-16.gif" width="300" height="225" border="1"></a></p>
+                  <p class="text"><strong>Suggested citation</strong></p>
+                  <p class="text">Dubinin, M. 2006. Comparative study of Saiga tatarica pastures using NDVI. GIS-Lab.info: <a href="http://gis-lab.info/projects/saiga/ndvi-eng.html" target="_blank">http://gis-lab.info/projects/saiga/ndvi-eng.html</a>. Last accessed May 10, 2006.</p>
+                  <p class="text"><strong><a name="contact"></a>Contacts</strong></p>
+                  <p class="text">If case of any questions, remarks, found errors, please contact Maxim Dubinin <a href="mailto:%20sim@gis-lab.info">sim@gis-lab.info</a></p>
+				  <p align="center" class="text"> 
+            <!--#include virtual="/scripts/forum-comments-num.php?i=1076"-->
+          </p>
+            <!--#include virtual="/scripts/date.php" -->            </tr>
+      </table>
+<!--Head table end-->
+<!--#include virtual="/inc/footer.txt" -->
+</body>
+</html>

@@ -1,0 +1,469 @@
+<!--#include virtual="/inc/header02.txt" -->
+<title>GIS-Lab: Производительность аппаратного обеспечения в операциях с пространственными данными</title>
+<!--#include virtual="/inc/header2.txt" -->
+<div class="cont">
+<div class="col1">
+
+<ul class="path">
+   <li class="first"><a href="/">Главная</a></li>
+   <li><a href="/projects.html">Проекты</a></li>
+   <li><a href="/projects/piskulka.html">Пискулька</a></li>
+</ul>
+<!--Contents start-->
+<h1>Производительность аппаратного обеспечения в операциях с пространственными данными</h1>
+<p class="ann">Открытое исследование пытающееся ответить на вопрос какие компоненты аппаратного обеспечения больше всего влияют на производительность в операциях с пространственными данными. </p>
+<p class="discuss discuss_top"><span><!--#include virtual="/scripts/forum-comments-num.php?i=1958"--></span></p>
+<p>Приглашаем принять участие в исследовании производительности различных конфигураций аппаратного обеспечения с целью понять какие из компонент имеют наиболее сильное влияние на производительность и следовательно во что стоит вкладывать финансы. Планируется начать заполнение таблиц данными по результатам тестов приведенных ниже, а после набора необходимой базы - проанализировать результаты и попытаться сделать определенные выводы. Одновременно, информация представленная в таблице может дать пищу к размышлению и без дополнительного анализа, Вы можете просто сравнить результаты со своими. </p>
+            <p>Иногда, серия тестов проводится на одном и том же оборудовании, при меняющемся программном обеспечении (например при установки обновлений), следствие этого - появление &quot;дублирующихся&quot; описаний аппаратного обеспечения. Чтобы отразить это в тестах, помимо конфигурации оборудования в таблице отражается ссылка на другие тесты произведенные на этом же оборудовании. Например, Athlon 64x2 6000+ 3.1 ггц, 4x1 гб DDR2 PC6400 800 мгц,  Server 2003 Enterprise (=B1) означает, что тот же компьютер использовался для теста B, номер 1.</p>
+            <p>В описание аппаратного обеспечения должно входить:</p>
+            <ul>
+              <li>Процессор</li>
+              <li>Оперативная память</li>
+              <li>Жесткий диск</li>
+              <li>Версия операционной системы </li>
+              <li>Версия ПО включая build (для ArcGIS: Help\About Arcmap)</li>
+            </ul>
+            <p>Из памяти должны быть выгружено все программное обеспечение кроме работающего ПО, включая основные резидентные программы (антивирусы и т.д.). Никаких операций в процессе работы производиться не должно. Результат должен подтверждаться копией экрана (print screen) соответственно окон лога ERDAS Imagine (Session Log), менеджера задач ArcGIS или файла генерируемого скриптом буферизации (см. примечание к тесту B).</p>
+            <p>Мы не ограничиваемся программными продуктами одного производителя, если вы знаете пакет производящий ту же операцию, что описана в тесте, присылайте нам свои результаты, это сделает возможным сравнить не только аппаратное, но и программное обеспечение.</p>
+            <h2>Тест A. Перепроектирование с распаковкой из MrSID </h2>
+            <p>              <strong>Данные</strong>: мозаика Landsat TM  16974х19734 пикселей (<a href="/projects/benchmark/n-38-55.rar">скачать тестовый набор данных</a>) источник: Global Land Cover Facility.<br />
+            <strong>Операция</strong>: DataPrep\Reproject Images, исходная ситема координат UTM Zone 38/WGS 1984 (задана самим файлом), конечная система координат Geographic\WGS 84, выходной формат: IMG, размер пиксела: 0.000259х0.000259, единицы: Degrees, режим rigorous transformation - включен, переключатель Ignore zeroes in stats - выключен, интерполяция - nearest neighbor (<a href="/qa/reproject.html">подробнее</a>).</p>
+            <p>Измерение времени производится по логу Erdas Imagine (Session\Session log...), точность в секундах. Конечным результатом операции должен являться файл размером <strong>2.5 Gb</strong>.</p>
+            <table width="90%" align="center">
+              <tr>
+                <th><p>#</p></th>
+                <th><p>Конфигурация аппартного обеспечения </p></th>
+                <th><p>ПО</p></th>
+                <th><p>Время выполнения операции, сек </p></th>
+              </tr>
+              <tr>
+                <td><p>1<a name="a1" id="3"></a></p></td>
+                <td><p> Intel Pentium 4 Duo 1.86 гГц, 2 Гб DDR, Windows XP Pro, SP2, swap 10 Гб<br />
+                </p></td>
+                <td><p>ERDAS 8.5</p></td>
+                <td><p align="center"><a href="/images/benchmark/19.12.2007-0001.jpg">82 мин 39 сек</a></p></td>
+              </tr>
+              <tr>
+                <td><p>2<a name="a2" id="3"></a></p></td>
+                <td><p> Intel Pentium 4, 2.4 гГц, 512 Mb DDR, Windows 2000 Pro SP4, swap 1 гб <br />
+                </p></td>
+                <td><p>ERDAS 8.5</p></td>
+                <td><p align="center"><a href="/images/benchmark/19.12.2007-0001.jpg">99 мин 38 сек</a></p></td>
+              </tr>
+              <tr>
+                <td><p>3<a name="a3" id="3"></a></p></td>
+                <td><p>AMD Opteron 248, 2.2 гГц, 2 гб, swap-файл: 2 гб<br />
+                </p></td>
+                <td><p>ERDAS 8.7 </p></td>
+                <td><p align="center">52 мин 24 сек</p></td>
+              </tr>
+              <tr>
+                <td><p>4<a name="a4" id="a4"></a></p></td>
+                <td><p>AMD Opteron 248, 2.2 гГц, 2 гб, swap-файл: 2 гб<br />
+                </p></td>
+                <td><p>ERDAS 9.0 </p></td>
+                <td><p align="center">65  мин 25 сек</p></td>
+              </tr>
+              <tr>
+                <td><p>5<a name="a5" id="a5"></a></p></td>
+                <td><p>Intel Pentium D 3.2 гГц, 2 гб DDR, Windows XP Pro, swap-файл: 2 гб<br />
+                </p></td>
+                <td><p>ERDAS 8.7 </p></td>
+                <td><p align="center">51 мин 01 сек</p></td>
+              </tr>
+              <tr>
+                <td><p>6<a name="a6" id="a6"></a></p></td>
+                <td><p>Intel Pentium D 3.0 гГц, 2 гб DDR, Windows XP Pro, swap-файл: 2 гб<br />
+                </p></td>
+                <td><p>ERDAS 9.0 </p></td>
+                <td><p align="center">61 мин 36 сек</p></td>
+              </tr>
+              <tr>
+                <td><p>7<a name="a7" id="a7"></a></p></td>
+                <td><p>Intel Pentium D 3.0 гГц, 3.5 гб DDR, Windows XP Pro, swap-файл: 2 гб<br />
+                </p></td>
+                <td><p>ERDAS 9.0 </p></td>
+                <td><p align="center">64 мин 22 сек</p></td>
+              </tr>
+              <tr>
+                <td><p>8<a name="a8" id="a8"></a></p></td>
+                <td><p>Intel Xeon 3.6 гГц, 8 гб DDR, Windows Server 2003  (=<a href="#b03">B03</a>) <br />
+                </p></td>
+                <td><p>ERDAS 9.0</p></td>
+                <td><p align="center"><a href="/images/benchmark/21.12.2007-0008.gif">53 мин 02 сек </a></p></td>
+              </tr>
+              <tr>
+                <td><p>9<a name="a9" id="a9"></a></p></td>
+                <td><p>Intel Pentium 4 CPU 3.2 гГц, 2 гб DDR, Windows XP Pro, swap-файл: 2 гб </p></td>
+                <td><p>ERDAS 9.1 </p></td>
+                <td><p align="center">60 мин 37 сек </p></td>
+              </tr>
+              <tr>
+                <td><p>10<a name="a10" id="a10"></a></p></td>
+                <td><p>Intel Pentium D 3.2 гГц, 3 гб DDR, Windows XP Pro, SP2 (=<a href="#a15">A15</a>,<a href="#b5">B5</a>,<a href="#b17">17</a>)<br>
+                </p></td>
+                <td><p>ERDAS 9.0 </p></td>
+                <td><p align="center">58 мин 25 сек </p></td>
+              </tr>
+              <tr>
+                <td><p>11<a name="a11" id="a11"></a></p></td>
+                <td><p>AMD Athlon 64x2 6000+ 3.1 ггц, 4x1 гб DDR2 PC6400 800 мгц,  Server 2003 Enterprise (=<a href="#b1">B1</a>) <br />
+                </p></td>
+                <td><p>ERDAS 9.1 </p></td>
+                <td><p align="center"><a href="/images/benchmark/22.10.2007-0011.gif">40 мин 58 сек</a></p></td>
+              </tr>
+              <tr>
+                <td><p>12<a name="a12" id="a12"></a></p></td>
+                <td><p>AMD Turion 64x2  2.01 гГц, 1 гб RAM,  Windows XP Pro SP2 (=<a href="#b18">B18</a>) <br />
+                </p></td>
+                <td><p>ERDAS 9.1</p></td>
+                <td><p align="center"><a href="/images/benchmark/22.10.2007-0012.gif">58 мин 54 сек</a></p></td>
+              </tr>
+              <tr>
+                <td><p>13<a name="a13" id="a13"></a></p></td>
+                <td><p>Intel Pentium D CPU 2.80 гГц, 1Gb DDR, swap-файл 1.5 гб, Windows XP Pro, SP2<br />
+                </p></td>
+                <td><p>ERDAS 8.4 </p></td>
+                <td><p align="center"><a href="/images/benchmark/21.12.2007-0013.jpg">46 мин 53 сек</a></p></td>
+              </tr>
+              <tr>
+                <td><p>14<a name="a14" id="a14"></a></p></td>
+                <td><p>Intel Pentium 4 CPU 3.0 гГц, 1Gb DDR, swap-файл 1.5 гб, Windows XP Pro, SP2 <br />
+                </p></td>
+                <td><p>ERDAS 8.4 </p></td>
+                <td><p align="center"><a href="/images/benchmark/21.12.2007-0013.jpg">62 мин 35 сек</a></p></td>
+              </tr>
+              <tr>
+                <td><p>15<a name="a15" id="a15"></a></p></td>
+                <td><p>Intel Pentium D 3.2 гГц, 3 гб DDR, Windows XP Pro, SP2 (=<a href="#a10">A10</a>,<a href="#b5">B5</a>,<a href="#b17">17</a>)<br />
+                </p></td>
+                <td><p>ERDAS 9.0 </p></td>
+                <td><p align="center"><a href="/images/benchmark/21.12.2007-0015.jpg">61 мин 58 сек</a></p></td>
+              </tr>
+              <tr>
+                <td><p>16<a name="a16" id="a"></a></p></td>
+                <td><p>AMD Phenom 9600 2.3 ггц (4 ядра), 4x1 гб DDR2 PC6400 800 мгц,  Server 2003 Enterprise (=<a href="#b20">B20</a>) (А11, B1, B19 с замененным процессором)<br />
+                </p></td>
+                <td><p>ERDAS 9.1 </p></td>
+                <td><p align="center">84 мин 10 сек</p></td>
+              </tr>
+              <tr>
+                <td><p>17<a name="a12" id="a2"></a></p></td>
+                <td><p>AMD Turion 64x2  2.01 гГц, 2 гб RAM,  Windows XP Pro SP2 (=A12, B18 с добавленным 1 гБ памяти) <br />
+                </p></td>
+                <td><p>ERDAS 9.1</p></td>
+                <td><p align="center">57 мин 33 сек</p></td>
+              </tr>
+              <tr>
+                <td><p>18<a name="a18" id="a2"></a></p></td>
+                <td><p>AMD Athlon 64 3200+, 2Ггц, 1.5Гб, swap-файл 1.5 гб, Windows XP Pro SP2</p></td>
+                <td><p>ERDAS 9.1</p></td>
+                <td><p align="center"><a href="/images/benchmark/24.01.2008-0018.gif">52 мин 07 сек</a></p></td>
+              </tr>
+              <tr>
+                <td><p>19<a name="a19" id="a2"></a></p></td>
+                <td><p>AMD Athlon 64 3200+, 2Ггц, 3Гб, swap-файл 1.5 гб, Windows XP Pro SP2</p></td>
+                <td><p>ERDAS 9.1</p></td>
+                <td><p align="center"><a href="/images/benchmark/24.01.2008-0019.gif">46 мин 08 сек</a></p></td>
+              </tr>
+              <tr>
+                <td><p>20<a name="a20" id="a2"></a></p></td>
+                <td><p>AMD Athlon 64 3200+, 2Ггц, 3Гб, swap-файл 4.5 гб, Windows XP Pro SP2</p></td>
+                <td><p>ERDAS 9.1</p></td>
+                <td><p align="center"><a href="/images/benchmark/24.01.2008-0020.gif">46 мин 14 сек</a></p></td>
+              </tr>
+              <tr>
+                <td><p>21<a name="a21" id="a"></a></p></td>
+                <td><p>AMD Phenom 9950 2.6 ггц (4 ядра) на Socket AM2 и Hypertrading I, 4x1 гб DDR2 PC6400 800 мгц,  Server 2003 Enterprise (А16)<br />
+                </p></td>
+                <td><p>ERDAS 9.1 </p></td>
+                <td><p align="center">74 мин 55 сек</p></td>
+              </tr>
+              <tr>
+                <td><p>22<a name="a22" id="a"></a></p></td>
+                <td><p>AMD Phenom 9950 2.6 ггц (4 ядра)  на Socket AM2+ и Hypertrading III, 4x1 гб DDR2 PC6400 800 мгц,  Server 2003 Enterprise (А21), система оптимизирована под фоновые службы, файл подкачки 2046-4092 мб (default параметры быстродействия)<br />
+                </p></td>
+                <td><p>ERDAS 9.1 </p></td>
+                <td><p align="center"><a href="/images/benchmark/er22.gif">42 мин 25 сек</a></p></td>
+              </tr>
+              <tr>
+                <td><p>23<a name="a22" id="a"></a></p></td>
+                <td><p>AMD Phenom 9950 2.6 ггц (4 ядра)  на Socket AM2+ и Hypertrading III, 4x1 гб DDR2 PC6400 800 мгц,  Server 2003 Enterprise (А21), система оптимизирована под приложения, файл подкачки 6000-10000 мб<br />
+                </p></td>
+                <td><p>ERDAS 9.1 </p></td>
+                <td><p align="center"><a href="/images/benchmark/er23.gif">41 мин 43 сек</a></p></td>
+              </tr>
+              <tr>
+                <td><p>24</p></td>
+                <td><p>HP Workstation xw8200, Intel Xeon 3.00 ггц, 2 ГБ ОЗУ, Windows XP Pro sp3<br />
+                </p></td>
+                <td><p>ERDAS 9.1 </p></td>
+                <td><p align="center"><a href="/images/benchmark/er24.gif">57 мин 40 сек</a></p></td>
+              </tr>
+               <tr>
+                <td><p>25<a name="a22" id="a"></a></p></td>
+                <td><p>AMD Phenom II 940 3.0 ггц (4 ядра)  на Socket AM2+ и Hypertrading III, 4x2 гб DDR2 PC8500 1066 мгц,  Server 2003 Enterprise (А22), файл подкачки 12000-20000 мб<br />
+                </p></td>
+                <td><p>ERDAS 9.1 </p></td>
+                <td><p align="center"><a href="/images/benchmark/er25.gif">35 мин 31 сек</a></p></td>
+              </tr>
+              <tr>
+                <td><p>26</a></p></td>
+                <td><p>AMD Athlon 64x2 6400+ 3.21 ггц, 4x1 гб DDR2 PC6400 800 мгц,  Server 2003 x64 Enterprise<br />
+                </p></td>
+                <td><p>ERDAS 9.1 </p></td>
+                <td><p align="center"><a href="/images/benchmark/er26.jpg">32 мин 56 сек</a></p></td>
+              </tr>
+              <tr>
+                <td><p>27</p></td>
+                <td><p>AMD Turion 64x2  2.01 гГц, 2 гб RAM,  Windows Vista Ultimate x64 (=a12)<br />
+                </p></td>
+                <td><p>ERDAS 9.1 </p></td>
+                <td><p align="center"><a href="/images/benchmark/er27.jpg">67 мин 55 сек</a></p></td>
+              </tr>
+                 <tr>
+                   <td><p>28</a></p></td>
+                   <td><p>AMD Athlon 64x2 6400+ 3.21 ггц, 4x1 гб DDR2 PC6400 800 мгц,  Server 2003 x64 Enterprise (=a26)<br />
+                     </p></td>
+                   <td><p>ERDAS 9.2</p></td>
+                   <td><p align="center"><a href="/images/benchmark/er28.jpg">24 мин 22 сек</a></p></td>
+                 </tr>
+                 <tr>
+                   <td><p>29</p></td>
+                   <td><p>AMD Phenom II 965 3.4 ггц (4 ядра)  на Socket AM3  4x2 гб DDR3 PC12800 1266 мгц,  Windows 7 Ultimate x64, файл подкачки - авто <br />
+                     </p></td>
+                   <td><p>ERDAS 9.1 </p></td>
+                   <td><p align="center"><a href="/images/benchmark/er29.jpg">29 мин 06 сек</a></p></td>
+                 </tr>
+                 <tr>
+                   <td><p>30</p></td>
+                   <td><p>AMD Phenom II 965 3.4 ггц (4 ядра)  на Socket AM3  4x2 гб DDR3 PC12800 1266 мгц,  Windows 7 Ultimate x64, файл подкачки - авто <br />
+                     </p></td>
+                   <td><p>ERDAS 9.2 </p></td>
+                   <td><p align="center"><a href="/images/benchmark/er30.jpg">20 мин 24 сек</a></p></td>
+                 </tr>
+                 <tr>
+                   <td><p>31</p></td>
+                   <td><p>Intel Core 2 Duo T9400 2,53 ГГц  2x2048 МБ DDR3-1066,  (ноутбук Fujitsu-Siemens AMILO Xi 3650) Windows 7 Ultimate x64, файл подкачки - авто <br />
+                     </p></td>
+                   <td><p>ERDAS 9.1 </p></td>
+                   <td><p align="center"><a href="/images/benchmark/er31.jpg">39 мин 22 сек</a></p></td>
+                 </tr>
+                 <tr>
+                   <td><p>32</p></td>
+                   <td><p>Intel Core 2 Duo T9400 2,53 ГГц  2x2048 МБ DDR3-1066,  (ноутбук Fujitsu-Siemens AMILO Xi 3650) Windows 7 Ultimate x64, файл подкачки - авто <br />
+                   </p></td>
+                   <td><p>ERDAS 9.2 </p></td>
+                   <td><p align="center"><a href="/images/benchmark/er32.jpg">25 мин 52 сек</a></p></td>
+                 </tr>
+                 <tr>
+                   <td>33</td>
+                   <td>Intel Core i7 920 8Gb Ram Windows7 Professional 64bit </td>
+                   <td>ERDAS 10.1</td>
+                   <td><p align="center"><a href="/images/benchmark/er33.jpg">9 мин 42 сек</a></p></td>
+                 </tr>
+            </table>
+            <p>&nbsp;</p>
+            <h2>Тест B. Буферизация векторных данных </h2>
+            <p> <strong>Данные</strong>: Объекты гидросети России (119405 объектов) из VMap0 (<a href="/projects/benchmark/corrected.rar">скачать тестовый набор данных</a>),<br>
+              <strong>Операция</strong>: Буферизация при помощи 
+инструмента Buffer из Arctoolbox (Analysis Tools\Proximity\Buffer) на 1 км  (все установки по умолчанию, растворение границ отключено). В новый проект загружен только один слой, фрейм данных не спроектирован.</p>
+            <p><strong>Примечание</strong>: Время выполнение данного теста может значительно изменяться, поэтому разовое определение времени затраченного на его осуществления может быть очень не точным. Если вы хотите получить более объективную оценку - воспользуйтесь <a href="buffer-benchmark.zip">специальным скриптом</a>, который произведет 100 операций буферизации и запишет результат каждой в текстовый файл, по этим данным можно будет более точно расчитать среднее время выполнения этой операции на вашей конфигурации. В случае если такие данные предоставлены, они показаны в таблице как N min M sec (&plusmn;K sec), то есть среднее время плюс-минус одно стандартное отклонение.</p>
+            <p>Сам скрипт как и данные могут находится в любой директории, перед запуском скрипта его необходимо отредактировать, изменив два параметра - указав директорию где находятся данные и полный путь к файлу набора инструментов анализа  ArcGIS (*.tbx):</p>
+<pre># расположение данных
+gp.workspace = &quot;c:/temp/2&quot;
+# расположение тулбокса (папка ArcGIS)
+gp.AddToolbox(&quot;C:/Gis/ArcGIS/ArcToolbox/Toolboxes/Analysis Tools.tbx&quot;)</td>
+</pre>
+            <p>Если скрипт не работает и выдается ошибка: <strong>ImportError: No module named arcgisscripting</strong>, значит установлена версия Python меньше 2.4 (например 2.1) и необходимо использовать скрипт <strong>buffer-benchmark-21.py</strong>. Скрипты проверены и работают для ArcGIS 9.0, 9.2.</p>
+            <p>&nbsp;</p>
+            <table width="90%" border="0" align="center">
+              <tr>
+                <th><p>#</p></th>
+                <th><p>Конфигурация аппартного обеспечения </p>                </th>
+                <th><p>ПО</p></th>
+                <th>
+                  <p>Время выполнения операции, сек</p>                </th>
+              </tr>
+              <tr>
+                <td><p>1<a name="b1" id="b1"></a></p></td>
+                <td><p>Athlon 64 x2 6000+ 3.1 ггц, 4x1 гб DDR2 PC6400 800 мгц,  Server 2003 Enterprise (=<a href="#a11">A11</a>,<a href="#b19">B19</a>)<br />
+                </p></td>
+                <td><p>ArcGIS 9.2<br />
+                  (build 1324)</p></td>
+                <td><p align="center"><a href="001.txt">1 мин 8.9 сек (&plusmn;1.6)</a> </p></td>
+              </tr>
+              <tr>
+                <td><p>19<a name="b19" id="b19"></a></p></td>
+                <td><p>Athlon 64 x2 6000+ 3.1 ггц, 4x1 гб DDR2 PC6400 800 мгц,  Server 2003 Enterprise (=<a href="#a11">A11</a>,<a href="#b1">B1</a>)<br />
+                </p></td>
+                <td><p>ArcGIS 9.2<br />
+                  (build 1380)</p></td>
+                <td><p align="center"><a href="001.txt">1 мин 9.0 сек (&plusmn;1.5)</a> </p></td>
+              </tr>
+              <tr>
+                <td><p>2<a name="b2" id="b2"></a></p></td>
+                <td><p>Intel Core Duo 1.87 гГц, 2 гб DDR, Windows XP Pro <br />
+                </p></td>
+                <td><p>ArcGIS 9.0<br />
+                  (build 580)</p></td>
+                <td><p align="center">1 мин 48 сек</p></td>
+              </tr>
+              <tr>
+                <td><p>3<a name="b3" id="b3"></a></p></td>
+                <td><p>Intel Xeon 3.6 гГц, 8 гб DDR, Windows Server 2003 (=<a href="#a08">A08</a>) <br />
+                </p></td>
+                <td><p>ArcGIS 9.1<br />
+                (build 766)</p></td>
+                <td><p align="center">2 мин 01 сек</p></td>
+              </tr>
+              <tr>
+                <td><p>4<a name="b4" id="b4"></a></p></td>
+                <td><p>Intel Pentium D 3.0 гГц, 2 гб DDR, Windows XP Pro, swap-файл: 2 гб<br />
+                </p></td>
+                <td><p>ArcGIS 9.1<br />
+                  (build 722)</p></td>
+                <td><p align="center">2 мин 07 сек</p></td>
+              </tr>
+              <tr>
+                <td><p>5<a name="b5" id="b5"></a></p></td>
+                <td><p>Intel Pentium D 3.2 гГц, 3 гб DDR, Windows XP Pro (=<a href="#b17">B17</a>,<a href="#b17">A10</a>)<br />
+                </p></td>
+                <td><p>ArcGIS 9.2<br />
+                (build 1350)</p></td>
+                <td><p align="center"><a href="005.txt">2 мин 13.4 сек (&plusmn;1.6)</a></p></td>
+              </tr>
+              <tr>
+                <td><p>17<a name="b17" id="b17"></a></p></td>
+                <td><p>Intel Pentium D 3.2 гГц, 3 гб DDR, Windows XP Pro (=<a href="#b5">B5</a>,<a href="#a10">A10</a>)<br />
+                </p></td>
+                <td><p>ArcGIS 9.2<br />
+                  (build 1380)</p></td>
+                <td><p align="center"><a href="017.txt">2 мин 22.3 сек (&plusmn;5.3)</a></p></td>
+              </tr>
+              <tr>
+                <td><p>6<a name="b6" id="b6"></a></p></td>
+                <td><p>Intel Pentium D 3.0 гГц, 3.5 гб DDR, Windows XP Pro, swap-файл: 2 гб<br />
+                </p></td>
+                <td><p>ArcGIS 9.1<br />
+(build 766)</p></td>
+                <td><p align="center">4 мин 00 сек</p></td>
+              </tr>
+              <tr>
+                <td><p>7<a name="b7" id="b7"></a></p></td>
+                <td><p>Intel Pentium D 3.2 гГц, 2 гб DDR, Windows XP Pro, swap-файл: 2 гб<br />
+                </p></td>
+                <td><p>ArcGIS 9.0<br />
+                  (build 580)</p></td>
+                <td><p align="center">2 мин 25 сек</p></td>
+              </tr>
+              <tr>
+                <td><p>8<a name="b8" id="b8"></a></p></td>
+                <td><p>Intel Pentium 4 CPU 3.30 гГц, 1 гб DDR, Windows XP Pro, swap-файл: 1.5 гб </p></td>
+                <td><p>ArcGIS 9.2<br />
+(build 1350)</p></td>
+                <td><p align="center">2 мин 35 сек </p></td>
+              </tr>
+              <tr>
+                <td><p>9<a name="b9" id="b9"></a></p></td>
+                <td><p>Intel Pentium 4 CPU 3.20 гГц, 2 гб DDR, Windows XP Pro, swap-файл: 2 гб </p></td>
+                <td><p>ArcGIS 9.0<br />
+                  (build 535)</p></td>
+                <td><p align="center">2 мин 39 сек</p></td>
+              </tr>
+              <tr>
+                <td><p>10<a name="b10" id="b10"></a></p></td>
+                <td><p>Intel Pentium 4 CPU 3.80 гГц, 3 гб DDR, Windows XP Pro</p></td>
+                <td><p>ArcGIS 9.2<br />
+                  (build 1350)</p></td>
+                <td><p align="center">2 мин 40 сек</p></td>
+              </tr>
+              <tr>
+                <td><p>11<a name="b11" id="b11"></a></p></td>
+                <td><p>Intel Pentium 4 CPU 3.80 гГц, 3 гб DDR, Windows XP Pro</p></td>
+                <td><p>ArcGIS 9.2<br />
+                  (build 1324)</p></td>
+                <td><p align="center">2 мин 57 сек</p></td>
+              </tr>
+              <tr>
+                <td><p>12<a name="b12" id="b12"></a></p></td>
+                <td><p>Intel Pentium M CPU 1.80 гГц, 0.5 гб DDR, Windows XP Pro</p></td>
+                <td><p>ArcGIS 9.2<br />
+(build 1350)</p></td>
+                <td><p align="center">3 мин 27 сек </p></td>
+              </tr>
+              <tr>
+                <td><p>13<a name="b13" id="b13"></a></p></td>
+                <td><p>AMD Sempron 2800+ 1.61  гГц, Windows XP Pro<br />
+                </p></td>
+                <td><p>ArcGIS 9.0<br />
+(build 535)</p></td>
+                <td><p align="center">4 мин 25 сек</p></td>
+              </tr>
+              <tr>
+                <td><p>14<a name="b14" id="b14"></a></p></td>
+                <td><p>Intel Pentium 4 CPU 1.80 гГц, 1 гб DDR, Windows XP Pro</p></td>
+                <td><p>ArcGIS 9.1<br />
+                  (build 750)</p></td>
+                <td><p align="center">5 мин 10 сек </p></td>
+              </tr>
+              <tr>
+                <td><p>15<a name="b15" id="b15"></a></p></td>
+                <td><p>Intel Pentium 4 CPU 2.00 гГц, 512 мб DDR, Windows XP Pro, SP 2<br />
+                </p></td>
+                <td><p>ArcGIS 9.0 (build 535)</p></td>
+                <td><p align="center"><a href="015.txt">4 мин 25.1 сек (&plusmn;23.5)</a></p></td>
+              </tr>
+              <tr>
+                <td><p>18<a name="b18" id="b18"></a></p></td>
+                <td><p>AMD Turion 64x2  2.01 гГц, 1 гб RAM,  Windows XP Pro SP2 (=<a href="#a12">A12</a>) <br />
+                </p></td>
+                <td><p>ArcGIS 9.2 (build 1350)</p></td>
+                <td><p align="center"><a href="018.txt">2 мин 20.7 сек (&plusmn;3.2)</a></p></td>
+              </tr>
+              <tr>
+                <td><p>20<a name="b20" id="b20"></a></p></td>
+                <td><p>AMD Phenom 9600 2.3 ггц (4 ядра), 4x1 гб DDR2 PC6400 800 мгц,  Server 2003 Enterprise (=<a href="#a16">A16</a>) (А11, B1, B19 с замененным процессором).<br />
+                </p></td>
+                <td><p>ArcGIS 9.2<br />
+                  (build 1380)</p></td>
+                <td><p align="center"><a href="020.txt">2 мин 45.1 сек  <br />
+                  (</a><a href="018.txt">&plusmn;2.8</a><a href="020.txt">) </a></p></td>
+              </tr>
+              <tr>
+                <td><p>21<a name="b21" id="b21"></a></p></td>
+                <td><p>AMD Athlon 64 3200+, 2Ггц, 3Гб, swap-файл 4.5 гб, Windows XP Pro SP2 (=<a href="#a20">A20</a>,<a href="#b21">B21</a>)</p></td>
+                <td><p>ArcGIS 9.2 (build 1324)</p></td>
+                <td><p align="center"><a href="021.txt">2 мин 3.4 сек <br />
+(&plusmn;2.1) </a></p></td>
+              </tr>
+              <tr>
+                <td><p>22<a name="b22" id="b22"></a></p></td>
+                <td><p>AMD Athlon 64 3200+, 2Ггц, 3Гб, swap-файл 4.5 гб, Windows XP Pro SP2 (=<a href="#a20">A20</a>,<a href="#b22">B22</a>)</p></td>
+                <td><p>ArcGIS 9.2 (build 1420)</p></td>
+                <td><p align="center"><a href="022.txt"> 1 мин 55.1 сек (&plusmn;2.0) </a></p></td>
+              </tr>
+              <tr>
+                <td><p>23<a name="b20" id="b20"></a></p></td>
+                <td><p>AMD Phenom 9950 2.61 ггц (4 ядра), 4x1 гб DDR2 PC6400 800 мгц,  Server 2003 Enterprise (=<a href="#a21">A21</a>).<br />
+                </p></td>
+                <td><p>ArcGIS 9.2<br />
+                  (build 1380)</p></td>
+                <td><p align="center"><a href="020.txt">2 мин 36.0 сек
+                </a></p></td>
+              </tr>
+              <tr>
+                <td>34</td>
+                <td>Intel Core i7 920 8Gb Ram Windows7 Professional 64bit </td>
+                <td>ArcGIS 10</td>
+                <td>1 мин 28 сек - 2 мин 13 сек</td>
+              </tr>
+            </table>
+            <p align="center">
+              <!--#include virtual="/scripts/forum-comments-num.php?i=1958"-->
+            </p>
+<!--#include virtual="/scripts/date.php" -->
+<p class="status"><span>Дата создания: 06.10.2003
+<br>Автор(ы): <a href="/forum/memberlist.php?mode=viewprofile&u=3" target="_blank">Игорь Поспелов (taimyr)</a>, <a href="/forum/memberlist.php?mode=viewprofile&u=2" target="_blank">Максим Дубинин</a></span></p>
+<!--Contents end-->
+<!--#include virtual="/inc/footer2.php" -->

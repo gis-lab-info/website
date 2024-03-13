@@ -1,0 +1,122 @@
+MAP
+  NAME           "returns"
+  IMAGETYPE      PNG
+  EXTENT         23.58 54.54  32.36 62.27
+  SIZE           400 300
+  SHAPEPATH      "/usr/local/www/gis-lab/data/projects/returns/shp"     
+  IMAGECOLOR     55 255 255
+  UNITS DD
+  
+  PROJECTION
+  "proj=latlong"
+  "ellps=WGS84"
+  "datum=WGS84"
+  END
+
+  SYMBOL
+    NAME 'circle' 
+    TYPE ELLIPSE
+    POINTS 1 1 END
+    FILLED TRUE
+  END
+
+  WEB
+    TEMPLATE  'template.html'      
+    IMAGEPATH '/usr/local/www/gis-lab/data/tmp/' 
+    IMAGEURL  '/tmp/'             
+    EMPTY   '/templ_empty.html'
+  END
+  
+  SCALEBAR
+    IMAGECOLOR 255 255 255
+    OUTLINECOLOR 0 0 0
+    LABEL
+      COLOR 0 0 0
+      SIZE TINY
+    END
+    STYLE 0
+    SIZE 400 5
+    COLOR 0 0 0
+    UNITS KILOMETERS
+    INTERVALS 5
+    TRANSPARENT FALSE
+    STATUS ON
+  END 
+
+  LEGEND
+    KEYSIZE 12 12
+    LABEL
+      TYPE BITMAP
+      COLOR 0 0 89
+      #SIZE 9
+      #FONT arial
+      #ENCODING 'Windows-1251'
+    END
+    STATUS ON
+  END
+
+
+  QUERYMAP
+    STATUS OFF
+    SIZE 400 300
+    STYLE  SELECTED
+    #COLOR 0 0 255
+  END
+
+  LAYER 
+    NAME         "Rastmap"
+    DATA         "wsiearth.tif"
+    STATUS       ON
+    TYPE         RASTER
+  END 
+  
+  LAYER  # контуры стран
+    NAME         "countr"
+    DATA         test-anser-euro-countries.shp
+    STATUS       ON
+    TYPE         LINE
+    CLASS
+      NAME       "countr"
+      STYLE
+        SYMBOL 'circle'
+        COLOR  0 0 0
+        SIZE 2
+      END
+    END
+  END # контуры стран
+
+  LAYER  # кольцевание
+    NAME         "rings"
+    DATA         "test-anser-euro.shp used unique NN"
+    STATUS       OFF
+    TYPE         POINT
+    CLASSITEM "TYPE"
+    TOLERANCE 5                   # точность "попадания" - 5 пикселей
+    HEADER './templ_head.html'    # местонахождение 
+    FOOTER './templ_footer.html'  # шаблонов для генерации
+    TEMPLATE './templ_query.html' # ответов на запрос
+     METADATA
+       qstring_validation_pattern '.'
+    END
+    CLASS
+      NAME       "rings"
+      EXPRESSION ('[TYPE]'=='RING' )
+      STYLE
+        SYMBOL 'circle'
+        COLOR  255 0 0
+        SIZE 7  
+      END
+    END
+    CLASS
+      NAME       "returns"
+      EXPRESSION ('[TYPE]'=='RETURN')
+      STYLE
+        SYMBOL 'circle'
+        COLOR  0 255 0
+        SIZE 7  
+      END
+    END
+  END # возвраты
+
+END 
+
