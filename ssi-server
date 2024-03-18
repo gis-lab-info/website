@@ -14,7 +14,7 @@ from eventlet.green import subprocess
 
 from bottle import route, run, response, request, abort, template
 from optparse import OptionParser
-from urlparse import urlparse, parse_qs
+from urllib.parse import urlparse, parse_qs
 
 
 ROOT_PATH = None
@@ -51,11 +51,11 @@ def static(path=''):
                 cmd.append("%s=%s" % (k, v[0]))
 
             try:
-                content = subprocess.check_output(cmd)
-            except subprocess.CalledProcessError:
-                 if not SKIP_MISSING:
-                     raise
-                 content = ''
+                content = subprocess.check_output(cmd).decode('utf-8')
+            except:
+                if not SKIP_MISSING:
+                    raise
+                content = ''
 
             return content
 
@@ -87,7 +87,7 @@ def static(path=''):
 
     req_etag = request.headers.get('If-None-Match')
     stat = os.stat(fullpath)
-    etag = base64.b64encode(hashlib.md5("{0}-{1}".format(stat.st_size, stat.st_mtime)).digest())
+    etag = base64.b64encode(hashlib.md5("{0}-{1}".format(stat.st_size, stat.st_mtime).encode('utf-8')).digest())
 
     if etag == req_etag:
         return abort(304)
