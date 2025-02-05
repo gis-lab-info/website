@@ -24,10 +24,9 @@
         <div class="head"><div class="l"><div class="r">
         	<!--  menu top -->
             <ul>
+				<li class="telegram"><a href="https://t.me/gislab">Telegram</a></li>
 				<li class="tweet"><a href="http://twitter.com/gislab">Twitter</a></li>
 				<li class="facebook"><a href="http://www.facebook.com/gislab.info">Facebook</a></li>
-				<li class="gplus"><a 
-href="https://plus.google.com/116147435784552557005" rel="publisher">Google+</a></li>
 				<li><a href="/index.html">Русский</a></li>>
 			</ul>
             <h1><a href="/"><span class="ox"><span>GIS-LAB</span></span></a></h1>
