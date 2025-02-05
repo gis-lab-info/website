@@ -19,6 +19,7 @@
         <div class="head"><div class="l"><div class="r">
         	<!--  menu top -->
             <ul>
+				<li class="telegram"><a href="t.me/gislab">Telegram</a></li>
 				<li class="tweet"><a href="https://twitter.com/gislab">Twitter</a></li>
 				<li class="facebook"><a href="https://www.facebook.com/gislab.info">Facebook</a></li>
 				<li><a href="/index-eng.html">English</a></li>
