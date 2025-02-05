@@ -180,6 +180,12 @@ pre {
     color: #FF9900;
 }
 
+.head ul li.telegram a {
+    background: url(/images/icons/telegram.svg) no-repeat transparent;
+    padding-left: 19px;
+    margin-left: 5px;
+}
+
 .head ul li.tweet a {
     background: url(http://yandex.st/share/static/b-share-icon.png) no-repeat scroll 0 -52px transparent;
     padding-left: 19px;
